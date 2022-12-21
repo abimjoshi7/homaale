@@ -10,6 +10,8 @@ class ConfirmOTP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = (ModalRoute.of(context)?.settings.arguments ?? "") as String;
+    String number = args.substring(1, args.length);
     return CustomScaffold(
       leadingWidget: IconButton(
           onPressed: () {
@@ -26,8 +28,8 @@ class ConfirmOTP extends StatelessWidget {
           kHeight20,
           const Text("Confirm OTP", style: kHeading1),
           kHeight5,
-          const Text(
-            "Please enter the 4 digit code send to 6977 9830******",
+          Text(
+            "Please enter the 6 digit code send to ${number.replaceRange(5, number.length, "*****")}",
             style: kHelper1,
           ),
           kHeight20,
@@ -43,22 +45,32 @@ class ConfirmOTP extends StatelessWidget {
                     children: const [
                       SmallBoxContainer(
                         child: Text("0"),
-                        theWidth: 80,
+                        theWidth: 50,
                         theHeight: 50,
                       ),
                       SmallBoxContainer(
                         child: Text("0"),
-                        theWidth: 80,
+                        theWidth: 50,
                         theHeight: 50,
                       ),
                       SmallBoxContainer(
                         child: Text("0"),
-                        theWidth: 80,
+                        theWidth: 50,
                         theHeight: 50,
                       ),
                       SmallBoxContainer(
                         child: Text("0"),
-                        theWidth: 80,
+                        theWidth: 50,
+                        theHeight: 50,
+                      ),
+                      SmallBoxContainer(
+                        child: Text("0"),
+                        theWidth: 50,
+                        theHeight: 50,
+                      ),
+                      SmallBoxContainer(
+                        child: Text("0"),
+                        theWidth: 50,
                         theHeight: 50,
                       ),
                     ],
@@ -74,7 +86,11 @@ class ConfirmOTP extends StatelessWidget {
                       kWidth20,
                       CustomTextButton(
                         text: "Resend",
-                        voidCallback: () {},
+                        voidCallback: () {
+                          // print(x1.replaceAll("([0-3])", "*"));
+                          // print(args["phone"].toString().substring(
+                          //     1, args["phone"].toString().length - 7));
+                        },
                       ),
                     ],
                   ),

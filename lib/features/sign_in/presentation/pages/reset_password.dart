@@ -41,7 +41,7 @@ class ResetPassword extends StatelessWidget {
                   const Text("New Password", style: kLabelPrimary),
                   kHeight10,
                   Row(
-                    children: const [
+                    children: [
                       Flexible(
                         child: CustomTextFormField(),
                       ),
@@ -51,7 +51,7 @@ class ResetPassword extends StatelessWidget {
                   const Text("Confirm Password", style: kLabelPrimary),
                   kHeight10,
                   Row(
-                    children: const [
+                    children: [
                       Flexible(
                         child: CustomTextFormField(),
                       ),

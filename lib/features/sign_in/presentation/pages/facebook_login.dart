@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/custom_scaffold.dart';
+import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +19,24 @@ class FacebookLogin extends StatelessWidget {
           color: Colors.white,
         ),
       ),
+      trailingWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Text(
+              "Skip",
+              style: kSkipHelper,
+            ),
+            kWidth10,
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 12,
+              color: Color(0xffdee2e6),
+            )
+          ],
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -27,26 +45,46 @@ class FacebookLogin extends StatelessWidget {
           kHeight20,
           Image.asset("assets/logos/fblogo.png"),
           kHeight10,
-          Text(
+          const Text(
             "Login with Facebook",
             style: kHeading1,
           ),
           kHeight20,
-          Text("Homaale is requesting access with Facebook."),
-          Text("Would you like to continue?"),
+          const Text("Homaale is requesting access with Facebook."),
+          const Text("Would you like to continue?"),
           kHeight20,
           kHeight20,
           kHeight20,
           kHeight20,
           kHeight20,
           kHeight20,
+          const Text("This doesn't let the app post to Facebook"),
           kHeight20,
-          kHeight20,
-          Text("This doesn't let the app post to Facebook"),
           CustomElevatedButton(
-            callback: () {},
+            callback: () {
+              Navigator.pushNamed(context, GoogleLogin.routeName);
+            },
             label: "Continue",
-          )
+          ),
+          kHeight10,
+          CustomElevatedButton(
+            mainColor: Colors.white,
+            textColor: const Color(0xff3D3F7D),
+            callback: () {},
+            label: "Cancel",
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+                "By continuing, Cagtu will receive ongoing access to the information that you share and Twitter will record when Cagtu accesses it. Learn more about this sharing and setting that you have.",
+                textAlign: TextAlign.center),
+          ),
+          kHeight20,
+          kHeight20,
+          Text(
+            "Privacy | Terms & Conditions",
+            style: kHelper1,
+          ),
         ],
       ),
     );

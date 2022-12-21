@@ -1,13 +1,16 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password.dart';
-import 'package:cipher/features/sign_up/presentation/pages/sign_up_page.dart';
+import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
+import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/widgets/small_box_container.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class SignInPage extends StatelessWidget {
-  static const routeName = "/sign-in-page";
-  const SignInPage({super.key});
+class SignInWithPhone extends StatelessWidget {
+  static const routeName = "/sign-in-with-phone";
+  const SignInWithPhone({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +106,7 @@ class SignInPage extends StatelessWidget {
                 ),
                 kHeight5,
                 Row(
-                  children: const [
+                  children: [
                     Flexible(
                       child: CustomTextFormField(
                         hintText: "Enter your password here",
@@ -117,7 +120,7 @@ class SignInPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: const [
+                  children: [
                     CustomCheckBox(),
                     kWidth5,
                     Text(
@@ -173,13 +176,29 @@ class SignInPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "assets/logos/maillogo.png",
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.pushNamed(context, SignInWithEmail.routeName),
+                  child: Image.asset(
+                    "assets/logos/maillogo.png",
+                  ),
                 ),
                 kWidth20,
-                Image.asset("assets/logos/googlelogo.png"),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    GoogleLogin.routeName,
+                  ),
+                  child: Image.asset("assets/logos/googlelogo.png"),
+                ),
                 kWidth20,
-                Image.asset("assets/logos/fblogo.png"),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    FacebookLogin.routeName,
+                  ),
+                  child: Image.asset("assets/logos/fblogo.png"),
+                ),
               ],
             ),
             kHeight20,
@@ -191,7 +210,7 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      SignUpPage.routeName,
+                      SignUpWithPhone.routeName,
                     );
                   },
                   child: const Text(

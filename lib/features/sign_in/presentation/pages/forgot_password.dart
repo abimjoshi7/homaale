@@ -40,7 +40,7 @@ class ForgotPassword extends StatelessWidget {
                   const Text("Email/Phone", style: kLabelPrimary),
                   kHeight10,
                   Row(
-                    children: const [
+                    children: [
                       Flexible(
                         child: CustomTextFormField(
                           hintText: "Enter your email/phone number here",
