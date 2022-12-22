@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CustomScaffold extends StatelessWidget {
@@ -28,7 +27,7 @@ class CustomScaffold extends StatelessWidget {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                top: 40,
+                top: MediaQueryHelper.theHeight(context) * 0.04,
                 child: Column(
                   children: [
                     Row(
@@ -38,33 +37,11 @@ class CustomScaffold extends StatelessWidget {
                         trailingWidget ?? const SizedBox.shrink(),
                       ],
                     ),
-                    // CustomHeader(
-                    //   leadingWidget: IconButton(
-                    //     onPressed: () {},
-                    //     icon: const Icon(
-                    //       Icons.arrow_back,
-                    //       color: Color(0xffADB5BD),
-                    //     ),
-                    //   ),
-                    //   trailingWidget: Row(
-                    //     children: const [
-                    //       Text(
-                    //         "Skip",
-                    //         style: kSkipHelper,
-                    //       ),
-                    //       Icon(
-                    //         Icons.arrow_forward_ios_sharp,
-                    //         size: 20,
-                    //         color: Color(0xffADB5BD),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     Image.asset("assets/logo_title.png"),
                   ],
                 )),
             Positioned(
-              top: 200,
+              top: MediaQueryHelper.theHeight(context) * 0.25,
               bottom: 0,
               left: 0,
               right: 0,

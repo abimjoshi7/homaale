@@ -1,12 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
-import 'package:cipher/features/sign_in/presentation/pages/forgot_password.dart';
+import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/network_helper.dart';
-import 'package:cipher/widgets/small_box_container.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +21,13 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       leadingWidget: IconButton(
         onPressed: () {
-          Navigator.pop(context);
+          // Navigator.pop(context);
         },
         icon: const Icon(
           Icons.arrow_back,
@@ -83,29 +83,8 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                             usernameController.text = p0!;
                           }),
                           hintText: "samplemail@email.com",
-                          // prefixWidget: Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Row(
-                          //     mainAxisSize: MainAxisSize.min,
-                          //     children: [
-                          //       Image.asset("assets/nepalflag.png"),
-                          //       Text(
-                          //         "+977",
-                          //         style: kBodyText1,
-                          //       ),
-                          //       Icon(Icons.arrow_drop_down)
-                          //     ],
-                          //   ),
-                          // ),
                         ),
                       ),
-                      // kWidth10,
-                      // SmallBoxContainer(
-                      //   child: Icon(
-                      //     Icons.phone_android_sharp,
-                      //     color: Color(0xff5C6096),
-                      //   ),
-                      // )
                     ],
                   ),
                 ],
@@ -139,7 +118,12 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                 children: [
                   Row(
                     children: [
-                      const CustomCheckBox(),
+                      CustomCheckBox(
+                        isChecked: isChecked,
+                        onTap: () => setState(() {
+                          isChecked = !isChecked;
+                        }),
+                      ),
                       kWidth5,
                       const Text(
                         "Remember me",
@@ -148,7 +132,8 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, ForgotPassword.routeName);
+                      Navigator.pushNamed(
+                          context, ForgotPasswordWithEmail.routeName);
                     },
                     child: const Text("Forgot password?"),
                   )
@@ -164,11 +149,11 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                       password: passwordController.text,
                     ),
                   );
-                  print(x.username);
-                  print(x.access);
-                  print(x.isVerified);
+                  // print(x.username);
+                  // print(x.access);
+                  // print(x.isVerified);
                 },
-                label: "Login1",
+                label: "Login",
               ),
               TextButton(
                 onPressed: () async {

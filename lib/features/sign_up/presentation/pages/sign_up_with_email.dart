@@ -16,10 +16,9 @@ class SignUpWithEmail extends StatefulWidget {
 
 class _SignUpWithEmailState extends State<SignUpWithEmail> {
   final _formKey = GlobalKey<FormState>();
-  // final nameController = TextEditingController();
   final emailController = TextEditingController();
-  // final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,7 +28,11 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
           children: [
             CustomHeader(
               leadingWidget: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (!mounted) return;
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, SignInWithPhone.routeName, (route) => false);
+                },
                 icon: const Icon(Icons.arrow_back),
               ),
               trailingWidget: Padding(
@@ -59,208 +62,161 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
               "Create your new account",
               style: kHelper1,
             ),
-            SizedBox(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     const Text(
-                      //       "Full Name",
-                      //       style: kLabelPrimary,
-                      //     ),
-                      //     kHeight5,
-                      //     Row(
-                      //       children: [
-                      //         Flexible(
-                      //           child: CustomTextFormField(
-                      //             onSaved: (p0) {
-                      //               setState(() {
-                      //                 nameController.text = p0!;
-                      //               });
-                      //             },
-                      //             hintText: "Enter your name here",
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
-                      // kHeight20,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Email",
-                            style: kLabelPrimary,
-                          ),
-                          kHeight5,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: CustomTextFormField(
-                                  onSaved: (p0) => setState(() {
-                                    emailController.text = p0!;
-                                  }),
-                                  hintText: "Enter your email here",
-                                ),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Email",
+                          style: kLabelPrimary,
+                        ),
+                        kHeight5,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: CustomTextFormField(
+                                onSaved: (p0) => setState(() {
+                                  emailController.text = p0!;
+                                }),
+                                hintText: "Enter your email here",
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      kHeight20,
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     const Text(
-                      //       "Phone Number",
-                      //       style: kLabelPrimary,
-                      //     ),
-                      //     kHeight5,
-                      //     CustomTextFormField(
-                      //       onSaved: (p0) => setState(() {
-                      //         phoneNumberController.text = p0!;
-                      //       }),
-                      //       hintText: "Mobile Number",
-                      //       prefixWidget: Padding(
-                      //         padding: const EdgeInsets.all(10),
-                      //         child: Row(
-                      //           mainAxisSize: MainAxisSize.min,
-                      //           children: [
-                      //             Image.asset("assets/nepalflag.png"),
-                      //             const Text(
-                      //               "+977",
-                      //               style: kBodyText1,
-                      //             ),
-                      //             const Icon(Icons.arrow_drop_down)
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // kHeight20,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Password",
-                            style: kLabelPrimary,
-                          ),
-                          kHeight5,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: CustomTextFormField(
-                                  onSaved: (p0) => setState(() {
-                                    passwordController.text = p0!;
-                                  }),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      kHeight20,
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Confirm Password",
-                            style: kLabelPrimary,
-                          ),
-                          kHeight5,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: CustomTextFormField(
-                                  onSaved: (p0) => setState(() {
-                                    passwordController.text = p0!;
-                                  }),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      kHeight20,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: const [
-                              Flexible(
-                                child: CustomHorizontalDivider(),
-                              ),
-                              kWidth10,
-                              Text(
-                                "Or Sign Up with Mobile instead",
-                                style: kHelper1,
-                              ),
-                              kWidth10,
-                              Flexible(
-                                child: CustomHorizontalDivider(),
-                              ),
-                            ],
-                          ),
-                          kHeight10,
-                          GestureDetector(
-                            onTap: () => Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                SignUpWithPhone.routeName,
-                                (route) => false),
-                            child: Image.asset(
-                              "assets/logos/phonelogo.png",
                             ),
-                          )
-                        ],
-                      ),
-                      kHeight20,
-                      Row(
-                        children: const [
-                          CustomCheckBox(),
-                          kWidth5,
-                          Flexible(
-                            child: Text(
-                                "By signing you agree to our term of use and privacy policy."),
+                          ],
+                        ),
+                      ],
+                    ),
+                    kHeight20,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Password",
+                          style: kLabelPrimary,
+                        ),
+                        kHeight5,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: CustomTextFormField(
+                                onSaved: (p0) => setState(() {
+                                  passwordController.text = p0!;
+                                }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    kHeight20,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Confirm Password",
+                          style: kLabelPrimary,
+                        ),
+                        kHeight5,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: CustomTextFormField(
+                                onSaved: (p0) => setState(() {
+                                  passwordController.text = p0!;
+                                }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    kHeight20,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: const [
+                            Flexible(
+                              child: CustomHorizontalDivider(),
+                            ),
+                            kWidth10,
+                            Text(
+                              "Or Sign Up with Mobile instead",
+                              style: kHelper1,
+                            ),
+                            kWidth10,
+                            Flexible(
+                              child: CustomHorizontalDivider(),
+                            ),
+                          ],
+                        ),
+                        kHeight10,
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              SignUpWithPhone.routeName,
+                              (route) => false),
+                          child: Image.asset(
+                            "assets/logos/phonelogo.png",
                           ),
-                        ],
-                      ),
-                      kHeight20,
-                      CustomElevatedButton(
-                        callback: () async {
+                        )
+                      ],
+                    ),
+                    kHeight20,
+                    Row(
+                      children: [
+                        CustomCheckBox(
+                          isChecked: isChecked,
+                          onTap: () => setState(
+                            () {
+                              isChecked = !isChecked;
+                            },
+                          ),
+                        ),
+                        kWidth5,
+                        const Flexible(
+                          child: Text(
+                              "By signing you agree to our term of use and privacy policy."),
+                        ),
+                      ],
+                    ),
+                    kHeight20,
+                    CustomElevatedButton(
+                      callback: () async {
+                        _formKey.currentState!.validate();
+                        if (_formKey.currentState!.validate() == true) {
                           _formKey.currentState!.save();
-                          // print(nameController.text);
-                          // print(emailController.text);
-                          // print(phoneNumberController.text);
-                          // print(passwordController.text);
-                          final x = await NetworkHelper().createUserWithEmail(
-                              email: emailController.text,
-                              password: passwordController.text);
-                          if (x.statusCode == 201) {
-                            if (!mounted) return;
-                            Navigator.pushNamedAndRemoveUntil(context,
-                                SignInWithEmail.routeName, (route) => false);
+                          try {
+                            final x = await NetworkHelper().createUserWithEmail(
+                                email: emailController.text,
+                                password: passwordController.text);
+                            if (x.statusCode == 201) {
+                              if (!mounted) return;
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  SignInWithEmail.routeName, (route) => false);
+                            }
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Something went wrong. Please try again.",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
                           }
-                          print(x);
-                          print(x.data);
-                          print(x.statusCode);
-                          print(x.statusMessage);
-                        },
-                        label: "Sign Up",
-                      )
-                    ],
-                  ),
+                        }
+                      },
+                      label: "Sign Up",
+                    )
+                  ],
                 ),
               ),
             ),

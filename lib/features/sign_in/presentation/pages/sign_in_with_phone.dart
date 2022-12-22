@@ -1,23 +1,32 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/sign_in/presentation/pages/confirm_otp.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
-import 'package:cipher/features/sign_in/presentation/pages/forgot_password.dart';
+import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
 import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
+import 'package:cipher/features/sign_in/presentation/pages/reset_password.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/widgets/small_box_container.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class SignInWithPhone extends StatelessWidget {
+class SignInWithPhone extends StatefulWidget {
   static const routeName = "/sign-in-with-phone";
   const SignInWithPhone({super.key});
+
+  @override
+  State<SignInWithPhone> createState() => _SignInWithPhoneState();
+}
+
+class _SignInWithPhoneState extends State<SignInWithPhone> {
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       leadingWidget: IconButton(
         onPressed: () {
-          Navigator.pop(context);
+          // Navigator.pop(context);
         },
         icon: const Icon(
           Icons.arrow_back,
@@ -67,6 +76,7 @@ class SignInWithPhone extends StatelessWidget {
                   children: [
                     Flexible(
                       child: CustomTextFormField(
+                        textInputType: TextInputType.number,
                         hintText: "Mobile Number",
                         prefixWidget: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -74,21 +84,27 @@ class SignInWithPhone extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.asset("assets/nepalflag.png"),
-                              Text(
+                              const Text(
                                 "+977",
                                 style: kBodyText1,
                               ),
-                              Icon(Icons.arrow_drop_down)
+                              const Icon(Icons.arrow_drop_down)
                             ],
                           ),
                         ),
                       ),
                     ),
                     kWidth10,
-                    SmallBoxContainer(
-                      child: Icon(
-                        Icons.phone_android_sharp,
-                        color: Color(0xff5C6096),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        ResetPassword.routeName,
+                      ),
+                      child: const SmallBoxContainer(
+                        child: Icon(
+                          Icons.phone_android_sharp,
+                          color: Color(0xff5C6096),
+                        ),
                       ),
                     )
                   ],
@@ -107,7 +123,7 @@ class SignInWithPhone extends StatelessWidget {
                 kHeight5,
                 Row(
                   children: [
-                    Flexible(
+                    const Flexible(
                       child: CustomTextFormField(
                         hintText: "Enter your password here",
                       ),
@@ -121,16 +137,22 @@ class SignInWithPhone extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CustomCheckBox(),
+                    CustomCheckBox(
+                      isChecked: isChecked,
+                      onTap: () => setState(() {
+                        isChecked = !isChecked;
+                      }),
+                    ),
                     kWidth5,
-                    Text(
+                    const Text(
                       "Remember me",
                     ),
                   ],
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, ForgotPassword.routeName);
+                    Navigator.pushNamed(
+                        context, ForgotPasswordWithPhone.routeName);
                   },
                   child: const Text("Forgot password?"),
                 )
@@ -142,7 +164,63 @@ class SignInWithPhone extends StatelessWidget {
               label: "Login",
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                await showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Column(
+                    children: [
+                      kHeight5,
+                      const Icon(
+                        Icons.maximize,
+                        size: 40,
+                        color: Color(0xffCED4DA),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            kHeight50,
+                            Container(
+                              color: Colors.black12,
+                              height: 100,
+                              width: 100,
+                            ),
+                            kHeight20,
+                            const Text("Verify it's you"),
+                            kHeight10,
+                            const Text("or"),
+                            kHeight10,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Use"),
+                                kWidth10,
+                                GestureDetector(
+                                    onTap: () {},
+                                    child: const Text(
+                                      "MPIN",
+                                      style:
+                                          TextStyle(color: Color(0xff3EAEFF)),
+                                    )),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      CustomElevatedButton(
+                        callback: () {
+                          Navigator.pop(context);
+                        },
+                        mainColor: Colors.white,
+                        textColor: const Color(0xff3D3F7D),
+                        label: "Cancel",
+                      ),
+                      kHeight20
+                    ],
+                  ),
+                );
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

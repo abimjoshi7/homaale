@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
+// Different SizedBoxes
 const kHeight5 = SizedBox(
   height: 5,
 );
@@ -27,3 +28,12 @@ const kWidth15 = SizedBox(
 const kWidth20 = SizedBox(
   width: 20,
 );
+
+//MediaQuery
+class MediaQueryHelper {
+  static double theHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
+
+  static double theWidth(BuildContext context) =>
+      MediaQuery.of(context).size.width;
+}

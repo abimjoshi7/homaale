@@ -1,8 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/validations.dart';
 import 'package:cipher/features/sign_in/presentation/pages/confirm_otp.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
-import 'package:cipher/networking/models/user_model.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,8 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +32,11 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
           children: [
             CustomHeader(
               leadingWidget: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (!mounted) return;
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, SignInWithPhone.routeName, (route) => false);
+                },
                 icon: const Icon(Icons.arrow_back),
               ),
               trailingWidget: Padding(
@@ -67,33 +73,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     const Text(
-                      //       "Full Name",
-                      //       style: kLabelPrimary,
-                      //     ),
-                      //     kHeight5,
-                      //     Row(
-                      //       children: [
-                      //         Flexible(
-                      //           child: CustomTextFormField(
-                      //             onSaved: (p0) {
-                      //               setState(() {
-                      //                 nameController.text = p0!;
-                      //               });
-                      //             },
-                      //             hintText: "Enter your name here",
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
-                      // kHeight20,
-
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,6 +83,13 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                           ),
                           kHeight5,
                           CustomTextFormField(
+                            textInputType: TextInputType.number,
+                            validator: (p0) {
+                              if (phoneNumberController.text.length < 10) {
+                                return "Number should be greater or equal to 10 digits";
+                              }
+                              return null;
+                            },
                             onSaved: (p0) => setState(() {
                               phoneNumberController.text = p0!;
                             }),
@@ -139,6 +125,21 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             children: [
                               Flexible(
                                 child: CustomTextFormField(
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Please enter password";
+                                    }
+                                    //  else {
+                                    //   bool result = validatePassword(value);
+                                    //   if (result) {
+                                    //     return null;
+                                    //   } else {
+                                    //     return "Should contain at least 1 capital letter, number & special symbol";
+                                    //   }
+                                    // }
+                                  },
+                                  obscureText: false,
+                                  textInputType: TextInputType.visiblePassword,
                                   onSaved: (p0) => setState(() {
                                     passwordController.text = p0!;
                                   }),
@@ -162,9 +163,12 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             children: [
                               Flexible(
                                 child: CustomTextFormField(
-                                  onSaved: (p0) => setState(() {
-                                    passwordController.text = p0!;
-                                  }),
+                                  textInputType: TextInputType.visiblePassword,
+                                  onSaved: (p0) => setState(
+                                    () {
+                                      confirmPasswordController.text = p0!;
+                                    },
+                                  ),
                                 ),
                               ),
                             ],
@@ -204,10 +208,15 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ),
                       kHeight20,
                       Row(
-                        children: const [
-                          CustomCheckBox(),
+                        children: [
+                          CustomCheckBox(
+                            isChecked: isChecked,
+                            onTap: () => setState(() {
+                              isChecked = !isChecked;
+                            }),
+                          ),
                           kWidth5,
-                          Flexible(
+                          const Flexible(
                             child: Text(
                                 "By signing you agree to our term of use and privacy policy."),
                           ),
@@ -216,23 +225,43 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       kHeight20,
                       CustomElevatedButton(
                         callback: () async {
+                          _formKey.currentState!.validate();
                           _formKey.currentState!.save();
-                          final x = await NetworkHelper().createUserWithPhone(
-                            phoneNumber: phoneNumberController.text,
-                            password: passwordController.text,
-                          );
-                          if (x.statusCode == 201) {
-                            if (!mounted) return;
-                            Navigator.pushNamed(
-                              context,
-                              ConfirmOTP.routeName,
-                              arguments: x.data["phone"] as String,
-                            );
+                          if (_formKey.currentState!.validate() == true) {
+                            if (isChecked == false) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Please agree to the terms and policy."),
+                                ),
+                              );
+                            } else {
+                              try {
+                                final x =
+                                    await NetworkHelper().createUserWithPhone(
+                                  phoneNumber:
+                                      "+977${phoneNumberController.text}",
+                                  password: passwordController.text,
+                                );
+                                if (x.statusCode == 201) {
+                                  if (!mounted) return;
+                                  Navigator.pushNamed(
+                                    context,
+                                    ConfirmOTP.routeName,
+                                    arguments: x.data["phone"] as String,
+                                  );
+                                }
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Something went wrong. Please try again",
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
                           }
-                          print(x);
-                          print(x.data);
-                          print(x.statusCode);
-                          print(x.statusMessage);
                         },
                         label: "Sign Up",
                       )
