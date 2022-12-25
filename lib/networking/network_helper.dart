@@ -4,6 +4,7 @@ import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/models/response/otp_response.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class NetworkHelper {
   final _dio = Dio();
@@ -42,6 +43,9 @@ class NetworkHelper {
       );
       return UserLoginRes.fromJson(res.data);
     } catch (e) {
+      if (kDebugMode) {
+        print("User Login Error");
+      }
       rethrow;
     }
   }
@@ -90,16 +94,81 @@ class NetworkHelper {
     }
   }
 
-  Future<OtpRes> verifyOTP({required OtpReq otpReq}) async {
+  Future<OtpRes> verifyOTPSignUp({
+    required String phone,
+    required String otp,
+    required String scope,
+    required String password,
+    required String confirmPassword,
+  }) async {
+    try {
+      final res = await _dio.post(
+        "$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/",
+        data: {
+          "phone": phone,
+          "otp": otp,
+          "scope": scope,
+          "password": password,
+          "confirm_password": confirmPassword,
+        },
+        // options: Options(
+        //   // followRedirects: false,
+        //   // will not throw errors
+        //   // validateStatus: (status) => true,
+        //   responseDecoder: (responseBytes, options, responseBody) {
+        //     return "Status Code: ${responseBody.statusCode} Status Message:${responseBody.statusMessage!}";
+        //   },
+        // ),
+      );
+      return OtpRes.fromJson(res.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<OtpRes> verifyOTP({
+    required String phone,
+    required String otp,
+    required String scope,
+  }) async {
+    try {
+      final res = await _dio.post(
+        "$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/",
+        data: {
+          "phone": phone,
+          "otp": otp,
+          "scope": scope,
+        },
+        // options: Options(
+        //   // followRedirects: false,
+        //   // will not throw errors
+        //   // validateStatus: (status) => true,
+        //   responseDecoder: (responseBytes, options, responseBody) {
+        //     return "Status Code: ${responseBody.statusCode} Status Message:${responseBody.statusMessage!}";
+        //   },
+        // ),
+      );
+      return OtpRes.fromJson(res.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<OtpRes> resetPassword({
+    required OtpReq otpReq,
+  }) async {
     try {
       final res = await _dio.post(
         "$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/",
         data: otpReq.toJson(),
-        options: Options(
-          followRedirects: false,
-          // will not throw errors
-          validateStatus: (status) => true,
-        ),
+        // options: Options(
+        //   // followRedirects: false,
+        //   // will not throw errors
+        //   // validateStatus: (status) => true,
+        //   responseDecoder: (responseBytes, options, responseBody) {
+        //     return "Status Code: ${responseBody.statusCode} Status Message:${responseBody.statusMessage!}";
+        //   },
+        // ),
       );
       return OtpRes.fromJson(res.data);
     } catch (e) {

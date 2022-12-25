@@ -14,6 +14,12 @@ const kHeading1 = TextStyle(
   fontSize: 32,
 );
 
+const kHeading2 = TextStyle(
+  color: kColorPrimary,
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+);
+
 const kHelper1 = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,

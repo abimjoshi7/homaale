@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/validations.dart';
-import 'package:cipher/features/sign_in/presentation/pages/confirm_otp.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
+import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -17,8 +16,6 @@ class SignUpWithPhone extends StatefulWidget {
 
 class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -247,8 +244,12 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                   if (!mounted) return;
                                   Navigator.pushNamed(
                                     context,
-                                    ConfirmOTP.routeName,
-                                    arguments: x.data["phone"] as String,
+                                    OtpSignUp.routeName,
+                                    arguments: {
+                                      "phone":
+                                          "+977${phoneNumberController.text}",
+                                      "password": passwordController.text,
+                                    },
                                   );
                                 }
                               } catch (e) {
@@ -286,5 +287,13 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    phoneNumberController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
   }
 }

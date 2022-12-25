@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/confirm_otp.dart';
+import 'package:cipher/features/sign_in/presentation/pages/confirm_otp_sign_in.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +90,7 @@ class _ForgotPasswordWithPhoneState extends State<ForgotPasswordWithPhone> {
                   if (!mounted) return;
                   Navigator.pushNamed(
                     context,
-                    ConfirmOTP.routeName,
+                    ConfirmOTPSignIn.routeName,
                     arguments: "+977${phoneController.text}",
                   );
                 }

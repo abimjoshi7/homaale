@@ -37,7 +37,7 @@ class CustomScaffold extends StatelessWidget {
                         trailingWidget ?? const SizedBox.shrink(),
                       ],
                     ),
-                    Image.asset("assets/logo_title.png"),
+                    Image.asset("assets/homaale_logo_title.png"),
                   ],
                 )),
             Positioned(
