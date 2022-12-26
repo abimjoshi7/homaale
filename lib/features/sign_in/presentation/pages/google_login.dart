@@ -1,10 +1,38 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleLogin extends StatelessWidget {
+class GoogleLogin extends StatefulWidget {
   static const routeName = "/google-login";
   const GoogleLogin({super.key});
+
+  @override
+  State<GoogleLogin> createState() => _GoogleLoginState();
+}
+
+class _GoogleLoginState extends State<GoogleLogin> {
+  final googleSignIn = GoogleSignIn(
+    scopes: ['openid', 'email', 'profile'],
+    clientId:
+        "245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com",
+  );
+
+  signIn() async {
+    final x = await googleSignIn.signIn();
+    final String? authCode = x!.serverAuthCode;
+    final String idToken = x.id;
+    final String? accessToken = (await x.authentication).accessToken;
+    print(authCode);
+    print(idToken);
+    print(accessToken);
+  }
+
+  signOut() async {
+    await googleSignIn.signOut();
+  }
+
+  initialize() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +88,9 @@ class GoogleLogin extends StatelessWidget {
           const Text("This doesn't let the app post to Google"),
           kHeight20,
           CustomElevatedButton(
-            callback: () {},
+            callback: () async {
+              await googleSignIn.signIn();
+            },
             label: "Continue",
           ),
           kHeight10,
@@ -78,9 +108,27 @@ class GoogleLogin extends StatelessWidget {
           ),
           kHeight20,
           kHeight20,
-          Text(
-            "Privacy | Terms & Conditions",
-            style: kHelper1,
+          GestureDetector(
+            onTap: () async {
+              final scopes = await googleSignIn.scopes;
+              final clientID = await googleSignIn.clientId;
+              final x = await googleSignIn.currentUser;
+              print(
+                x.toString(),
+              );
+              print(scopes);
+              print(clientID);
+              // final String? authCode = x!.serverAuthCode;
+              // final String idToken = x.id;
+              // final String? accessToken = (await x.authentication).accessToken;
+              // print(authCode);
+              // print(idToken);
+              // print(accessToken);
+            },
+            child: Text(
+              "Privacy | Terms & Conditions",
+              style: kHelper1,
+            ),
           ),
         ],
       ),

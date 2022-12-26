@@ -41,6 +41,8 @@ dependencies:
   dio: ^4.0.6
   pinput: ^2.2.20
   flutter_native_splash: ^2.2.16
+  flutter_facebook_auth: ^5.0.6
+  google_sign_in: ^5.4.2
 
 dev_dependencies:
   flutter_test:

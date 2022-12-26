@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
 import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
@@ -36,22 +37,30 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
           color: Color(0xffdee2e6),
         ),
       ),
-      trailingWidget: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Text(
-              "Skip",
-              style: kSkipHelper,
-            ),
-            kWidth10,
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 12,
-              color: Color(0xffdee2e6),
-            )
-          ],
+      trailingWidget: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            Profile.routeName,
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Text(
+                "Skip",
+                style: kSkipHelper,
+              ),
+              kWidth10,
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 12,
+                color: Color(0xffdee2e6),
+              )
+            ],
+          ),
         ),
       ),
       child: Padding(

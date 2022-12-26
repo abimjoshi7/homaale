@@ -1,11 +1,50 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
+import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-class FacebookLogin extends StatelessWidget {
+class FacebookLogin extends StatefulWidget {
   static const routeName = "/facebook-login";
   const FacebookLogin({super.key});
+
+  @override
+  State<FacebookLogin> createState() => _FacebookLoginState();
+}
+
+class _FacebookLoginState extends State<FacebookLogin> {
+  initialize() async {
+    final map = <String, dynamic>{};
+    final fbInstance = FacebookAuth.instance;
+    final LoginResult result = await fbInstance.login();
+    if (result.status == LoginStatus.success) {
+      final accessToken = result.accessToken!;
+      final userData = await fbInstance.getUserData();
+      map.addAll(userData);
+      map.remove("id");
+      map.addAll(
+        {
+          "accessToken": accessToken.token,
+          "userID": userData["id"],
+        },
+      );
+      final x = await NetworkHelper().sendFacebookReq(map);
+      if (kDebugMode) {
+        print(x.access);
+      }
+    } else {
+      if (kDebugMode) {
+        print(result.status);
+        print(result.message);
+      }
+    }
+  }
+
+  logout() async {
+    await FacebookAuth.instance.logOut();
+// or FacebookAuth.i.logOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +100,8 @@ class FacebookLogin extends StatelessWidget {
           const Text("This doesn't let the app post to Facebook"),
           kHeight20,
           CustomElevatedButton(
-            callback: () {
-              Navigator.pushNamed(context, GoogleLogin.routeName);
+            callback: () async {
+              await initialize();
             },
             label: "Continue",
           ),
@@ -73,15 +112,15 @@ class FacebookLogin extends StatelessWidget {
             callback: () {},
             label: "Cancel",
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
+          const Padding(
+            padding: EdgeInsets.all(20),
             child: Text(
                 "By continuing, Cagtu will receive ongoing access to the information that you share and Twitter will record when Cagtu accesses it. Learn more about this sharing and setting that you have.",
                 textAlign: TextAlign.center),
           ),
           kHeight20,
           kHeight20,
-          Text(
+          const Text(
             "Privacy | Terms & Conditions",
             style: kHelper1,
           ),
