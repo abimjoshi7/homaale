@@ -90,3 +90,51 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+
+<!-- example code
+```dart
+x = 5;
+```
+
+_this is italic_
+
+**this is bold**
+
+
+1. sdsd
+1. sdsd
+1. sdsd
+
+- assd
+- asdads
+* asdasd
+
+
+<kbd>Ctrl</kbd> + <kbd>Shift</kbd>
+
+
+<button> Click here </button>
+
+- [ ] CheckbSox
+
+
+<https://github.com>
+
+Please click [here](https://github.com) to open Github.
+ -->
+
+<!-- ![Temple](https://media.istockphoto.com/id/637696304/photo/patan.jpg?s=612x612&w=0&k=20&c=-53aSTGBGoOOqX5aoC3Hs1jhZ527v3Id_xOawHHVPpg=) -->
+
+
+<!-- please visit <https://github.com> to continue -->
+
+<!-- ![setting up](res/setting_up.png) -->
+<!--
+
+| SN | title |
+| -- | ----- |
+|1 | test |
+|1 | `test` part |
+
+> asdsa -->
