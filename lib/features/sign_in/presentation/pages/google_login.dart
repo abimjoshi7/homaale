@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -19,17 +24,25 @@ class _GoogleLoginState extends State<GoogleLogin> {
   );
 
   signIn() async {
-    final x = await googleSignIn.signIn();
-    final String? authCode = x!.serverAuthCode;
-    final String idToken = x.id;
-    final String? accessToken = (await x.authentication).accessToken;
-    print(authCode);
-    print(idToken);
-    print(accessToken);
+    try {
+      await googleSignIn.signIn();
+    } catch (e) {
+      if (kDebugMode) {
+        print("Google Sign-In Error");
+      }
+      rethrow;
+    }
   }
 
   signOut() async {
-    await googleSignIn.signOut();
+    try {
+      await googleSignIn.signOut();
+    } catch (e) {
+      if (kDebugMode) {
+        print("Google Sign-Out Error");
+      }
+      rethrow;
+    }
   }
 
   initialize() async {}
@@ -89,7 +102,22 @@ class _GoogleLoginState extends State<GoogleLogin> {
           kHeight20,
           CustomElevatedButton(
             callback: () async {
-              await googleSignIn.signIn();
+              try {
+                final map = <String, dynamic>{};
+                final idToken =
+                    await googleSignIn.currentUser!.authentication.then(
+                  (value) => value.idToken,
+                );
+                map.addAll(
+                  {
+                    "credential": idToken,
+                  },
+                );
+                final x = await NetworkHelper().sendGoogleLoginReq(map);
+                print(x.access);
+              } catch (e) {
+                rethrow;
+              }
             },
             label: "Continue",
           ),
@@ -110,14 +138,23 @@ class _GoogleLoginState extends State<GoogleLogin> {
           kHeight20,
           GestureDetector(
             onTap: () async {
+              final map = <String, dynamic>{};
               final scopes = await googleSignIn.scopes;
-              final clientID = await googleSignIn.clientId;
-              final x = await googleSignIn.currentUser;
-              print(
-                x.toString(),
+              final x = await googleSignIn.currentUser!.authentication
+                  .then((value) => value.idToken);
+              final q = await googleSignIn.isSignedIn();
+
+              // print(scopes);
+              // print(x);
+              // print(q);
+              final idToken =
+                  await googleSignIn.currentUser!.authentication.then(
+                (value) => value.idToken,
               );
-              print(scopes);
-              print(clientID);
+              map.addAll({
+                "credential": idToken,
+              });
+              log(jsonEncode(map));
               // final String? authCode = x!.serverAuthCode;
               // final String idToken = x.id;
               // final String? accessToken = (await x.authentication).accessToken;

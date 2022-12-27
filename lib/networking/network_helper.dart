@@ -4,6 +4,7 @@ import 'package:cipher/api_service.dart';
 import 'package:cipher/networking/models/request/otp_request.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/models/response/facebook_login_res.dart';
+import 'package:cipher/networking/models/response/google_login_res.dart';
 import 'package:cipher/networking/models/response/otp_response.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:dio/dio.dart';
@@ -192,12 +193,13 @@ class NetworkHelper {
     }
   }
 
-  Future<void> sendGoogleLoginReq() async {
+  Future<GoogleLoginRes> sendGoogleLoginReq(Map<String, dynamic> map) async {
     try {
       final x = await _dio.post(
         "$baseIPSecondary:$portNumber/api/$versionNumber/user/register/social/google_oauth2/",
+        data: jsonEncode(map),
       );
-      print(x.data);
+      return GoogleLoginRes.fromJson(x.data);
     } catch (e) {
       rethrow;
     }

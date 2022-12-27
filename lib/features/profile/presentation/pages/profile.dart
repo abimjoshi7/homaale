@@ -19,6 +19,48 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
 
+  void showCustomDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: Duration(milliseconds: 700),
+      pageBuilder: (_, __, ___) {
+        return CustomPaint(
+          size: Size(
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height,
+          ),
+          painter: CustomShapePainter(),
+        );
+        Container(
+          height: 40,
+          child: SizedBox.expand(child: FlutterLogo()),
+          margin: EdgeInsets.only(left: 20, right: 30, bottom: 340, top: 200),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(40)),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        Tween<Offset> tween;
+        if (anim.status == AnimationStatus.reverse) {
+          tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
+        } else {
+          tween = Tween(begin: Offset(1, 0), end: Offset.zero);
+        }
+
+        return SlideTransition(
+          position: tween.animate(anim),
+          child: FadeTransition(
+            opacity: anim,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     tabController = TabController(length: 4, vsync: this);
@@ -59,11 +101,25 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               ),
               CustomHorizontalDivider(),
               ListTile(
-                leading: Container(
-                  height: 70,
-                  width: 70,
-                  decoration: BoxDecoration(
-                      color: Colors.blueAccent, shape: BoxShape.circle),
+                leading: GestureDetector(
+                  onTap: () async {
+                    showCustomDialog(context);
+                    // await showDialog(
+                    //   context: context,
+                    //   builder: (context) => Container(
+                    //     height: 200,
+                    //     width: 200,
+                    //     color: Colors.black,
+                    //     child: Text("data"),
+                    //   ),
+                    // );
+                  },
+                  child: Container(
+                    height: 70,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Colors.blueAccent, shape: BoxShape.circle),
+                  ),
                 ),
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,5 +234,30 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+}
+
+class CustomShapePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.blue
+      ..strokeWidth = 15;
+
+    var path = Path();
+    path.moveTo(0, 0);
+    path.lineTo(size.width, 0);
+
+    path.lineTo(size.width, size.height * 0.8);
+    path.lineTo(size.width * 0.5, size.height);
+    path.lineTo(0, size.height * 0.8);
+    path.lineTo(0, 0);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomShapePainter oldDelegate) {
+    return false;
   }
 }
