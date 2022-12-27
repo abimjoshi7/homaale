@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.obscureText = false,
     this.onChanged,
+    this.maxLines = 1,
   });
 
   final double theHeight;
@@ -23,10 +24,12 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? textInputType;
   final String? Function(String?)? validator;
   final bool obscureText;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       onChanged: onChanged,
       obscureText: obscureText,
       validator: validator,

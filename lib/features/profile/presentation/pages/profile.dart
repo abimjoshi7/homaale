@@ -1,7 +1,12 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
+import 'package:cipher/features/profile/presentation/pages/about/widgets/icontext.dart';
+import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
+import 'package:cipher/features/profile/presentation/pages/offers/offers_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/reviews/reviews_profile.dart';
+import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -18,52 +23,12 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
-
-  void showCustomDialog(BuildContext context) {
-    showGeneralDialog(
-      context: context,
-      barrierLabel: "Barrier",
-      barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.5),
-      transitionDuration: Duration(milliseconds: 700),
-      pageBuilder: (_, __, ___) {
-        return CustomPaint(
-          size: Size(
-            MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height,
-          ),
-          painter: CustomShapePainter(),
-        );
-        Container(
-          height: 40,
-          child: SizedBox.expand(child: FlutterLogo()),
-          margin: EdgeInsets.only(left: 20, right: 30, bottom: 340, top: 200),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(40)),
-        );
-      },
-      transitionBuilder: (_, anim, __, child) {
-        Tween<Offset> tween;
-        if (anim.status == AnimationStatus.reverse) {
-          tween = Tween(begin: Offset(-1, 0), end: Offset.zero);
-        } else {
-          tween = Tween(begin: Offset(1, 0), end: Offset.zero);
-        }
-
-        return SlideTransition(
-          position: tween.animate(anim),
-          child: FadeTransition(
-            opacity: anim,
-            child: child,
-          ),
-        );
-      },
-    );
-  }
+  final user = "self";
+  bool isKycVerified = false;
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: user == "self" ? 7 : 4, vsync: this);
     // tabController.addListener(() {
     //   setState(() {
     //     selectedIndex = tabController.index;
@@ -86,77 +51,140 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                     ),
                   ),
-                  Text("Profile"),
+                  const Text("Profile"),
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.search,
                     ),
                   ),
                 ],
               ),
-              CustomHorizontalDivider(),
+              const CustomHorizontalDivider(),
               ListTile(
-                leading: GestureDetector(
-                  onTap: () async {
-                    showCustomDialog(context);
-                    // await showDialog(
-                    //   context: context,
-                    //   builder: (context) => Container(
-                    //     height: 200,
-                    //     width: 200,
-                    //     color: Colors.black,
-                    //     child: Text("data"),
-                    //   ),
-                    // );
-                  },
-                  child: Container(
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                        color: Colors.blueAccent, shape: BoxShape.circle),
-                  ),
+                leading: Container(
+                  height: 70,
+                  width: 70,
+                  decoration: const BoxDecoration(
+                      color: Colors.blueAccent, shape: BoxShape.circle),
                 ),
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Text("FirstName LastName"),
+                        const Text("FirstName LastName"),
                         kWidth5,
-                        Icon(
+                        const Icon(
                           Icons.verified,
                           color: Colors.lightBlue,
                         ),
                       ],
                     ),
                     kHeight5,
-                    Text("Individual  |  Gardener"),
+                    const Text("Individual  |  Gardener"),
                     kHeight5,
-                    Row(
-                      children: List.generate(
-                        5,
-                        (index) => Icon(
-                          Icons.star_rate_rounded,
-                          color: Colors.amber,
+                    Visibility(
+                      visible: user != "self",
+                      child: Row(
+                        children: List.generate(
+                          5,
+                          (index) => const Icon(
+                            Icons.star_rate_rounded,
+                            color: Colors.amber,
+                          ),
                         ),
                       ),
                     )
                   ],
                 ),
                 trailing: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.more_vert_outlined,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AddPortfolio.routeName,
+                    );
+                  },
                 ),
               ),
               kHeight10,
-              CustomHorizontalDivider(),
+              Visibility(
+                visible: user == "self",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      height: 70,
+                      width: 150,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "0",
+                                style: kHeading2,
+                              ),
+                              kHeight5,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: IconText(
+                                  label: "Reward Points",
+                                  widget: Image.asset(
+                                    "assets/3.png",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70,
+                      width: 150,
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Rs 0.00",
+                                style: kHeading2,
+                              ),
+                              kHeight5,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: IconText(
+                                  label: "Account Balance",
+                                  widget: Image.asset(
+                                    "assets/1.png",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              kHeight10,
+              const CustomHorizontalDivider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -164,34 +192,71 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   children: [
                     Column(
                       children: [
-                        NumberCountText(
+                        const NumberCountText(
                           numberText: "400",
                           textColor: kColorBlueText,
                         ),
-                        Text("Task Created")
+                        const Text("Task Created")
                       ],
                     ),
                     Column(
                       children: [
-                        NumberCountText(
+                        const NumberCountText(
                             numberText: "30", textColor: kColorAmberText),
-                        Text("Task in Progress")
+                        const Text("Task in Progress")
                       ],
                     ),
                     Column(
                       children: [
-                        NumberCountText(
+                        const NumberCountText(
                           numberText: "400",
                           textColor: kColorGreenText,
                         ),
-                        Text("Success Rate")
+                        const Text("Success Rate")
                       ],
                     ),
                   ],
                 ),
               ),
-              CustomHorizontalDivider(),
+              const CustomHorizontalDivider(),
+              Visibility(
+                visible: isKycVerified == false,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Container(
+                    width: double.infinity,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: Color(0xffFFF5E5),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.info_outline_rounded,
+                                size: 20,
+                                color: Colors.amber,
+                              ),
+                              kWidth5,
+                              Text("Get your KYC verified now"),
+                            ],
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               TabBar(
+                isScrollable: true,
                 labelColor: Colors.amber,
                 indicatorColor: Colors.amber,
                 unselectedLabelColor: Colors.grey,
@@ -207,19 +272,31 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     text: "Documents",
                   ),
                   Tab(
+                    text: "Activities",
+                  ),
+                  Tab(
+                    text: "Rewards",
+                  ),
+                  Tab(
+                    text: "My Offers",
+                  ),
+                  Tab(
                     text: "Reviews",
                   ),
                 ],
               ),
               SizedBox(
-                height: MediaQueryHelper.theHeight(context) * 0.67,
+                height: MediaQueryHelper.theHeight(context) * 0.42,
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    AboutProfile(),
-                    ServicesProfile(),
-                    DocumentsProfile(),
-                    ReviewsProfile(),
+                    const AboutProfile(),
+                    const ServicesProfile(),
+                    const DocumentsProfile(),
+                    const ActivitiesProfile(),
+                    const RewardsProfile(),
+                    const OffersProfile(),
+                    const ReviewsProfile(),
                   ],
                 ),
               )
@@ -234,30 +311,5 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   void dispose() {
     tabController.dispose();
     super.dispose();
-  }
-}
-
-class CustomShapePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 15;
-
-    var path = Path();
-    path.moveTo(0, 0);
-    path.lineTo(size.width, 0);
-
-    path.lineTo(size.width, size.height * 0.8);
-    path.lineTo(size.width * 0.5, size.height);
-    path.lineTo(0, size.height * 0.8);
-    path.lineTo(0, 0);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomShapePainter oldDelegate) {
-    return false;
   }
 }

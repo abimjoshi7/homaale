@@ -15,8 +15,8 @@ class ServicesProfile extends StatelessWidget {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 0.8,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 15,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 10,
         ),
         itemBuilder: (context, index) => const ServicesTextCard(
           price: "Rs 2000",

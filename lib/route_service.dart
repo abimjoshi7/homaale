@@ -1,4 +1,8 @@
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:cipher/features/portfolio/presentation/pages/add_certifications.dart';
+import 'package:cipher/features/portfolio/presentation/pages/add_education.dart';
+import 'package:cipher/features/portfolio/presentation/pages/add_exprience.dart';
+import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/pages/confirm_otp_sign_in.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
@@ -76,6 +80,22 @@ class RouteService {
       case Profile.routeName:
         return MaterialPageRoute(
           builder: (context) => const Profile(),
+        );
+      case AddPortfolio.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddPortfolio(),
+        );
+      case AddExperience.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddExperience(),
+        );
+      case AddEducation.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddEducation(),
+        );
+      case AddCertifications.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddCertifications(),
         );
       default:
         return MaterialPageRoute(

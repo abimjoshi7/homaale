@@ -45,8 +45,6 @@ class _GoogleLoginState extends State<GoogleLogin> {
     }
   }
 
-  initialize() async {}
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -128,44 +126,17 @@ class _GoogleLoginState extends State<GoogleLogin> {
             callback: () {},
             label: "Cancel",
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
+          const Padding(
+            padding: EdgeInsets.all(20),
             child: Text(
                 "By continuing, Cagtu will receive ongoing access to the information that you share and Twitter will record when Cagtu accesses it. Learn more about this sharing and setting that you have.",
                 textAlign: TextAlign.center),
           ),
           kHeight20,
           kHeight20,
-          GestureDetector(
-            onTap: () async {
-              final map = <String, dynamic>{};
-              final scopes = await googleSignIn.scopes;
-              final x = await googleSignIn.currentUser!.authentication
-                  .then((value) => value.idToken);
-              final q = await googleSignIn.isSignedIn();
-
-              // print(scopes);
-              // print(x);
-              // print(q);
-              final idToken =
-                  await googleSignIn.currentUser!.authentication.then(
-                (value) => value.idToken,
-              );
-              map.addAll({
-                "credential": idToken,
-              });
-              log(jsonEncode(map));
-              // final String? authCode = x!.serverAuthCode;
-              // final String idToken = x.id;
-              // final String? accessToken = (await x.authentication).accessToken;
-              // print(authCode);
-              // print(idToken);
-              // print(accessToken);
-            },
-            child: Text(
-              "Privacy | Terms & Conditions",
-              style: kHelper1,
-            ),
+          const Text(
+            "Privacy | Terms & Conditions",
+            style: kHelper1,
           ),
         ],
       ),

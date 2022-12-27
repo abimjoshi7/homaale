@@ -32,7 +32,7 @@ const kHeading3 = TextStyle(
 );
 
 const kHelper1 = TextStyle(
-  fontSize: 12,
+  fontSize: 13,
   fontWeight: FontWeight.w400,
   color: Color(0xff9CA0C1),
 );

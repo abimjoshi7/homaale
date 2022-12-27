@@ -6,9 +6,11 @@ class CustomCheckBox extends StatelessWidget {
     Key? key,
     this.isChecked = false,
     required this.onTap,
+    this.boxColor = kColorSecondary,
   }) : super(key: key);
   final bool isChecked;
   final VoidCallback onTap;
+  final Color boxColor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class CustomCheckBox extends StatelessWidget {
         height: 22,
         width: 22,
         decoration: BoxDecoration(
-          color: kColorSecondary,
+          color: boxColor,
           borderRadius: BorderRadius.circular(4),
         ),
         child: isChecked == false
