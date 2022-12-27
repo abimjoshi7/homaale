@@ -6,6 +6,7 @@ import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/models/response/facebook_login_res.dart';
 import 'package:cipher/networking/models/response/google_login_res.dart';
 import 'package:cipher/networking/models/response/otp_response.dart';
+import 'package:cipher/networking/models/response/tasker_profile_res.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -200,6 +201,16 @@ class NetworkHelper {
         data: jsonEncode(map),
       );
       return GoogleLoginRes.fromJson(x.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<TaskerProfileRes> getTaskerProfile() async {
+    try {
+      final x = await _dio.get(
+          "$baseIPSecondary:$portNumber/api/$versionNumber/tasker/profile/");
+      return TaskerProfileRes.fromJson(x.data);
     } catch (e) {
       rethrow;
     }
