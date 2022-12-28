@@ -4,8 +4,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AddCertifications extends StatelessWidget {
-  static const routeName = "/add-certifications";
   const AddCertifications({super.key});
+  static const routeName = '/add-certifications';
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class AddCertifications extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  "Add Certifications",
+                  'Add Certifications',
                 ),
                 IconButton(
                   onPressed: () {},
@@ -43,61 +43,61 @@ class AddCertifications extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Name",
+                      'Name',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
-                      hintText: "Eg: Certified Gardener",
+                      hintText: 'Eg: Certified Gardener',
                     ),
                     kHeight20,
                     const Text(
-                      "Issuing Organization",
+                      'Issuing Organization',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
-                      hintText: "Eg: Cagtu",
+                      hintText: 'Eg: Cagtu',
                     ),
                     kHeight20,
                     const Text(
-                      "Description",
+                      'Description',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
                       maxLines: 3,
-                      hintText: "Write something...",
+                      hintText: 'Write something...',
                     ),
                     kHeight20,
                     Row(
                       children: [
                         CustomCheckBox(
                           onTap: () {},
-                          boxColor: Color(0xff0693E3),
+                          boxColor: const Color(0xff0693E3),
                           isChecked: true,
                         ),
                         kWidth10,
-                        Text("This certificate does not expire"),
+                        const Text('This certificate does not expire'),
                       ],
                     ),
                     kHeight20,
                     const Text(
-                      "Credential Id",
+                      'Credential Id',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
-                      hintText: "Eg: 213224-212-212",
+                      hintText: 'Eg: 213224-212-212',
                     ),
                     kHeight20,
                     const Text(
-                      "Certification URL",
+                      'Certification URL',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    CustomTextFormField(
-                      hintText: "Eg: https//www.cagtu.com.np",
+                    const CustomTextFormField(
+                      hintText: 'Eg: https//www.cagtu.com.np',
                       prefixWidget: Icon(
                         Icons.location_on_outlined,
                         color: kColorPrimary,
@@ -105,12 +105,12 @@ class AddCertifications extends StatelessWidget {
                     ),
                     kHeight20,
                     const Text(
-                      "Issued Date",
+                      'Issued Date',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    CustomFormContainer(
-                      label: "03/06/1999",
+                    const CustomFormContainer(
+                      label: '03/06/1999',
                       leadingWidget: Icon(
                         Icons.calendar_month_rounded,
                         color: kColorPrimary,
@@ -124,7 +124,7 @@ class AddCertifications extends StatelessWidget {
                           AddEducation.routeName,
                         );
                       },
-                      label: "Add",
+                      label: 'Add',
                     ),
                   ],
                 ),

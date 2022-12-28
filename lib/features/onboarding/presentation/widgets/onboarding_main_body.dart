@@ -94,8 +94,9 @@ class OnboardingMainBody extends StatelessWidget {
                                 height: 50,
                                 width: 50,
                                 decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: kColorPrimary),
+                                  shape: BoxShape.circle,
+                                  color: kColorPrimary,
+                                ),
                                 child: const Icon(
                                   Icons.arrow_forward,
                                   size: 30,

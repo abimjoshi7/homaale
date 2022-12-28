@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
@@ -7,8 +9,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class SignUpWithPhone extends StatefulWidget {
-  static const String routeName = "/sign-up-with-phone";
   const SignUpWithPhone({super.key});
+  static const String routeName = '/sign-up-with-phone';
 
   @override
   State<SignUpWithPhone> createState() => _SignUpWithPhoneState();
@@ -32,17 +34,19 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                 onPressed: () {
                   if (!mounted) return;
                   Navigator.pushNamedAndRemoveUntil(
-                      context, SignInWithPhone.routeName, (route) => false);
+                    context,
+                    SignInWithPhone.routeName,
+                    (route) => false,
+                  );
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
               trailingWidget: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
                     Text(
-                      "Skip",
+                      'Skip',
                       style: kSkipHelper,
                     ),
                     kWidth10,
@@ -56,11 +60,11 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
               ),
             ),
             const Text(
-              "Register",
+              'Register',
               style: kHeading1,
             ),
             const Text(
-              "Create your new account",
+              'Create your new account',
               style: kHelper1,
             ),
             SizedBox(
@@ -71,11 +75,10 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                   child: Column(
                     children: [
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Phone Number",
+                            'Phone Number',
                             style: kLabelPrimary,
                           ),
                           kHeight5,
@@ -83,22 +86,22 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             textInputType: TextInputType.number,
                             validator: (p0) {
                               if (phoneNumberController.text.length < 10) {
-                                return "Number should be greater or equal to 10 digits";
+                                return 'Number should be greater or equal to 10 digits';
                               }
                               return null;
                             },
                             onSaved: (p0) => setState(() {
                               phoneNumberController.text = p0!;
                             }),
-                            hintText: "Mobile Number",
+                            hintText: 'Mobile Number',
                             prefixWidget: Padding(
                               padding: const EdgeInsets.all(10),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Image.asset("assets/nepalflag.png"),
+                                  Image.asset('assets/nepalflag.png'),
                                   const Text(
-                                    "+977",
+                                    '+977',
                                     style: kBodyText1,
                                   ),
                                   const Icon(Icons.arrow_drop_down)
@@ -110,11 +113,10 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ),
                       kHeight20,
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Password",
+                            'Password',
                             style: kLabelPrimary,
                           ),
                           kHeight5,
@@ -124,8 +126,9 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                 child: CustomTextFormField(
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return "Please enter password";
+                                      return 'Please enter password';
                                     }
+                                    return null;
                                     //  else {
                                     //   bool result = validatePassword(value);
                                     //   if (result) {
@@ -135,7 +138,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                     //   }
                                     // }
                                   },
-                                  obscureText: false,
                                   textInputType: TextInputType.visiblePassword,
                                   onSaved: (p0) => setState(() {
                                     passwordController.text = p0!;
@@ -148,11 +150,10 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ),
                       kHeight20,
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Confirm Password",
+                            'Confirm Password',
                             style: kLabelPrimary,
                           ),
                           kHeight5,
@@ -174,7 +175,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                       ),
                       kHeight20,
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
                             children: const [
@@ -183,7 +183,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                               ),
                               kWidth10,
                               Text(
-                                "Or Sign Up with Email instead",
+                                'Or Sign Up with Email instead',
                                 style: kHelper1,
                               ),
                               kWidth10,
@@ -198,7 +198,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                               (route) => false,
                             ),
                             child: Image.asset(
-                              "assets/logos/maillogo.png",
+                              'assets/logos/maillogo.png',
                             ),
                           )
                         ],
@@ -215,7 +215,8 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                           kWidth5,
                           const Flexible(
                             child: Text(
-                                "By signing you agree to our term of use and privacy policy."),
+                              'By signing you agree to our term of use and privacy policy.',
+                            ),
                           ),
                         ],
                       ),
@@ -229,7 +230,8 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                      "Please agree to the terms and policy."),
+                                    'Please agree to the terms and policy.',
+                                  ),
                                 ),
                               );
                             } else {
@@ -237,18 +239,18 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                 final x =
                                     await NetworkHelper().createUserWithPhone(
                                   phoneNumber:
-                                      "+977${phoneNumberController.text}",
+                                      '+977${phoneNumberController.text}',
                                   password: passwordController.text,
                                 );
                                 if (x.statusCode == 201) {
                                   if (!mounted) return;
-                                  Navigator.pushNamed(
+                                  await Navigator.pushNamed(
                                     context,
                                     OtpSignUp.routeName,
                                     arguments: {
-                                      "phone":
-                                          "+977${phoneNumberController.text}",
-                                      "password": passwordController.text,
+                                      'phone':
+                                          '+977${phoneNumberController.text}',
+                                      'password': passwordController.text,
                                     },
                                   );
                                 }
@@ -256,7 +258,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
-                                      "Something went wrong. Please try again",
+                                      'Something went wrong. Please try again',
                                     ),
                                   ),
                                 );
@@ -264,7 +266,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             }
                           }
                         },
-                        label: "Sign Up",
+                        label: 'Sign Up',
                       )
                     ],
                   ),
@@ -274,12 +276,12 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account?"),
+                const Text('Already have an account?'),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, SignInWithPhone.routeName);
                   },
-                  child: const Text("Login"),
+                  child: const Text('Login'),
                 ),
               ],
             )

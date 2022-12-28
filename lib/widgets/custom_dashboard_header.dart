@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CustomDashboardHeader extends StatelessWidget {
   const CustomDashboardHeader({super.key});
@@ -15,14 +12,14 @@ class CustomDashboardHeader extends StatelessWidget {
           children: [
             Row(
               children: [
-                CircleAvatar(),
+                const CircleAvatar(),
                 Column(
                   children: [
-                    Text("Hi, Harry"),
+                    const Text('Hi, Harry'),
                     Row(
-                      children: [
+                      children: const [
                         Icon(Icons.location_on_outlined),
-                        Text("Hi, Harry"),
+                        Text('Hi, Harry'),
                         Icon(Icons.arrow_drop_down_rounded)
                       ],
                     ),
@@ -32,14 +29,14 @@ class CustomDashboardHeader extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.notifications_none_rounded,
               ),
             ),
           ],
         ),
         TextFormField(
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
           ),
         ),

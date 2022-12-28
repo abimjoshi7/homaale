@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -14,18 +16,19 @@ class ReviewsProfile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Reviews (30)",
+              const Text(
+                'Reviews (30)',
                 style: kHeading3,
               ),
               OutlinedButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: [
-                      Text("Most Relevant"),
-                      Icon(Icons.arrow_drop_down)
-                    ],
-                  ))
+                onPressed: () {},
+                child: Row(
+                  children: const [
+                    Text('Most Relevant'),
+                    Icon(Icons.arrow_drop_down)
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -35,32 +38,33 @@ class ReviewsProfile extends StatelessWidget {
             itemBuilder: (context, index) => Column(
               children: [
                 ListTile(
-                  leading: CircleAvatar(),
+                  leading: const CircleAvatar(),
                   title: Column(
                     children: [
                       Row(
-                        children: [
-                          Text("Elena Shrestha"),
+                        children: const [
+                          Text('Elena Shrestha'),
                           IconText(
-                            label: "3",
+                            label: '3',
                             widget: Icon(
                               Icons.star_rounded,
                             ),
                           ),
                         ],
                       ),
-                      Text(
-                          "“Great work, very easy to deal with and great communication"),
+                      const Text(
+                        'Great work, very easy to deal with and great communication',
+                      ),
                     ],
                   ),
-                  trailing: Text(
-                    "3 days ago",
+                  trailing: const Text(
+                    '3 days ago',
                     style: kHelper1,
                   ),
                 ),
               ],
             ),
-            separatorBuilder: (context, index) => Divider(),
+            separatorBuilder: (context, index) => const Divider(),
           ),
         ),
       ],

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class CustomRadio extends StatelessWidget {
   const CustomRadio({
-    Key? key,
+    super.key,
     this.isSelected = false,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final VoidCallback onTap;
@@ -30,13 +30,13 @@ class CustomRadio extends StatelessWidget {
             width: 10,
             height: 10,
             decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected == true
-                      ? Colors.amber
-                      : const Color(0xffADB5BD),
-                ),
-                color: Colors.white),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color:
+                    isSelected == true ? Colors.amber : const Color(0xffADB5BD),
+              ),
+              color: Colors.white,
+            ),
           ),
         ),
       ),

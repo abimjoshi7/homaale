@@ -4,8 +4,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class Preference extends StatefulWidget {
-  static const routeName = "/preference";
   const Preference({super.key});
+  static const routeName = '/preference';
 
   @override
   State<Preference> createState() => _PreferenceState();
@@ -14,9 +14,10 @@ class Preference extends StatefulWidget {
 class _PreferenceState extends State<Preference> {
   int selectedIndex = 0;
   final widgets = [
-    PreferencesSignUp(),
-    PreferencesJoinAs(),
+    const PreferencesSignUp(),
+    const PreferencesJoinAs(),
   ];
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -36,16 +37,15 @@ class _PreferenceState extends State<Preference> {
                       ),
                     ),
                     kWidth15,
-                    const Text("My Preferences", style: kTabBarTitle),
+                    const Text('My Preferences', style: kTabBarTitle),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
                       Text(
-                        "Skip",
+                        'Skip',
                         style: kSkipHelper,
                       ),
                       kWidth10,
@@ -98,7 +98,7 @@ class _PreferenceState extends State<Preference> {
                   selectedIndex++;
                 });
               },
-              label: "Next",
+              label: 'Next',
             ),
             kHeight50,
           ],
@@ -124,7 +124,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "You want to join as",
+          'You want to join as',
           style: kText16,
         ),
         kHeight20,
@@ -142,14 +142,14 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                     children: [
                       Row(
                         children: [
-                          Image.asset("assets/z.png"),
+                          Image.asset('assets/z.png'),
                           kWidth10,
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text('Individual'),
                               Text(
-                                "You’re starting as an alone warrior",
+                                'You’re starting as an alone warrior',
                                 style: kHelper1,
                               )
                             ],
@@ -160,7 +160,6 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                         isSelected: isIndividual,
                         onTap: () => setState(
                           () {
-                            print(isIndividual);
                             isIndividual = !isIndividual;
                             isOrganization = !isIndividual;
                           },
@@ -188,14 +187,14 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                     children: [
                       Row(
                         children: [
-                          Image.asset("assets/x.png"),
+                          Image.asset('assets/x.png'),
                           kWidth10,
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text('Organization'),
                               Text(
-                                "We’re starting as an group of individual ",
+                                'We’re starting as an group of individual ',
                                 style: kHelper1,
                               )
                             ],
@@ -206,7 +205,6 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                         isSelected: isOrganization,
                         onTap: () => setState(
                           () {
-                            print(isIndividual);
                             isIndividual = !isIndividual;
                             isOrganization = !isIndividual;
                           },

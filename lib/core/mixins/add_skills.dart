@@ -3,15 +3,15 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 mixin AddSkills {
-  showAddSkills(BuildContext context) async {
-    await showModalBottomSheet(
+  dynamic showAddSkills(BuildContext context) async {
+    await showModalBottomSheet<Widget>(
       context: context,
       builder: (context) => Column(
         children: [
-          CustomModalSheetDrawerIcon(),
+          const CustomModalSheetDrawerIcon(),
           kHeight20,
-          Text(
-            "Add new skills",
+          const Text(
+            'Add new skills',
             style: kHeading2,
           ),
           kHeight20,
@@ -23,19 +23,19 @@ mixin AddSkills {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Skills",
+                    const Text(
+                      'Skills',
                       style: kBodyText1,
                     ),
                     kHeight10,
                     Wrap(
                       spacing: 10,
-                      children: [
+                      children: const [
                         Chip(
                           backgroundColor: Color(0xffECFCE5),
                           deleteIcon: Icon(Icons.close_rounded),
                           label: Text(
-                            "Planting",
+                            'Planting',
                             style: TextStyle(color: Color(0xff198155)),
                           ),
                         ),
@@ -43,7 +43,7 @@ mixin AddSkills {
                           backgroundColor: Color(0xffECFCE5),
                           deleteIcon: Icon(Icons.close_rounded),
                           label: Text(
-                            "Washing",
+                            'Washing',
                             style: TextStyle(color: Color(0xff198155)),
                           ),
                         ),
@@ -62,19 +62,19 @@ mixin AddSkills {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Suggested Skills",
+                    const Text(
+                      'Suggested Skills',
                       style: kBodyText1,
                     ),
                     kHeight10,
                     Wrap(
                       spacing: 10,
-                      children: [
+                      children: const [
                         Chip(
                           backgroundColor: Color(0xffC9F0FF),
                           deleteIcon: Icon(Icons.close_rounded),
                           label: Text(
-                            "Washing",
+                            'Washing',
                             style: TextStyle(color: Color(0xff0065D0)),
                           ),
                         ),
@@ -82,7 +82,7 @@ mixin AddSkills {
                           backgroundColor: Color(0xffC9F0FF),
                           deleteIcon: Icon(Icons.close_rounded),
                           label: Text(
-                            "Laundry",
+                            'Laundry',
                             style: TextStyle(color: Color(0xff0065D0)),
                           ),
                         ),
@@ -90,7 +90,7 @@ mixin AddSkills {
                           backgroundColor: Color(0xffC9F0FF),
                           deleteIcon: Icon(Icons.close_rounded),
                           label: Text(
-                            "Cleaning",
+                            'Cleaning',
                             style: TextStyle(color: Color(0xff0065D0)),
                           ),
                         ),
@@ -103,7 +103,7 @@ mixin AddSkills {
           ),
           CustomElevatedButton(
             callback: () {},
-            label: "Add",
+            label: 'Add',
           ),
           kHeight50,
         ],

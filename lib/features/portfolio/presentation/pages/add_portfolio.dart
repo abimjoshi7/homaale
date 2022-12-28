@@ -4,8 +4,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AddPortfolio extends StatelessWidget {
-  static const routeName = '/add-portfolio';
   const AddPortfolio({super.key});
+  static const routeName = '/add-portfolio';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class AddPortfolio extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    "Add Portfolio",
+                    'Add Portfolio',
                   ),
                   IconButton(
                     onPressed: () {},
@@ -43,27 +43,27 @@ class AddPortfolio extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Title",
+                      const Text(
+                        'Title',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
-                      CustomTextFormField(
-                        hintText: "Please enter the title",
+                      const CustomTextFormField(
+                        hintText: 'Please enter the title',
                       ),
                       kHeight20,
-                      Text(
-                        "Description",
+                      const Text(
+                        'Description',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
-                      CustomTextFormField(
+                      const CustomTextFormField(
                         maxLines: 3,
-                        hintText: "Write something...",
+                        hintText: 'Write something...',
                       ),
                       kHeight20,
-                      Text(
-                        "Issued Date",
+                      const Text(
+                        'Issued Date',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
@@ -77,30 +77,30 @@ class AddPortfolio extends StatelessWidget {
                               lastDate: DateTime(2050),
                             );
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.calendar_month,
                             color: kColorPrimary,
                           ),
                         ),
-                        hintText: "03/06/1999",
+                        hintText: '03/06/1999',
                         onSaved: (p0) async {},
                       ),
                       kHeight20,
-                      Text(
-                        "Credential URL",
+                      const Text(
+                        'Credential URL',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
-                      CustomTextFormField(
-                        hintText: "URL",
+                      const CustomTextFormField(
+                        hintText: 'URL',
                       ),
                       kHeight20,
-                      Text(
-                        "Gallery",
+                      const Text(
+                        'Gallery',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
-                      Text("Add relevant images or videos"),
+                      const Text('Add relevant images or videos'),
                       kHeight5,
                       SizedBox(
                         height: 150,
@@ -109,14 +109,14 @@ class AddPortfolio extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("assets/images.png"),
+                                Image.asset('assets/images.png'),
                                 kHeight20,
-                                Text(
-                                  "Upload or Browse image",
+                                const Text(
+                                  'Upload or Browse image',
                                 ),
                                 kHeight10,
-                                Text(
-                                  "Maximum Image Size 20 MB",
+                                const Text(
+                                  'Maximum Image Size 20 MB',
                                   style: kHelper1,
                                 )
                               ],
@@ -125,12 +125,12 @@ class AddPortfolio extends StatelessWidget {
                         ),
                       ),
                       kHeight20,
-                      Text(
-                        "Files",
+                      const Text(
+                        'Files',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
-                      Text("Add relevant images or videos"),
+                      const Text('Add relevant images or videos'),
                       kHeight5,
                       SizedBox(
                         height: 150,
@@ -139,14 +139,14 @@ class AddPortfolio extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("assets/qwe.png"),
+                                Image.asset('assets/qwe.png'),
                                 kHeight20,
-                                Text(
-                                  "Upload or Browse image",
+                                const Text(
+                                  'Upload or Browse image',
                                 ),
                                 kHeight10,
-                                Text(
-                                  "Maximum Image Size 20 MB",
+                                const Text(
+                                  'Maximum Image Size 20 MB',
                                   style: kHelper1,
                                 )
                               ],
@@ -162,7 +162,7 @@ class AddPortfolio extends StatelessWidget {
                             AddExperience.routeName,
                           );
                         },
-                        label: "Add",
+                        label: 'Add',
                       )
                     ],
                   ),

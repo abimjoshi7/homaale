@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
   const CustomTextButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.voidCallback,
-  }) : super(key: key);
+  });
 
   final String text;
   final VoidCallback voidCallback;
@@ -16,7 +16,10 @@ class CustomTextButton extends StatelessWidget {
       onTap: voidCallback,
       child: Text(
         text,
-        style: TextStyle(color: Color(0xff3d3f7d), fontWeight: FontWeight.w400),
+        style: const TextStyle(
+          color: Color(0xff3d3f7d),
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

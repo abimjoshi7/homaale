@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget {
   const CustomHeader({
-    Key? key,
+    super.key,
     required this.leadingWidget,
     required this.trailingWidget,
-  }) : super(key: key);
+  });
 
   final Widget leadingWidget;
   final Widget trailingWidget;

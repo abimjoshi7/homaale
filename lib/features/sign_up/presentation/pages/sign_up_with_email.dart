@@ -1,3 +1,5 @@
+// ignore_for_file: duplicate_ignore, lines_longer_than_80_chars
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
@@ -7,8 +9,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class SignUpWithEmail extends StatefulWidget {
-  static const String routeName = "/sign-up-with-email";
   const SignUpWithEmail({super.key});
+  static const String routeName = '/sign-up-with-email';
 
   @override
   State<SignUpWithEmail> createState() => _SignUpWithEmailState();
@@ -31,17 +33,19 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 onPressed: () {
                   if (!mounted) return;
                   Navigator.pushNamedAndRemoveUntil(
-                      context, SignInWithPhone.routeName, (route) => false);
+                    context,
+                    SignInWithPhone.routeName,
+                    (route) => false,
+                  );
                 },
                 icon: const Icon(Icons.arrow_back),
               ),
               trailingWidget: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
                     Text(
-                      "Skip",
+                      'Skip',
                       style: kSkipHelper,
                     ),
                     kWidth10,
@@ -55,11 +59,11 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
               ),
             ),
             const Text(
-              "Register",
+              'Register',
               style: kHeading1,
             ),
             const Text(
-              "Create your new account",
+              'Create your new account',
               style: kHelper1,
             ),
             Padding(
@@ -69,11 +73,10 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 child: Column(
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Email",
+                          'Email',
                           style: kLabelPrimary,
                         ),
                         kHeight5,
@@ -84,7 +87,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                 onSaved: (p0) => setState(() {
                                   emailController.text = p0!;
                                 }),
-                                hintText: "Enter your email here",
+                                hintText: 'Enter your email here',
                               ),
                             ),
                           ],
@@ -93,11 +96,10 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                     ),
                     kHeight20,
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Password",
+                          'Password',
                           style: kLabelPrimary,
                         ),
                         kHeight5,
@@ -116,11 +118,10 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                     ),
                     kHeight20,
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Confirm Password",
+                          'Confirm Password',
                           style: kLabelPrimary,
                         ),
                         kHeight5,
@@ -139,7 +140,6 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                     ),
                     kHeight20,
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
                           children: const [
@@ -148,7 +148,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                             ),
                             kWidth10,
                             Text(
-                              "Or Sign Up with Mobile instead",
+                              'Or Sign Up with Mobile instead',
                               style: kHelper1,
                             ),
                             kWidth10,
@@ -160,11 +160,12 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                         kHeight10,
                         GestureDetector(
                           onTap: () => Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              SignUpWithPhone.routeName,
-                              (route) => false),
+                            context,
+                            SignUpWithPhone.routeName,
+                            (route) => false,
+                          ),
                           child: Image.asset(
-                            "assets/logos/phonelogo.png",
+                            'assets/logos/phonelogo.png',
                           ),
                         )
                       ],
@@ -181,9 +182,11 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                           ),
                         ),
                         kWidth5,
+                        // ignore: lines_longer_than_80_chars, lines_longer_than_80_chars
                         const Flexible(
                           child: Text(
-                              "By signing you agree to our term of use and privacy policy."),
+                            'By signing you agree to our term of use and privacy policy.',
+                          ),
                         ),
                       ],
                     ),
@@ -195,18 +198,22 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                           _formKey.currentState!.save();
                           try {
                             final x = await NetworkHelper().createUserWithEmail(
-                                email: emailController.text,
-                                password: passwordController.text);
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
                             if (x.statusCode == 201) {
                               if (!mounted) return;
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  SignInWithEmail.routeName, (route) => false);
+                              await Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                SignInWithEmail.routeName,
+                                (route) => false,
+                              );
                             }
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text(
-                                  "Something went wrong. Please try again.",
+                                  'Something went wrong. Please try again.',
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -214,7 +221,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                           }
                         }
                       },
-                      label: "Sign Up",
+                      label: 'Sign Up',
                     )
                   ],
                 ),
@@ -223,12 +230,12 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account?"),
+                const Text('Already have an account?'),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, SignInWithPhone.routeName);
                   },
-                  child: const Text("Login"),
+                  child: const Text('Login'),
                 ),
               ],
             )

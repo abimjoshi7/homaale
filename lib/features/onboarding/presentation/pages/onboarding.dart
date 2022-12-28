@@ -1,11 +1,13 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/onboarding/presentation/widgets/onboarding_main_body.dart';
 import 'package:cipher/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 
 class Onboarding extends StatefulWidget {
-  static const routeName = "/onboarding";
   const Onboarding({super.key});
+  static const routeName = '/onboarding';
 
   @override
   State<Onboarding> createState() => _OnboardingState();
@@ -19,29 +21,29 @@ class _OnboardingState extends State<Onboarding> {
     OnboardingMainBody(
       selectedIndex: 0,
       mainImage:
-          "assets/casual-life-3d-young-woman-working-on-laptop-and-holding-head.png",
-      headingText: "Welcome to Homaale",
+          'assets/casual-life-3d-young-woman-working-on-laptop-and-holding-head.png',
+      headingText: 'Welcome to Homaale',
       bodyText:
-          "Get connected to variety of services and collaborate with reliable people.",
+          'Get connected to variety of services and collaborate with reliable people.',
     ),
     OnboardingMainBody(
       selectedIndex: 1,
-      mainImage: "assets/Group 48099185.png",
-      headingText: "Define your requirements",
+      mainImage: 'assets/Group 48099185.png',
+      headingText: 'Define your requirements',
       bodyText:
-          "Post or apply for the tasks and be assured with our secured gateway.",
+          'Post or apply for the tasks and be assured with our secured gateway.',
     ),
     OnboardingMainBody(
       selectedIndex: 2,
-      mainImage: "assets/Casual life 3D - 580.png",
-      headingText: "Get the task completed",
-      bodyText: "Voila! Your task is done.",
+      mainImage: 'assets/Casual life 3D - 580.png',
+      headingText: 'Get the task completed',
+      bodyText: 'Voila! Your task is done.',
     ),
     OnboardingMainBody(
       selectedIndex: 3,
-      mainImage: "assets/casual-life-3d-piggy-bank-with-coins-1 3.png",
-      headingText: "Secure payments",
-      bodyText: "Get secure payment transactions & get bonus rewards.",
+      mainImage: 'assets/casual-life-3d-piggy-bank-with-coins-1 3.png',
+      headingText: 'Secure payments',
+      bodyText: 'Get secure payment transactions & get bonus rewards.',
     ),
   ];
 
@@ -62,7 +64,6 @@ class _OnboardingState extends State<Onboarding> {
             width: MediaQueryHelper.theWidth(context),
             color: const Color(0xff5c6096),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CustomHeader(
                   leadingWidget: IconButton(
@@ -75,12 +76,11 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
                   trailingWidget: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
                         Text(
-                          "Skip",
+                          'Skip',
                           style: kSkipHelper,
                         ),
                         kWidth10,
@@ -93,7 +93,7 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
                 ),
-                Image.asset("assets/homaale_logo_title_light.png"),
+                Image.asset('assets/homaale_logo_title_light.png'),
                 kHeight50,
                 widgetList[selectedIndex],
               ],

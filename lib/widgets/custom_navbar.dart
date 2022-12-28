@@ -19,33 +19,33 @@ class CustomNavBar extends StatelessWidget {
       child: Row(
         children: [
           Column(
-            children: [
+            children: const [
               Icon(Icons.home_rounded),
-              Text("Home"),
+              Text('Home'),
             ],
           ),
           Column(
-            children: [
+            children: const [
               Icon(Icons.search_rounded),
-              Text("Search"),
+              Text('Search'),
             ],
           ),
           Column(
-            children: [
+            children: const [
               Icon(Icons.add_circle_outline_outlined),
-              Text("Add"),
+              Text('Add'),
             ],
           ),
           Column(
-            children: [
+            children: const [
               Icon(Icons.calendar_today_rounded),
-              Text("Bookings"),
+              Text('Bookings'),
             ],
           ),
           Column(
-            children: [
+            children: const [
               Icon(Icons.settings),
-              Text("Account"),
+              Text('Account'),
             ],
           ),
         ],

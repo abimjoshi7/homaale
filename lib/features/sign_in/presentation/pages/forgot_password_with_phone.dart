@@ -5,8 +5,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordWithPhone extends StatefulWidget {
-  static const routeName = "/forgot-password-with-phone";
   const ForgotPasswordWithPhone({super.key});
+  static const routeName = '/forgot-password-with-phone';
 
   @override
   State<ForgotPasswordWithPhone> createState() =>
@@ -19,24 +19,15 @@ class _ForgotPasswordWithPhoneState extends State<ForgotPasswordWithPhone> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      leadingWidget: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          )),
+    return SignInScaffold(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           kHeight20,
           kHeight20,
-          const Text("Forgot Password", style: kHeading1),
+          const Text('Forgot Password', style: kHeading1),
           kHeight5,
           const Text(
-            "Recover your password",
+            'Recover your password',
             style: kHelper1,
           ),
           kHeight20,
@@ -45,10 +36,9 @@ class _ForgotPasswordWithPhoneState extends State<ForgotPasswordWithPhone> {
               padding: const EdgeInsets.all(20),
               child: SizedBox(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Phone", style: kLabelPrimary),
+                    const Text('Phone', style: kLabelPrimary),
                     kHeight10,
                     Row(
                       children: [
@@ -56,7 +46,7 @@ class _ForgotPasswordWithPhoneState extends State<ForgotPasswordWithPhone> {
                           child: Form(
                             key: _formKey,
                             child: CustomTextFormField(
-                              hintText: "Enter your phone number here",
+                              hintText: 'Enter your phone number here',
                               textInputType: TextInputType.number,
                               onSaved: (p0) => setState(
                                 () {
@@ -70,7 +60,7 @@ class _ForgotPasswordWithPhoneState extends State<ForgotPasswordWithPhone> {
                     ),
                     kHeight20,
                     const Text(
-                      "An OTP code will be sent to your phone number.",
+                      'An OTP code will be sent to your phone number.',
                       style: kBodyText1,
                     ),
                   ],
@@ -80,31 +70,32 @@ class _ForgotPasswordWithPhoneState extends State<ForgotPasswordWithPhone> {
           ),
           CustomElevatedButton(
             callback: () async {
-              print(phoneController.text);
               _formKey.currentState!.save();
               try {
                 final x = await NetworkHelper().fetchOTP(
-                  phone: "+977${phoneController.text}",
+                  phone: '+977${phoneController.text}',
                 );
                 if (x.statusCode == 201) {
                   if (!mounted) return;
-                  Navigator.pushNamed(
+                  await Navigator.pushNamed(
                     context,
                     ConfirmOTPSignIn.routeName,
-                    arguments: "+977${phoneController.text}",
+                    arguments: '+977${phoneController.text}',
                   );
                 }
               } catch (e) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text("Something went wrong. Please try again",
-                        textAlign: TextAlign.center),
+                    content: Text(
+                      'Something went wrong. Please try again',
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 );
               }
             },
-            label: "Continue",
+            label: 'Continue',
           ),
           kHeight50,
         ],

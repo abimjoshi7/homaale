@@ -1,12 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'widgets.dart';
 
 class SkillsSection extends StatelessWidget {
   const SkillsSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +14,20 @@ class SkillsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Skills"),
+          const Text('Skills'),
           kHeight10,
           Row(
             children: const [
               SkillBox(
-                label: "Planting",
+                label: 'Planting',
               ),
               kWidth10,
               SkillBox(
-                label: "Washing",
+                label: 'Washing',
               ),
               kWidth10,
               SkillBox(
-                label: "Cleaning",
+                label: 'Cleaning',
               ),
             ],
           )

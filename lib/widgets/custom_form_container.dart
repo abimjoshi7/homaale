@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class CustomFormContainer extends StatelessWidget {
   const CustomFormContainer({
-    Key? key,
-    this.label = "",
+    super.key,
+    this.label = '',
     this.trailingWidget = const SizedBox.shrink(),
     this.leadingWidget = const SizedBox.shrink(),
-  }) : super(key: key);
+  });
 
   final String label;
   final Widget trailingWidget;
@@ -27,7 +27,7 @@ class CustomFormContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

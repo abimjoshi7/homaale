@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 UserLoginRes userLoginResFromJson(String str) =>
-    UserLoginRes.fromJson(json.decode(str));
+    UserLoginRes.fromJson(json.decode(str) as Map<String, dynamic>);
 
 String userLoginResToJson(UserLoginRes data) => json.encode(data.toJson());
 
@@ -19,6 +19,15 @@ class UserLoginRes {
     this.hasProfile,
   });
 
+  factory UserLoginRes.fromJson(Map<String, dynamic> json) => UserLoginRes(
+        username: json['username'] as String?,
+        isVerified: json['is_verified'] as bool,
+        fcmToken: json['fcm_token'],
+        access: json['access'] as String?,
+        refresh: json['refresh'] as String?,
+        hasProfile: json['has_profile'] as bool,
+      );
+
   final String? username;
   final bool? isVerified;
   final dynamic fcmToken;
@@ -26,21 +35,12 @@ class UserLoginRes {
   final String? refresh;
   final bool? hasProfile;
 
-  factory UserLoginRes.fromJson(Map<String, dynamic> json) => UserLoginRes(
-        username: json["username"],
-        isVerified: json["is_verified"],
-        fcmToken: json["fcm_token"],
-        access: json["access"],
-        refresh: json["refresh"],
-        hasProfile: json["has_profile"],
-      );
-
   Map<String, dynamic> toJson() => {
-        "username": username,
-        "is_verified": isVerified,
-        "fcm_token": fcmToken,
-        "access": access,
-        "refresh": refresh,
-        "has_profile": hasProfile,
+        'username': username,
+        'is_verified': isVerified,
+        'fcm_token': fcmToken,
+        'access': access,
+        'refresh': refresh,
+        'has_profile': hasProfile,
       };
 }

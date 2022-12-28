@@ -1,3 +1,5 @@
+// ignore_for_file: strict_raw_type, inference_failure_on_function_invocation
+
 import 'package:cipher/api_service.dart';
 import 'package:dio/dio.dart';
 
@@ -12,8 +14,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   Future createUserWithEmailRemote(String email, String password) async {
     try {
       final res = await _dio.post(
-        "$baseIPSecondary:$portNumber/api/$versionNumber/user/signup/",
-        data: {"email": email, "password": password},
+        '$baseIPSecondary:$portNumber/api/$versionNumber/user/signup/',
+        data: {'email': email, 'password': password},
       );
       return res;
     } catch (e) {
@@ -25,8 +27,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   Future createUserWithPhoneRemote(String phone, String password) async {
     try {
       final res = await _dio.post(
-        "$baseIPSecondary:$portNumber/api/$versionNumber/user/signup/",
-        data: {"phone": phone, "password": password},
+        '$baseIPSecondary:$portNumber/api/$versionNumber/user/signup/',
+        data: {'phone': phone, 'password': password},
       );
       return res;
     } catch (e) {

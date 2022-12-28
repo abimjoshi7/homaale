@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:cipher/features/sign_up/data/models/user_model.dart';
 import 'package:cipher/features/sign_up/domain/usecases/create_user_with_email_usecase.dart';
 import 'package:cipher/features/sign_up/domain/usecases/create_user_with_phone_usecase.dart';
@@ -9,8 +11,6 @@ part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final CreateUserWithEmailUsecase createUserWithEmailUsecase;
-  final CreateUserWithPhoneUsecase createUserWithPhoneUsecase;
   SignUpBloc(this.createUserWithEmailUsecase, this.createUserWithPhoneUsecase)
       : super(SignUpInitial()) {
     on<SignUpRequestedWithEmail>(
@@ -22,11 +22,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         if (res.statusCode == 201) {
           emit(
             SignUpSuccess(
-              UserModel.fromJson(res.data),
+              UserModel.fromJson(res.data as Map<String, dynamic>),
             ),
           );
         } else {
-          emit(SignUpFailure(res.statusMessage!));
+          emit(SignUpFailure(res.statusMessage! as String));
         }
       },
     );
@@ -40,23 +40,25 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         if (res.statusCode == 201) {
           emit(
             SignUpSuccess(
-              UserModel.fromJson(res.data),
+              UserModel.fromJson(res.data as Map<String, dynamic>),
             ),
           );
         } else {
-          emit(SignUpFailure(res.statusMessage!));
+          emit(SignUpFailure(res.statusMessage! as String));
         }
       },
     );
   }
+  final CreateUserWithEmailUsecase createUserWithEmailUsecase;
+  final CreateUserWithPhoneUsecase createUserWithPhoneUsecase;
 
-  Future<Response> _onSignUpRequestedWithEmail(
+  Future<dynamic> _onSignUpRequestedWithEmail(
       String email, String password) async {
     final res = await createUserWithEmailUsecase.call(email, password);
     return res;
   }
 
-  Future<Response> _onSignUpRequestedWithPhone(
+  Future<dynamic> _onSignUpRequestedWithPhone(
       String phone, String password) async {
     final res = await createUserWithPhoneUsecase.call(phone, password);
     return res;

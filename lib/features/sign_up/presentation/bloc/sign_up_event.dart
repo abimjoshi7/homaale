@@ -5,17 +5,15 @@ abstract class SignUpEvent extends Equatable {
 }
 
 class SignUpRequestedWithEmail extends SignUpEvent {
-  final UserModel userModel;
-
   const SignUpRequestedWithEmail(this.userModel);
+  final UserModel userModel;
   @override
   List<Object?> get props => [userModel];
 }
 
 class SignUpRequestedWithPhone extends SignUpEvent {
-  final UserModel userModel;
-
   const SignUpRequestedWithPhone(this.userModel);
+  final UserModel userModel;
   @override
   List<Object?> get props => [userModel];
 }

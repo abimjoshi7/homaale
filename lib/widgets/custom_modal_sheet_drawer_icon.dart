@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomModalSheetDrawerIcon extends StatelessWidget {
   const CustomModalSheetDrawerIcon({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: FractionallySizedBox(
         widthFactor: 0.1,
         child: Container(

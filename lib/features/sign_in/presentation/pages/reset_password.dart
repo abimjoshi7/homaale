@@ -6,8 +6,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
-  static const routeName = "/reset-password";
   const ResetPassword({super.key});
+  static const routeName = '/reset-password';
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -19,25 +19,15 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    return CustomScaffold(
-      leadingWidget: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
-      ),
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    return SignInScaffold(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           kHeight50,
-          const Text("Reset Password", style: kHeading1),
+          const Text('Reset Password', style: kHeading1),
           kHeight5,
           const Text(
-            "Recover your password",
+            'Recover your password',
             style: kHelper1,
           ),
           kHeight20,
@@ -46,10 +36,9 @@ class _ResetPasswordState extends State<ResetPassword> {
               padding: const EdgeInsets.all(20),
               child: SizedBox(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("New Password", style: kLabelPrimary),
+                    const Text('New Password', style: kLabelPrimary),
                     kHeight10,
                     Row(
                       children: [
@@ -65,7 +54,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       ],
                     ),
                     kHeight20,
-                    const Text("Confirm Password", style: kLabelPrimary),
+                    const Text('Confirm Password', style: kLabelPrimary),
                     kHeight10,
                     Row(
                       children: [
@@ -89,9 +78,9 @@ class _ResetPasswordState extends State<ResetPassword> {
             callback: () async {
               final x = await NetworkHelper().resetPassword(
                 otpReq: OtpReq(
-                  scope: args["scope"],
-                  otp: args["otp"],
-                  phone: args["phone"],
+                  scope: args?['scope'] as String,
+                  otp: args?['otp'] as String,
+                  phone: args?['phone'] as String,
                   password: passwordController.text,
                   confirmPassword: confirmPasswordController.text,
                 ),
@@ -104,10 +93,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 );
                 await Navigator.pushNamedAndRemoveUntil(
-                    context, SignInWithPhone.routeName, (route) => false);
+                  context,
+                  SignInWithPhone.routeName,
+                  (route) => false,
+                );
               }
             },
-            label: "Continue",
+            label: 'Continue',
           ),
           kHeight50
         ],

@@ -5,8 +5,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordWithEmail extends StatefulWidget {
-  static const routeName = "/forgot-password-with-email";
   const ForgotPasswordWithEmail({super.key});
+  static const routeName = '/forgot-password-with-email';
 
   @override
   State<ForgotPasswordWithEmail> createState() =>
@@ -18,24 +18,15 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      leadingWidget: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          )),
+    return SignInScaffold(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           kHeight20,
           kHeight20,
-          const Text("Forgot Password", style: kHeading1),
+          const Text('Forgot Password', style: kHeading1),
           kHeight5,
           const Text(
-            "Recover your password",
+            'Recover your password',
             style: kHelper1,
           ),
           kHeight20,
@@ -43,10 +34,9 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
             padding: const EdgeInsets.all(20),
             child: SizedBox(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Email", style: kLabelPrimary),
+                  const Text('Email', style: kLabelPrimary),
                   kHeight10,
                   Row(
                     children: [
@@ -59,7 +49,7 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
                                 emailController.text = p0!;
                               },
                             ),
-                            hintText: "Enter your email here",
+                            hintText: 'Enter your email here',
                           ),
                         ),
                       ),
@@ -67,7 +57,7 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
                   ),
                   kHeight20,
                   const Text(
-                    "An OTP code will be sent to your email.",
+                    'An OTP code will be sent to your email.',
                     style: kBodyText1,
                   ),
                   kHeight20,
@@ -83,19 +73,24 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
                       _formKey.currentState!.save();
                       try {
                         final x = await NetworkHelper().resetPasswordwithEmail(
-                            email: emailController.text);
+                          email: emailController.text,
+                        );
                         if (x.statusCode == 201) {
                           if (!mounted) return;
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              SignInWithEmail.routeName, (route) => false);
+                          await Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            SignInWithEmail.routeName,
+                            (route) => false,
+                          );
                         }
                       } catch (e) {
                         if (!mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
-                                "Something went wrong. Please try again",
-                                textAlign: TextAlign.center),
+                              'Something went wrong. Please try again',
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         );
                       }
@@ -104,7 +99,7 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
                       // print(x.statusCode);
                       // print(x.statusMessage);
                     },
-                    label: "Continue",
+                    label: 'Continue',
                   )
                 ],
               ),

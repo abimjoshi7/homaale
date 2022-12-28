@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatelessWidget {
   const CustomCheckBox({
-    Key? key,
+    super.key,
     this.isChecked = false,
     required this.onTap,
     this.boxColor = kColorSecondary,
-  }) : super(key: key);
+  });
   final bool isChecked;
   final VoidCallback onTap;
   final Color boxColor;

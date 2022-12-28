@@ -1,12 +1,11 @@
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class SplashPage extends StatefulWidget {
-  static const routeName = "/splash-page";
   const SplashPage({super.key});
+  static const routeName = '/splash-page';
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -20,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
           image: DecorationImage(
             fit: BoxFit.contain,
             image: AssetImage(
-              "assets/homaale-logo.png",
+              'assets/homaale-logo.png',
             ),
           ),
         );
@@ -29,14 +28,14 @@ class _SplashPageState extends State<SplashPage> {
           image: DecorationImage(
             fit: BoxFit.contain,
             image: AssetImage(
-              "assets/homaale_logo_title.png",
+              'assets/homaale_logo_title.png',
             ),
           ),
         );
 
     return Stack(
       children: [
-        Image.asset("assets/splash_ellipse.png"),
+        Image.asset('assets/splash_ellipse.png'),
         Positioned(
           left: MediaQueryHelper.theWidth(context) * 0.21,
           top: MediaQueryHelper.theHeight(context) * 0.14,
@@ -58,7 +57,10 @@ class _SplashPageState extends State<SplashPage> {
             curve: Curves.elasticIn,
             onEnd: () {
               Navigator.pushNamedAndRemoveUntil(
-                  context, Onboarding.routeName, (route) => false);
+                context,
+                Onboarding.routeName,
+                (route) => false,
+              );
             },
           ),
         ),

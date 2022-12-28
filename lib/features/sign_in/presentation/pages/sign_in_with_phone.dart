@@ -1,6 +1,6 @@
+// ignore_for_file: inference_failure_on_function_invocation
+
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/preference/presentation/pages/preference.dart';
-import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
 import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
@@ -10,198 +10,168 @@ import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/small_box_container.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SignInWithPhone extends StatefulWidget {
-  static const routeName = "/sign-in-with-phone";
   const SignInWithPhone({super.key});
+  static const routeName = '/sign-in-with-phone';
 
   @override
   State<SignInWithPhone> createState() => _SignInWithPhoneState();
 }
 
 class _SignInWithPhoneState extends State<SignInWithPhone> {
-  bool isChecked = false;
+  bool keepLogged = false;
   final _formKey = GlobalKey<FormState>();
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      leadingWidget: IconButton(
-        onPressed: () {
-          // Navigator.pop(context);
-        },
-        icon: const Icon(
-          Icons.arrow_back,
-          color: Color(0xffdee2e6),
-        ),
-      ),
-      trailingWidget: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(
-            context,
-            Preference.routeName,
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Text(
-                "Skip",
-                style: kSkipHelper,
-              ),
-              kWidth10,
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 12,
-                color: Color(0xffdee2e6),
-              )
-            ],
-          ),
-        ),
-      ),
+    return SignInScaffold(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             kHeight20,
-            const Text("Welcome", style: kHeading1),
+            const Text('Welcome', style: kHeading1),
             const Text(
-              "Login to your account",
+              'Login to your account',
               style: kHelper1,
             ),
-            kHeight20,
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Phone",
-                        style: kLabelPrimary,
-                      ),
-                      kHeight5,
-                      Row(
-                        children: [
-                          Flexible(
-                            child: CustomTextFormField(
-                              onSaved: (p0) => setState(
-                                () {
-                                  phoneNumberController.text = p0!;
-                                },
-                              ),
-                              textInputType: TextInputType.number,
-                              hintText: "Mobile Number",
-                              prefixWidget: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset("assets/nepalflag.png"),
-                                    const Text(
-                                      "+977",
-                                      style: kBodyText1,
-                                    ),
-                                    const Icon(Icons.arrow_drop_down)
-                                  ],
+            Expanded(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Phone',
+                          style: kLabelPrimary,
+                        ),
+                        kHeight5,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: CustomTextFormField(
+                                onSaved: (p0) => setState(
+                                  () {
+                                    phoneNumberController.text = p0!;
+                                  },
+                                ),
+                                textInputType: TextInputType.number,
+                                hintText: 'Mobile Number',
+                                prefixWidget: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset('assets/nepalflag.png'),
+                                      const Text(
+                                        '+977',
+                                        style: kBodyText1,
+                                      ),
+                                      const Icon(Icons.arrow_drop_down)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          kWidth10,
-                          GestureDetector(
-                            onTap: () {},
-                            child: const SmallBoxContainer(
-                              child: Icon(
-                                Icons.phone_android_sharp,
-                                color: Color(0xff5C6096),
+                            kWidth10,
+                            GestureDetector(
+                              onTap: () {},
+                              child: const SmallBoxContainer(
+                                child: Icon(
+                                  Icons.phone_android_sharp,
+                                  color: Color(0xff5C6096),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    kHeight20,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Password',
+                          style: kLabelPrimary,
+                        ),
+                        kHeight5,
+                        Row(
+                          children: [
+                            Flexible(
+                              child: CustomTextFormField(
+                                onSaved: (p0) => setState(
+                                  () {
+                                    passwordController.text = p0!;
+                                  },
+                                ),
+                                hintText: 'Enter your password here',
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  kHeight20,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Password",
-                        style: kLabelPrimary,
-                      ),
-                      kHeight5,
-                      Row(
-                        children: [
-                          Flexible(
-                            child: CustomTextFormField(
-                              onSaved: (p0) => setState(
+                          ],
+                        ),
+                      ],
+                    ),
+                    kHeight20,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            CustomCheckBox(
+                              isChecked: keepLogged,
+                              onTap: () => setState(
                                 () {
-                                  passwordController.text = p0!;
+                                  keepLogged = !keepLogged;
                                 },
                               ),
-                              hintText: "Enter your password here",
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    CustomCheckBox(
-                      isChecked: isChecked,
-                      onTap: () => setState(
-                        () {
-                          isChecked = !isChecked;
-                        },
-                      ),
+                            kWidth5,
+                            const Text(
+                              'Remember me',
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              ForgotPasswordWithPhone.routeName,
+                            );
+                          },
+                          child: const Text('Forgot password?'),
+                        )
+                      ],
                     ),
-                    kWidth5,
-                    const Text(
-                      "Remember me",
+                    kHeight20,
+                    CustomElevatedButton(
+                      callback: () async {
+                        _formKey.currentState!.save();
+                        final x = await NetworkHelper().logInUser(
+                          userLoginReq: UserLoginReq(
+                            username: '+977${phoneNumberController.text}',
+                            password: passwordController.text,
+                          ),
+                        );
+                        if (kDebugMode) {
+                          print(
+                            x.toJson(),
+                          );
+                        }
+                      },
+                      label: 'Login',
                     ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                        context, ForgotPasswordWithPhone.routeName);
-                  },
-                  child: const Text("Forgot password?"),
-                )
-              ],
-            ),
-            kHeight10,
-            CustomElevatedButton(
-              callback: () async {
-                _formKey.currentState!.save();
-                final x = await NetworkHelper().logInUser(
-                  userLoginReq: UserLoginReq(
-                    username: "+977${phoneNumberController.text}",
-                    password: passwordController.text,
-                  ),
-                );
-                print(
-                  x.toJson(),
-                );
-              },
-              label: "Login",
+              ),
             ),
             TextButton(
               onPressed: () async {
@@ -217,7 +187,6 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                       ),
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             kHeight50,
                             Container(
@@ -228,21 +197,21 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                             kHeight20,
                             const Text("Verify it's you"),
                             kHeight10,
-                            const Text("or"),
+                            const Text('or'),
                             kHeight10,
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Use"),
+                                const Text('Use'),
                                 kWidth10,
                                 GestureDetector(
-                                    onTap: () {},
-                                    child: const Text(
-                                      "MPIN",
-                                      style:
-                                          TextStyle(color: Color(0xff3EAEFF)),
-                                    )),
+                                  onTap: () {},
+                                  child: const Text(
+                                    'MPIN',
+                                    style: TextStyle(color: Color(0xff3EAEFF)),
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -254,7 +223,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                         },
                         mainColor: Colors.white,
                         textColor: const Color(0xff3D3F7D),
-                        label: "Cancel",
+                        label: 'Cancel',
                       ),
                       kHeight20
                     ],
@@ -267,12 +236,13 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                   Icon(Icons.fingerprint_rounded),
                   kWidth5,
                   Text(
-                    "Tap to login with fingerprint",
+                    'Tap to login with fingerprint',
                     style: kBodyText1,
                   )
                 ],
               ),
             ),
+            kHeight50,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -281,7 +251,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                 ),
                 kWidth5,
                 Text(
-                  "Or login with",
+                  'Or login with',
                   style: kHelper1,
                 ),
                 kWidth5,
@@ -295,10 +265,13 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () =>
-                      Navigator.pushNamed(context, SignInWithEmail.routeName),
+                  onTap: () => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    SignInWithEmail.routeName,
+                    (route) => false,
+                  ),
                   child: Image.asset(
-                    "assets/logos/maillogo.png",
+                    'assets/logos/maillogo.png',
                   ),
                 ),
                 kWidth20,
@@ -307,7 +280,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                     context,
                     GoogleLogin.routeName,
                   ),
-                  child: Image.asset("assets/logos/googlelogo.png"),
+                  child: Image.asset('assets/logos/googlelogo.png'),
                 ),
                 kWidth20,
                 GestureDetector(
@@ -315,7 +288,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                     context,
                     FacebookLogin.routeName,
                   ),
-                  child: Image.asset("assets/logos/fblogo.png"),
+                  child: Image.asset('assets/logos/fblogo.png'),
                 ),
               ],
             ),
@@ -332,11 +305,12 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                     );
                   },
                   child: const Text(
-                    "Sign Up",
+                    'Sign Up',
                   ),
                 ),
               ],
-            )
+            ),
+            kHeight20,
           ],
         ),
       ),

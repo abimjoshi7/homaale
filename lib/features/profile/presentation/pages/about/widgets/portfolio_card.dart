@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class PortfolioCard extends StatelessWidget {
   const PortfolioCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.label,
-  }) : super(key: key);
+  });
 
   final String imagePath;
   final String label;
@@ -24,7 +24,7 @@ class PortfolioCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Text(label),
           )
         ],

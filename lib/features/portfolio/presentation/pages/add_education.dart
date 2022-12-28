@@ -4,8 +4,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AddEducation extends StatelessWidget {
-  static const routeName = "/add-education";
   const AddEducation({super.key});
+  static const routeName = '/add-education';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class AddEducation extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    "Add Education",
+                    'Add Education',
                   ),
                   IconButton(
                     onPressed: () {},
@@ -44,26 +44,26 @@ class AddEducation extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "School",
+                        'School',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
                       const CustomTextFormField(
-                        hintText: "Eg: Tribhuvan University",
+                        hintText: 'Eg: Tribhuvan University',
                       ),
                       kHeight20,
                       const Text(
-                        "Description",
+                        'Description',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
                       const CustomTextFormField(
                         maxLines: 3,
-                        hintText: "Write something...",
+                        hintText: 'Write something...',
                       ),
                       kHeight20,
                       const Text(
-                        "Degree",
+                        'Degree',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
@@ -72,21 +72,21 @@ class AddEducation extends StatelessWidget {
                       ),
                       kHeight20,
                       const Text(
-                        "Field of Study",
+                        'Field of Study',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
                       const CustomTextFormField(
-                        hintText: "Eg: Business",
+                        hintText: 'Eg: Business',
                       ),
                       kHeight20,
                       const Text(
-                        "Location",
+                        'Location',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
-                      CustomFormContainer(
-                        label: "Eg: New Baneshwor, Kathmandu",
+                      const CustomFormContainer(
+                        label: 'Eg: New Baneshwor, Kathmandu',
                         leadingWidget: Icon(
                           Icons.location_on_outlined,
                           color: kColorPrimary,
@@ -94,12 +94,12 @@ class AddEducation extends StatelessWidget {
                       ),
                       kHeight20,
                       const Text(
-                        "Employment Type",
+                        'Employment Type',
                         style: kLabelPrimary,
                       ),
                       kHeight5,
                       const CustomFormContainer(
-                        label: "Please Select",
+                        label: 'Please Select',
                         trailingWidget:
                             Icon(Icons.keyboard_arrow_down_outlined),
                       ),
@@ -108,11 +108,11 @@ class AddEducation extends StatelessWidget {
                         children: [
                           CustomCheckBox(
                             onTap: () {},
-                            boxColor: Color(0xff0693E3),
+                            boxColor: const Color(0xff0693E3),
                             isChecked: true,
                           ),
                           kWidth10,
-                          Text("Save as location"),
+                          const Text('Save as location'),
                         ],
                       ),
                       kHeight20,
@@ -121,14 +121,14 @@ class AddEducation extends StatelessWidget {
                           Flexible(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Issued Date",
+                              children: const [
+                                Text(
+                                  'Issued Date',
                                   style: kLabelPrimary,
                                 ),
                                 kHeight5,
                                 CustomFormContainer(
-                                  label: "03/06/1999",
+                                  label: '03/06/1999',
                                   leadingWidget: Icon(
                                     Icons.calendar_month_rounded,
                                     color: kColorPrimary,
@@ -143,20 +143,20 @@ class AddEducation extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  children: [
-                                    const Text(
-                                      "End Date",
+                                  children: const [
+                                    Text(
+                                      'End Date',
                                       style: kLabelPrimary,
                                     ),
                                     Text(
-                                      " (Expected)",
+                                      ' (Expected)',
                                       style: kHelper1,
                                     )
                                   ],
                                 ),
                                 kHeight5,
-                                CustomFormContainer(
-                                  label: "03/06/1999",
+                                const CustomFormContainer(
+                                  label: '03/06/1999',
                                   leadingWidget: Icon(
                                     Icons.calendar_month_rounded,
                                     color: kColorPrimary,
@@ -175,7 +175,7 @@ class AddEducation extends StatelessWidget {
                             AddCertifications.routeName,
                           );
                         },
-                        label: "Add",
+                        label: 'Add',
                       ),
                     ],
                   ),

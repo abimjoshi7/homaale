@@ -1,11 +1,9 @@
-import 'package:dio/dio.dart';
-
 abstract class UserSignUpRepo {
-  Future<Response<dynamic>> createUserWithPhone({
+  Future<dynamic> createUserWithPhone({
     required String phoneNumber,
     required String password,
   });
-  Future<Response<dynamic>> createUserWithEmail({
+  Future<dynamic> createUserWithEmail({
     required String email,
     required String password,
   });

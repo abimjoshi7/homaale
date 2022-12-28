@@ -9,19 +9,18 @@ import 'package:cipher/features/sign_in/presentation/pages/confirm_otp_sign_in.d
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
+import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/reset_password.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
-import 'features/sign_in/presentation/pages/google_login.dart';
-import 'features/sign_in/presentation/pages/sign_in_with_phone.dart';
-
-class RouteService {
-  static Route onGenerate(RouteSettings settings) {
+class AppRouter {
+  static Route<dynamic> onGenerate(RouteSettings settings) {
     switch (settings.name) {
       case SplashPage.routeName:
         return MaterialPageRoute(
@@ -106,7 +105,7 @@ class RouteService {
         return MaterialPageRoute(
           builder: (context) => const Scaffold(
             body: Center(
-              child: Text("Page not found"),
+              child: Text('Page not found'),
             ),
           ),
         );

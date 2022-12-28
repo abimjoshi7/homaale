@@ -3,14 +3,14 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 mixin Ranking {
-  showRanking(BuildContext context) async {
-    await showModalBottomSheet(
+  dynamic showRanking(BuildContext context) async {
+    await showModalBottomSheet<Widget>(
       context: context,
       builder: (context) => Column(
         children: [
           const CustomModalSheetDrawerIcon(),
           const Text(
-            "Ranking",
+            'Ranking',
             style: kHeading2,
           ),
           kHeight20,
@@ -24,7 +24,7 @@ mixin Ranking {
                       image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "assets/Frame 48100572.png",
+                          'assets/Frame 48100572.png',
                         ),
                       ),
                     ),
@@ -37,7 +37,7 @@ mixin Ranking {
                       image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "assets/Frame 48100573.png",
+                          'assets/Frame 48100573.png',
                         ),
                       ),
                     ),
@@ -50,7 +50,7 @@ mixin Ranking {
                       image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "assets/Frame 48100574.png",
+                          'assets/Frame 48100574.png',
                         ),
                       ),
                     ),
@@ -63,7 +63,7 @@ mixin Ranking {
                       image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: AssetImage(
-                          "assets/Frame 48100575.png",
+                          'assets/Frame 48100575.png',
                         ),
                       ),
                     ),

@@ -11,9 +11,9 @@ class DocumentsProfile extends StatelessWidget {
       child: GridView.builder(
         itemCount: 5,
         itemBuilder: (context, index) => const DocumentTextCard(
-          imagePath: "assets/Casual life 3D - 39.png",
-          label: "Registration.jpg",
-          iconPath: "assets/2.png",
+          imagePath: 'assets/Casual life 3D - 39.png',
+          label: 'Registration.jpg',
+          iconPath: 'assets/2.png',
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

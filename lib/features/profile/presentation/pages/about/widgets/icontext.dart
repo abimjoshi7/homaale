@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {
   const IconText({
-    Key? key,
+    super.key,
     required this.label,
     required this.widget,
-  }) : super(key: key);
+  });
 
   final Widget widget;
   final String label;

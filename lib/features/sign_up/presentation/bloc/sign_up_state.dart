@@ -10,17 +10,15 @@ class SignUpInitial extends SignUpState {
 }
 
 class SignUpSuccess extends SignUpState {
-  final UserModel userModel;
-
   const SignUpSuccess(this.userModel);
+  final UserModel userModel;
   @override
   List<Object?> get props => [userModel];
 }
 
 class SignUpFailure extends SignUpState {
-  final String error;
-
   const SignUpFailure(this.error);
+  final String error;
   @override
   List<Object?> get props => [error];
 }

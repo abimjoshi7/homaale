@@ -4,7 +4,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     this.theHeight = 48,
-    this.hintText = "",
+    this.hintText = '',
     this.prefixWidget,
     this.value,
     this.onSaved,
@@ -40,7 +40,9 @@ class CustomTextFormField extends StatelessWidget {
         constraints: BoxConstraints(minHeight: theHeight),
         hintText: hintText,
         hintStyle: const TextStyle(
-            color: Color(0xff9CA0C1), fontWeight: FontWeight.w400),
+          color: Color(0xff9CA0C1),
+          fontWeight: FontWeight.w400,
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),

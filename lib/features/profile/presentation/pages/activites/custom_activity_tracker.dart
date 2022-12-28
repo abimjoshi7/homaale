@@ -1,6 +1,23 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 
 class OrderTracker extends StatefulWidget {
+  const OrderTracker({
+    super.key,
+    required this.status,
+    this.orderTitleAndDateList,
+    this.shippedTitleAndDateList,
+    this.outOfDeliveryTitleAndDateList,
+    this.deliveredTitleAndDateList,
+    this.activeColor,
+    this.inActiveColor,
+    this.headingTitleStyle,
+    this.headingDateTextStyle,
+    this.subTitleTextStyle,
+    this.subDateTextStyle,
+  });
+
   ///This variable is used to set status of order, this get only enum which is already in a package below example present.
   /// Status.order
   final Status? status;
@@ -34,21 +51,6 @@ class OrderTracker extends StatefulWidget {
 
   /// This variable is used to change style of sub date text.
   final TextStyle? subDateTextStyle;
-
-  const OrderTracker(
-      {Key? key,
-      required this.status,
-      this.orderTitleAndDateList,
-      this.shippedTitleAndDateList,
-      this.outOfDeliveryTitleAndDateList,
-      this.deliveredTitleAndDateList,
-      this.activeColor,
-      this.inActiveColor,
-      this.headingTitleStyle,
-      this.headingDateTextStyle,
-      this.subTitleTextStyle,
-      this.subDateTextStyle})
-      : super(key: key);
 
   @override
   State<OrderTracker> createState() => _OrderTrackerState();
@@ -96,7 +98,7 @@ class _OrderTrackerState extends State<OrderTracker>
               controller?.stop();
               controller2?.stop();
               isFirst = true;
-              controller2?.forward(from: 0.0);
+              controller2?.forward(from: 0);
             }
             setState(() {});
           },
@@ -111,7 +113,7 @@ class _OrderTrackerState extends State<OrderTracker>
             controller2?.stop();
             controller3?.stop();
             isSecond = true;
-            controller3?.forward(from: 0.0);
+            controller3?.forward(from: 0);
           }
           setState(() {});
         });
@@ -127,7 +129,7 @@ class _OrderTrackerState extends State<OrderTracker>
             controller2?.stop();
             controller3?.stop();
             isFirst = true;
-            controller2?.forward(from: 0.0);
+            controller2?.forward(from: 0);
           }
           setState(() {});
         });
@@ -142,7 +144,7 @@ class _OrderTrackerState extends State<OrderTracker>
               controller2?.stop();
               controller3?.stop();
               isSecond = true;
-              controller3?.forward(from: 0.0);
+              controller3?.forward(from: 0);
             }
             setState(() {});
           },
@@ -161,9 +163,9 @@ class _OrderTrackerState extends State<OrderTracker>
         });
     }
 
-    controller?.repeat(reverse: false);
-    controller2?.repeat(reverse: false);
-    controller3?.repeat(reverse: false);
+    controller?.repeat();
+    controller2?.repeat();
+    controller3?.repeat();
     super.initState();
   }
 
@@ -173,7 +175,6 @@ class _OrderTrackerState extends State<OrderTracker>
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -181,8 +182,9 @@ class _OrderTrackerState extends State<OrderTracker>
                   height: 15,
                   width: 15,
                   decoration: BoxDecoration(
-                      color: widget.activeColor ?? Colors.green,
-                      borderRadius: BorderRadius.circular(50)),
+                    color: widget.activeColor ?? Colors.green,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
@@ -191,12 +193,15 @@ class _OrderTrackerState extends State<OrderTracker>
                   TextSpan(
                     children: [
                       TextSpan(
-                          text: "Task Created Successfully",
-                          style: widget.headingTitleStyle ??
-                              const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                        text: 'Task Created Successfully',
+                        style: widget.headingTitleStyle ??
+                            const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                       TextSpan(
-                        text: " Today",
+                        text: ' Today',
                         style: widget.headingDateTextStyle ??
                             const TextStyle(fontSize: 16, color: Colors.grey),
                       ),
@@ -231,39 +236,41 @@ class _OrderTrackerState extends State<OrderTracker>
                 ),
                 Expanded(
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.orderTitleAndDateList?[index].title ?? "",
-                              style: widget.subTitleTextStyle ??
-                                  const TextStyle(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              widget.orderTitleAndDateList?[index].date ?? "",
-                              style: widget.subDateTextStyle ??
-                                  TextStyle(
-                                      fontSize: 14, color: Colors.grey[300]),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 4,
-                        );
-                      },
-                      itemCount: widget.orderTitleAndDateList != null &&
-                              widget.orderTitleAndDateList!.isNotEmpty
-                          ? widget.orderTitleAndDateList!.length
-                          : 0),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.orderTitleAndDateList?[index].title ?? '',
+                            style: widget.subTitleTextStyle ??
+                                const TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            widget.orderTitleAndDateList?[index].date ?? '',
+                            style: widget.subDateTextStyle ??
+                                TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[300],
+                                ),
+                          )
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 4,
+                      );
+                    },
+                    itemCount: widget.orderTitleAndDateList != null &&
+                            widget.orderTitleAndDateList!.isNotEmpty
+                        ? widget.orderTitleAndDateList!.length
+                        : 0,
+                  ),
                 )
               ],
             ),
@@ -271,7 +278,6 @@ class _OrderTrackerState extends State<OrderTracker>
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -279,15 +285,14 @@ class _OrderTrackerState extends State<OrderTracker>
                   height: 15,
                   width: 15,
                   decoration: BoxDecoration(
-                      color: (widget.status?.name == Status.selected.name ||
-                                  widget.status?.name ==
-                                      Status.confirmed.name ||
-                                  widget.status?.name ==
-                                      Status.completed.name) &&
-                              isFirst == true
-                          ? widget.activeColor ?? Colors.green
-                          : widget.inActiveColor ?? Colors.grey[300],
-                      borderRadius: BorderRadius.circular(50)),
+                    color: (widget.status?.name == Status.selected.name ||
+                                widget.status?.name == Status.confirmed.name ||
+                                widget.status?.name == Status.completed.name) &&
+                            isFirst == true
+                        ? widget.activeColor ?? Colors.green
+                        : widget.inActiveColor ?? Colors.grey[300],
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
@@ -296,10 +301,13 @@ class _OrderTrackerState extends State<OrderTracker>
                   TextSpan(
                     children: [
                       TextSpan(
-                          text: "Harry Smith has started the task ",
-                          style: widget.headingTitleStyle ??
-                              const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                        text: 'Harry Smith has started the task ',
+                        style: widget.headingTitleStyle ??
+                            const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                       TextSpan(
                         text: " Fri, 28th Mar '22",
                         style: widget.headingDateTextStyle ??
@@ -338,40 +346,41 @@ class _OrderTrackerState extends State<OrderTracker>
                 ),
                 Expanded(
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.shippedTitleAndDateList?[index].title ??
-                                  "",
-                              style: widget.subTitleTextStyle ??
-                                  const TextStyle(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              widget.shippedTitleAndDateList?[index].date ?? "",
-                              style: widget.subDateTextStyle ??
-                                  TextStyle(
-                                      fontSize: 14, color: Colors.grey[300]),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 4,
-                        );
-                      },
-                      itemCount: widget.shippedTitleAndDateList != null &&
-                              widget.shippedTitleAndDateList!.isNotEmpty
-                          ? widget.shippedTitleAndDateList!.length
-                          : 0),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.shippedTitleAndDateList?[index].title ?? '',
+                            style: widget.subTitleTextStyle ??
+                                const TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            widget.shippedTitleAndDateList?[index].date ?? '',
+                            style: widget.subDateTextStyle ??
+                                TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[300],
+                                ),
+                          )
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 4,
+                      );
+                    },
+                    itemCount: widget.shippedTitleAndDateList != null &&
+                            widget.shippedTitleAndDateList!.isNotEmpty
+                        ? widget.shippedTitleAndDateList!.length
+                        : 0,
+                  ),
                 )
               ],
             ),
@@ -379,7 +388,6 @@ class _OrderTrackerState extends State<OrderTracker>
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -387,13 +395,13 @@ class _OrderTrackerState extends State<OrderTracker>
                   height: 15,
                   width: 15,
                   decoration: BoxDecoration(
-                      color: (widget.status?.name == Status.confirmed.name ||
-                                  widget.status?.name ==
-                                      Status.completed.name) &&
-                              isSecond == true
-                          ? widget.activeColor ?? Colors.green
-                          : widget.inActiveColor ?? Colors.grey[300],
-                      borderRadius: BorderRadius.circular(50)),
+                    color: (widget.status?.name == Status.confirmed.name ||
+                                widget.status?.name == Status.completed.name) &&
+                            isSecond == true
+                        ? widget.activeColor ?? Colors.green
+                        : widget.inActiveColor ?? Colors.grey[300],
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
@@ -404,21 +412,25 @@ class _OrderTrackerState extends State<OrderTracker>
                       TextSpan(
                         children: [
                           TextSpan(
-                              text: "You confirmed Harry Smith for your task ",
-                              style: widget.headingTitleStyle ??
-                                  const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
+                            text: 'You confirmed Harry Smith for your task ',
+                            style: widget.headingTitleStyle ??
+                                const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
                           TextSpan(
-                            text: "Today",
+                            text: 'Today',
                             style: widget.headingDateTextStyle ??
                                 const TextStyle(
-                                    fontSize: 16, color: Colors.grey),
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
                           ),
                         ],
                       ),
                     ),
-                    Text("data")
+                    const Text('data')
                   ],
                 ),
               ],
@@ -451,43 +463,44 @@ class _OrderTrackerState extends State<OrderTracker>
                 ),
                 Expanded(
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.outOfDeliveryTitleAndDateList?[index]
-                                      .title ??
-                                  "",
-                              style: widget.subTitleTextStyle ??
-                                  const TextStyle(fontSize: 14),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              widget.outOfDeliveryTitleAndDateList?[index]
-                                      .date ??
-                                  "",
-                              style: widget.subDateTextStyle ??
-                                  TextStyle(
-                                      fontSize: 14, color: Colors.grey[300]),
-                            )
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 5,
-                        );
-                      },
-                      itemCount: widget.outOfDeliveryTitleAndDateList != null &&
-                              widget.outOfDeliveryTitleAndDateList!.isNotEmpty
-                          ? widget.outOfDeliveryTitleAndDateList!.length
-                          : 0),
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.outOfDeliveryTitleAndDateList?[index]
+                                    .title ??
+                                '',
+                            style: widget.subTitleTextStyle ??
+                                const TextStyle(fontSize: 14),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            widget.outOfDeliveryTitleAndDateList?[index].date ??
+                                '',
+                            style: widget.subDateTextStyle ??
+                                TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey[300],
+                                ),
+                          )
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 5,
+                      );
+                    },
+                    itemCount: widget.outOfDeliveryTitleAndDateList != null &&
+                            widget.outOfDeliveryTitleAndDateList!.isNotEmpty
+                        ? widget.outOfDeliveryTitleAndDateList!.length
+                        : 0,
+                  ),
                 )
               ],
             ),
@@ -570,10 +583,9 @@ class _OrderTrackerState extends State<OrderTracker>
 }
 
 class TextDto {
+  TextDto(this.title, this.date);
   String? title;
   String? date;
-
-  TextDto(this.title, this.date);
 }
 
 enum Status { created, selected, confirmed, started, completed }

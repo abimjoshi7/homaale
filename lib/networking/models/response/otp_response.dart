@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-OtpRes otpResFromJson(String str) => OtpRes.fromJson(json.decode(str));
+OtpRes otpResFromJson(String str) =>
+    OtpRes.fromJson(json.decode(str) as Map<String, dynamic>);
 
 String otpResToJson(OtpRes data) => json.encode(data.toJson());
 
@@ -13,17 +14,16 @@ class OtpRes {
     this.success,
     this.message,
   });
+  factory OtpRes.fromJson(Map<String, dynamic> json) => OtpRes(
+        success: json['success'] as bool,
+        message: json['message'] as String?,
+      );
 
   final bool? success;
   final String? message;
 
-  factory OtpRes.fromJson(Map<String, dynamic> json) => OtpRes(
-        success: json["success"],
-        message: json["message"],
-      );
-
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
+        'success': success,
+        'message': message,
       };
 }

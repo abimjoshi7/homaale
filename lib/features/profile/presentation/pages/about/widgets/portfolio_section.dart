@@ -1,12 +1,11 @@
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import 'widgets.dart';
 
 class PortfolioSection extends StatelessWidget {
   const PortfolioSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,27 +14,27 @@ class PortfolioSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Portfolio",
+          const Text(
+            'Portfolio',
           ),
           kHeight10,
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
+              children: const [
                 PortfolioCard(
-                  label: "Garden Cleaning",
-                  imagePath: "assets/Casual life 3D - 39.png",
+                  label: 'Garden Cleaning',
+                  imagePath: 'assets/Casual life 3D - 39.png',
                 ),
                 kWidth5,
                 PortfolioCard(
-                  label: "Kitchen Cleaning",
-                  imagePath: "assets/Casual life 3D - 39.png",
+                  label: 'Kitchen Cleaning',
+                  imagePath: 'assets/Casual life 3D - 39.png',
                 ),
                 kWidth5,
                 PortfolioCard(
-                  label: "Motor Cleaning",
-                  imagePath: "assets/Casual life 3D - 39.png",
+                  label: 'Motor Cleaning',
+                  imagePath: 'assets/Casual life 3D - 39.png',
                 ),
               ],
             ),

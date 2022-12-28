@@ -4,8 +4,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AddExperience extends StatelessWidget {
-  static const routeName = "/add-experience";
   const AddExperience({super.key});
+  static const routeName = '/add-experience';
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class AddExperience extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  "Add Experience",
+                  'Add Experience',
                 ),
                 IconButton(
                   onPressed: () {},
@@ -43,50 +43,50 @@ class AddExperience extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Title",
+                      'Title',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
-                      hintText: "Please enter the title",
+                      hintText: 'Please enter the title',
                     ),
                     kHeight20,
                     const Text(
-                      "Description",
+                      'Description',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
                       maxLines: 3,
-                      hintText: "Write something...",
+                      hintText: 'Write something...',
                     ),
                     kHeight20,
                     const Text(
-                      "Employment Type",
+                      'Employment Type',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomFormContainer(
-                      label: "Please Select",
+                      label: 'Please Select',
                       trailingWidget: Icon(Icons.keyboard_arrow_down_outlined),
                     ),
                     kHeight20,
                     const Text(
-                      "Company Name",
+                      'Company Name',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
                     const CustomTextFormField(
-                      hintText: "Eg: Cagtu",
+                      hintText: 'Eg: Cagtu',
                     ),
                     kHeight20,
                     const Text(
-                      "Location",
+                      'Location',
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    CustomTextFormField(
-                      hintText: "Eg: New Baneshwor, Kathmandu",
+                    const CustomTextFormField(
+                      hintText: 'Eg: New Baneshwor, Kathmandu',
                       prefixWidget: Icon(
                         Icons.location_on_outlined,
                         color: kColorPrimary,
@@ -97,11 +97,11 @@ class AddExperience extends StatelessWidget {
                       children: [
                         CustomCheckBox(
                           onTap: () {},
-                          boxColor: Color(0xff0693E3),
+                          boxColor: const Color(0xff0693E3),
                           isChecked: true,
                         ),
                         kWidth10,
-                        Text("Save as location"),
+                        const Text('Save as location'),
                       ],
                     ),
                     kHeight20,
@@ -110,14 +110,14 @@ class AddExperience extends StatelessWidget {
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Issued Date",
+                            children: const [
+                              Text(
+                                'Issued Date',
                                 style: kLabelPrimary,
                               ),
                               kHeight5,
                               CustomFormContainer(
-                                label: "03/06/1999",
+                                label: '03/06/1999',
                                 leadingWidget: Icon(
                                   Icons.calendar_month_rounded,
                                   color: kColorPrimary,
@@ -130,14 +130,14 @@ class AddExperience extends StatelessWidget {
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Expiry Date",
+                            children: const [
+                              Text(
+                                'Expiry Date',
                                 style: kLabelPrimary,
                               ),
                               kHeight5,
                               CustomFormContainer(
-                                label: "03/06/1999",
+                                label: '03/06/1999',
                                 leadingWidget: Icon(
                                   Icons.calendar_month_rounded,
                                   color: kColorPrimary,
@@ -156,7 +156,7 @@ class AddExperience extends StatelessWidget {
                           AddEducation.routeName,
                         );
                       },
-                      label: "Add",
+                      label: 'Add',
                     ),
                   ],
                 ),

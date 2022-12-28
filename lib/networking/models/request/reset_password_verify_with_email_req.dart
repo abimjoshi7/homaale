@@ -6,7 +6,8 @@ import 'dart:convert';
 
 ResetPasswordVerifyWithEmailReq resetPasswordVerifyWithEmailReqFromJson(
         String str) =>
-    ResetPasswordVerifyWithEmailReq.fromJson(json.decode(str));
+    ResetPasswordVerifyWithEmailReq.fromJson(
+        json.decode(str) as Map<String, dynamic>);
 
 String resetPasswordVerifyWithEmailReqToJson(
         ResetPasswordVerifyWithEmailReq data) =>
@@ -27,10 +28,10 @@ class ResetPasswordVerifyWithEmailReq {
 
   factory ResetPasswordVerifyWithEmailReq.fromJson(Map<String, dynamic> json) =>
       ResetPasswordVerifyWithEmailReq(
-        uid: json["uid"],
-        token: json["token"],
-        password: json["password"],
-        confirmPassword: json["confirm_password"],
+        uid: json["uid"] as String?,
+        token: json["token"] as String?,
+        password: json["password"] as String?,
+        confirmPassword: json["confirm_password"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
