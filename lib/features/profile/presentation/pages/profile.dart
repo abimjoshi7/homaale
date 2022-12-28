@@ -1,5 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
+import 'package:cipher/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cipher/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/icontext.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
@@ -9,8 +11,11 @@ import 'package:cipher/features/profile/presentation/pages/reviews/reviews_profi
 import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
+import 'package:cipher/networking/models/response/tasker_profile_res.dart';
+import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Profile extends StatefulWidget {
   static const routeName = "/profile";
@@ -57,7 +62,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   ),
                   const Text("Profile"),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        final x = await NetworkHelper().getTaskerProfile();
+                        print(x);
+                      } catch (e) {
+                        rethrow;
+                      }
+                    },
                     icon: const Icon(
                       Icons.search,
                     ),
@@ -77,7 +89,19 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   children: [
                     Row(
                       children: [
-                        const Text("FirstName LastName"),
+                        BlocBuilder<ProfileCubit, ProfileState>(
+                          builder: (context, state) {
+                            return GestureDetector(
+                              onTap: () {
+                                context.read<ProfileCubit>().getTaskerData();
+                              },
+                              child: Text(
+                                state.toString(),
+                              ),
+                            );
+                          },
+                        ),
+                        // const Text("FirstName LastName"),
                         kWidth5,
                         const Icon(
                           Icons.verified,

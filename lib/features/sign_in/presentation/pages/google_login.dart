@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -25,7 +22,21 @@ class _GoogleLoginState extends State<GoogleLogin> {
 
   signIn() async {
     try {
-      await googleSignIn.signIn();
+      final result = await googleSignIn.signIn();
+      final authentication = await result?.authentication;
+      if (authentication?.idToken != null) {
+        final map = <String, dynamic>{};
+        final idToken = authentication!.idToken;
+        map.addAll(
+          {
+            "credential": idToken,
+          },
+        );
+        final x = await NetworkHelper().sendGoogleLoginReq(map);
+        if (kDebugMode) {
+          print("Google Access Token: ${x.access}");
+        }
+      }
     } catch (e) {
       if (kDebugMode) {
         print("Google Sign-In Error");
@@ -101,18 +112,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
           CustomElevatedButton(
             callback: () async {
               try {
-                final map = <String, dynamic>{};
-                final idToken =
-                    await googleSignIn.currentUser!.authentication.then(
-                  (value) => value.idToken,
-                );
-                map.addAll(
-                  {
-                    "credential": idToken,
-                  },
-                );
-                final x = await NetworkHelper().sendGoogleLoginReq(map);
-                print(x.access);
+                signIn();
               } catch (e) {
                 rethrow;
               }
@@ -123,7 +123,9 @@ class _GoogleLoginState extends State<GoogleLogin> {
           CustomElevatedButton(
             mainColor: Colors.white,
             textColor: const Color(0xff3D3F7D),
-            callback: () {},
+            callback: () {
+              Navigator.pop(context);
+            },
             label: "Cancel",
           ),
           const Padding(

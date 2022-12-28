@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
@@ -41,7 +42,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
         onTap: () {
           Navigator.pushNamed(
             context,
-            Profile.routeName,
+            Preference.routeName,
           );
         },
         child: Padding(

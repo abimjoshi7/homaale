@@ -3,6 +3,7 @@ import 'package:cipher/features/portfolio/presentation/pages/add_certifications.
 import 'package:cipher/features/portfolio/presentation/pages/add_education.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_exprience.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
+import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/pages/confirm_otp_sign_in.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
@@ -96,6 +97,10 @@ class RouteService {
       case AddCertifications.routeName:
         return MaterialPageRoute(
           builder: (context) => const AddCertifications(),
+        );
+      case Preference.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const Preference(),
         );
       default:
         return MaterialPageRoute(

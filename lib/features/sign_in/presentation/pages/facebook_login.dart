@@ -14,36 +14,56 @@ class FacebookLogin extends StatefulWidget {
 }
 
 class _FacebookLoginState extends State<FacebookLogin> {
-  initialize() async {
+  final fbInstance = FacebookAuth.instance;
+
+  login() async {
     final map = <String, dynamic>{};
-    final fbInstance = FacebookAuth.instance;
     final LoginResult result = await fbInstance.login();
-    if (result.status == LoginStatus.success) {
-      final accessToken = result.accessToken!;
-      final userData = await fbInstance.getUserData();
-      map.addAll(userData);
-      map.remove("id");
-      map.addAll(
-        {
-          "accessToken": accessToken.token,
-          "userID": userData["id"],
-        },
-      );
-      final x = await NetworkHelper().sendFacebookReq(map);
-      if (kDebugMode) {
-        print(x.access);
-      }
-    } else {
-      if (kDebugMode) {
-        print(result.status);
-        print(result.message);
-      }
+    switch (result.status) {
+      case LoginStatus.success:
+        final accessToken = result.accessToken!;
+        final userData = await fbInstance.getUserData();
+        map.addAll(userData);
+        map.remove("id");
+        map.addAll(
+          {
+            "accessToken": accessToken.token,
+            "userID": userData["id"],
+          },
+        );
+        final x = await NetworkHelper().sendFacebookReq(map);
+        if (kDebugMode) {
+          print("Facebook Access Token: ${x.access}");
+        }
+        break;
+
+      case LoginStatus.cancelled:
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Login Cancelled"),
+          ),
+        );
+        break;
+      case LoginStatus.failed:
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Login Failed. Please try again."),
+          ),
+        );
+        break;
+      default:
+        if (kDebugMode) {
+          print(result.status);
+          print(result.message);
+        }
+        break;
     }
   }
 
   logout() async {
-    await FacebookAuth.instance.logOut();
-// or FacebookAuth.i.logOut();
+    await fbInstance.logOut();
   }
 
   @override
@@ -62,13 +82,16 @@ class _FacebookLoginState extends State<FacebookLogin> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Text(
-              "Skip",
-              style: kSkipHelper,
+          children: [
+            GestureDetector(
+              onTap: () async {},
+              child: const Text(
+                "Skip",
+                style: kSkipHelper,
+              ),
             ),
             kWidth10,
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
               color: Color(0xffdee2e6),
@@ -101,7 +124,7 @@ class _FacebookLoginState extends State<FacebookLogin> {
           kHeight20,
           CustomElevatedButton(
             callback: () async {
-              await initialize();
+              await login();
             },
             label: "Continue",
           ),
@@ -109,7 +132,11 @@ class _FacebookLoginState extends State<FacebookLogin> {
           CustomElevatedButton(
             mainColor: Colors.white,
             textColor: const Color(0xff3D3F7D),
-            callback: () {},
+            callback: () async {
+              await logout();
+              if (!mounted) return;
+              Navigator.pop(context);
+            },
             label: "Cancel",
           ),
           const Padding(

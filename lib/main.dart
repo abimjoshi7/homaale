@@ -1,6 +1,9 @@
 import 'package:cipher/app_bloc_observer.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
+import 'package:cipher/features/profile/data/repositories/profile_repository.dart';
+import 'package:cipher/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:cipher/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/route_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,10 +23,28 @@ class Cipher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Bloc.observer = AppBlocObserver();
-    return MaterialApp(
-      initialRoute: SplashPage.routeName,
-      // initialRoute: SignInWithPhone.routeName,
-      onGenerateRoute: (settings) => RouteService.onGenerate(settings),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProfileCubit(
+            ProfileRepository(
+              networkHelper: NetworkHelper(),
+            ),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(
+            ProfileRepository(
+              networkHelper: NetworkHelper(),
+            ),
+          )..add(ProfileEventRequested()),
+        ),
+      ],
+      child: MaterialApp(
+        initialRoute: SplashPage.routeName,
+        // initialRoute: SignInWithPhone.routeName,
+        onGenerateRoute: (settings) => RouteService.onGenerate(settings),
+      ),
     );
   }
 }
