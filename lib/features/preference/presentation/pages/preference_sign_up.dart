@@ -14,6 +14,7 @@ class PreferencesSignUp extends StatefulWidget {
 class _PreferencesSignUpState extends State<PreferencesSignUp> {
   bool isTasker = false;
   bool isClient = true;
+  bool isMerchant = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,133 +25,293 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
           style: kText16,
         ),
         kHeight20,
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: SizedBox(
-              height: MediaQueryHelper.theHeight(context) * 0.22,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  kHeight10,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox.shrink(),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xff5C6096),
-                        ),
-                        child: Image.asset('assets/Saly-26.png'),
-                      ),
-                      CustomRadio(
-                        isSelected: isClient,
-                        onTap: () => setState(
-                          () {
-                            isClient = !isClient;
-                            isTasker = !isClient;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  kHeight15,
-                  const Text.rich(
-                    TextSpan(
-                      text: 'I am a ',
-                      style: kText16,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: SizedBox(
+                    height: 105,
+                    width: double.infinity,
+                    child: Column(
                       children: [
-                        TextSpan(
-                          text: 'Client',
-                          style: TextStyle(
-                            color: Color(
-                              0xff5C6096,
+                        kHeight10,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xff5C6096),
+                              ),
+                              child: Image.asset('assets/Saly-26.png'),
                             ),
-                          ),
+                            kWidth10,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text.rich(
+                                    TextSpan(
+                                      text: 'I am a ',
+                                      style: kText16,
+                                      children: [
+                                        TextSpan(
+                                          text: 'Client',
+                                          style: TextStyle(
+                                            color: Color(
+                                              0xff5C6096,
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(text: ' hiring for services'),
+                                      ],
+                                    ),
+                                  ),
+                                  kHeight10,
+                                  const Text(
+                                    'I am looking forward to hire professional individual and get my work done as quick as possible.',
+                                    style: kHelper1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kHeight15,
+                            CustomRadio(
+                              isSelected: isClient,
+                              onTap: () => setState(
+                                () {
+                                  isClient = !isClient;
+                                  isTasker = !isClient;
+                                  isMerchant = !isClient;
+                                },
+                              ),
+                            )
+                          ],
                         ),
-                        TextSpan(text: ' hiring for services'),
+                        kHeight15,
                       ],
                     ),
                   ),
-                  kHeight10,
-                  const Text(
-                    'I am looking forward to hire professional individual and get my work done as quick as possible.',
-                    style: kHelper1,
-                    textAlign: TextAlign.center,
-                  )
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-        kHeight20,
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: SizedBox(
-              height: MediaQueryHelper.theHeight(context) * 0.22,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  kHeight10,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox.shrink(),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xff297796),
-                        ),
-                        child: Image.asset('assets/Saly-27.png'),
-                      ),
-                      CustomRadio(
-                        isSelected: isTasker,
-                        onTap: () => setState(
-                          () {
-                            isClient = !isClient;
-                            isTasker = !isClient;
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  kHeight15,
-                  const Text.rich(
-                    TextSpan(
-                      text: 'I am a ',
-                      style: kText16,
+              kHeight50,
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: SizedBox(
+                    height: 105,
+                    width: double.infinity,
+                    child: Column(
                       children: [
-                        TextSpan(
-                          text: 'Tasker',
-                          style: TextStyle(
-                            color: Color(
-                              0xff297796,
+                        kHeight10,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xff297796),
+                              ),
+                              child: Image.asset('assets/Saly-27.png'),
                             ),
-                          ),
+                            kWidth10,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text.rich(
+                                    TextSpan(
+                                      text: 'I am a ',
+                                      style: kText16,
+                                      children: [
+                                        TextSpan(
+                                          text: 'Tasker',
+                                          style: TextStyle(
+                                            color: Color(
+                                              0xff297796,
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(text: ' looking for work'),
+                                      ],
+                                    ),
+                                  ),
+                                  kHeight10,
+                                  const Text(
+                                    'I am a hardworking person focusing on uplifting my careers to next heights.',
+                                    style: kHelper1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kHeight15,
+                            CustomRadio(
+                              isSelected: isTasker,
+                              onTap: () => setState(
+                                () {
+                                  isTasker = !isTasker;
+                                  isClient = !isTasker;
+                                  isMerchant = !isTasker;
+                                },
+                              ),
+                            )
+                          ],
                         ),
-                        TextSpan(text: ' looking for work'),
+                        kHeight15,
                       ],
                     ),
                   ),
-                  kHeight10,
-                  const Text(
-                    'I am a hardworking person who seeks oppurtunity in every task focusing on uplifting my careers to next heights.',
-                    style: kHelper1,
-                    textAlign: TextAlign.center,
-                  )
-                ],
+                ),
               ),
-            ),
+              kHeight50,
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: SizedBox(
+                    height: 105,
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        kHeight10,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xffAB533F),
+                              ),
+                              child: Image.asset('assets/MERCH 2asd.png'),
+                            ),
+                            kWidth10,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text.rich(
+                                    TextSpan(
+                                      text: 'I am a ',
+                                      style: kText16,
+                                      children: [
+                                        TextSpan(
+                                          text: 'Merchant',
+                                          style: TextStyle(
+                                            color: Color(
+                                              0xff5C6096,
+                                            ),
+                                          ),
+                                        ),
+                                        TextSpan(text: ' looking for Tasker'),
+                                      ],
+                                    ),
+                                  ),
+                                  kHeight10,
+                                  const Text(
+                                    'I am a merchant looking for taskers who are willing to work in my behalf.',
+                                    style: kHelper1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            kHeight15,
+                            CustomRadio(
+                              isSelected: isMerchant,
+                              onTap: () => setState(
+                                () {
+                                  isMerchant = !isMerchant;
+                                  isTasker = !isMerchant;
+                                  isClient = !isMerchant;
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                        kHeight15,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              kHeight20,
+            ],
           ),
         ),
+
+        // Card(
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(15),
+        //     child: SizedBox(
+        //       height: MediaQueryHelper.theHeight(context) * 0.22,
+        //       width: double.infinity,
+        //       child: Column(
+        //         children: [
+        //           kHeight10,
+        //           Row(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //             children: [
+        //               const SizedBox.shrink(),
+        //               Container(
+        //                 height: 80,
+        //                 width: 80,
+        //                 decoration: const BoxDecoration(
+        //                   shape: BoxShape.circle,
+        //                   color: Color(0xff297796),
+        //                 ),
+        //                 child: Image.asset('assets/Saly-27.png'),
+        //               ),
+        //               CustomRadio(
+        //                 isSelected: isTasker,
+        //                 onTap: () => setState(
+        //                   () {
+        //                     isClient = !isClient;
+        //                     isTasker = !isClient;
+        //                   },
+        //                 ),
+        //               )
+        //             ],
+        //           ),
+        //           kHeight15,
+        //           const Text.rich(
+        //             TextSpan(
+        //               text: 'I am a ',
+        //               style: kText16,
+        //               children: [
+        //                 TextSpan(
+        //                   text: 'Tasker',
+        //                   style: TextStyle(
+        //                     color: Color(
+        //                       0xff297796,
+        //                     ),
+        //                   ),
+        //                 ),
+        //                 TextSpan(text: ' looking for work'),
+        //               ],
+        //             ),
+        //           ),
+        //           kHeight10,
+        //           const Text(
+        //             'I am a hardworking person who seeks oppurtunity in every task focusing on uplifting my careers to next heights.',
+        //             style: kHelper1,
+        //             textAlign: TextAlign.center,
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
