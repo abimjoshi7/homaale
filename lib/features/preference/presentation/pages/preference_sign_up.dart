@@ -33,7 +33,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: SizedBox(
-                    height: 105,
+                    height: 120,
                     width: double.infinity,
                     child: Column(
                       children: [

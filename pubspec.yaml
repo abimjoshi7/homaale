@@ -20,9 +20,12 @@ dependencies:
   flutter_facebook_auth: ^5.0.6
   flutter_native_splash: ^2.2.16
   font_awesome_flutter: ^10.3.0
+  google_fonts: ^3.0.1
   google_sign_in: ^5.4.2
   pinput: ^2.2.20
   responsive_framework: ^0.2.0
+  shared_preferences: ^2.0.15
+
 
 dev_dependencies:
   flutter_test:
@@ -36,8 +39,13 @@ flutter:
 
   assets:
     - assets/
-    - assets/logos/
-    - assets/skills/
+    # - assets/logos/
+    # - assets/skills/
+    # - assets/banners/
+    # - assets/categories/
+    # - assets/services/
+    # - assets/bottomNavigationItems/
+
 
   # fonts:
   #   - family: Schyler

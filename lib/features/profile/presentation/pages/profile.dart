@@ -1,14 +1,13 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/icontext.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/offers/offers_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/reviews/reviews_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
-import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
+import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -94,15 +93,12 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     kHeight5,
                     const Text('Individual  |  Gardener'),
                     kHeight5,
-                    Visibility(
-                      visible: user != 'self',
-                      child: Row(
-                        children: List.generate(
-                          5,
-                          (index) => const Icon(
-                            Icons.star_rate_rounded,
-                            color: Colors.amber,
-                          ),
+                    Row(
+                      children: List.generate(
+                        5,
+                        (index) => const Icon(
+                          Icons.star_rate_rounded,
+                          color: Colors.amber,
                         ),
                       ),
                     )
@@ -125,64 +121,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 visible: user == 'self',
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 70,
-                      width: 150,
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                '0',
-                                style: kHeading2,
-                              ),
-                              kHeight5,
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: IconText(
-                                  label: 'Reward Points',
-                                  widget: Image.asset(
-                                    'assets/3.png',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                  children: const [
+                    ProfileStatsCard(
+                      imagePath: 'assets/reward.png',
+                      label: 'Reward Points',
+                      value: '199',
                     ),
-                    SizedBox(
-                      height: 70,
-                      width: 150,
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Rs 0.00',
-                                style: kHeading2,
-                              ),
-                              kHeight5,
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: IconText(
-                                  label: 'Account Balance',
-                                  widget: Image.asset(
-                                    'assets/1.png',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    ProfileStatsCard(
+                      imagePath: 'assets/wallet.png',
+                      label: 'Account Balance',
+                      value: 'Rs. 1,00,000.00',
                     ),
                   ],
                 ),
@@ -292,7 +240,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 ],
               ),
               SizedBox(
-                height: MediaQueryHelper.theHeight(context) * 0.42,
+                height: 500,
                 child: TabBarView(
                   controller: tabController,
                   children: const [
@@ -305,10 +253,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     ReviewsProfile(),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
+        bottomNavigationBar: const CustomBottomNavigationBar(),
       ),
     );
   }

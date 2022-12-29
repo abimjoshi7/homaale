@@ -1,6 +1,7 @@
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class Cipher extends StatelessWidget {
@@ -9,6 +10,10 @@ class Cipher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
       builder: (context, child) => ResponsiveWrapper.builder(
         BouncingScrollWrapper.builder(context, child!),
         maxWidth: 1200,
@@ -22,7 +27,6 @@ class Cipher extends StatelessWidget {
         background: const ColoredBox(color: Colors.cyan),
       ),
       initialRoute: SplashPage.routeName,
-      // initialRoute: SignInWithPhone.routeName,
       onGenerateRoute: AppRouter.onGenerate,
     );
   }

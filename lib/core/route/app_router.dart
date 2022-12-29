@@ -1,3 +1,4 @@
+import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_certifications.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_education.dart';
@@ -100,6 +101,10 @@ class AppRouter {
       case Preference.routeName:
         return MaterialPageRoute(
           builder: (context) => const Preference(),
+        );
+      case Home.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const Home(),
         );
       default:
         return MaterialPageRoute(

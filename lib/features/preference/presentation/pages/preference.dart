@@ -105,9 +105,14 @@ class _PreferenceState extends State<Preference> {
             ),
             CustomElevatedButton(
               callback: () {
-                setState(() {
-                  selectedIndex++;
-                });
+                setState(
+                  () {
+                    while (selectedIndex < 3) {
+                      selectedIndex++;
+                      break;
+                    }
+                  },
+                );
               },
               label: 'Next',
             ),

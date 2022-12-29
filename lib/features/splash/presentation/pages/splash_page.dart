@@ -1,4 +1,7 @@
+import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/core/constants/strings.dart';
+import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -12,6 +15,29 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  Future<void> inititalLogCheck() async {
+    final x = await SharedPrefs.fetchString(
+      key: kAccessToken,
+    );
+    if (x != null) {
+      setState(() {
+        theChild = const Home();
+      });
+    } else {
+      if (!mounted) return;
+      setState(() {
+        theChild = _buildSplash(context);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    theChild = const SizedBox.shrink();
+    inititalLogCheck();
+    super.initState();
+  }
+
   late Widget theChild;
 
   Widget _buildSplash(BuildContext context) {
@@ -73,7 +99,7 @@ class _SplashPageState extends State<SplashPage> {
     FlutterNativeSplash.remove();
     return Scaffold(
       body: Center(
-        child: _buildSplash(context),
+        child: theChild,
       ),
     );
   }

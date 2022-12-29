@@ -9,9 +9,21 @@ const kTabBarTitle = TextStyle(
   ),
 );
 
+const kText12 = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  color: Color(0xff495057),
+);
+
 const kText16 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w500,
+  color: Color(0xff3D3F7D),
+);
+
+const kText20 = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.w400,
   color: Color(0xff3D3F7D),
 );
 
