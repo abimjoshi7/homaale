@@ -27,14 +27,16 @@ class CategoriesIcons extends StatelessWidget {
           child: child,
         ),
         kHeight10,
-        Text(
-          data,
-          style: const TextStyle(
-            color: Color(0xff3d3f7d),
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
+        Flexible(
+          child: Text(
+            data,
+            style: const TextStyle(
+              color: Color(0xff3d3f7d),
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
         ),
       ],
     );

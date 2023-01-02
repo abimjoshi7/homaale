@@ -78,7 +78,7 @@ class _FacebookLoginState extends State<FacebookLogin> {
           kHeight20,
           kHeight20,
           kHeight20,
-          Image.asset('assets/logos/fblogo.png'),
+          Image.asset('assets/logos/fb_logo.png'),
           kHeight10,
           const Text(
             'Login with Facebook',

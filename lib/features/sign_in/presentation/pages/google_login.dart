@@ -66,7 +66,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
           kHeight20,
           kHeight20,
           kHeight20,
-          Image.asset('assets/logos/googlelogo.png'),
+          Image.asset('assets/logos/google_logo.png'),
           kHeight10,
           const Text(
             'Login with Google',

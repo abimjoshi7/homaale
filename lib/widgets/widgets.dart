@@ -11,4 +11,5 @@ export './custom_radio.dart';
 export './custom_text_button.dart';
 export './custom_text_form_field.dart';
 export './section_heading.dart';
+export '../features/home/presentation/widgets/widgets.dart';
 export '../features/sign_in/presentation/pages/widgets/sign_in_scaffold.dart';

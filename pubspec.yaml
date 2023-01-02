@@ -39,12 +39,12 @@ flutter:
 
   assets:
     - assets/
-    # - assets/logos/
-    # - assets/skills/
-    # - assets/banners/
-    # - assets/categories/
-    # - assets/services/
-    # - assets/bottomNavigationItems/
+    - assets/logos/
+    - assets/skills/
+    - assets/banners/
+    - assets/categories/
+    - assets/services/
+    - assets/bottomNavigationItems/
 
 
   # fonts:

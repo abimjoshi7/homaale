@@ -245,7 +245,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                     (route) => false,
                   ),
                   child: Image.asset(
-                    'assets/logos/phonelogo.png',
+                    'assets/logos/phone_logo.png',
                   ),
                 ),
                 kWidth20,
@@ -254,7 +254,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                     context,
                     GoogleLogin.routeName,
                   ),
-                  child: Image.asset('assets/logos/googlelogo.png'),
+                  child: Image.asset('assets/logos/google_logo.png'),
                 ),
                 kWidth20,
                 GestureDetector(
@@ -262,7 +262,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                     context,
                     FacebookLogin.routeName,
                   ),
-                  child: Image.asset('assets/logos/fblogo.png'),
+                  child: Image.asset('assets/logos/fb_logo.png'),
                 ),
               ],
             ),

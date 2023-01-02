@@ -8,12 +8,83 @@ import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/models/response/facebook_login_res.dart';
 import 'package:cipher/networking/models/response/google_login_res.dart';
 import 'package:cipher/networking/models/response/otp_response.dart';
+import 'package:cipher/networking/models/response/task_category.dart';
+import 'package:cipher/networking/models/response/task_hero_category.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+class CustomDio {
+  final _dio = Dio(
+    BaseOptions(
+      baseUrl: baseIPSecondary,
+      connectTimeout: 5000,
+      receiveTimeout: 5000,
+    ),
+  )..interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (kDebugMode) {
+            print('REQUEST[${options.method}] => PATH: ${options.path}');
+          }
+        },
+        onResponse: (response, handler) {
+          if (kDebugMode) {
+            print(response.statusCode);
+            print(response.statusMessage);
+          }
+          return handler.next(response);
+        },
+        onError: (DioError e, handler) {
+          if (kDebugMode) {
+            print(e.error);
+            print(e.message);
+          }
+          return handler.next(e);
+        },
+      ),
+    );
+
+  Future<List<TaskCategory>> getTaskCategoryList() async {
+    try {
+      final x = await _dio.get(
+        '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
+      );
+      return (x.data as List<dynamic>)
+          .map(
+            (e) => TaskCategory.fromJson(e as Map<String, dynamic>),
+          )
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> getTaskCategoryList1() async {
+    try {
+      final x = await _dio.get(
+        '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
+      );
+      print(x);
+      // return (x.data as List<dynamic>)
+      //     .map(
+      //       (e) => TaskCategory.fromJson(e as Map<String, dynamic>),
+      //     )
+      //     .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
 class NetworkHelper {
-  final _dio = Dio();
+  final _dio = Dio(
+    BaseOptions(
+      baseUrl: baseIPSecondary,
+      connectTimeout: 5000,
+      receiveTimeout: 5000,
+    ),
+  );
 
   Future<Response<dynamic>> createUserWithEmail({
     required String email,
@@ -210,6 +281,43 @@ class NetworkHelper {
         data: jsonEncode(map),
       );
       return GoogleLoginRes.fromJson(x.data as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // Future<List<TaskCategory>> getTaskCategoryList() async {
+  //   try {
+  //     final x = await _dio.post(
+  //       '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
+  //     );
+  //     return x.data as List<TaskCategory>;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+  Future<List<TaskCategory>> getTaskCategoryList() async {
+    try {
+      final x = await _dio.get(
+        '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
+      );
+      return (x.data as List<dynamic>)
+          .map(
+            (e) => TaskCategory.fromJson(e as Map<String, dynamic>),
+          )
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<TaskHeroCategory> getTaskHeroCategoryList() async {
+    try {
+      final x = await _dio.get(
+        '$baseIPSecondary:$portNumber/api/$versionNumber/task/hero-category/',
+      );
+      return TaskHeroCategory.fromJson(x.data as Map<String, dynamic>);
     } catch (e) {
       rethrow;
     }
