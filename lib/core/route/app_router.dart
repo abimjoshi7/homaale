@@ -1,3 +1,7 @@
+import 'package:cipher/features/account/presentation/pages/account.dart';
+import 'package:cipher/features/account/presentation/pages/edit_profile_page.dart';
+import 'package:cipher/features/account/presentation/pages/kyc/kyc_details.dart';
+import 'package:cipher/features/account/presentation/pages/settings/settings.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_certifications.dart';
@@ -105,6 +109,22 @@ class AppRouter {
       case Home.routeName:
         return MaterialPageRoute(
           builder: (context) => const Home(),
+        );
+      case Account.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const Account(),
+        );
+      case Settings.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const Settings(),
+        );
+      case EditProfilePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const EditProfilePage(),
+        );
+      case KycDetails.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const KycDetails(),
         );
       default:
         return MaterialPageRoute(

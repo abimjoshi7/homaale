@@ -23,15 +23,14 @@ class PopularTaskerSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Card(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       kHeight10,
-                      CircleAvatar(),
+                      const CircleAvatar(),
                       kHeight10,
                       Row(
-                        children: [
+                        children: const [
                           Text(
                             'Harry Smith',
                             style: kPurpleText12,
@@ -43,13 +42,13 @@ class PopularTaskerSection extends StatelessWidget {
                           )
                         ],
                       ),
-                      Text(
+                      const Text(
                         'Influencer',
                         style: kLightBlueText10,
                       ),
                       kHeight10,
                       Row(
-                        children: [
+                        children: const [
                           IconText(
                             label: '200',
                             widget: Icon(
@@ -79,7 +78,7 @@ class PopularTaskerSection extends StatelessWidget {
                         ],
                       ),
                       Row(
-                        children: [
+                        children: const [
                           IconText(
                             label: '3.5 (100)',
                             widget: Icon(
@@ -99,11 +98,11 @@ class PopularTaskerSection extends StatelessWidget {
                       Row(
                         children: [
                           kWidth5,
-                          Icon(
+                          const Icon(
                             Icons.favorite_outline,
                             color: Color(0xffFE5050),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 40,
                           ),
                           SizedBox(

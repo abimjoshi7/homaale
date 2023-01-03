@@ -29,7 +29,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text(
                             'Need a Garden Cleaner',
                             style: kBodyText1,
@@ -45,7 +45,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
-                            children: [
+                            children: const [
                               CircleAvatar(
                                 radius: 8,
                               ),
@@ -53,19 +53,20 @@ class PopularTaskNearbySection extends StatelessWidget {
                               Text('Swostika Shrestha'),
                             ],
                           ),
-                          Text(
+                          const Text(
                             'per hour',
                             style: kHelper1,
                           ),
                         ],
                       ),
                       kHeight10,
-                      Text(
-                          'We want  a garden cleaner for our bunglow who can great take care of our plants, includes monitoring.'),
+                      const Text(
+                        'We want  a garden cleaner for our bunglow who can great take care of our plants, includes monitoring.',
+                      ),
                       kHeight10,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           IconText(
                             label: 'Anamnagar, KTM (1.5km)',
                             widget: Icon(
@@ -93,11 +94,11 @@ class PopularTaskNearbySection extends StatelessWidget {
                         ],
                       ),
                       kHeight10,
-                      Divider(),
+                      const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          IconText(
+                          const IconText(
                             label: 'Save',
                             widget: Icon(
                               Icons.favorite_border_outlined,
@@ -105,7 +106,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               color: Color(0xffFE5050),
                             ),
                           ),
-                          IconText(
+                          const IconText(
                             label: 'Share',
                             widget: Icon(
                               FontAwesomeIcons.share,
@@ -113,7 +114,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               color: Color(0xff3EAEFF),
                             ),
                           ),
-                          IconText(
+                          const IconText(
                             label: '180',
                             widget: Icon(
                               Icons.supervisor_account_outlined,
@@ -127,7 +128,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                             child: CustomElevatedButton(
                               callback: () {},
                               label: 'Apply Now',
-                              mainColor: Color(
+                              mainColor: const Color(
                                 0xff38C675,
                               ),
                             ),

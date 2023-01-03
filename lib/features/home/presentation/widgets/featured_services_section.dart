@@ -29,11 +29,12 @@ class FeaturedServicesSection extends StatelessWidget {
                     height: 120,
                     width: 120,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.amber),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.amber,
+                    ),
                   ),
                   kHeight10,
-                  Text(
+                  const Text(
                     'Stitching & Printing',
                     textAlign: TextAlign.center,
                   )

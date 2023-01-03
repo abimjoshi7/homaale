@@ -24,7 +24,8 @@ class ExperienceSection extends StatelessWidget {
             style: kHelper1,
           ),
           Text(
-              'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.'),
+            'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
+          ),
           Text(
             'June 2002-Present',
             style: kHelper1,

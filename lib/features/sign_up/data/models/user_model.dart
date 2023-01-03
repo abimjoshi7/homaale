@@ -9,12 +9,13 @@ class UserModel extends UserEntity {
     required String lastName,
     required String phone,
   }) : super(
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
-            middleName: middleName,
-            password: password,
-            phone: phone);
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          middleName: middleName,
+          password: password,
+          phone: phone,
+        );
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         email: json['email'] as String,

@@ -1,7 +1,6 @@
-import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
-import 'package:cipher/widgets/widgets.dart';
+import 'package:cipher/features/account/presentation/pages/account.dart';
+import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -43,43 +42,56 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               setState(() {
                 selectedIndex = index;
                 switch (selectedIndex) {
-                  case 4:
-                    Navigator.push(
+                  case 0:
+                    Navigator.pushNamedAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => Scaffold(
-                          body: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                CustomElevatedButton(
-                                  label: 'Logout',
-                                  callback: () async {
-                                    await SharedPrefs.clearAll().then(
-                                      (value) =>
-                                          Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        SignInWithPhone.routeName,
-                                        (route) => false,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                kHeight50,
-                                CustomElevatedButton(
-                                  label: 'Cancel',
-                                  callback: () => setState(
-                                    () async {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      Home.routeName,
+                      (route) => false,
                     );
+                    break;
+                  case 4:
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Account.routeName,
+                      (route) => false,
+                    );
+
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute<Widget>(
+                    //     builder: (context) => Scaffold(
+                    //       body: Center(
+                    //         child: Column(
+                    //           mainAxisSize: MainAxisSize.min,
+                    //           children: [
+                    //             CustomElevatedButton(
+                    //               label: 'Logout',
+                    //               callback: () async {
+                    //                 await SharedPrefs.clearAll().then(
+                    //                   (value) =>
+                    //                       Navigator.pushNamedAndRemoveUntil(
+                    //                     context,
+                    //                     SignInWithPhone.routeName,
+                    //                     (route) => false,
+                    //                   ),
+                    //                 );
+                    //               },
+                    //             ),
+                    //             kHeight50,
+                    //             CustomElevatedButton(
+                    //               label: 'Cancel',
+                    //               callback: () => setState(
+                    //                 () async {
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // );
                     break;
                   default:
                     break;

@@ -165,7 +165,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                             (route) => false,
                           ),
                           child: Image.asset(
-                            'assets/logos/phonelogo.png',
+                            'assets/logos/phone_logo.png',
                           ),
                         )
                       ],

@@ -1,11 +1,4 @@
 class UserEntity {
-  final String? email;
-  final String? password;
-  final String? firstName;
-  final String? middleName;
-  final String? lastName;
-  final String? phone;
-
   UserEntity({
     this.email,
     this.password,
@@ -14,4 +7,10 @@ class UserEntity {
     this.lastName,
     this.phone,
   });
+  final String? email;
+  final String? password;
+  final String? firstName;
+  final String? middleName;
+  final String? lastName;
+  final String? phone;
 }

@@ -85,7 +85,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   confirmPassword: confirmPasswordController.text,
                 ),
               );
-              if (x.success == true) {
+              if (true == x.success) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

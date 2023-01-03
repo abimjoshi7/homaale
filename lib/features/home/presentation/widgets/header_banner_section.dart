@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class HeaderBannerSection extends StatelessWidget {
   const HeaderBannerSection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,10 @@ class HeaderBannerSection extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Refer a Friend'),
+              children: const [
+                Text('Refer a Friend'),
                 kHeight10,
-                const Text('"Earn 3003 everytime you refer your friends"')
+                Text('"Earn 3003 everytime you refer your friends"')
               ],
             ),
           ],

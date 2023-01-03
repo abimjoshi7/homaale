@@ -27,6 +27,12 @@ const kPurpleText12 = TextStyle(
   color: Color(0xff3d3f7d),
 );
 
+const kPurpleText16 = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+  color: Color(0xff3d3f7d),
+);
+
 const kText12 = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w500,
@@ -66,7 +72,7 @@ const kHeading1 = TextStyle(
 const kHeading2 = TextStyle(
   color: kColorPrimary,
   fontWeight: FontWeight.w500,
-  fontSize: 20,
+  fontSize: 18,
 );
 
 const kHeading3 = TextStyle(

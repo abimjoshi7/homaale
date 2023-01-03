@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -18,33 +17,30 @@ class HomeHeaderSection extends StatelessWidget {
           kHeight50,
           ListTile(
             leading: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Profile.routeName,
-                  );
-                },
-                child: const CircleAvatar()),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Profile.routeName,
+                );
+              },
+              child: const CircleAvatar(),
+            ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Hi, Sristi'),
                 kHeight5,
                 Row(
-                  children: [
-                    const Icon(Icons.location_on_outlined),
-                    const Text('Buddhanagar, Kathmandu'),
-                    const Icon(Icons.arrow_drop_down)
+                  children: const [
+                    Icon(Icons.location_on_outlined),
+                    Text('Buddhanagar, Kathmandu'),
+                    Icon(Icons.arrow_drop_down)
                   ],
                 )
               ],
             ),
             trailing: IconButton(
-              onPressed: () async {
-                // final x = await CustomDio().getTaskCategoryList1();
-                await CustomDio().getTaskCategoryList1();
-                // print(x);
-              },
+              onPressed: () async {},
               icon: const Icon(
                 Icons.notifications_none,
               ),

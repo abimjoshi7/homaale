@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
 import 'package:cipher/api_service.dart';
 import 'package:cipher/networking/models/request/otp_request.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
@@ -14,69 +15,6 @@ import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-class CustomDio {
-  final _dio = Dio(
-    BaseOptions(
-      baseUrl: baseIPSecondary,
-      connectTimeout: 5000,
-      receiveTimeout: 5000,
-    ),
-  )..interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          if (kDebugMode) {
-            print('REQUEST[${options.method}] => PATH: ${options.path}');
-          }
-        },
-        onResponse: (response, handler) {
-          if (kDebugMode) {
-            print(response.statusCode);
-            print(response.statusMessage);
-          }
-          return handler.next(response);
-        },
-        onError: (DioError e, handler) {
-          if (kDebugMode) {
-            print(e.error);
-            print(e.message);
-          }
-          return handler.next(e);
-        },
-      ),
-    );
-
-  Future<List<TaskCategory>> getTaskCategoryList() async {
-    try {
-      final x = await _dio.get(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
-      );
-      return (x.data as List<dynamic>)
-          .map(
-            (e) => TaskCategory.fromJson(e as Map<String, dynamic>),
-          )
-          .toList();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> getTaskCategoryList1() async {
-    try {
-      final x = await _dio.get(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
-      );
-      print(x);
-      // return (x.data as List<dynamic>)
-      //     .map(
-      //       (e) => TaskCategory.fromJson(e as Map<String, dynamic>),
-      //     )
-      //     .toList();
-    } catch (e) {
-      rethrow;
-    }
-  }
-}
-
 class NetworkHelper {
   final _dio = Dio(
     BaseOptions(
@@ -84,7 +22,34 @@ class NetworkHelper {
       connectTimeout: 5000,
       receiveTimeout: 5000,
     ),
-  );
+  )..interceptors.add(
+      AwesomeDioInterceptor(
+        logger: debugPrint,
+      ),
+    );
+  // ..interceptors.add(
+  //     InterceptorsWrapper(
+  //       onRequest: (options, handler) {
+  //         if (kDebugMode) {
+  //           print('REQUEST[${options.method}] => PATH: ${options.path}');
+  //         }
+  //       },
+  //       onResponse: (response, handler) {
+  //         if (kDebugMode) {
+  //           print(response.statusCode);
+  //           print(response.statusMessage);
+  //         }
+  //         return handler.next(response);
+  //       },
+  //       onError: (DioError e, handler) {
+  //         if (kDebugMode) {
+  //           print(e.error);
+  //           print(e.message);
+  //         }
+  //         return handler.next(e);
+  //       },
+  //     ),
+  //   );
 
   Future<Response<dynamic>> createUserWithEmail({
     required String email,
@@ -321,6 +286,11 @@ class NetworkHelper {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<void> getUserRoleList() async {
+    final x = await _dio.get('user/role');
+    print(x);
   }
 
   // Future<TaskerProfileRes> getTaskerProfile() async {

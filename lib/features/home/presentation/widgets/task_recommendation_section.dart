@@ -21,7 +21,7 @@ class TaskRecommendationSection extends StatelessWidget {
             width: double.infinity,
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
@@ -33,7 +33,7 @@ class TaskRecommendationSection extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: const [
                               CircleAvatar(
                                 radius: 10,
                               ),
@@ -44,17 +44,17 @@ class TaskRecommendationSection extends StatelessWidget {
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 180,
                           ),
-                          Icon(
+                          const Icon(
                             Icons.favorite_border,
                             color: Color(0xfffe5050),
                           )
                         ],
                       ),
                       kHeight5,
-                      IconText(
+                      const IconText(
                         label: 'Buddhanagar, Kathmandu (15km)',
                         widget: Icon(
                           Icons.location_on_outlined,
@@ -64,7 +64,7 @@ class TaskRecommendationSection extends StatelessWidget {
                       ),
                       kHeight5,
                       Row(
-                        children: [
+                        children: const [
                           IconText(
                             label: 'June 9, 2022',
                             widget: Icon(
@@ -86,7 +86,7 @@ class TaskRecommendationSection extends StatelessWidget {
                       ),
                       kHeight10,
                       Row(
-                        children: [
+                        children: const [
                           Text(
                             'Rs 2,000 - Rs 3,000/per hour',
                             style: kPurpleText12,
@@ -102,14 +102,14 @@ class TaskRecommendationSection extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         height: 15,
                         thickness: 15,
                         color: Color(0xffDEE2E6),
                       ),
                       kHeight10,
                       CustomElevatedButton(
-                        mainColor: Color(0xff38C675),
+                        mainColor: const Color(0xff38C675),
                         callback: () {},
                         label: 'Apply Now',
                       )

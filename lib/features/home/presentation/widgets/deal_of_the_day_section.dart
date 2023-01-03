@@ -89,9 +89,9 @@ class DealOfTheDaySection extends StatelessWidget {
                   width: 184,
                   child: Column(
                     children: [
-                      Expanded(
-                        child: Container(
-                          decoration: const BoxDecoration(
+                      const Expanded(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
@@ -102,26 +102,29 @@ class DealOfTheDaySection extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Trimming & Cutting"),
+                            const Text('Trimming & Cutting'),
                             kHeight5,
                             Row(
-                              children: [
-                                const Text(
+                              children: const [
+                                Text(
                                   'Rs 10,000',
                                   style: TextStyle(
-                                      decoration: TextDecoration.lineThrough,
-                                      fontSize: 10,
-                                      color: Color(0xffADB5BD)),
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: 10,
+                                    color: Color(0xffADB5BD),
+                                  ),
                                 ),
                                 kWidth5,
-                                const Text(
+                                Text(
                                   'Rs 5,000',
                                   style: TextStyle(
-                                      fontSize: 12, color: Color(0xff3eaeff)),
+                                    fontSize: 12,
+                                    color: Color(0xff3eaeff),
+                                  ),
                                 ),
                               ],
                             ),
@@ -129,8 +132,9 @@ class DealOfTheDaySection extends StatelessWidget {
                             Container(
                               height: 4,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: const Color(0xffd9d9d9)),
+                                borderRadius: BorderRadius.circular(4),
+                                color: const Color(0xffd9d9d9),
+                              ),
                             ),
                             kHeight5,
                             const Text(

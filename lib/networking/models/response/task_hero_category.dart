@@ -9,14 +9,6 @@ class TaskHeroCategory {
     this.result,
   });
 
-  final int? totalPages;
-  final int? count;
-  final int? current;
-  final dynamic next;
-  final dynamic previous;
-  final int? pageSize;
-  final List<Result>? result;
-
   factory TaskHeroCategory.fromJson(Map<String, dynamic> json) =>
       TaskHeroCategory(
         totalPages: json['total_pages'] as int?,
@@ -26,11 +18,19 @@ class TaskHeroCategory {
         previous: json['previous'],
         pageSize: json['page_size'] as int?,
         result: List<Result>.from(
-          json['result'].map(
-            (x) => Result.fromJson(x as Map<String, dynamic>),
+          (json['result']).map(
+            (dynamic x) => Result.fromJson(x as Map<String, dynamic>),
           ) as Iterable<dynamic>,
         ),
       );
+
+  final int? totalPages;
+  final int? count;
+  final int? current;
+  final dynamic next;
+  final dynamic previous;
+  final int? pageSize;
+  final List<Result>? result;
 
   Map<String, dynamic> toJson() => {
         'total_pages': totalPages,
@@ -50,15 +50,15 @@ class Result {
     this.isActive,
   });
 
-  final int? id;
-  final Category? category;
-  final bool? isActive;
-
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json['id'] as int?,
         category: Category.fromJson(json['category'] as Map<String, dynamic>),
         isActive: json['is_active'] as bool?,
       );
+
+  final int? id;
+  final Category? category;
+  final bool? isActive;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -74,15 +74,15 @@ class Category {
     this.slug,
   });
 
-  final String? name;
-  final dynamic icon;
-  final String? slug;
-
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         name: json['name'] as String?,
         icon: json['icon'],
         slug: json['slug'] as String?,
       );
+
+  final String? name;
+  final dynamic icon;
+  final String? slug;
 
   Map<String, dynamic> toJson() => {
         'name': name,

@@ -55,8 +55,8 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text.rich(
+                                children: const [
+                                  Text.rich(
                                     TextSpan(
                                       text: 'I am a ',
                                       style: kText16,
@@ -74,7 +74,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                     ),
                                   ),
                                   kHeight10,
-                                  const Text(
+                                  Text(
                                     'I am looking forward to hire professional individual and get my work done as quick as possible.',
                                     style: kHelper1,
                                   ),
@@ -127,8 +127,8 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text.rich(
+                                children: const [
+                                  Text.rich(
                                     TextSpan(
                                       text: 'I am a ',
                                       style: kText16,
@@ -146,7 +146,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                     ),
                                   ),
                                   kHeight10,
-                                  const Text(
+                                  Text(
                                     'I am a hardworking person focusing on uplifting my careers to next heights.',
                                     style: kHelper1,
                                   ),
@@ -199,8 +199,8 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                             Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text.rich(
+                                children: const [
+                                  Text.rich(
                                     TextSpan(
                                       text: 'I am a ',
                                       style: kText16,
@@ -218,7 +218,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                     ),
                                   ),
                                   kHeight10,
-                                  const Text(
+                                  Text(
                                     'I am a merchant looking for taskers who are willing to work in my behalf.',
                                     style: kHelper1,
                                   ),

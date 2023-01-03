@@ -63,7 +63,7 @@ class _PreferencesAddSkillState extends State<PreferencesAddSkill> {
           Expanded(
             child: GridView.builder(
               itemCount: skillAssetList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 1.5,
                 crossAxisSpacing: 7,
