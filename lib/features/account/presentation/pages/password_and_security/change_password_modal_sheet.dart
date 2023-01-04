@@ -9,15 +9,15 @@ class ChangePasswordModalSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomModalSheetDrawerIcon(),
+        const CustomModalSheetDrawerIcon(),
         kHeight20,
-        Text(
+        const Text(
           'Change password',
           style: kBodyText2,
         ),
         kHeight20,
         Row(
-          children: [
+          children: const [
             Text(
               'Current Password',
               style: kPurpleText16,
@@ -29,10 +29,10 @@ class ChangePasswordModalSheet extends StatelessWidget {
           ],
         ),
         kHeight5,
-        CustomTextFormField(),
+        const CustomTextFormField(),
         kHeight20,
         Row(
-          children: [
+          children: const [
             Text(
               'New Password',
               style: kPurpleText16,
@@ -44,10 +44,10 @@ class ChangePasswordModalSheet extends StatelessWidget {
           ],
         ),
         kHeight5,
-        CustomTextFormField(),
+        const CustomTextFormField(),
         kHeight20,
         Row(
-          children: [
+          children: const [
             Text(
               'Confirm Password',
               style: kPurpleText16,
@@ -59,7 +59,7 @@ class ChangePasswordModalSheet extends StatelessWidget {
           ],
         ),
         kHeight5,
-        CustomTextFormField(),
+        const CustomTextFormField(),
         kHeight20,
         CustomElevatedButton(
           callback: () {},

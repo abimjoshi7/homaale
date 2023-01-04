@@ -1,12 +1,14 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_password.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
+import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpWithPhone extends StatefulWidget {
   const SignUpWithPhone({super.key});
@@ -124,20 +126,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                             children: [
                               Flexible(
                                 child: CustomTextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter password';
-                                    }
-                                    return null;
-                                    //  else {
-                                    //   bool result = validatePassword(value);
-                                    //   if (result) {
-                                    //     return null;
-                                    //   } else {
-                                    //     return "Should contain at least 1 capital letter, number & special symbol";
-                                    //   }
-                                    // }
-                                  },
+                                  validator: validatePassword,
                                   textInputType: TextInputType.visiblePassword,
                                   onSaved: (p0) => setState(() {
                                     passwordController.text = p0!;
@@ -167,6 +156,13 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                       confirmPasswordController.text = p0!;
                                     },
                                   ),
+                                  validator: (val) {
+                                    if (val!.isEmpty) return 'Cannot be empty';
+                                    if (val != passwordController.text) {
+                                      return "Password didn't match";
+                                    }
+                                    return null;
+                                  },
                                 ),
                               ),
                             ],
@@ -221,52 +217,54 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                         ],
                       ),
                       kHeight20,
-                      CustomElevatedButton(
-                        callback: () async {
-                          _formKey.currentState!.validate();
-                          _formKey.currentState!.save();
-                          if (_formKey.currentState!.validate() == true) {
-                            if (isChecked == false) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Please agree to the terms and policy.',
-                                  ),
-                                ),
-                              );
-                            } else {
-                              try {
-                                final x =
-                                    await NetworkHelper().createUserWithPhone(
-                                  phoneNumber:
-                                      '+977${phoneNumberController.text}',
-                                  password: passwordController.text,
-                                );
-                                if (x.statusCode == 201) {
-                                  if (!mounted) return;
-                                  await Navigator.pushNamed(
-                                    context,
-                                    OtpSignUp.routeName,
-                                    arguments: {
-                                      'phone':
-                                          '+977${phoneNumberController.text}',
-                                      'password': passwordController.text,
-                                    },
-                                  );
-                                }
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Something went wrong. Please try again',
+                      BlocBuilder<SignUpCubit, SignUpState>(
+                        builder: (context, state) {
+                          return CustomElevatedButton(
+                            callback: () async {
+                              _formKey.currentState!.validate();
+                              _formKey.currentState!.save();
+                              if (_formKey.currentState!.validate() == true) {
+                                if (isChecked == false) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Please agree to the terms and policy.',
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else {
+                                  await context
+                                      .read<SignUpCubit>()
+                                      .signUpWithPhone(
+                                        '+977${phoneNumberController.text}',
+                                        passwordController.text,
+                                      );
+                                  if (state is SignUpSuccess) {
+                                    if (!mounted) return;
+                                    await Navigator.pushNamed(
+                                      context,
+                                      OtpSignUp.routeName,
+                                      arguments: {
+                                        'phone':
+                                            '+977${phoneNumberController.text}',
+                                        'password': passwordController.text,
+                                      },
+                                    );
+                                  } else if (state is SignUpFailure) {
+                                    if (!mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Something went wrong. Please try again'),
+                                      ),
+                                    );
+                                  }
+                                }
                               }
-                            }
-                          }
+                            },
+                            label: 'Sign Up',
+                          );
                         },
-                        label: 'Sign Up',
                       )
                     ],
                   ),

@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/custom_modal_sheet_drawer_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -11,25 +10,25 @@ class PersonalInformationPage extends StatelessWidget {
     return Form(
       child: Column(
         children: [
-          CustomModalSheetDrawerIcon(),
-          Text(
+          const CustomModalSheetDrawerIcon(),
+          const Text(
             'Personal Information',
             style: kHeading2,
           ),
           kHeight50,
-          Text('Full Name'),
+          const Text('Full Name'),
           kHeight5,
-          CustomTextFormField(
+          const CustomTextFormField(
             hintText: 'Harry Smith',
           ),
           kHeight20,
-          Text('Email'),
+          const Text('Email'),
           kHeight5,
-          CustomTextFormField(
+          const CustomTextFormField(
             hintText: 'harrysmith@gmail.com',
           ),
           kHeight20,
-          Text('Contact'),
+          const Text('Contact'),
           kHeight5,
           CustomTextFormField(
             textInputType: TextInputType.number,
@@ -50,16 +49,16 @@ class PersonalInformationPage extends StatelessWidget {
             ),
           ),
           kHeight20,
-          Text('Date of birth'),
+          const Text('Date of birth'),
           kHeight5,
-          CustomTextFormField(
+          const CustomTextFormField(
             hintText: '03/06/1999',
           ),
           kHeight20,
-          Text('Please specify your gender'),
+          const Text('Please specify your gender'),
           kHeight5,
           Wrap(
-            children: [
+            children: const [
               Chip(
                 label: Text('Male'),
               ),
@@ -72,9 +71,9 @@ class PersonalInformationPage extends StatelessWidget {
             ],
           ),
           kHeight20,
-          Text('Bio'),
+          const Text('Bio'),
           kHeight5,
-          CustomTextFormField(
+          const CustomTextFormField(
             maxLines: 3,
             hintText: 'Add your bio',
           ),

@@ -1,10 +1,13 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
 import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
+import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/network_helper.dart';
@@ -138,6 +141,34 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                         if (kDebugMode) {
                           print(
                             x.toJson(),
+                          );
+                        }
+                        if (x.access != null) {
+                          if (keepLogged == true) {
+                            await SharedPrefs.persistString(
+                              key: kAccessToken,
+                              value: x.access,
+                            );
+                            await SharedPrefs.persistString(
+                              key: kRefreshToken,
+                              value: x.refresh,
+                            );
+                          }
+                          if (!mounted) return;
+                          await Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Root.routeName,
+                            (route) => false,
+                          );
+                        } else {
+                          if (!mounted) return;
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Cannot login. Please try again',
+                              ),
+                            ),
                           );
                         }
                       },
@@ -275,7 +306,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      SignUpWithPhone.routeName,
+                      SignUpWithEmail.routeName,
                     );
                   },
                   child: const Text(

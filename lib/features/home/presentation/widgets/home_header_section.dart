@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
+import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,9 @@ class HomeHeaderSection extends StatelessWidget {
               ],
             ),
             trailing: IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                await NetworkHelper().getTaskerProfile();
+              },
               icon: const Icon(
                 Icons.notifications_none,
               ),

@@ -1,11 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/custom_modal_sheet_drawer_icon.dart';
-import 'package:cipher/widgets/custom_radio.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ProfessionalInformationModalSheet extends StatelessWidget {
   const ProfessionalInformationModalSheet({super.key});
@@ -14,13 +9,13 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomModalSheetDrawerIcon(),
-        Text(
+        const CustomModalSheetDrawerIcon(),
+        const Text(
           'Professional Information',
           style: kBodyText2,
         ),
         kHeight20,
-        Text(
+        const Text(
           'Select User Type',
           style: kPurpleText16,
         ),
@@ -33,7 +28,7 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
                   onTap: () {},
                 ),
                 kWidth5,
-                Text('Client')
+                const Text('Client')
               ],
             ),
             kWidth20,
@@ -43,31 +38,31 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
                   onTap: () {},
                 ),
                 kWidth5,
-                Text('Tasker')
+                const Text('Tasker')
               ],
             ),
           ],
         ),
         kHeight20,
-        Text(
+        const Text(
           'Specialities',
           style: kPurpleText16,
         ),
         kHeight5,
-        CustomTextFormField(
+        const CustomTextFormField(
           hintText: 'Enter your skills',
         ),
         kHeight20,
-        Text(
+        const Text(
           'Experience Level',
           style: kPurpleText16,
         ),
         kHeight5,
-        CustomTextFormField(
+        const CustomTextFormField(
           hintText: 'Enter your skills',
         ),
         kHeight20,
-        Text(
+        const Text(
           'Active Hours',
           style: kPurpleText16,
         ),
@@ -75,13 +70,13 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Sunday',
               style: kPurpleText16,
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete,
               ),
             ),
@@ -90,7 +85,7 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
         kHeight10,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: const [
             Flexible(
               child: CustomTextFormField(
                 hintText: 'Enter your skills',
@@ -108,13 +103,13 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Monday',
               style: kPurpleText16,
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete,
               ),
             ),
@@ -123,7 +118,7 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
         kHeight10,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: const [
             Flexible(
               child: CustomTextFormField(
                 hintText: 'Enter your skills',
@@ -138,18 +133,18 @@ class ProfessionalInformationModalSheet extends StatelessWidget {
           ],
         ),
         kHeight20,
-        Text(
+        const Text(
           'Select day',
           style: kPurpleText16,
         ),
         kHeight5,
-        CustomTextFormField(
+        const CustomTextFormField(
           hintText: 'Every day',
         ),
         kHeight20,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: const [
             Flexible(
               child: CustomTextFormField(
                 hintText: 'Enter your  skills',

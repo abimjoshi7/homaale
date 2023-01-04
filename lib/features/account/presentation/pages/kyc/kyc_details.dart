@@ -67,7 +67,6 @@ class KycDetails extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

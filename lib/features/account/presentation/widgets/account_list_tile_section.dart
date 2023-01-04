@@ -17,7 +17,7 @@ class AccountListTileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Column(
         children: [
@@ -26,14 +26,16 @@ class AccountListTileSection extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [icon, kWidth20, Text(label)],
+                Expanded(
+                  child: Row(
+                    children: [icon, kWidth20, Text(label)],
+                  ),
                 ),
                 trailingWidget
               ],
             ),
           ),
-          Divider(
+          const Divider(
             thickness: 0.5,
           ),
         ],

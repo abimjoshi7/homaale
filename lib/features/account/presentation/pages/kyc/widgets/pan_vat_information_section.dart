@@ -9,7 +9,7 @@ class PanVatInformationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
+        const Text(
           'PAN/VAT Information',
           style: kHeading2,
         ),
@@ -107,7 +107,7 @@ class PanVatInformationSection extends StatelessWidget {
         ),
         kHeight5,
         Row(
-          children: [
+          children: const [
             Text('Upload your PAN/VAT card'),
             kWidth10,
             Icon(
@@ -146,7 +146,7 @@ class PanVatInformationSection extends StatelessWidget {
               onTap: () {},
             ),
             kWidth10,
-            Text('Don\'t have Social Links')
+            const Text("Don't have Social Links")
           ],
         ),
         kHeight20,
@@ -167,7 +167,7 @@ class PanVatInformationSection extends StatelessWidget {
         ),
         kHeight5,
         Row(
-          children: [
+          children: const [
             Text('Upload your Company Logo'),
             kWidth10,
             Icon(

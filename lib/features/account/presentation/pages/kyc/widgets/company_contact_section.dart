@@ -9,7 +9,7 @@ class CompanyContactSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
+        const Text(
           'Company Contacts',
           style: kHeading2,
         ),

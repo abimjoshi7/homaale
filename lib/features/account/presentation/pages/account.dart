@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account/presentation/pages/kyc/kyc_modal_sheets.dart';
+import 'package:cipher/features/account/presentation/pages/saved/saved_page.dart';
 import 'package:cipher/features/account/presentation/pages/settings/settings.dart';
 import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,14 +24,7 @@ class Account extends StatelessWidget with KycModalSheets {
         children: [
           kHeight50,
           CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
+            leadingWidget: const SizedBox.shrink(),
             trailingWidget: IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {},
@@ -169,7 +165,9 @@ class Account extends StatelessWidget with KycModalSheets {
             ),
           ),
           AccountListTileSection(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, SavedPage.routeName);
+            },
             icon: const Icon(
               Icons.favorite_border_outlined,
               color: Color(0xff495057),
@@ -233,9 +231,25 @@ class Account extends StatelessWidget with KycModalSheets {
               size: 16,
             ),
           ),
+          AccountListTileSection(
+            onTap: () async {
+              await SharedPrefs.clearAll().then(
+                (value) => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  SignInWithPhone.routeName,
+                  (route) => false,
+                ),
+              );
+            },
+            icon: const Icon(Icons.logout_rounded),
+            label: 'Logout',
+            trailingWidget: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
+          ),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

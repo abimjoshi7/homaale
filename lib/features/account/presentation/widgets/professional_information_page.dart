@@ -2,8 +2,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ProfessionalInformationPage extends StatelessWidget {
   const ProfessionalInformationPage({super.key});
@@ -38,47 +36,47 @@ class ProfessionalInformationPage extends StatelessWidget {
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           AccountListTileSection(
-            icon: SizedBox.shrink(),
+            icon: const SizedBox.shrink(),
             label: 'Skills',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
             onTap: () {},
           ),
           AccountListTileSection(
-            icon: SizedBox.shrink(),
+            icon: const SizedBox.shrink(),
             label: 'Portfolio',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
             onTap: () {},
           ),
           AccountListTileSection(
-            icon: SizedBox.shrink(),
+            icon: const SizedBox.shrink(),
             label: 'Experience',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
             onTap: () {},
           ),
           AccountListTileSection(
-            icon: SizedBox.shrink(),
+            icon: const SizedBox.shrink(),
             label: 'Education',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
             onTap: () {},
           ),
           AccountListTileSection(
-            icon: SizedBox.shrink(),
+            icon: const SizedBox.shrink(),
             label: 'Certification',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),

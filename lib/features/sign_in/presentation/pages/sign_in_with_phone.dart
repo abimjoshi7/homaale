@@ -1,5 +1,6 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -85,7 +86,9 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                             ),
                             kWidth10,
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                await NetworkHelper().getUserRole();
+                              },
                               child: const SmallBoxContainer(
                                 child: Icon(
                                   Icons.phone_android_sharp,
@@ -182,7 +185,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                           if (!mounted) return;
                           await Navigator.pushNamedAndRemoveUntil(
                             context,
-                            Home.routeName,
+                            Root.routeName,
                             (route) => false,
                           );
                         } else {

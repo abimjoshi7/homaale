@@ -85,7 +85,6 @@ class AccountInfoPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

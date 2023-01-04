@@ -12,6 +12,7 @@ import 'package:cipher/networking/models/response/otp_response.dart';
 import 'package:cipher/networking/models/response/task_category.dart';
 import 'package:cipher/networking/models/response/task_hero_category.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
+import 'package:cipher/networking/models/response/user_sign_up_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -23,59 +24,64 @@ class NetworkHelper {
       receiveTimeout: 5000,
     ),
   )..interceptors.add(
+      // InterceptorsWrapper(
+
+      //   onResponse: (e, handler) {
+      //     print('Response: ${e.data}');
+      //     print('Response1: ${e.statusMessage}');
+      //     print('Response2: ${e.headers}');
+      //     handler.next(e);
+      //   },
+      //   onError: (e, handler) {},
+      // ),
       AwesomeDioInterceptor(
-        logger: debugPrint,
+        // logger: debugPrint,
+        logRequestHeaders: false,
+        logRequestTimeout: false,
+        logResponseHeaders: false,
       ),
     );
-  // ..interceptors.add(
-  //     InterceptorsWrapper(
-  //       onRequest: (options, handler) {
-  //         if (kDebugMode) {
-  //           print('REQUEST[${options.method}] => PATH: ${options.path}');
-  //         }
-  //       },
-  //       onResponse: (response, handler) {
-  //         if (kDebugMode) {
-  //           print(response.statusCode);
-  //           print(response.statusMessage);
-  //         }
-  //         return handler.next(response);
-  //       },
-  //       onError: (DioError e, handler) {
-  //         if (kDebugMode) {
-  //           print(e.error);
-  //           print(e.message);
-  //         }
-  //         return handler.next(e);
-  //       },
-  //     ),
-  //   );
 
-  Future<Response<dynamic>> createUserWithEmail({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/signup/',
-        data: {'email': email, 'password': password},
-      );
-      return res;
-    } catch (e) {
-      rethrow;
-    }
+  Future<void> getUserRole() async {
+    final x = await _dio.get('user/role');
+    _dio.interceptors.first.toString();
   }
 
-  Future<Response<dynamic>> createUserWithPhone({
+  Future<UserSignUpRes> createUserWithPhone({
     required String phoneNumber,
     required String password,
   }) async {
     try {
       final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/signup/',
-        data: {'phone': phoneNumber, 'password': password},
+        'user/signup/',
+        data: {
+          'phone': phoneNumber,
+          'password': password,
+        },
       );
-      return res;
+      return UserSignUpRes.fromJson(
+        res.data as Map<String, dynamic>,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<UserSignUpRes> createUserWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final res = await _dio.post(
+        'user/signup/',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+      return UserSignUpRes.fromJson(
+        res.data as Map<String, dynamic>,
+      );
     } catch (e) {
       rethrow;
     }
@@ -141,6 +147,11 @@ class NetworkHelper {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<void> getTaskerProfile() async {
+    final x = await _dio.get('tasker/profile/');
+    print('Status Code:${x.statusCode}');
   }
 
   Future<OtpRes> verifyOTPSignUp({

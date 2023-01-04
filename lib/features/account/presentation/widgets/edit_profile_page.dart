@@ -4,8 +4,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class EditProfilePage extends StatelessWidget {
-  static const routeName = '/edit-profile-page';
   const EditProfilePage({super.key});
+  static const routeName = '/edit-profile-page';
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: Form(
               child: Padding(
@@ -45,41 +45,41 @@ class EditProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: CircleAvatar(
                         radius: 50,
                       ),
                     ),
                     kHeight15,
-                    Center(
+                    const Center(
                       child: Text(
                         'Change profile photo',
                         style: kPurpleText16,
                       ),
                     ),
                     kHeight50,
-                    Text(
+                    const Text(
                       'Full name',
                       style: kPurpleText16,
                     ),
                     kHeight5,
-                    CustomTextFormField(
+                    const CustomTextFormField(
                       hintText: 'Harry Smith',
                     ),
                     kHeight20,
-                    Text(
+                    const Text(
                       'Designation',
                       style: kPurpleText16,
                     ),
                     kHeight5,
-                    CustomTextFormField(
+                    const CustomTextFormField(
                       hintText: 'Pilot',
                     ),
                     kHeight20,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Task Analytics',
                           style: kPurpleText16,
                         ),
@@ -90,7 +90,7 @@ class EditProfilePage extends StatelessWidget {
                       ],
                     ),
                     kHeight5,
-                    Text(
+                    const Text(
                       'Do you want to enable task analytics in profile?',
                       style: kHelper1,
                     ),
@@ -107,9 +107,9 @@ class EditProfilePage extends StatelessWidget {
             ),
           ),
           AccountListTileSection(
-            icon: SizedBox.shrink(),
+            icon: const SizedBox.shrink(),
             label: 'Additional account setting',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios,
               size: 16,
             ),
@@ -117,7 +117,6 @@ class EditProfilePage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
