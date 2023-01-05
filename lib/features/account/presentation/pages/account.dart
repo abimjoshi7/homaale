@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account/presentation/pages/kyc/kyc_modal_sheets.dart';
 import 'package:cipher/features/account/presentation/pages/saved/saved_page.dart';
@@ -10,6 +9,7 @@ import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Account extends StatelessWidget with KycModalSheets {
@@ -233,13 +233,13 @@ class Account extends StatelessWidget with KycModalSheets {
           ),
           AccountListTileSection(
             onTap: () async {
-              await SharedPrefs.clearAll().then(
-                (value) => Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  SignInWithPhone.routeName,
-                  (route) => false,
-                ),
-              );
+              await const FlutterSecureStorage().deleteAll().then(
+                    (value) => Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SignInWithPhone.routeName,
+                      (route) => false,
+                    ),
+                  );
             },
             icon: const Icon(Icons.logout_rounded),
             label: 'Logout',
