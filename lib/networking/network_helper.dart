@@ -1,8 +1,7 @@
-// ignore_for_file: inference_failure_on_function_invocation, strict_raw_type, lines_longer_than_80_chars
+// ignore_for_file: inference_failure_on_function_invocation, strict_raw_type, lines_longer_than_80_chars, avoid_dynamic_calls
 
 import 'dart:convert';
 
-import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
 import 'package:cipher/api_service.dart';
 import 'package:cipher/networking/models/request/otp_request.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
@@ -15,6 +14,9 @@ import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:cipher/networking/models/response/user_sign_up_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+const storage = FlutterSecureStorage();
 
 class NetworkHelper {
   final _dio = Dio(
@@ -22,30 +24,36 @@ class NetworkHelper {
       baseUrl: baseIPSecondary,
       connectTimeout: 5000,
       receiveTimeout: 5000,
+      receiveDataWhenStatusError: true,
     ),
   )..interceptors.add(
-      // InterceptorsWrapper(
-
-      //   onResponse: (e, handler) {
-      //     print('Response: ${e.data}');
-      //     print('Response1: ${e.statusMessage}');
-      //     print('Response2: ${e.headers}');
-      //     handler.next(e);
-      //   },
-      //   onError: (e, handler) {},
-      // ),
-      AwesomeDioInterceptor(
-        // logger: debugPrint,
-        logRequestHeaders: false,
-        logRequestTimeout: false,
-        logResponseHeaders: false,
+      InterceptorsWrapper(
+        onRequest: (options, handler) => handler.next(options),
+        onResponse: (e, handler) async {
+          if (kDebugMode) {
+            print('RESPONSE INTERCEPTOR: ${e.data}');
+          }
+          await storage.delete(key: 'errorLog');
+          handler.next(e);
+        },
+        onError: (e, handler) async {
+          if (kDebugMode) {
+            print('ERROR INTERCEPTOR: ${e.response?.data}');
+            print('ERROR INTERCEPTOR: ${e.message}');
+          }
+          await storage.delete(key: 'errorLog').then(
+                (value) async => storage.write(
+                  key: 'errorLog',
+                  value: e.response!.data.values
+                      .toString()
+                      .replaceAll(RegExp(r'[^\w\s]+'), ''),
+                ),
+              );
+          // }
+          handler.next(e);
+        },
       ),
     );
-
-  Future<void> getUserRole() async {
-    final x = await _dio.get('user/role');
-    _dio.interceptors.first.toString();
-  }
 
   Future<UserSignUpRes> createUserWithPhone({
     required String phoneNumber,
@@ -67,7 +75,7 @@ class NetworkHelper {
     }
   }
 
-  Future<UserSignUpRes> createUserWithEmail({
+  Future<UserSignUpRes?> createUserWithEmail({
     required String email,
     required String password,
   }) async {
@@ -82,9 +90,7 @@ class NetworkHelper {
       return UserSignUpRes.fromJson(
         res.data as Map<String, dynamic>,
       );
-    } catch (e) {
-      rethrow;
-    }
+    } catch (e) {}
   }
 
   Future<UserLoginRes> logInUser({required UserLoginReq userLoginReq}) async {
@@ -171,14 +177,6 @@ class NetworkHelper {
           'password': password,
           'confirm_password': confirmPassword,
         },
-        // options: Options(
-        //   // followRedirects: false,
-        //   // will not throw errors
-        //   // validateStatus: (status) => true,
-        //   responseDecoder: (responseBytes, options, responseBody) {
-        //     return "Status Code: ${responseBody.statusCode} Status Message:${responseBody.statusMessage!}";
-        //   },
-        // ),
       );
       return OtpRes.fromJson(res.data as Map<String, dynamic>);
     } catch (e) {
@@ -199,14 +197,6 @@ class NetworkHelper {
           'otp': otp,
           'scope': scope,
         },
-        // options: Options(
-        //   // followRedirects: false,
-        //   // will not throw errors
-        //   // validateStatus: (status) => true,
-        //   responseDecoder: (responseBytes, options, responseBody) {
-        //     return "Status Code: ${responseBody.statusCode} Status Message:${responseBody.statusMessage!}";
-        //   },
-        // ),
       );
       return OtpRes.fromJson(res.data as Map<String, dynamic>);
     } catch (e) {
@@ -221,14 +211,6 @@ class NetworkHelper {
       final res = await _dio.post(
         '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/',
         data: otpReq.toJson(),
-        // options: Options(
-        //   // followRedirects: false,
-        //   // will not throw errors
-        //   // validateStatus: (status) => true,
-        //   responseDecoder: (responseBytes, options, responseBody) {
-        //     return "Status Code: ${responseBody.statusCode} Status Message:${responseBody.statusMessage!}";
-        //   },
-        // ),
       );
       return OtpRes.fromJson(res.data as Map<String, dynamic>);
     } catch (e) {
@@ -262,17 +244,6 @@ class NetworkHelper {
     }
   }
 
-  // Future<List<TaskCategory>> getTaskCategoryList() async {
-  //   try {
-  //     final x = await _dio.post(
-  //       '$baseIPSecondary:$portNumber/api/$versionNumber/task/cms/task-category/list/',
-  //     );
-  //     return x.data as List<TaskCategory>;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
   Future<List<TaskCategory>> getTaskCategoryList() async {
     try {
       final x = await _dio.get(
@@ -297,11 +268,6 @@ class NetworkHelper {
     } catch (e) {
       rethrow;
     }
-  }
-
-  Future<void> getUserRoleList() async {
-    final x = await _dio.get('user/role');
-    print(x);
   }
 
   // Future<TaskerProfileRes> getTaskerProfile() async {

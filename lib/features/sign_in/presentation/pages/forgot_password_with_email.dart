@@ -30,81 +30,74 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
             style: kHelper1,
           ),
           kHeight20,
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Email', style: kLabelPrimary),
-                  kHeight10,
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Form(
-                          key: _formKey,
-                          child: CustomTextFormField(
-                            onSaved: (p0) => setState(
-                              () {
-                                emailController.text = p0!;
-                              },
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Email', style: kLabelPrimary),
+                    kHeight10,
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Form(
+                            key: _formKey,
+                            child: CustomTextFormField(
+                              onSaved: (p0) => setState(
+                                () {
+                                  emailController.text = p0!;
+                                },
+                              ),
+                              hintText: 'Enter your email here',
                             ),
-                            hintText: 'Enter your email here',
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  kHeight20,
-                  const Text(
-                    'An OTP code will be sent to your email.',
-                    style: kBodyText1,
-                  ),
-                  kHeight20,
-                  kHeight20,
-                  kHeight20,
-                  kHeight20,
-                  kHeight20,
-                  kHeight20,
-                  kHeight20,
-                  kHeight20,
-                  CustomElevatedButton(
-                    callback: () async {
-                      _formKey.currentState!.save();
-                      try {
-                        final x = await NetworkHelper().resetPasswordwithEmail(
-                          email: emailController.text,
-                        );
-                        if (x.statusCode == 201) {
-                          if (!mounted) return;
-                          await Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            SignInWithEmail.routeName,
-                            (route) => false,
-                          );
-                        }
-                      } catch (e) {
-                        if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Something went wrong. Please try again',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                      }
-
-                      // print(x);
-                      // print(x.statusCode);
-                      // print(x.statusMessage);
-                    },
-                    label: 'Continue',
-                  )
-                ],
+                      ],
+                    ),
+                    kHeight20,
+                    const Text(
+                      'An OTP code will be sent to your email.',
+                      style: kBodyText1,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          Center(
+            child: CustomElevatedButton(
+              callback: () async {
+                _formKey.currentState!.save();
+                try {
+                  final x = await NetworkHelper().resetPasswordwithEmail(
+                    email: emailController.text,
+                  );
+                  if (x.statusCode == 201) {
+                    if (!mounted) return;
+                    await Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SignInWithEmail.routeName,
+                      (route) => false,
+                    );
+                  }
+                } catch (e) {
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Something went wrong. Please try again',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
+              },
+              label: 'Continue',
+            ),
+          ),
+          kHeight50,
         ],
       ),
     );

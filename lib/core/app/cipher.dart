@@ -1,6 +1,7 @@
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/networking/network_helper.dart';
@@ -27,9 +28,10 @@ class Cipher extends StatelessWidget {
           )..fetchHeroCategory(),
         ),
         BlocProvider(
-          create: (context) => SignUpCubit(
-            NetworkHelper(),
-          ),
+          create: (context) => SignUpCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SignInCubit(),
         ),
       ],
       child: MaterialApp(

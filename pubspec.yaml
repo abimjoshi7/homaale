@@ -20,6 +20,8 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_facebook_auth: ^5.0.6
   flutter_native_splash: ^2.2.16
+  flutter_secure_storage: ^7.0.1
+  fluttertoast: ^8.1.2
   font_awesome_flutter: ^10.3.0
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.2

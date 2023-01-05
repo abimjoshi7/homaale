@@ -1,15 +1,17 @@
 // ignore_for_file: duplicate_ignore, lines_longer_than_80_chars
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_email.dart';
 import 'package:cipher/core/validations/validate_password.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpWithEmail extends StatefulWidget {
   const SignUpWithEmail({super.key});
@@ -24,6 +26,8 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isChecked = false;
+  final storage = FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -87,6 +91,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                           children: [
                             Flexible(
                               child: CustomTextFormField(
+                                validator: validateEmail,
                                 onSaved: (p0) => setState(() {
                                   emailController.text = p0!;
                                 }),
@@ -202,7 +207,27 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                       ],
                     ),
                     kHeight20,
-                    BlocBuilder<SignUpCubit, SignUpState>(
+                    BlocConsumer<SignUpCubit, SignUpState>(
+                      listener: (context, state) async {
+                        final x = await storage.read(
+                          key: kErrorLog,
+                        );
+                        if (state is SignUpSuccess) {
+                          if (!mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Succesfully signed up.'),
+                            ),
+                          );
+                        } else if (state is SignUpFailure) {
+                          if (!mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(x!),
+                            ),
+                          );
+                        }
+                      },
                       builder: (context, state) {
                         return CustomElevatedButton(
                           callback: () async {
@@ -220,7 +245,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                               } else {
                                 await context
                                     .read<SignUpCubit>()
-                                    .signUpWithEmail(
+                                    .initiateSignUpWithEmail(
                                       emailController.text,
                                       passwordController.text,
                                     );
@@ -229,15 +254,6 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                   await Navigator.pushNamed(
                                     context,
                                     SignInWithEmail.routeName,
-                                  );
-                                } else if (state is SignUpFailure) {
-                                  if (!mounted) return;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Something went wrong. Please try again',
-                                      ),
-                                    ),
                                   );
                                 }
                               }

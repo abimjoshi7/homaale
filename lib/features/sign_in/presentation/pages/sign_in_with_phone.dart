@@ -1,20 +1,18 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/app/shared_preferences.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/home/presentation/pages/home.dart';
-import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
+import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
-import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
+import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/small_box_container.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignInWithPhone extends StatefulWidget {
   const SignInWithPhone({super.key});
@@ -29,6 +27,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
   final _formKey = GlobalKey<FormState>();
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
+  final storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,11 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                             kWidth10,
                             GestureDetector(
                               onTap: () async {
-                                await NetworkHelper().getUserRole();
+                                final x = await DioHelper()
+                                    .getData(url: 'user/role/');
+                                final y = await const FlutterSecureStorage()
+                                    .read(key: kErrorLog);
+                                print(y);
                               },
                               child: const SmallBoxContainer(
                                 child: Icon(
@@ -157,174 +160,80 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                       ],
                     ),
                     kHeight20,
-                    CustomElevatedButton(
-                      callback: () async {
-                        _formKey.currentState!.save();
-                        final x = await NetworkHelper().logInUser(
-                          userLoginReq: UserLoginReq(
-                            username: '+977${phoneNumberController.text}',
-                            password: passwordController.text,
-                          ),
-                        );
-                        if (kDebugMode) {
-                          print(
-                            x.toJson(),
-                          );
-                        }
-                        if (x.access != null) {
-                          if (keepLogged == true) {
-                            await SharedPrefs.persistString(
-                              key: kAccessToken,
-                              value: x.access,
-                            );
-                            await SharedPrefs.persistString(
-                              key: kRefreshToken,
-                              value: x.refresh,
-                            );
-                          }
+                    BlocConsumer<SignInCubit, SignInState>(
+                      listener: (context, state) async {
+                        final x = await storage.read(key: kErrorLog);
+                        if (state is SignInSuccess) {
                           if (!mounted) return;
-                          await Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Root.routeName,
-                            (route) => false,
-                          );
-                        } else {
-                          if (!mounted) return;
-
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Cannot login. Please try again',
+                                'Succesfully signed in',
+                              ),
+                            ),
+                          );
+                        } else if (state is SignInFailure) {
+                          if (!mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                x!,
                               ),
                             ),
                           );
                         }
                       },
-                      label: 'Login',
+                      builder: (context, state) {
+                        return CustomElevatedButton(
+                          callback: () async {
+                            _formKey.currentState!.save();
+                            await context.read<SignInCubit>().initiateSignIn(
+                                  UserLoginReq(
+                                    username:
+                                        '+977${phoneNumberController.text}',
+                                    password: passwordController.text,
+                                  ),
+                                );
+                            print(state);
+                            // if (state is SignInSuccess) {
+                            //   if (state.userLoginRes.access != null) {
+                            //     if (keepLogged == true) {
+                            //       await storage.write(
+                            //         key: kAccessToken,
+                            //         value: state.userLoginRes.access,
+                            //       );
+                            //       await storage.write(
+                            //         key: kRefreshToken,
+                            //         value: state.userLoginRes.refresh,
+                            //       );
+                            //       if (!mounted) return;
+                            //       await Navigator.pushNamedAndRemoveUntil(
+                            //         context,
+                            //         Root.routeName,
+                            //         (route) => false,
+                            //       );
+                            //     } else {
+                            //       if (!mounted) return;
+                            //       await Navigator.pushNamedAndRemoveUntil(
+                            //         context,
+                            //         Root.routeName,
+                            //         (route) => false,
+                            //       );
+                            //     }
+                            //   }
+                            // }
+                          },
+                          label: 'Login',
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () async {
-                await showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Column(
-                    children: [
-                      kHeight5,
-                      const Icon(
-                        Icons.maximize,
-                        size: 40,
-                        color: Color(0xffCED4DA),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            kHeight50,
-                            Container(
-                              color: Colors.black12,
-                              height: 100,
-                              width: 100,
-                            ),
-                            kHeight20,
-                            const Text("Verify it's you"),
-                            kHeight10,
-                            const Text('or'),
-                            kHeight10,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text('Use'),
-                                kWidth10,
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: const Text(
-                                    'MPIN',
-                                    style: TextStyle(color: Color(0xff3EAEFF)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      CustomElevatedButton(
-                        callback: () {
-                          Navigator.pop(context);
-                        },
-                        mainColor: Colors.white,
-                        textColor: const Color(0xff3D3F7D),
-                        label: 'Cancel',
-                      ),
-                      kHeight20
-                    ],
-                  ),
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.fingerprint_rounded),
-                  kWidth5,
-                  Text(
-                    'Tap to login with fingerprint',
-                    style: kBodyText1,
-                  )
-                ],
-              ),
-            ),
+            const FingerPrintSection(),
             kHeight50,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Flexible(
-                  child: CustomHorizontalDivider(),
-                ),
-                kWidth5,
-                Text(
-                  'Or login with',
-                  style: kHelper1,
-                ),
-                kWidth5,
-                Flexible(
-                  child: CustomHorizontalDivider(),
-                ),
-              ],
-            ),
-            kHeight20,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    SignInWithEmail.routeName,
-                    (route) => false,
-                  ),
-                  child: Image.asset(
-                    'assets/logos/mail_logo.png',
-                  ),
-                ),
-                kWidth20,
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    GoogleLogin.routeName,
-                  ),
-                  child: Image.asset('assets/logos/google_logo.png'),
-                ),
-                kWidth20,
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    FacebookLogin.routeName,
-                  ),
-                  child: Image.asset('assets/logos/fb_logo.png'),
-                ),
-              ],
-            ),
+            const SocialLoginWithEmailSection(),
             kHeight20,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

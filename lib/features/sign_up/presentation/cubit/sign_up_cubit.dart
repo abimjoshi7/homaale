@@ -1,46 +1,55 @@
+import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/networking/models/response/user_sign_up_res.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(this.networkHelper) : super(SignUpInitial());
-  final NetworkHelper networkHelper;
+  SignUpCubit() : super(SignUpInitial());
 
-  Future<void> signUpWithPhone(String phoneNumber, String password) async {
-    try {
-      final res = await networkHelper.createUserWithPhone(
-        phoneNumber: phoneNumber,
-        password: password,
-      );
+  Future<void> initiateSignUpWithPhone(
+    String phoneNumber,
+    String password,
+  ) async {
+    emit(SignUpInitial());
+    final x = await DioHelper().postData(
+      url: 'user/signup/',
+      data: {
+        'phone': phoneNumber,
+        'password': password,
+      },
+    );
+    if (x == null) {
+      emit(SignUpFailure());
+    } else {
       emit(
         SignUpSuccess(
-          userSignUpRes: res,
+          userSignUpRes: UserSignUpRes.fromJson(x as Map<String, dynamic>),
         ),
-      );
-    } catch (e) {
-      emit(
-        SignUpFailure(),
       );
     }
   }
 
-  Future<void> signUpWithEmail(String email, String password) async {
-    try {
-      final res = await networkHelper.createUserWithEmail(
-        email: email,
-        password: password,
-      );
+  Future<void> initiateSignUpWithEmail(
+    String username,
+    String password,
+  ) async {
+    emit(SignUpInitial());
+    final x = await DioHelper().postData(
+      url: 'user/signup/',
+      data: {
+        'email': username,
+        'password': password,
+      },
+    );
+    if (x == null) {
+      emit(SignUpFailure());
+    } else {
       emit(
         SignUpSuccess(
-          userSignUpRes: res,
+          userSignUpRes: UserSignUpRes.fromJson(x as Map<String, dynamic>),
         ),
-      );
-    } catch (e) {
-      emit(
-        SignUpFailure(),
       );
     }
   }

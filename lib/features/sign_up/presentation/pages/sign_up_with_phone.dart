@@ -2,6 +2,7 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_password.dart';
+import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
@@ -9,6 +10,7 @@ import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.da
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignUpWithPhone extends StatefulWidget {
   const SignUpWithPhone({super.key});
@@ -24,6 +26,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool isChecked = false;
+  final storage = FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -217,7 +220,27 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                         ],
                       ),
                       kHeight20,
-                      BlocBuilder<SignUpCubit, SignUpState>(
+                      BlocConsumer<SignUpCubit, SignUpState>(
+                        listener: (context, state) async {
+                          final x = await storage.read(
+                            key: kErrorLog,
+                          );
+                          if (state is SignUpSuccess) {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Succesfully signed up.'),
+                              ),
+                            );
+                          } else if (state is SignUpFailure) {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(x!),
+                              ),
+                            );
+                          }
+                        },
                         builder: (context, state) {
                           return CustomElevatedButton(
                             callback: () async {
@@ -235,7 +258,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                 } else {
                                   await context
                                       .read<SignUpCubit>()
-                                      .signUpWithPhone(
+                                      .initiateSignUpWithPhone(
                                         '+977${phoneNumberController.text}',
                                         passwordController.text,
                                       );
@@ -249,14 +272,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                             '+977${phoneNumberController.text}',
                                         'password': passwordController.text,
                                       },
-                                    );
-                                  } else if (state is SignUpFailure) {
-                                    if (!mounted) return;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Something went wrong. Please try again'),
-                                      ),
                                     );
                                   }
                                 }

@@ -49,55 +49,56 @@ class _OnboardingState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: PageView.builder(
-          controller: pageController,
-          itemCount: widgetList.length,
-          onPageChanged: (value) => setState(
-            () {
-              selectedIndex = value;
-            },
-          ),
-          itemBuilder: (context, index) => Container(
-            height: MediaQueryHelper.theHeight(context),
-            width: MediaQueryHelper.theWidth(context),
-            color: const Color(0xff5c6096),
-            child: Column(
-              children: [
-                CustomHeader(
-                  leadingWidget: IconButton(
-                    onPressed: () {
-                      // Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Color(0xffdee2e6),
-                    ),
-                  ),
-                  trailingWidget: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      children: const [
-                        Text(
-                          'Skip',
-                          style: kSkipHelper,
-                        ),
-                        kWidth10,
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 12,
-                          color: Color(0xffdee2e6),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Image.asset('assets/homaale_logo_title_light.png'),
-                kHeight50,
-                widgetList[selectedIndex],
-              ],
-            ),
+    return Scaffold(
+      body: PageView.builder(
+        controller: pageController,
+        itemCount: widgetList.length,
+        onPageChanged: (value) => setState(
+          () {
+            selectedIndex = value;
+          },
+        ),
+        itemBuilder: (context, index) => Container(
+          height: MediaQueryHelper.theHeight(context),
+          width: MediaQueryHelper.theWidth(context),
+          color: const Color(0xff5c6096),
+          child: Column(
+            children: [
+              kHeight50,
+              const CustomHeader(
+                leadingWidget: SizedBox.shrink(),
+                // IconButton(
+                //   onPressed: () {
+                //     // Navigator.pop(context);
+                //   },
+                //   icon: const Icon(
+                //     Icons.arrow_back,
+                //     color: Color(0xffdee2e6),
+                //   ),
+                // ),
+                trailingWidget: SizedBox.shrink(),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 8),
+                //   child: Row(
+                //     children: const [
+                //       Text(
+                //         'Skip',
+                //         style: kSkipHelper,
+                //       ),
+                //       kWidth10,
+                //       Icon(
+                //         Icons.arrow_forward_ios_rounded,
+                //         size: 12,
+                //         color: Color(0xffdee2e6),
+                //       )
+                //     ],
+                //   ),
+                // ),
+              ),
+              Image.asset('assets/homaale_logo_title_light.png'),
+              kHeight50,
+              widgetList[selectedIndex],
+            ],
           ),
         ),
       ),

@@ -1,10 +1,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleLogin extends StatefulWidget {
@@ -16,6 +18,7 @@ class GoogleLogin extends StatefulWidget {
 }
 
 class _GoogleLoginState extends State<GoogleLogin> {
+  final storage = const FlutterSecureStorage();
   final googleSignIn = GoogleSignIn(
     scopes: ['openid', 'email', 'profile'],
     clientId:
@@ -37,6 +40,22 @@ class _GoogleLoginState extends State<GoogleLogin> {
         final x = await NetworkHelper().sendGoogleLoginReq(map);
         if (kDebugMode) {
           print('Google Access Token: ${x.access}');
+        }
+        if (x.access != null) {
+          await storage.write(key: kAccessToken, value: x.access);
+          if (!mounted) return;
+          await Navigator.pushNamedAndRemoveUntil(
+            context,
+            Root.routeName,
+            (route) => false,
+          );
+        } else {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Cannot Sign in. Please try again'),
+            ),
+          );
         }
       }
     } catch (e) {
