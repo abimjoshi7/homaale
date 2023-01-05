@@ -1,5 +1,6 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
@@ -158,34 +159,33 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                                     password: passwordController.text,
                                   ),
                                 );
-                            print(state);
-                            // if (state is SignInSuccess) {
-                            //   if (state.userLoginRes.access != null) {
-                            //     if (keepLogged == true) {
-                            //       await storage.write(
-                            //         key: kAccessToken,
-                            //         value: state.userLoginRes.access,
-                            //       );
-                            //       await storage.write(
-                            //         key: kRefreshToken,
-                            //         value: state.userLoginRes.refresh,
-                            //       );
-                            //       if (!mounted) return;
-                            //       await Navigator.pushNamedAndRemoveUntil(
-                            //         context,
-                            //         Root.routeName,
-                            //         (route) => false,
-                            //       );
-                            //     } else {
-                            //       if (!mounted) return;
-                            //       await Navigator.pushNamedAndRemoveUntil(
-                            //         context,
-                            //         Root.routeName,
-                            //         (route) => false,
-                            //       );
-                            //     }
-                            //   }
-                            // }
+                            if (state is SignInSuccess) {
+                              if (state.userLoginRes.access != null) {
+                                if (keepLogged == true) {
+                                  await storage.write(
+                                    key: kAccessToken,
+                                    value: state.userLoginRes.access,
+                                  );
+                                  await storage.write(
+                                    key: kRefreshToken,
+                                    value: state.userLoginRes.refresh,
+                                  );
+                                  if (!mounted) return;
+                                  await Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Root.routeName,
+                                    (route) => false,
+                                  );
+                                } else {
+                                  if (!mounted) return;
+                                  await Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Root.routeName,
+                                    (route) => false,
+                                  );
+                                }
+                              }
+                            }
                           },
                           label: 'Login',
                         );

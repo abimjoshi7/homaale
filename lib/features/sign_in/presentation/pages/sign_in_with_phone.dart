@@ -85,13 +85,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                             ),
                             kWidth10,
                             GestureDetector(
-                              onTap: () async {
-                                final x = await DioHelper()
-                                    .getData(url: 'user/role/');
-                                final y = await const FlutterSecureStorage()
-                                    .read(key: kErrorLog);
-                                print(y);
-                              },
+                              onTap: () async {},
                               child: const SmallBoxContainer(
                                 child: Icon(
                                   Icons.phone_android_sharp,
@@ -194,34 +188,33 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                                     password: passwordController.text,
                                   ),
                                 );
-                            print(state);
-                            // if (state is SignInSuccess) {
-                            //   if (state.userLoginRes.access != null) {
-                            //     if (keepLogged == true) {
-                            //       await storage.write(
-                            //         key: kAccessToken,
-                            //         value: state.userLoginRes.access,
-                            //       );
-                            //       await storage.write(
-                            //         key: kRefreshToken,
-                            //         value: state.userLoginRes.refresh,
-                            //       );
-                            //       if (!mounted) return;
-                            //       await Navigator.pushNamedAndRemoveUntil(
-                            //         context,
-                            //         Root.routeName,
-                            //         (route) => false,
-                            //       );
-                            //     } else {
-                            //       if (!mounted) return;
-                            //       await Navigator.pushNamedAndRemoveUntil(
-                            //         context,
-                            //         Root.routeName,
-                            //         (route) => false,
-                            //       );
-                            //     }
-                            //   }
-                            // }
+                            if (state is SignInSuccess) {
+                              if (state.userLoginRes.access != null) {
+                                if (keepLogged == true) {
+                                  await storage.write(
+                                    key: kAccessToken,
+                                    value: state.userLoginRes.access,
+                                  );
+                                  await storage.write(
+                                    key: kRefreshToken,
+                                    value: state.userLoginRes.refresh,
+                                  );
+                                  if (!mounted) return;
+                                  await Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Root.routeName,
+                                    (route) => false,
+                                  );
+                                } else {
+                                  if (!mounted) return;
+                                  await Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Root.routeName,
+                                    (route) => false,
+                                  );
+                                }
+                              }
+                            }
                           },
                           label: 'Login',
                         );

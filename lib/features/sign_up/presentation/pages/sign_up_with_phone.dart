@@ -232,6 +232,14 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                 content: Text('Succesfully signed up.'),
                               ),
                             );
+                            await Navigator.pushNamed(
+                              context,
+                              OtpSignUp.routeName,
+                              arguments: {
+                                'phone': '+977${phoneNumberController.text}',
+                                'password': passwordController.text,
+                              },
+                            );
                           } else if (state is SignUpFailure) {
                             if (!mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -262,18 +270,6 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                         '+977${phoneNumberController.text}',
                                         passwordController.text,
                                       );
-                                  if (state is SignUpSuccess) {
-                                    if (!mounted) return;
-                                    await Navigator.pushNamed(
-                                      context,
-                                      OtpSignUp.routeName,
-                                      arguments: {
-                                        'phone':
-                                            '+977${phoneNumberController.text}',
-                                        'password': passwordController.text,
-                                      },
-                                    );
-                                  }
                                 }
                               }
                             },

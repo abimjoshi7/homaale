@@ -219,6 +219,10 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                               content: Text('Succesfully signed up.'),
                             ),
                           );
+                          await Navigator.pushNamed(
+                            context,
+                            SignInWithEmail.routeName,
+                          );
                         } else if (state is SignUpFailure) {
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -249,13 +253,6 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                       emailController.text,
                                       passwordController.text,
                                     );
-                                if (state is SignUpSuccess) {
-                                  if (!mounted) return;
-                                  await Navigator.pushNamed(
-                                    context,
-                                    SignInWithEmail.routeName,
-                                  );
-                                }
                               }
                             }
                           },
