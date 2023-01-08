@@ -5,10 +5,8 @@ String? validatePassword(String? value) {
   } else {
     if (!regex.hasMatch(value)) {
       return '''
-Password must contain:
-Minimum 1 Upper case,
-Minimum 1 lowercase,
-Minimum 1 Special Character
+Your password must be at least 6 character long
+ with minimum 1 upper case, lowercase, special character each
 ''';
     } else {
       return null;

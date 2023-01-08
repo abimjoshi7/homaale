@@ -1,10 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class ProfessionalInformationPage extends StatelessWidget {
-  const ProfessionalInformationPage({super.key});
+class KycDetails extends StatelessWidget {
+  const KycDetails({super.key});
+  static const routeName = '/kyc-details';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ProfessionalInformationPage extends StatelessWidget {
               onPressed: () {},
             ),
             child: const Text(
-              'Account',
+              'KYC Details',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -39,7 +40,7 @@ class ProfessionalInformationPage extends StatelessWidget {
           const Divider(),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Skills',
+            label: 'General Info',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -48,7 +49,7 @@ class ProfessionalInformationPage extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Portfolio',
+            label: 'Bank Details',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -57,25 +58,7 @@ class ProfessionalInformationPage extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Experience',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 12,
-            ),
-            onTap: () {},
-          ),
-          AccountListTileSection(
-            icon: const SizedBox.shrink(),
-            label: 'Education',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 12,
-            ),
-            onTap: () {},
-          ),
-          AccountListTileSection(
-            icon: const SizedBox.shrink(),
-            label: 'Certification',
+            label: 'Identity Info',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,

@@ -1,42 +1,74 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_education.dart';
+import 'package:cipher/networking/models/request/tasker_experience_req.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddExperience extends StatelessWidget {
+class AddExperience extends StatefulWidget {
   const AddExperience({super.key});
   static const routeName = '/add-experience';
 
   @override
+  State<AddExperience> createState() => _AddExperienceState();
+}
+
+class _AddExperienceState extends State<AddExperience> {
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final employmentController = TextEditingController();
+  final companyNameController = TextEditingController();
+  final locationController = TextEditingController();
+  final _key = GlobalKey<FormState>();
+  DateTime? issuedDate;
+  DateTime? expiryDate;
+  static const val = [
+    'Part Time',
+    'Full Time',
+  ];
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    employmentController.dispose();
+    companyNameController.dispose();
+    locationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                ),
-                const Text(
-                  'Add Experience',
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.search,
-                  ),
-                ),
-              ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          kHeight50,
+          CustomHeader(
+            leadingWidget: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
             ),
-            const CustomHorizontalDivider(),
-            Form(
+            trailingWidget: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+              ),
+            ),
+            child: const Text(
+              'Add Experience',
+            ),
+          ),
+          const CustomHorizontalDivider(),
+          Expanded(
+            child: Form(
+              key: _key,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -47,8 +79,13 @@ class AddExperience extends StatelessWidget {
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    const CustomTextFormField(
+                    CustomTextFormField(
                       hintText: 'Please enter the title',
+                      onSaved: (p0) {
+                        setState(() {
+                          titleController.text = p0!;
+                        });
+                      },
                     ),
                     kHeight20,
                     const Text(
@@ -56,9 +93,14 @@ class AddExperience extends StatelessWidget {
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    const CustomTextFormField(
+                    CustomTextFormField(
                       maxLines: 3,
                       hintText: 'Write something...',
+                      onSaved: (p0) {
+                        setState(() {
+                          descriptionController.text = p0!;
+                        });
+                      },
                     ),
                     kHeight20,
                     const Text(
@@ -66,9 +108,36 @@ class AddExperience extends StatelessWidget {
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    const CustomFormContainer(
-                      label: 'Please Select',
-                      trailingWidget: Icon(Icons.keyboard_arrow_down_outlined),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(10),
+                        hintText: 'Please select.',
+                        hintStyle: const TextStyle(
+                          color: Color(0xff9CA0C1),
+                          fontWeight: FontWeight.w400,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Color(0xffDEE2E6)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Color(0xffDEE2E6)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      items: val.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          employmentController.text = value!;
+                        });
+                      },
                     ),
                     kHeight20,
                     const Text(
@@ -76,8 +145,13 @@ class AddExperience extends StatelessWidget {
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    const CustomTextFormField(
+                    CustomTextFormField(
                       hintText: 'Eg: Cagtu',
+                      onSaved: (p0) {
+                        setState(() {
+                          companyNameController.text = p0!;
+                        });
+                      },
                     ),
                     kHeight20,
                     const Text(
@@ -85,12 +159,17 @@ class AddExperience extends StatelessWidget {
                       style: kLabelPrimary,
                     ),
                     kHeight5,
-                    const CustomTextFormField(
+                    CustomTextFormField(
                       hintText: 'Eg: New Baneshwor, Kathmandu',
                       prefixWidget: Icon(
                         Icons.location_on_outlined,
                         color: kColorPrimary,
                       ),
+                      onSaved: (p0) {
+                        setState(() {
+                          locationController.text = p0!;
+                        });
+                      },
                     ),
                     kHeight20,
                     Row(
@@ -110,17 +189,31 @@ class AddExperience extends StatelessWidget {
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
                                 'Issued Date',
                                 style: kLabelPrimary,
                               ),
                               kHeight5,
-                              CustomFormContainer(
-                                label: '03/06/1999',
-                                leadingWidget: Icon(
-                                  Icons.calendar_month_rounded,
-                                  color: kColorPrimary,
+                              InkWell(
+                                onTap: () async {
+                                  setState(() async {
+                                    issuedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2002),
+                                      lastDate: DateTime(
+                                        2050,
+                                      ),
+                                    );
+                                  });
+                                },
+                                child: CustomFormContainer(
+                                  label: '03/06/1999',
+                                  leadingWidget: Icon(
+                                    Icons.calendar_month_rounded,
+                                    color: kColorPrimary,
+                                  ),
                                 ),
                               ),
                             ],
@@ -130,17 +223,36 @@ class AddExperience extends StatelessWidget {
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
                                 'Expiry Date',
                                 style: kLabelPrimary,
                               ),
                               kHeight5,
-                              CustomFormContainer(
-                                label: '03/06/1999',
-                                leadingWidget: Icon(
-                                  Icons.calendar_month_rounded,
-                                  color: kColorPrimary,
+                              InkWell(
+                                onTap: () {},
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(
+                                      () async {
+                                        expiryDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2002),
+                                          lastDate: DateTime(
+                                            2050,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: CustomFormContainer(
+                                    label: '03/06/1999',
+                                    leadingWidget: Icon(
+                                      Icons.calendar_month_rounded,
+                                      color: kColorPrimary,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -148,22 +260,62 @@ class AddExperience extends StatelessWidget {
                         ),
                       ],
                     ),
-                    kHeight20,
-                    CustomElevatedButton(
-                      callback: () {
-                        Navigator.pushNamed(
-                          context,
-                          AddEducation.routeName,
-                        );
-                      },
-                      label: 'Add',
-                    ),
                   ],
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          BlocConsumer<TaskerExperienceCubit, TaskerExperienceState>(
+            listener: (context, state) async {
+              final error = await CacheHelper.getCachedString(kErrorLog);
+              if (state is TaskerExperienceSuccess) {
+                if (!mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Experience created successfully.'),
+                  ),
+                );
+                await Navigator.pushNamed(
+                  context,
+                  AddEducation.routeName,
+                );
+              } else if (state is TaskerExperienceFailure) {
+                if (!mounted) return;
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(error!),
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              return CustomElevatedButton(
+                callback: () async {
+                  _key.currentState!.save();
+                  final taskerExperience = TaskerExperienceReq(
+                    title: titleController.text,
+                    description: descriptionController.text,
+                    companyName: companyNameController.text,
+                    currentlyWorking: true,
+                    employmentType: employmentController.text,
+                    location: locationController.text,
+                    startDate: issuedDate,
+                    endDate: expiryDate,
+                  );
+
+                  await context
+                      .read<TaskerExperienceCubit>()
+                      .addTaskerExperience(
+                        taskerExperience,
+                      );
+                },
+                label: 'Add',
+              );
+            },
+          ),
+          kHeight50
+        ],
       ),
     );
   }

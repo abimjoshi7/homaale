@@ -1,11 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/pages/billing_payment_page/billing_payment_page.dart';
-import 'package:cipher/features/account/presentation/pages/connected_account/connected_account_page.dart';
-import 'package:cipher/features/account/presentation/pages/help_legal_page/help_legal_page.dart';
-import 'package:cipher/features/account/presentation/pages/languages_page/languages_page.dart';
-import 'package:cipher/features/account/presentation/pages/membership/membership.dart';
-import 'package:cipher/features/account/presentation/pages/notifications_page/notifications_page.dart';
-import 'package:cipher/features/account/presentation/widgets/widgets.dart';
+import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -64,18 +64,6 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.abc),
-      //       label: 'qwe',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.abc),
-      //       label: 'qwe',
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

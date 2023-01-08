@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/widgets/widgets.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +41,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Free',
                   style: kHeading2,
@@ -50,7 +50,7 @@ class Membership extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -59,7 +59,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'BASIC',
                   style: kHeading2,
@@ -68,7 +68,7 @@ class Membership extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -77,7 +77,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'SILVER',
                   style: kHeading2,
@@ -86,7 +86,7 @@ class Membership extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -99,8 +99,8 @@ class Membership extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Center(child: CustomModalSheetDrawerIcon()),
-                      Center(
+                      const Center(child: CustomModalSheetDrawerIcon()),
+                      const Center(
                         child: Text(
                           'Homaale Silver Plan',
                           style: kHeading2,
@@ -110,7 +110,7 @@ class Membership extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0xffFCA500),
                               shape: BoxShape.circle,
                             ),
@@ -118,14 +118,14 @@ class Membership extends StatelessWidget {
                             width: 20,
                           ),
                           kWidth10,
-                          Text('Up to 2 users'),
+                          const Text('Up to 2 users'),
                         ],
                       ),
                       kHeight15,
                       Row(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0xffFCA500),
                               shape: BoxShape.circle,
                             ),
@@ -133,14 +133,14 @@ class Membership extends StatelessWidget {
                             width: 20,
                           ),
                           kWidth10,
-                          Text('No support'),
+                          const Text('No support'),
                         ],
                       ),
                       kHeight15,
                       Row(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0xffFCA500),
                               shape: BoxShape.circle,
                             ),
@@ -148,7 +148,7 @@ class Membership extends StatelessWidget {
                             width: 20,
                           ),
                           kWidth10,
-                          Text('Limited statistic'),
+                          const Text('Limited statistic'),
                         ],
                       ),
                       kHeight15,
@@ -161,7 +161,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'PREMIUM',
                   style: kHeading2,
@@ -170,7 +170,7 @@ class Membership extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),

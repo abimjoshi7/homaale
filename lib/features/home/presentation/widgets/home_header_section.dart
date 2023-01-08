@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/networking/network_helper.dart';
@@ -42,7 +43,8 @@ class HomeHeaderSection extends StatelessWidget {
             ),
             trailing: IconButton(
               onPressed: () async {
-                await NetworkHelper().getTaskerProfile();
+                final x = await CacheHelper.getCachedString(kAccessTokenP);
+                print(x);
               },
               icon: const Icon(
                 Icons.notifications_none,

@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
-import 'package:cipher/api_service.dart';
+import 'package:cipher/core/app/api_end_points.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/networking/models/request/otp_request.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/models/response/facebook_login_res.dart';
@@ -14,9 +16,6 @@ import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:cipher/networking/models/response/user_sign_up_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-const storage = FlutterSecureStorage();
 
 class NetworkHelper {
   final _dio = Dio(
@@ -33,22 +32,22 @@ class NetworkHelper {
           if (kDebugMode) {
             print('RESPONSE INTERCEPTOR: ${e.data}');
           }
-          await storage.delete(key: 'errorLog');
+          await CacheHelper.clearCachedData(kErrorLog);
           handler.next(e);
         },
         onError: (e, handler) async {
           if (kDebugMode) {
             print('ERROR INTERCEPTOR: ${e.response?.data}');
-            print('ERROR INTERCEPTOR: ${e.message}');
+            print('ERROR INTERCEPTOR v2 : ${e.message}');
           }
-          await storage.delete(key: 'errorLog').then(
-                (value) async => storage.write(
-                  key: 'errorLog',
-                  value: e.response!.data.values
-                      .toString()
-                      .replaceAll(RegExp(r'[^\w\s]+'), ''),
-                ),
-              );
+          await CacheHelper.clearCachedData(kErrorLog).then(
+            (value) async => CacheHelper.setCachedString(
+              kErrorLog,
+              e.response!.data.values
+                  .toString()
+                  .replaceAll(RegExp(r'[^\w\s]+'), ''),
+            ),
+          );
           // }
           handler.next(e);
         },

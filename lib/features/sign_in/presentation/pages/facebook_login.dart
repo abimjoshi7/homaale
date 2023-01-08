@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -39,7 +40,7 @@ class _FacebookLoginState extends State<FacebookLogin> {
           print('Facebook Access Token: ${x.access}');
         }
         if (x.access != null) {
-          await storage.write(key: kAccessToken, value: x.access);
+          await CacheHelper.setCachedString(kAccessToken, x.access!);
           if (!mounted) return;
           await Navigator.pushNamedAndRemoveUntil(
             context,

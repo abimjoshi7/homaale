@@ -1,8 +1,10 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'dart:developer';
+
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
@@ -12,7 +14,6 @@ import 'package:cipher/widgets/small_box_container.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignInWithPhone extends StatefulWidget {
   const SignInWithPhone({super.key});
@@ -27,7 +28,6 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
   final _formKey = GlobalKey<FormState>();
   final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
-  final storage = const FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -156,8 +156,32 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                     kHeight20,
                     BlocConsumer<SignInCubit, SignInState>(
                       listener: (context, state) async {
-                        final x = await storage.read(key: kErrorLog);
+                        final x = await CacheHelper.getCachedString(kErrorLog);
                         if (state is SignInSuccess) {
+                          log(
+                            state.userLoginRes.toJson().toString(),
+                          );
+                          await CacheHelper.setCachedString(
+                            kAccessToken,
+                            state.userLoginRes.access!,
+                          );
+                          await CacheHelper.setCachedString(
+                            kRefreshToken,
+                            state.userLoginRes.refresh!,
+                          );
+                          if (state.userLoginRes.access != null &&
+                              keepLogged == true) {
+                            {
+                              await CacheHelper.setCachedString(
+                                kAccessTokenP,
+                                state.userLoginRes.access!,
+                              );
+                              await CacheHelper.setCachedString(
+                                kRefreshTokenP,
+                                state.userLoginRes.refresh!,
+                              );
+                            }
+                          }
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -165,6 +189,11 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                                 'Succesfully signed in',
                               ),
                             ),
+                          );
+                          await Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Root.routeName,
+                            (route) => false,
                           );
                         } else if (state is SignInFailure) {
                           if (!mounted) return;
@@ -188,33 +217,6 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                                     password: passwordController.text,
                                   ),
                                 );
-                            if (state is SignInSuccess) {
-                              if (state.userLoginRes.access != null) {
-                                if (keepLogged == true) {
-                                  await storage.write(
-                                    key: kAccessToken,
-                                    value: state.userLoginRes.access,
-                                  );
-                                  await storage.write(
-                                    key: kRefreshToken,
-                                    value: state.userLoginRes.refresh,
-                                  );
-                                  if (!mounted) return;
-                                  await Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    Root.routeName,
-                                    (route) => false,
-                                  );
-                                } else {
-                                  if (!mounted) return;
-                                  await Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    Root.routeName,
-                                    (route) => false,
-                                  );
-                                }
-                              }
-                            }
                           },
                           label: 'Login',
                         );

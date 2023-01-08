@@ -17,7 +17,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   Future<void> inititalLogCheck() async {
     final x = await const FlutterSecureStorage().read(
-      key: kAccessToken,
+      key: kAccessTokenP,
     );
     if (x != null) {
       setState(() {

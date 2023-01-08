@@ -1,13 +1,15 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'dart:developer';
+
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -128,8 +130,32 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                     kHeight20,
                     BlocConsumer<SignInCubit, SignInState>(
                       listener: (context, state) async {
-                        final x = await storage.read(key: kErrorLog);
+                        final x = await CacheHelper.getCachedString(kErrorLog);
                         if (state is SignInSuccess) {
+                          log(
+                            state.userLoginRes.toJson().toString(),
+                          );
+                          await CacheHelper.setCachedString(
+                            kAccessToken,
+                            state.userLoginRes.access!,
+                          );
+                          await CacheHelper.setCachedString(
+                            kRefreshToken,
+                            state.userLoginRes.refresh!,
+                          );
+                          if (state.userLoginRes.access != null &&
+                              keepLogged == true) {
+                            {
+                              await CacheHelper.setCachedString(
+                                kAccessTokenP,
+                                state.userLoginRes.access!,
+                              );
+                              await CacheHelper.setCachedString(
+                                kRefreshTokenP,
+                                state.userLoginRes.refresh!,
+                              );
+                            }
+                          }
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -137,6 +163,11 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                                 'Succesfully signed in',
                               ),
                             ),
+                          );
+                          await Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Root.routeName,
+                            (route) => false,
                           );
                         } else if (state is SignInFailure) {
                           if (!mounted) return;
@@ -159,33 +190,6 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                                     password: passwordController.text,
                                   ),
                                 );
-                            if (state is SignInSuccess) {
-                              if (state.userLoginRes.access != null) {
-                                if (keepLogged == true) {
-                                  await storage.write(
-                                    key: kAccessToken,
-                                    value: state.userLoginRes.access,
-                                  );
-                                  await storage.write(
-                                    key: kRefreshToken,
-                                    value: state.userLoginRes.refresh,
-                                  );
-                                  if (!mounted) return;
-                                  await Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    Root.routeName,
-                                    (route) => false,
-                                  );
-                                } else {
-                                  if (!mounted) return;
-                                  await Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    Root.routeName,
-                                    (route) => false,
-                                  );
-                                }
-                              }
-                            }
                           },
                           label: 'Login',
                         );

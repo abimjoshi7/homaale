@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +41,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Messages',
                   style: kHeading2,
@@ -50,7 +50,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -59,7 +59,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Email',
                   style: kHeading2,
@@ -68,7 +68,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -77,7 +77,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Messages',
                   style: kHeading2,
@@ -86,7 +86,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -95,7 +95,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Proposal',
                   style: kHeading2,
@@ -104,7 +104,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -113,7 +113,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Contracts',
                   style: kHeading2,
@@ -122,7 +122,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -131,7 +131,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Group & Invitations',
                   style: kHeading2,
@@ -140,7 +140,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -149,7 +149,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Memberships',
                   style: kHeading2,
@@ -158,7 +158,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),
@@ -167,7 +167,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   'Miscellaneous',
                   style: kHeading2,
@@ -176,7 +176,7 @@ class NotificationsPage extends StatelessWidget {
               ],
             ),
             label: '',
-            trailingWidget: Icon(
+            trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 14,
             ),

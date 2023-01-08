@@ -40,7 +40,7 @@ class SavedPage extends StatelessWidget {
               ),
             ),
             kHeight10,
-            Text(
+            const Text(
               'Your collection',
               style: kPurpleText16,
             ),
@@ -56,7 +56,7 @@ class SavedPage extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     kHeight5,
-                    Text(
+                    const Text(
                       'All',
                       style: kPurpleText12,
                     ),
@@ -70,7 +70,7 @@ class SavedPage extends StatelessWidget {
                       color: Colors.grey,
                     ),
                     kHeight5,
-                    Text(
+                    const Text(
                       'Taskers',
                       style: kPurpleText12,
                     ),

@@ -1,11 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class KycDetails extends StatelessWidget {
-  const KycDetails({super.key});
-  static const routeName = '/kyc-details';
+class AccountInfoPage extends StatelessWidget {
+  const AccountInfoPage({super.key});
+  static const routeName = '/account-info-page';
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class KycDetails extends StatelessWidget {
               onPressed: () {},
             ),
             child: const Text(
-              'KYC Details',
+              'Account',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -40,7 +40,7 @@ class KycDetails extends StatelessWidget {
           const Divider(),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'General Info',
+            label: 'Personal information',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -49,7 +49,7 @@ class KycDetails extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Bank Details',
+            label: 'Address information',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -58,7 +58,25 @@ class KycDetails extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Identity Info',
+            label: 'Professional information',
+            trailingWidget: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 12,
+            ),
+            onTap: () {},
+          ),
+          AccountListTileSection(
+            icon: const SizedBox.shrink(),
+            label: 'Active Hours',
+            trailingWidget: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 12,
+            ),
+            onTap: () {},
+          ),
+          AccountListTileSection(
+            icon: const SizedBox.shrink(),
+            label: 'Profile Configuration',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,

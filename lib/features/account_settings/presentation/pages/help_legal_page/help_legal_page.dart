@@ -49,16 +49,16 @@ class HelpAndLegalPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Report a problem',
                   style: kPurpleText16,
                 ),
                 kHeight5,
-                CustomTextFormField(
+                const CustomTextFormField(
                   hintText: 'Other',
                 ),
                 kHeight20,
-                Text(
+                const Text(
                   'Please Specify',
                   style: kPurpleText16,
                 ),
@@ -95,12 +95,12 @@ class HelpAndLegalPage extends StatelessWidget {
                 //   hintText: 'Other',
                 // ),
                 kHeight20,
-                Text(
+                const Text(
                   'Problem Detail',
                   style: kPurpleText16,
                 ),
                 kHeight5,
-                CustomTextFormField(
+                const CustomTextFormField(
                   hintText: 'Please explain your problem briefly',
                   maxLines: 3,
                 ),

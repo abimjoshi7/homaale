@@ -1,15 +1,6 @@
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/features/account/presentation/pages/account.dart';
-import 'package:cipher/features/account/presentation/pages/billing_payment_page/billing_payment_page.dart';
-import 'package:cipher/features/account/presentation/pages/connected_account/connected_account_page.dart';
-import 'package:cipher/features/account/presentation/pages/help_legal_page/help_legal_page.dart';
-import 'package:cipher/features/account/presentation/pages/kyc/kyc_details.dart';
-import 'package:cipher/features/account/presentation/pages/languages_page/languages_page.dart';
-import 'package:cipher/features/account/presentation/pages/membership/membership.dart';
-import 'package:cipher/features/account/presentation/pages/notifications_page/notifications_page.dart';
-import 'package:cipher/features/account/presentation/pages/saved/saved_page.dart';
-import 'package:cipher/features/account/presentation/pages/settings/settings.dart';
-import 'package:cipher/features/account/presentation/widgets/widgets.dart';
+import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_certifications.dart';

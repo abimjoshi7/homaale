@@ -3,11 +3,13 @@ import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(SignInInitial());
+  final storage = const FlutterSecureStorage();
 
   Future<void> initiateSignIn(UserLoginReq userLoginReq) async {
     emit(SignInInitial());

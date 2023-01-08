@@ -1,11 +1,10 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class AccountInfoPage extends StatelessWidget {
-  const AccountInfoPage({super.key});
-  static const routeName = '/account-info-page';
+class ProfessionalInformationPage extends StatelessWidget {
+  const ProfessionalInformationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class AccountInfoPage extends StatelessWidget {
           const Divider(),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Personal information',
+            label: 'Skills',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -49,7 +48,7 @@ class AccountInfoPage extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Address information',
+            label: 'Portfolio',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -58,7 +57,7 @@ class AccountInfoPage extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Professional information',
+            label: 'Experience',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -67,7 +66,7 @@ class AccountInfoPage extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Active Hours',
+            label: 'Education',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
@@ -76,7 +75,7 @@ class AccountInfoPage extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
-            label: 'Profile Configuration',
+            label: 'Certification',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,

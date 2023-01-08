@@ -1,6 +1,6 @@
 // ignore_for_file: strict_raw_type, inference_failure_on_function_invocation
 
-import 'package:cipher/api_service.dart';
+import 'package:cipher/core/app/api_end_points.dart';
 import 'package:dio/dio.dart';
 
 abstract class RemoteDataSource {

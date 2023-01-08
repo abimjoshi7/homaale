@@ -2,7 +2,6 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_password.dart';
-import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
@@ -26,7 +25,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool isChecked = false;
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return SafeArea(

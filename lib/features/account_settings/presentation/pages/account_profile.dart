@@ -1,20 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account/presentation/pages/kyc/kyc_modal_sheets.dart';
-import 'package:cipher/features/account/presentation/pages/saved/saved_page.dart';
-import 'package:cipher/features/account/presentation/pages/settings/settings.dart';
-import 'package:cipher/features/account/presentation/widgets/account_list_tile_section.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_modal_sheets.dart';
+import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Account extends StatelessWidget with KycModalSheets {
   const Account({super.key});
-  static const routeName = '/account';
+  static const routeName = '/account-profile';
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,17 @@ class Account extends StatelessWidget with KycModalSheets {
           kHeight50,
           CustomHeader(
             leadingWidget: const SizedBox.shrink(),
-            trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
+            trailingWidget: BlocBuilder<SignInCubit, SignInState>(
+              builder: (context, state) {
+                return IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    if (state is SignInSuccess) {
+                      print(state.userLoginRes.toJson());
+                    }
+                  },
+                );
+              },
             ),
             child: const Text(
               'Profile',
