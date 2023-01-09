@@ -16,7 +16,7 @@ mixin KycModalSheets {
             kHeight20,
             const Text(
               'Fill KYC as',
-              style: kHeading2,
+              style: kPurpleText19,
             ),
             kHeight20,
             Row(
@@ -77,7 +77,7 @@ mixin KycModalSheets {
             kHeight10,
             const Text(
               'General Information',
-              style: kHeading2,
+              style: kPurpleText19,
             ),
             kHeight20,
             Row(
@@ -172,7 +172,7 @@ mixin KycModalSheets {
                         const CustomModalSheetDrawerIcon(),
                         const Text(
                           'Bank Details',
-                          style: kHeading2,
+                          style: kPurpleText19,
                         ),
                         kHeight20,
                         Row(
@@ -304,7 +304,7 @@ mixin KycModalSheets {
                                       const Center(
                                         child: Text(
                                           'Identity Information',
-                                          style: kHeading2,
+                                          style: kPurpleText19,
                                         ),
                                       ),
                                       kHeight20,
@@ -446,7 +446,7 @@ mixin KycModalSheets {
                                         children: const [
                                           Text(
                                             'Maximum file size 20 MB',
-                                            style: kHelper1,
+                                            style: kHelper13,
                                           ),
                                           kWidth10,
                                           Icon(

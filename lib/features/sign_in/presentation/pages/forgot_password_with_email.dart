@@ -27,7 +27,7 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
           kHeight5,
           const Text(
             'Recover your password',
-            style: kHelper1,
+            style: kHelper13,
           ),
           kHeight20,
           Expanded(

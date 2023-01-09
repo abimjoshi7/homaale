@@ -40,6 +40,35 @@ class DioHelper {
     }
   }
 
+  Future<dynamic> getDatawithCredential({
+    Map<String, dynamic>? query,
+    required String url,
+    String? token,
+  }) async {
+    try {
+      final response = await dio.get<dynamic>(
+        url,
+        queryParameters: query,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      return response.data;
+    } on DioError catch (e) {
+      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+        () async => CacheHelper.setCachedString(
+          kErrorLog,
+          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+        ),
+      );
+
+      log('DIO GET ERROR: ${e.response?.data}');
+    }
+  }
+
   Future<dynamic> postData({
     required dynamic data,
     required String url,
@@ -70,6 +99,39 @@ class DioHelper {
       final response = await dio.post<dynamic>(
         url,
         data: jsonEncode(data),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      return response.data;
+    } on DioError catch (e) {
+      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+        () async => CacheHelper.setCachedString(
+          kErrorLog,
+          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+        ),
+      );
+      log('DIO POST ERROR: ${e.response?.data}');
+    }
+  }
+
+  Future<dynamic> postFormData({
+    required String url,
+    String? path,
+    required String token,
+  }) async {
+    try {
+      final formData = FormData.fromMap(
+        {
+          'medias': [await MultipartFile.fromFile(path!)],
+        },
+      );
+      final response = await dio.post<dynamic>(
+        url,
+        data: formData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

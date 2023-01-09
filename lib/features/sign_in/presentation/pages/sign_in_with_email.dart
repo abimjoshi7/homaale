@@ -38,7 +38,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
             const Text('Welcome', style: kHeading1),
             const Text(
               'Login to your account',
-              style: kHelper1,
+              style: kHelper13,
             ),
             Expanded(
               child: Form(

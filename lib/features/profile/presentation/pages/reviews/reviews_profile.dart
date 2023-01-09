@@ -59,7 +59,7 @@ class ReviewsProfile extends StatelessWidget {
                   ),
                   trailing: const Text(
                     '3 days ago',
-                    style: kHelper1,
+                    style: kHelper13,
                   ),
                 ),
               ],

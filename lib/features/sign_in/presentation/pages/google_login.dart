@@ -132,7 +132,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
           kHeight20,
           const Text(
             'Privacy | Terms & Conditions',
-            style: kHelper1,
+            style: kHelper13,
           ),
         ],
       ),

@@ -34,7 +34,7 @@ class ProfileStatsCard extends StatelessWidget {
                 kWidth5,
                 Text(
                   label,
-                  style: kText12,
+                  style: kText17,
                 ),
               ],
             ),

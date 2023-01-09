@@ -6,6 +6,7 @@ import 'package:cipher/networking/models/request/tasker_experience_req.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class AddExperience extends StatefulWidget {
   const AddExperience({super.key});
@@ -161,7 +162,7 @@ class _AddExperienceState extends State<AddExperience> {
                     kHeight5,
                     CustomTextFormField(
                       hintText: 'Eg: New Baneshwor, Kathmandu',
-                      prefixWidget: Icon(
+                      prefixWidget: const Icon(
                         Icons.location_on_outlined,
                         color: kColorPrimary,
                       ),
@@ -190,7 +191,7 @@ class _AddExperienceState extends State<AddExperience> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Issued Date',
                                 style: kLabelPrimary,
                               ),
@@ -198,19 +199,27 @@ class _AddExperienceState extends State<AddExperience> {
                               InkWell(
                                 onTap: () async {
                                   setState(() async {
-                                    issuedDate = await showDatePicker(
+                                    await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(2002),
                                       lastDate: DateTime(
                                         2050,
                                       ),
+                                    ).then(
+                                      (value) => setState(
+                                        () {
+                                          issuedDate = value;
+                                        },
+                                      ),
                                     );
                                   });
                                 },
                                 child: CustomFormContainer(
-                                  label: '03/06/1999',
-                                  leadingWidget: Icon(
+                                  label:
+                                      issuedDate?.toString().substring(0, 10) ??
+                                          '1998-01-01',
+                                  leadingWidget: const Icon(
                                     Icons.calendar_month_rounded,
                                     color: kColorPrimary,
                                   ),
@@ -224,7 +233,7 @@ class _AddExperienceState extends State<AddExperience> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Expiry Date',
                                 style: kLabelPrimary,
                               ),
@@ -232,22 +241,27 @@ class _AddExperienceState extends State<AddExperience> {
                               InkWell(
                                 onTap: () {},
                                 child: InkWell(
-                                  onTap: () {
-                                    setState(
-                                      () async {
-                                        expiryDate = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2002),
-                                          lastDate: DateTime(
-                                            2050,
-                                          ),
-                                        );
-                                      },
+                                  onTap: () async {
+                                    await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2002),
+                                      lastDate: DateTime(
+                                        2050,
+                                      ),
+                                    ).then(
+                                      (value) => setState(
+                                        () {
+                                          expiryDate = value;
+                                        },
+                                      ),
                                     );
                                   },
                                   child: CustomFormContainer(
-                                    label: '03/06/1999',
+                                    label: expiryDate
+                                            ?.toString()
+                                            .substring(0, 10) ??
+                                        '1999-01-18',
                                     leadingWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: kColorPrimary,

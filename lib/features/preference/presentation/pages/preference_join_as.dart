@@ -19,7 +19,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
       children: [
         const Text(
           'You want to join as',
-          style: kText16,
+          style: kPurpleText16,
         ),
         kHeight20,
         Card(
@@ -44,7 +44,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                               Text('Individual'),
                               Text(
                                 'You’re starting as an alone warrior',
-                                style: kHelper1,
+                                style: kHelper13,
                               )
                             ],
                           )
@@ -89,7 +89,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                               Text('Organization'),
                               Text(
                                 'We’re starting as an group of individual ',
-                                style: kHelper1,
+                                style: kHelper13,
                               )
                             ],
                           )

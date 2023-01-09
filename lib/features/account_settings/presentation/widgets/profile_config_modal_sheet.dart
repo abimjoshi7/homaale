@@ -12,7 +12,7 @@ class ProfileConfigModalSheet extends StatelessWidget {
         const CustomModalSheetDrawerIcon(),
         const Text(
           'Profile Configuration',
-          style: kHeading2,
+          style: kPurpleText19,
         ),
         kHeight20,
         const Text('Visibility'),

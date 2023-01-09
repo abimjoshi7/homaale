@@ -23,7 +23,7 @@ class SocialLoginWithEmailSection extends StatelessWidget {
             kWidth5,
             Text(
               'Or login with',
-              style: kHelper1,
+              style: kHelper13,
             ),
             kWidth5,
             Flexible(

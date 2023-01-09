@@ -44,7 +44,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Messages',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Message notification content'),
               ],
@@ -62,7 +62,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Email',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Email notification content'),
               ],
@@ -80,7 +80,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Messages',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Message notification content'),
               ],
@@ -98,7 +98,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Proposal',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Proposal notification content'),
               ],
@@ -116,7 +116,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Contracts',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Contract notification content'),
               ],
@@ -134,7 +134,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Group & Invitations',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Group & Invitation notification content'),
               ],
@@ -152,7 +152,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Memberships',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Membership notification content'),
               ],
@@ -170,7 +170,7 @@ class NotificationsPage extends StatelessWidget {
               children: const [
                 Text(
                   'Miscellaneous',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Miscellaneous notification content'),
               ],

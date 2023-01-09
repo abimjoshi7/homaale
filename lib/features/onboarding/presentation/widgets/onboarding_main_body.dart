@@ -53,7 +53,7 @@ class OnboardingMainBody extends StatelessWidget {
                       children: [
                         Text(
                           headingText,
-                          style: kHeading2,
+                          style: kPurpleText19,
                         ),
                         kHeight10,
                         Text(

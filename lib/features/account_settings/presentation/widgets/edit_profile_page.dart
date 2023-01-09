@@ -92,7 +92,7 @@ class EditProfilePage extends StatelessWidget {
                     kHeight5,
                     const Text(
                       'Do you want to enable task analytics in profile?',
-                      style: kHelper1,
+                      style: kHelper13,
                     ),
                     kHeight50,
                     Center(

@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: Text(
                 'Homaale Notable Quality',
-                style: kText16,
+                style: kPurpleText16,
               ),
             ),
             Padding(

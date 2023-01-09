@@ -61,7 +61,7 @@ class BankDetailsSection extends StatelessWidget {
       children: [
         const Text(
           'Bank Details',
-          style: kHeading2,
+          style: kPurpleText19,
         ),
         kHeight20,
         Row(

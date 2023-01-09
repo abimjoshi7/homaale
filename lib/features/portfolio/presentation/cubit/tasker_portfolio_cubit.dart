@@ -2,6 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/networking/models/request/tasker_portfolio_req.dart';
+import 'package:cipher/networking/models/response/tasker_portfolio.res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,6 +23,30 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
         token: token!,
       );
       if (x['status'] == 'success') emit(TaskerPortfolioSuccess());
+    } catch (e) {
+      emit(TaskerPortfolioFailure());
+    }
+  }
+
+  Future<void> getPortfolio() async {
+    try {
+      emit(
+        TaskerPortfolioInitial(),
+      );
+      final token = await CacheHelper.getCachedString(kAccessToken);
+      final x = await DioHelper().getDatawithCredential(
+        url: 'tasker/portfolio/',
+        token: token,
+      );
+
+      if (x != null) {
+        emit(
+          TaskerGetPortfolioSuccess(
+            taskerPortfolioRes:
+                TaskerPortfolioRes.fromJson(x as Map<String, dynamic>),
+          ),
+        );
+      }
     } catch (e) {
       emit(TaskerPortfolioFailure());
     }

@@ -28,21 +28,27 @@ const kPurpleText12 = TextStyle(
 );
 
 const kPurpleText16 = TextStyle(
-  fontWeight: FontWeight.w500,
   fontSize: 16,
-  color: Color(0xff3d3f7d),
+  fontWeight: FontWeight.w500,
+  color: Color(0xff3D3F7D),
 );
 
-const kText12 = TextStyle(
-  fontSize: 12,
+const kPurpleText19 = TextStyle(
+  color: Color(0xff3D3F7D),
+  fontWeight: FontWeight.w500,
+  fontSize: 19,
+);
+
+const kText15 = TextStyle(
+  fontSize: 15,
   fontWeight: FontWeight.w500,
   color: Color(0xff495057),
 );
 
-const kText16 = TextStyle(
-  fontSize: 16,
+const kText17 = TextStyle(
+  fontSize: 17,
   fontWeight: FontWeight.w500,
-  color: Color(0xff3D3F7D),
+  color: Color(0xff495057),
 );
 
 const kText20 = TextStyle(
@@ -69,19 +75,13 @@ const kHeading1 = TextStyle(
   fontSize: 32,
 );
 
-const kHeading2 = TextStyle(
-  color: kColorPrimary,
-  fontWeight: FontWeight.w500,
-  fontSize: 18,
-);
-
 const kHeading3 = TextStyle(
   color: kColorPrimary,
   fontWeight: FontWeight.w500,
   fontSize: 14,
 );
 
-const kHelper1 = TextStyle(
+const kHelper13 = TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.w400,
   color: Color(0xff9CA0C1),
@@ -100,5 +100,3 @@ const kBodyText1 = TextStyle(
 const kBodyText2 = TextStyle(color: Color(0xff5C6096), fontSize: 10);
 
 const kHighlightedText = TextStyle(color: Color(0xff3EAEFF), fontSize: 10);
-
-// const kNumberCountText = TextStyle()

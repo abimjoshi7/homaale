@@ -1,7 +1,8 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,7 @@ class HomeHeaderSection extends StatelessWidget {
             trailing: IconButton(
               onPressed: () async {
                 final x = await CacheHelper.getCachedString(kAccessTokenP);
-                print(x);
+                log(x.toString());
               },
               icon: const Icon(
                 Icons.notifications_none,

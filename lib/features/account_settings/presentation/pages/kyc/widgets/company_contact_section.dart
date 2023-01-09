@@ -11,7 +11,7 @@ class CompanyContactSection extends StatelessWidget {
       children: [
         const Text(
           'Company Contacts',
-          style: kHeading2,
+          style: kPurpleText19,
         ),
         kHeight20,
         Row(

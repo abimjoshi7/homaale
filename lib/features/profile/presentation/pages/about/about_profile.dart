@@ -17,6 +17,8 @@ class AboutProfile extends StatelessWidget {
           SkillsSection(),
           PortfolioSection(),
           ExperienceSection(),
+          EducationSection(),
+          CertificationSection(),
         ],
       ),
     );

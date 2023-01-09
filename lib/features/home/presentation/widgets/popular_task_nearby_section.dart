@@ -55,7 +55,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                           ),
                           const Text(
                             'per hour',
-                            style: kHelper1,
+                            style: kHelper13,
                           ),
                         ],
                       ),

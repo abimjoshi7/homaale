@@ -134,7 +134,7 @@ class _FacebookLoginState extends State<FacebookLogin> {
           kHeight20,
           const Text(
             'Privacy | Terms & Conditions',
-            style: kHelper1,
+            style: kHelper13,
           ),
         ],
       ),

@@ -13,7 +13,7 @@ class PersonalInformationPage extends StatelessWidget {
           const CustomModalSheetDrawerIcon(),
           const Text(
             'Personal Information',
-            style: kHeading2,
+            style: kPurpleText19,
           ),
           kHeight50,
           const Text('Full Name'),

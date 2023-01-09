@@ -22,7 +22,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
       children: [
         const Text(
           'How would you like to sign up?',
-          style: kText16,
+          style: kPurpleText16,
         ),
         kHeight20,
         Expanded(
@@ -59,7 +59,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                   Text.rich(
                                     TextSpan(
                                       text: 'I am a ',
-                                      style: kText16,
+                                      style: kPurpleText16,
                                       children: [
                                         TextSpan(
                                           text: 'Client',
@@ -76,7 +76,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                   kHeight10,
                                   Text(
                                     'I am looking forward to hire professional individual and get my work done as quick as possible.',
-                                    style: kHelper1,
+                                    style: kHelper13,
                                   ),
                                 ],
                               ),
@@ -131,7 +131,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                   Text.rich(
                                     TextSpan(
                                       text: 'I am a ',
-                                      style: kText16,
+                                      style: kPurpleText16,
                                       children: [
                                         TextSpan(
                                           text: 'Tasker',
@@ -148,7 +148,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                   kHeight10,
                                   Text(
                                     'I am a hardworking person focusing on uplifting my careers to next heights.',
-                                    style: kHelper1,
+                                    style: kHelper13,
                                   ),
                                 ],
                               ),
@@ -203,7 +203,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                   Text.rich(
                                     TextSpan(
                                       text: 'I am a ',
-                                      style: kText16,
+                                      style: kPurpleText16,
                                       children: [
                                         TextSpan(
                                           text: 'Merchant',
@@ -220,7 +220,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                                   kHeight10,
                                   Text(
                                     'I am a merchant looking for taskers who are willing to work in my behalf.',
-                                    style: kHelper1,
+                                    style: kHelper13,
                                   ),
                                 ],
                               ),
@@ -287,7 +287,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
         //           const Text.rich(
         //             TextSpan(
         //               text: 'I am a ',
-        //               style: kText16,
+        //               style: kPurpleText16,
         //               children: [
         //                 TextSpan(
         //                   text: 'Tasker',

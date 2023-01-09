@@ -220,7 +220,7 @@ class BillingAndPaymentPage extends StatelessWidget {
             onPressed: () {},
             child: const Text(
               '+ Add payment method',
-              style: kHeading2,
+              style: kPurpleText19,
             ),
           ),
           AccountListTileSection(

@@ -52,12 +52,12 @@ class _PreferencesAddSkillState extends State<PreferencesAddSkill> {
         children: [
           const Text(
             'Add your skills',
-            style: kText16,
+            style: kPurpleText16,
           ),
           kHeight10,
           const Text(
             'Select maximum 2 categories to get started',
-            style: kHelper1,
+            style: kHelper13,
           ),
           kHeight50,
           Expanded(
@@ -89,7 +89,7 @@ class _PreferencesAddSkillState extends State<PreferencesAddSkill> {
                         kHeight10,
                         Text(
                           skillList[index],
-                          style: kText16,
+                          style: kPurpleText16,
                         ),
                       ],
                     ),

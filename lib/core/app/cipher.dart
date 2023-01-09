@@ -1,6 +1,9 @@
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
+import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
+import 'package:cipher/features/portfolio/presentation/cubit/tasker_certification_cubit.dart';
+import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
@@ -36,10 +39,20 @@ class Cipher extends StatelessWidget {
           create: (context) => SignInCubit(),
         ),
         BlocProvider(
-          create: (context) => TaskerPortfolioCubit(),
+          create: (context) => TaskerPortfolioCubit()..getPortfolio(),
         ),
         BlocProvider(
-          create: (context) => TaskerExperienceCubit(),
+          create: (context) => TaskerExperienceCubit()..getTaskerExperience(),
+        ),
+        BlocProvider(
+          create: (context) => TaskerEducationCubit()..getTaskerEducation(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              TaskerCertificationCubit()..getTaskerCertification(),
+        ),
+        BlocProvider(
+          create: (context) => ImageUploadCubit(),
         ),
       ],
       child: MaterialApp(

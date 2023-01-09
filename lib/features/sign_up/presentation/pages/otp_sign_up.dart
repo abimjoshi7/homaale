@@ -48,7 +48,7 @@ class _OtpSignUpState extends State<OtpSignUp> {
           kHeight5,
           Text(
             "Please enter the 6 digit code send to ${number.replaceRange(8, number.length, "*****")}",
-            style: kHelper1,
+            style: kHelper13,
           ),
           kHeight20,
           Expanded(

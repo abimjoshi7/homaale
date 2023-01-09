@@ -34,9 +34,10 @@ class CustomFormContainer extends StatelessWidget {
             Row(
               children: [
                 leadingWidget,
+                kWidth10,
                 Text(
                   label,
-                  style: kHelper1,
+                  style: kHelper13,
                 ),
               ],
             ),

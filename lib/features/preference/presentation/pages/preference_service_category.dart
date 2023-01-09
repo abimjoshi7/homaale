@@ -40,12 +40,12 @@ class _PreferencesServiceCategoryState
         children: [
           const Text(
             'Choose your Service Category',
-            style: kText16,
+            style: kPurpleText16,
           ),
           kHeight10,
           const Text(
             'Select at least 2 categories to get started',
-            style: kHelper1,
+            style: kHelper13,
           ),
           kHeight50,
           Expanded(
@@ -77,7 +77,7 @@ class _PreferencesServiceCategoryState
                         kHeight10,
                         Text(
                           PreferencesServiceCategory.serviceList[index],
-                          style: kText16,
+                          style: kPurpleText16,
                         ),
                       ],
                     ),

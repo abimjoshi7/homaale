@@ -12,7 +12,7 @@ mixin AddSkills {
           kHeight20,
           const Text(
             'Add new skills',
-            style: kHeading2,
+            style: kPurpleText19,
           ),
           kHeight20,
           Expanded(

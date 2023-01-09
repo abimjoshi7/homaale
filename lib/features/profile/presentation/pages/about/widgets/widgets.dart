@@ -1,4 +1,6 @@
+export './certification_section.dart';
 export './desciption_section.dart';
+export './education_section.dart';
 export './experience_section.dart';
 export './icontext.dart';
 export './portfolio_card.dart';

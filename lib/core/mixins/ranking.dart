@@ -11,7 +11,7 @@ mixin Ranking {
           const CustomModalSheetDrawerIcon(),
           const Text(
             'Ranking',
-            style: kHeading2,
+            style: kPurpleText19,
           ),
           kHeight20,
           Expanded(

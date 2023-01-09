@@ -11,7 +11,7 @@ class PanVatInformationSection extends StatelessWidget {
       children: [
         const Text(
           'PAN/VAT Information',
-          style: kHeading2,
+          style: kPurpleText19,
         ),
         kHeight20,
         Row(

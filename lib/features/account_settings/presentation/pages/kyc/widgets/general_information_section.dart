@@ -13,7 +13,7 @@ class GeneralInformationSection extends StatelessWidget {
       children: [
         const Text(
           'General Information',
-          style: kHeading2,
+          style: kPurpleText19,
         ),
         kHeight20,
         Row(

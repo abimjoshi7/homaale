@@ -15,7 +15,7 @@ class DealOfTheDaySection extends StatelessWidget {
             children: [
               const Text(
                 'Deal of the day',
-                style: kHeading2,
+                style: kPurpleText19,
               ),
               Row(
                 children: [
@@ -38,7 +38,7 @@ class DealOfTheDaySection extends StatelessWidget {
                       kWidth5,
                       const Text(
                         ':',
-                        style: kText16,
+                        style: kPurpleText16,
                       ),
                       kWidth5,
                       Container(
@@ -57,7 +57,7 @@ class DealOfTheDaySection extends StatelessWidget {
                       kWidth5,
                       const Text(
                         ':',
-                        style: kText16,
+                        style: kPurpleText16,
                       ),
                       Container(
                         height: 32,
@@ -139,7 +139,7 @@ class DealOfTheDaySection extends StatelessWidget {
                             kHeight5,
                             const Text(
                               '10 times booked',
-                              style: kHelper1,
+                              style: kHelper13,
                             )
                           ],
                         ),

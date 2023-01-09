@@ -44,7 +44,7 @@ class Membership extends StatelessWidget {
               children: const [
                 Text(
                   'Free',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Homaale free plan')
               ],
@@ -62,7 +62,7 @@ class Membership extends StatelessWidget {
               children: const [
                 Text(
                   'BASIC',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Homaale basic plan')
               ],
@@ -80,7 +80,7 @@ class Membership extends StatelessWidget {
               children: const [
                 Text(
                   'SILVER',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Homaale silver plan')
               ],
@@ -103,7 +103,7 @@ class Membership extends StatelessWidget {
                       const Center(
                         child: Text(
                           'Homaale Silver Plan',
-                          style: kHeading2,
+                          style: kPurpleText19,
                         ),
                       ),
                       kHeight20,
@@ -164,7 +164,7 @@ class Membership extends StatelessWidget {
               children: const [
                 Text(
                   'PREMIUM',
-                  style: kHeading2,
+                  style: kPurpleText19,
                 ),
                 Text('Homaale premium  plan')
               ],

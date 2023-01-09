@@ -92,7 +92,7 @@ class Account extends StatelessWidget with KycModalSheets {
                         kHeight5,
                         const Text(
                           'sristisharma@homaale.com',
-                          style: kHelper1,
+                          style: kHelper13,
                         ),
                       ],
                     ),

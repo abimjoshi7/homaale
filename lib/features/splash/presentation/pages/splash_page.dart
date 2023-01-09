@@ -16,19 +16,24 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   Future<void> inititalLogCheck() async {
-    final x = await const FlutterSecureStorage().read(
+    await const FlutterSecureStorage()
+        .read(
       key: kAccessTokenP,
+    )
+        .then(
+      (x) {
+        if (x != null) {
+          setState(() {
+            theChild = const Root();
+          });
+        } else {
+          if (!mounted) return;
+          setState(() {
+            theChild = _buildSplash(context);
+          });
+        }
+      },
     );
-    if (x != null) {
-      setState(() {
-        theChild = const Root();
-      });
-    } else {
-      if (!mounted) return;
-      setState(() {
-        theChild = _buildSplash(context);
-      });
-    }
   }
 
   @override

@@ -13,7 +13,7 @@ class AddressInformationPage extends StatelessWidget {
         kHeight20,
         const Text(
           'Address Information',
-          style: kHeading2,
+          style: kPurpleText19,
         ),
         kHeight20,
         const Text(

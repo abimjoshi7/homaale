@@ -29,7 +29,7 @@ class RewardsProfile extends StatelessWidget {
                 kHeight10,
                 const Text(
                   'Copy the code and paste at checkout and  get discount',
-                  style: kHelper1,
+                  style: kHelper13,
                 ),
                 kHeight10,
                 Row(

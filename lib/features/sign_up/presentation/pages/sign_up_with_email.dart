@@ -71,7 +71,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
             ),
             const Text(
               'Create your new account',
-              style: kHelper1,
+              style: kHelper13,
             ),
             Padding(
               padding: const EdgeInsets.all(15),
@@ -165,7 +165,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                             kWidth10,
                             Text(
                               'Or Sign Up with Mobile instead',
-                              style: kHelper1,
+                              style: kHelper13,
                             ),
                             kWidth10,
                             Flexible(

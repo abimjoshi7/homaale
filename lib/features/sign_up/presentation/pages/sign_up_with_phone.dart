@@ -69,7 +69,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
             ),
             const Text(
               'Create your new account',
-              style: kHelper1,
+              style: kHelper13,
             ),
             SizedBox(
               child: Padding(
@@ -182,7 +182,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                               kWidth10,
                               Text(
                                 'Or Sign Up with Email instead',
-                                style: kHelper1,
+                                style: kHelper13,
                               ),
                               kWidth10,
                               Flexible(child: CustomHorizontalDivider()),
