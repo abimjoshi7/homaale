@@ -3,17 +3,46 @@ import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cu
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class PortfolioSection extends StatelessWidget {
+class PortfolioSection extends StatefulWidget {
   const PortfolioSection({
     super.key,
   });
+
+  @override
+  State<PortfolioSection> createState() => _PortfolioSectionState();
+}
+
+class _PortfolioSectionState extends State<PortfolioSection> {
+  final _pagingController = PagingController(
+    firstPageKey: 'http://172.16.16.50:8014/api/v1/tasker/portfolio/?page=1',
+  );
+  int? _pageCount = 10;
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      // _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TaskerPortfolioCubit, TaskerPortfolioState>(
       listener: (context, state) {
         // TODO: implement listener
+        if (state is TaskerGetPortfolioSuccess) {
+          _pageCount = state.taskerPortfolioRes.count;
+          final isLastPage = state.taskerPortfolioRes.count! < _pageCount!;
+        }
       },
       builder: (context, state) {
         if (state is TaskerGetPortfolioSuccess) {
@@ -28,7 +57,9 @@ class PortfolioSection extends StatelessWidget {
                   InkWell(
                     onTap: () async {
                       print(state);
-                      await context.read<TaskerPortfolioCubit>().getPortfolio();
+                      await context
+                          .read<TaskerPortfolioCubit>()
+                          .getPortfolio(2);
                     },
                     child: const Text(
                       'Portfolio',
@@ -59,7 +90,7 @@ class PortfolioSection extends StatelessWidget {
                 InkWell(
                   onTap: () async {
                     print(state);
-                    await context.read<TaskerPortfolioCubit>().getPortfolio();
+                    await context.read<TaskerPortfolioCubit>().getPortfolio(5);
                   },
                   child: const Text(
                     'Portfolio',

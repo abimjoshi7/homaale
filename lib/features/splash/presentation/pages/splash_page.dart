@@ -1,10 +1,10 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,18 +16,13 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   Future<void> inititalLogCheck() async {
-    await const FlutterSecureStorage()
-        .read(
-      key: kAccessTokenP,
-    )
-        .then(
+    await CacheHelper.getCachedString(kAccessTokenP).then(
       (x) {
         if (x != null) {
           setState(() {
             theChild = const Root();
           });
         } else {
-          if (!mounted) return;
           setState(() {
             theChild = _buildSplash(context);
           });

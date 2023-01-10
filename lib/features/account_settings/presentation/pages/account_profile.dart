@@ -1,19 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_modal_sheets.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Account extends StatelessWidget with KycModalSheets {
+class Account extends StatelessWidget {
   const Account({super.key});
   static const routeName = '/account-profile';
 
@@ -32,7 +32,9 @@ class Account extends StatelessWidget with KycModalSheets {
                   icon: const Icon(Icons.search),
                   onPressed: () {
                     if (state is SignInSuccess) {
-                      print(state.userLoginRes.toJson());
+                      print(
+                        state.userLoginRes.toJson(),
+                      );
                     }
                   },
                 );
@@ -161,7 +163,11 @@ class Account extends StatelessWidget with KycModalSheets {
           ),
           AccountListTileSection(
             onTap: () async {
-              await KycModalSheets.showKycFillAs(context);
+              // await showModalBottomSheet<Widget>(
+              //   context: context,
+              //   builder: (context) => KycChoiceOption(),
+              // );
+              Navigator.pushNamed(context, KycDetailsOrganization.routeName);
             },
             icon: const Icon(
               FontAwesomeIcons.idCard,
@@ -242,13 +248,13 @@ class Account extends StatelessWidget with KycModalSheets {
           ),
           AccountListTileSection(
             onTap: () async {
-              await const FlutterSecureStorage().deleteAll().then(
-                    (value) => Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      SignInWithPhone.routeName,
-                      (route) => false,
-                    ),
-                  );
+              await CacheHelper.clearAllCachedData().then(
+                (value) => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  SignInWithPhone.routeName,
+                  (route) => false,
+                ),
+              );
             },
             icon: const Icon(Icons.logout_rounded),
             label: 'Logout',

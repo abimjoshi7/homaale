@@ -16,11 +16,12 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
       emit(
         TaskerPortfolioInitial(),
       );
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().postDataWithCredential(
         url: 'tasker/portfolio/',
         data: taskerPortfolioReq.toJson(),
-        token: token!,
+        token: tokenP ?? token!,
       );
       if (x['status'] == 'success') emit(TaskerPortfolioSuccess());
     } catch (e) {
@@ -28,15 +29,19 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
     }
   }
 
-  Future<void> getPortfolio() async {
+  Future<void> getPortfolio([int pageNumber = 1]) async {
     try {
       emit(
         TaskerPortfolioInitial(),
       );
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().getDatawithCredential(
         url: 'tasker/portfolio/',
-        token: token,
+        token: tokenP ?? token,
+        query: {
+          'page': pageNumber,
+        },
       );
 
       if (x != null) {

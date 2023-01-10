@@ -18,11 +18,12 @@ class TaskerEducationCubit extends Cubit<TaskerEducationState> {
       emit(
         TaskerEducationInitial(),
       );
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().postDataWithCredential(
         url: 'tasker/education/',
         data: taskerEducationReq.toJson(),
-        token: token!,
+        token: tokenP ?? token!,
       );
       if (x['status'] == 'success') emit(TaskerEducationSuccess());
     } catch (e) {
@@ -35,10 +36,11 @@ class TaskerEducationCubit extends Cubit<TaskerEducationState> {
       emit(
         TaskerEducationInitial(),
       );
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().getDatawithCredential(
         url: 'tasker/education/',
-        token: token,
+        token: tokenP ?? token,
       );
       if (x != null) {
         emit(

@@ -18,11 +18,12 @@ class TaskerCertificationCubit extends Cubit<TaskerCertificationState> {
       emit(
         TaskerCertificationInitial(),
       );
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().postDataWithCredential(
         url: 'tasker/certification/',
         data: taskerCertificationReq.toJson(),
-        token: token!,
+        token: tokenP ?? token!,
       );
       if (x['status'] == 'success') emit(TaskerCertificationSuccess());
     } catch (e) {
@@ -35,10 +36,11 @@ class TaskerCertificationCubit extends Cubit<TaskerCertificationState> {
       emit(
         TaskerCertificationInitial(),
       );
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().getDatawithCredential(
         url: 'tasker/certification/',
-        token: token,
+        token: tokenP ?? token,
       );
       if (x != null)
         emit(

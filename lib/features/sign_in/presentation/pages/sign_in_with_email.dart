@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';

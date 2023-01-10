@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
@@ -85,7 +85,12 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                             ),
                             kWidth10,
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                final x = await CacheHelper.getCachedString(
+                                  kAccessTokenP,
+                                );
+                                print(x);
+                              },
                               child: const SmallBoxContainer(
                                 child: Icon(
                                   Icons.phone_android_sharp,
@@ -161,40 +166,53 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                           log(
                             state.userLoginRes.toJson().toString(),
                           );
-                          await CacheHelper.setCachedString(
-                            kAccessToken,
-                            state.userLoginRes.access!,
-                          );
-                          await CacheHelper.setCachedString(
-                            kRefreshToken,
-                            state.userLoginRes.refresh!,
-                          );
-                          if (state.userLoginRes.access != null &&
-                              keepLogged == true) {
+
+                          if (keepLogged == true) {
                             {
                               await CacheHelper.setCachedString(
                                 kAccessTokenP,
                                 state.userLoginRes.access!,
-                              );
-                              await CacheHelper.setCachedString(
-                                kRefreshTokenP,
-                                state.userLoginRes.refresh!,
+                              ).then(
+                                (value) async => CacheHelper.setCachedString(
+                                  kRefreshTokenP,
+                                  state.userLoginRes.refresh!,
+                                ).then(
+                                  (value) async =>
+                                      Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Root.routeName,
+                                    (route) => false,
+                                  ),
+                                ),
                               );
                             }
+                          } else {
+                            await CacheHelper.setCachedString(
+                              kAccessToken,
+                              state.userLoginRes.access!,
+                            )
+                                .then(
+                                  (value) async => CacheHelper.setCachedString(
+                                    kRefreshToken,
+                                    state.userLoginRes.refresh!,
+                                  ),
+                                )
+                                .then(
+                                  (value) => Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    Root.routeName,
+                                    (route) => false,
+                                  ),
+                                );
                           }
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Succesfully signed in',
-                              ),
-                            ),
-                          );
-                          await Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Root.routeName,
-                            (route) => false,
-                          );
+                          // if (!mounted) return;
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text(
+                          //       'Succesfully signed in',
+                          //     ),
+                          //   ),
+                          // );
                         } else if (state is SignInFailure) {
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(

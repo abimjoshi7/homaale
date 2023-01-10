@@ -1,4 +1,5 @@
 import 'package:cipher/core/route/app_router.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/cubit/kyc_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
@@ -6,7 +7,7 @@ import 'package:cipher/features/portfolio/presentation/cubit/tasker_certificatio
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
-import 'package:cipher/features/sign_in/presentation/pages/cubit/sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/networking/network_helper.dart';
@@ -39,7 +40,7 @@ class Cipher extends StatelessWidget {
           create: (context) => SignInCubit(),
         ),
         BlocProvider(
-          create: (context) => TaskerPortfolioCubit()..getPortfolio(),
+          create: (context) => TaskerPortfolioCubit()..getPortfolio(5),
         ),
         BlocProvider(
           create: (context) => TaskerExperienceCubit()..getTaskerExperience(),
@@ -50,6 +51,9 @@ class Cipher extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               TaskerCertificationCubit()..getTaskerCertification(),
+        ),
+        BlocProvider(
+          create: (context) => KycCubit(),
         ),
         BlocProvider(
           create: (context) => ImageUploadCubit(),
