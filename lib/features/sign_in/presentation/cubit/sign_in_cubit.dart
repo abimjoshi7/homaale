@@ -7,7 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 part 'sign_in_state.dart';
 
-class SignInCubit extends Cubit<SignInState> {
+class SignInCubit extends Cubit<SignInCubitState> {
   SignInCubit() : super(SignInInitial());
   final storage = const FlutterSecureStorage();
 

@@ -87,7 +87,7 @@ class _OtpSignUpState extends State<OtpSignUp> {
                   if (!mounted) return;
                   await Navigator.pushNamedAndRemoveUntil(
                     context,
-                    SignInWithPhone.routeName,
+                    SignIn.routeName,
                     (route) => false,
                   );
                 }

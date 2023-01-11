@@ -26,7 +26,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location = 'Buddhanagar, Kathmandu';
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignInCubit, SignInState>(
+    return BlocConsumer<SignInCubit, SignInCubitState>(
       listener: (context, state) async {
         if (state is SignInSuccess) {}
       },

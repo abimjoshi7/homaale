@@ -94,7 +94,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 );
                 await Navigator.pushNamedAndRemoveUntil(
                   context,
-                  SignInWithPhone.routeName,
+                  SignIn.routeName,
                   (route) => false,
                 );
               }

@@ -39,7 +39,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                   if (!mounted) return;
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    SignInWithPhone.routeName,
+                    SignIn.routeName,
                     (route) => false,
                   );
                 },
@@ -287,7 +287,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                 const Text('Already have an account?'),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignInWithPhone.routeName);
+                    Navigator.pushNamed(context, SignIn.routeName);
                   },
                   child: const Text('Login'),
                 ),

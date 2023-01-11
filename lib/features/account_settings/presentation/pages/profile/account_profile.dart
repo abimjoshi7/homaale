@@ -26,7 +26,7 @@ class Account extends StatelessWidget {
           kHeight50,
           CustomHeader(
             leadingWidget: const SizedBox.shrink(),
-            trailingWidget: BlocBuilder<SignInCubit, SignInState>(
+            trailingWidget: BlocBuilder<SignInCubit, SignInCubitState>(
               builder: (context, state) {
                 return IconButton(
                   icon: const Icon(Icons.search),
@@ -251,7 +251,7 @@ class Account extends StatelessWidget {
               await CacheHelper.clearAllCachedData().then(
                 (value) => Navigator.pushNamedAndRemoveUntil(
                   context,
-                  SignInWithPhone.routeName,
+                  SignIn.routeName,
                   (route) => false,
                 ),
               );

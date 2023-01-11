@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
@@ -128,68 +129,70 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                       ],
                     ),
                     kHeight20,
-                    BlocConsumer<SignInCubit, SignInState>(
+                    BlocConsumer<SignInBloc, SignInState>(
                       listener: (context, state) async {
-                        final x = await CacheHelper.getCachedString(kErrorLog);
-                        if (state is SignInSuccess) {
-                          log(
-                            state.userLoginRes.toJson().toString(),
-                          );
-                          await CacheHelper.setCachedString(
-                            kAccessToken,
-                            state.userLoginRes.access!,
-                          );
-                          await CacheHelper.setCachedString(
-                            kRefreshToken,
-                            state.userLoginRes.refresh!,
-                          );
-                          if (state.userLoginRes.access != null &&
-                              keepLogged == true) {
-                            {
-                              await CacheHelper.setCachedString(
-                                kAccessTokenP,
-                                state.userLoginRes.access!,
-                              );
-                              await CacheHelper.setCachedString(
-                                kRefreshTokenP,
-                                state.userLoginRes.refresh!,
-                              );
-                            }
-                          }
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Succesfully signed in',
-                              ),
-                            ),
-                          );
-                          await Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Root.routeName,
-                            (route) => false,
-                          );
-                        } else if (state is SignInFailure) {
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                x!,
-                              ),
-                            ),
-                          );
-                        }
+                        // final x = await CacheHelper.getCachedString(kErrorLog);
+                        // if (state is SignInSuccess) {
+                        //   log(
+                        //     state.userLoginRes.toJson().toString(),
+                        //   );
+                        //   await CacheHelper.setCachedString(
+                        //     kAccessToken,
+                        //     state.userLoginRes.access!,
+                        //   );
+                        //   await CacheHelper.setCachedString(
+                        //     kRefreshToken,
+                        //     state.userLoginRes.refresh!,
+                        //   );
+                        //   if (state.userLoginRes.access != null &&
+                        //       keepLogged == true) {
+                        //     {
+                        //       await CacheHelper.setCachedString(
+                        //         kAccessTokenP,
+                        //         state.userLoginRes.access!,
+                        //       );
+                        //       await CacheHelper.setCachedString(
+                        //         kRefreshTokenP,
+                        //         state.userLoginRes.refresh!,
+                        //       );
+                        //     }
+                        //   }
+                        //   if (!mounted) return;
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     const SnackBar(
+                        //       content: Text(
+                        //         'Succesfully signed in',
+                        //       ),
+                        //     ),
+                        //   );
+                        //   await Navigator.pushNamedAndRemoveUntil(
+                        //     context,
+                        //     Root.routeName,
+                        //     (route) => false,
+                        //   );
+                        // } else if (state is SignInFailure) {
+                        //   if (!mounted) return;
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     SnackBar(
+                        //       content: Text(
+                        //         x!,
+                        //       ),
+                        //     ),
+                        //   );
+                        // }
                       },
                       builder: (context, state) {
                         return CustomElevatedButton(
                           callback: () async {
-                            _formKey.currentState!.save();
-                            await context.read<SignInCubit>().initiateSignIn(
-                                  UserLoginReq(
-                                    username: usernameController.text,
-                                    password: passwordController.text,
-                                  ),
-                                );
+                            print(234);
+                            print(state);
+                            // _formKey.currentState!.save();
+                            // await context.read<SignInCubit>().initiateSignIn(
+                            //       UserLoginReq(
+                            //         username: usernameController.text,
+                            //         password: passwordController.text,
+                            //       ),
+                            //     );
                           },
                           label: 'Login',
                         );

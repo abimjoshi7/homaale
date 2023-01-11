@@ -8,7 +8,9 @@ import 'package:cipher/features/portfolio/presentation/cubit/tasker_certificatio
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/networking/network_helper.dart';
@@ -36,6 +38,9 @@ class Cipher extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SignUpCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SignInBloc(SignInRepository()),
         ),
         BlocProvider(
           create: (context) => SignInCubit(),

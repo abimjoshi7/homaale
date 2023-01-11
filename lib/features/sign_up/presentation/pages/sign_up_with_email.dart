@@ -1,5 +1,6 @@
 // ignore_for_file: duplicate_ignore, lines_longer_than_80_chars
 
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_email.dart';
 import 'package:cipher/core/validations/validate_password.dart';
@@ -10,8 +11,6 @@ import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.da
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpWithEmail extends StatefulWidget {
   const SignUpWithEmail({super.key});
@@ -26,7 +25,6 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isChecked = false;
-  final storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                   if (!mounted) return;
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    SignInWithPhone.routeName,
+                    SignIn.routeName,
                     (route) => false,
                   );
                 },
@@ -209,8 +207,8 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                     kHeight20,
                     BlocConsumer<SignUpCubit, SignUpState>(
                       listener: (context, state) async {
-                        final x = await storage.read(
-                          key: kErrorLog,
+                        final x = await CacheHelper.getCachedString(
+                          kErrorLog,
                         );
                         if (state is SignUpSuccess) {
                           if (!mounted) return;
@@ -270,7 +268,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 const Text('Already have an account?'),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignInWithPhone.routeName);
+                    Navigator.pushNamed(context, SignIn.routeName);
                   },
                   child: const Text('Login'),
                 ),

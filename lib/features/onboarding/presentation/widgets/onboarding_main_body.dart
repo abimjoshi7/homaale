@@ -86,7 +86,7 @@ class OnboardingMainBody extends StatelessWidget {
                               onTap: () {
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
-                                  SignInWithPhone.routeName,
+                                  SignIn.routeName,
                                   (route) => false,
                                 );
                               },

@@ -67,33 +67,7 @@ class _OnboardingState extends State<Onboarding> {
               kHeight50,
               const CustomHeader(
                 leadingWidget: SizedBox.shrink(),
-                // IconButton(
-                //   onPressed: () {
-                //     // Navigator.pop(context);
-                //   },
-                //   icon: const Icon(
-                //     Icons.arrow_back,
-                //     color: Color(0xffdee2e6),
-                //   ),
-                // ),
                 trailingWidget: SizedBox.shrink(),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 8),
-                //   child: Row(
-                //     children: const [
-                //       Text(
-                //         'Skip',
-                //         style: kSkipHelper,
-                //       ),
-                //       kWidth10,
-                //       Icon(
-                //         Icons.arrow_forward_ios_rounded,
-                //         size: 12,
-                //         color: Color(0xffdee2e6),
-                //       )
-                //     ],
-                //   ),
-                // ),
               ),
               Image.asset('assets/homaale_logo_title_light.png'),
               kHeight50,

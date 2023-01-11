@@ -38,7 +38,7 @@ class SocialLoginWithPhoneSection extends StatelessWidget {
             GestureDetector(
               onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context,
-                SignInWithPhone.routeName,
+                SignIn.routeName,
                 (route) => false,
               ),
               child: Image.asset(
