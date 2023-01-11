@@ -1,22 +1,56 @@
-class TaskerProfile {
-  TaskerProfile({
-    required this.firstName,
+//Request: {
+//   "first_name": "string",
+//   "middle_name": "string",
+//   "last_name": "string",
+//   "interests": [
+//     0
+//   ],
+//   "bio": "string",
+//   "gender": "Male",
+//   "profile_image": "string",
+//   "date_of_birth": "2023-01-11",
+//   "skill": "string",
+//   "active_hour_start": "string",
+//   "active_hour_end": "string",
+//   "experience_level": "string",
+//   "user_type": "string",
+//   "hourly_rate": 0,
+//   "profile_visibility": "Private",
+//   "task_preferences": "string",
+//   "address_line1": "string",
+//   "address_line2": "string",
+//   "designation": "string",
+//   "points": 2147483647,
+//   "remaining_points": 2147483647,
+//   "following_count": 2147483647,
+//   "city": 0,
+//   "country": "string",
+//   "language": "string",
+//   "charge_currency": "string",
+//   "avatar": 0
+// }
+
+//Reponse: {status: success, message: Profile Successfully created}
+
+class TaskerProfileCreateReq {
+  TaskerProfileCreateReq({
+    this.firstName,
     this.middleName,
-    required this.lastName,
+    this.lastName,
     this.interests,
-    required this.bio,
-    required this.gender,
+    this.bio,
+    this.gender,
     this.profileImage,
     this.dateOfBirth,
-    required this.skill,
-    required this.activeHourStart,
-    required this.activeHourEnd,
-    required this.experienceLevel,
-    required this.userType,
-    required this.hourlyRate,
-    required this.profileVisibility,
-    required this.taskPreferences,
-    required this.addressLine1,
+    this.skill,
+    this.activeHourStart,
+    this.activeHourEnd,
+    this.experienceLevel,
+    this.userType,
+    this.hourlyRate,
+    this.profileVisibility,
+    this.taskPreferences,
+    this.addressLine1,
     this.addressLine2,
     this.designation,
     this.points,
@@ -25,7 +59,7 @@ class TaskerProfile {
     this.city,
     this.country,
     this.language,
-    required this.chargeCurrency,
+    this.chargeCurrency,
     this.avatar,
   });
 
@@ -57,13 +91,14 @@ class TaskerProfile {
   final String? chargeCurrency;
   final int? avatar;
 
-  factory TaskerProfile.fromJson(Map<String, dynamic> json) => TaskerProfile(
+  factory TaskerProfileCreateReq.fromJson(Map<String, dynamic> json) =>
+      TaskerProfileCreateReq(
         firstName: json['first_name'] as String?,
         middleName: json['middle_name'] as String?,
         lastName: json['last_name'] as String?,
         interests: json['interests'] == null
             ? []
-            : List<int?>.from((json['interests']!.map((x) => x)) as Iterable),
+            : List<int?>.from(json['interests']!.map((x) => x) as Iterable),
         bio: json['bio'] as String?,
         gender: json['gender'] as String?,
         profileImage: json['profile_image'] as String?,
@@ -100,7 +135,7 @@ class TaskerProfile {
         'gender': gender,
         'profile_image': profileImage,
         'date_of_birth':
-            "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
+            "${dateOfBirth?.year.toString().padLeft(4, '0')}-${dateOfBirth?.month.toString().padLeft(2, '0')}-${dateOfBirth?.day.toString().padLeft(2, '0')}",
         'skill': skill,
         'active_hour_start': activeHourStart,
         'active_hour_end': activeHourEnd,

@@ -1,4 +1,5 @@
 import 'package:cipher/core/route/app_router.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/cubit/kyc_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
@@ -38,6 +39,9 @@ class Cipher extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SignInCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UserDataCubit()..getTaskerUserData(),
         ),
         BlocProvider(
           create: (context) => TaskerPortfolioCubit()..getPortfolio(5),

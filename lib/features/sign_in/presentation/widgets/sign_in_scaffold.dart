@@ -29,17 +29,17 @@ class SignInScaffold extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Color(0xffdee2e6),
-                      ),
-                    ),
+                    // IconButton(
+                    //   onPressed: () {
+                    //     Navigator.pop(context);
+                    //   },
+                    //   icon: const Icon(
+                    //     Icons.arrow_back,
+                    //     color: Color(0xffdee2e6),
+                    //   ),
+                    // ),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(

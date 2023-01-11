@@ -2,8 +2,11 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
+import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
+import 'package:cipher/networking/models/tasker_user_data.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -95,15 +98,46 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       )
                     ],
                   ),
-                  trailing: IconButton(
-                    onPressed: () async {
-                      final x =
-                          await CacheHelper.getCachedString(kAccessTokenP);
-                      log(x.toString());
+                  trailing: BlocBuilder<UserDataCubit, UserDataState>(
+                    builder: (context, state) {
+                      return IconButton(
+                        onPressed: () async {
+                          final x =
+                              await CacheHelper.getCachedString(kAccessTokenP);
+                          log(x.toString());
+                          final user = TaskerProfileCreateReq(
+                            firstName: 'James',
+                            middleName: '',
+                            lastName: 'Hetfield',
+                            bio: 'LEGEND. Everyone take a bow.',
+                            gender: 'Male',
+                            skill: 'Frontman',
+                            dateOfBirth: DateTime.parse('2000-02-27'),
+                            activeHourStart: '12:30',
+                            activeHourEnd: '22:00',
+                            experienceLevel: 'Expert',
+                            userType: 'Client',
+                            hourlyRate: 121,
+                            profileVisibility: 'Private',
+                            taskPreferences: 'full-time',
+                            addressLine1: 'new york, usa',
+                            chargeCurrency: 'NPR',
+                            remainingPoints: 0,
+                            points: 0,
+                            followingCount: 0,
+                          );
+                          // await context
+                          //     .read<UserDataCubit>()
+                          //     .postTaskerUserData(user);
+                          await context
+                              .read<UserDataCubit>()
+                              .getTaskerUserData();
+                        },
+                        icon: const Icon(
+                          Icons.notifications_none,
+                        ),
+                      );
                     },
-                    icon: const Icon(
-                      Icons.notifications_none,
-                    ),
                   ),
                 ),
                 Padding(

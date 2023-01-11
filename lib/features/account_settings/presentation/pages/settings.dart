@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/locale/locale_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -26,7 +27,9 @@ class Settings extends StatelessWidget {
             ),
             trailingWidget: IconButton(
               icon: const Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () async {
+                await LocaleHelper.getCountryCode();
+              },
             ),
             child: const Text(
               'Settings',
@@ -50,7 +53,7 @@ class Settings extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                EditProfilePage.routeName,
+                CompleteProfilePage.routeName,
               );
             },
           ),

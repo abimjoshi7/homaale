@@ -7,7 +7,7 @@ import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_exprience.dart';
+import 'package:cipher/features/portfolio/presentation/pages/add_experience.dart';
 import 'package:cipher/networking/models/request/tasker_portfolio_req.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:file_picker/file_picker.dart';

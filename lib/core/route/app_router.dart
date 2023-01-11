@@ -1,26 +1,13 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
-import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_certifications.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_education.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_exprience.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
+import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
-import 'package:cipher/features/sign_in/presentation/pages/confirm_otp_sign_in.dart';
-import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
-import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
-import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_phone.dart';
-import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
-import 'package:cipher/features/sign_in/presentation/pages/reset_password.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
-import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
-import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
-import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
@@ -122,9 +109,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const Settings(),
         );
-      case EditProfilePage.routeName:
+      case CompleteProfilePage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const EditProfilePage(),
+          builder: (context) => const CompleteProfilePage(),
         );
       case KycDetails.routeName:
         return MaterialPageRoute(
