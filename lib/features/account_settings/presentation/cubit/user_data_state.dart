@@ -34,3 +34,13 @@ class UserDataCreateFailure extends UserDataState {
   @override
   List<Object?> get props => [];
 }
+
+class UserDataEditSuccess extends UserDataState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UserDataEditFailure extends UserDataState {
+  @override
+  List<Object?> get props => [];
+}

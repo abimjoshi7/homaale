@@ -2,6 +2,7 @@ export './custom_check_box.dart';
 export './custom_dashboard_header.dart';
 export './custom_elevated_button.dart';
 export './custom_form_container.dart';
+export './custom_form_field.dart';
 export './custom_header.dart';
 export './custom_horizontal_divider.dart';
 export './custom_label_text.dart';

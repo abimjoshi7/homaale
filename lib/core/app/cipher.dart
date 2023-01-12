@@ -10,8 +10,13 @@ import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_c
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
+<<<<<<< HEAD
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+=======
+import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
+>>>>>>> 5a97e52 (dynamic profile initiation)
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +32,11 @@ class Cipher extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => SignupBloc(
+            SignUpRepositories(),
+          ),
+        ),
+        BlocProvider(
           create: (context) => CategoriesCubit(
             NetworkHelper(),
           )..fetchAllCategories(),
@@ -37,12 +47,15 @@ class Cipher extends StatelessWidget {
           )..fetchHeroCategory(),
         ),
         BlocProvider(
+<<<<<<< HEAD
           create: (context) => SignUpCubit(),
         ),
         BlocProvider(
           create: (context) => SignInBloc(SignInRepository()),
         ),
         BlocProvider(
+=======
+>>>>>>> 5a97e52 (dynamic profile initiation)
           create: (context) => SignInCubit(),
         ),
         BlocProvider(
@@ -86,7 +99,7 @@ class Cipher extends StatelessWidget {
           background: const ColoredBox(color: Colors.cyan),
         ),
         initialRoute: SplashPage.routeName,
-        onGenerateRoute: AppRouter.onGenerate,
+        onGenerateRoute: AppRouter().onGenerate,
       ),
     );
   }

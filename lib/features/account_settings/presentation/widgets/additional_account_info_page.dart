@@ -3,9 +3,9 @@ import 'package:cipher/features/account_settings/presentation/widgets/widgets.da
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class AccountInfoPage extends StatelessWidget {
-  const AccountInfoPage({super.key});
-  static const routeName = '/account-info-page';
+class AdditionalAccountInfoPage extends StatelessWidget {
+  const AdditionalAccountInfoPage({super.key});
+  static const routeName = '/additional-account-info-page';
 
   @override
   Widget build(BuildContext context) {

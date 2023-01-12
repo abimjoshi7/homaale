@@ -9,7 +9,7 @@ import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/pages/forgot_password_with_email.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
-import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
+import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/networking/models/request/user_login_req.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -214,7 +214,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      SignUpWithEmail.routeName,
+                      SignUp.routeName,
                     );
                   },
                   child: const Text(

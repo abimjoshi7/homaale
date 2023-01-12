@@ -65,4 +65,31 @@ class UserDataCubit extends Cubit<UserDataState> {
       );
     }
   }
+
+  Future<void> editTaskerUserData(
+    Map<String, dynamic> map,
+  ) async {
+    try {
+      emit(
+        UserDataInitial(),
+      );
+
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
+      final token = await CacheHelper.getCachedString(kAccessToken);
+      final x = await DioHelper().patchDataWithCredential(
+        data: map,
+        url: 'tasker/my-profile/',
+        token: tokenP ?? token!,
+      );
+      if (x != null) {
+        emit(
+          UserDataEditSuccess(),
+        );
+      }
+    } catch (e) {
+      emit(
+        UserDataEditFailure(),
+      );
+    }
+  }
 }

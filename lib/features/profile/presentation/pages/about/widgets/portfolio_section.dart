@@ -15,10 +15,11 @@ class PortfolioSection extends StatefulWidget {
 }
 
 class _PortfolioSectionState extends State<PortfolioSection> {
+  int? _pageCount = 10;
+  int pageNumber = 1;
   final _pagingController = PagingController(
     firstPageKey: 'http://172.16.16.50:8014/api/v1/tasker/portfolio/?page=1',
   );
-  int? _pageCount = 10;
 
   @override
   void initState() {

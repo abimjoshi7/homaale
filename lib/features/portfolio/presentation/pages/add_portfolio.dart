@@ -1,16 +1,10 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/file_picker/file_pick_helper.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_experience.dart';
 import 'package:cipher/networking/models/request/tasker_portfolio_req.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

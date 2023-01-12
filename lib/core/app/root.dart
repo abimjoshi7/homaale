@@ -16,8 +16,8 @@ class _RootState extends State<Root> {
   final pages = [
     const Home(),
     const Page1(),
-    const Page2(),
-    const Page2(),
+    const Page1(),
+    const Page1(),
     const Account(),
   ];
 
@@ -206,27 +206,6 @@ class Page1 extends StatelessWidget {
       child: Center(
         child: Text(
           'Page Number 1',
-          style: TextStyle(
-            color: Colors.green[900],
-            fontSize: 45,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Page2 extends StatelessWidget {
-  const Page2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xffC4DFCB),
-      child: Center(
-        child: Text(
-          'Page Number 2',
           style: TextStyle(
             color: Colors.green[900],
             fontSize: 45,

@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/locale/locale_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class Settings extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                CompleteProfilePage.routeName,
+                EditProfilePage.routeName,
               );
             },
           ),

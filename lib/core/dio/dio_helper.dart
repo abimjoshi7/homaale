@@ -118,6 +118,34 @@ class DioHelper {
     }
   }
 
+  Future<dynamic> patchDataWithCredential({
+    required Map<String, dynamic> data,
+    required String url,
+    required String token,
+  }) async {
+    try {
+      final response = await dio.patch<dynamic>(
+        url,
+        data: jsonEncode(data),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      return response.data;
+    } on DioError catch (e) {
+      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+        () async => CacheHelper.setCachedString(
+          kErrorLog,
+          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+        ),
+      );
+      log('DIO Patch ERROR: ${e.response?.data}');
+    }
+  }
+
   Future<dynamic> postFormData({
     required String url,
     String? path,

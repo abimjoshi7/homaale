@@ -13,7 +13,7 @@ import 'package:cipher/networking/models/response/otp_response.dart';
 import 'package:cipher/networking/models/response/task_category.dart';
 import 'package:cipher/networking/models/response/task_hero_category.dart';
 import 'package:cipher/networking/models/response/user_login_res.dart';
-import 'package:cipher/networking/models/response/user_sign_up_res.dart';
+import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 

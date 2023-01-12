@@ -1,6 +1,8 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/edit_profile_page.dart';
+import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
@@ -12,7 +14,7 @@ import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
-  static Route<dynamic> onGenerate(RouteSettings settings) {
+  Route<dynamic> onGenerate(RouteSettings settings) {
     switch (settings.name) {
       case SplashPage.routeName:
         return MaterialPageRoute(
@@ -65,13 +67,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const GoogleLogin(),
         );
-      case SignUpWithPhone.routeName:
+      case SignUp.routeName:
         return MaterialPageRoute(
-          builder: (context) => const SignUpWithPhone(),
-        );
-      case SignUpWithEmail.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const SignUpWithEmail(),
+          builder: (context) => const SignUp(),
         );
       case Profile.routeName:
         return MaterialPageRoute(
@@ -113,6 +111,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const CompleteProfilePage(),
         );
+      case EditProfilePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const EditProfilePage(),
+        );
       case KycDetails.routeName:
         return MaterialPageRoute(
           builder: (context) => const KycDetails(),
@@ -148,6 +150,10 @@ class AppRouter {
       case HelpAndLegalPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const HelpAndLegalPage(),
+        );
+      case AdditionalAccountInfoPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AdditionalAccountInfoPage(),
         );
       default:
         return MaterialPageRoute(

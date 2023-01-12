@@ -698,24 +698,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   hintext: 'Choose one',
                 ),
                 kHeight20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Task Analytics',
-                      style: kPurpleText16,
-                    ),
-                    Switch(
-                      value: false,
-                      onChanged: (value) {},
-                    )
-                  ],
-                ),
-                kHeight5,
-                const Text(
-                  'Do you want to enable task analytics in profile?',
-                  style: kHelper13,
-                ),
                 kHeight50,
                 Center(
                   child: BlocConsumer<UserDataCubit, UserDataState>(

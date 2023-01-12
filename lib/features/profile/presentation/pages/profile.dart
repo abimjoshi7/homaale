@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/data/repositories/user_data_repositories.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
@@ -9,6 +11,7 @@ import 'package:cipher/features/profile/presentation/pages/services/services_pro
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -50,15 +53,24 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 Icons.arrow_back,
               ),
             ),
-            trailingWidget: IconButton(
-              onPressed: () async {},
-              icon: const Icon(
-                Icons.search,
-              ),
+            trailingWidget: BlocBuilder<UserDataCubit, UserDataState>(
+              builder: (context, state) {
+                return IconButton(
+                  onPressed: () async {
+                    await UserDataRepositories().fetchUserData().then(
+                          (value) => print(value.bio),
+                        );
+                  },
+                  icon: const Icon(
+                    Icons.search,
+                  ),
+                );
+              },
             ),
             child: const Text('Profile'),
           ),
           const CustomHorizontalDivider(),
+          kHeight20,
           const ProfileHeaderSection(),
           kHeight10,
           ProfileRewardBalanceSection(user: user),
