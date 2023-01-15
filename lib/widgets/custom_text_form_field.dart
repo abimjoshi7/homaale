@@ -13,11 +13,13 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.onChanged,
     this.maxLines = 1,
+    this.suffixWidget,
   });
 
   final double theHeight;
   final String hintText;
   final Widget? prefixWidget;
+  final Widget? suffixWidget;
   final String? value;
   final void Function(String?)? onSaved;
   final void Function(String?)? onChanged;
@@ -52,6 +54,7 @@ class CustomTextFormField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         prefixIcon: prefixWidget,
+        suffixIcon: suffixWidget,
       ),
     );
   }

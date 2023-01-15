@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/locale/locale_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -67,7 +68,12 @@ class Settings extends StatelessWidget {
               Icons.arrow_forward_ios,
               size: 16,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                PasswordAndSecurity.routeName,
+              );
+            },
           ),
           AccountListTileSection(
             icon: const Icon(Icons.person_add_alt_outlined),

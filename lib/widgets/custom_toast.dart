@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/custom_text_button.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class CustomToast extends StatelessWidget {
@@ -18,24 +19,35 @@ class CustomToast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        child: Column(
-          children: [
-            Text(
-              heading,
-              style: kPurpleText19,
-            ),
-            kHeight10,
-            Text(content),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomTextButton(
-                  text: 'Continue',
-                  voidCallback: onTap,
-                )
-              ],
-            )
-          ],
+        margin: const EdgeInsets.all(60),
+        child: Padding(
+          padding: kPadding20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                heading,
+                style: kPurpleText19,
+              ),
+              kHeight10,
+              Text(content),
+              kHeight50,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: CustomElevatedButton(
+                      label: 'Continue',
+                      callback: onTap,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ProfileCompletionForm extends StatefulWidget {
   const ProfileCompletionForm({
@@ -22,7 +23,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   final bioController = TextEditingController();
   final designationController = TextEditingController();
   final genderController = TextEditingController();
-  final dobController = TextEditingController();
+  DateTime? dateOfBirth = DateTime.now();
   final userTypeController = TextEditingController();
   final skillsController = TextEditingController();
   final interestsController = TextEditingController();
@@ -258,16 +259,28 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   style: kPurpleText16,
                 ),
                 kHeight5,
-                CustomTextFormField(
-                  prefixWidget: const Icon(
-                    Icons.calendar_month_rounded,
-                    color: kColorPrimary,
-                  ),
-                  hintText: 'dd/mm/yy',
-                  onSaved: (p0) => setState(
-                    () {
-                      dobController.text = p0!;
-                    },
+                InkWell(
+                  onTap: () async {
+                    await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1800),
+                      lastDate: DateTime(2080),
+                    ).then(
+                      (value) => setState(
+                        () {
+                          dateOfBirth = value;
+                        },
+                      ),
+                    );
+                  },
+                  child: CustomFormContainer(
+                    leadingWidget: const Icon(
+                      Icons.calendar_month_rounded,
+                      color: kColorPrimary,
+                    ),
+                    label: DateFormat('yyyy-MM-dd')
+                        .format(dateOfBirth as DateTime),
                   ),
                 ),
                 kHeight10,
@@ -753,7 +766,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
     bioController.dispose();
     designationController.dispose();
     genderController.dispose();
-    dobController.dispose();
     userTypeController.dispose();
     skillsController.dispose();
     interestsController.dispose();

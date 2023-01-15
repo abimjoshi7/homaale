@@ -34,6 +34,7 @@ class _SignUpState extends State<SignUp> {
           Widget buildFormField() {
             if (state is SignUpPhoneInitial) {
               return CustomFormField(
+                isRequired: true,
                 label: 'Phone',
                 child: CustomTextFormField(
                   textInputType: TextInputType.number,
@@ -65,6 +66,7 @@ class _SignUpState extends State<SignUp> {
               );
             } else if (state is SignUpEmailInitial) {
               return CustomFormField(
+                isRequired: true,
                 label: 'Email',
                 child: CustomTextFormField(
                   validator: validateEmail,
@@ -121,6 +123,7 @@ class _SignUpState extends State<SignUp> {
                       children: [
                         buildFormField(),
                         CustomFormField(
+                          isRequired: true,
                           label: 'Password',
                           child: CustomTextFormField(
                             validator: validatePassword,
@@ -131,6 +134,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         CustomFormField(
+                          isRequired: true,
                           label: 'Confirm Password',
                           child: CustomTextFormField(
                             textInputType: TextInputType.visiblePassword,
