@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,7 @@ class _ForgotPasswordWithEmailState extends State<ForgotPasswordWithEmail> {
                     if (!mounted) return;
                     await Navigator.pushNamedAndRemoveUntil(
                       context,
-                      SignInWithEmail.routeName,
+                      SignInPage.routeName,
                       (route) => false,
                     );
                   }

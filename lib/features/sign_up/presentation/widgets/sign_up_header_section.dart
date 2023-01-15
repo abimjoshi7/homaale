@@ -22,7 +22,7 @@ class SignUpHeaderSection extends StatelessWidget {
               if (!mounted) return;
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                SignInWithPhone.routeName,
+                SignInPage.routeName,
                 (route) => false,
               );
             },

@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/networking/models/request/otp_request.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -94,7 +94,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 );
                 await Navigator.pushNamedAndRemoveUntil(
                   context,
-                  SignIn.routeName,
+                  SignInPage.routeName,
                   (route) => false,
                 );
               }

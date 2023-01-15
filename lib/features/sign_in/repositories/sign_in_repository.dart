@@ -1,6 +1,6 @@
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/networking/models/request/user_login_req.dart';
-import 'package:cipher/networking/models/response/user_login_res.dart';
+import 'package:cipher/features/sign_in/models/user_login_req.dart';
+import 'package:cipher/features/sign_in/models/user_login_res.dart';
 
 class SignInRepository {
   final _dioHelper = DioHelper();

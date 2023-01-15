@@ -4,7 +4,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
-import 'package:cipher/features/sign_in/presentation/cubit/sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,66 +24,64 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location = 'Buddhanagar, Kathmandu';
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignInCubit, SignInCubitState>(
-      listener: (context, state) async {
-        if (state is SignInSuccess) {}
-      },
+    return BlocConsumer<SignInBloc, SignInState>(
+      listener: (context, state) async {},
       builder: (context, state) {
-        Widget displayUserInfo() {
-          if (state is SignInSuccess) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Hi, ${state.userLoginRes.username}'),
-                kHeight5,
-                InkWell(
-                  onTap: () async {
-                    await Geolocator.checkPermission().then(
-                      (value) async {
-                        if (value == LocationPermission.denied ||
-                            value == LocationPermission.deniedForever ||
-                            value == LocationPermission.unableToDetermine) {
-                          await Geolocator.requestPermission();
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Please provide location access from app settings.',
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                    );
+        // Widget displayUserInfo() {
+        //   if (state is ) {
+        //     return Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         Text('Hi, ${state.userLoginRes.username}'),
+        //         kHeight5,
+        //         InkWell(
+        //           onTap: () async {
+        //             await Geolocator.checkPermission().then(
+        //               (value) async {
+        //                 if (value == LocationPermission.denied ||
+        //                     value == LocationPermission.deniedForever ||
+        //                     value == LocationPermission.unableToDetermine) {
+        //                   await Geolocator.requestPermission();
+        //                   if (!mounted) return;
+        //                   ScaffoldMessenger.of(context).showSnackBar(
+        //                     const SnackBar(
+        //                       content: Text(
+        //                         'Please provide location access from app settings.',
+        //                       ),
+        //                     ),
+        //                   );
+        //                 }
+        //               },
+        //             );
 
-                    await Geolocator.getCurrentPosition().then((value) async {
-                      await placemarkFromCoordinates(
-                        value.latitude,
-                        value.longitude,
-                      ).then(
-                        (value) => setState(
-                          () {
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                          },
-                        ),
-                      );
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(Icons.location_on_outlined),
-                      Text(location!),
-                      // const Icon(Icons.arrow_drop_down)
-                    ],
-                  ),
-                )
-              ],
-            );
-          } else {
-            return const Text('Hi, User');
-          }
-        }
+        //             await Geolocator.getCurrentPosition().then((value) async {
+        //               await placemarkFromCoordinates(
+        //                 value.latitude,
+        //                 value.longitude,
+        //               ).then(
+        //                 (value) => setState(
+        //                   () {
+        //                     location =
+        //                         '${value.first.locality}, ${value.first.subAdministrativeArea}';
+        //                   },
+        //                 ),
+        //               );
+        //             });
+        //           },
+        //           child: Row(
+        //             children: [
+        //               const Icon(Icons.location_on_outlined),
+        //               Text(location!),
+        //               // const Icon(Icons.arrow_drop_down)
+        //             ],
+        //           ),
+        //         )
+        //       ],
+        //     );
+        //   } else {
+        //     return const Text('Hi, User');
+        //   }
+        // }
 
         return ColoredBox(
           color: const Color(0xff3D3F7D),
@@ -100,7 +98,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   },
                   child: const CircleAvatar(),
                 ),
-                title: displayUserInfo(),
+                // title: displayUserInfo(),
                 trailing: BlocBuilder<UserDataCubit, UserDataState>(
                   builder: (context, state) {
                     return IconButton(

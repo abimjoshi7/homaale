@@ -12,7 +12,7 @@ class DioHelper {
 
   static void init() {
     final options = BaseOptions(
-      baseUrl: sandbox,
+      baseUrl: baseIPSecondary,
       connectTimeout: 20 * 1000,
       receiveTimeout: 20 * 1000,
       receiveDataWhenStatusError: true,

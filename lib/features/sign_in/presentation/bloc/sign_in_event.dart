@@ -18,4 +18,9 @@ class SignInWithPhoneInitiated extends SignInEvent {
   final UserLoginReq userLoginReq;
 }
 
-class SignInWithEmail extends SignInEvent {}
+class SignInWithEmailInitiated extends SignInEvent {
+  const SignInWithEmailInitiated({
+    required this.userLoginReq,
+  });
+  final UserLoginReq userLoginReq;
+}

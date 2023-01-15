@@ -28,13 +28,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const Root(),
         );
-      case SignIn.routeName:
+      case SignInPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const SignIn(),
-        );
-      case SignInWithEmail.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const SignInWithEmail(),
+          builder: (context) => const SignInPage(),
         );
       case ForgotPasswordWithEmail.routeName:
         return MaterialPageRoute(

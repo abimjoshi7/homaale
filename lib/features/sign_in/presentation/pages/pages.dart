@@ -4,5 +4,4 @@ export './forgot_password_with_email.dart';
 export './forgot_password_with_phone.dart';
 export './google_login.dart';
 export './reset_password.dart';
-export './sign_in_with_email.dart';
-export './sign_in_with_phone.dart';
+export 'sign_in_page.dart';

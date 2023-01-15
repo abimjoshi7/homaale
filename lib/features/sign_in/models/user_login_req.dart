@@ -1,10 +1,3 @@
-import 'dart:convert';
-
-UserLoginReq userLoginReqFromJson(String str) =>
-    UserLoginReq.fromJson(json.decode(str) as Map<String, dynamic>);
-
-String userLoginReqToJson(UserLoginReq data) => json.encode(data.toJson());
-
 class UserLoginReq {
   UserLoginReq({
     this.username,

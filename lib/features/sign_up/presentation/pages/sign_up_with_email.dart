@@ -4,9 +4,8 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_email.dart';
 import 'package:cipher/core/validations/validate_password.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_email.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
-import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_phone.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                   if (!mounted) return;
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    SignIn.routeName,
+                    SignInPage.routeName,
                     (route) => false,
                   );
                 },
@@ -205,22 +204,22 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                       ],
                     ),
                     kHeight20,
-                    BlocConsumer<SignUpCubit, SignUpState>(
+                    BlocConsumer<SignupBloc, SignUpState>(
                       listener: (context, state) async {
                         final x = await CacheHelper.getCachedString(
                           kErrorLog,
                         );
-                        if (state is SignUpSuccess) {
+                        if (state is SignUpWithEmailSuccess) {
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Succesfully signed up.'),
                             ),
                           );
-                          await Navigator.pushNamed(
-                            context,
-                            SignInWithEmail.routeName,
-                          );
+                          // await Navigator.pushNamed(
+                          //   context,
+                          //   SignInWithEmail.routeName,
+                          // );
                         } else if (state is SignUpFailure) {
                           if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -245,12 +244,12 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                                   ),
                                 );
                               } else {
-                                await context
-                                    .read<SignUpCubit>()
-                                    .initiateSignUpWithEmail(
-                                      emailController.text,
-                                      passwordController.text,
-                                    );
+                                // await context
+                                //     .read<SignUpCubit>()
+                                //     .initiateSignUpWithEmail(
+                                //       emailController.text,
+                                //       passwordController.text,
+                                //     );
                               }
                             }
                           },
@@ -268,7 +267,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
                 const Text('Already have an account?'),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignIn.routeName);
+                    Navigator.pushNamed(context, SignInPage.routeName);
                   },
                   child: const Text('Login'),
                 ),

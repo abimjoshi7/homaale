@@ -21,17 +21,18 @@ class SignInWithPhoneSuccess extends SignInState {
   List<Object> get props => [userLoginRes];
 }
 
-class SignInWithPhoneFailure extends SignInState {
-  final String error;
-
-  const SignInWithPhoneFailure(this.error);
-
-  @override
-  List<Object> get props => [error];
-}
+class SignInWithPhoneFailure extends SignInState {}
 
 class SignInWithEmailLoading extends SignInState {}
 
-class SignInWithEmailSuccess extends SignInState {}
+class SignInWithEmailSuccess extends SignInState {
+  const SignInWithEmailSuccess({
+    required this.userLoginRes,
+  });
+  final UserLoginRes userLoginRes;
+
+  @override
+  List<Object> get props => [userLoginRes];
+}
 
 class SignInWithEmailFailure extends SignInState {}

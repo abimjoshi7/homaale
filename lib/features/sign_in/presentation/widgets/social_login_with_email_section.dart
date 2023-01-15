@@ -25,7 +25,9 @@ class SocialLoginWithEmailSection extends StatelessWidget {
               'assets/logos/mail_logo.png',
             );
           } else {
-            return const SizedBox.shrink();
+            return Image.asset(
+              'assets/logos/phone_logo.png',
+            );
           }
         }
 

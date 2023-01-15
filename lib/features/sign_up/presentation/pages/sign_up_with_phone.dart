@@ -2,8 +2,9 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_password.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
-import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
+// import 'package:cipher/features/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up_with_email.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -39,7 +40,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                   if (!mounted) return;
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    SignIn.routeName,
+                    SignInPage.routeName,
                     (route) => false,
                   );
                 },
@@ -219,12 +220,12 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                         ],
                       ),
                       kHeight20,
-                      BlocConsumer<SignUpCubit, SignUpState>(
+                      BlocConsumer<SignupBloc, SignUpState>(
                         listener: (context, state) async {
                           final x = await storage.read(
                             key: kErrorLog,
                           );
-                          if (state is SignUpSuccess) {
+                          if (state is SignUpWithPhoneSuccess) {
                             if (!mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -263,12 +264,12 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                                     ),
                                   );
                                 } else {
-                                  await context
-                                      .read<SignUpCubit>()
-                                      .initiateSignUpWithPhone(
-                                        '+977${phoneNumberController.text}',
-                                        passwordController.text,
-                                      );
+                                  // await context
+                                  //     .read<SignUpCubit>()
+                                  //     .initiateSignUpWithPhone(
+                                  //       '+977${phoneNumberController.text}',
+                                  //       passwordController.text,
+                                  //     );
                                 }
                               }
                             },
@@ -287,7 +288,7 @@ class _SignUpWithPhoneState extends State<SignUpWithPhone> {
                 const Text('Already have an account?'),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignIn.routeName);
+                    Navigator.pushNamed(context, SignInPage.routeName);
                   },
                   child: const Text('Login'),
                 ),
