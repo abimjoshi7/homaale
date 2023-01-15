@@ -8,6 +8,7 @@ import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -248,22 +249,31 @@ class Account extends StatelessWidget {
                   size: 16,
                 ),
               ),
-              AccountListTileSection(
-                onTap: () async {
-                  // await CacheHelper.clearAllCachedData().then(
-                  //   (value) => Navigator.pushNamedAndRemoveUntil(
-                  //     context,
-                  //     SignInWithPhone.routeName,
-                  //     (route) => false,
-                  //   ),
-                  // );
+              BlocBuilder<SignInBloc, SignInState>(
+                builder: (context, state) {
+                  return AccountListTileSection(
+                    onTap: () async {
+                      await CacheHelper.clearAllCachedData().then(
+                        (value) {
+                          context.read<SignInBloc>().add(
+                                SignInWithPhoneSelected(),
+                              );
+                          return Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            SignInPage.routeName,
+                            (route) => false,
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.logout_rounded),
+                    label: 'Logout',
+                    trailingWidget: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                    ),
+                  );
                 },
-                icon: const Icon(Icons.logout_rounded),
-                label: 'Logout',
-                trailingWidget: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                ),
               ),
             ],
           );

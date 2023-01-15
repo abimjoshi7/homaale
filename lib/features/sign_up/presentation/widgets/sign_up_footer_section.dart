@@ -14,7 +14,10 @@ class SignUpFooterSection extends StatelessWidget {
         const Text('Already have an account?'),
         TextButton(
           onPressed: () {
-            // Navigator.pushNamed(context, SignInWithPhone.routeName);
+            Navigator.pushNamed(
+              context,
+              SignInPage.routeName,
+            );
           },
           child: const Text('Login'),
         ),

@@ -6,8 +6,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SocialLoginWithEmailSection extends StatelessWidget {
-  const SocialLoginWithEmailSection({
+class SocialLoginSection extends StatelessWidget {
+  const SocialLoginSection({
     super.key,
   });
 

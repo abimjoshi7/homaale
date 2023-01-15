@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -21,7 +23,96 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   bool keepLogged = false;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInBloc, SignInState>(
+    return BlocConsumer<SignInBloc, SignInState>(
+      listener: (context, state) async {
+        final x = await CacheHelper.getCachedString(kErrorLog);
+        if (state is SignInWithEmailSuccess) {
+          if (keepLogged == true) {
+            {
+              await CacheHelper.setCachedString(
+                kAccessTokenP,
+                state.userLoginRes.access!,
+              ).then(
+                (value) async => CacheHelper.setCachedString(
+                  kRefreshTokenP,
+                  state.userLoginRes.refresh!,
+                ).then(
+                  (value) async => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                ),
+              );
+            }
+          } else {
+            await CacheHelper.setCachedString(
+              kAccessToken,
+              state.userLoginRes.access!,
+            )
+                .then(
+                  (value) async => CacheHelper.setCachedString(
+                    kRefreshToken,
+                    state.userLoginRes.refresh!,
+                  ),
+                )
+                .then(
+                  (value) => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                );
+          }
+        } else if (state is SignInWithPhoneSuccess) {
+          if (keepLogged == true) {
+            {
+              await CacheHelper.setCachedString(
+                kAccessTokenP,
+                state.userLoginRes.access!,
+              ).then(
+                (value) async => CacheHelper.setCachedString(
+                  kRefreshTokenP,
+                  state.userLoginRes.refresh!,
+                ).then(
+                  (value) async => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                ),
+              );
+            }
+          } else {
+            await CacheHelper.setCachedString(
+              kAccessToken,
+              state.userLoginRes.access!,
+            )
+                .then(
+                  (value) async => CacheHelper.setCachedString(
+                    kRefreshToken,
+                    state.userLoginRes.refresh!,
+                  ),
+                )
+                .then(
+                  (value) => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                );
+          }
+        } else {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                x!,
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         Widget buildForm() {
           if (state is SignInEmailInitial) {
@@ -134,10 +225,17 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        ForgotPasswordWithPhone.routeName,
-                      );
+                      if (state is SignInPhoneInitial) {
+                        Navigator.pushNamed(
+                          context,
+                          ForgotPasswordWithPhone.routeName,
+                        );
+                      } else if (state is SignInEmailInitial) {
+                        Navigator.pushNamed(
+                          context,
+                          ForgotPasswordWithEmail.routeName,
+                        );
+                      }
                     },
                     child: const Text('Forgot password?'),
                   )
@@ -146,6 +244,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               kHeight20,
               CustomElevatedButton(
                 callback: () async {
+                  print(state);
                   _formKey.currentState!.save();
                   if (state is SignInPhoneInitial) {
                     context.read<SignInBloc>().add(
@@ -179,6 +278,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   @override
   void dispose() {
     phoneNumberController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     super.dispose();
   }

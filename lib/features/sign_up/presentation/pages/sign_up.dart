@@ -1,6 +1,5 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/core/validations/validate_email.dart';
 import 'package:cipher/core/validations/validate_password.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -161,7 +160,8 @@ class _SignUpState extends State<SignUp> {
                                 buildText(),
                                 kWidth10,
                                 const Flexible(
-                                    child: CustomHorizontalDivider()),
+                                  child: CustomHorizontalDivider(),
+                                ),
                               ],
                             ),
                             kHeight20,
@@ -217,6 +217,11 @@ class _SignUpState extends State<SignUp> {
                         content: Text(
                             'Succesfully signed up. Please verify your email'),
                       ),
+                    );
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SignInPage.routeName,
+                      (route) => false,
                     );
                   }
                   if (state is SignUpWithPhoneSuccess) {

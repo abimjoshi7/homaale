@@ -32,7 +32,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         } catch (e) {
           print('HAHA');
           emit(
-            SignInWithPhoneFailure(),
+            SignInPhoneInitial(),
           );
         }
       },
@@ -51,7 +51,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         } catch (e) {
           print('HAHA');
           emit(
-            SignInWithEmailFailure(),
+            SignInEmailInitial(),
           );
         }
       },
