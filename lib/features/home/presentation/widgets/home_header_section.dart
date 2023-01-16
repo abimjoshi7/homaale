@@ -154,7 +154,10 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       onPressed: () async {
                         final x =
                             await CacheHelper.getCachedString(kAccessTokenP);
+                        final x1 =
+                            await CacheHelper.getCachedString(kAccessToken);
                         log(x.toString());
+                        log(x1.toString());
                       },
                       icon: const Icon(
                         Icons.notifications_none,

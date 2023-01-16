@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
@@ -15,16 +14,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Account extends StatelessWidget {
-  const Account({super.key});
+class AccountProfile extends StatelessWidget {
+  const AccountProfile({super.key});
   static const routeName = '/account-profile';
 
   @override
   Widget build(BuildContext context) {
-    bool isKycVerified = false;
     return Scaffold(
       body: BlocBuilder<UserDataCubit, UserDataState>(
         builder: (context, state) {
+          bool isVerified() {
+            if (state is UserDataLoadSuccess) {
+              return state.userData.isProfileVerified!;
+            } else {
+              return false;
+            }
+          }
+
+          String profilePicUrl() {
+            if (state is UserDataLoadSuccess) {
+              return state.userData.profileImage.toString();
+            } else {
+              return 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
+            }
+          }
+
           Widget displayUserInfo() {
             if (state is UserDataLoadSuccess) {
               return AccountUserInfoSection(
@@ -99,8 +113,18 @@ class Account extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
-                          radius: 50,
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                profilePicUrl(),
+                              ),
+                            ),
+                          ),
+                          width: 100,
+                          height: 100,
                         ),
                         kWidth20,
                         displayUserInfo(),
@@ -128,7 +152,7 @@ class Account extends StatelessWidget {
                 label: 'View Profile',
               ),
               Visibility(
-                visible: isKycVerified == false,
+                visible: isVerified() == false,
                 child: Padding(
                   padding: kPadding10,
                   child: Container(

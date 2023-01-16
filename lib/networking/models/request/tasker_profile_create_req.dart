@@ -32,6 +32,8 @@
 
 //Reponse: {status: success, message: Profile Successfully created}
 
+import 'package:dio/dio.dart';
+
 class TaskerProfileCreateReq {
   TaskerProfileCreateReq({
     this.firstName,
@@ -69,7 +71,7 @@ class TaskerProfileCreateReq {
   final List<int?>? interests;
   final String? bio;
   final String? gender;
-  final String? profileImage;
+  final MultipartFile? profileImage;
   final DateTime? dateOfBirth;
   final String? skill;
   final String? activeHourStart;
@@ -101,7 +103,7 @@ class TaskerProfileCreateReq {
             : List<int?>.from(json['interests']!.map((x) => x) as Iterable),
         bio: json['bio'] as String?,
         gender: json['gender'] as String?,
-        profileImage: json['profile_image'] as String?,
+        profileImage: json['profile_image'] as MultipartFile,
         dateOfBirth: DateTime.parse(json['date_of_birth'] as String),
         skill: json['skill'] as String?,
         activeHourStart: json['active_hour_start'] as String?,

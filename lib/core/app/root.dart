@@ -18,7 +18,7 @@ class _RootState extends State<Root> {
     const Page1(),
     const Page1(),
     const Page1(),
-    const Account(),
+    const AccountProfile(),
   ];
 
   @override

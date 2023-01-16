@@ -16,6 +16,8 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
+            usesCleartextTraffic="true"
+            androidSupportRtl="true"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
@@ -39,6 +41,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />

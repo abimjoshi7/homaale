@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/features/account_settings/presentation/pages/profile/complete_profile_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

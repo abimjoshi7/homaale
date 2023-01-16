@@ -6,5 +6,5 @@ export './personal_information_page.dart';
 export './profession_information_modal_sheet.dart';
 export './professional_information_page.dart';
 export './profile_config_modal_sheet.dart';
-export '../pages/profile/complete_profile_page.dart';
+export '../pages/profile/pages/complete_profile_page.dart';
 export 'additional_account_info_page.dart';

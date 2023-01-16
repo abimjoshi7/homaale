@@ -9,11 +9,13 @@ class CustomToast extends StatelessWidget {
     required this.heading,
     required this.content,
     required this.onTap,
+    required this.isSuccess,
   });
 
   final String heading;
   final String content;
   final VoidCallback onTap;
+  final bool isSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,19 @@ class CustomToast extends StatelessWidget {
                       label: 'Continue',
                       callback: onTap,
                     ),
-                  )
+                  ),
+                  kWidth10,
+                  if (isSuccess == false)
+                    SizedBox(
+                      width: 150,
+                      height: 40,
+                      child: CustomElevatedButton(
+                        label: 'Cancel',
+                        callback: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
                 ],
               )
             ],

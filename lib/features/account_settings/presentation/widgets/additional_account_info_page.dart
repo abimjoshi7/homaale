@@ -45,7 +45,18 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                constraints: BoxConstraints(maxHeight: 800),
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => PersonalInformationPage(),
+              );
+              // Navigator.pushNamed(
+              //   context,
+              //   PersonalInformationPage.routeName,
+              // );
+            },
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),

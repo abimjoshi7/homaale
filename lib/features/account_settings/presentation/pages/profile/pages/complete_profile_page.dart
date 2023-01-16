@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
+import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,11 @@ class CompleteProfilePage extends StatelessWidget {
           CustomHeader(
             leadingWidget: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Profile.routeName,
+                  (route) => false,
+                );
               },
               icon: const Icon(
                 Icons.arrow_back,

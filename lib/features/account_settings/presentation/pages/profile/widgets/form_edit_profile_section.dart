@@ -1,70 +1,13 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
-import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-class EditProfilePage extends StatelessWidget {
-  static const routeName = '/edit-profile-page';
-  const EditProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            child: const Text(
-              'Edit Profile',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
-            ),
-          ),
-          const Divider(),
-          const Expanded(
-            child: FormEditProfileSection(),
-          ),
-          AccountListTileSection(
-            icon: const SizedBox.shrink(),
-            label: 'Additional account setting',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AdditionalAccountInfoPage.routeName,
-              );
-            },
-          ),
-          kHeight10,
-        ],
-      ),
-    );
-  }
-}
+import 'package:image_picker/image_picker.dart';
 
 class FormEditProfileSection extends StatefulWidget {
   const FormEditProfileSection({super.key});
@@ -78,18 +21,51 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   String? middleName;
   String? lastName;
   String? designation;
+  String? profilePicture;
+  XFile? selectedImage;
   final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDataCubit, UserDataState>(
+    return BlocConsumer<UserDataCubit, UserDataState>(
+      listener: (context, state) async {
+        if (state is UserDataEditSuccess) {
+          await showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              isSuccess: true,
+              heading: 'Success',
+              content: 'Profile was edited successfully',
+              onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                Root.routeName,
+                (route) => false,
+              ),
+            ),
+          );
+        } else if (state is UserDataEditFailure) {
+          await showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              isSuccess: false,
+              heading: 'Failure',
+              content: 'Profile cannot be edited',
+              onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                Root.routeName,
+                (route) => false,
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is UserDataLoadSuccess) {
           firstName = state.userData.user!.firstName;
           middleName = state.userData.user!.middleName;
           lastName = state.userData.user!.lastName;
           designation = state.userData.designation.toString();
-
+          profilePicture = state.userData.profileImage.toString();
           return Padding(
             padding: kPadding20,
             child: Form(
@@ -97,16 +73,55 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Center(
-                    child: CircleAvatar(
-                      radius: 50,
-                    ),
-                  ),
-                  kHeight15,
-                  const Center(
-                    child: Text(
-                      'Change profile photo',
-                      style: kPurpleText16,
+                  InkWell(
+                    onTap: () async {
+                      await ImagePickHelper().pickImagePath().then(
+                        (value) {
+                          if (value != null) {
+                            setState(
+                              () {
+                                selectedImage = value;
+                              },
+                            );
+                          }
+                        },
+                      );
+                      await MultipartFile.fromFile(selectedImage!.path).then(
+                        (value) {
+                          context.read<UserDataCubit>().editProfilePic(
+                            {
+                              "profile_image": value,
+                            },
+                          );
+                        },
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  profilePicture ??
+                                      'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/',
+                                ),
+                              ),
+                            ),
+                            width: 100,
+                            height: 100,
+                          ),
+                        ),
+                        kHeight15,
+                        const Center(
+                          child: Text(
+                            'Change profile photo',
+                            style: kPurpleText16,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   kHeight50,
@@ -238,19 +253,27 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                   kHeight50,
                   Center(
                     child: CustomElevatedButton(
-                      callback: () {
+                      callback: () async {
                         _key.currentState!.save();
 
                         final userData = {
-                          "first_name": firstName ?? '',
-                          "middle_name": middleName ?? '',
-                          "last_name": lastName ?? '',
-                          "designation": designation ?? '',
+                          "first_name": firstName!.isEmpty
+                              ? state.userData.user!.firstName
+                              : firstName,
+                          "middle_name": middleName!.isEmpty
+                              ? state.userData.user!.middleName
+                              : middleName,
+                          "last_name": lastName!.isEmpty
+                              ? state.userData.user!.lastName
+                              : lastName,
+                          "designation": designation!.isEmpty
+                              ? state.userData.designation
+                              : designation,
                         };
 
-                        // context
-                        //     .read<UserDataCubit>()
-                        //     .editTaskerUserData(userData);
+                        await context
+                            .read<UserDataCubit>()
+                            .editTaskerUserData(userData);
                       },
                       label: 'Save',
                     ),
@@ -259,7 +282,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else {
+        } else if (state is UserDataLoadFailure) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -278,6 +301,10 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                 )
               ],
             ),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
         }
       },

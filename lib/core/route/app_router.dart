@@ -2,7 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
-import 'package:cipher/features/account_settings/presentation/pages/profile/edit_profile_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
@@ -96,9 +96,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const Home(),
         );
-      case Account.routeName:
+      case AccountProfile.routeName:
         return MaterialPageRoute(
-          builder: (context) => const Account(),
+          builder: (context) => const AccountProfile(),
         );
       case Settings.routeName:
         return MaterialPageRoute(
@@ -155,6 +155,10 @@ class AppRouter {
       case AdditionalAccountInfoPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const AdditionalAccountInfoPage(),
+        );
+      case PersonalInformationPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PersonalInformationPage(),
         );
       default:
         return MaterialPageRoute(

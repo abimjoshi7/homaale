@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
@@ -49,11 +51,16 @@ class UserDataCubit extends Cubit<UserDataState> {
 
       final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
-      final x = await DioHelper().postDataWithCredential(
-        data: taskerProfileCreateReq.toJson(),
+      final x = await DioHelper().postFormData(
         url: 'tasker/my-profile/',
         token: tokenP ?? token!,
+        map: taskerProfileCreateReq.toJson(),
       );
+      // final x = await DioHelper().postDataWithCredential(
+      //   data: taskerProfileCreateReq.toJson(),
+      //   url: 'tasker/my-profile/',
+      //   token: tokenP ?? token!,
+      // );
       if (x != null) {
         emit(
           UserDataCreateSuccess(),
@@ -70,26 +77,45 @@ class UserDataCubit extends Cubit<UserDataState> {
     Map<String, dynamic> map,
   ) async {
     try {
-      emit(
-        UserDataInitial(),
-      );
-
       final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
       final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await DioHelper().patchDataWithCredential(
         data: map,
-        url: 'tasker/my-profile/',
+        url: 'tasker/profile/',
         token: tokenP ?? token!,
       );
       if (x != null) {
         emit(
           UserDataEditSuccess(),
         );
+        getTaskerUserData();
       }
     } catch (e) {
       emit(
         UserDataEditFailure(),
       );
+      getTaskerUserData();
     }
+  }
+
+  Future<void> editProfilePic(Map<String, dynamic> map) async {
+    final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
+    final token = await CacheHelper.getCachedString(kAccessToken);
+    final x = await DioHelper().patchFormData(
+      map: map,
+      url: 'tasker/profile/',
+      token: tokenP ?? token!,
+    );
+    if (x != null) {
+      emit(
+        UserDataEditSuccess(),
+      );
+    } else {
+      emit(
+        UserDataEditFailure(),
+      );
+    }
+
+    getTaskerUserData();
   }
 }

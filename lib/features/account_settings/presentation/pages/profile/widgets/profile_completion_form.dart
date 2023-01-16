@@ -1,10 +1,16 @@
+import 'dart:io';
+
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class ProfileCompletionForm extends StatefulWidget {
@@ -43,6 +49,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   String userType = 'Client';
   String experienceLevel = 'Beginner';
   final _key = GlobalKey<FormState>();
+  XFile? selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -55,16 +62,36 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                  ),
-                ),
-                kHeight15,
-                const Center(
-                  child: Text(
-                    'Change profile photo',
-                    style: kPurpleText16,
+                InkWell(
+                  onTap: () async {
+                    await ImagePickHelper().pickImagePath().then(
+                          (value) => setState(
+                            () {
+                              selectedImage = value;
+                            },
+                          ),
+                        );
+                  },
+                  child: Column(
+                    children: [
+                      Center(
+                        child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Image.file(
+                            fit: BoxFit.contain,
+                            File(
+                              selectedImage?.path ?? '',
+                            ),
+                          ),
+                        ),
+                      ),
+                      kHeight15,
+                      const Text(
+                        'Change profile photo',
+                        style: kPurpleText16,
+                      ),
+                    ],
                   ),
                 ),
                 kHeight50,
@@ -700,8 +727,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 kHeight5,
                 CustomDropDownField<String>(
                   list: const [
-                    'Full-Time',
-                    'Part-Time',
+                    'full-Time',
+                    'part-Time',
                   ],
                   onChanged: (value) => setState(
                     () {
@@ -714,7 +741,23 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 kHeight50,
                 Center(
                   child: BlocConsumer<UserDataCubit, UserDataState>(
-                    listener: (context, state) {},
+                    listener: (context, state) async {
+                      if (state is UserDataCreateSuccess) {
+                        await showDialog(
+                          context: context,
+                          builder: (context) => CustomToast(
+                            isSuccess: true,
+                            heading: 'Success',
+                            content: 'Your profile is completed successfully.',
+                            onTap: () => Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              Root.routeName,
+                              (route) => false,
+                            ),
+                          ),
+                        );
+                      }
+                    },
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
@@ -724,22 +767,26 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             middleName: middleNameController.text,
                             lastName: lastNameController.text,
                             bio: bioController.text,
+                            designation: designationController.text,
                             gender: genderGroup,
                             skill: skillsController.text,
-                            dateOfBirth: DateTime.parse('2000-02-27'),
+                            dateOfBirth: dateOfBirth,
                             activeHourStart: startTime!.format(context),
                             activeHourEnd: endTime!.format(context),
                             experienceLevel: experienceLevel,
                             userType: userType,
                             hourlyRate: int.parse(baseRateController.text),
-                            profileVisibility: 'Private',
-                            taskPreferences: 'full-time',
+                            profileVisibility: visibilityController.text,
+                            taskPreferences: taskPreferencesController.text,
                             addressLine1: address1Controller.text,
                             addressLine2: address2Controller.text,
                             chargeCurrency: 'NPR',
                             remainingPoints: 0,
                             points: 0,
                             followingCount: 0,
+                            profileImage: await MultipartFile.fromFile(
+                              selectedImage!.path,
+                            ),
                           );
                           await context
                               .read<UserDataCubit>()
