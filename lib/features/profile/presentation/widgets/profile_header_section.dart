@@ -34,6 +34,33 @@ class ProfileHeaderSection extends StatelessWidget {
           }
         }
 
+        Widget displayProfilePic() {
+          if (state is UserDataLoadSuccess) {
+            return Container(
+              height: 70,
+              width: 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    state.userData.profileImage as String,
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              height: 70,
+              width: 70,
+              decoration: const BoxDecoration(
+                color: Colors.blueAccent,
+                shape: BoxShape.circle,
+              ),
+            );
+          }
+        }
+
         Widget displayRating() {
           if (state is UserDataLoadSuccess) {
             return Row(
@@ -59,14 +86,7 @@ class ProfileHeaderSection extends StatelessWidget {
         }
 
         return ListTile(
-          leading: Container(
-            height: 70,
-            width: 70,
-            decoration: const BoxDecoration(
-              color: Colors.blueAccent,
-              shape: BoxShape.circle,
-            ),
-          ),
+          leading: displayProfilePic(),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

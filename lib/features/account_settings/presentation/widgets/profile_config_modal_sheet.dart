@@ -80,9 +80,6 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                     "profile_visibility": visibiltyType,
                     "task_preferences": taskPreferences,
                   };
-
-                  // print(map);
-
                   context.read<UserDataCubit>().editTaskerUserData(map);
                 }
               },
