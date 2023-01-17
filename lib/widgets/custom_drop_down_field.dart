@@ -5,13 +5,15 @@ class CustomDropDownField<T> extends StatefulWidget {
     super.key,
     required this.list,
     this.theChild,
-    required this.onChanged,
-    required this.hintext,
+    this.onChanged,
+    required this.hintText,
+    this.onSaved,
   });
   final List<T> list;
   final Widget? theChild;
   final ValueChanged<T?>? onChanged;
-  final String hintext;
+  final ValueChanged<T?>? onSaved;
+  final String hintText;
 
   @override
   State<CustomDropDownField<T>> createState() => _CustomDropDownTextformState();
@@ -23,7 +25,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
     return DropdownButtonFormField<T>(
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(10),
-        hintText: widget.hintext,
+        hintText: widget.hintText,
         hintStyle: const TextStyle(
           color: Color(0xff9CA0C1),
           fontWeight: FontWeight.w400,
@@ -47,6 +49,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
         },
       ).toList(),
       onChanged: widget.onChanged,
+      onSaved: widget.onSaved,
     );
   }
 }

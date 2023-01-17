@@ -157,7 +157,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                           },
                           child: CustomFormContainer(
                             leadingWidget: const Icon(Icons.calendar_month),
-                            label: DateFormat('yyyy-MM-dd').format(dob!),
+                            hintText: DateFormat('yyyy-MM-dd').format(dob!),
                           ),
                         ),
                       ),

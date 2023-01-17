@@ -183,7 +183,7 @@ class _AddCertificationsState extends State<AddCertifications> {
                         );
                       },
                       child: CustomFormContainer(
-                        label: issuedDate?.toString().substring(0, 10) ??
+                        hintText: issuedDate?.toString().substring(0, 10) ??
                             '1999-06-13',
                         leadingWidget: const Icon(
                           Icons.calendar_month_rounded,
@@ -213,7 +213,7 @@ class _AddCertificationsState extends State<AddCertifications> {
                         );
                       },
                       child: CustomFormContainer(
-                        label: expiryDate?.toString().substring(0, 10) ??
+                        hintText: expiryDate?.toString().substring(0, 10) ??
                             '1999-06-30',
                         leadingWidget: const Icon(
                           Icons.calendar_month_rounded,

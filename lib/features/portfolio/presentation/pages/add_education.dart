@@ -184,7 +184,7 @@ class _AddEducationState extends State<AddEducation> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  label:
+                                  hintText:
                                       issuedDate?.toString().substring(0, 10) ??
                                           '1999-03-06',
                                   leadingWidget: const Icon(
@@ -230,7 +230,7 @@ class _AddEducationState extends State<AddEducation> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  label:
+                                  hintText:
                                       expiryDate?.toString().substring(0, 10) ??
                                           '1999-06-03',
                                   leadingWidget: const Icon(

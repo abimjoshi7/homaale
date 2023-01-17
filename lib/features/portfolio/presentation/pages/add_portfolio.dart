@@ -132,7 +132,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             });
                           },
                           child: CustomFormContainer(
-                            label: issuedDate?.toString().substring(0, 10) ??
+                            hintText: issuedDate?.toString().substring(0, 10) ??
                                 '1999-03-06',
                             leadingWidget: const Icon(
                               Icons.calendar_month_rounded,
@@ -203,6 +203,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           onTap: () async {
                             // final file = await FilePickHelper.filePicker();
                             await context.read<ImageUploadCubit>().uploadFile();
+                            // print(123);
                             // FilePickerResult? result =
                             //     await FilePicker.platform.pickFiles();
 

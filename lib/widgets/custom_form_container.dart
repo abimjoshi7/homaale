@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 class CustomFormContainer extends StatelessWidget {
   const CustomFormContainer({
     super.key,
-    this.label = '',
+    this.hintText = '',
     this.trailingWidget = const SizedBox.shrink(),
     this.leadingWidget = const SizedBox.shrink(),
   });
 
-  final String label;
+  final String hintText;
   final Widget trailingWidget;
   final Widget leadingWidget;
 
@@ -36,7 +36,7 @@ class CustomFormContainer extends StatelessWidget {
                 leadingWidget,
                 kWidth10,
                 Text(
-                  label,
+                  hintText,
                   style: kHelper13,
                 ),
               ],

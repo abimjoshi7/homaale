@@ -306,7 +306,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       Icons.calendar_month_rounded,
                       color: kColorPrimary,
                     ),
-                    label: DateFormat('yyyy-MM-dd')
+                    hintText: DateFormat('yyyy-MM-dd')
                         .format(dateOfBirth as DateTime),
                   ),
                 ),
@@ -499,7 +499,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                label: '${startTime ?? '--:-- A.M'}',
+                                hintText: '${startTime ?? '--:-- A.M'}',
                               ),
                             )
                           ],
@@ -529,7 +529,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                label: '${endTime ?? '--:-- P.M'}',
+                                hintText: '${endTime ?? '--:-- P.M'}',
                               ),
                             )
                           ],
@@ -699,12 +699,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 kHeight5,
                 CustomDropDownField<String>(
-                  hintext: 'Choose one',
+                  hintText: 'Choose one',
                   list: const [
                     'Private',
                     'Public',
                   ],
-                  onChanged: (value) => setState(
+                  onSaved: (value) => setState(
                     () {
                       visibilityController.text = value!;
                     },
@@ -730,12 +730,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     'full-Time',
                     'part-Time',
                   ],
-                  onChanged: (value) => setState(
+                  onSaved: (value) => setState(
                     () {
                       taskPreferencesController.text = value!;
                     },
                   ),
-                  hintext: 'Choose one',
+                  hintText: 'Choose one',
                 ),
                 kHeight20,
                 kHeight50,

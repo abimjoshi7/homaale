@@ -1,9 +1,21 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileConfigModalSheet extends StatelessWidget {
+class ProfileConfigModalSheet extends StatefulWidget {
   const ProfileConfigModalSheet({super.key});
+
+  @override
+  State<ProfileConfigModalSheet> createState() =>
+      _ProfileConfigModalSheetState();
+}
+
+class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
+  String? visibiltyType;
+  String? taskPreferences;
 
   @override
   Widget build(BuildContext context) {
@@ -14,21 +26,68 @@ class ProfileConfigModalSheet extends StatelessWidget {
           'Profile Configuration',
           style: kPurpleText19,
         ),
-        kHeight20,
-        const Text('Visibility'),
-        kHeight5,
-        const CustomTextFormField(
-          hintText: 'Public',
+        Padding(
+          padding: kPadding20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomFormField(
+                label: 'Visibility',
+                child: CustomDropDownField(
+                  list: [
+                    'Public',
+                    'Private',
+                  ],
+                  hintText: 'Choose one',
+                  onChanged: (value) => setState(
+                    () {
+                      visibiltyType = value;
+                    },
+                  ),
+                ),
+                isRequired: false,
+              ),
+              CustomFormField(
+                label: 'Task Preferences',
+                child: CustomDropDownField(
+                  list: [
+                    'Short term tasks',
+                    'Long term tasks',
+                  ],
+                  hintText: 'Choose one',
+                  onChanged: (value) => setState(
+                    () {
+                      taskPreferences = value;
+                    },
+                  ),
+                ),
+                isRequired: false,
+              ),
+            ],
+          ),
         ),
         kHeight20,
-        const Text('Task Preferences'),
-        kHeight5,
-        const CustomTextFormField(
-          hintText: 'Long term tasks',
-        ),
-        kHeight20,
-        CustomElevatedButton(
-          callback: () {},
+        BlocConsumer<UserDataCubit, UserDataState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            return CustomElevatedButton(
+              label: 'Save',
+              callback: () {
+                if (state is UserDataLoadSuccess) {
+                  final map = {
+                    "profile_visibility": visibiltyType,
+                    "task_preferences": taskPreferences,
+                  };
+
+                  // print(map);
+
+                  context.read<UserDataCubit>().editTaskerUserData(map);
+                }
+              },
+            );
+          },
         )
       ],
     );

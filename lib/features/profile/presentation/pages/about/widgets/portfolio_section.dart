@@ -57,7 +57,6 @@ class _PortfolioSectionState extends State<PortfolioSection> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      print(state);
                       await context
                           .read<TaskerPortfolioCubit>()
                           .getPortfolio(2);

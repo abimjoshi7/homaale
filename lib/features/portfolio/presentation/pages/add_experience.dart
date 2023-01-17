@@ -216,7 +216,7 @@ class _AddExperienceState extends State<AddExperience> {
                                   });
                                 },
                                 child: CustomFormContainer(
-                                  label:
+                                  hintText:
                                       issuedDate?.toString().substring(0, 10) ??
                                           '1998-01-01',
                                   leadingWidget: const Icon(
@@ -258,7 +258,7 @@ class _AddExperienceState extends State<AddExperience> {
                                     );
                                   },
                                   child: CustomFormContainer(
-                                    label: expiryDate
+                                    hintText: expiryDate
                                             ?.toString()
                                             .substring(0, 10) ??
                                         '1999-01-18',

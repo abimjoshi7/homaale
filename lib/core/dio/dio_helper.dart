@@ -148,25 +148,19 @@ class DioHelper {
     }
   }
 
-  Future<dynamic> postFormDataTest({
+  Future<dynamic> postMultiFormData({
     required String url,
     String? path,
     required String token,
-    File? file,
-    String? key,
   }) async {
     try {
-      final mfile = await MultipartFile.fromFile(file!.path);
-      final formD = FormData();
-      formD.files.add(
-        MapEntry(key!, mfile),
-      );
-
       final formData = FormData.fromMap(
         {
           'medias': [await MultipartFile.fromFile(path!)],
         },
       );
+
+      print(formData);
       final response = await dio.post<dynamic>(
         url,
         data: formData,

@@ -41,18 +41,14 @@ class Cipher extends StatelessWidget {
             networkHelper: NetworkHelper(),
           )..fetchHeroCategory(),
         ),
-        // BlocProvider(
-        //   create: (context) => SignUpCubit(),
-        // ),
         BlocProvider(
           create: (context) => SignInBloc(SignInRepository()),
         ),
-
         BlocProvider(
           create: (context) => UserDataCubit()..getTaskerUserData(),
         ),
         BlocProvider(
-          create: (context) => TaskerPortfolioCubit()..getPortfolio(5),
+          create: (context) => TaskerPortfolioCubit()..getPortfolio(),
         ),
         BlocProvider(
           create: (context) => TaskerExperienceCubit()..getTaskerExperience(),

@@ -65,7 +65,14 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                constraints: BoxConstraints(maxHeight: 800),
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => AddressInformationPage(),
+              );
+            },
           ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
@@ -74,17 +81,31 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                constraints: BoxConstraints(maxHeight: 800),
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => ProfessionalInformationModalSheet(),
+              );
+            },
           ),
-          AccountListTileSection(
-            icon: const SizedBox.shrink(),
-            label: 'Active Hours',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 12,
-            ),
-            onTap: () {},
-          ),
+          // AccountListTileSection(
+          //   icon: const SizedBox.shrink(),
+          //   label: 'Active Hours',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios_rounded,
+          //     size: 12,
+          //   ),
+          //   onTap: () {
+          //     showModalBottomSheet(
+          //       constraints: BoxConstraints(maxHeight: 800),
+          //       isScrollControlled: true,
+          //       context: context,
+          //       builder: (context) => ActiveHoursPage(),
+          //     );
+          //   },
+          // ),
           AccountListTileSection(
             icon: const SizedBox.shrink(),
             label: 'Profile Configuration',
@@ -92,10 +113,39 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               Icons.arrow_forward_ios_rounded,
               size: 12,
             ),
-            onTap: () {},
+            onTap: () {
+              showModalBottomSheet(
+                // constraints: BoxConstraints(maxHeight: 800),
+                // isScrollControlled: true,
+                context: context,
+                builder: (context) => ProfileConfigModalSheet(),
+              );
+            },
           ),
         ],
       ),
     );
   }
 }
+
+// class ActiveHoursPage extends StatefulWidget {
+//   const ActiveHoursPage({super.key});
+
+//   @override
+//   State<ActiveHoursPage> createState() => _ActiveHoursPageState();
+// }
+
+// class _ActiveHoursPageState extends State<ActiveHoursPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         CustomModalSheetDrawerIcon(),
+//         const Text(
+//           'Professional Information',
+//           style: kPurpleText16,
+//         ),
+//       ],
+//     );
+//   }
+// }

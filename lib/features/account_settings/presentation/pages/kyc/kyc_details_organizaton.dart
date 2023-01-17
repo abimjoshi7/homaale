@@ -248,7 +248,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  label:
+                                  hintText:
                                       issuedDate?.toString().substring(0, 10) ??
                                           '1999-06-13',
                                   leadingWidget: const Icon(
@@ -298,7 +298,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  label:
+                                  hintText:
                                       expiryDate?.toString().substring(0, 10) ??
                                           '1999-06-13',
                                   leadingWidget: const Icon(
@@ -349,7 +349,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                         file = await FilePickHelper.filePicker();
                       },
                       child: const CustomFormContainer(
-                        label: '+ Select files',
+                        hintText: '+ Select files',
                       ),
                     ),
                     kHeight20,
