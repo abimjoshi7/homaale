@@ -1,5 +1,7 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_experience.dart';
@@ -54,6 +56,64 @@ class _AddPortfolioState extends State<AddPortfolio> {
             }
           },
           builder: (context, state) {
+            Widget displayImage() {
+              if (state is ImageUploadSuccess) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.check_circle_outline),
+                    kWidth5,
+                    Text("Image upload successful"),
+                  ],
+                );
+              } else {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images.png'),
+                    kHeight5,
+                    const Text(
+                      'Upload or Browse image',
+                    ),
+                    kHeight10,
+                    const Text(
+                      'Maximum Image Size 20 MB',
+                      style: kHelper13,
+                    )
+                  ],
+                );
+              }
+            }
+
+            Widget displayFile() {
+              if (state is FileUploadSuccess) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.check_circle_outline),
+                    kWidth20,
+                    Text("File upload successful"),
+                  ],
+                );
+              } else {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/qwe.png'),
+                    kHeight20,
+                    const Text(
+                      'Upload or Browse file',
+                    ),
+                    kHeight10,
+                    const Text(
+                      'Maximum file Size 20 MB',
+                      style: kHelper13,
+                    ),
+                  ],
+                );
+              }
+            }
+
             return Column(
               children: [
                 kHeight50,
@@ -84,154 +144,119 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Title',
-                          style: kLabelPrimary,
-                        ),
-                        kHeight5,
-                        CustomTextFormField(
-                          hintText: 'Please enter the title',
-                          onSaved: (p0) {
-                            setState(() {
-                              titleController.text = p0!;
-                            });
-                          },
-                        ),
-                        kHeight20,
-                        const Text(
-                          'Description',
-                          style: kLabelPrimary,
-                        ),
-                        kHeight5,
-                        CustomTextFormField(
-                          maxLines: 3,
-                          hintText: 'Write something...',
-                          onSaved: (p0) {
-                            setState(() {
-                              descriptionController.text = p0!;
-                            });
-                          },
-                        ),
-                        kHeight20,
-                        const Text(
-                          'Issued Date',
-                          style: kLabelPrimary,
-                        ),
-                        kHeight5,
-                        InkWell(
-                          onTap: () async {
-                            await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2012),
-                              lastDate: DateTime(2050),
-                            ).then((value) {
+                        CustomFormField(
+                          label: 'Title',
+                          isRequired: true,
+                          child: CustomTextFormField(
+                            hintText: 'Please enter the title',
+                            onSaved: (p0) {
                               setState(() {
-                                issuedDate = value;
+                                titleController.text = p0!;
                               });
-                            });
-                          },
-                          child: CustomFormContainer(
-                            hintText: issuedDate?.toString().substring(0, 10) ??
-                                '1999-03-06',
-                            leadingWidget: const Icon(
-                              Icons.calendar_month_rounded,
-                              color: kColorPrimary,
+                            },
+                            validator: validateNotEmpty,
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Description',
+                          isRequired: true,
+                          child: CustomTextFormField(
+                            maxLines: 3,
+                            hintText: 'Write something...',
+                            onSaved: (p0) {
+                              setState(
+                                () {
+                                  descriptionController.text = p0!;
+                                },
+                              );
+                            },
+                            validator: validateNotEmpty,
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Issued Date',
+                          isRequired: true,
+                          child: InkWell(
+                            onTap: () async {
+                              await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2012),
+                                lastDate: DateTime(2050),
+                              ).then((value) {
+                                setState(() {
+                                  issuedDate = value;
+                                });
+                              });
+                            },
+                            child: CustomFormContainer(
+                              hintText:
+                                  issuedDate?.toString().substring(0, 10) ??
+                                      '1999-03-06',
+                              leadingWidget: const Icon(
+                                Icons.calendar_month_rounded,
+                                color: kColorPrimary,
+                              ),
                             ),
                           ),
                         ),
-                        kHeight20,
-                        const Text(
-                          'Credential URL',
-                          style: kLabelPrimary,
+                        CustomFormField(
+                          label: 'Portfolio URL',
+                          isRequired: true,
+                          child: CustomTextFormField(
+                            hintText: 'URL',
+                            onSaved: (p0) {
+                              setState(() {
+                                credentialUrlController.text = p0!;
+                              });
+                            },
+                            validator: validateNotEmpty,
+                          ),
                         ),
-                        kHeight5,
-                        CustomTextFormField(
-                          hintText: 'URL',
-                          onSaved: (p0) {
-                            setState(() {
-                              credentialUrlController.text = p0!;
-                            });
-                          },
-                        ),
-                        kHeight20,
-                        const Text(
-                          'Gallery',
-                          style: kLabelPrimary,
-                        ),
-                        kHeight5,
-                        const Text('Add relevant images or videos'),
-                        kHeight5,
-                        InkWell(
-                          onTap: () async {
-                            await context
-                                .read<ImageUploadCubit>()
-                                .uploadImage();
-                          },
-                          child: SizedBox(
-                            height: 150,
-                            child: Card(
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/images.png'),
-                                    kHeight20,
-                                    const Text(
-                                      'Upload or Browse image',
-                                    ),
-                                    kHeight10,
-                                    const Text(
-                                      'Maximum Image Size 20 MB',
-                                      style: kHelper13,
-                                    )
-                                  ],
+                        CustomFormField(
+                          label: 'Gallery',
+                          isRequired: true,
+                          child: InkWell(
+                            onTap: () async {
+                              await context
+                                  .read<ImageUploadCubit>()
+                                  .uploadImage();
+                            },
+                            child: SizedBox(
+                              height: 150,
+                              child: Card(
+                                child: Center(
+                                  child: displayImage(),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        kHeight20,
-                        const Text(
-                          'Files',
-                          style: kLabelPrimary,
-                        ),
-                        kHeight5,
-                        const Text('Add relevant images or videos'),
-                        kHeight5,
-                        InkWell(
-                          onTap: () async {
-                            // final file = await FilePickHelper.filePicker();
-                            await context.read<ImageUploadCubit>().uploadFile();
-                            // print(123);
-                            // FilePickerResult? result =
-                            //     await FilePicker.platform.pickFiles();
+                        CustomFormField(
+                          label: 'Files',
+                          isRequired: true,
+                          child: InkWell(
+                            onTap: () async {
+                              // final file = await FilePickHelper.filePicker();
+                              await context
+                                  .read<ImageUploadCubit>()
+                                  .uploadFile();
+                              // print(123);
+                              // FilePickerResult? result =
+                              //     await FilePicker.platform.pickFiles();
 
-                            // if (result != null) {
-                            //   File file = File(result.files.single.path!);
-                            //   log(file.path.toString());
-                            // } else {
-                            //   // User canceled the picker
-                            // } // await context.read<ImageUploadCubit>().uploadFile();
-                          },
-                          child: SizedBox(
-                            height: 150,
-                            child: Card(
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/qwe.png'),
-                                    kHeight20,
-                                    const Text(
-                                      'Upload or Browse image',
-                                    ),
-                                    kHeight10,
-                                    const Text(
-                                      'Maximum Image Size 20 MB',
-                                      style: kHelper13,
-                                    ),
-                                  ],
+                              // if (result != null) {
+                              //   File file = File(result.files.single.path!);
+                              //   log(file.path.toString());
+                              // } else {
+                              //   // User canceled the picker
+                              // } // await context.read<ImageUploadCubit>().uploadFile();
+                            },
+                            child: SizedBox(
+                              height: 150,
+                              child: Card(
+                                child: Center(
+                                  child: displayFile(),
                                 ),
                               ),
                             ),
@@ -245,20 +270,42 @@ class _AddPortfolioState extends State<AddPortfolio> {
                   listener: (context, state2) async {
                     final error = await CacheHelper.getCachedString(kErrorLog);
                     if (state2 is TaskerPortfolioSuccess) {
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Portfolio created successfully.'),
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Success',
+                          content: 'Portfolio created successfully',
+                          onTap: () => Navigator.pushNamedAndRemoveUntil(
+                              context, Root.routeName, (route) => false),
+                          isSuccess: true,
                         ),
                       );
-                      Navigator.pushNamed(
-                        context,
-                        AddExperience.routeName,
-                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   const SnackBar(
+                      //     content: Text('Portfolio created successfully.'),
+                      //   ),
+                      // );
+                      // Navigator.pushNamed(
+                      //   context,
+                      //   AddExperience.routeName,
+                      // );
                     } else if (state2 is TaskerPortfolioFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(error!),
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(
+                      //     content: Text(error!),
+                      //   ),
+                      // );
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Failure',
+                          content: "Portfolio couldn't be created",
+                          onTap: () => Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Root.routeName,
+                            (route) => false,
+                          ),
+                          isSuccess: false,
                         ),
                       );
                     }
@@ -267,23 +314,25 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     return Center(
                       child: CustomElevatedButton(
                         callback: () async {
-                          if (state is ImageUploadSuccess) {
-                            _key.currentState!.save();
-                            final taskerPortfolioReq = TaskerPortfolioReq(
-                              title: titleController.text,
-                              description: descriptionController.text,
-                              issuedDate: issuedDate,
-                              credentialUrl:
-                                  'https://${credentialUrlController.text}',
-                              files: [],
-                              images: List<int>.from(state.list),
-                            );
+                          if (_key.currentState!.validate()) {
+                            if (state is ImageUploadSuccess) {
+                              _key.currentState!.save();
+                              final taskerPortfolioReq = TaskerPortfolioReq(
+                                title: titleController.text,
+                                description: descriptionController.text,
+                                issuedDate: issuedDate,
+                                credentialUrl:
+                                    'https://${credentialUrlController.text}',
+                                files: [],
+                                images: List<int>.from(state.list),
+                              );
 
-                            await context
-                                .read<TaskerPortfolioCubit>()
-                                .addPortfolio(
-                                  taskerPortfolioReq,
-                                );
+                              await context
+                                  .read<TaskerPortfolioCubit>()
+                                  .addPortfolio(
+                                    taskerPortfolioReq,
+                                  );
+                            }
                           }
                         },
                         label: 'Add',

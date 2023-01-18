@@ -22,3 +22,17 @@ class ImageUploadFailure extends ImageUploadState {
   @override
   List<Object?> get props => [];
 }
+
+class FileUploadSuccess extends ImageUploadState {
+  const FileUploadSuccess({
+    required this.list,
+  });
+  final List<dynamic> list;
+  @override
+  List<Object?> get props => [list];
+}
+
+class FileUploadFailure extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}

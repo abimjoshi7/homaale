@@ -1,7 +1,7 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_certifications.dart';
 import 'package:cipher/networking/models/request/tasker_education_req.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -70,81 +70,71 @@ class _AddEducationState extends State<AddEducation> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'School',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: 'Eg: Tribhuvan University',
-                      onSaved: (p0) {
-                        setState(() {
-                          schoolController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
-                    const Text(
-                      'Description',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      maxLines: 3,
-                      hintText: 'Write something...',
-                      onSaved: (p0) {
-                        setState(() {
-                          descriptionController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
-                    const Text(
-                      'Degree',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: "Eg: Bachelor's",
-                      onSaved: (p0) {
-                        setState(() {
-                          degreeController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
-                    const Text(
-                      'Field of Study',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: 'Eg: Business',
-                      onSaved: (p0) {
-                        setState(() {
-                          fieldOfStudyController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
-                    const Text(
-                      'Location',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      prefixWidget: const Icon(
-                        Icons.location_on_outlined,
-                        color: kColorPrimary,
+                    CustomFormField(
+                      label: 'School',
+                      isRequired: true,
+                      child: CustomTextFormField(
+                        hintText: 'Eg: Tribhuvan University',
+                        onSaved: (p0) {
+                          setState(() {
+                            schoolController.text = p0!;
+                          });
+                        },
                       ),
-                      hintText: 'Eg: New Baneshwor, Kathmandu',
-                      onSaved: (p0) {
-                        setState(() {
-                          locationController.text = p0!;
-                        });
-                      },
                     ),
-                    kHeight20,
+                    CustomFormField(
+                      label: 'Description',
+                      isRequired: true,
+                      child: CustomTextFormField(
+                        maxLines: 3,
+                        hintText: 'Write something...',
+                        onSaved: (p0) {
+                          setState(() {
+                            descriptionController.text = p0!;
+                          });
+                        },
+                      ),
+                    ),
+                    CustomFormField(
+                      label: 'Degree',
+                      isRequired: true,
+                      child: CustomTextFormField(
+                        hintText: "Eg: Bachelor's",
+                        onSaved: (p0) {
+                          setState(() {
+                            degreeController.text = p0!;
+                          });
+                        },
+                      ),
+                    ),
+                    CustomFormField(
+                      label: 'Field of Study',
+                      isRequired: true,
+                      child: CustomTextFormField(
+                        hintText: 'Eg: Business',
+                        onSaved: (p0) {
+                          setState(() {
+                            fieldOfStudyController.text = p0!;
+                          });
+                        },
+                      ),
+                    ),
+                    CustomFormField(
+                      label: 'Location',
+                      isRequired: true,
+                      child: CustomTextFormField(
+                        prefixWidget: const Icon(
+                          Icons.location_on_outlined,
+                          color: kColorPrimary,
+                        ),
+                        hintText: 'Eg: New Baneshwor, Kathmandu',
+                        onSaved: (p0) {
+                          setState(() {
+                            locationController.text = p0!;
+                          });
+                        },
+                      ),
+                    ),
                     Row(
                       children: [
                         CustomCheckBox(
@@ -163,33 +153,33 @@ class _AddEducationState extends State<AddEducation> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Issued Date',
-                                style: kLabelPrimary,
-                              ),
-                              kHeight5,
-                              InkWell(
-                                onTap: () async {
-                                  await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2010),
-                                    lastDate: DateTime(2050),
-                                  ).then(
-                                    (value) => setState(
-                                      () {
-                                        issuedDate = value;
-                                      },
+                              CustomFormField(
+                                label: 'Issued Date',
+                                isRequired: true,
+                                child: InkWell(
+                                  onTap: () async {
+                                    await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2010),
+                                      lastDate: DateTime(2050),
+                                    ).then(
+                                      (value) => setState(
+                                        () {
+                                          issuedDate = value;
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: CustomFormContainer(
+                                    hintText: issuedDate
+                                            ?.toString()
+                                            .substring(0, 10) ??
+                                        '1999-03-06',
+                                    leadingWidget: const Icon(
+                                      Icons.calendar_month_rounded,
+                                      color: kColorPrimary,
                                     ),
-                                  );
-                                },
-                                child: CustomFormContainer(
-                                  hintText:
-                                      issuedDate?.toString().substring(0, 10) ??
-                                          '1999-03-06',
-                                  leadingWidget: const Icon(
-                                    Icons.calendar_month_rounded,
-                                    color: kColorPrimary,
                                   ),
                                 ),
                               ),
@@ -201,41 +191,33 @@ class _AddEducationState extends State<AddEducation> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: const [
-                                  Text(
-                                    'End Date',
-                                    style: kLabelPrimary,
-                                  ),
-                                  Text(
-                                    ' (Expected)',
-                                    style: kHelper13,
-                                  )
-                                ],
-                              ),
-                              kHeight5,
-                              InkWell(
-                                onTap: () async {
-                                  await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2010),
-                                    lastDate: DateTime(2050),
-                                  ).then(
-                                    (value) => setState(
-                                      () {
-                                        expiryDate = value;
-                                      },
+                              CustomFormField(
+                                label: 'End Date',
+                                isRequired: true,
+                                child: InkWell(
+                                  onTap: () async {
+                                    await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2010),
+                                      lastDate: DateTime(2050),
+                                    ).then(
+                                      (value) => setState(
+                                        () {
+                                          expiryDate = value;
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: CustomFormContainer(
+                                    hintText: expiryDate
+                                            ?.toString()
+                                            .substring(0, 10) ??
+                                        '1999-06-03',
+                                    leadingWidget: const Icon(
+                                      Icons.calendar_month_rounded,
+                                      color: kColorPrimary,
                                     ),
-                                  );
-                                },
-                                child: CustomFormContainer(
-                                  hintText:
-                                      expiryDate?.toString().substring(0, 10) ??
-                                          '1999-06-03',
-                                  leadingWidget: const Icon(
-                                    Icons.calendar_month_rounded,
-                                    color: kColorPrimary,
                                   ),
                                 ),
                               ),
@@ -253,16 +235,46 @@ class _AddEducationState extends State<AddEducation> {
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerEducationSuccess) {
-                if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Education created successfully.'),
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomToast(
+                    heading: 'Success',
+                    content: 'Education added successfully',
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Root.routeName,
+                      (route) => false,
+                    ),
+                    isSuccess: true,
                   ),
                 );
-                await Navigator.pushNamed(
-                  context,
-                  AddCertifications.routeName,
-                );
+                if (state is TaskerEducationFailure) {
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(error!),
+                    ),
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomToast(
+                      heading: 'Failure',
+                      content: "Education couldn't be added",
+                      onTap: () => Navigator.pop(context),
+                      isSuccess: false,
+                    ),
+                  );
+                }
+                // if (!mounted) return;
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   const SnackBar(
+                //     content: Text('Education created successfully.'),
+                //   ),
+                // );
+                // await Navigator.pushNamed(
+                //   context,
+                //   AddCertifications.routeName,
+                // );
               } else if (state is TaskerEducationFailure) {
                 if (!mounted) return;
 
@@ -277,7 +289,6 @@ class _AddEducationState extends State<AddEducation> {
               return CustomElevatedButton(
                 callback: () {
                   _key123.currentState!.save();
-
                   final taskerEducationReq = TaskerEducationReq(
                     school: schoolController.text,
                     description: descriptionController.text,

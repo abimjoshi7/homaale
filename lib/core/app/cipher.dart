@@ -1,6 +1,10 @@
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/cubit/kyc_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
 import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
 import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
@@ -24,68 +28,81 @@ class Cipher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => SignupBloc(
-            SignUpRepositories(),
+    return RepositoryProvider(
+      create: (context) => SupportHelpRepositories()..getHelpTopicList(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SignupBloc(
+              SignUpRepositories(),
+            ),
           ),
+          BlocProvider(
+            create: (context) => CategoriesCubit(
+              NetworkHelper(),
+            )..fetchAllCategories(),
+          ),
+          BlocProvider(
+            create: (context) => HomeCubit(
+              networkHelper: NetworkHelper(),
+            )..fetchHeroCategory(),
+          ),
+          BlocProvider(
+            create: (context) => SignInBloc(SignInRepository()),
+          ),
+          BlocProvider(
+            create: (context) => UserDataCubit()..getTaskerUserData(),
+          ),
+          BlocProvider(
+            create: (context) => TaskerPortfolioCubit()..getPortfolio(),
+          ),
+          BlocProvider(
+            create: (context) => TaskerExperienceCubit()..getTaskerExperience(),
+          ),
+          BlocProvider(
+            create: (context) => TaskerEducationCubit()..getTaskerEducation(),
+          ),
+          BlocProvider(
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
+          ),
+          BlocProvider(
+            create: (context) => KycCubit(),
+          ),
+          BlocProvider(
+            create: (context) => ImageUploadCubit(),
+          ),
+          BlocProvider(
+            create: (context) => SupportHelpBloc(
+              SupportHelpRepositories(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => PasswordSecurityBloc(
+              PasswordSecurityRepositories(),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            textTheme: GoogleFonts.poppinsTextTheme(),
+          ),
+          builder: (context, child) => ResponsiveWrapper.builder(
+            BouncingScrollWrapper.builder(context, child!),
+            maxWidth: 1200,
+            minWidth: 480,
+            defaultScale: true,
+            breakpoints: [
+              const ResponsiveBreakpoint.resize(480, name: MOBILE),
+              const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+              const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+            ],
+            background: const ColoredBox(color: Colors.cyan),
+          ),
+          initialRoute: SplashPage.routeName,
+          onGenerateRoute: AppRouter().onGenerate,
         ),
-        BlocProvider(
-          create: (context) => CategoriesCubit(
-            NetworkHelper(),
-          )..fetchAllCategories(),
-        ),
-        BlocProvider(
-          create: (context) => HomeCubit(
-            networkHelper: NetworkHelper(),
-          )..fetchHeroCategory(),
-        ),
-        BlocProvider(
-          create: (context) => SignInBloc(SignInRepository()),
-        ),
-        BlocProvider(
-          create: (context) => UserDataCubit()..getTaskerUserData(),
-        ),
-        BlocProvider(
-          create: (context) => TaskerPortfolioCubit()..getPortfolio(),
-        ),
-        BlocProvider(
-          create: (context) => TaskerExperienceCubit()..getTaskerExperience(),
-        ),
-        BlocProvider(
-          create: (context) => TaskerEducationCubit()..getTaskerEducation(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              TaskerCertificationCubit()..getTaskerCertification(),
-        ),
-        BlocProvider(
-          create: (context) => KycCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ImageUploadCubit(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(),
-        ),
-        builder: (context, child) => ResponsiveWrapper.builder(
-          BouncingScrollWrapper.builder(context, child!),
-          maxWidth: 1200,
-          minWidth: 480,
-          defaultScale: true,
-          breakpoints: [
-            const ResponsiveBreakpoint.resize(480, name: MOBILE),
-            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-            const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-          ],
-          background: const ColoredBox(color: Colors.cyan),
-        ),
-        initialRoute: SplashPage.routeName,
-        onGenerateRoute: AppRouter().onGenerate,
       ),
     );
   }

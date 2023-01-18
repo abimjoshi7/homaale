@@ -1,6 +1,11 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_password.dart';
+import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/password_and_security/models/password_security.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordModalSheet extends StatefulWidget {
   const ChangePasswordModalSheet({
@@ -93,6 +98,7 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
                       },
                     ),
                     obscureText: isObscure[1],
+                    validator: validatePassword,
                   ),
                 ),
                 CustomFormField(
@@ -120,15 +126,64 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
                       },
                     ),
                     obscureText: isObscure[2],
+                    validator: validatePassword,
                   ),
                 ),
               ],
             ),
           ),
         ),
-        CustomElevatedButton(
-          callback: () {},
-          label: 'Save',
+        BlocConsumer<PasswordSecurityBloc, PasswordSecurityState>(
+          listener: (context, state) {
+            if (state is PasswordSecuritySuccess) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomToast(
+                  heading: 'Success',
+                  content: 'Password changed successfully',
+                  onTap: () => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                  isSuccess: true,
+                ),
+              );
+            }
+            if (state is PasswordSecurityFailure) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomToast(
+                  heading: 'Failure',
+                  content: 'Password cannot be changed',
+                  isSuccess: false,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return CustomElevatedButton(
+              callback: () {
+                if (_key.currentState!.validate()) {
+                  _key.currentState!.save();
+                  final passwordSecurity = PasswordSecurity(
+                    oldPassword: currentPassword.text,
+                    newPassword: newPassword.text,
+                    confirmPassword: confirmPassword.text,
+                  );
+                  context.read<PasswordSecurityBloc>().add(
+                        PasswordSecurityInitiated(
+                          passwordSecurity: passwordSecurity,
+                        ),
+                      );
+                }
+              },
+              label: 'Save',
+            );
+          },
         ),
         kHeight20,
       ],

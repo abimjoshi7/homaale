@@ -1,7 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class EducationSection extends StatelessWidget {
   const EducationSection({
@@ -10,40 +12,56 @@ class EducationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskerEducationCubit, TaskerEducationState>(
+    return BlocBuilder<UserDataCubit, UserDataState>(
       builder: (context, state) {
-        if (state is TaskerGetEducationSuccess) {
+        if (state is UserDataLoadSuccess) {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      'Education',
-                      style: kPurpleText19,
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Education',
+                          style: kPurpleText19,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AddEducation.routeName,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit_outlined,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Column(
                     children: List.generate(
-                      state.taskerEducationRes.result!.length,
+                      state.userData.education!.length,
                       (index) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              state.taskerEducationRes.result![index]!.school!,
+                              state.userData.education![index]!.school!,
                               style: kText17,
                             ),
                             Text(
-                              state.taskerEducationRes.result![index]!.degree!,
+                              state.userData.education![index]!.degree!,
                               style: kText15,
                             ),
                             Text(
-                              '${state.taskerEducationRes.result![index]!.startDate.toString().substring(0, 10)} - ${state.taskerEducationRes.result![index]!.endDate.toString().substring(0, 10)}',
+                              '${DateFormat('yyyy-MM-dd').format(state.userData.education![index]!.startDate!)} - ${DateFormat('yyyy-MM-dd').format(state.userData.education![index]!.endDate!)}',
                               style: kHelper13,
                             ),
                             const Divider()
@@ -57,9 +75,8 @@ class EducationSection extends StatelessWidget {
             ),
           );
         } else {
-          return SizedBox.shrink();
           return Padding(
-            padding: const EdgeInsets.all(20),
+            padding: kPadding20,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [

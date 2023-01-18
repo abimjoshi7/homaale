@@ -55,14 +55,14 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       );
       if (response['status'] == 'success') {
         emit(
-          ImageUploadSuccess(
+          FileUploadSuccess(
             list: response['data'] as List<dynamic>,
           ),
         );
       }
     } catch (e) {
       emit(
-        ImageUploadFailure(),
+        FileUploadFailure(),
       );
     }
   }

@@ -71,49 +71,43 @@ class _AddCertificationsState extends State<AddCertifications> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Name',
-                      style: kLabelPrimary,
+                    CustomFormField(
+                      label: 'Name',
+                      child: CustomTextFormField(
+                        hintText: 'Eg: Certified Gardener',
+                        onSaved: (p0) {
+                          setState(() {
+                            nameController.text = p0!;
+                          });
+                        },
+                      ),
+                      isRequired: true,
                     ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: 'Eg: Certified Gardener',
-                      onSaved: (p0) {
-                        setState(() {
-                          nameController.text = p0!;
-                        });
-                      },
+                    CustomFormField(
+                      label: 'Issuing Organization',
+                      child: CustomTextFormField(
+                        hintText: 'Eg: Cagtu',
+                        onSaved: (p0) {
+                          setState(() {
+                            issuingOraganizationController.text = p0!;
+                          });
+                        },
+                      ),
+                      isRequired: true,
                     ),
-                    kHeight20,
-                    const Text(
-                      'Issuing Organization',
-                      style: kLabelPrimary,
+                    CustomFormField(
+                      label: 'Description',
+                      child: CustomTextFormField(
+                        maxLines: 3,
+                        hintText: 'Write something...',
+                        onSaved: (p0) {
+                          setState(() {
+                            descriptionController.text = p0!;
+                          });
+                        },
+                      ),
+                      isRequired: true,
                     ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: 'Eg: Cagtu',
-                      onSaved: (p0) {
-                        setState(() {
-                          issuingOraganizationController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
-                    const Text(
-                      'Description',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      maxLines: 3,
-                      hintText: 'Write something...',
-                      onSaved: (p0) {
-                        setState(() {
-                          descriptionController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
                     Row(
                       children: [
                         CustomCheckBox(
@@ -130,96 +124,100 @@ class _AddCertificationsState extends State<AddCertifications> {
                       ],
                     ),
                     kHeight20,
-                    const Text(
-                      'Credential Id',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: 'Eg: 213224-212-212',
-                      onSaved: (p0) {
-                        setState(() {
-                          credentialIdController.text = p0!;
-                        });
-                      },
-                    ),
-                    kHeight20,
-                    const Text(
-                      'Certification URL',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    CustomTextFormField(
-                      hintText: 'Eg: https//www.cagtu.com.np',
-                      prefixWidget: const Icon(
-                        Icons.location_on_outlined,
-                        color: kColorPrimary,
+                    CustomFormField(
+                      label: 'Cerfication Id',
+                      child: CustomTextFormField(
+                        hintText: 'Eg: 213224-212-212',
+                        onSaved: (p0) {
+                          setState(() {
+                            credentialIdController.text = p0!;
+                          });
+                        },
                       ),
-                      onSaved: (p0) {
-                        setState(() {
-                          certificationUrlController.text = p0!;
-                        });
-                      },
+                      isRequired: true,
                     ),
-                    kHeight20,
-                    const Text(
-                      'Issued Date',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    InkWell(
-                      onTap: () async {
-                        await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(1980),
-                          initialDate: DateTime.now(),
-                          lastDate: DateTime(2050),
-                        ).then(
-                          (value) => setState(
-                            () {
-                              issuedDate = value;
-                            },
-                          ),
-                        );
-                      },
-                      child: CustomFormContainer(
-                        hintText: issuedDate?.toString().substring(0, 10) ??
-                            '1999-06-13',
-                        leadingWidget: const Icon(
-                          Icons.calendar_month_rounded,
+                    CustomFormField(
+                      label: 'Certification URL',
+                      child: CustomTextFormField(
+                        hintText: 'Eg: https//www.cagtu.com.np',
+                        prefixWidget: const Icon(
+                          Icons.location_on_outlined,
                           color: kColorPrimary,
                         ),
+                        onSaved: (p0) {
+                          setState(() {
+                            certificationUrlController.text = p0!;
+                          });
+                        },
                       ),
+                      isRequired: true,
                     ),
-                    kHeight20,
-                    const Text(
-                      'Expiry Date',
-                      style: kLabelPrimary,
-                    ),
-                    kHeight5,
-                    InkWell(
-                      onTap: () async {
-                        await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(1980),
-                          initialDate: DateTime.now(),
-                          lastDate: DateTime(2050),
-                        ).then(
-                          (value) => setState(
-                            () {
-                              expiryDate = value;
-                            },
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CustomFormField(
+                            label: 'Issued Date',
+                            isRequired: true,
+                            child: InkWell(
+                              onTap: () async {
+                                await showDatePicker(
+                                  context: context,
+                                  firstDate: DateTime(1980),
+                                  initialDate: DateTime.now(),
+                                  lastDate: DateTime(2050),
+                                ).then(
+                                  (value) => setState(
+                                    () {
+                                      issuedDate = value;
+                                    },
+                                  ),
+                                );
+                              },
+                              child: CustomFormContainer(
+                                hintText:
+                                    issuedDate?.toString().substring(0, 10) ??
+                                        '1999-06-13',
+                                leadingWidget: const Icon(
+                                  Icons.calendar_month_rounded,
+                                  color: kColorPrimary,
+                                ),
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                      child: CustomFormContainer(
-                        hintText: expiryDate?.toString().substring(0, 10) ??
-                            '1999-06-30',
-                        leadingWidget: const Icon(
-                          Icons.calendar_month_rounded,
-                          color: kColorPrimary,
                         ),
-                      ),
+                        kWidth20,
+                        Flexible(
+                          child: CustomFormField(
+                            label: 'End Date',
+                            child: InkWell(
+                              onTap: () async {
+                                await showDatePicker(
+                                  context: context,
+                                  firstDate: DateTime(1980),
+                                  initialDate: DateTime.now(),
+                                  lastDate: DateTime(2050),
+                                ).then(
+                                  (value) => setState(
+                                    () {
+                                      expiryDate = value;
+                                    },
+                                  ),
+                                );
+                              },
+                              child: CustomFormContainer(
+                                hintText:
+                                    expiryDate?.toString().substring(0, 10) ??
+                                        '1999-06-30',
+                                leadingWidget: const Icon(
+                                  Icons.calendar_month_rounded,
+                                  color: kColorPrimary,
+                                ),
+                              ),
+                            ),
+                            isRequired: true,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -230,23 +228,45 @@ class _AddCertificationsState extends State<AddCertifications> {
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerCertificationSuccess) {
-                if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Certification created successfully.'),
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomToast(
+                    heading: 'Success',
+                    content: 'Certification added successfully',
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Root.routeName,
+                      (route) => false,
+                    ),
+                    isSuccess: true,
                   ),
                 );
-                await Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Root.routeName,
-                  (route) => false,
-                );
+                // if (!mounted) return;
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   const SnackBar(
+                //     content: Text('Certification created successfully.'),
+                //   ),
+                // );
+                // await Navigator.pushNamedAndRemoveUntil(
+                //   context,
+                //   Root.routeName,
+                //   (route) => false,
+                // );
               } else if (state is TaskerCertificationFailure) {
                 if (!mounted) return;
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(error!),
+                  ),
+                );
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomToast(
+                    heading: 'Failure',
+                    content: "Certification coouldn't be added",
+                    onTap: () => Navigator.pop(context),
+                    isSuccess: false,
                   ),
                 );
               }
