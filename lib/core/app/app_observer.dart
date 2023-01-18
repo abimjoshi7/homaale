@@ -32,6 +32,6 @@ class AppObserver implements BlocObserver {
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    log('Transition current: ${transition.currentState}, Transition next: ${transition.nextState}');
+    log('Transition current: ${transition.currentState}, Transition next: ${transition.nextState.toString()}');
   }
 }

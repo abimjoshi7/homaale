@@ -1,11 +1,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
-import 'package:cipher/networking/network_helper.dart';
+import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/widgets/custom_timer.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpSignUp extends StatefulWidget {
@@ -72,34 +73,43 @@ class _OtpSignUpState extends State<OtpSignUp> {
               ],
             ),
           ),
-          CustomElevatedButton(
-            callback: () async {
-              try {
-                final x = await NetworkHelper().verifyOTPSignUp(
-                  otp: otpValue!,
-                  phone: args['phone']!,
-                  scope: 'verify',
-                  password: args['password']!,
-                  confirmPassword: args['password']!,
-                );
+          BlocConsumer<OtpResetVerifyBloc, OtpResetVerifyState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              return CustomElevatedButton(
+                callback: () async {
+                  try {
+                    final otpResetVerifyReq = OtpResetVerifyReq(
+                      otp: otpValue,
+                      phone: args['phone'],
+                      scope: 'verify',
+                      password: args['password'],
+                      confirmPassword: args['password'],
+                    );
 
-                if (true == x.success) {
-                  if (!mounted) return;
-                  await Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    SignInPage.routeName,
-                    (route) => false,
-                  );
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Something went wrong. Try again'),
-                  ),
-                );
-              }
+                    context.read<OtpResetVerifyBloc>().add(
+                          OtpResetVerifyInitiated(
+                            initiateEvent: otpResetVerifyReq,
+                          ),
+                        );
+
+                    // if (!mounted) return;
+                    // await Navigator.pushNamedAndRemoveUntil(
+                    //   context,
+                    //   SignInPage.routeName,
+                    //   (route) => false,
+                    // );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Something went wrong. Try again'),
+                      ),
+                    );
+                  }
+                },
+                label: 'Continue',
+              );
             },
-            label: 'Continue',
           ),
           kHeight50,
         ],

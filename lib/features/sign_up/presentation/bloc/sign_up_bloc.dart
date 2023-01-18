@@ -11,10 +11,6 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
   SignupBloc(
     this._signUpRepositories,
   ) : super(SignUpPhoneInitial()) {
-    on<SignUpEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<SignUpWithPhoneSelected>(
       (event, emit) => emit(
         SignUpPhoneInitial(),
@@ -27,19 +23,24 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
       ),
     );
 
-    on<SignUpWithPhoneInitiated>(
+    on<SignUpWithEmailInitiated>(
       (event, emit) async {
-        final x = await _signUpRepositories.initiateSignUpPhone(
-          phone: event.phone,
-          password: event.password,
-        );
-        if (x != null) {
+        try {
           emit(
-            SignUpWithPhoneSuccess(
-              userSignUpRes: x,
-            ),
+            SignUpEmailInitial(),
           );
-        } else {
+          final x = await _signUpRepositories.initiateSignUpEmail(
+            email: event.email,
+            password: event.password,
+          );
+          if (x != null) {
+            emit(
+              SignUpWithEmailSuccess(
+                userSignUpRes: x,
+              ),
+            );
+          }
+        } catch (e) {
           emit(
             SignUpFailure(),
           );
@@ -47,19 +48,24 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
       },
     );
 
-    on<SignUpWithEmailInitiated>(
+    on<SignUpWithPhoneInitiated>(
       (event, emit) async {
-        final x = await _signUpRepositories.initiateSignUpEmail(
-          email: event.email,
-          password: event.password,
-        );
-        if (x != null) {
+        try {
           emit(
-            SignUpWithEmailSuccess(
-              userSignUpRes: x,
-            ),
+            SignUpPhoneInitial(),
           );
-        } else {
+          final x = await _signUpRepositories.initiateSignUpPhone(
+            phone: event.phone,
+            password: event.password,
+          );
+          if (x != null) {
+            emit(
+              SignUpWithPhoneSuccess(
+                userSignUpRes: x,
+              ),
+            );
+          }
+        } catch (e) {
           emit(
             SignUpFailure(),
           );

@@ -11,7 +11,7 @@ import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
 import 'package:cipher/networking/models/request/otp_request.dart';
 import 'package:cipher/networking/models/response/facebook_login_res.dart';
 import 'package:cipher/networking/models/response/google_login_res.dart';
-import 'package:cipher/networking/models/response/otp_response.dart';
+import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 import 'package:cipher/networking/models/response/task_category.dart';
 import 'package:cipher/networking/models/response/task_hero_category.dart';
 import 'package:dio/dio.dart';
@@ -54,156 +54,108 @@ class NetworkHelper {
       ),
     );
 
-  Future<UserSignUpRes> createUserWithPhone({
-    required String phoneNumber,
-    required String password,
-  }) async {
-    try {
-      final res = await _dio.post(
-        'user/signup/',
-        data: {
-          'phone': phoneNumber,
-          'password': password,
-        },
-      );
-      return UserSignUpRes.fromJson(
-        res.data as Map<String, dynamic>,
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // Future<UserSignUpRes> createUserWithPhone({
+  //   required String phoneNumber,
+  //   required String password,
+  // }) async {
+  //   try {
+  //     final res = await _dio.post(
+  //       'user/signup/',
+  //       data: {
+  //         'phone': phoneNumber,
+  //         'password': password,
+  //       },
+  //     );
+  //     return UserSignUpRes.fromJson(
+  //       res.data as Map<String, dynamic>,
+  //     );
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
-  Future<UserSignUpRes?> createUserWithEmail({
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final res = await _dio.post(
-        'user/signup/',
-        data: {
-          'email': email,
-          'password': password,
-        },
-      );
-      return UserSignUpRes.fromJson(
-        res.data as Map<String, dynamic>,
-      );
-    } catch (e) {}
-  }
+  // Future<UserSignUpRes?> createUserWithEmail({
+  //   required String email,
+  //   required String password,
+  // }) async {
+  //   try {
+  //     final res = await _dio.post(
+  //       'user/signup/',
+  //       data: {
+  //         'email': email,
+  //         'password': password,
+  //       },
+  //     );
+  //     return UserSignUpRes.fromJson(
+  //       res.data as Map<String, dynamic>,
+  //     );
+  //   } catch (e) {}
+  // }
 
-  Future<UserLoginRes> logInUser({required UserLoginReq userLoginReq}) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/login/',
-        data: userLoginReq.toJson(),
-      );
-      return UserLoginRes.fromJson(res.data as Map<String, dynamic>);
-    } catch (e) {
-      if (kDebugMode) {
-        print('User Login Error');
-      }
-      rethrow;
-    }
-  }
+  // Future<UserLoginRes> logInUser({required UserLoginReq userLoginReq}) async {
+  //   try {
+  //     final res = await _dio.post(
+  //       '$baseIPSecondary:$portNumber/api/$versionNumber/user/login/',
+  //       data: userLoginReq.toJson(),
+  //     );
+  //     return UserLoginRes.fromJson(res.data as Map<String, dynamic>);
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('User Login Error');
+  //     }
+  //     rethrow;
+  //   }
+  // }
 
-  Future<Response> resetPasswordwithEmail({required String email}) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/',
-        data: {'email': email},
-      );
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // Future<void> resetPasswordVerifytwithEmail({
+  //   required String uid,
+  //   required String token,
+  //   required String password,
+  // }) async {
+  //   try {
+  //     final res = await _dio.post(
+  //       '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/email/verify',
+  //       data: {
+  //         'uid': 'string',
+  //         'token': 'string',
+  //         'password': 'string',
+  //         'confirm_password': 'string'
+  //       },
+  //     );
+  //     if (kDebugMode) {
+  //       print(res);
+  //     }
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
-  Future<void> resetPasswordVerifytwithEmail({
-    required String uid,
-    required String token,
-    required String password,
-  }) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/email/verify',
-        data: {
-          'uid': 'string',
-          'token': 'string',
-          'password': 'string',
-          'confirm_password': 'string'
-        },
-      );
-      if (kDebugMode) {
-        print(res);
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // Future<void> getTaskerProfile() async {
+  //   final x = await _dio.get('tasker/profile/');
+  //   print('Status Code:${x.statusCode}');
+  // }
 
-  Future<Response> fetchOTP({required String phone}) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/',
-        data: {'phone': phone},
-      );
-      return res;
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // Future<OtpResetVerifyRes> verifyOTP({
+  //   required String phone,
+  //   required String otp,
+  //   required String scope,
+  // }) async {
+  //   try {
+  //     final res = await _dio.post(
+  //       '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/',
+  //       data: {
+  //         'phone': phone,
+  //         'otp': otp,
+  //         'scope': scope,
+  //       },
+  //     );
+  //     return OtpResetVerifyRes.fromJson(res.data as Map<String, dynamic>);
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
-  Future<void> getTaskerProfile() async {
-    final x = await _dio.get('tasker/profile/');
-    print('Status Code:${x.statusCode}');
-  }
-
-  Future<OtpRes> verifyOTPSignUp({
-    required String phone,
-    required String otp,
-    required String scope,
-    required String password,
-    required String confirmPassword,
-  }) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/',
-        data: {
-          'phone': phone,
-          'otp': otp,
-          'scope': scope,
-          'password': password,
-          'confirm_password': confirmPassword,
-        },
-      );
-      return OtpRes.fromJson(res.data as Map<String, dynamic>);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<OtpRes> verifyOTP({
-    required String phone,
-    required String otp,
-    required String scope,
-  }) async {
-    try {
-      final res = await _dio.post(
-        '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/',
-        data: {
-          'phone': phone,
-          'otp': otp,
-          'scope': scope,
-        },
-      );
-      return OtpRes.fromJson(res.data as Map<String, dynamic>);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<OtpRes> resetPassword({
+  Future<OtpResetVerifyRes> resetPassword({
     required OtpReq otpReq,
   }) async {
     try {
@@ -211,7 +163,7 @@ class NetworkHelper {
         '$baseIPSecondary:$portNumber/api/$versionNumber/user/reset/otp/verify/',
         data: otpReq.toJson(),
       );
-      return OtpRes.fromJson(res.data as Map<String, dynamic>);
+      return OtpResetVerifyRes.fromJson(res.data as Map<String, dynamic>);
     } catch (e) {
       rethrow;
     }

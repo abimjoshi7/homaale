@@ -1,6 +1,7 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_email.dart';
+import 'package:cipher/core/validations/validate_number.dart';
 import 'package:cipher/core/validations/validate_password.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
@@ -10,15 +11,15 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
-  static const String routeName = '/sign-up';
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+  static const String routeName = '/sign-up-page';
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final phoneNumberController = TextEditingController();
   final emailController = TextEditingController();
@@ -38,15 +39,12 @@ class _SignUpState extends State<SignUp> {
                 label: 'Phone',
                 child: CustomTextFormField(
                   textInputType: TextInputType.number,
-                  validator: (p0) {
-                    if (phoneNumberController.text.length < 10) {
-                      return 'Number should be greater or equal to 10 digits';
-                    }
-                    return null;
-                  },
-                  onSaved: (p0) => setState(() {
-                    phoneNumberController.text = p0!;
-                  }),
+                  validator: validateNumber,
+                  onSaved: (p0) => setState(
+                    () {
+                      phoneNumberController.text = p0!;
+                    },
+                  ),
                   hintText: 'Mobile Number',
                   prefixWidget: Padding(
                     padding: const EdgeInsets.all(10),
@@ -64,7 +62,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
               );
-            } else if (state is SignUpEmailInitial) {
+            } else {
               return CustomFormField(
                 isRequired: true,
                 label: 'Email',
@@ -77,7 +75,6 @@ class _SignUpState extends State<SignUp> {
                 ),
               );
             }
-            return const SizedBox.shrink();
           }
 
           Widget buildText() {
@@ -86,13 +83,11 @@ class _SignUpState extends State<SignUp> {
                 'Or Sign Up with Phone instead',
                 style: kHelper13,
               );
-            } else if (state is SignUpPhoneInitial) {
+            } else {
               return const Text(
                 'Or Sign Up with Email instead',
                 style: kHelper13,
               );
-            } else {
-              return const SizedBox.shrink();
             }
           }
 
@@ -101,12 +96,10 @@ class _SignUpState extends State<SignUp> {
               return Image.asset(
                 'assets/logos/phone_logo.png',
               );
-            } else if (state is SignUpPhoneInitial) {
+            } else {
               return Image.asset(
                 'assets/logos/mail_logo.png',
               );
-            } else {
-              return const SizedBox.shrink();
             }
           }
 
@@ -145,7 +138,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             validator: (val) {
                               if (val!.isEmpty) return 'Cannot be empty';
-                              if (val != passwordController.text) {
+                              if (!val.contains(passwordController.text)) {
                                 return "Password didn't match";
                               }
                               return null;
@@ -215,39 +208,50 @@ class _SignUpState extends State<SignUp> {
                     kErrorLog,
                   );
                   if (state is SignUpWithEmailSuccess) {
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            'Succesfully signed up. Please verify your email'),
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Success',
+                        content:
+                            'Succesfully signed up. Please verify your email',
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            SignInPage.routeName,
+                            (route) => false,
+                          );
+                        },
+                        isSuccess: true,
                       ),
-                    );
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      SignInPage.routeName,
-                      (route) => false,
                     );
                   }
                   if (state is SignUpWithPhoneSuccess) {
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Succesfully signed up.'),
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Success',
+                        content: 'Succesfully signed up.',
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            OtpSignUp.routeName,
+                            arguments: {
+                              'phone': '+977${phoneNumberController.text}',
+                              'password': passwordController.text,
+                            },
+                          );
+                        },
+                        isSuccess: true,
                       ),
                     );
-                    await Navigator.pushNamed(
-                      context,
-                      OtpSignUp.routeName,
-                      arguments: {
-                        'phone': '+977${phoneNumberController.text}',
-                        'password': passwordController.text,
-                      },
-                    );
-                  } else if (state is SignUpFailure) {
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(x!),
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Failure',
+                        content: x ?? '',
+                        isSuccess: false,
+                        onTap: () {},
                       ),
                     );
                   }
@@ -255,9 +259,8 @@ class _SignUpState extends State<SignUp> {
                 builder: (context, state) {
                   return CustomElevatedButton(
                     callback: () async {
-                      _formKey.currentState!.validate();
-                      _formKey.currentState!.save();
-                      if (_formKey.currentState!.validate() == true) {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
                         if (isChecked == false) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

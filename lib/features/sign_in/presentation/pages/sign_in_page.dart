@@ -31,7 +31,7 @@ class SignInPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(
                     context,
-                    SignUp.routeName,
+                    SignUpPage.routeName,
                   );
                 },
                 child: const Text(

@@ -12,9 +12,11 @@ import 'package:cipher/features/portfolio/presentation/cubit/tasker_certificatio
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/networking/network_helper.dart';
@@ -80,6 +82,16 @@ class Cipher extends StatelessWidget {
           BlocProvider(
             create: (context) => PasswordSecurityBloc(
               PasswordSecurityRepositories(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => ForgotPasswordBloc(
+              SignInRepository(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => OtpResetVerifyBloc(
+              SignUpRepositories(),
             ),
           ),
         ],

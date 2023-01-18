@@ -225,17 +225,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   ),
                   TextButton(
                     onPressed: () {
-                      if (state is SignInPhoneInitial) {
-                        Navigator.pushNamed(
-                          context,
-                          ForgotPasswordWithPhone.routeName,
-                        );
-                      } else if (state is SignInEmailInitial) {
-                        Navigator.pushNamed(
-                          context,
-                          ForgotPasswordWithEmail.routeName,
-                        );
-                      }
+                      Navigator.pushNamed(
+                        context,
+                        ForgotPasswordPage.routeName,
+                      );
                     },
                     child: const Text('Forgot password?'),
                   )

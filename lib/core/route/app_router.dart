@@ -33,17 +33,17 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const SignInPage(),
         );
-      case ForgotPasswordWithEmail.routeName:
+      case ForgotPasswordPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const ForgotPasswordWithEmail(),
+          builder: (context) => const ForgotPasswordPage(),
         );
-      case ForgotPasswordWithPhone.routeName:
+      // case ForgotPasswordWithPhone.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const ForgotPasswordWithPhone(),
+      //   );
+      case ConfirmOtpPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const ForgotPasswordWithPhone(),
-        );
-      case ConfirmOTPSignIn.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const ConfirmOTPSignIn(),
+          builder: (context) => const ConfirmOtpPage(),
           settings: settings,
         );
       case OtpSignUp.routeName:
@@ -64,9 +64,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const GoogleLogin(),
         );
-      case SignUp.routeName:
+      case SignUpPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const SignUp(),
+          builder: (context) => const SignUpPage(),
         );
       case Profile.routeName:
         return MaterialPageRoute(
