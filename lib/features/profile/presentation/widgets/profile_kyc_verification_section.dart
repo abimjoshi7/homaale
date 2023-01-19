@@ -1,29 +1,22 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileKycVerifySection extends StatelessWidget {
   const ProfileKycVerifySection({
     super.key,
-    required this.isKycVerified,
   });
-
-  final bool isKycVerified;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserDataCubit, UserDataState>(
+    return BlocConsumer<KycBloc, KycState>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
-        // if (state is UserDataLoadSuccess) {
-        //   isKycVerified = state.userData.isProfileVerified;
-        // }
-        return Visibility(
-          visible: isKycVerified == false,
-          child: Padding(
+        if (state is KycLoadFailure) {
+          return Padding(
             padding: const EdgeInsets.all(10),
             child: Container(
               width: double.infinity,
@@ -55,8 +48,9 @@ class ProfileKycVerifySection extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        );
+          );
+        }
+        return const SizedBox.shrink();
       },
     );
   }

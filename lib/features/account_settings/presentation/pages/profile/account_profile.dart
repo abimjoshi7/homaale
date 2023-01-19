@@ -151,42 +151,7 @@ class AccountProfile extends StatelessWidget {
                 },
                 label: 'View Profile',
               ),
-              Visibility(
-                visible: isVerified() == false,
-                child: Padding(
-                  padding: kPadding10,
-                  child: Container(
-                    width: double.infinity,
-                    height: 52,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffFFF5E5),
-                    ),
-                    child: Padding(
-                      padding: kPadding10,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.info_outline_rounded,
-                                size: 20,
-                                color: Colors.amber,
-                              ),
-                              kWidth5,
-                              Text('Get your KYC verified now'),
-                            ],
-                          ),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              const ProfileKycVerifySection(),
               AccountListTileSection(
                 onTap: () async {
                   // await showModalBottomSheet<Widget>(

@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/cubit/kyc_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
+import 'package:cipher/networking/models/request/kyc_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class KycDetailsOrganization extends StatefulWidget {
   const KycDetailsOrganization({super.key});
@@ -26,6 +30,8 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
     'Passport',
     'Driving License',
   ];
+
+  String? fullName;
 
   final identityTypeController = TextEditingController();
   final fullNameController = TextEditingController();
@@ -114,9 +120,11 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           isRequired: true,
                           child: CustomTextFormField(
                             hintText: 'Harry Smith',
-                            onSaved: (p0) => setState(() {
-                              fullNameController.text = p0!;
-                            }),
+                            onSaved: (p0) => setState(
+                              () {
+                                fullNameController.text = p0!;
+                              },
+                            ),
                           ),
                         ),
                         CustomFormField(
@@ -126,7 +134,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                             hintText: '123321-123-123123',
                             onSaved: (p0) => setState(
                               () {
-                                fullNameController.text = p0!;
+                                identityNumberController.text = p0!;
                               },
                             ),
                           ),
@@ -238,7 +246,13 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                               kHeight10,
                               InkWell(
                                 onTap: () async {
-                                  file = await FilePickHelper.filePicker();
+                                  await FilePickHelper.filePicker().then(
+                                    (value) => setState(
+                                      () {
+                                        file = value;
+                                      },
+                                    ),
+                                  );
                                   // print(file);
                                   // context.read<UserDataCubit>().;
                                 },
@@ -257,41 +271,93 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
               ),
               kHeight20,
               Center(
-                child: BlocConsumer<KycCubit, KycState>(
+                child: BlocConsumer<KycBloc, KycState>(
                   listener: (context, state) {
-                    // TODO: implement listener
+                    if (state is KycAddSuccess) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Success',
+                          content: 'KYC document added Successfully',
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              Root.routeName,
+                              (route) => false,
+                            );
+                          },
+                          isSuccess: true,
+                        ),
+                      );
+                    }
+                    if (state is KycAddFailure) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Failure',
+                          content: 'KYC document failed',
+                          onTap: () {
+                            // Navigator.pushNamedAndRemoveUntil(
+                            //   context,
+                            //   Root.routeName,
+                            //   (route) => false,
+                            // );
+                          },
+                          isSuccess: false,
+                        ),
+                      );
+                    }
                   },
                   builder: (context, state) {
                     return CustomElevatedButton(
                       callback: () async {
-                        _key.currentState!.save();
+                        context.read<KycBloc>().add(KycLoaded());
 
-                        final x = await context.read<KycCubit>().initialKyc({
-                          'full_name': fullNameController.text,
-                          'is_company': false,
-                          'organization_name': 'string',
-                          'address': 'string',
-                          'extra_data': {
-                            'additionalProp1': 'string',
-                            'additionalProp2': 'string',
-                            'additionalProp3': 'string'
-                          },
-                          'company': null,
-                          'country': 'Nepal'
-                        });
-                        print(x);
+                        // _key.currentState!.save();
+                        // context.read<KycBloc>().add(
+                        //       KycInitiated(
+                        //         createKycReq: CreateKycReq(
+                        //           fullName: fullNameController.text,
+                        //           address: issuedFromController.text,
+                        //           country: 'NP',
+                        //         ),
+                        //       ),
+                        //     );
+                        // if (state is KycCreateSuccess) {
+                        //   context.read<KycBloc>().add(
+                        //         KycAdded(
+                        //           addKycReq: AddKycReq(
+                        //             kyc: state.id,
+                        //             documentType: identityTypeController.text,
+                        //             documentId: identityNumberController.text,
+                        //             isCompany: false,
+                        //             issuedDate: issuedDate,
+                        //             validThrough: expiryDate,
+                        //             issuerOrganization: 'Nepal Government',
+                        //             file: await MultipartFile.fromFile(
+                        //               file!.path,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       );
+                        // }
 
-                        // print(identityTypeController.text);
-                        // final KycReq kycReq = KycReq(
-                        //   kyc: 0,
-                        //   documentType: identityTypeController.text,
-                        //   isCompany: false,
-                        //   documentId: identityNumberController.text,
-                        //   issuerOrganization: issuedFromController.text,
-                        //   issuedDate: issuedDate,
-                        //   validThrough: expiryDate,
-                        //   file: file!.readAsStringSync(),
-                        // );
+                        // final x1 = {
+                        //   'full_name': fullNameController.text,
+                        //   'is_company': false,
+                        //   'organization_name': 'string',
+                        //   'address': issuedFromController.text,
+                        //   'extra_data': {
+                        //     'additionalProp1': 'string',
+                        //     'additionalProp2': 'string',
+                        //     'additionalProp3': 'string'
+                        //   },
+                        //   'company': null,
+                        //   'country': 'NP'
+                        // };
+
+                        // {status: success, id: 22, message: KYC created successfully.}
+                        // {status: success, message: KYCDocument added successfully.}
                       },
                       label: 'Submit',
                     );

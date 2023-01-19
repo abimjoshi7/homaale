@@ -162,7 +162,7 @@ class _AddExperienceState extends State<AddExperience> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomFormField(
-                                label: 'Issued Date',
+                                label: 'Start Date',
                                 child: InkWell(
                                   onTap: () async {
                                     setState(() async {
@@ -204,7 +204,7 @@ class _AddExperienceState extends State<AddExperience> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomFormField(
-                                label: 'Expiry Date',
+                                label: 'End Date',
                                 child: InkWell(
                                   onTap: () {},
                                   child: InkWell(

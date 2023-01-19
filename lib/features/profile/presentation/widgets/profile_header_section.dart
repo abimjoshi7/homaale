@@ -33,6 +33,25 @@ class ProfileHeaderSection extends StatelessWidget {
               );
             }
           }
+
+          if (state is SignInWithPhoneSuccess) {
+            if (state.userLoginRes.hasProfile == true) {
+              return PopupMenuItem(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      EditProfilePage.routeName,
+                    );
+                  },
+                  child: const Text(
+                    'Edit Profile',
+                  ),
+                ),
+              );
+            }
+          }
+
           return PopupMenuItem(
             child: TextButton(
               onPressed: () {
@@ -49,11 +68,11 @@ class ProfileHeaderSection extends StatelessWidget {
         }
 
         return BlocBuilder<UserDataCubit, UserDataState>(
-          builder: (context, state) {
+          builder: (context, state2) {
             Widget displayName() {
-              if (state is UserDataLoadSuccess) {
+              if (state2 is UserDataLoadSuccess) {
                 return Text(
-                  '${state.userData.user!.firstName!} ${state.userData.user!.lastName!}',
+                  '${state2.userData.user!.firstName!} ${state2.userData.user!.lastName!}',
                 );
               } else {
                 return const Text('FirstName LastName');
@@ -61,9 +80,9 @@ class ProfileHeaderSection extends StatelessWidget {
             }
 
             Widget displayDesignation() {
-              if (state is UserDataLoadSuccess) {
+              if (state2 is UserDataLoadSuccess) {
                 return Text(
-                  state.userData.designation.toString(),
+                  state2.userData.designation.toString(),
                 );
               } else {
                 return const Text('Individual | Homaale User');
@@ -71,7 +90,7 @@ class ProfileHeaderSection extends StatelessWidget {
             }
 
             Widget displayProfilePic() {
-              if (state is UserDataLoadSuccess) {
+              if (state2 is UserDataLoadSuccess) {
                 return Container(
                   height: 70,
                   width: 70,
@@ -80,7 +99,7 @@ class ProfileHeaderSection extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                        state.userData.profileImage as String,
+                        state2.userData.profileImage as String,
                       ),
                     ),
                   ),
@@ -98,10 +117,10 @@ class ProfileHeaderSection extends StatelessWidget {
             }
 
             Widget displayRating() {
-              if (state is UserDataLoadSuccess) {
+              if (state2 is UserDataLoadSuccess) {
                 return Row(
                   children: List.generate(
-                    state.userData.rating!.userRatingCount!,
+                    state2.userData.rating!.userRatingCount!,
                     (index) => const Icon(
                       Icons.star_rate_rounded,
                       color: Colors.amber,
@@ -130,9 +149,16 @@ class ProfileHeaderSection extends StatelessWidget {
                     children: [
                       displayName(),
                       kWidth5,
-                      const Icon(
-                        Icons.verified,
-                        color: Colors.lightBlue,
+                      InkWell(
+                        onTap: () {
+                          if (state is SignInWithPhoneSuccess) {
+                            print(state.userLoginRes.toJson());
+                          }
+                        },
+                        child: const Icon(
+                          Icons.verified,
+                          color: Colors.lightBlue,
+                        ),
                       ),
                     ],
                   ),

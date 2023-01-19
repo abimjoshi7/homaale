@@ -154,7 +154,7 @@ class _AddEducationState extends State<AddEducation> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomFormField(
-                                label: 'Issued Date',
+                                label: 'Start Date',
                                 isRequired: true,
                                 child: InkWell(
                                   onTap: () async {

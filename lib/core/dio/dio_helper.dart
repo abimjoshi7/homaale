@@ -1,7 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:cipher/core/app/api_end_points.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
@@ -13,7 +11,7 @@ class DioHelper {
 
   static void init() {
     final options = BaseOptions(
-      baseUrl: sandbox,
+      baseUrl: baseIPSecondary,
       connectTimeout: 20 * 1000,
       receiveTimeout: 20 * 1000,
       receiveDataWhenStatusError: true,
@@ -66,7 +64,7 @@ class DioHelper {
         ),
       );
 
-      log('DIO GET ERROR: ${e.response?.data}');
+      log('DIO GET WITH CREDENTIAL ERROR: ${e.response?.data}');
     }
   }
 
@@ -115,7 +113,7 @@ class DioHelper {
           e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
-      log('DIO POST ERROR: ${e.response?.data}');
+      log('DIO POST WITH CREDENTIAL ERROR: ${e.response?.data}');
     }
   }
 
@@ -125,7 +123,6 @@ class DioHelper {
     required String token,
   }) async {
     try {
-      print(data);
       final response = await dio.patch(
         url,
         data: jsonEncode(data),
@@ -144,7 +141,7 @@ class DioHelper {
           e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
-      log('DIO Patch ERROR: ${e.response?.data}');
+      log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
     }
   }
 
@@ -160,7 +157,6 @@ class DioHelper {
         },
       );
 
-      print(formData);
       final response = await dio.post<dynamic>(
         url,
         data: formData,
@@ -179,7 +175,7 @@ class DioHelper {
           e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
-      log('DIO POST ERROR: ${e.response?.data}');
+      log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
     }
   }
 
@@ -210,7 +206,7 @@ class DioHelper {
           e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
-      log('DIO POST ERROR: ${e.response?.data}');
+      log('DIO POST FORM DATA ERROR: ${e.response?.data}');
     }
   }
 
@@ -241,7 +237,7 @@ class DioHelper {
           e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
-      log('DIO POST ERROR: ${e.response?.data}');
+      log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');
     }
   }
 }

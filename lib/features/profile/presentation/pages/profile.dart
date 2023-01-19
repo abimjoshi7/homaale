@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/data/repositories/user_data_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
@@ -25,7 +26,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
   final user = 'self';
-  bool isKycVerified = false;
 
   @override
   void initState() {
@@ -47,25 +47,21 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           CustomHeader(
             leadingWidget: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Root.routeName,
+                  (route) => false,
+                );
               },
               icon: const Icon(
                 Icons.arrow_back,
               ),
             ),
-            trailingWidget: BlocBuilder<UserDataCubit, UserDataState>(
-              builder: (context, state) {
-                return IconButton(
-                  onPressed: () async {
-                    await UserDataRepositories().fetchUserData().then(
-                          (value) => print(value.bio),
-                        );
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                  ),
-                );
-              },
+            trailingWidget: IconButton(
+              onPressed: () async {},
+              icon: const Icon(
+                Icons.search,
+              ),
             ),
             child: const Text('Profile'),
           ),
@@ -78,7 +74,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           const CustomHorizontalDivider(),
           const ProfileStatsSection(),
           const CustomHorizontalDivider(),
-          ProfileKycVerifySection(isKycVerified: isKycVerified),
+          const ProfileKycVerifySection(),
           ProfileTabSection(tabController: tabController),
           Expanded(
             child: TabBarView(

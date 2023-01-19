@@ -38,7 +38,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
     final args = (ModalRoute.of(context)?.settings.arguments ?? '') as String;
 
     //! obscuring phone number
-    final number = args.substring(1, args.length);
+    final number = args.substring(0, args.length);
     return BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
       listener: (context, state) {},
       builder: (context, state) {
