@@ -55,8 +55,8 @@ mixin LoginConfig {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: MediaQueryHelper.theWidth(context) * 0.23,
-              ),
+                  // horizontal: MediaQueryHelper.theWidth(context) * 0.23,
+                  ),
               child: CustomElevatedButton(
                 callback: () {},
                 label: 'Continue',

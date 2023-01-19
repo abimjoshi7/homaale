@@ -36,7 +36,7 @@ class RewardsProfile extends StatelessWidget {
                   children: [
                     Container(
                       height: 31,
-                      width: MediaQueryHelper.theWidth(context) * 0.3,
+                      // width: MediaQueryHelper.theWidth(context) * 0.3,
                       decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xffADB5BD)),
                         borderRadius: const BorderRadius.only(
@@ -48,7 +48,7 @@ class RewardsProfile extends StatelessWidget {
                     ),
                     Container(
                       height: 31,
-                      width: MediaQueryHelper.theWidth(context) * 0.10,
+                      // width: MediaQueryHelper.theWidth(context) * 0.10,
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(4),

@@ -63,8 +63,8 @@ class _SplashPageState extends State<SplashPage> {
       children: [
         Image.asset('assets/splash_ellipse.png'),
         Positioned(
-          left: MediaQueryHelper.theWidth(context) * 0.21,
-          top: MediaQueryHelper.theHeight(context) * 0.14,
+          left: 100,
+          top: 120,
           child: TweenAnimationBuilder(
             tween: DecorationTween(
               begin: initialDecoration(),
@@ -80,7 +80,7 @@ class _SplashPageState extends State<SplashPage> {
                 ),
               );
             },
-            curve: Curves.elasticIn,
+            curve: Curves.bounceIn,
             onEnd: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,

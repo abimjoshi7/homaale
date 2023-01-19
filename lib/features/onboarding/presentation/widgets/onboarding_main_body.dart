@@ -24,14 +24,14 @@ class OnboardingMainBody extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: MediaQueryHelper.theHeight(context) * 0.4,
+            // height: MediaQueryHelper.theHeight(context) * 0.4,
             child: Image.asset(mainImage),
           ),
           kHeight50,
           Expanded(
             child: Container(
-              height: MediaQueryHelper.theHeight(context),
-              width: MediaQueryHelper.theWidth(context),
+              // height: MediaQueryHelper.theHeight(context),
+              // width: MediaQueryHelper.theWidth(context),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

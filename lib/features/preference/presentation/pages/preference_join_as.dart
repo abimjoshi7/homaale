@@ -26,7 +26,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: SizedBox(
-              height: MediaQueryHelper.theHeight(context) * 0.05,
+              // height: MediaQueryHelper.theHeight(context) * 0.05,
               width: double.infinity,
               child: Column(
                 children: [
@@ -71,7 +71,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: SizedBox(
-              height: MediaQueryHelper.theHeight(context) * 0.05,
+              // height: MediaQueryHelper.theHeight(context) * 0.05,
               width: double.infinity,
               child: Column(
                 children: [

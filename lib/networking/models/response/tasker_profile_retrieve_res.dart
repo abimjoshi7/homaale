@@ -431,7 +431,7 @@ class Portfolio {
         id: json['id'] as int?,
         images: json['images'] == null
             ? []
-            : List<dynamic>.from(json['images']!.map((x) => x) as Iterable),
+            : List<dynamic>.from((json['images']!).map((x) => x) as Iterable),
         files: json['files'] == null
             ? []
             : List<dynamic>.from(json['files']!.map((x) => x) as Iterable),

@@ -59,8 +59,8 @@ class _OnboardingState extends State<Onboarding> {
           },
         ),
         itemBuilder: (context, index) => Container(
-          height: MediaQueryHelper.theHeight(context),
-          width: MediaQueryHelper.theWidth(context),
+          // height: MediaQueryHelper.theHeight(context),
+          // width: MediaQueryHelper.theWidth(context),
           color: const Color(0xff5c6096),
           child: Column(
             children: [
