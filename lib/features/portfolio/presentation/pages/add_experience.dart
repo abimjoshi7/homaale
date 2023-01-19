@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/pages/add_education.dart';
 import 'package:cipher/networking/models/request/tasker_experience_req.dart';
@@ -81,24 +82,30 @@ class _AddExperienceState extends State<AddExperience> {
                       label: 'Title',
                       isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Please enter the title',
                         onSaved: (p0) {
-                          setState(() {
-                            titleController.text = p0!;
-                          });
+                          setState(
+                            () {
+                              titleController.text = p0!;
+                            },
+                          );
                         },
                       ),
                     ),
                     CustomFormField(
                       label: 'Description',
-                      isRequired: false,
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         maxLines: 3,
                         hintText: 'Write something...',
                         onSaved: (p0) {
-                          setState(() {
-                            descriptionController.text = p0!;
-                          });
+                          setState(
+                            () {
+                              descriptionController.text = p0!;
+                            },
+                          );
                         },
                       ),
                     ),
@@ -117,31 +124,37 @@ class _AddExperienceState extends State<AddExperience> {
                     ),
                     CustomFormField(
                       label: 'Company Name',
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: Cagtu',
                         onSaved: (p0) {
-                          setState(() {
-                            companyNameController.text = p0!;
-                          });
+                          setState(
+                            () {
+                              companyNameController.text = p0!;
+                            },
+                          );
                         },
                       ),
-                      isRequired: true,
                     ),
                     CustomFormField(
                       label: 'Location',
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: New Baneshwor, Kathmandu',
                         prefixWidget: const Icon(
                           Icons.location_on_outlined,
                           color: kColorPrimary,
                         ),
                         onSaved: (p0) {
-                          setState(() {
-                            locationController.text = p0!;
-                          });
+                          setState(
+                            () {
+                              locationController.text = p0!;
+                            },
+                          );
                         },
                       ),
-                      isRequired: true,
                     ),
                     Row(
                       children: [
@@ -163,6 +176,7 @@ class _AddExperienceState extends State<AddExperience> {
                             children: [
                               CustomFormField(
                                 label: 'Start Date',
+                                isRequired: true,
                                 child: InkWell(
                                   onTap: () async {
                                     setState(() async {
@@ -193,7 +207,6 @@ class _AddExperienceState extends State<AddExperience> {
                                     ),
                                   ),
                                 ),
-                                isRequired: true,
                               ),
                             ],
                           ),
@@ -205,6 +218,7 @@ class _AddExperienceState extends State<AddExperience> {
                             children: [
                               CustomFormField(
                                 label: 'End Date',
+                                isRequired: true,
                                 child: InkWell(
                                   onTap: () {},
                                   child: InkWell(
@@ -236,7 +250,6 @@ class _AddExperienceState extends State<AddExperience> {
                                     ),
                                   ),
                                 ),
-                                isRequired: true,
                               ),
                             ],
                           ),
@@ -252,7 +265,6 @@ class _AddExperienceState extends State<AddExperience> {
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerExperienceSuccess) {
-                if (!mounted) return;
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
@@ -266,27 +278,18 @@ class _AddExperienceState extends State<AddExperience> {
                     isSuccess: true,
                   ),
                 );
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   const SnackBar(
-                //     content: Text('Experience created successfully.'),
-                //   ),
-                // );
-                // await Navigator.pushNamed(
-                //   context,
-                //   AddEducation.routeName,
-                // );
               } else if (state is TaskerExperienceFailure) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(error!),
+                    content: Text(error ?? "Failed to add experience."),
                   ),
                 );
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
                     heading: 'Failure',
-                    content: "Experience couldn't be added",
+                    content: error ?? "Experience couldn't be added",
                     onTap: () => Navigator.pop(context),
                     isSuccess: false,
                   ),
@@ -296,23 +299,32 @@ class _AddExperienceState extends State<AddExperience> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  _key.currentState!.save();
-                  final taskerExperience = TaskerExperienceReq(
-                    title: titleController.text,
-                    description: descriptionController.text,
-                    companyName: companyNameController.text,
-                    currentlyWorking: true,
-                    employmentType: employmentController.text,
-                    location: locationController.text,
-                    startDate: issuedDate,
-                    endDate: expiryDate,
-                  );
+                  if (_key.currentState!.validate() &&
+                      issuedDate!.isBefore(expiryDate!)) {
+                    _key.currentState!.save();
+                    final taskerExperience = TaskerExperienceReq(
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      companyName: companyNameController.text,
+                      currentlyWorking: true,
+                      employmentType: employmentController.text,
+                      location: locationController.text,
+                      startDate: issuedDate,
+                      endDate: expiryDate,
+                    );
 
-                  await context
-                      .read<TaskerExperienceCubit>()
-                      .addTaskerExperience(
-                        taskerExperience,
-                      );
+                    await context
+                        .read<TaskerExperienceCubit>()
+                        .addTaskerExperience(
+                          taskerExperience,
+                        );
+                  } else if (expiryDate!.isBefore(issuedDate!)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please check your start and end dates'),
+                      ),
+                    );
+                  }
                 },
                 label: 'Add',
               );

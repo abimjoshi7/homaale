@@ -102,15 +102,25 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   ),
                 );
           }
-        } else {
+        } else if (state is SignInWithEmailFailure ||
+            state is SignInWithPhoneFailure) {
           if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                x!,
-              ),
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Failure',
+              content: x!,
+              onTap: () {},
+              isSuccess: false,
             ),
           );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text(
+          //       x!,
+          //     ),
+          //   ),
+          // );
         }
       },
       builder: (context, state) {
@@ -237,9 +247,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               kHeight20,
               CustomElevatedButton(
                 callback: () async {
-                  print(state);
                   _formKey.currentState!.save();
-                  if (state is SignInPhoneInitial) {
+                  if (state is SignInPhoneInitial ||
+                      state is SignInWithPhoneFailure) {
                     context.read<SignInBloc>().add(
                           SignInWithPhoneInitiated(
                             userLoginReq: UserLoginReq(
@@ -248,7 +258,8 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                             ),
                           ),
                         );
-                  } else if (state is SignInEmailInitial) {
+                  } else if (state is SignInEmailInitial ||
+                      state is SignInWithEmailFailure) {
                     context.read<SignInBloc>().add(
                           SignInWithEmailInitiated(
                             userLoginReq: UserLoginReq(

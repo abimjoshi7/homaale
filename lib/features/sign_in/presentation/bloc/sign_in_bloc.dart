@@ -22,6 +22,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInWithPhoneInitiated>(
       (event, emit) async {
         try {
+          emit(
+            SignInPhoneInitial(),
+          );
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
                 (value) => emit(
                   SignInWithPhoneSuccess(
@@ -30,9 +33,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
                 ),
               );
         } catch (e) {
-          print('HAHA');
           emit(
-            SignInPhoneInitial(),
+            SignInWithPhoneFailure(),
           );
         }
       },
@@ -41,6 +43,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInWithEmailInitiated>(
       (event, emit) async {
         try {
+          emit(
+            SignInEmailInitial(),
+          );
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
                 (value) => emit(
                   SignInWithEmailSuccess(
@@ -49,9 +54,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
                 ),
               );
         } catch (e) {
-          print('HAHA');
           emit(
-            SignInEmailInitial(),
+            SignInWithEmailFailure(),
           );
         }
       },

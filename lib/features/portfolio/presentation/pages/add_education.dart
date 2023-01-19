@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
 import 'package:cipher/networking/models/request/tasker_education_req.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -21,8 +22,8 @@ class _AddEducationState extends State<AddEducation> {
   final degreeController = TextEditingController();
   final fieldOfStudyController = TextEditingController();
   final locationController = TextEditingController();
-  DateTime? issuedDate;
-  DateTime? expiryDate;
+  DateTime? startDate;
+  DateTime? endDate;
   final _key123 = GlobalKey<FormState>();
 
   @override
@@ -74,11 +75,14 @@ class _AddEducationState extends State<AddEducation> {
                       label: 'School',
                       isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: Tribhuvan University',
                         onSaved: (p0) {
-                          setState(() {
-                            schoolController.text = p0!;
-                          });
+                          setState(
+                            () {
+                              schoolController.text = p0!;
+                            },
+                          );
                         },
                       ),
                     ),
@@ -86,6 +90,7 @@ class _AddEducationState extends State<AddEducation> {
                       label: 'Description',
                       isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         maxLines: 3,
                         hintText: 'Write something...',
                         onSaved: (p0) {
@@ -99,6 +104,7 @@ class _AddEducationState extends State<AddEducation> {
                       label: 'Degree',
                       isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: "Eg: Bachelor's",
                         onSaved: (p0) {
                           setState(() {
@@ -111,6 +117,7 @@ class _AddEducationState extends State<AddEducation> {
                       label: 'Field of Study',
                       isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: Business',
                         onSaved: (p0) {
                           setState(() {
@@ -123,6 +130,7 @@ class _AddEducationState extends State<AddEducation> {
                       label: 'Location',
                       isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         prefixWidget: const Icon(
                           Icons.location_on_outlined,
                           color: kColorPrimary,
@@ -166,13 +174,13 @@ class _AddEducationState extends State<AddEducation> {
                                     ).then(
                                       (value) => setState(
                                         () {
-                                          issuedDate = value;
+                                          startDate = value;
                                         },
                                       ),
                                     );
                                   },
                                   child: CustomFormContainer(
-                                    hintText: issuedDate
+                                    hintText: startDate
                                             ?.toString()
                                             .substring(0, 10) ??
                                         '1999-03-06',
@@ -204,16 +212,15 @@ class _AddEducationState extends State<AddEducation> {
                                     ).then(
                                       (value) => setState(
                                         () {
-                                          expiryDate = value;
+                                          endDate = value;
                                         },
                                       ),
                                     );
                                   },
                                   child: CustomFormContainer(
-                                    hintText: expiryDate
-                                            ?.toString()
-                                            .substring(0, 10) ??
-                                        '1999-06-03',
+                                    hintText:
+                                        endDate?.toString().substring(0, 10) ??
+                                            '1999-06-03',
                                     leadingWidget: const Icon(
                                       Icons.calendar_month_rounded,
                                       color: kColorPrimary,
@@ -248,39 +255,20 @@ class _AddEducationState extends State<AddEducation> {
                     isSuccess: true,
                   ),
                 );
-                if (state is TaskerEducationFailure) {
-                  if (!mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(error!),
-                    ),
-                  );
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomToast(
-                      heading: 'Failure',
-                      content: "Education couldn't be added",
-                      onTap: () => Navigator.pop(context),
-                      isSuccess: false,
-                    ),
-                  );
-                }
-                // if (!mounted) return;
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   const SnackBar(
-                //     content: Text('Education created successfully.'),
-                //   ),
-                // );
-                // await Navigator.pushNamed(
-                //   context,
-                //   AddCertifications.routeName,
-                // );
               } else if (state is TaskerEducationFailure) {
                 if (!mounted) return;
-
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(error!),
+                    content: Text(error ?? "Education couldn't be added"),
+                  ),
+                );
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomToast(
+                    heading: 'Failure',
+                    content: error ?? "Education couldn't be added",
+                    onTap: () => Navigator.pop(context),
+                    isSuccess: false,
                   ),
                 );
               }
@@ -288,19 +276,28 @@ class _AddEducationState extends State<AddEducation> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () {
-                  _key123.currentState!.save();
-                  final taskerEducationReq = TaskerEducationReq(
-                    school: schoolController.text,
-                    description: descriptionController.text,
-                    degree: degreeController.text,
-                    fieldOfStudy: fieldOfStudyController.text,
-                    location: locationController.text,
-                    startDate: issuedDate,
-                    endDate: expiryDate,
-                  );
-                  context
-                      .read<TaskerEducationCubit>()
-                      .addTaskerEducation(taskerEducationReq);
+                  if (_key123.currentState!.validate() &&
+                      startDate!.isBefore(endDate!)) {
+                    _key123.currentState!.save();
+                    final taskerEducationReq = TaskerEducationReq(
+                      school: schoolController.text,
+                      description: descriptionController.text,
+                      degree: degreeController.text,
+                      fieldOfStudy: fieldOfStudyController.text,
+                      location: locationController.text,
+                      startDate: startDate,
+                      endDate: endDate,
+                    );
+                    context
+                        .read<TaskerEducationCubit>()
+                        .addTaskerEducation(taskerEducationReq);
+                  } else if (endDate!.isBefore(startDate!)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please check your start and end dates'),
+                      ),
+                    );
+                  }
                 },
                 label: 'Add',
               );

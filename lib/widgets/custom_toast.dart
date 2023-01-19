@@ -38,15 +38,6 @@ class CustomToast extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    width: 150,
-                    height: 40,
-                    child: CustomElevatedButton(
-                      label: 'Continue',
-                      callback: onTap,
-                    ),
-                  ),
-                  kWidth10,
                   if (isSuccess == false)
                     SizedBox(
                       width: 150,
@@ -56,6 +47,15 @@ class CustomToast extends StatelessWidget {
                         callback: () {
                           Navigator.pop(context);
                         },
+                      ),
+                    )
+                  else
+                    SizedBox(
+                      width: 150,
+                      height: 40,
+                      child: CustomElevatedButton(
+                        label: 'Continue',
+                        callback: onTap,
                       ),
                     ),
                 ],

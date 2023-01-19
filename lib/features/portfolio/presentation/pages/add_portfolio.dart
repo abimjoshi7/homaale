@@ -4,7 +4,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_experience.dart';
 import 'package:cipher/networking/models/request/tasker_portfolio_req.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -299,7 +298,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Failure',
-                          content: "Portfolio couldn't be created",
+                          content: error ?? "Portfolio couldn't be created",
                           onTap: () => Navigator.pushNamedAndRemoveUntil(
                             context,
                             Root.routeName,

@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_certification_cubit.dart';
 import 'package:cipher/networking/models/request/tasker_certification_req.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -22,7 +23,7 @@ class _AddCertificationsState extends State<AddCertifications> {
   final credentialIdController = TextEditingController();
   final certificationUrlController = TextEditingController();
   DateTime? issuedDate;
-  DateTime? expiryDate;
+  DateTime? endDate;
   bool isExpirable = false;
   final _key = GlobalKey<FormState>();
 
@@ -73,7 +74,9 @@ class _AddCertificationsState extends State<AddCertifications> {
                   children: [
                     CustomFormField(
                       label: 'Name',
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: Certified Gardener',
                         onSaved: (p0) {
                           setState(() {
@@ -81,11 +84,12 @@ class _AddCertificationsState extends State<AddCertifications> {
                           });
                         },
                       ),
-                      isRequired: true,
                     ),
                     CustomFormField(
                       label: 'Issuing Organization',
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: Cagtu',
                         onSaved: (p0) {
                           setState(() {
@@ -93,10 +97,10 @@ class _AddCertificationsState extends State<AddCertifications> {
                           });
                         },
                       ),
-                      isRequired: true,
                     ),
                     CustomFormField(
                       label: 'Description',
+                      isRequired: false,
                       child: CustomTextFormField(
                         maxLines: 3,
                         hintText: 'Write something...',
@@ -106,7 +110,6 @@ class _AddCertificationsState extends State<AddCertifications> {
                           });
                         },
                       ),
-                      isRequired: true,
                     ),
                     Row(
                       children: [
@@ -126,7 +129,9 @@ class _AddCertificationsState extends State<AddCertifications> {
                     kHeight20,
                     CustomFormField(
                       label: 'Cerfication Id',
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: 213224-212-212',
                         onSaved: (p0) {
                           setState(() {
@@ -134,11 +139,12 @@ class _AddCertificationsState extends State<AddCertifications> {
                           });
                         },
                       ),
-                      isRequired: true,
                     ),
                     CustomFormField(
                       label: 'Certification URL',
+                      isRequired: true,
                       child: CustomTextFormField(
+                        validator: validateNotEmpty,
                         hintText: 'Eg: https//www.cagtu.com.np',
                         prefixWidget: const Icon(
                           Icons.location_on_outlined,
@@ -150,7 +156,6 @@ class _AddCertificationsState extends State<AddCertifications> {
                           });
                         },
                       ),
-                      isRequired: true,
                     ),
                     Row(
                       children: [
@@ -189,6 +194,7 @@ class _AddCertificationsState extends State<AddCertifications> {
                         Flexible(
                           child: CustomFormField(
                             label: 'End Date',
+                            isRequired: true,
                             child: InkWell(
                               onTap: () async {
                                 await showDatePicker(
@@ -199,14 +205,14 @@ class _AddCertificationsState extends State<AddCertifications> {
                                 ).then(
                                   (value) => setState(
                                     () {
-                                      expiryDate = value;
+                                      endDate = value;
                                     },
                                   ),
                                 );
                               },
                               child: CustomFormContainer(
                                 hintText:
-                                    expiryDate?.toString().substring(0, 10) ??
+                                    endDate?.toString().substring(0, 10) ??
                                         '1999-06-30',
                                 leadingWidget: const Icon(
                                   Icons.calendar_month_rounded,
@@ -214,7 +220,6 @@ class _AddCertificationsState extends State<AddCertifications> {
                                 ),
                               ),
                             ),
-                            isRequired: true,
                           ),
                         ),
                       ],
@@ -241,30 +246,19 @@ class _AddCertificationsState extends State<AddCertifications> {
                     isSuccess: true,
                   ),
                 );
-                // if (!mounted) return;
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   const SnackBar(
-                //     content: Text('Certification created successfully.'),
-                //   ),
-                // );
-                // await Navigator.pushNamedAndRemoveUntil(
-                //   context,
-                //   Root.routeName,
-                //   (route) => false,
-                // );
               } else if (state is TaskerCertificationFailure) {
                 if (!mounted) return;
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(error!),
+                    content: Text(error ?? "Certification coouldn't be added"),
                   ),
                 );
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
                     heading: 'Failure',
-                    content: "Certification coouldn't be added",
+                    content: error ?? "Certification coouldn't be added",
                     onTap: () => Navigator.pop(context),
                     isSuccess: false,
                   ),
@@ -274,22 +268,31 @@ class _AddCertificationsState extends State<AddCertifications> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  _key.currentState!.save();
-                  final cerificationReq = TaskerCertificationReq(
-                    name: nameController.text,
-                    issuingOrganization: issuingOraganizationController.text,
-                    description: descriptionController.text,
-                    credentialId: credentialIdController.text,
-                    certificateUrl:
-                        'https://${certificationUrlController.text}',
-                    doesExpire: isExpirable,
-                    issuedDate: issuedDate,
-                    expireDate: expiryDate,
-                  );
+                  if (_key.currentState!.validate() &&
+                      issuedDate!.isBefore(endDate!)) {
+                    _key.currentState!.save();
+                    final cerificationReq = TaskerCertificationReq(
+                      name: nameController.text,
+                      issuingOrganization: issuingOraganizationController.text,
+                      description: descriptionController.text,
+                      credentialId: credentialIdController.text,
+                      certificateUrl:
+                          'https://${certificationUrlController.text}',
+                      doesExpire: isExpirable,
+                      issuedDate: issuedDate,
+                      expireDate: endDate,
+                    );
 
-                  await context
-                      .read<TaskerCertificationCubit>()
-                      .addTaskerCertification(cerificationReq);
+                    await context
+                        .read<TaskerCertificationCubit>()
+                        .addTaskerCertification(cerificationReq);
+                  } else if (endDate!.isBefore(issuedDate!)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please check your start and end dates'),
+                      ),
+                    );
+                  }
                 },
                 label: 'Add',
               );

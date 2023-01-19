@@ -20,15 +20,16 @@ class SocialLoginSection extends StatelessWidget {
             return Image.asset(
               'assets/logos/phone_logo.png',
             );
-          } else if (state is SignInPhoneInitial) {
+          } else {
             return Image.asset(
               'assets/logos/mail_logo.png',
             );
-          } else {
-            return Image.asset(
-              'assets/logos/phone_logo.png',
-            );
           }
+          // else {
+          //   return Image.asset(
+          //     'assets/logos/phone_logo.png',
+          //   );
+          // }
         }
 
         return Column(
@@ -56,11 +57,14 @@ class SocialLoginSection extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (state is SignInPhoneInitial) {
+                    print(state);
+                    if (state is SignInPhoneInitial ||
+                        state is SignInWithPhoneFailure) {
                       context.read<SignInBloc>().add(
                             SignInWithEmailSelected(),
                           );
-                    } else if (state is SignInEmailInitial) {
+                    } else if (state is SignInEmailInitial ||
+                        state is SignInWithEmailFailure) {
                       context.read<SignInBloc>().add(
                             SignInWithPhoneSelected(),
                           );
