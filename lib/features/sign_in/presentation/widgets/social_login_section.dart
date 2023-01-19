@@ -57,7 +57,6 @@ class SocialLoginSection extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    print(state);
                     if (state is SignInPhoneInitial ||
                         state is SignInWithPhoneFailure) {
                       context.read<SignInBloc>().add(

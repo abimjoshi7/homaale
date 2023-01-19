@@ -1,5 +1,4 @@
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 
 class OtpRepositories {
   final _dio = DioHelper();
@@ -18,7 +17,6 @@ class OtpRepositories {
           'scope': scope,
         },
       );
-      print(res);
       // return OtpResetVerifyRes.fromJson(res.data as Map<String, dynamic>);
     } catch (e) {
       rethrow;

@@ -33,8 +33,9 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
             children: [
               CustomFormField(
                 label: 'Visibility',
+                isRequired: false,
                 child: CustomDropDownField(
-                  list: [
+                  list: const [
                     'Public',
                     'Private',
                   ],
@@ -45,12 +46,12 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                     },
                   ),
                 ),
-                isRequired: false,
               ),
               CustomFormField(
                 label: 'Task Preferences',
+                isRequired: false,
                 child: CustomDropDownField(
-                  list: [
+                  list: const [
                     'Short term tasks',
                     'Long term tasks',
                   ],
@@ -61,7 +62,6 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                     },
                   ),
                 ),
-                isRequired: false,
               ),
             ],
           ),

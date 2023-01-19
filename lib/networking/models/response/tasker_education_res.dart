@@ -19,9 +19,11 @@ class TaskerEducationRes {
         pageSize: json['page_size'] as int?,
         result: json['result'] == null
             ? []
-            : List<TaskerEducation?>.from(json['result']!.map(
-                    (x) => TaskerEducation.fromJson(x as Map<String, dynamic>))
-                as Iterable),
+            : List<TaskerEducation?>.from(
+                json['result']!.map(
+                  (x) => TaskerEducation.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
+              ),
       );
 
   final int? totalPages;

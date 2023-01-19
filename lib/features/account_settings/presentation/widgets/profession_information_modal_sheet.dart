@@ -142,7 +142,7 @@ class _ProfessionalInformationModalSheetState
                 isRequired: false,
                 child: CustomDropDownField(
                   hintText: 'Specify the day',
-                  list: [
+                  list: const [
                     'Every day',
                     'Weekend',
                   ],
@@ -154,24 +154,24 @@ class _ProfessionalInformationModalSheetState
                 ),
               ),
               Row(
-                children: [
+                children: const [
                   Flexible(
                     child: CustomFormField(
                       label: 'From',
+                      isRequired: false,
                       child: CustomFormContainer(
                         hintText: '08: 00 AM',
                       ),
-                      isRequired: false,
                     ),
                   ),
                   kWidth20,
                   Flexible(
                     child: CustomFormField(
                       label: 'To',
+                      isRequired: false,
                       child: CustomFormContainer(
                         hintText: '09: 00 AM',
                       ),
-                      isRequired: false,
                     ),
                   ),
                 ],

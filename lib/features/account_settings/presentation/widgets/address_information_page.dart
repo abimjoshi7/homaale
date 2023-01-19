@@ -55,14 +55,13 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         isRequired: false,
                         child: CustomDropDownField(
                           hintText: 'Specify your country',
-                          list: [
+                          list: const [
                             'Australia',
                             'Nepal',
                           ],
                           onSaved: (value) => setState(
                             () {
                               countryName = value;
-                              print(countryName);
                             },
                           ),
                         ),
@@ -96,7 +95,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         isRequired: false,
                         child: CustomDropDownField(
                           hintText: 'Specify your language',
-                          list: [
+                          list: const [
                             'English',
                             'Nepali',
                           ],
@@ -112,7 +111,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         isRequired: false,
                         child: CustomDropDownField(
                           hintText: 'Choose suitable currency',
-                          list: [
+                          list: const [
                             'NPR',
                             'AUD',
                           ],
@@ -129,11 +128,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
               ),
               CustomElevatedButton(
                 callback: () async {
-                  print(countryName);
-                  print(addressLine1);
-                  print(addressLine2);
-                  print(languages);
-                  print(currency);
                   _key.currentState!.save();
 
                   final userData = {
@@ -175,7 +169,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
               padding: kPadding20,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   CustomFormField(
                     label: 'Country',
                     isRequired: false,

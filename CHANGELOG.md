@@ -1,12 +1,20 @@
 # CHANGELOG
+## v1.0.0+1(2023-01-19)
 
-<!-- ## 2023-01-01 -->
+### Full Changelog
 
-<!--
---- -->
+**Implemented Features**
 
-## 2022-12-20
+- SignIn/SignUp (Email, Phone, Google, Facebook)
+- Splash Screen
+- Onboarding Screen
+- Profile Screen
+- KYC integration
+- Bottom Navigation
+- Validation for formfields
+- Static Home Screen UI
 
-- project initialized
-- sd
+## v0.0(2022-12-20)
+
+- Homaale Mobile Application Project Initialized
 

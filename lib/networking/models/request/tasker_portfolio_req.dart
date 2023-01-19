@@ -16,10 +16,10 @@ class TaskerPortfolioReq {
         credentialUrl: json['credential_url'] as String?,
         images: json['images'] == null
             ? []
-            : List<int?>.from((json['images']!.map((x) => x) as Iterable)),
+            : List<int?>.from(json['images']!.map((x) => x) as Iterable),
         files: json['files'] == null
             ? []
-            : List<int?>.from((json['files']!.map((x) => x) as Iterable)),
+            : List<int?>.from(json['files']!.map((x) => x) as Iterable),
       );
 
   final String? title;

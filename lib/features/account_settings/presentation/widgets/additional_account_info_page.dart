@@ -47,10 +47,10 @@ class AdditionalAccountInfoPage extends StatelessWidget {
             ),
             onTap: () {
               showModalBottomSheet(
-                constraints: BoxConstraints(maxHeight: 800),
+                constraints: const BoxConstraints(maxHeight: 800),
                 isScrollControlled: true,
                 context: context,
-                builder: (context) => PersonalInformationPage(),
+                builder: (context) => const PersonalInformationPage(),
               );
               // Navigator.pushNamed(
               //   context,
@@ -67,10 +67,10 @@ class AdditionalAccountInfoPage extends StatelessWidget {
             ),
             onTap: () {
               showModalBottomSheet(
-                constraints: BoxConstraints(maxHeight: 800),
+                constraints: const BoxConstraints(maxHeight: 800),
                 isScrollControlled: true,
                 context: context,
-                builder: (context) => AddressInformationPage(),
+                builder: (context) => const AddressInformationPage(),
               );
             },
           ),
@@ -83,10 +83,10 @@ class AdditionalAccountInfoPage extends StatelessWidget {
             ),
             onTap: () {
               showModalBottomSheet(
-                constraints: BoxConstraints(maxHeight: 800),
+                constraints: const BoxConstraints(maxHeight: 800),
                 isScrollControlled: true,
                 context: context,
-                builder: (context) => ProfessionalInformationModalSheet(),
+                builder: (context) => const ProfessionalInformationModalSheet(),
               );
             },
           ),
@@ -118,7 +118,7 @@ class AdditionalAccountInfoPage extends StatelessWidget {
                 // constraints: BoxConstraints(maxHeight: 800),
                 // isScrollControlled: true,
                 context: context,
-                builder: (context) => ProfileConfigModalSheet(),
+                builder: (context) => const ProfileConfigModalSheet(),
               );
             },
           ),

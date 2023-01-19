@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
-import 'package:cipher/widgets/custom_modal_sheet_drawer_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -27,32 +26,32 @@ class SkillsSection extends StatelessWidget {
                     builder: (context) => Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomModalSheetDrawerIcon(),
+                        const CustomModalSheetDrawerIcon(),
                         Padding(
                           padding: kPadding20,
                           child: Column(
                             children: [
                               CustomFormField(
                                 label: 'Skills',
+                                isRequired: false,
                                 child: Row(
-                                  children: [
+                                  children: const [
                                     SkillBox(label: 'Planting'),
                                     kWidth20,
                                     SkillBox(label: 'Washing'),
                                   ],
                                 ),
-                                isRequired: false,
                               ),
                               CustomFormField(
                                 label: 'Suggested Skills',
+                                isRequired: false,
                                 child: Row(
-                                  children: [
+                                  children: const [
                                     SkillBox(label: 'Planting'),
                                     kWidth20,
                                     SkillBox(label: 'Washing'),
                                   ],
                                 ),
-                                isRequired: false,
                               ),
                             ],
                           ),
@@ -66,7 +65,7 @@ class SkillsSection extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.edit_outlined,
                   size: 18,
                 ),

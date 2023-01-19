@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/otp/data/repositories/otp_repositories.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
-import 'package:cipher/features/sign_in/presentation/pages/reset_password.dart';
 import 'package:cipher/widgets/custom_timer.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +127,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
             ),
           );
         } else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       },
     );

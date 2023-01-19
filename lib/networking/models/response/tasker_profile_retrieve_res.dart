@@ -52,29 +52,29 @@ class TaskerProfileRetrieveRes {
             ? []
             : List<Portfolio?>.from(
                 json['portfolio']!.map(
-                        (x) => Portfolio.fromJson(x as Map<String, dynamic>))
-                    as Iterable,
+                  (x) => Portfolio.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
               ),
         experience: json['experience'] == null
             ? []
             : List<Experience?>.from(
                 json['experience']!.map(
-                        (x) => Experience.fromJson(x as Map<String, dynamic>))
-                    as Iterable,
+                  (x) => Experience.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
               ),
         education: json['education'] == null
             ? []
             : List<Education?>.from(
                 json['education']!.map(
-                        (x) => Education.fromJson(x as Map<String, dynamic>))
-                    as Iterable,
+                  (x) => Education.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
               ),
         certificates: json['certificates'] == null
             ? []
             : List<Certificate?>.from(
                 json['certificates']!.map(
-                        (x) => Certificate.fromJson(x as Map<String, dynamic>))
-                    as Iterable,
+                  (x) => Certificate.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
               ),
         stats: Stats.fromJson(json['stats'] as Map<String, dynamic>),
         rating: Rating.fromJson(json['rating'] as Map<String, dynamic>),

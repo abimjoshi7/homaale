@@ -59,7 +59,8 @@ class TaskerUserData {
         securityQuestions: json['security_questions'] == null
             ? []
             : List<int?>.from(
-                json['security_questions']!.map((x) => x) as Iterable),
+                json['security_questions']!.map((x) => x) as Iterable,
+              ),
       );
 
   final int? id;

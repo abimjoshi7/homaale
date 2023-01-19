@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
-import 'package:cipher/widgets/custom_toast.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +112,7 @@ class PasswordAndSecurity extends StatelessWidget {
                             ),
                             isScrollControlled: true,
                             context: context,
-                            builder: (context) => AuthenticatorAppCode(),
+                            builder: (context) => const AuthenticatorAppCode(),
                           );
                         },
                         child: const Text(

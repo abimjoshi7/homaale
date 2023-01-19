@@ -26,7 +26,7 @@ class CertificationSection extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Certification',
                           style: kPurpleText19,
                         ),
@@ -37,7 +37,7 @@ class CertificationSection extends StatelessWidget {
                               AddCertifications.routeName,
                             );
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.edit_outlined,
                             size: 18,
                           ),

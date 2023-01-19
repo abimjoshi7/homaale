@@ -19,9 +19,9 @@ class TaskerCertificationRes {
         result: json['result'] == null
             ? []
             : List<TaskCertification?>.from(
-                json['result']!.map((x) =>
-                        TaskCertification.fromJson(x as Map<String, dynamic>))
-                    as Iterable,
+                json['result']!.map(
+                  (x) => TaskCertification.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
               ),
       );
 

@@ -42,13 +42,14 @@ class TaskerCertificationCubit extends Cubit<TaskerCertificationState> {
         url: 'tasker/certification/',
         token: tokenP ?? token,
       );
-      if (x != null)
+      if (x != null) {
         emit(
           TaskerGetCertificationSuccess(
             taskerCertificationRes:
                 TaskerCertificationRes.fromJson(x as Map<String, dynamic>),
           ),
         );
+      }
     } catch (e) {
       emit(TaskerCertificationFailure());
     }

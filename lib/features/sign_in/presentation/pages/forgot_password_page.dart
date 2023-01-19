@@ -78,9 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const Text('Forgot Password', style: kHeading1),
               kHeight5,
               InkWell(
-                onTap: () {
-                  print(state);
-                },
+                onTap: () {},
                 child: const Text(
                   'Recover your password',
                   style: kHelper13,

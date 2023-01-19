@@ -37,9 +37,9 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CustomModalSheetDrawerIcon(),
+        const CustomModalSheetDrawerIcon(),
         kHeight10,
-        Text(
+        const Text(
           'Change Password',
           style: kText17,
         ),

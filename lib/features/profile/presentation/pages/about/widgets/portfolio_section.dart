@@ -17,7 +17,6 @@ class PortfolioSection extends StatefulWidget {
 }
 
 class _PortfolioSectionState extends State<PortfolioSection> {
-  int? _pageCount = 10;
   int pageNumber = 1;
   final _pagingController = PagingController(
     firstPageKey: 'http://172.16.16.50:8014/api/v1/tasker/portfolio/?page=1',
@@ -102,7 +101,6 @@ class _PortfolioSectionState extends State<PortfolioSection> {
               children: [
                 InkWell(
                   onTap: () async {
-                    print(state);
                     await context.read<TaskerPortfolioCubit>().getPortfolio(5);
                   },
                   child: const Text(
@@ -113,7 +111,7 @@ class _PortfolioSectionState extends State<PortfolioSection> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
+                    children: const [
                       PortfolioCard(
                         label: 'Kitchen Cleaning',
                         imagePath: 'assets/Casual life 3D - 39.png',

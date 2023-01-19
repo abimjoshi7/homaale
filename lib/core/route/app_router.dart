@@ -160,6 +160,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const PersonalInformationPage(),
         );
+      case DeactivatePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const DeactivatePage(),
+        );
       default:
         return MaterialPageRoute(
           builder: (context) => const Scaffold(

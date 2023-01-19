@@ -149,16 +149,9 @@ class ProfileHeaderSection extends StatelessWidget {
                     children: [
                       displayName(),
                       kWidth5,
-                      InkWell(
-                        onTap: () {
-                          if (state is SignInWithPhoneSuccess) {
-                            print(state.userLoginRes.toJson());
-                          }
-                        },
-                        child: const Icon(
-                          Icons.verified,
-                          color: Colors.lightBlue,
-                        ),
+                      const Icon(
+                        Icons.verified,
+                        color: Colors.lightBlue,
                       ),
                     ],
                   ),

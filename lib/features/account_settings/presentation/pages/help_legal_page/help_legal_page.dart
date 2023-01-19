@@ -65,14 +65,15 @@ class _HelpAndLegalPageState extends State<HelpAndLegalPage> {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
-                heading: 'Success',
-                content: 'Your report is registered successfully',
-                onTap: () => Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      Root.routeName,
-                      (route) => false,
-                    ),
-                isSuccess: true),
+              heading: 'Success',
+              content: 'Your report is registered successfully',
+              onTap: () => Navigator.pushNamedAndRemoveUntil(
+                context,
+                Root.routeName,
+                (route) => false,
+              ),
+              isSuccess: true,
+            ),
           );
         }
         if (state is SupportHelpFailure) {

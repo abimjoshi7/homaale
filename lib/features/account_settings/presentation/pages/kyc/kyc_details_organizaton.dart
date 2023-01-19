@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
+import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/networking/models/request/kyc_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dio/dio.dart';
@@ -89,9 +90,9 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                 ),
               ),
               const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: const Text(
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
                   'KYC Details',
                   style: kPurpleText19,
                 ),
@@ -119,6 +120,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           label: 'Full Name',
                           isRequired: true,
                           child: CustomTextFormField(
+                            validator: validateNotEmpty,
                             hintText: 'Harry Smith',
                             onSaved: (p0) => setState(
                               () {
@@ -131,6 +133,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           label: 'Identity number',
                           isRequired: true,
                           child: CustomTextFormField(
+                            validator: validateNotEmpty,
                             hintText: '123321-123-123123',
                             onSaved: (p0) => setState(
                               () {
@@ -143,6 +146,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           label: 'Issued',
                           isRequired: true,
                           child: CustomTextFormField(
+                            validator: validateNotEmpty,
                             hintText: 'Kathmandu',
                             onSaved: (p0) => setState(
                               () {
@@ -230,7 +234,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           child: Column(
                             children: [
                               Row(
-                                children: [
+                                children: const [
                                   Text(
                                     'Maximum file size 20 MB',
                                     style: kHelper13,
@@ -253,11 +257,9 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                                       },
                                     ),
                                   );
-                                  // print(file);
-                                  // context.read<UserDataCubit>().;
                                 },
-                                child: const CustomFormContainer(
-                                  hintText: '+ Select files',
+                                child: CustomFormContainer(
+                                  hintText: file?.path ?? '+ Select files',
                                 ),
                               ),
                               kHeight20,
@@ -272,7 +274,8 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
               kHeight20,
               Center(
                 child: BlocConsumer<KycBloc, KycState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
+                    final error = await CacheHelper.getCachedString(kErrorLog);
                     if (state is KycAddSuccess) {
                       showDialog(
                         context: context,
@@ -295,13 +298,9 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Failure',
-                          content: 'KYC document failed',
+                          content: error ?? 'KYC document failed',
                           onTap: () {
-                            // Navigator.pushNamedAndRemoveUntil(
-                            //   context,
-                            //   Root.routeName,
-                            //   (route) => false,
-                            // );
+                            Navigator.pop(context);
                           },
                           isSuccess: false,
                         ),
@@ -311,51 +310,44 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                   builder: (context, state) {
                     return CustomElevatedButton(
                       callback: () async {
-                        context.read<KycBloc>().add(KycLoaded());
-
-                        // _key.currentState!.save();
-                        // context.read<KycBloc>().add(
-                        //       KycInitiated(
-                        //         createKycReq: CreateKycReq(
-                        //           fullName: fullNameController.text,
-                        //           address: issuedFromController.text,
-                        //           country: 'NP',
-                        //         ),
-                        //       ),
-                        //     );
-                        // if (state is KycCreateSuccess) {
-                        //   context.read<KycBloc>().add(
-                        //         KycAdded(
-                        //           addKycReq: AddKycReq(
-                        //             kyc: state.id,
-                        //             documentType: identityTypeController.text,
-                        //             documentId: identityNumberController.text,
-                        //             isCompany: false,
-                        //             issuedDate: issuedDate,
-                        //             validThrough: expiryDate,
-                        //             issuerOrganization: 'Nepal Government',
-                        //             file: await MultipartFile.fromFile(
-                        //               file!.path,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       );
-                        // }
-
-                        // final x1 = {
-                        //   'full_name': fullNameController.text,
-                        //   'is_company': false,
-                        //   'organization_name': 'string',
-                        //   'address': issuedFromController.text,
-                        //   'extra_data': {
-                        //     'additionalProp1': 'string',
-                        //     'additionalProp2': 'string',
-                        //     'additionalProp3': 'string'
-                        //   },
-                        //   'company': null,
-                        //   'country': 'NP'
-                        // };
-
+                        if (_key.currentState!.validate() &&
+                            issuedDate!.isBefore(expiryDate!)) {
+                          _key.currentState!.save();
+                          context.read<KycBloc>().add(
+                                KycInitiated(
+                                  createKycReq: CreateKycReq(
+                                    fullName: fullNameController.text,
+                                    address: issuedFromController.text,
+                                    country: 'NP',
+                                  ),
+                                ),
+                              );
+                          if (state is KycCreateSuccess) {
+                            context.read<KycBloc>().add(
+                                  KycAdded(
+                                    addKycReq: AddKycReq(
+                                      kyc: state.id,
+                                      documentType: identityTypeController.text,
+                                      documentId: identityNumberController.text,
+                                      isCompany: false,
+                                      issuedDate: issuedDate,
+                                      validThrough: expiryDate,
+                                      issuerOrganization: 'Nepal Government',
+                                      file: await MultipartFile.fromFile(
+                                        file!.path,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                          }
+                        } else if (expiryDate!.isBefore(issuedDate!)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Please check your start and end dates'),
+                            ),
+                          );
+                        }
                         // {status: success, id: 22, message: KYC created successfully.}
                         // {status: success, message: KYCDocument added successfully.}
                       },

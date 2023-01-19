@@ -275,7 +275,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           heading: 'Success',
                           content: 'Portfolio created successfully',
                           onTap: () => Navigator.pushNamedAndRemoveUntil(
-                              context, Root.routeName, (route) => false),
+                            context,
+                            Root.routeName,
+                            (route) => false,
+                          ),
                           isSuccess: true,
                         ),
                       );

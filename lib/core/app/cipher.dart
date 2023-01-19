@@ -1,5 +1,6 @@
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
@@ -98,6 +99,9 @@ class Cipher extends StatelessWidget {
             create: (context) => OtpResetVerifyBloc(
               SignUpRepositories(),
             ),
+          ),
+          BlocProvider(
+            create: (context) => DeactivateCubit(),
           ),
         ],
         child: MaterialApp(

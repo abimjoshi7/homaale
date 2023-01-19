@@ -23,14 +23,6 @@ class AccountProfile extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<UserDataCubit, UserDataState>(
         builder: (context, state) {
-          bool isVerified() {
-            if (state is UserDataLoadSuccess) {
-              return state.userData.isProfileVerified!;
-            } else {
-              return false;
-            }
-          }
-
           String profilePicUrl() {
             if (state is UserDataLoadSuccess) {
               return state.userData.profileImage.toString();
@@ -159,7 +151,9 @@ class AccountProfile extends StatelessWidget {
                   //   builder: (context) => KycChoiceOption(),
                   // );
                   Navigator.pushNamed(
-                      context, KycDetailsOrganization.routeName);
+                    context,
+                    KycDetailsOrganization.routeName,
+                  );
                 },
                 icon: const Icon(
                   FontAwesomeIcons.idCard,

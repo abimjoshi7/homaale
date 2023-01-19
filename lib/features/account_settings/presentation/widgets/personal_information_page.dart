@@ -1,7 +1,5 @@
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -150,7 +148,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                               (value) => setState(
                                 () {
                                   dob = value;
-                                  print(dob);
                                 },
                               ),
                             );
@@ -170,8 +167,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             ChoiceChip(
                               selected: isMale,
                               backgroundColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6))),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffDEE2E6)),
+                              ),
                               onSelected: (value) {
                                 setState(() {
                                   isMale = value;
@@ -179,7 +177,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   isOther = !value;
                                 });
                               },
-                              label: Text(
+                              label: const Text(
                                 'Male',
                                 style: kHelper13,
                               ),
@@ -188,8 +186,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             ChoiceChip(
                               selected: isFemale,
                               backgroundColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6))),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffDEE2E6)),
+                              ),
                               onSelected: (value) {
                                 setState(() {
                                   isFemale = value;
@@ -197,7 +196,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   isOther = !value;
                                 });
                               },
-                              label: Text(
+                              label: const Text(
                                 'Female',
                                 style: kHelper13,
                               ),
@@ -206,8 +205,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             ChoiceChip(
                               selected: isOther,
                               backgroundColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6))),
+                              shape: const RoundedRectangleBorder(
+                                side: BorderSide(color: Color(0xffDEE2E6)),
+                              ),
                               onSelected: (value) {
                                 setState(() {
                                   isOther = value;
@@ -215,7 +215,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                   isFemale = !value;
                                 });
                               },
-                              label: Text(
+                              label: const Text(
                                 'Other',
                                 style: kHelper13,
                               ),
@@ -262,7 +262,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
             ),
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

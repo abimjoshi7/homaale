@@ -7,12 +7,14 @@ class CustomElevatedButton extends StatelessWidget {
     this.label = '',
     this.mainColor = const Color(0xff3D3F7D),
     this.textColor = Colors.white,
+    this.borderColor = const Color(0xff3D3F7D),
   });
 
   final VoidCallback callback;
   final String label;
   final Color mainColor;
   final Color textColor;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: mainColor,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: mainColor),
+          border: Border.all(color: borderColor),
         ),
         child: Center(
           child: Text(
