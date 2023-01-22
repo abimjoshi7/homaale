@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/models/user_login_res.dart';
+import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
+import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 
 class SignInRepository {
   final _dioHelper = DioHelper();
@@ -49,6 +51,20 @@ class SignInRepository {
         url: 'user/reset/',
       );
       return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<OtpResetVerifyRes> verifyOtpReset(
+    OtpResetVerifyReq otpResetVerifyReq,
+  ) async {
+    try {
+      final x = await _dioHelper.postData(
+        url: 'user/reset/otp/verify/',
+        data: otpResetVerifyReq.toMap(),
+      );
+      return OtpResetVerifyRes.fromJson(x as Map<String, dynamic>);
     } catch (e) {
       rethrow;
     }

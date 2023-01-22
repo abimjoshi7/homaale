@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'forgot_password_bloc.dart';
 
 abstract class ForgotPasswordEvent extends Equatable {
@@ -18,4 +19,13 @@ class ForgotPasswordPhoneInitiated extends ForgotPasswordEvent {
   const ForgotPasswordPhoneInitiated(this.phone);
   @override
   List<Object?> get props => [phone];
+}
+
+class ForgotPasswordPhoneResetInitiated extends ForgotPasswordEvent {
+  final OtpResetVerifyReq otpResetVerifyReq;
+  const ForgotPasswordPhoneResetInitiated(
+    this.otpResetVerifyReq,
+  );
+  @override
+  List<Object?> get props => [otpResetVerifyReq];
 }

@@ -51,11 +51,11 @@ class AppRouter {
           builder: (context) => const OtpSignUp(),
           settings: settings,
         );
-      case ResetPassword.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const ResetPassword(),
-          settings: settings,
-        );
+      // case ResetPassword.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const ResetPassword(),
+      //     settings: settings,
+      //   );
       case FacebookLogin.routeName:
         return MaterialPageRoute(
           builder: (context) => const FacebookLogin(),

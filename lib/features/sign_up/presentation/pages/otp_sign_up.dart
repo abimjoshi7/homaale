@@ -1,6 +1,8 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/widgets/custom_timer.dart';
@@ -74,7 +76,42 @@ class _OtpSignUpState extends State<OtpSignUp> {
             ),
           ),
           BlocConsumer<OtpResetVerifyBloc, OtpResetVerifyState>(
-            listener: (context, state) {},
+            listener: (context, state) async {
+              final error = await CacheHelper.getCachedString(kErrorLog);
+              if (state is OtpResetVerifySuccess) {
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomToast(
+                    heading: 'Success',
+                    content: 'Signed up successfully',
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        SignInPage.routeName,
+                        (route) => false,
+                      );
+                    },
+                    isSuccess: true,
+                  ),
+                );
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => CustomToast(
+                    heading: 'Failure',
+                    content: error ?? 'Please try again',
+                    onTap: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        SignInPage.routeName,
+                        (route) => false,
+                      );
+                    },
+                    isSuccess: true,
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
@@ -92,13 +129,6 @@ class _OtpSignUpState extends State<OtpSignUp> {
                             initiateEvent: otpResetVerifyReq,
                           ),
                         );
-
-                    // if (!mounted) return;
-                    // await Navigator.pushNamedAndRemoveUntil(
-                    //   context,
-                    //   SignInPage.routeName,
-                    //   (route) => false,
-                    // );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

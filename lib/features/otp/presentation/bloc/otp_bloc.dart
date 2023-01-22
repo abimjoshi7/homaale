@@ -1,3 +1,4 @@
+import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:equatable/equatable.dart';
 
 part 'otp_event.dart';

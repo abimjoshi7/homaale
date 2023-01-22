@@ -135,7 +135,6 @@ class Cipher extends StatelessWidget {
                   const ResponsiveBreakpoint.autoScale(800, name: TABLET),
                   const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
                 ],
-                // background: const ColoredBox(color: Colors.white),
               ),
               initialRoute: SplashPage.routeName,
               onGenerateRoute: AppRouter().onGenerate,

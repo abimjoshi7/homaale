@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
+import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:equatable/equatable.dart';
 
 part 'forgot_password_event.dart';
@@ -57,5 +58,23 @@ class ForgotPasswordBloc
         }
       },
     );
+
+    on<ForgotPasswordPhoneResetInitiated>((event, emit) async {
+      try {
+        await repository
+            .verifyOtpReset(
+              event.otpResetVerifyReq,
+            )
+            .then(
+              (value) => emit(
+                ForgotPasswordResetSuccess(),
+              ),
+            );
+      } catch (e) {
+        emit(
+          ForgotPasswordResetFailure(),
+        );
+      }
+    });
   }
 }

@@ -109,18 +109,11 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
-              content: x!,
+              content: x ?? "Unknown Problem",
               onTap: () {},
               isSuccess: false,
             ),
           );
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text(
-          //       x!,
-          //     ),
-          //   ),
-          // );
         }
       },
       builder: (context, state) {

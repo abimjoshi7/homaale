@@ -39,23 +39,11 @@ class SignUpRepositories {
   }
 
   Future<OtpResetVerifyRes> verifyOTPSignUp({
-    // required String phone,
-    // required String otp,
-    // required String scope,
-    // required String password,
-    // required String confirmPassword,
     required OtpResetVerifyReq otpResetVerifyReq,
   }) async {
     try {
       final res = await _dio.postData(
         url: 'user/reset/otp/verify/',
-        // data: {
-        //   'phone': phone,
-        //   'otp': otp,
-        //   'scope': scope,
-        //   'password': password,
-        //   'confirm_password': confirmPassword,
-        // },
         data: otpResetVerifyReq.toMap(),
       );
       return OtpResetVerifyRes.fromJson(res as Map<String, dynamic>);

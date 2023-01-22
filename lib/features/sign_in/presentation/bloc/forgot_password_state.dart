@@ -27,3 +27,13 @@ class ForgotPasswordFailure extends ForgotPasswordState {
   @override
   List<Object?> get props => [error];
 }
+
+class ForgotPasswordResetSuccess extends ForgotPasswordState {
+  @override
+  List<Object?> get props => [];
+}
+
+class ForgotPasswordResetFailure extends ForgotPasswordState {
+  @override
+  List<Object?> get props => [];
+}
