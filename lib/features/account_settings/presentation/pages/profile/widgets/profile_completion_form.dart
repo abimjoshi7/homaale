@@ -704,7 +704,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     'Private',
                     'Public',
                   ],
-                  onSaved: (value) => setState(
+                  onChanged: (value) => setState(
                     () {
                       visibilityController.text = value!;
                     },
@@ -730,7 +730,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     'full-Time',
                     'part-Time',
                   ],
-                  onSaved: (value) => setState(
+                  onChanged: (value) => setState(
                     () {
                       taskPreferencesController.text = value!;
                     },

@@ -2,6 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
 import 'package:cipher/networking/models/request/tasker_experience_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
@@ -263,6 +264,9 @@ class _AddExperienceState extends State<AddExperience> {
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerExperienceSuccess) {
+                if (!mounted) return;
+                await context.read<UserDataCubit>().getTaskerUserData();
+
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(

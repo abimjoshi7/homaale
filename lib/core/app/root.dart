@@ -200,7 +200,7 @@ class Page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ColoredBox(
       color: const Color(0xffC4DFCB),
       child: Center(
         child: Text(

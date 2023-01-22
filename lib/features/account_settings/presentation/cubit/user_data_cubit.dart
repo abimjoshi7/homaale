@@ -54,20 +54,17 @@ class UserDataCubit extends Cubit<UserDataState> {
         token: tokenP ?? token!,
         map: taskerProfileCreateReq.toJson(),
       );
-      // final x = await DioHelper().postDataWithCredential(
-      //   data: taskerProfileCreateReq.toJson(),
-      //   url: 'tasker/my-profile/',
-      //   token: tokenP ?? token!,
-      // );
       if (x != null) {
         emit(
           UserDataCreateSuccess(),
         );
+        await getTaskerUserData();
       }
     } catch (e) {
       emit(
         UserDataCreateFailure(),
       );
+      await getTaskerUserData();
     }
   }
 
@@ -86,13 +83,13 @@ class UserDataCubit extends Cubit<UserDataState> {
         emit(
           UserDataEditSuccess(),
         );
-        getTaskerUserData();
+        await getTaskerUserData();
       }
     } catch (e) {
       emit(
         UserDataEditFailure(),
       );
-      getTaskerUserData();
+      await getTaskerUserData();
     }
   }
 
@@ -114,6 +111,6 @@ class UserDataCubit extends Cubit<UserDataState> {
       );
     }
 
-    getTaskerUserData();
+    await getTaskerUserData();
   }
 }
