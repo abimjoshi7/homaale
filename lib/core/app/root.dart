@@ -24,7 +24,6 @@ class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffC4DFCB),
       body: pages[pageIndex],
       bottomNavigationBar: buildMyNavBar(context),
     );
@@ -34,13 +33,13 @@ class _RootState extends State<Root> {
     return Container(
       height: 90,
       width: double.infinity,
-      decoration: BoxDecoration(
-        // borderRadius: BorderRadius.only(
-        //   topLeft: Radius.circular(25),
-        //   topRight: Radius.circular(25),
-        // ),
-        borderRadius: BorderRadius.circular(25),
-        color: const Color(0xff211D4F),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+        // borderRadius: BorderRadius.circular(25),
+        color: Color(0xff211D4F),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/app/bloc/theme_bloc.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
@@ -20,6 +21,7 @@ class AccountProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = false;
     return Scaffold(
       body: BlocBuilder<UserDataCubit, UserDataState>(
         builder: (context, state) {
@@ -215,9 +217,22 @@ class AccountProfile extends StatelessWidget {
                   color: Color(0xff495057),
                 ),
                 label: 'Dark Mode',
-                trailingWidget: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
+                trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
+                  builder: (context, state) {
+                    return StatefulBuilder(
+                      builder: (context, setState) => Switch(
+                        value: isDark,
+                        onChanged: (value) => setState(
+                          () {
+                            isDark = !isDark;
+                            context.read<ThemeBloc>().add(
+                                  ThemeChangeChanged(),
+                                );
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               AccountListTileSection(
