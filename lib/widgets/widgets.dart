@@ -9,6 +9,7 @@ export './custom_horizontal_divider.dart';
 export './custom_label_text.dart';
 export './custom_modal_sheet_drawer_icon.dart';
 export './custom_radio.dart';
+export './custom_tag_textfield.dart';
 export './custom_text_button.dart';
 export './custom_text_form_field.dart';
 export './custom_toast.dart';

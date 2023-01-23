@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -14,6 +15,8 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.maxLines = 1,
     this.suffixWidget,
+    this.controller,
+    this.node,
   });
 
   final double theHeight;
@@ -27,10 +30,14 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool obscureText;
   final int maxLines;
+  final TextEditingController? controller;
+  final FocusNode? node;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: node,
+      controller: controller,
       maxLines: maxLines,
       onChanged: onChanged,
       obscureText: obscureText,
@@ -51,6 +58,10 @@ class CustomTextFormField extends StatelessWidget {
         ),
         border: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: kColorPrimary),
           borderRadius: BorderRadius.circular(8),
         ),
         prefixIcon: prefixWidget,

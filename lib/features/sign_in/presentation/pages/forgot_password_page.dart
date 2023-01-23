@@ -120,7 +120,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       builder: (context) => CustomToast(
                         heading: 'Success',
                         content: 'Verify your email',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            SignInPage.routeName,
+                            (route) => false,
+                          );
+                        },
                         isSuccess: true,
                       ),
                     );

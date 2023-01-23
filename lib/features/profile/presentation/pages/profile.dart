@@ -1,5 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
@@ -55,7 +57,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               ),
             ),
             trailingWidget: IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                // TODO:
+                Navigator.pushNamed(
+                  context,
+                  CompleteProfilePage.routeName,
+                );
+              },
               icon: const Icon(
                 Icons.search,
               ),
@@ -71,7 +79,15 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           const CustomHorizontalDivider(),
           const ProfileStatsSection(),
           const CustomHorizontalDivider(),
-          const ProfileKycVerifySection(),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                KycDetailsOrganization.routeName,
+              );
+            },
+            child: const ProfileKycVerifySection(),
+          ),
           ProfileTabSection(tabController: tabController),
           Expanded(
             child: TabBarView(

@@ -22,6 +22,9 @@ import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.d
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
 import 'package:cipher/networking/network_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,6 +105,24 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => DeactivateCubit(),
+          ),
+          BlocProvider(
+            create: (context) => InterestsBloc()
+              ..add(
+                InterestLoadInitiated(),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => CountryBloc()
+              ..add(
+                CountryLoadInitiated(),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => CityBloc()
+              ..add(
+                CityLoadInitiated(),
+              ),
           ),
           BlocProvider(
             create: (context) => ThemeBloc()

@@ -1,9 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
+import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
 import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -12,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class ProfileCompletionForm extends StatefulWidget {
   const ProfileCompletionForm({
@@ -23,6 +30,7 @@ class ProfileCompletionForm extends StatefulWidget {
 }
 
 class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
+  List<int?>? interestCodes = [];
   final firstNameController = TextEditingController();
   final middleNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -32,13 +40,10 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   DateTime? dateOfBirth = DateTime.now();
   final userTypeController = TextEditingController();
   final skillsController = TextEditingController();
-  final interestsController = TextEditingController();
   final experienceController = TextEditingController();
   TimeOfDay? startTime;
   TimeOfDay? endTime;
   final baseRateController = TextEditingController();
-  final countryController = TextEditingController();
-  final cityController = TextEditingController();
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
   final languageController = TextEditingController();
@@ -50,6 +55,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   String experienceLevel = 'Beginner';
   final _key = GlobalKey<FormState>();
   XFile? selectedImage;
+  bool isClient = false;
+  bool isTasker = false;
+  List<Map<String, dynamic>> map = [];
+  int? cityCode;
+  String? countryName;
+  final tagController = TextfieldTagsController();
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +133,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 firstNameController.text = p0!;
                               },
                             ),
+                            validator: validateNotEmpty,
                           ),
                         ],
                       ),
@@ -173,6 +185,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 lastNameController.text = p0!;
                               },
                             ),
+                            validator: validateNotEmpty,
                           ),
                         ],
                       ),
@@ -202,6 +215,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       bioController.text = p0!;
                     },
                   ),
+                  validator: validateNotEmpty,
                 ),
                 kHeight20,
                 const Text(
@@ -336,30 +350,46 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   children: [
                     Row(
                       children: [
-                        Radio(
-                          value: 'Client',
-                          groupValue: userType,
+                        Checkbox(
+                          value: isClient,
                           onChanged: (value) => setState(
                             () {
-                              userType = value!;
+                              isClient = value!;
                             },
                           ),
                         ),
+                        // Radio(
+                        //   value: 'Client',
+                        //   groupValue: userType,
+                        //   onChanged: (value) => setState(
+                        //     () {
+                        //       userType = value!;
+                        //     },
+                        //   ),
+                        // ),
                         const Text('Client')
                       ],
                     ),
                     kWidth20,
                     Row(
                       children: [
-                        Radio(
-                          value: 'Tasker',
-                          groupValue: userType,
+                        Checkbox(
+                          value: isTasker,
                           onChanged: (value) => setState(
                             () {
-                              userType = value!;
+                              isTasker = value!;
                             },
                           ),
                         ),
+                        // Radio(
+                        //   value: 'Tasker',
+                        //   groupValue: userType,
+                        //   onChanged: (value) => setState(
+                        //     () {
+                        //       userType = value!;
+                        //     },
+                        //   ),
+                        // ),
                         const Text('Tasker')
                       ],
                     ),
@@ -380,27 +410,61 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   ],
                 ),
                 kHeight5,
-                CustomTextFormField(
-                  hintText: 'Select Skills',
-                  onSaved: (p0) => setState(
-                    () {
-                      skillsController.text = p0!;
-                    },
-                  ),
-                ),
+                CustomTagTextField(tagController: tagController),
+                // TextFieldTags(
+                //   textSeparators: const [' ', ','],
+                //   initialTags: const ['Gardening', 'Plumbing', 'Electrician'],
+                //   textfieldTagsController: tagController,
+                //   inputfieldBuilder:
+                //       (context, tec, fn, error, onChanged, onSubmitted) =>
+                //           (_, sc, tags, onTagDelete) {
+                //     return TextField(
+                //       controller: tec,
+                //       focusNode: fn,
+                //       onChanged: onChanged,
+                //       onSubmitted: onSubmitted,
+                //       decoration: InputDecoration(fillColor: Colors.cyanAccent),
+                //     );
+                //     return CustomTextFormField(
+                //       controller: tec,
+                //       node: fn,
+                //       hintText: 'Select Skills',
+                //       onChanged: (p0) => setState(
+                //         () {
+                //           skillsController.text = p0!;
+                //         },
+                //       ),
+                //     );
+                //   },
+                // ),
                 kHeight20,
                 const Text(
                   'Interests',
                   style: kPurpleText16,
                 ),
                 kHeight5,
-                CustomTextFormField(
-                  hintText: 'Enter your interests',
-                  onSaved: (p0) => setState(
-                    () {
-                      interestsController.text = p0!;
-                    },
-                  ),
+                BlocBuilder<InterestsBloc, InterestsState>(
+                  builder: (context, state) {
+                    if (state is InterestsLoadSuccess) {
+                      return CustomDropDownField(
+                        list: List.generate(
+                          state.taskCategoryListRes.length,
+                          (index) => state.taskCategoryListRes[index].name,
+                        ),
+                        hintText: 'Enter your interests',
+                        onChanged: (p0) => setState(
+                          () async {
+                            final x = state.taskCategoryListRes.firstWhere(
+                              (element) => p0 == element.name,
+                            );
+                            interestCodes?.add(x.id);
+                          },
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                 ),
                 kHeight20,
                 Row(
@@ -560,6 +624,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       baseRateController.text = p0!;
                     },
                   ),
+                  validator: validateNotEmpty,
                 ),
                 kHeight20,
                 const Text(
@@ -572,13 +637,28 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   style: kPurpleText16,
                 ),
                 kHeight5,
-                CustomTextFormField(
-                  hintText: 'Select your country',
-                  onSaved: (p0) => setState(
-                    () {
-                      countryController.text = p0!;
-                    },
-                  ),
+                BlocBuilder<CountryBloc, CountryState>(
+                  builder: (context, state) {
+                    if (state is CountryLoadSuccess) {
+                      return CustomDropDownField(
+                        list: List.generate(
+                          state.list.length,
+                          (index) => state.list[index].name,
+                        ),
+                        hintText: 'Enter your interests',
+                        onChanged: (p0) => setState(
+                          () async {
+                            final x = state.list.firstWhere(
+                              (element) => p0 == element.name,
+                            );
+                            countryName = x.name;
+                          },
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                 ),
                 kHeight20,
                 const Text(
@@ -586,13 +666,28 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   style: kPurpleText16,
                 ),
                 kHeight5,
-                CustomTextFormField(
-                  hintText: 'Select your city',
-                  onSaved: (p0) => setState(
-                    () {
-                      cityController.text = p0!;
-                    },
-                  ),
+                BlocBuilder<CityBloc, CityState>(
+                  builder: (context, state) {
+                    if (state is CityLoadSuccess) {
+                      return CustomDropDownField(
+                        list: List.generate(
+                          state.list.length,
+                          (index) => state.list[index].name,
+                        ),
+                        hintText: 'Enter your interests',
+                        onChanged: (p0) => setState(
+                          () async {
+                            final x = state.list.firstWhere(
+                              (element) => p0 == element.name,
+                            );
+                            cityCode = x.id;
+                          },
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                 ),
                 kHeight20,
                 Row(
@@ -620,6 +715,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       address1Controller.text = p0!;
                     },
                   ),
+                  validator: validateNotEmpty,
                 ),
                 kHeight20,
                 const Text(
@@ -742,6 +838,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 Center(
                   child: BlocConsumer<UserDataCubit, UserDataState>(
                     listener: (context, state) async {
+                      final error = await CacheHelper.getCachedString(
+                        kErrorLog,
+                      );
                       if (state is UserDataCreateSuccess) {
                         await showDialog(
                           context: context,
@@ -756,41 +855,71 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             ),
                           ),
                         );
+                      } else {
+                        await showDialog(
+                          context: context,
+                          builder: (context) => CustomToast(
+                            isSuccess: false,
+                            heading: 'Failure',
+                            content: error ??
+                                'Your profile cannot be completed. Please try again.',
+                            onTap: () {},
+                          ),
+                        );
                       }
                     },
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
-                          _key.currentState!.save();
-                          final user = TaskerProfileCreateReq(
-                            firstName: firstNameController.text,
-                            middleName: middleNameController.text,
-                            lastName: lastNameController.text,
-                            bio: bioController.text,
-                            designation: designationController.text,
-                            gender: genderGroup,
-                            skill: skillsController.text,
-                            dateOfBirth: dateOfBirth,
-                            activeHourStart: startTime!.format(context),
-                            activeHourEnd: endTime!.format(context),
-                            experienceLevel: experienceLevel,
-                            userType: userType,
-                            hourlyRate: int.parse(baseRateController.text),
-                            profileVisibility: visibilityController.text,
-                            taskPreferences: taskPreferencesController.text,
-                            addressLine1: address1Controller.text,
-                            addressLine2: address2Controller.text,
-                            chargeCurrency: 'NPR',
-                            remainingPoints: 0,
-                            points: 0,
-                            followingCount: 0,
-                            profileImage: await MultipartFile.fromFile(
-                              selectedImage!.path,
-                            ),
-                          );
-                          await context
-                              .read<UserDataCubit>()
-                              .postTaskerUserData(user);
+                          if (_key.currentState!.validate()) {
+                            _key.currentState!.save();
+                            if (isClient && isTasker) {
+                              userType = ["Client", "Tasker"].toString();
+                            } else if (isClient) {
+                              userType = "Client";
+                            } else if (isTasker) {
+                              userType = "Tasker";
+                            } else {
+                              userType = "";
+                            }
+                            await context
+                                .read<UserDataCubit>()
+                                .postTaskerUserData(
+                                  TaskerProfileCreateReq(
+                                    city: cityCode,
+                                    country: countryName,
+                                    interests: interestCodes,
+                                    firstName: firstNameController.text,
+                                    middleName: middleNameController.text,
+                                    lastName: lastNameController.text,
+                                    bio: bioController.text,
+                                    designation: designationController.text,
+                                    gender: genderGroup,
+                                    skill: tagController.getTags.toString(),
+                                    dateOfBirth: dateOfBirth,
+                                    activeHourStart: startTime!.format(context),
+                                    activeHourEnd: endTime!.format(context),
+                                    experienceLevel: experienceLevel,
+                                    userType: userType,
+                                    hourlyRate:
+                                        int.parse(baseRateController.text),
+                                    profileVisibility:
+                                        visibilityController.text,
+                                    taskPreferences:
+                                        taskPreferencesController.text,
+                                    addressLine1: address1Controller.text,
+                                    addressLine2: address2Controller.text,
+                                    chargeCurrency: 'NPR',
+                                    remainingPoints: 0,
+                                    points: 0,
+                                    followingCount: 0,
+                                    profileImage: await MultipartFile.fromFile(
+                                      selectedImage?.path ??
+                                          'assets/homaale_logo_title_light.png',
+                                    ),
+                                  ),
+                                );
+                          }
                         },
                         label: 'Save',
                       );
@@ -815,17 +944,14 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
     genderController.dispose();
     userTypeController.dispose();
     skillsController.dispose();
-    interestsController.dispose();
     experienceController.dispose();
     baseRateController.dispose();
-    countryController.dispose();
-    cityController.dispose();
     address1Controller.dispose();
     address2Controller.dispose();
     languageController.dispose();
-    countryController.dispose();
     visibilityController.dispose();
     taskPreferencesController.dispose();
+    tagController.dispose();
     super.dispose();
   }
 }

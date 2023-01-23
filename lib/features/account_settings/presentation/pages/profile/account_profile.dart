@@ -145,13 +145,17 @@ class AccountProfile extends StatelessWidget {
                 },
                 label: 'View Profile',
               ),
-              const ProfileKycVerifySection(),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    KycDetailsOrganization.routeName,
+                  );
+                },
+                child: const ProfileKycVerifySection(),
+              ),
               AccountListTileSection(
                 onTap: () async {
-                  // await showModalBottomSheet<Widget>(
-                  //   context: context,
-                  //   builder: (context) => KycChoiceOption(),
-                  // );
                   Navigator.pushNamed(
                     context,
                     KycDetailsOrganization.routeName,
