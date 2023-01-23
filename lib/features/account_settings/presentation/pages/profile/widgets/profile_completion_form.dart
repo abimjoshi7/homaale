@@ -9,6 +9,7 @@ import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/currency_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
 import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
@@ -62,6 +63,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   int? cityCode;
   String? countryName;
   final tagController = TextfieldTagsController();
+  String? currencyCode;
 
   @override
   Widget build(BuildContext context) {
@@ -622,7 +624,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           state.list.length,
                           (index) => state.list[index].name,
                         ),
-                        hintText: 'Enter your interests',
+                        hintText: 'Enter your country',
                         onChanged: (p0) => setState(
                           () async {
                             final x = state.list.firstWhere(
@@ -651,7 +653,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           state.list.length,
                           (index) => state.list[index].name,
                         ),
-                        hintText: 'Enter your interests',
+                        hintText: 'Enter your city',
                         onChanged: (p0) => setState(
                           () async {
                             final x = state.list.firstWhere(
@@ -741,13 +743,28 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   ],
                 ),
                 kHeight5,
-                CustomTextFormField(
-                  hintText: 'NPR',
-                  onSaved: (p0) => setState(
-                    () {
-                      currencyController.text = p0!;
-                    },
-                  ),
+                BlocBuilder<CurrencyBloc, CurrencyState>(
+                  builder: (context, state) {
+                    if (state is CurrencyLoadSuccess) {
+                      return CustomDropDownField(
+                        list: List.generate(
+                          state.currencyListRes.length,
+                          (index) => state.currencyListRes[index].name,
+                        ),
+                        hintText: 'Enter your Currency',
+                        onChanged: (p0) => setState(
+                          () async {
+                            final x = state.currencyListRes.firstWhere(
+                              (element) => p0 == element.name,
+                            );
+                            currencyCode = x.code;
+                          },
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                 ),
                 kHeight10,
                 const Divider(),
@@ -886,7 +903,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                         taskPreferencesController.text,
                                     addressLine1: address1Controller.text,
                                     addressLine2: address2Controller.text,
-                                    chargeCurrency: 'NPR',
+                                    chargeCurrency: currencyCode,
+                                    // chargeCurrency: 'NPR',
                                     remainingPoints: 0,
                                     points: 0,
                                     followingCount: 0,

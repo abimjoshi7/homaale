@@ -49,4 +49,19 @@ class UtilitiesRepositories {
       rethrow;
     }
   }
+
+  Future<List<Map<String, dynamic>>> getCurrencyList() async {
+    try {
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
+      final token = await CacheHelper.getCachedString(kAccessToken);
+      final res = await _dio.getDatawithCredential(
+        url: 'locale/currency/options/',
+        token: token ?? tokenP,
+      );
+      final map = List<Map<String, dynamic>>.from(res as Iterable);
+      return map;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
