@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
 class ProfileCompletionForm extends StatefulWidget {
@@ -411,32 +412,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 kHeight5,
                 CustomTagTextField(tagController: tagController),
-                // TextFieldTags(
-                //   textSeparators: const [' ', ','],
-                //   initialTags: const ['Gardening', 'Plumbing', 'Electrician'],
-                //   textfieldTagsController: tagController,
-                //   inputfieldBuilder:
-                //       (context, tec, fn, error, onChanged, onSubmitted) =>
-                //           (_, sc, tags, onTagDelete) {
-                //     return TextField(
-                //       controller: tec,
-                //       focusNode: fn,
-                //       onChanged: onChanged,
-                //       onSubmitted: onSubmitted,
-                //       decoration: InputDecoration(fillColor: Colors.cyanAccent),
-                //     );
-                //     return CustomTextFormField(
-                //       controller: tec,
-                //       node: fn,
-                //       hintText: 'Select Skills',
-                //       onChanged: (p0) => setState(
-                //         () {
-                //           skillsController.text = p0!;
-                //         },
-                //       ),
-                //     );
-                //   },
-                // ),
                 kHeight20,
                 const Text(
                   'Interests',
@@ -446,20 +421,22 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 BlocBuilder<InterestsBloc, InterestsState>(
                   builder: (context, state) {
                     if (state is InterestsLoadSuccess) {
-                      return CustomDropDownField(
-                        list: List.generate(
+                      return MultiSelectDialogField(
+                        items: List.generate(
                           state.taskCategoryListRes.length,
-                          (index) => state.taskCategoryListRes[index].name,
+                          (index) => MultiSelectItem(
+                            state.taskCategoryListRes[index].id.toString(),
+                            state.taskCategoryListRes[index].name.toString(),
+                          ),
                         ),
-                        hintText: 'Enter your interests',
-                        onChanged: (p0) => setState(
-                          () async {
-                            final x = state.taskCategoryListRes.firstWhere(
-                              (element) => p0 == element.name,
-                            );
-                            interestCodes?.add(x.id);
-                          },
-                        ),
+                        onConfirm: (p0) {
+                          setState(
+                            () {
+                              interestCodes =
+                                  p0.map((e) => int.parse(e)).toList();
+                            },
+                          );
+                        },
                       );
                     } else {
                       return const SizedBox.shrink();
