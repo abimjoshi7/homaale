@@ -1,11 +1,12 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/features/account_settings/data/models/task_category_list_res.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 
-class UserDataRepositories {
+class UserRepositories {
   final _dio = DioHelper();
 
   Future<Map<String, dynamic>> fetchUserData() async {
@@ -19,11 +20,57 @@ class UserDataRepositories {
       );
       return x as Map<String, dynamic>;
     } catch (e) {
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }
 
-  Future<TaskerProfileRetrieveRes> addUserData(
+  Future<Map<String, dynamic>> addUserData(
+    TaskerProfileCreateReq taskerProfileCreateReq,
+  ) async {
+    try {
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
+      final token = await CacheHelper.getCachedString(kAccessToken);
+
+      final x = await _dio.postDataWithCredential(
+        data: taskerProfileCreateReq.toJson(),
+        url: 'tasker/profile/',
+        token: tokenP ?? token!,
+      );
+      return x as Map<String, dynamic>;
+      // return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<TaskerProfileRetrieveRes> editUserData(
+    TaskerProfileCreateReq taskerProfileCreateReq,
+  ) async {
+    try {
+      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
+      final token = await CacheHelper.getCachedString(kAccessToken);
+
+      final x = await _dio.patchDataWithCredential(
+        data: taskerProfileCreateReq.toJson(),
+        url: 'tasker/profile/',
+        token: tokenP ?? token!,
+      );
+      return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<TaskerProfileRetrieveRes> deleteUserData(
     TaskerProfileCreateReq taskerProfileCreateReq,
   ) async {
     try {
@@ -37,23 +84,9 @@ class UserDataRepositories {
       );
       return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
     } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<TaskCategoryListRes> getTaskCategoryList() async {
-    try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
-
-      final x = await _dio.getDatawithCredential(
-        url: 'task/cms/task-category/list/',
-        token: token ?? tokenP,
+      log(
+        e.toString(),
       );
-      return TaskCategoryListRes.fromJson(
-        x as Map<String, dynamic>,
-      );
-    } catch (e) {
       rethrow;
     }
   }

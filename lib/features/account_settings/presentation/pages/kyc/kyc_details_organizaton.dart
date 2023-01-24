@@ -76,7 +76,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                 ),
                 trailingWidget: IconButton(
                   icon: const Icon(Icons.search),
-                  onPressed: () {},
+                  onPressed: () async {},
                 ),
                 child: const Text(
                   'KYC Details',
@@ -259,7 +259,8 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  hintText: file?.path ?? '+ Select files',
+                                  hintText: file?.path.substring(0, 30) ??
+                                      '+ Select files',
                                 ),
                               ),
                               kHeight20,
@@ -292,13 +293,24 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           isSuccess: true,
                         ),
                       );
-                    }
-                    if (state is KycAddFailure) {
+                    } else if (state is KycAddFailure) {
                       showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Failure',
                           content: error ?? 'KYC document failed',
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          isSuccess: false,
+                        ),
+                      );
+                    } else if (state is KycCreateFailure) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Failure',
+                          content: error ?? 'KYC document creation failed',
                           onTap: () {
                             Navigator.pop(context);
                           },
@@ -319,6 +331,8 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                                     fullName: fullNameController.text,
                                     address: issuedFromController.text,
                                     country: 'NP',
+                                    isCompany: false,
+                                    extraData: {},
                                   ),
                                 ),
                               );

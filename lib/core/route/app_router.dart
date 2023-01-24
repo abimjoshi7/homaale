@@ -9,6 +9,7 @@ import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
+import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
@@ -37,10 +38,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const ForgotPasswordPage(),
         );
-      // case ForgotPasswordWithPhone.routeName:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const ForgotPasswordWithPhone(),
-      //   );
+
       case ConfirmOtpPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ConfirmOtpPage(),
@@ -51,11 +49,7 @@ class AppRouter {
           builder: (context) => const OtpSignUp(),
           settings: settings,
         );
-      // case ResetPassword.routeName:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const ResetPassword(),
-      //     settings: settings,
-      //   );
+
       case FacebookLogin.routeName:
         return MaterialPageRoute(
           builder: (context) => const FacebookLogin(),
@@ -163,6 +157,10 @@ class AppRouter {
       case DeactivatePage.routeName:
         return MaterialPageRoute(
           builder: (context) => const DeactivatePage(),
+        );
+      case SandboxPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SandboxPage(),
         );
       default:
         return MaterialPageRoute(

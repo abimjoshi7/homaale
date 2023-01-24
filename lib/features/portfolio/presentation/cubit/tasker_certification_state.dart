@@ -21,7 +21,7 @@ class TaskerCertificationFailure extends TaskerCertificationState {
 }
 
 class TaskerGetCertificationSuccess extends TaskerCertificationState {
-  final TaskerCertificationRes taskerCertificationRes;
+  final Certificate taskerCertificationRes;
   const TaskerGetCertificationSuccess({
     required this.taskerCertificationRes,
   });

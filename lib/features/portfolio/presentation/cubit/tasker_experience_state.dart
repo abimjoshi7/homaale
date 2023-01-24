@@ -21,7 +21,7 @@ class TaskerExperienceFailure extends TaskerExperienceState {
 }
 
 class TaskerGetExperienceSuccess extends TaskerExperienceState {
-  final TaskerExperienceRes taskerExperienceRes;
+  final Experience taskerExperienceRes;
   const TaskerGetExperienceSuccess({
     required this.taskerExperienceRes,
   });

@@ -4,7 +4,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
-import 'package:cipher/networking/models/request/tasker_education_req.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -283,7 +283,7 @@ class _AddEducationState extends State<AddEducation> {
                   if (_key123.currentState!.validate() &&
                       startDate!.isBefore(endDate!)) {
                     _key123.currentState!.save();
-                    final taskerEducationReq = TaskerEducationReq(
+                    final taskerEducationReq = Education(
                       school: schoolController.text,
                       description: descriptionController.text,
                       degree: degreeController.text,

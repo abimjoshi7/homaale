@@ -1,8 +1,8 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/networking/models/request/tasker_portfolio_req.dart';
-import 'package:cipher/networking/models/response/tasker_portfolio.res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,8 +47,7 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
       if (x != null) {
         emit(
           TaskerGetPortfolioSuccess(
-            taskerPortfolioRes:
-                TaskerPortfolioRes.fromJson(x as Map<String, dynamic>),
+            taskerPortfolioRes: Portfolio.fromJson(x as Map<String, dynamic>),
           ),
         );
       }

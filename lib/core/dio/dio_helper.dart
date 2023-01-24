@@ -39,6 +39,27 @@ class DioHelper {
     }
   }
 
+  Future<dynamic> postData({
+    required dynamic data,
+    required String url,
+  }) async {
+    try {
+      final response = await dio.post<dynamic>(
+        url,
+        data: jsonEncode(data),
+      );
+      return response.data;
+    } on DioError catch (e) {
+      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+        () async => CacheHelper.setCachedString(
+          kErrorLog,
+          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+        ),
+      );
+      log('DIO POST ERROR: ${e.response?.data}');
+    }
+  }
+
   Future<dynamic> getDatawithCredential({
     Map<String, dynamic>? query,
     required String url,
@@ -65,27 +86,6 @@ class DioHelper {
       );
 
       log('DIO GET WITH CREDENTIAL ERROR: ${e.response?.data}');
-    }
-  }
-
-  Future<dynamic> postData({
-    required dynamic data,
-    required String url,
-  }) async {
-    try {
-      final response = await dio.post<dynamic>(
-        url,
-        data: jsonEncode(data),
-      );
-      return response.data;
-    } on DioError catch (e) {
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST ERROR: ${e.response?.data}');
     }
   }
 
@@ -124,6 +124,34 @@ class DioHelper {
   }) async {
     try {
       final response = await dio.patch(
+        url,
+        data: jsonEncode(data),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      return response.data;
+    } on DioError catch (e) {
+      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+        () async => CacheHelper.setCachedString(
+          kErrorLog,
+          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+        ),
+      );
+      log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
+    }
+  }
+
+  Future<dynamic> deleteDataWithCredential({
+    required Map<String, dynamic> data,
+    required String url,
+    required String token,
+  }) async {
+    try {
+      final response = await dio.delete(
         url,
         data: jsonEncode(data),
         options: Options(

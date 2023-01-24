@@ -16,8 +16,8 @@ class ProfileStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 68,
-      width: 180,
+      height: 100,
+      width: 200,
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,

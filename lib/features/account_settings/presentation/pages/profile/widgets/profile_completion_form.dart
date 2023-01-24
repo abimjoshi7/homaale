@@ -11,7 +11,7 @@ import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/currency_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
-import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dio/dio.dart';
@@ -41,7 +41,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   final genderController = TextEditingController();
   DateTime? dateOfBirth = DateTime.now();
   final userTypeController = TextEditingController();
-  final skillsController = TextEditingController();
   final experienceController = TextEditingController();
   TimeOfDay? startTime;
   TimeOfDay? endTime;
@@ -938,7 +937,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
     designationController.dispose();
     genderController.dispose();
     userTypeController.dispose();
-    skillsController.dispose();
     experienceController.dispose();
     baseRateController.dispose();
     address1Controller.dispose();

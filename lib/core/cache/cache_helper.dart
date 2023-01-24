@@ -28,4 +28,6 @@ class CacheHelper {
   static Future<void> clearAllCachedData() async {
     await _storage.deleteAll();
   }
+
+  Future<void> test() async {}
 }

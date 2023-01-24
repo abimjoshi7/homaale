@@ -38,7 +38,9 @@ class GetKycRes {
         file: json["file"] as String?,
         issuerOrganization: json["issuer_organization"] as String?,
         issuedDate: DateTime.parse(json["issued_date"] as String),
-        validThrough: DateTime.parse(json["valid_through"] as String),
+        validThrough: json["valid_through"] == null
+            ? null
+            : DateTime.parse(json["valid_through"] as String),
         isVerified: json["is_verified"] as bool?,
         isCompany: json["is_company"] as bool?,
         comment: json["comment"],

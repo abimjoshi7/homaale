@@ -9,8 +9,8 @@ part 'kyc_event.dart';
 part 'kyc_state.dart';
 
 class KycBloc extends Bloc<KycEvent, KycState> {
-  final KycRepositories repositories;
-  KycBloc(this.repositories) : super(KycInitial()) {
+  final repositories = KycRepositories();
+  KycBloc() : super(KycInitial()) {
     on<KycInitiated>(
       (event, emit) async {
         try {
@@ -60,7 +60,9 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           final x = await repositories.getKyc();
           if (x.isNotEmpty) {
             emit(
-              KycLoadSuccess(list: x),
+              KycLoadSuccess(
+                list: x.map((e) => GetKycRes.fromJson(e)).toList(),
+              ),
             );
           }
         } catch (e) {

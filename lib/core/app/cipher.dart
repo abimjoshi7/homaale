@@ -22,11 +22,11 @@ import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.d
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/currency_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -45,18 +45,24 @@ class Cipher extends StatelessWidget {
               SignUpRepositories(),
             ),
           ),
-          BlocProvider(
-            create: (context) => CategoriesCubit(
-              NetworkHelper(),
-            )..fetchAllCategories(),
-          ),
-          BlocProvider(
-            create: (context) => HomeCubit(
-              networkHelper: NetworkHelper(),
-            )..fetchHeroCategory(),
-          ),
+          // BlocProvider(
+          //   create: (context) => CategoriesCubit(
+          //     NetworkHelper(),
+          //   )..fetchAllCategories(),
+          // ),
+          // BlocProvider(
+          //   create: (context) => HomeCubit(
+          //     networkHelper: NetworkHelper(),
+          //   )..fetchHeroCategory(),
+          // ),
           BlocProvider(
             create: (context) => SignInBloc(SignInRepository()),
+          ),
+          BlocProvider(
+            create: (context) => UserBloc()
+              ..add(
+                UserLoaded(),
+              ),
           ),
           BlocProvider(
             create: (context) => UserDataCubit()..getTaskerUserData(),
@@ -75,9 +81,8 @@ class Cipher extends StatelessWidget {
                 TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
-            create: (context) => KycBloc(
-              KycRepositories(),
-            )..add(
+            create: (context) => KycBloc()
+              ..add(
                 KycLoaded(),
               ),
           ),

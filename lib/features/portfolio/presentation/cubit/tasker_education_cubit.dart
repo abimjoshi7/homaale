@@ -1,8 +1,8 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/networking/models/request/tasker_education_req.dart';
-import 'package:cipher/networking/models/response/tasker_education_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +12,7 @@ class TaskerEducationCubit extends Cubit<TaskerEducationState> {
   TaskerEducationCubit() : super(TaskerEducationInitial());
 
   Future<void> addTaskerEducation(
-    TaskerEducationReq taskerEducationReq,
+    Education taskerEducationReq,
   ) async {
     try {
       emit(
@@ -45,8 +45,7 @@ class TaskerEducationCubit extends Cubit<TaskerEducationState> {
       if (x != null) {
         emit(
           TaskerGetEducationSuccess(
-            taskerEducationRes:
-                TaskerEducationRes.fromJson(x as Map<String, dynamic>),
+            taskerEducationRes: Education.fromJson(x as Map<String, dynamic>),
           ),
         );
       }

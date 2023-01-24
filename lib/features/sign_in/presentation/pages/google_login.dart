@@ -2,7 +2,6 @@
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/networking/network_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,46 +24,46 @@ class _GoogleLoginState extends State<GoogleLogin> {
         '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
   );
 
-  Future<void> signIn() async {
-    try {
-      final result = await googleSignIn.signIn();
-      final authentication = await result?.authentication;
-      if (authentication?.idToken != null) {
-        final map = <String, dynamic>{};
-        final idToken = authentication!.idToken;
-        map.addAll(
-          {
-            'credential': idToken,
-          },
-        );
-        final x = await NetworkHelper().sendGoogleLoginReq(map);
-        if (kDebugMode) {
-          print('Google Access Token: ${x.access}');
-        }
-        if (x.access != null) {
-          await storage.write(key: kAccessToken, value: x.access);
-          if (!mounted) return;
-          await Navigator.pushNamedAndRemoveUntil(
-            context,
-            Root.routeName,
-            (route) => false,
-          );
-        } else {
-          if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Cannot Sign in. Please try again'),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Google Sign-In Error');
-      }
-      rethrow;
-    }
-  }
+  // Future<void> signIn() async {
+  //   try {
+  //     final result = await googleSignIn.signIn();
+  //     final authentication = await result?.authentication;
+  //     if (authentication?.idToken != null) {
+  //       final map = <String, dynamic>{};
+  //       final idToken = authentication!.idToken;
+  //       map.addAll(
+  //         {
+  //           'credential': idToken,
+  //         },
+  //       );
+  //       final x = await NetworkHelper().sendGoogleLoginReq(map);
+  //       if (kDebugMode) {
+  //         print('Google Access Token: ${x.access}');
+  //       }
+  //       if (x.access != null) {
+  //         await storage.write(key: kAccessToken, value: x.access);
+  //         if (!mounted) return;
+  //         await Navigator.pushNamedAndRemoveUntil(
+  //           context,
+  //           Root.routeName,
+  //           (route) => false,
+  //         );
+  //       } else {
+  //         if (!mounted) return;
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('Cannot Sign in. Please try again'),
+  //           ),
+  //         );
+  //       }
+  //     }
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('Google Sign-In Error');
+  //     }
+  //     rethrow;
+  //   }
+  // }
 
   Future<void> signOut() async {
     try {
@@ -105,7 +104,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
           CustomElevatedButton(
             callback: () async {
               try {
-                await signIn();
+                // await signIn();
               } catch (e) {
                 rethrow;
               }

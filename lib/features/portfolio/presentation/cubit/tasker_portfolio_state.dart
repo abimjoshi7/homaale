@@ -21,7 +21,7 @@ class TaskerPortfolioFailure extends TaskerPortfolioState {
 }
 
 class TaskerGetPortfolioSuccess extends TaskerPortfolioState {
-  final TaskerPortfolioRes taskerPortfolioRes;
+  final Portfolio taskerPortfolioRes;
   const TaskerGetPortfolioSuccess({
     required this.taskerPortfolioRes,
   });

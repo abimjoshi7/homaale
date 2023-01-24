@@ -21,7 +21,7 @@ class TaskerEducationFailure extends TaskerEducationState {
 }
 
 class TaskerGetEducationSuccess extends TaskerEducationState {
-  final TaskerEducationRes taskerEducationRes;
+  final Education taskerEducationRes;
   const TaskerGetEducationSuccess({
     required this.taskerEducationRes,
   });

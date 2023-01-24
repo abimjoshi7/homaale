@@ -23,9 +23,19 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[pageIndex],
-      bottomNavigationBar: buildMyNavBar(context),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(
+          const Duration(
+            microseconds: 1,
+          ),
+        );
+        setState(() {});
+      },
+      child: Scaffold(
+        body: pages[pageIndex],
+        bottomNavigationBar: buildMyNavBar(context),
+      ),
     );
   }
 

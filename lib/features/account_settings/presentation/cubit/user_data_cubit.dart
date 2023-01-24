@@ -1,14 +1,16 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/networking/models/request/tasker_profile_create_req.dart';
-import 'package:cipher/networking/models/response/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/account_settings/data/repositories/user_data_repositories.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_data_state.dart';
 
 class UserDataCubit extends Cubit<UserDataState> {
+  final repositories = UserDataRepositories();
   UserDataCubit() : super(UserDataInitial());
 
   Future<void> getTaskerUserData() async {
@@ -16,23 +18,40 @@ class UserDataCubit extends Cubit<UserDataState> {
       emit(
         UserDataInitial(),
       );
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
 
-      final x = await DioHelper().getDatawithCredential(
-        url: 'tasker/profile/',
-        token: tokenP ?? token,
+      await repositories.fetchUserData().then(
+        (value) {
+          if (value.isNotEmpty) {
+            emit(
+              UserDataLoadSuccess(
+                userData: TaskerProfileRetrieveRes.fromJson(value),
+              ),
+            );
+          }
+        },
       );
+      // final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
+      // final token = await CacheHelper.getCachedString(kAccessToken);
 
-      if (x != null) {
-        emit(
-          UserDataLoadSuccess(
-            userData:
-                TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>),
-          ),
-        );
-      }
+      // final x = await DioHelper().getDatawithCredential(
+      //   url: 'tasker/profile/',
+      //   token: tokenP ?? token,
+      // );
+
+      // final y = TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
+
+      // print(y);
+
+      // if (x != null) {
+      //   emit(
+      //     UserDataLoadSuccess(
+      //       userData:
+      //           TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>),
+      //     ),
+      //   );
+      // }
     } catch (e) {
+      print(e);
       emit(
         UserDataLoadFailure(),
       );

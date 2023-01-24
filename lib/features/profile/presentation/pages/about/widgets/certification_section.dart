@@ -4,6 +4,7 @@ import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CertificationSection extends StatelessWidget {
   const CertificationSection({
@@ -15,93 +16,113 @@ class CertificationSection extends StatelessWidget {
     return BlocBuilder<UserDataCubit, UserDataState>(
       builder: (context, state) {
         if (state is UserDataLoadSuccess) {
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Card(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: kPadding20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return state.userData.certificates == null
+              ? const SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Certification',
-                          style: kPurpleText19,
+                        Padding(
+                          padding: kPadding20,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Certification',
+                                style: kPurpleText19,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AddCertifications.routeName,
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.edit_outlined,
+                                  size: 18,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AddCertifications.routeName,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.edit_outlined,
-                            size: 18,
+                        Column(
+                          children: List.generate(
+                            state.userData.certificates?.length ?? 0,
+                            (index) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      launchUrl(
+                                        Uri.parse(
+                                          state.userData.certificates?[index]!
+                                                  .certificateUrl ??
+                                              'www.google.com',
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      state.userData.certificates?[index]
+                                              ?.name ??
+                                          '',
+                                      style: kText17,
+                                    ),
+                                  ),
+                                  Text(
+                                    state.userData.certificates?[index]
+                                            ?.description ??
+                                        '',
+                                    style: kText15,
+                                  ),
+                                  if (state.userData.certificates == null)
+                                    const SizedBox.shrink()
+                                  else
+                                    Text(
+                                      '${DateFormat('yyyy-MM-dd').format(state.userData.certificates?[index]?.issuedDate ?? DateTime.now())} - ${DateFormat('yyyy-MM-dd').format(state.userData.certificates?[index]?.expireDate ?? DateTime.now())}',
+                                      style: kHelper13,
+                                    ),
+                                  const Divider()
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Column(
-                    children: List.generate(
-                      state.userData.certificates!.length,
-                      (index) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              state.userData.certificates![index]!.name!,
-                              style: kText17,
-                            ),
-                            Text(
-                              state.userData.certificates![index]!.description!,
-                              style: kText15,
-                            ),
-                            Text(
-                              '${DateFormat('yyyy-MM-dd').format(state.userData.certificates![index]!.issuedDate!)} - ${DateFormat('yyyy-MM-dd').format(state.userData.certificates![index]!.expireDate!)}',
-                              style: kHelper13,
-                            ),
-                            const Divider()
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Padding(
-            padding: kPadding20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Certification',
-                  style: kPurpleText19,
-                ),
-                kHeight10,
-                Text('Garden Cleaner'),
-                Text(
-                  'Cagtu. Full-time',
-                  style: kHelper13,
-                ),
-                Text(
-                  'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
-                ),
-                Text(
-                  'June 2002-Present',
-                  style: kHelper13,
-                )
-              ],
-            ),
-          );
+                );
         }
+        return Padding(
+          padding: kPadding20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                'Certification',
+                style: kPurpleText19,
+              ),
+              kHeight10,
+              Text('Garden Cleaner'),
+              Text(
+                'Cagtu. Full-time',
+                style: kHelper13,
+              ),
+              Text(
+                'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
+              ),
+              Text(
+                'June 2002-Present',
+                style: kHelper13,
+              )
+            ],
+          ),
+        );
       },
     );
   }

@@ -38,6 +38,8 @@ class CustomFormContainer extends StatelessWidget {
                 Text(
                   hintText,
                   style: kHelper13,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
                 ),
               ],
             ),

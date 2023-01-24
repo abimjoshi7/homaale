@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/networking/models/response/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
