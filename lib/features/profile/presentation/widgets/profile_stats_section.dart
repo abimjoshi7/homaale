@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,12 +11,12 @@ class ProfileStatsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDataCubit, UserDataState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         Widget buildTaskCreated() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return NumberCountText(
-              numberText: state.userData.stats!.taskAssigned!.toString(),
+              numberText: state.user.stats!.taskAssigned!.toString(),
               textColor: kColorBlueText,
             );
           } else {
@@ -28,9 +28,9 @@ class ProfileStatsSection extends StatelessWidget {
         }
 
         Widget buildTaskinProgress() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return NumberCountText(
-              numberText: state.userData.stats!.taskInProgress!.toString(),
+              numberText: state.user.stats!.taskInProgress!.toString(),
               textColor: kColorAmberText,
             );
           } else {
@@ -42,9 +42,9 @@ class ProfileStatsSection extends StatelessWidget {
         }
 
         Widget buildTaskSuccessRate() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return NumberCountText(
-              numberText: state.userData.stats!.successRate!.toString(),
+              numberText: state.user.stats!.successRate!.toString(),
               textColor: kColorGreenText,
             );
           } else {

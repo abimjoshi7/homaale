@@ -28,21 +28,24 @@ class SignUpHeaderSection extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back),
           ),
-          trailingWidget: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              children: const [
-                Text(
-                  'Skip',
-                  style: kSkipHelper,
-                ),
-                kWidth10,
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 12,
-                  color: Color(0xffdee2e6),
-                )
-              ],
+          trailingWidget: Visibility(
+            visible: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                children: const [
+                  Text(
+                    'Skip',
+                    style: kSkipHelper,
+                  ),
+                  kWidth10,
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 12,
+                    color: Color(0xffdee2e6),
+                  )
+                ],
+              ),
             ),
           ),
         ),

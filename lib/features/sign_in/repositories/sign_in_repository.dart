@@ -20,6 +20,9 @@ class SignInRepository {
       );
       return UserLoginRes.fromJson(z as Map<String, dynamic>);
     } catch (e) {
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }
@@ -36,6 +39,9 @@ class SignInRepository {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }
@@ -52,6 +58,9 @@ class SignInRepository {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }
@@ -66,6 +75,9 @@ class SignInRepository {
       );
       return OtpResetVerifyRes.fromJson(x as Map<String, dynamic>);
     } catch (e) {
+      log(
+        e.toString(),
+      );
       rethrow;
     }
   }

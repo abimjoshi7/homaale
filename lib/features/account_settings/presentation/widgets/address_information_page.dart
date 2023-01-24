@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -23,17 +23,17 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserDataCubit, UserDataState>(
+    return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
-        if (state is UserDataLoadSuccess) {
-          countryName = state.userData.country as String?;
-          addressLine1 = state.userData.addressLine1;
-          addressLine2 = state.userData.addressLine2 as String?;
-          languages = state.userData.language as String?;
-          currency = state.userData.chargeCurrency;
+        if (state is UserLoadSuccess) {
+          countryName = state.user.country as String?;
+          addressLine1 = state.user.addressLine1;
+          addressLine2 = state.user.addressLine2 as String?;
+          languages = state.user.language as String?;
+          currency = state.user.chargeCurrency;
 
           return Column(
             children: [
@@ -70,7 +70,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         label: 'Address Line 1',
                         isRequired: false,
                         child: CustomTextFormField(
-                          hintText: state.userData.addressLine1 ?? 'Baneshwor',
+                          hintText: state.user.addressLine1 ?? 'Baneshwor',
                           onSaved: (p0) => setState(
                             () {
                               addressLine1 = p0;
@@ -82,7 +82,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         label: 'Address Line 2',
                         isRequired: false,
                         child: CustomTextFormField(
-                          hintText: state.userData.addressLine2.toString(),
+                          hintText: state.user.addressLine2.toString(),
                           onSaved: (p0) => setState(
                             () {
                               addressLine2 = p0;
@@ -130,27 +130,24 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 callback: () async {
                   _key.currentState!.save();
 
-                  final userData = {
-                    "country": countryName ?? state.userData.country,
+                  final user = {
+                    "country": countryName ?? state.user.country,
                     "address_line1": addressLine1!.isEmpty
-                        ? state.userData.addressLine1
+                        ? state.user.addressLine1
                         : addressLine1,
                     "address_line2": addressLine2!.isEmpty
-                        ? state.userData.addressLine2
+                        ? state.user.addressLine2
                         : addressLine2,
-                    "language": languages ?? state.userData.language,
-                    "charge_currency":
-                        currency ?? state.userData.chargeCurrency,
+                    "language": languages ?? state.user.language,
+                    "charge_currency": currency ?? state.user.chargeCurrency,
                     // "charge_currency": ChargeCurrency(
                     // 	code: 'NPR',
                     // 	name:
                     // ),
                   };
-                  // print(userData);
+                  // print(user);
 
-                  await context
-                      .read<UserDataCubit>()
-                      .editTaskerUserData(userData);
+                  await context.read<UserBloc>().editTaskeruser(user);
                 },
                 label: 'Save',
               ),

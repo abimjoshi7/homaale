@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
             const HomeHeaderSection(),
             const HeaderBannerSection(),
             const DealOfTheDaySection(),
-            const CategoriesSection(),
+            // const CategoriesSection(),
             const PopularServicesSection(),
             Padding(
               padding: const EdgeInsets.symmetric(

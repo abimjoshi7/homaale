@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -13,10 +13,10 @@ class CertificationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDataCubit, UserDataState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserDataLoadSuccess) {
-          return state.userData.certificates == null
+        if (state is UserLoadSuccess) {
+          return state.user.certificates == null
               ? const SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.all(8),
@@ -50,7 +50,7 @@ class CertificationSection extends StatelessWidget {
                         ),
                         Column(
                           children: List.generate(
-                            state.userData.certificates?.length ?? 0,
+                            state.user.certificates?.length ?? 0,
                             (index) => Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
@@ -61,30 +61,29 @@ class CertificationSection extends StatelessWidget {
                                     onTap: () {
                                       launchUrl(
                                         Uri.parse(
-                                          state.userData.certificates?[index]!
+                                          state.user.certificates?[index]!
                                                   .certificateUrl ??
                                               'www.google.com',
                                         ),
                                       );
                                     },
                                     child: Text(
-                                      state.userData.certificates?[index]
-                                              ?.name ??
+                                      state.user.certificates?[index]?.name ??
                                           '',
                                       style: kText17,
                                     ),
                                   ),
                                   Text(
-                                    state.userData.certificates?[index]
+                                    state.user.certificates?[index]
                                             ?.description ??
                                         '',
                                     style: kText15,
                                   ),
-                                  if (state.userData.certificates == null)
+                                  if (state.user.certificates == null)
                                     const SizedBox.shrink()
                                   else
                                     Text(
-                                      '${DateFormat('yyyy-MM-dd').format(state.userData.certificates?[index]?.issuedDate ?? DateTime.now())} - ${DateFormat('yyyy-MM-dd').format(state.userData.certificates?[index]?.expireDate ?? DateTime.now())}',
+                                      '${DateFormat('yyyy-MM-dd').format(state.user.certificates?[index]?.issuedDate ?? DateTime.now())} - ${DateFormat('yyyy-MM-dd').format(state.user.certificates?[index]?.expireDate ?? DateTime.now())}',
                                       style: kHelper13,
                                     ),
                                   const Divider()

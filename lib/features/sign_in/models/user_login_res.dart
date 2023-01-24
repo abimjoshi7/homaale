@@ -1,14 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userLoginRes = userLoginResFromJson(jsonString);
-
-import 'dart:convert';
-
-UserLoginRes userLoginResFromJson(String str) =>
-    UserLoginRes.fromJson(json.decode(str) as Map<String, dynamic>);
-
-String userLoginResToJson(UserLoginRes data) => json.encode(data.toJson());
-
 class UserLoginRes {
   UserLoginRes({
     this.username,

@@ -10,13 +10,11 @@ class DeactivateCubit extends Cubit<DeactivateState> {
   DeactivateCubit() : super(DeactivateInitial());
 
   Future<void> initiateDeactivate(Map<String, dynamic> map) async {
-    final token = await CacheHelper.getCachedString(kAccessToken);
-    final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
     await DioHelper()
         .postDataWithCredential(
           data: map,
           url: 'user/deactivate/',
-          token: token ?? tokenP!,
+          token: CacheHelper.accessToken,
         )
         .then(
           (value) => print(value),

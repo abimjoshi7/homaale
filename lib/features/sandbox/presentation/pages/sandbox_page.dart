@@ -1,5 +1,5 @@
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +17,21 @@ class SandboxPage extends StatelessWidget {
         children: [
           Center(
             child: CustomElevatedButton(
+              callback: () {
+                print(CacheHelper.accessToken);
+              },
+              label: 'Get Token',
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: CustomElevatedButton(
               callback: () async {
                 context.read<UserBloc>().add(
                       UserLoaded(),
                     );
               },
-              label: 'Test',
+              label: 'Get User Data',
             ),
           ),
         ],

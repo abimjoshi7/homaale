@@ -11,7 +11,7 @@ class CategoriesInitial extends CategoriesState {
 }
 
 class CategoriesSuccess extends CategoriesState {
-  final List<TaskCategory> taskCategoryList;
+  final List<HeroCategory> taskCategoryList;
   const CategoriesSuccess({
     required this.taskCategoryList,
   });

@@ -1,6 +1,5 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
@@ -15,20 +14,16 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  Future<void> inititalLogCheck() async {
-    await CacheHelper.getCachedString(kAccessTokenP).then(
-      (x) {
-        if (x != null) {
-          setState(() {
-            theChild = const Root();
-          });
-        } else {
-          setState(() {
-            theChild = _buildSplash(context);
-          });
-        }
-      },
-    );
+  void inititalLogCheck() {
+    if (CacheHelper.accessToken != null) {
+      setState(() {
+        theChild = const Root();
+      });
+    } else {
+      setState(() {
+        theChild = _buildSplash(context);
+      });
+    }
   }
 
   @override

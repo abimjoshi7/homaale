@@ -7,11 +7,9 @@ class UtilitiesRepositories {
 
   Future<List<Map<String, dynamic>>> getInterestsList() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final res = await _dio.getDatawithCredential(
         url: 'task/cms/task-category/list/',
-        token: token ?? tokenP,
+        token: CacheHelper.accessToken,
       );
       final map = List<Map<String, dynamic>>.from(res as Iterable);
       return map;
@@ -22,11 +20,9 @@ class UtilitiesRepositories {
 
   Future<List<Map<String, dynamic>>> getCountriesList() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final res = await _dio.getDatawithCredential(
         url: 'locale/cms/country/option/',
-        token: token ?? tokenP,
+        token: CacheHelper.accessToken,
       );
       final map = List<Map<String, dynamic>>.from(res as Iterable);
       return map;
@@ -37,11 +33,9 @@ class UtilitiesRepositories {
 
   Future<List<Map<String, dynamic>>> getCitiesList() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final res = await _dio.getDatawithCredential(
         url: 'locale/cms/city/options/',
-        token: token ?? tokenP,
+        token: CacheHelper.accessToken,
       );
       final map = List<Map<String, dynamic>>.from(res as Iterable);
       return map;
@@ -52,11 +46,9 @@ class UtilitiesRepositories {
 
   Future<List<Map<String, dynamic>>> getCurrencyList() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final res = await _dio.getDatawithCredential(
         url: 'locale/currency/options/',
-        token: token ?? tokenP,
+        token: CacheHelper.accessToken,
       );
       final map = List<Map<String, dynamic>>.from(res as Iterable);
       return map;

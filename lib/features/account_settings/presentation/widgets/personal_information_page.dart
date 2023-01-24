@@ -1,6 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,9 +27,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserDataCubit, UserDataState>(
+    return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is UserDataEditSuccess) {
+        if (state is userEditSuccess) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -43,7 +43,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
               ),
             ),
           );
-        } else if (state is UserDataEditFailure) {
+        } else if (state is userEditFailure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -60,9 +60,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         }
       },
       builder: (context, state) {
-        if (state is UserDataLoadSuccess) {
+        if (state is UserLoadSuccess) {
           String getGender() {
-            if (state.userData.gender == null) {
+            if (state.user.gender == null) {
               if (isMale) {
                 return 'Male';
               } else if (isFemale) {
@@ -71,14 +71,14 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                 return 'Other';
               }
             } else {
-              return state.userData.gender!;
+              return state.user.gender!;
             }
           }
 
-          email = state.userData.user!.email;
-          contact = state.userData.user!.phone;
-          dob = state.userData.dateOfBirth;
-          bio = state.userData.bio;
+          email = state.user.user!.email;
+          contact = state.user.user!.phone;
+          dob = state.user.dateOfBirth;
+          bio = state.user.bio;
 
           return Form(
             key: _key,
@@ -99,7 +99,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                         label: 'Email',
                         isRequired: false,
                         child: CustomTextFormField(
-                          hintText: state.userData.user!.email ?? '',
+                          hintText: state.user.user!.email ?? '',
                           onSaved: (p0) => setState(
                             () {
                               email = p0;
@@ -112,7 +112,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                         isRequired: false,
                         child: CustomTextFormField(
                           textInputType: TextInputType.number,
-                          hintText: state.userData.user!.phone ?? '',
+                          hintText: state.user.user!.phone ?? '',
                           prefixWidget: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Row(
@@ -245,16 +245,14 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                   callback: () async {
                     _key.currentState!.save();
 
-                    final userData = {
+                    final user = {
                       "date_of_birth": DateFormat("yyyy-MM-dd")
-                          .format(dob ?? state.userData.dateOfBirth!),
-                      "bio": bio!.isEmpty ? state.userData.bio : bio,
+                          .format(dob ?? state.user.dateOfBirth!),
+                      "bio": bio!.isEmpty ? state.user.bio : bio,
                       "gender": getGender(),
                     };
 
-                    await context
-                        .read<UserDataCubit>()
-                        .editTaskerUserData(userData);
+                    await context.read<UserBloc>().editTaskeruser(user);
                   },
                   label: 'Save',
                 )

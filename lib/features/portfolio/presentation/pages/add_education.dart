@@ -244,7 +244,7 @@ class _AddEducationState extends State<AddEducation> {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerEducationSuccess) {
                 if (!mounted) return;
-                await context.read<UserDataCubit>().getTaskerUserData();
+                await context.read<UserBloc>().getTaskeruser();
 
                 showDialog(
                   context: context,

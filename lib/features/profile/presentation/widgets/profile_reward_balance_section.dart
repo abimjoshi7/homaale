@@ -1,5 +1,5 @@
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,14 +13,14 @@ class ProfileRewardBalanceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDataCubit, UserDataState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         Widget displayRewardPoints() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return ProfileStatsCard(
               imagePath: 'assets/reward.png',
               label: 'Reward Points',
-              value: state.userData.points.toString(),
+              value: state.user.points.toString(),
             );
           } else {
             return const ProfileStatsCard(

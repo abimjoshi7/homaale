@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
@@ -94,7 +92,7 @@ class _OtpSignUpState extends State<OtpSignUp> {
                     isSuccess: true,
                   ),
                 );
-              } else {
+              } else if (state is OtpResetVerifyFailure) {
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
@@ -115,27 +113,17 @@ class _OtpSignUpState extends State<OtpSignUp> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  try {
-                    final otpResetVerifyReq = OtpResetVerifyReq(
-                      otp: otpValue,
-                      phone: args['phone'],
-                      scope: 'verify',
-                      password: args['password'],
-                      confirmPassword: args['password'],
-                    );
-
-                    context.read<OtpResetVerifyBloc>().add(
-                          OtpResetVerifyInitiated(
-                            initiateEvent: otpResetVerifyReq,
+                  context.read<OtpResetVerifyBloc>().add(
+                        OtpResetVerifyInitiated(
+                          initiateEvent: OtpResetVerifyReq(
+                            otp: otpValue,
+                            phone: args['phone'],
+                            scope: 'verify',
+                            password: args['password'],
+                            confirmPassword: args['password'],
                           ),
-                        );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Something went wrong. Try again'),
-                      ),
-                    );
-                  }
+                        ),
+                      );
                 },
                 label: 'Continue',
               );

@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,11 +11,11 @@ class DescriptionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDataCubit, UserDataState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         Widget displayBio() {
-          if (state is UserDataLoadSuccess) {
-            return Text(state.userData.bio!);
+          if (state is UserLoadSuccess) {
+            return Text(state.user.bio!);
           } else {
             return const Text(
               'A professional gardener with over 10 years of experience. I specialise in Lasagna gardening, Keyhole gardening, mittleider gardening, square foot gardening, and  conventional gardening. ',
@@ -24,10 +24,10 @@ class DescriptionSection extends StatelessWidget {
         }
 
         Widget displayUsername() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return IconText(
               widget: Image.asset('assets/mail.png'),
-              label: state.userData.user!.phone ?? state.userData.user!.email!,
+              label: state.user.user!.phone ?? state.user.user!.email!,
             );
           } else {
             return IconText(
@@ -38,11 +38,11 @@ class DescriptionSection extends StatelessWidget {
         }
 
         Widget displayActiveHours() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return IconText(
               widget: Image.asset('assets/clock.png'),
               label:
-                  'Active Hours ${state.userData.activeHourStart!.substring(0, 5)} - ${state.userData.activeHourEnd!.substring(0, 5)}',
+                  'Active Hours ${state.user.activeHourStart!.substring(0, 5)} - ${state.user.activeHourEnd!.substring(0, 5)}',
             );
           } else {
             return IconText(
@@ -53,10 +53,10 @@ class DescriptionSection extends StatelessWidget {
         }
 
         Widget displaySkill() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return IconText(
               widget: Image.asset('assets/sparkle.png'),
-              label: state.userData.skill!,
+              label: state.user.skill!,
             );
           } else {
             return IconText(
@@ -67,10 +67,10 @@ class DescriptionSection extends StatelessWidget {
         }
 
         Widget displayLocation() {
-          if (state is UserDataLoadSuccess) {
+          if (state is UserLoadSuccess) {
             return IconText(
               widget: Image.asset('assets/location.png'),
-              label: state.userData.addressLine1!,
+              label: state.user.addressLine1!,
             );
           } else {
             return IconText(

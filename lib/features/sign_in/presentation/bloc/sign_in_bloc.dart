@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/models/user_login_res.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
@@ -26,15 +27,19 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             SignInPhoneInitial(),
           );
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
-                (value) => emit(
-                  SignInWithPhoneSuccess(
-                    userLoginRes: value,
-                  ),
+            (value) {
+              emit(
+                SignInSuccess(
+                  userLoginRes: value,
                 ),
               );
+              CacheHelper.accessToken = value.access;
+              CacheHelper.refreshToken = value.refresh;
+            },
+          );
         } catch (e) {
           emit(
-            SignInWithPhoneFailure(),
+            SignInFailure(),
           );
         }
       },
@@ -47,15 +52,19 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             SignInEmailInitial(),
           );
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
-                (value) => emit(
-                  SignInWithEmailSuccess(
-                    userLoginRes: value,
-                  ),
+            (value) {
+              emit(
+                SignInSuccess(
+                  userLoginRes: value,
                 ),
               );
+              CacheHelper.accessToken = value.access;
+              CacheHelper.refreshToken = value.refresh;
+            },
+          );
         } catch (e) {
           emit(
-            SignInWithEmailFailure(),
+            SignInFailure(),
           );
         }
       },

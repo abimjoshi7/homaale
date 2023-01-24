@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
-import 'package:cipher/features/home/presentation/widgets/widgets.dart';
+import 'package:cipher/features/categories/presentation/cubit/categories_cubit.dart';
 import 'package:cipher/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,21 +48,22 @@ class Categories extends StatelessWidget {
                 ),
                 Expanded(
                   child: GridView.builder(
-                    itemCount: state.taskCategoryList.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                    ),
-                    itemBuilder: (context, index) => CategoriesIcons(
-                      // color: categoriesColorList[index],
-                      color: Colors.amber,
-                      data: state.taskCategoryList[index].name ?? '',
-                      child: state.taskCategoryList[index].icon as Icon? ??
-                          const Icon(Icons.abc),
-                    ),
-                  ),
+                      itemCount: state.taskCategoryList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                      ),
+                      itemBuilder: (context, index) => SizedBox.shrink()
+                      // CategoriesIcons(
+                      //   // color: categoriesColorList[index],
+                      //   color: Colors.amber,
+                      //   data: state.taskCategoryList[index].name ?? '',
+                      //   child: state.taskCategoryList[index].icon as Icon? ??
+                      //       const Icon(Icons.abc),
+                      // ),
+                      ),
                 )
               ],
             );

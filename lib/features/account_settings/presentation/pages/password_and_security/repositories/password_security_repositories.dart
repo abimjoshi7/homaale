@@ -7,12 +7,10 @@ class PasswordSecurityRepositories {
   Future<PasswordSecurity> changePassword(
     PasswordSecurity passwordSecurity,
   ) async {
-    final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-    final token = await CacheHelper.getCachedString(kAccessToken);
     final res = await DioHelper().postDataWithCredential(
       data: passwordSecurity.toJson(),
       url: 'user/password/change/',
-      token: token ?? tokenP!,
+      token: CacheHelper.accessToken,
     );
     return PasswordSecurity.fromJson(res as Map<String, dynamic>);
   }

@@ -25,92 +25,34 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {
-        final x = await CacheHelper.getCachedString(kErrorLog);
-        if (state is SignInWithEmailSuccess) {
+        final error = await CacheHelper.getCachedString(kErrorLog);
+
+        if (state is SignInSuccess) {
           if (keepLogged == true) {
-            {
-              await CacheHelper.setCachedString(
-                kAccessTokenP,
-                state.userLoginRes.access!,
-              ).then(
-                (value) async => CacheHelper.setCachedString(
-                  kRefreshTokenP,
-                  state.userLoginRes.refresh!,
-                ).then(
-                  (value) async => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  ),
-                ),
-              );
-            }
-          } else {
             await CacheHelper.setCachedString(
-              kAccessToken,
-              state.userLoginRes.access!,
-            )
-                .then(
-                  (value) async => CacheHelper.setCachedString(
-                    kRefreshToken,
-                    state.userLoginRes.refresh!,
-                  ),
-                )
-                .then(
-                  (value) => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  ),
-                );
+              kIsPersistToken,
+              "1",
+            );
           }
-        } else if (state is SignInWithPhoneSuccess) {
-          if (keepLogged == true) {
-            {
-              await CacheHelper.setCachedString(
-                kAccessTokenP,
-                state.userLoginRes.access!,
-              ).then(
-                (value) async => CacheHelper.setCachedString(
-                  kRefreshTokenP,
-                  state.userLoginRes.refresh!,
-                ).then(
-                  (value) async => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  ),
-                ),
-              );
-            }
-          } else {
-            await CacheHelper.setCachedString(
-              kAccessToken,
-              state.userLoginRes.access!,
-            )
-                .then(
-                  (value) async => CacheHelper.setCachedString(
-                    kRefreshToken,
-                    state.userLoginRes.refresh!,
-                  ),
-                )
-                .then(
-                  (value) => Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  ),
-                );
-          }
-        } else if (state is SignInWithEmailFailure ||
-            state is SignInWithPhoneFailure) {
+          if (!mounted) return;
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Root.routeName,
+            (route) => false,
+          );
+        }
+        if (state is SignInFailure) {
           if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
-              content: x ?? "Unknown Problem",
-              onTap: () {},
+              content: error ?? "Please try again.",
+              onTap: () {
+                context.read<SignInBloc>().add(
+                      SignInWithPhoneSelected(),
+                    );
+              },
               isSuccess: false,
             ),
           );
@@ -131,7 +73,8 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 hintText: 'sample@email.com',
               ),
             );
-          } else if (state is SignInPhoneInitial) {
+          }
+          if (state is SignInPhoneInitial) {
             return CustomFormText(
               name: 'Phone',
               child: CustomTextFormField(
@@ -159,32 +102,33 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               ),
             );
           } else {
-            return CustomFormText(
-              name: 'Phone',
-              child: CustomTextFormField(
-                onSaved: (p0) => setState(
-                  () {
-                    phoneNumberController.text = p0!;
-                  },
-                ),
-                textInputType: TextInputType.number,
-                hintText: 'Mobile Number',
-                prefixWidget: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset('assets/nepalflag.png'),
-                      const Text(
-                        '+977',
-                        style: kBodyText1,
-                      ),
-                      const Icon(Icons.arrow_drop_down)
-                    ],
-                  ),
-                ),
-              ),
-            );
+            return const CircularProgressIndicator();
+            // return CustomFormText(
+            //   name: 'Phone',
+            //   child: CustomTextFormField(
+            //     onSaved: (p0) => setState(
+            //       () {
+            //         phoneNumberController.text = p0!;
+            //       },
+            //     ),
+            //     textInputType: TextInputType.number,
+            //     hintText: 'Mobile Number',
+            //     prefixWidget: Padding(
+            //       padding: const EdgeInsets.all(8),
+            //       child: Row(
+            //         mainAxisSize: MainAxisSize.min,
+            //         children: [
+            //           Image.asset('assets/nepalflag.png'),
+            //           const Text(
+            //             '+977',
+            //             style: kBodyText1,
+            //           ),
+            //           const Icon(Icons.arrow_drop_down)
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // );
           }
         }
 
@@ -241,8 +185,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               CustomElevatedButton(
                 callback: () async {
                   _formKey.currentState!.save();
-                  if (state is SignInPhoneInitial ||
-                      state is SignInWithPhoneFailure) {
+                  if (state is SignInPhoneInitial) {
                     context.read<SignInBloc>().add(
                           SignInWithPhoneInitiated(
                             userLoginReq: UserLoginReq(
@@ -251,8 +194,8 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                             ),
                           ),
                         );
-                  } else if (state is SignInEmailInitial ||
-                      state is SignInWithEmailFailure) {
+                  }
+                  if (state is SignInEmailInitial) {
                     context.read<SignInBloc>().add(
                           SignInWithEmailInitiated(
                             userLoginReq: UserLoginReq(

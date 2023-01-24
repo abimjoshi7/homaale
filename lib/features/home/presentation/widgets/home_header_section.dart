@@ -1,10 +1,7 @@
-import 'dart:developer';
-
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,18 +18,18 @@ class HomeHeaderSection extends StatefulWidget {
 }
 
 class _HomeHeaderSectionState extends State<HomeHeaderSection> {
-  String? location = 'Buddhanagar, Kathmandu';
+  String? location;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {},
       builder: (context, state) {
         Widget displayUserInfo() {
-          if (state is SignInWithEmailSuccess) {
+          if (state is SignInSuccess) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hi, ${state.userLoginRes.username}'),
+                Text('Hi, ${state.userLoginRes.username ?? 'New User'}'),
                 kHeight5,
                 InkWell(
                   onTap: () async {
@@ -71,64 +68,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   child: Row(
                     children: [
                       const Icon(Icons.location_on_outlined),
-                      Text(location!),
+                      Text(location ?? 'No Location Found'),
                       // const Icon(Icons.arrow_drop_down)
                     ],
                   ),
                 )
               ],
             );
-          } else if (state is SignInWithPhoneSuccess) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Hi, ${state.userLoginRes.username}'),
-                kHeight5,
-                InkWell(
-                  onTap: () async {
-                    await Geolocator.checkPermission().then(
-                      (value) async {
-                        if (value == LocationPermission.denied ||
-                            value == LocationPermission.deniedForever ||
-                            value == LocationPermission.unableToDetermine) {
-                          await Geolocator.requestPermission();
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Please provide location access from app settings.',
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                    );
-
-                    await Geolocator.getCurrentPosition().then((value) async {
-                      await placemarkFromCoordinates(
-                        value.latitude,
-                        value.longitude,
-                      ).then(
-                        (value) => setState(
-                          () {
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                          },
-                        ),
-                      );
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(Icons.location_on_outlined),
-                      Text(location!),
-                    ],
-                  ),
-                )
-              ],
-            );
           } else {
-            return const Text('Hi, User');
+            return const CircularProgressIndicator();
           }
         }
 
@@ -148,16 +96,11 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   child: const CircleAvatar(),
                 ),
                 title: displayUserInfo(),
-                trailing: BlocBuilder<UserDataCubit, UserDataState>(
+                trailing: BlocBuilder<UserBloc, UserState>(
                   builder: (context, state) {
                     return IconButton(
                       onPressed: () async {
-                        final x =
-                            await CacheHelper.getCachedString(kAccessTokenP);
-                        final x1 =
-                            await CacheHelper.getCachedString(kAccessToken);
-                        log(x.toString());
-                        log(x1.toString());
+                        // logheHelper());
                       },
                       icon: const Icon(
                         Icons.notifications_none,

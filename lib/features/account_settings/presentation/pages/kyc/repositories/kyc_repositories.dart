@@ -10,12 +10,10 @@ class KycRepositories {
 
   Future<Map<String, dynamic>> createKyc(CreateKycReq createKycReq) async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await _dio.postDataWithCredential(
         data: createKycReq.toJson(),
         url: 'tasker/kyc/',
-        token: token ?? tokenP!,
+        token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
     } catch (e) {
@@ -27,12 +25,10 @@ class KycRepositories {
     AddKycReq addKycReq,
   ) async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await _dio.postFormData(
         map: addKycReq.toJson(),
         url: 'tasker/kyc-document/',
-        token: token ?? tokenP!,
+        token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
     } catch (e) {
@@ -42,11 +38,9 @@ class KycRepositories {
 
   Future<List<Map<String, dynamic>>> getKyc() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
       final x = await _dio.getDatawithCredential(
         url: 'tasker/kyc-document/',
-        token: token ?? tokenP!,
+        token: CacheHelper.accessToken,
       );
       return List<Map<String, dynamic>>.from(x as Iterable);
     } catch (e) {

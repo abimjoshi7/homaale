@@ -1,8 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +16,7 @@ class ProfileHeaderSection extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         PopupMenuItem displayPopupMenu() {
-          if (state is SignInWithEmailSuccess) {
+          if (state is SignInSuccess) {
             if (state.userLoginRes.hasProfile == true) {
               return PopupMenuItem(
                 child: TextButton(
@@ -31,66 +31,50 @@ class ProfileHeaderSection extends StatelessWidget {
                   ),
                 ),
               );
-            }
-          }
-
-          if (state is SignInWithPhoneSuccess) {
-            if (state.userLoginRes.hasProfile == true) {
+            } else {
               return PopupMenuItem(
                 child: TextButton(
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      EditProfilePage.routeName,
+                      CompleteProfilePage.routeName,
                     );
                   },
                   child: const Text(
-                    'Edit Profile',
+                    'Complete Profile',
                   ),
                 ),
               );
             }
+          } else {
+            return const PopupMenuItem(child: SizedBox.shrink());
           }
-
-          return PopupMenuItem(
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  CompleteProfilePage.routeName,
-                );
-              },
-              child: const Text(
-                'Complete Profile',
-              ),
-            ),
-          );
         }
 
-        return BlocBuilder<UserDataCubit, UserDataState>(
+        return BlocBuilder<UserBloc, UserState>(
           builder: (context, state2) {
             Widget displayName() {
-              if (state2 is UserDataLoadSuccess) {
+              if (state2 is UserLoadSuccess) {
                 return Text(
-                  '${state2.userData.user!.firstName!} ${state2.userData.user!.lastName!}',
+                  '${state2.user.user?.firstName ?? ''} ${state2.user.user?.lastName ?? ''}',
                 );
               } else {
-                return const Text('FirstName LastName');
+                return const Text('New User');
               }
             }
 
             Widget displayDesignation() {
-              if (state2 is UserDataLoadSuccess) {
+              if (state2 is UserLoadSuccess) {
                 return Text(
-                  state2.userData.designation.toString(),
+                  state2.user.designation.toString(),
                 );
               } else {
-                return const Text('Individual | Homaale User');
+                return const Text('New Homaale User');
               }
             }
 
             Widget displayProfilePic() {
-              if (state2 is UserDataLoadSuccess) {
+              if (state2 is UserLoadSuccess) {
                 return Container(
                   height: 70,
                   width: 70,
@@ -99,7 +83,7 @@ class ProfileHeaderSection extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                        state2.userData.profileImage as String,
+                        state2.user.profileImage as String,
                       ),
                     ),
                   ),
@@ -117,10 +101,10 @@ class ProfileHeaderSection extends StatelessWidget {
             }
 
             Widget displayRating() {
-              if (state2 is UserDataLoadSuccess) {
+              if (state2 is UserLoadSuccess) {
                 return Row(
                   children: List.generate(
-                    state2.userData.rating!.userRatingCount!,
+                    state2.user.rating?.userRatingCount ?? 5,
                     (index) => const Icon(
                       Icons.star_rate_rounded,
                       color: Colors.amber,

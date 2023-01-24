@@ -27,9 +27,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserDataCubit, UserDataState>(
+    return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is UserDataEditSuccess) {
+        if (state is userEditSuccess) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -43,7 +43,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is UserDataEditFailure) {
+        } else if (state is userEditFailure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -60,12 +60,12 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
         }
       },
       builder: (context, state) {
-        if (state is UserDataLoadSuccess) {
-          firstName = state.userData.user!.firstName;
-          middleName = state.userData.user!.middleName;
-          lastName = state.userData.user!.lastName;
-          designation = state.userData.designation.toString();
-          profilePicture = state.userData.profileImage.toString();
+        if (state is UserLoadSuccess) {
+          firstName = state.user.user!.firstName;
+          middleName = state.user.user!.middleName;
+          lastName = state.user.user!.lastName;
+          designation = state.user.designation.toString();
+          profilePicture = state.user.profileImage.toString();
           return Padding(
             padding: kPadding20,
             child: Form(
@@ -88,7 +88,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       );
                       await MultipartFile.fromFile(selectedImage!.path).then(
                         (value) {
-                          context.read<UserDataCubit>().editProfilePic(
+                          context.read<UserBloc>().editProfilePic(
                             {
                               "profile_image": value,
                             },
@@ -146,7 +146,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.userData.user!.firstName!,
+                              hintText: state.user.user!.firstName!,
                               onSaved: (p0) => setState(
                                 () {
                                   firstName = p0;
@@ -167,7 +167,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.userData.user!.middleName!,
+                              hintText: state.user.user!.middleName!,
                               onSaved: (p0) => setState(
                                 () {
                                   middleName = p0;
@@ -197,7 +197,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.userData.user!.lastName!,
+                              hintText: state.user.user!.lastName!,
                               onSaved: (p0) => setState(
                                 () {
                                   lastName = p0;
@@ -219,7 +219,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       ),
                       kHeight5,
                       CustomTextFormField(
-                        hintText: state.userData.designation.toString(),
+                        hintText: state.user.designation.toString(),
                         onSaved: (p0) => setState(
                           () {
                             designation = p0;
@@ -256,24 +256,22 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       callback: () async {
                         _key.currentState!.save();
 
-                        final userData = {
+                        final user = {
                           "first_name": firstName!.isEmpty
-                              ? state.userData.user!.firstName
+                              ? state.user.user!.firstName
                               : firstName,
                           "middle_name": middleName!.isEmpty
-                              ? state.userData.user!.middleName
+                              ? state.user.user!.middleName
                               : middleName,
                           "last_name": lastName!.isEmpty
-                              ? state.userData.user!.lastName
+                              ? state.user.user!.lastName
                               : lastName,
                           "designation": designation!.isEmpty
-                              ? state.userData.designation
+                              ? state.user.designation
                               : designation,
                         };
 
-                        await context
-                            .read<UserDataCubit>()
-                            .editTaskerUserData(userData);
+                        await context.read<UserBloc>().editTaskeruser(user);
                       },
                       label: 'Save',
                     ),
@@ -282,7 +280,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is UserDataLoadFailure) {
+        } else if (state is userLoadFailure) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

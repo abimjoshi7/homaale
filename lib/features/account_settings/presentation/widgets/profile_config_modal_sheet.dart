@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
           ),
         ),
         kHeight20,
-        BlocConsumer<UserDataCubit, UserDataState>(
+        BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
             // TODO: implement listener
           },
@@ -75,12 +75,12 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
             return CustomElevatedButton(
               label: 'Save',
               callback: () {
-                if (state is UserDataLoadSuccess) {
+                if (state is UserLoadSuccess) {
                   final map = {
                     "profile_visibility": visibiltyType,
                     "task_preferences": taskPreferences,
                   };
-                  context.read<UserDataCubit>().editTaskerUserData(map);
+                  context.read<UserBloc>().editTaskeruser(map);
                 }
               },
             );

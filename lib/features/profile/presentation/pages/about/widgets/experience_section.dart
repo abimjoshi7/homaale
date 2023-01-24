@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -12,9 +12,9 @@ class ExperienceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserDataCubit, UserDataState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserDataLoadSuccess) {
+        if (state is UserLoadSuccess) {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Card(
@@ -47,28 +47,30 @@ class ExperienceSection extends StatelessWidget {
                   ),
                   Column(
                     children: List.generate(
-                      state.userData.experience!.length,
+                      state.user.experience == null
+                          ? 0
+                          : state.user.experience!.length,
                       (index) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              state.userData.experience![index]!.title!,
+                              state.user.experience?[index]?.title ?? '',
                               // state.taskerExperienceRes.result![index]!.title!,
                               style: kText17,
                             ),
                             Text(
-                              '${state.userData.experience![index]!.companyName!}. ${state.userData.experience![index]!.employmentType}',
+                              '${state.user.experience?[index]?.companyName ?? ''}. ${state.user.experience?[index]?.employmentType}',
                               style: kHelper13,
                             ),
                             Text(
-                              state.userData.experience![index]!.description!,
+                              state.user.experience?[index]?.description ?? '',
                               style: kText15,
                             ),
                             Text(
-                              // '${state.taskerExperienceRes.result![index]!.startDate.toString().substring(0, 10)} - ${state.taskerExperienceRes.result![index]!.endDate.toString().substring(0, 10)}',
-                              '${DateFormat('yyyy-MM-dd').format(state.userData.experience![index]!.startDate!)} - ${DateFormat('yyyy-MM-dd').format(state.userData.experience![index]!.endDate!)}',
+                              // '${state.taskerExperienceRes.result?[index]?.startDate.toString().substring(0, 10)} - ${state.taskerExperienceRes.result?[index]?.endDate.toString().substring(0, 10)}',
+                              '${DateFormat('yyyy-MM-dd').format(state.user.experience![index]!.startDate!)} - ${DateFormat('yyyy-MM-dd').format(state.user.experience![index]!.endDate!)}',
                               style: kHelper13,
                             ),
                             const Divider()

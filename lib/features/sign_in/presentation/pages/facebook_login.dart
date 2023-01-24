@@ -25,13 +25,13 @@ class _FacebookLoginState extends State<FacebookLogin> {
   //   switch (result.status) {
   //     case LoginStatus.success:
   //       final accessToken = result.accessToken!;
-  //       final userData = await fbInstance.getUserData();
-  //       map.addAll(userData);
+  //       final user = await fbInstance.getuser();
+  //       map.addAll(user);
   //       map.remove('id');
   //       map.addAll(
   //         {
   //           'accessToken': accessToken.token,
-  //           'userID': userData['id'],
+  //           'userID': user['id'],
   //         },
   //       );
   //       final x = await NetworkHelper().sendFacebookReq(map);
@@ -39,7 +39,7 @@ class _FacebookLoginState extends State<FacebookLogin> {
   //         print('Facebook Access Token: ${x.access}');
   //       }
   //       if (x.access != null) {
-  //         await CacheHelper.setCachedString(kAccessToken, x.access!);
+  //         await CacheHelper.setCachedString(CacheHelper.accessToken, x.access!);
   //         if (!mounted) return;
   //         await Navigator.pushNamedAndRemoveUntil(
   //           context,

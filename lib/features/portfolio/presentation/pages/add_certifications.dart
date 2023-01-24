@@ -4,7 +4,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_certification_cubit.dart';
-import 'package:cipher/networking/models/request/tasker_certification_req.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -235,7 +235,7 @@ class _AddCertificationsState extends State<AddCertifications> {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerCertificationSuccess) {
                 if (!mounted) return;
-                await context.read<UserDataCubit>().getTaskerUserData();
+                await context.read<UserBloc>().getTaskeruser();
 
                 showDialog(
                   context: context,
@@ -272,31 +272,31 @@ class _AddCertificationsState extends State<AddCertifications> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  if (_key.currentState!.validate() &&
-                      issuedDate!.isBefore(endDate!)) {
-                    _key.currentState!.save();
-                    final cerificationReq = TaskerCertificationReq(
-                      name: nameController.text,
-                      issuingOrganization: issuingOraganizationController.text,
-                      description: descriptionController.text,
-                      credentialId: credentialIdController.text,
-                      certificateUrl:
-                          'https://${certificationUrlController.text}',
-                      doesExpire: isExpirable,
-                      issuedDate: issuedDate,
-                      expireDate: endDate,
-                    );
+                  // if (_key.currentState!.validate() &&
+                  //     issuedDate!.isBefore(endDate!)) {
+                  //   _key.currentState!.save();
+                  //   final cerificationReq = TaskerCertificationReq(
+                  //     name: nameController.text,
+                  //     issuingOrganization: issuingOraganizationController.text,
+                  //     description: descriptionController.text,
+                  //     credentialId: credentialIdController.text,
+                  //     certificateUrl:
+                  //         'https://${certificationUrlController.text}',
+                  //     doesExpire: isExpirable,
+                  //     issuedDate: issuedDate,
+                  //     expireDate: endDate,
+                  //   );
 
-                    await context
-                        .read<TaskerCertificationCubit>()
-                        .addTaskerCertification(cerificationReq);
-                  } else if (endDate!.isBefore(issuedDate!)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please check your start and end dates'),
-                      ),
-                    );
-                  }
+                  //   await context
+                  //       .read<TaskerCertificationCubit>()
+                  //       .addTaskerCertification(cerificationReq);
+                  // } else if (endDate!.isBefore(issuedDate!)) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(
+                  //       content: Text('Please check your start and end dates'),
+                  //     ),
+                  //   );
+                  // }
                 },
                 label: 'Add',
               );

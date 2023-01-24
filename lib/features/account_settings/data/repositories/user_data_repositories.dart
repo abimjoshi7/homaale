@@ -5,17 +5,14 @@ import 'package:cipher/features/account_settings/data/models/task_category_list_
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 
-class UserDataRepositories {
+class userRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchUserData() async {
+  Future<Map<String, dynamic>> fetchuser() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
-
       final x = await _dio.getDatawithCredential(
         url: 'tasker/profile/',
-        token: tokenP ?? token,
+        token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
     } catch (e) {
@@ -23,17 +20,14 @@ class UserDataRepositories {
     }
   }
 
-  Future<TaskerProfileRetrieveRes> addUserData(
+  Future<TaskerProfileRetrieveRes> adduser(
     TaskerProfileCreateReq taskerProfileCreateReq,
   ) async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
-
       final x = await _dio.postDataWithCredential(
         data: taskerProfileCreateReq.toJson(),
         url: 'tasker/profile/',
-        token: tokenP ?? token!,
+        token: CacheHelper.accessToken,
       );
       return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
     } catch (e) {
@@ -43,12 +37,9 @@ class UserDataRepositories {
 
   Future<TaskCategoryListRes> getTaskCategoryList() async {
     try {
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
-
       final x = await _dio.getDatawithCredential(
         url: 'task/cms/task-category/list/',
-        token: token ?? tokenP,
+        token: CacheHelper.accessToken,
       );
       return TaskCategoryListRes.fromJson(
         x as Map<String, dynamic>,

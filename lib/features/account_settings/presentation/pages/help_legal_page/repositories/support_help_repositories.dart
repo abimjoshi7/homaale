@@ -7,14 +7,12 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 
 class SupportHelpRepositories {
   Future<List<SupportHelpTopics>> getHelpTopicList() async {
-    final token = await CacheHelper.getCachedString(kAccessToken);
-    final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
     final res = await DioHelper().getDatawithCredential(
       url: 'support/help/topic/',
       query: {
         'page': -1,
       },
-      token: token ?? tokenP!,
+      token: CacheHelper.accessToken,
     );
     final x = res
         .map((e) => SupportHelpTopics.fromJson(e as Map<String, dynamic>))
@@ -23,12 +21,10 @@ class SupportHelpRepositories {
   }
 
   Future<SupportHelpRes> addSupportHelp(SupportHelpReq supportHelpReq) async {
-    final token = await CacheHelper.getCachedString(kAccessToken);
-    final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
     final res = await DioHelper().postDataWithCredential(
       data: supportHelpReq.toJson(),
       url: 'support/help/',
-      token: token ?? tokenP!,
+      token: CacheHelper.accessToken,
     );
     return SupportHelpRes.fromJson(res as Map<String, dynamic>);
   }

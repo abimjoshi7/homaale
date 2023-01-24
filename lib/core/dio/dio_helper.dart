@@ -92,7 +92,7 @@ class DioHelper {
   Future<dynamic> postDataWithCredential({
     required dynamic data,
     required String url,
-    required String token,
+    required String? token,
   }) async {
     try {
       final response = await dio.post<dynamic>(
@@ -120,7 +120,7 @@ class DioHelper {
   Future<dynamic> patchDataWithCredential({
     required Map<String, dynamic> data,
     required String url,
-    required String token,
+    required String? token,
   }) async {
     try {
       final response = await dio.patch(
@@ -176,7 +176,7 @@ class DioHelper {
   Future<dynamic> postMultiFormData({
     required String url,
     String? path,
-    required String token,
+    required String? token,
   }) async {
     try {
       final formData = FormData.fromMap(
@@ -209,7 +209,7 @@ class DioHelper {
 
   Future<dynamic> postFormData({
     required String url,
-    required String token,
+    required String? token,
     required Map<String, dynamic> map,
   }) async {
     try {
@@ -240,7 +240,7 @@ class DioHelper {
 
   Future<dynamic> patchFormData({
     required String url,
-    required String token,
+    required String? token,
     required Map<String, dynamic> map,
   }) async {
     try {

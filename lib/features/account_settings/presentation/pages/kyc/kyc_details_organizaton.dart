@@ -54,7 +54,7 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserDataCubit, UserDataState>(
+    return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {
         // TODO: implement listener
       },

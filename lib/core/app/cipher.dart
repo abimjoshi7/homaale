@@ -1,15 +1,11 @@
 import 'package:cipher/core/app/bloc/theme_bloc.dart';
 import 'package:cipher/core/route/app_router.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
-import 'package:cipher/features/home/presentation/cubit/categories_cubit.dart';
-import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_certification_cubit.dart';
 import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
@@ -64,9 +60,7 @@ class Cipher extends StatelessWidget {
                 UserLoaded(),
               ),
           ),
-          BlocProvider(
-            create: (context) => UserDataCubit()..getTaskerUserData(),
-          ),
+
           BlocProvider(
             create: (context) => TaskerPortfolioCubit()..getPortfolio(),
           ),

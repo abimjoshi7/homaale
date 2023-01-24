@@ -7,6 +7,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/currency_bloc.dart';
@@ -829,12 +830,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 kHeight20,
                 kHeight50,
                 Center(
-                  child: BlocConsumer<UserDataCubit, UserDataState>(
+                  child: BlocConsumer<UserBloc, UserState>(
                     listener: (context, state) async {
                       final error = await CacheHelper.getCachedString(
                         kErrorLog,
                       );
-                      if (state is UserDataCreateSuccess) {
+                      if (state is userCreateSuccess) {
                         await showDialog(
                           context: context,
                           builder: (context) => CustomToast(
@@ -875,9 +876,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             } else {
                               userType = "";
                             }
-                            await context
-                                .read<UserDataCubit>()
-                                .postTaskerUserData(
+                            await context.read<UserBloc>().postTaskeruser(
                                   TaskerProfileCreateReq(
                                     city: cityCode,
                                     country: countryName,

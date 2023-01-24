@@ -16,13 +16,12 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       emit(
         ImageUploadInitial(),
       );
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
+
       final imagePath = await ImagePickHelper().pickImagePath();
       final response = await DioHelper().postMultiFormData(
         path: imagePath!.path,
         url: 'task/filestore/',
-        token: tokenP ?? token!,
+        token: CacheHelper.accessToken,
       );
       if (response['status'] == 'success') {
         emit(
@@ -43,13 +42,12 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       emit(
         ImageUploadInitial(),
       );
-      final tokenP = await CacheHelper.getCachedString(kAccessTokenP);
-      final token = await CacheHelper.getCachedString(kAccessToken);
+
       final filePath = await FilePickHelper.filePicker();
       final response = await DioHelper().postMultiFormData(
         path: filePath!.path,
         url: 'task/filestore/',
-        token: tokenP ?? token!,
+        token: CacheHelper.accessToken,
       );
       if (response['status'] == 'success') {
         emit(

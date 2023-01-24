@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CacheHelper {
+  static String? accessToken;
+  static String? refreshToken;
+
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
@@ -28,6 +31,12 @@ class CacheHelper {
   static Future<void> clearAllCachedData() async {
     await _storage.deleteAll();
   }
+
+  // static Future<void> getTokens() async {
+  //   await getCachedString(CacheHelper.accessToken)
+  //       .then((value) => accessToken = value);
+  //   await getCachedString(kRefreshToken).then((value) => refreshToken = value);
+  // }
 
   Future<void> test() async {}
 }

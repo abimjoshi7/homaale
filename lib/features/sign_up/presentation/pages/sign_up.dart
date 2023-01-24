@@ -42,7 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   validator: validateNumber,
                   onSaved: (p0) => setState(
                     () {
-                      phoneNumberController.text = p0!;
+                      phoneNumberController.text = p0 ?? '';
                     },
                   ),
                   hintText: 'Mobile Number',
@@ -62,19 +62,23 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               );
-            } else {
+            } else if (state is SignUpEmailInitial) {
               return CustomFormField(
                 isRequired: true,
                 label: 'Email',
                 child: CustomTextFormField(
+                  textInputType: TextInputType.emailAddress,
                   validator: validateEmail,
-                  onSaved: (p0) => setState(() {
-                    emailController.text = p0!;
-                  }),
+                  onSaved: (p0) => setState(
+                    () {
+                      emailController.text = p0 ?? '';
+                    },
+                  ),
                   hintText: 'Enter your email here',
                 ),
               );
             }
+            return const CircularProgressIndicator();
           }
 
           Widget buildText() {
@@ -83,12 +87,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 'Or Sign Up with Phone instead',
                 style: kHelper13,
               );
-            } else {
+            } else if (state is SignUpPhoneInitial) {
               return const Text(
                 'Or Sign Up with Email instead',
                 style: kHelper13,
               );
             }
+            return const CircularProgressIndicator();
           }
 
           Widget displayLogo() {
@@ -96,11 +101,12 @@ class _SignUpPageState extends State<SignUpPage> {
               return Image.asset(
                 'assets/logos/phone_logo.png',
               );
-            } else {
+            } else if (state is SignUpPhoneInitial) {
               return Image.asset(
                 'assets/logos/mail_logo.png',
               );
             }
+            return const CircularProgressIndicator();
           }
 
           return Column(
@@ -122,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             validator: validatePassword,
                             textInputType: TextInputType.visiblePassword,
                             onSaved: (p0) => setState(() {
-                              passwordController.text = p0!;
+                              passwordController.text = p0 ?? '';
                             }),
                           ),
                         ),
@@ -133,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             textInputType: TextInputType.visiblePassword,
                             onSaved: (p0) => setState(
                               () {
-                                confirmPasswordController.text = p0!;
+                                confirmPasswordController.text = p0 ?? '';
                               },
                             ),
                             validator: (val) {
@@ -168,7 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   context.read<SignupBloc>().add(
                                         SignUpWithEmailSelected(),
                                       );
-                                } else {
+                                } else if (state is SignUpEmailInitial) {
                                   context.read<SignupBloc>().add(
                                         SignUpWithPhoneSelected(),
                                       );
@@ -190,6 +196,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     CustomCheckBox(
                       isChecked: isChecked,
                       onTap: () => setState(() {
+                        print(
+                          CacheHelper.accessToken,
+                        );
                         isChecked = !isChecked;
                       }),
                     ),
@@ -244,7 +253,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         isSuccess: true,
                       ),
                     );
-                  } else {
+                  }
+                  if (state is SignUpFailure) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(

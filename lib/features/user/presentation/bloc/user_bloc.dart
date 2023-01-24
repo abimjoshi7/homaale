@@ -20,7 +20,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     on<UserLoaded>(
       (event, emit) async {
-        await respositories.fetchUserData().then(
+        await respositories.fetchuser().then(
           (value) {
             if (value.isNotEmpty) {
               emit(
@@ -42,7 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     on<UserAdded>(
       (event, emit) async {
-        await respositories.addUserData(event.req).then(
+        await respositories.adduser(event.req).then(
           (value) {
             if (value.isNotEmpty) {
               emit(
