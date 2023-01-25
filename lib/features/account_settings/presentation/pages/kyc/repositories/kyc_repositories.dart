@@ -1,9 +1,7 @@
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/models/get_kyc_res.dart';
 
 class KycRepositories {
   final _dio = DioHelper();

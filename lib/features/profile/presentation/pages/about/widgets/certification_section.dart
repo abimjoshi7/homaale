@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/portfolio/presentation/pages/pages.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/documents/presentation/pages/edit/edit_certification.dart';
+import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -13,115 +14,157 @@ class CertificationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocBuilder<TaskerCertificationCubit, TaskerCertificationState>(
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
-          return state.user.certificates == null
-              ? const SizedBox.shrink()
-              : Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        if (state is TaskerGetCertificationSuccess) {
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: Card(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: kPadding20,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: kPadding20,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Certification',
-                                style: kPurpleText19,
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    AddCertifications.routeName,
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.edit_outlined,
-                                  size: 18,
-                                ),
-                              ),
-                            ],
-                          ),
+                        const Text(
+                          'Certification',
+                          style: kPurpleText19,
                         ),
-                        Column(
-                          children: List.generate(
-                            state.user.certificates?.length ?? 0,
-                            (index) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      launchUrl(
-                                        Uri.parse(
-                                          state.user.certificates?[index]!
-                                                  .certificateUrl ??
-                                              'www.google.com',
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      state.user.certificates?[index]?.name ??
-                                          '',
-                                      style: kText17,
-                                    ),
-                                  ),
-                                  Text(
-                                    state.user.certificates?[index]
-                                            ?.description ??
-                                        '',
-                                    style: kText15,
-                                  ),
-                                  if (state.user.certificates == null)
-                                    const SizedBox.shrink()
-                                  else
-                                    Text(
-                                      '${DateFormat('yyyy-MM-dd').format(state.user.certificates?[index]?.issuedDate ?? DateTime.now())} - ${DateFormat('yyyy-MM-dd').format(state.user.certificates?[index]?.expireDate ?? DateTime.now())}',
-                                      style: kHelper13,
-                                    ),
-                                  const Divider()
-                                ],
-                              ),
-                            ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AddCertifications.routeName,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit_outlined,
+                            size: 18,
                           ),
                         ),
                       ],
                     ),
                   ),
-                );
+                  Column(
+                    children: List.generate(
+                      state.taskerCertificationRes.length,
+                      (index) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    launchUrl(
+                                      Uri.parse(
+                                        state.taskerCertificationRes[index]
+                                                .certificateUrl ??
+                                            'www.google.com',
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    state.taskerCertificationRes[index].name ??
+                                        '',
+                                    style: kText17,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          constraints: const BoxConstraints(
+                                            maxHeight: 800,
+                                          ),
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (context) =>
+                                              EditCertification(
+                                            id: state
+                                                .taskerCertificationRes[index]
+                                                .id!,
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        Icons.edit_outlined,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () async {
+                                        await context
+                                            .read<TaskerCertificationCubit>()
+                                            .deleteTaskerCertification(
+                                              state
+                                                  .taskerCertificationRes[index]
+                                                  .id!,
+                                            );
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete_outline_outlined,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            Text(
+                              state.taskerCertificationRes[index].description ??
+                                  '',
+                              style: kText15,
+                            ),
+                            if (state.taskerCertificationRes.isEmpty)
+                              const SizedBox.shrink()
+                            else
+                              Text(
+                                '${DateFormat('yyyy-MM-dd').format(state.taskerCertificationRes[index].issuedDate ?? DateTime.now())} - ${DateFormat('yyyy-MM-dd').format(state.taskerCertificationRes[index].expireDate ?? DateTime.now())}',
+                                style: kHelper13,
+                              ),
+                            const Divider()
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
-        return Padding(
-          padding: kPadding20,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Certification',
-                style: kPurpleText19,
-              ),
-              kHeight10,
-              Text('Garden Cleaner'),
-              Text(
-                'Cagtu. Full-time',
-                style: kHelper13,
-              ),
-              Text(
-                'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
-              ),
-              Text(
-                'June 2002-Present',
-                style: kHelper13,
-              )
-            ],
-          ),
-        );
+        return const SizedBox.shrink();
+        // return Padding(
+        //   padding: kPadding20,
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: const [
+        //       Text(
+        //         'Certification',
+        //         style: kPurpleText19,
+        //       ),
+        //       kHeight10,
+        //       Text('Garden Cleaner'),
+        //       Text(
+        //         'Cagtu. Full-time',
+        //         style: kHelper13,
+        //       ),
+        //       Text(
+        //         'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
+        //       ),
+        //       Text(
+        //         'June 2002-Present',
+        //         style: kHelper13,
+        //       )
+        //     ],
+        //   ),
+        // );
       },
     );
   }

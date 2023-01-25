@@ -2,9 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/documents/models/tasker_education_req.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -242,9 +241,9 @@ class _AddEducationState extends State<AddEducation> {
           BlocConsumer<TaskerEducationCubit, TaskerEducationState>(
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
-              if (state is TaskerEducationSuccess) {
+              if (state is TaskerAddEducationSuccess) {
                 if (!mounted) return;
-                await context.read<UserBloc>().getTaskeruser();
+                // await context.read<UserBloc>().getTaskeruser();
 
                 showDialog(
                   context: context,
@@ -259,7 +258,7 @@ class _AddEducationState extends State<AddEducation> {
                     isSuccess: true,
                   ),
                 );
-              } else if (state is TaskerEducationFailure) {
+              } else if (state is TaskerAddEducationFailure) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -283,13 +282,13 @@ class _AddEducationState extends State<AddEducation> {
                   if (_key123.currentState!.validate() &&
                       startDate!.isBefore(endDate!)) {
                     _key123.currentState!.save();
-                    final taskerEducationReq = Education(
+                    final taskerEducationReq = TaskerEducationReq(
                       school: schoolController.text,
                       description: descriptionController.text,
                       degree: degreeController.text,
                       fieldOfStudy: fieldOfStudyController.text,
                       location: locationController.text,
-                      startDate: startDate,
+                      startDate: startDate ?? DateTime.now(),
                       endDate: endDate,
                     );
                     context

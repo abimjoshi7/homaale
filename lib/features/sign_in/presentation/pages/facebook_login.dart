@@ -1,10 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 

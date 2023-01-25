@@ -80,7 +80,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                     "profile_visibility": visibiltyType,
                     "task_preferences": taskPreferences,
                   };
-                  context.read<UserBloc>().editTaskeruser(map);
+                  // context.read<UserBloc>().editTaskeruser(map);
                 }
               },
             );

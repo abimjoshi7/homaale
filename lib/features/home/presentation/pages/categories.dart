@@ -48,22 +48,22 @@ class Categories extends StatelessWidget {
                 ),
                 Expanded(
                   child: GridView.builder(
-                      itemCount: state.taskCategoryList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                      ),
-                      itemBuilder: (context, index) => SizedBox.shrink()
-                      // CategoriesIcons(
-                      //   // color: categoriesColorList[index],
-                      //   color: Colors.amber,
-                      //   data: state.taskCategoryList[index].name ?? '',
-                      //   child: state.taskCategoryList[index].icon as Icon? ??
-                      //       const Icon(Icons.abc),
-                      // ),
-                      ),
+                    itemCount: state.taskCategoryList.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
+                    itemBuilder: (context, index) => const SizedBox.shrink(),
+                    // CategoriesIcons(
+                    //   // color: categoriesColorList[index],
+                    //   color: Colors.amber,
+                    //   data: state.taskCategoryList[index].name ?? '',
+                    //   child: state.taskCategoryList[index].icon as Icon? ??
+                    //       const Icon(Icons.abc),
+                    // ),
+                  ),
                 )
               ],
             );

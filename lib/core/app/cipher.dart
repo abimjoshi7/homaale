@@ -6,11 +6,7 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_certification_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_education_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';

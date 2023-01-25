@@ -1,5 +1,4 @@
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 
 class UtilitiesRepositories {

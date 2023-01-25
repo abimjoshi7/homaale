@@ -146,14 +146,13 @@ class DioHelper {
   }
 
   Future<dynamic> deleteDataWithCredential({
-    required Map<String, dynamic> data,
+    required int id,
     required String url,
-    required String token,
+    required String? token,
   }) async {
     try {
       final response = await dio.delete(
-        url,
-        data: jsonEncode(data),
+        '$url$id/',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

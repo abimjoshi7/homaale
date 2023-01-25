@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +21,7 @@ class SandboxPage extends StatelessWidget {
           Center(
             child: CustomElevatedButton(
               callback: () {
-                print(CacheHelper.accessToken);
+                log(CacheHelper.accessToken.toString());
               },
               label: 'Get Token',
             ),
@@ -32,6 +35,24 @@ class SandboxPage extends StatelessWidget {
                     );
               },
               label: 'Get User Data',
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: BlocBuilder<TaskerEducationCubit, TaskerEducationState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    await context
+                        .read<TaskerEducationCubit>()
+                        .getTaskerEducation();
+                    if (state is TaskerGetEducationSuccess) {
+                      log(state.taskerEducationRes.first.id.toString());
+                    }
+                  },
+                  label: 'Get Education',
+                );
+              },
             ),
           ),
         ],

@@ -1,8 +1,8 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is userEditSuccess) {
+        if (state is UserEditSuccess) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -43,7 +43,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is userEditFailure) {
+        } else if (state is UserEditFailure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -88,11 +88,11 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       );
                       await MultipartFile.fromFile(selectedImage!.path).then(
                         (value) {
-                          context.read<UserBloc>().editProfilePic(
-                            {
-                              "profile_image": value,
-                            },
-                          );
+                          // context.read<UserBloc>().editProfilePic(
+                          //   {
+                          //     "profile_image": value,
+                          //   },
+                          // );
                         },
                       );
                     },
@@ -256,22 +256,22 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       callback: () async {
                         _key.currentState!.save();
 
-                        final user = {
-                          "first_name": firstName!.isEmpty
-                              ? state.user.user!.firstName
-                              : firstName,
-                          "middle_name": middleName!.isEmpty
-                              ? state.user.user!.middleName
-                              : middleName,
-                          "last_name": lastName!.isEmpty
-                              ? state.user.user!.lastName
-                              : lastName,
-                          "designation": designation!.isEmpty
-                              ? state.user.designation
-                              : designation,
-                        };
+                        // final user = {
+                        //   "first_name": firstName!.isEmpty
+                        //       ? state.user.user!.firstName
+                        //       : firstName,
+                        //   "middle_name": middleName!.isEmpty
+                        //       ? state.user.user!.middleName
+                        //       : middleName,
+                        //   "last_name": lastName!.isEmpty
+                        //       ? state.user.user!.lastName
+                        //       : lastName,
+                        //   "designation": designation!.isEmpty
+                        //       ? state.user.designation
+                        //       : designation,
+                        // };
 
-                        await context.read<UserBloc>().editTaskeruser(user);
+                        // await context.read<UserBloc>().editTaskeruser(user);
                       },
                       label: 'Save',
                     ),
@@ -280,7 +280,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is userLoadFailure) {
+        } else if (state is UserLoadFailure) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

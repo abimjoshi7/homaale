@@ -14,7 +14,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       emit(
         CategoriesInitial(),
       );
-      final x = await repositories.fetchHeroCategory();
+      // final x = await repositories.fetchHeroCategory();
       // emit(
       //   CategoriesSuccess(
       //     taskCategoryList: x,

@@ -29,7 +29,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is userEditSuccess) {
+        if (state is UserEditSuccess) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -43,7 +43,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
               ),
             ),
           );
-        } else if (state is userEditFailure) {
+        } else if (state is UserEditFailure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -252,7 +252,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                       "gender": getGender(),
                     };
 
-                    await context.read<UserBloc>().editTaskeruser(user);
+                    // await context.read<UserBloc>().editTaskeruser(user);
                   },
                   label: 'Save',
                 )

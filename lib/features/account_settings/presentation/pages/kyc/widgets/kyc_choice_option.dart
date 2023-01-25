@@ -72,7 +72,6 @@ class _KycChoiceOptionState extends State<KycChoiceOption> {
               width: 180,
               child: CustomElevatedButton(
                 callback: () async {
-                  print(selectedIndex);
                   // await showGeneralInformationMS(context);
                 },
                 label: 'Continue',

@@ -16,4 +16,6 @@ class FilePickHelper {
     }
     return file;
   }
+
+  void test() {}
 }

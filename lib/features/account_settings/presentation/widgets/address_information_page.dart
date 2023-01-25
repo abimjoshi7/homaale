@@ -130,24 +130,25 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 callback: () async {
                   _key.currentState!.save();
 
-                  final user = {
-                    "country": countryName ?? state.user.country,
-                    "address_line1": addressLine1!.isEmpty
-                        ? state.user.addressLine1
-                        : addressLine1,
-                    "address_line2": addressLine2!.isEmpty
-                        ? state.user.addressLine2
-                        : addressLine2,
-                    "language": languages ?? state.user.language,
-                    "charge_currency": currency ?? state.user.chargeCurrency,
-                    // "charge_currency": ChargeCurrency(
-                    // 	code: 'NPR',
-                    // 	name:
-                    // ),
-                  };
+                  // final user = {
+                  //   "country": countryName ?? state.user.country,
+                  //   "address_line1": addressLine1!.isEmpty
+                  //       ? state.user.addressLine1
+                  //       : addressLine1,
+                  //   "address_line2": addressLine2!.isEmpty
+                  //       ? state.user.addressLine2
+                  //       : addressLine2,
+                  //   "language": languages ?? state.user.language,
+                  //   "charge_currency": currency ?? state.user.chargeCurrency,
+                  //   "charge_currency":
+                  // 	ChargeCurrency(
+                  //   	code: 'NPR',
+                  //   	name:
+                  //   ),
+                  // };
                   // print(user);
 
-                  await context.read<UserBloc>().editTaskeruser(user);
+                  // await context.read<UserBloc>().editTaskeruser(user);
                 },
                 label: 'Save',
               ),

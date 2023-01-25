@@ -196,9 +196,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     CustomCheckBox(
                       isChecked: isChecked,
                       onTap: () => setState(() {
-                        print(
-                          CacheHelper.accessToken,
-                        );
                         isChecked = !isChecked;
                       }),
                     ),

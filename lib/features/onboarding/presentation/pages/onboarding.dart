@@ -58,9 +58,7 @@ class _OnboardingState extends State<Onboarding> {
             selectedIndex = value;
           },
         ),
-        itemBuilder: (context, index) => Container(
-          // height: MediaQueryHelper.theHeight(context),
-          // width: MediaQueryHelper.theWidth(context),
+        itemBuilder: (context, index) => ColoredBox(
           color: const Color(0xff5c6096),
           child: Column(
             children: [

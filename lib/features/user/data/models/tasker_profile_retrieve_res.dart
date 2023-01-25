@@ -496,7 +496,7 @@ class Stats {
   });
 
   factory Stats.fromJson(Map<String, dynamic> json) => Stats(
-        successRate: json['success_rate'] as double?,
+        successRate: json['success_rate'] as int?,
         happyClients: json['happy_clients'] as int?,
         taskCompleted: json['task_completed'] as int?,
         userReviews: json['user_reviews'] as int?,
@@ -505,7 +505,7 @@ class Stats {
         taskCancelled: json['task_cancelled'] as int?,
       );
 
-  final double? successRate;
+  final int? successRate;
   final int? happyClients;
   final int? taskCompleted;
   final int? userReviews;

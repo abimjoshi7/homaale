@@ -53,14 +53,9 @@ mixin LoginConfig {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  // horizontal: MediaQueryHelper.theWidth(context) * 0.23,
-                  ),
-              child: CustomElevatedButton(
-                callback: () {},
-                label: 'Continue',
-              ),
+            CustomElevatedButton(
+              callback: () {},
+              label: 'Continue',
             ),
             kHeight20,
           ],

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
@@ -32,7 +31,7 @@ class UserRepositories {
       final x = await _dio.postDataWithCredential(
         data: taskerProfileCreateReq.toJson(),
         url: 'tasker/profile/',
-        token: CacheHelper.accessToken!,
+        token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
       // return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);

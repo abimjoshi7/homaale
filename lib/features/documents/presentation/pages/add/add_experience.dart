@@ -2,8 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_experience_cubit.dart';
+import 'package:cipher/features/documents/models/tasker_experience_req.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -263,9 +263,9 @@ class _AddExperienceState extends State<AddExperience> {
           BlocConsumer<TaskerExperienceCubit, TaskerExperienceState>(
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
-              if (state is TaskerExperienceSuccess) {
+              if (state is TaskerAddExperienceSuccess) {
                 if (!mounted) return;
-                await context.read<UserBloc>().getTaskeruser();
+                // await context.read<UserBloc>().getTaskeruser();
 
                 showDialog(
                   context: context,
@@ -280,7 +280,7 @@ class _AddExperienceState extends State<AddExperience> {
                     isSuccess: true,
                   ),
                 );
-              } else if (state is TaskerExperienceFailure) {
+              } else if (state is TaskerAddExperienceFailure) {
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -301,32 +301,36 @@ class _AddExperienceState extends State<AddExperience> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  // if (_key.currentState!.validate() &&
-                  //     issuedDate!.isBefore(expiryDate!)) {
-                  //   _key.currentState!.save();
-                  //   final taskerExperience = TaskerExperienceReq(
-                  //     title: titleController.text,
-                  //     description: descriptionController.text,
-                  //     companyName: companyNameController.text,
-                  //     currentlyWorking: true,
-                  //     employmentType: employmentController.text,
-                  //     location: locationController.text,
-                  //     startDate: issuedDate,
-                  //     endDate: expiryDate,
-                  //   );
+                  if (_key.currentState!.validate() &&
+                      issuedDate!.isBefore(expiryDate!)) {
+                    _key.currentState!.save();
 
-                  //   await context
-                  //       .read<TaskerExperienceCubit>()
-                  //       .addTaskerExperience(
-                  //         taskerExperience,
-                  //       );
-                  // } else if (expiryDate!.isBefore(issuedDate!)) {
-                  //   ScaffoldMessenger.of(context).showSnackBar(
-                  //     const SnackBar(
-                  //       content: Text('Please check your start and end dates'),
-                  //     ),
-                  //   );
-                  // }
+                    await context
+                        .read<TaskerExperienceCubit>()
+                        .addTaskerExperience(
+                          TaskerExperienceReq(
+                            title: titleController.text,
+                            description: descriptionController.text,
+                            companyName: companyNameController.text,
+                            currentlyWorking: true,
+                            employmentType: employmentController.text,
+                            location: locationController.text,
+                            startDate: issuedDate ?? DateTime.now(),
+                            endDate: expiryDate,
+                          ),
+                        )
+                        .then(
+                          (value) => context.read<UserBloc>().add(
+                                UserLoaded(),
+                              ),
+                        );
+                  } else if (expiryDate!.isBefore(issuedDate!)) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please check your start and end dates'),
+                      ),
+                    );
+                  }
                 },
                 label: 'Add',
               );

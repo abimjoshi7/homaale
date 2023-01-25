@@ -2,9 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
-import 'package:cipher/features/account_settings/presentation/cubit/user_data_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/image_upload_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
+import 'package:cipher/features/documents/models/tasker_portfolio_req.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -236,20 +235,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           isRequired: true,
                           child: InkWell(
                             onTap: () async {
-                              // final file = await FilePickHelper.filePicker();
                               await context
                                   .read<ImageUploadCubit>()
                                   .uploadFile();
-                              // print(123);
-                              // FilePickerResult? result =
-                              //     await FilePicker.platform.pickFiles();
-
-                              // if (result != null) {
-                              //   File file = File(result.files.single.path!);
-                              //   log(file.path.toString());
-                              // } else {
-                              //   // User canceled the picker
-                              // } // await context.read<ImageUploadCubit>().uploadFile();
                             },
                             child: SizedBox(
                               height: 150,
@@ -268,9 +256,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                 BlocConsumer<TaskerPortfolioCubit, TaskerPortfolioState>(
                   listener: (context, state2) async {
                     final error = await CacheHelper.getCachedString(kErrorLog);
-                    if (state2 is TaskerPortfolioSuccess) {
+                    if (state2 is TaskerAddPortfolioSuccess) {
                       if (!mounted) return;
-                      await context.read<UserBloc>().getTaskeruser();
+                      // await context.read<UserBloc>().getTaskeruser();
 
                       showDialog(
                         context: context,
@@ -294,7 +282,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                       //   context,
                       //   AddExperience.routeName,
                       // );
-                    } else if (state2 is TaskerPortfolioFailure) {
+                    } else if (state2 is TaskerAddPortfolioFailure) {
                       // ScaffoldMessenger.of(context).showSnackBar(
                       //   SnackBar(
                       //     content: Text(error!),
@@ -319,26 +307,26 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     return Center(
                       child: CustomElevatedButton(
                         callback: () async {
-                          // if (_key.currentState!.validate()) {
-                          //   if (state is ImageUploadSuccess) {
-                          //     _key.currentState!.save();
-                          //     final taskerPortfolioReq = TaskerPortfolioReq(
-                          //       title: titleController.text,
-                          //       description: descriptionController.text,
-                          //       issuedDate: issuedDate,
-                          //       credentialUrl:
-                          //           'https://${credentialUrlController.text}',
-                          //       files: [],
-                          //       images: List<int>.from(state.list),
-                          //     );
+                          if (_key.currentState!.validate()) {
+                            if (state is ImageUploadSuccess) {
+                              _key.currentState!.save();
+                              final taskerPortfolioReq = TaskerPortfolioReq(
+                                title: titleController.text,
+                                description: descriptionController.text,
+                                issuedDate: issuedDate ?? DateTime.now(),
+                                credentialUrl:
+                                    'https://${credentialUrlController.text}',
+                                files: [],
+                                images: List<int>.from(state.list),
+                              );
 
-                          //     await context
-                          //         .read<TaskerPortfolioCubit>()
-                          //         .addPortfolio(
-                          //           taskerPortfolioReq,
-                          //         );
-                          //   }
-                          // }
+                              await context
+                                  .read<TaskerPortfolioCubit>()
+                                  .addPortfolio(
+                                    taskerPortfolioReq,
+                                  );
+                            }
+                          }
                         },
                         label: 'Add',
                       ),

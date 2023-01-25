@@ -1,8 +1,8 @@
 import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/features/portfolio/presentation/cubit/tasker_portfolio_cubit.dart';
-import 'package:cipher/features/portfolio/presentation/pages/add_portfolio.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/documents/presentation/pages/edit/edit_portfolio.dart';
+import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -38,12 +38,12 @@ class _PortfolioSectionState extends State<PortfolioSection> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
+    return BlocConsumer<TaskerPortfolioCubit, TaskerPortfolioState>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
+        if (state is TaskerGetPortfolioSuccess) {
           return Padding(
             padding: const EdgeInsets.all(10),
             child: SizedBox(
@@ -78,17 +78,27 @@ class _PortfolioSectionState extends State<PortfolioSection> {
                   Expanded(
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.user.portfolio == null
-                          ? 1
-                          : state.user.portfolio!.length,
+                      itemCount: state.taskerPortfolioRes.length,
                       // itemCount: state.taskerPortfolioRes.result!.length,
-                      itemBuilder: (context, index) => PortfolioCard(
-                        // imagePath: state.user.portfolio![index].images[index],
-                        imagePath: 'assets/Casual life 3D - 39.png',
-                        label: state.user.portfolio == null
-                            ? ''
-                            : state.user.portfolio![index]!.title!,
-                        // label: state.taskerPortfolioRes.result![index]!.title!,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            constraints: const BoxConstraints(
+                              maxHeight: 800,
+                            ),
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => EditPortfolio(
+                              id: state.taskerPortfolioRes[index].id!,
+                            ),
+                          );
+                        },
+                        child: PortfolioCard(
+                          // imagePath: state.taskerPortfolioRes[index].images[index],
+                          imagePath: 'assets/Casual life 3D - 39.png',
+                          label: state.taskerPortfolioRes[index].title!,
+                          // label: state.taskerPortfolioRes.result![index]!.title!,
+                        ),
                       ),
                       separatorBuilder: (context, index) => kWidth10,
                     ),
@@ -98,44 +108,45 @@ class _PortfolioSectionState extends State<PortfolioSection> {
             ),
           );
         } else {
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () async {
-                    await context.read<TaskerPortfolioCubit>().getPortfolio(5);
-                  },
-                  child: const Text(
-                    'Portfolio',
-                  ),
-                ),
-                kHeight10,
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: const [
-                      PortfolioCard(
-                        label: 'Kitchen Cleaning',
-                        imagePath: 'assets/Casual life 3D - 39.png',
-                      ),
-                      kWidth5,
-                      PortfolioCard(
-                        label: 'Kitchen Cleaning',
-                        imagePath: 'assets/Casual life 3D - 39.png',
-                      ),
-                      kWidth5,
-                      PortfolioCard(
-                        label: 'Motor Cleaning',
-                        imagePath: 'assets/Casual life 3D - 39.png',
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
+          return const SizedBox.shrink();
+          // return Padding(
+          //   padding: const EdgeInsets.all(10),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       InkWell(
+          //         onTap: () async {
+          //           // await context.read<TaskerPortfolioCubit>().getPortfolio(5);
+          //         },
+          //         child: const Text(
+          //           'Portfolio',
+          //         ),
+          //       ),
+          //       kHeight10,
+          //       SingleChildScrollView(
+          //         scrollDirection: Axis.horizontal,
+          //         child: Row(
+          //           children: const [
+          //             PortfolioCard(
+          //               label: 'Kitchen Cleaning',
+          //               imagePath: 'assets/Casual life 3D - 39.png',
+          //             ),
+          //             kWidth5,
+          //             PortfolioCard(
+          //               label: 'Kitchen Cleaning',
+          //               imagePath: 'assets/Casual life 3D - 39.png',
+          //             ),
+          //             kWidth5,
+          //             PortfolioCard(
+          //               label: 'Motor Cleaning',
+          //               imagePath: 'assets/Casual life 3D - 39.png',
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // );
         }
       },
     );

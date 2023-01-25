@@ -1,5 +1,4 @@
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_res.dart';
