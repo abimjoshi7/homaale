@@ -180,7 +180,7 @@ class _ProfessionalInformationModalSheetState
           ),
         ),
         CustomElevatedButton(
-          callback: () {},
+          callback: () async {},
           label: 'Save',
         )
       ],

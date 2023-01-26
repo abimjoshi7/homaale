@@ -20,8 +20,12 @@ class UserAdded extends UserEvent {
 }
 
 class UserEdited extends UserEvent {
+  final Map<String, dynamic> req;
+  const UserEdited({
+    required this.req,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [req];
 }
 
 class UserDeleted extends UserEvent {

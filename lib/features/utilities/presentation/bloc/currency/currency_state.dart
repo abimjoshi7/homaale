@@ -11,7 +11,7 @@ class CurrencyLoading extends CurrencyState {
 }
 
 class CurrencyLoadSuccess extends CurrencyState {
-  final List<CurrencyListRes> currencyListRes;
+  final List<CurrencyModel> currencyListRes;
   const CurrencyLoadSuccess({
     required this.currencyListRes,
   });

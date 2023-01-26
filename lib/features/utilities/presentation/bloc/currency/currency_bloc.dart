@@ -1,29 +1,28 @@
 import 'package:bloc/bloc.dart';
-import 'package:cipher/features/utilities/data/models/city_list_res.dart';
+import 'package:cipher/features/utilities/data/models/currency_model.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
 import 'package:equatable/equatable.dart';
 
-part 'city_event.dart';
-part 'city_state.dart';
+part 'currency_event.dart';
+part 'currency_state.dart';
 
-class CityBloc extends Bloc<CityEvent, CityState> {
+class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
   final _repositories = UtilitiesRepositories();
-  CityBloc() : super(CityLoading()) {
-    on<CityLoadInitiated>(
+
+  CurrencyBloc() : super(CurrencyLoading()) {
+    on<CurrencyLoadInitiated>(
       (event, emit) async {
         try {
           emit(
-            CityLoading(),
+            CurrencyLoading(),
           );
 
-          await _repositories.getCitiesList().then(
+          await _repositories.getCurrencyList().then(
             (value) {
               if (value.isNotEmpty) {
                 emit(
-                  CityLoadSuccess(
-                    list: List<CityListRes>.from(
-                      value.map((e) => CityListRes.fromJson(e)).toList(),
-                    ),
+                  CurrencyLoadSuccess(
+                    currencyListRes: value,
                   ),
                 );
               }
@@ -31,7 +30,7 @@ class CityBloc extends Bloc<CityEvent, CityState> {
           );
         } catch (e) {
           emit(
-            CityLoadFailure(),
+            CurrencyLoadFailure(),
           );
         }
       },

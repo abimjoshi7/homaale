@@ -16,7 +16,7 @@ class InterestsBloc extends Bloc<InterestsEvent, InterestsState> {
             InterestsLoading(),
           );
 
-          await _repositories.getInterestsList().then(
+          await _repositories.getInterestList().then(
             (value) {
               if (value.isNotEmpty) {
                 emit(

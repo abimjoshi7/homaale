@@ -1,5 +1,5 @@
-class CountryListRes {
-  CountryListRes({
+class CountryModel {
+  CountryModel({
     this.name,
     this.code,
   });
@@ -7,7 +7,7 @@ class CountryListRes {
   final String? name;
   final String? code;
 
-  factory CountryListRes.fromJson(Map<String, dynamic> json) => CountryListRes(
+  factory CountryModel.fromJson(Map<String, dynamic> json) => CountryModel(
         name: json["name"] as String?,
         code: json["code"] as String?,
       );

@@ -10,7 +10,7 @@ class CityLoading extends CityState {
 }
 
 class CityLoadSuccess extends CityState {
-  final List<CityListRes> list;
+  final List<CityModel> list;
   const CityLoadSuccess({
     required this.list,
   });

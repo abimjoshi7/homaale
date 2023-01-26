@@ -10,7 +10,7 @@ class CountryLoading extends CountryState {
 }
 
 class CountryLoadSuccess extends CountryState {
-  final List<CountryListRes> list;
+  final List<CountryModel> list;
   const CountryLoadSuccess({
     required this.list,
   });

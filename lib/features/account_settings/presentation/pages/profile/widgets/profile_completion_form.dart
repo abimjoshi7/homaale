@@ -6,13 +6,12 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/validations/validations.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/currency_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -873,42 +872,46 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             } else {
                               userType = "";
                             }
-                            // await context.read<UserBloc>().postTaskeruser(
-                            //       TaskerProfileCreateReq(
-                            //         city: cityCode,
-                            //         country: countryName,
-                            //         interests: interestCodes,
-                            //         firstName: firstNameController.text,
-                            //         middleName: middleNameController.text,
-                            //         lastName: lastNameController.text,
-                            //         bio: bioController.text,
-                            //         designation: designationController.text,
-                            //         gender: genderGroup,
-                            //         skill: tagController.getTags.toString(),
-                            //         dateOfBirth: dateOfBirth,
-                            //         activeHourStart: startTime!.format(context),
-                            //         activeHourEnd: endTime!.format(context),
-                            //         experienceLevel: experienceLevel,
-                            //         userType: userType,
-                            //         hourlyRate:
-                            //             int.parse(baseRateController.text),
-                            //         profileVisibility:
-                            //             visibilityController.text,
-                            //         taskPreferences:
-                            //             taskPreferencesController.text,
-                            //         addressLine1: address1Controller.text,
-                            //         addressLine2: address2Controller.text,
-                            //         chargeCurrency: currencyCode,
-                            //         // chargeCurrency: 'NPR',
-                            //         remainingPoints: 0,
-                            //         points: 0,
-                            //         followingCount: 0,
-                            //         profileImage: await MultipartFile.fromFile(
-                            //           selectedImage?.path ??
-                            //               'assets/homaale_logo_title_light.png',
-                            //         ),
-                            //       ),
-                            //     );
+                            context.read<UserBloc>().add(
+                                  UserAdded(
+                                    req: TaskerProfileCreateReq(
+                                      city: cityCode,
+                                      country: countryName,
+                                      interests: interestCodes,
+                                      firstName: firstNameController.text,
+                                      middleName: middleNameController.text,
+                                      lastName: lastNameController.text,
+                                      bio: bioController.text,
+                                      designation: designationController.text,
+                                      gender: genderGroup,
+                                      skill: tagController.getTags.toString(),
+                                      dateOfBirth: dateOfBirth,
+                                      activeHourStart:
+                                          startTime!.format(context),
+                                      activeHourEnd: endTime!.format(context),
+                                      experienceLevel: experienceLevel,
+                                      userType: userType,
+                                      hourlyRate:
+                                          int.parse(baseRateController.text),
+                                      profileVisibility:
+                                          visibilityController.text,
+                                      taskPreferences:
+                                          taskPreferencesController.text,
+                                      addressLine1: address1Controller.text,
+                                      addressLine2: address2Controller.text,
+                                      // chargeCurrency: currencyCode,
+                                      chargeCurrency: 'NPR',
+                                      remainingPoints: 0,
+                                      points: 0,
+                                      followingCount: 0,
+                                      profileImage:
+                                          await MultipartFile.fromFile(
+                                        selectedImage?.path ??
+                                            'assets/homaale_logo_title_light.png',
+                                      ),
+                                    ),
+                                  ),
+                                );
                           }
                         },
                         label: 'Save',

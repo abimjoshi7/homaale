@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   String? contact;
   DateTime? dob;
   String? bio;
-  final _key = GlobalKey<FormState>();
+  TaskerProfileRetrieveRes? user;
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +62,10 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
       },
       builder: (context, state) {
         if (state is UserLoadSuccess) {
+          user = state.user;
+
           String getGender() {
-            if (state.user.gender == null) {
+            if (user?.gender == null) {
               if (isMale) {
                 return 'Male';
               } else if (isFemale) {
@@ -71,193 +74,189 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                 return 'Other';
               }
             } else {
-              return state.user.gender!;
+              return user!.gender!;
             }
           }
 
-          email = state.user.user!.email;
-          contact = state.user.user!.phone;
-          dob = state.user.dateOfBirth;
-          bio = state.user.bio;
-
-          return Form(
-            key: _key,
-            child: Column(
-              children: [
-                const CustomModalSheetDrawerIcon(),
-                kHeight10,
-                const Text(
-                  'Personal Information',
-                  style: kPurpleText19,
-                ),
-                Padding(
-                  padding: kPadding20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormField(
-                        label: 'Email',
-                        isRequired: false,
-                        child: CustomTextFormField(
-                          hintText: state.user.user!.email ?? '',
-                          onSaved: (p0) => setState(
-                            () {
-                              email = p0;
-                            },
-                          ),
-                        ),
-                      ),
-                      CustomFormField(
-                        label: 'Contact',
-                        isRequired: false,
-                        child: CustomTextFormField(
-                          textInputType: TextInputType.number,
-                          hintText: state.user.user!.phone ?? '',
-                          prefixWidget: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset('assets/nepalflag.png'),
-                                const Text(
-                                  '+977',
-                                  style: kBodyText1,
-                                ),
-                                const Icon(Icons.arrow_drop_down)
-                              ],
-                            ),
-                          ),
-                          onSaved: (p0) => setState(
-                            () {
-                              contact = p0;
-                            },
-                          ),
-                        ),
-                      ),
-                      CustomFormField(
-                        label: 'Date of birth',
-                        isRequired: false,
-                        child: InkWell(
-                          onTap: () async {
-                            await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1800),
-                              lastDate: DateTime(2080),
-                            ).then(
-                              (value) => setState(
-                                () {
-                                  dob = value;
-                                },
-                              ),
-                            );
+          return Column(
+            children: [
+              const CustomModalSheetDrawerIcon(),
+              kHeight10,
+              const Text(
+                'Personal Information',
+                style: kPurpleText19,
+              ),
+              Padding(
+                padding: kPadding20,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomFormField(
+                      label: 'Email',
+                      isRequired: false,
+                      child: CustomTextFormField(
+                        hintText: user?.user?.email ?? '',
+                        onChanged: (p0) => setState(
+                          () {
+                            email = p0;
                           },
-                          child: CustomFormContainer(
-                            leadingWidget: const Icon(Icons.calendar_month),
-                            hintText: DateFormat('yyyy-MM-dd').format(dob!),
+                        ),
+                      ),
+                    ),
+                    CustomFormField(
+                      label: 'Contact',
+                      isRequired: false,
+                      child: CustomTextFormField(
+                        textInputType: TextInputType.number,
+                        hintText: user?.user?.phone ?? '',
+                        prefixWidget: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/nepalflag.png'),
+                              const Text(
+                                '+977',
+                                style: kBodyText1,
+                              ),
+                              const Icon(Icons.arrow_drop_down)
+                            ],
+                          ),
+                        ),
+                        onChanged: (p0) => setState(
+                          () {
+                            contact = p0;
+                          },
+                        ),
+                      ),
+                    ),
+                    CustomFormField(
+                      label: 'Date of birth',
+                      isRequired: false,
+                      child: InkWell(
+                        onTap: () async {
+                          await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1800),
+                            lastDate: DateTime(2080),
+                          ).then(
+                            (value) => setState(
+                              () {
+                                dob = value;
+                              },
+                            ),
+                          );
+                        },
+                        child: CustomFormContainer(
+                          leadingWidget: const Icon(Icons.calendar_month),
+                          hintText: DateFormat('yyyy-MM-dd').format(
+                            dob ?? user!.dateOfBirth!,
                           ),
                         ),
                       ),
-                      CustomFormField(
-                        label: 'Please specify your gender',
-                        isRequired: false,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ChoiceChip(
-                              selected: isMale,
-                              backgroundColor: Colors.transparent,
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(color: Color(0xffDEE2E6)),
-                              ),
-                              onSelected: (value) {
-                                setState(() {
-                                  isMale = value;
-                                  isFemale = !value;
-                                  isOther = !value;
-                                });
-                              },
-                              label: const Text(
-                                'Male',
-                                style: kHelper13,
-                              ),
-                              selectedColor: kColorPrimary,
+                    ),
+                    CustomFormField(
+                      label: 'Please specify your gender',
+                      isRequired: false,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ChoiceChip(
+                            selected: isMale,
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffDEE2E6)),
                             ),
-                            ChoiceChip(
-                              selected: isFemale,
-                              backgroundColor: Colors.transparent,
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(color: Color(0xffDEE2E6)),
-                              ),
-                              onSelected: (value) {
-                                setState(() {
-                                  isFemale = value;
-                                  isMale = !value;
-                                  isOther = !value;
-                                });
-                              },
-                              label: const Text(
-                                'Female',
-                                style: kHelper13,
-                              ),
-                              selectedColor: kColorPrimary,
-                            ),
-                            ChoiceChip(
-                              selected: isOther,
-                              backgroundColor: Colors.transparent,
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(color: Color(0xffDEE2E6)),
-                              ),
-                              onSelected: (value) {
-                                setState(() {
-                                  isOther = value;
-                                  isMale = !value;
-                                  isFemale = !value;
-                                });
-                              },
-                              label: const Text(
-                                'Other',
-                                style: kHelper13,
-                              ),
-                              selectedColor: kColorPrimary,
-                            ),
-                          ],
-                        ),
-                      ),
-                      CustomFormField(
-                        label: 'Bio',
-                        isRequired: false,
-                        child: CustomTextFormField(
-                          maxLines: 3,
-                          hintText: bio!,
-                          onSaved: (p0) => setState(
-                            () {
-                              bio = p0;
+                            onSelected: (value) {
+                              setState(() {
+                                isMale = value;
+                                isFemale = !value;
+                                isOther = !value;
+                              });
                             },
+                            label: const Text(
+                              'Male',
+                              style: kHelper13,
+                            ),
+                            selectedColor: kColorPrimary,
                           ),
+                          ChoiceChip(
+                            selected: isFemale,
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffDEE2E6)),
+                            ),
+                            onSelected: (value) {
+                              setState(() {
+                                isFemale = value;
+                                isMale = !value;
+                                isOther = !value;
+                              });
+                            },
+                            label: const Text(
+                              'Female',
+                              style: kHelper13,
+                            ),
+                            selectedColor: kColorPrimary,
+                          ),
+                          ChoiceChip(
+                            selected: isOther,
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffDEE2E6)),
+                            ),
+                            onSelected: (value) {
+                              setState(() {
+                                isOther = value;
+                                isMale = !value;
+                                isFemale = !value;
+                              });
+                            },
+                            label: const Text(
+                              'Other',
+                              style: kHelper13,
+                            ),
+                            selectedColor: kColorPrimary,
+                          ),
+                        ],
+                      ),
+                    ),
+                    CustomFormField(
+                      label: 'Bio',
+                      isRequired: false,
+                      child: CustomTextFormField(
+                        maxLines: 3,
+                        hintText: bio ?? 'Enter Bio',
+                        onChanged: (p0) => setState(
+                          () {
+                            bio = p0;
+                          },
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                kHeight20,
-                CustomElevatedButton(
-                  callback: () async {
-                    _key.currentState!.save();
-
-                    final user = {
-                      "date_of_birth": DateFormat("yyyy-MM-dd")
-                          .format(dob ?? state.user.dateOfBirth!),
-                      "bio": bio!.isEmpty ? state.user.bio : bio,
-                      "gender": getGender(),
-                    };
-
-                    // await context.read<UserBloc>().editTaskeruser(user);
-                  },
-                  label: 'Save',
-                )
-              ],
-            ),
+              ),
+              kHeight20,
+              CustomElevatedButton(
+                callback: () {
+                  final x = {
+                    "date_of_birth": DateFormat("yyyy-MM-dd").format(
+                      dob ?? user?.dateOfBirth ?? DateTime.now(),
+                    ),
+                    "bio": bio ?? user?.bio ?? 'Bio',
+                    "gender": getGender(),
+                  };
+                  context.read<UserBloc>().add(
+                        UserEdited(
+                          req: x,
+                        ),
+                      );
+                },
+                label: 'Save',
+              )
+            ],
           );
         } else {
           return const Center(

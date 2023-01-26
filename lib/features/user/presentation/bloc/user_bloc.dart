@@ -10,14 +10,6 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final respositories = UserRepositories();
   UserBloc() : super(UserLoading()) {
-    on<UserEvent>(
-      (event, emit) {
-        emit(
-          UserLoading(),
-        );
-      },
-    );
-
     on<UserLoaded>(
       (event, emit) async {
         await respositories.fetchuser().then(
@@ -52,13 +44,45 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                   ),
                 ),
               );
+              add(
+                UserLoaded(),
+              );
             } else {
               emit(
                 UserLoadFailure(),
               );
+              add(
+                UserLoaded(),
+              );
             }
           },
         );
+      },
+    );
+
+    on<UserEdited>(
+      (event, emit) async {
+        try {
+          await respositories
+              .edituser(event.req)
+              .then(
+                (value) => emit(
+                  UserEditSuccess(),
+                ),
+              )
+              .then(
+                (value) => add(
+                  UserLoaded(),
+                ),
+              );
+        } catch (e) {
+          emit(
+            UserEditFailure(),
+          );
+          add(
+            UserLoaded(),
+          );
+        }
       },
     );
   }

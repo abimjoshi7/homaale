@@ -67,23 +67,18 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
           ),
         ),
         kHeight20,
-        BlocConsumer<UserBloc, UserState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            return CustomElevatedButton(
-              label: 'Save',
-              callback: () {
-                if (state is UserLoadSuccess) {
-                  final map = {
-                    "profile_visibility": visibiltyType,
-                    "task_preferences": taskPreferences,
-                  };
-                  // context.read<UserBloc>().editTaskeruser(map);
-                }
-              },
-            );
+        CustomElevatedButton(
+          label: 'Save',
+          callback: () {
+            final map = {
+              "profile_visibility": visibiltyType,
+              "task_preferences": taskPreferences,
+            };
+            context.read<UserBloc>().add(
+                  UserEdited(
+                    req: map,
+                  ),
+                );
           },
         )
       ],

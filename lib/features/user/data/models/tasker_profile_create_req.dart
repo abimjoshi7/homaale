@@ -36,23 +36,23 @@ import 'package:dio/dio.dart';
 
 class TaskerProfileCreateReq {
   TaskerProfileCreateReq({
-    this.firstName,
+    required this.firstName,
     this.middleName,
-    this.lastName,
+    required this.lastName,
     this.interests,
-    this.bio,
-    this.gender,
+    required this.bio,
+    required this.gender,
     this.profileImage,
     this.dateOfBirth,
-    this.skill,
-    this.activeHourStart,
-    this.activeHourEnd,
-    this.experienceLevel,
-    this.userType,
-    this.hourlyRate,
-    this.profileVisibility,
-    this.taskPreferences,
-    this.addressLine1,
+    required this.skill,
+    required this.activeHourStart,
+    required this.activeHourEnd,
+    required this.experienceLevel,
+    required this.userType,
+    required this.hourlyRate,
+    required this.profileVisibility,
+    required this.taskPreferences,
+    required this.addressLine1,
     this.addressLine2,
     this.designation,
     this.points,
@@ -61,27 +61,27 @@ class TaskerProfileCreateReq {
     this.city,
     this.country,
     this.language,
-    this.chargeCurrency,
+    required this.chargeCurrency,
     this.avatar,
   });
 
-  final String? firstName;
+  final String firstName;
   final String? middleName;
-  final String? lastName;
+  final String lastName;
   final List<int?>? interests;
-  final String? bio;
-  final String? gender;
-  final MultipartFile? profileImage;
+  final String bio;
+  final String gender;
+  final dynamic profileImage;
   final DateTime? dateOfBirth;
-  final String? skill;
-  final String? activeHourStart;
-  final String? activeHourEnd;
-  final String? experienceLevel;
-  final String? userType;
-  final int? hourlyRate;
-  final String? profileVisibility;
-  final String? taskPreferences;
-  final String? addressLine1;
+  final String skill;
+  final String activeHourStart;
+  final String activeHourEnd;
+  final String experienceLevel;
+  final String userType;
+  final num hourlyRate;
+  final String profileVisibility;
+  final String taskPreferences;
+  final String addressLine1;
   final String? addressLine2;
   final String? designation;
   final int? points;
@@ -90,30 +90,30 @@ class TaskerProfileCreateReq {
   final int? city;
   final String? country;
   final String? language;
-  final String? chargeCurrency;
+  final String chargeCurrency;
   final int? avatar;
 
   factory TaskerProfileCreateReq.fromJson(Map<String, dynamic> json) =>
       TaskerProfileCreateReq(
-        firstName: json['first_name'] as String?,
+        firstName: json['first_name'] as String,
         middleName: json['middle_name'] as String?,
-        lastName: json['last_name'] as String?,
+        lastName: json['last_name'] as String,
         interests: json['interests'] == null
             ? []
             : List<int?>.from(json['interests']!.map((x) => x) as Iterable),
-        bio: json['bio'] as String?,
-        gender: json['gender'] as String?,
+        bio: json['bio'] as String,
+        gender: json['gender'] as String,
         profileImage: json['profile_image'] as MultipartFile,
         dateOfBirth: DateTime.parse(json['date_of_birth'] as String),
-        skill: json['skill'] as String?,
-        activeHourStart: json['active_hour_start'] as String?,
-        activeHourEnd: json['active_hour_end'] as String?,
-        experienceLevel: json['experience_level'] as String?,
-        userType: json['user_type'] as String?,
-        hourlyRate: json['hourly_rate'] as int?,
-        profileVisibility: json['profile_visibility'] as String?,
-        taskPreferences: json['task_preferences'] as String?,
-        addressLine1: json['address_line1'] as String?,
+        skill: json['skill'] as String,
+        activeHourStart: json['active_hour_start'] as String,
+        activeHourEnd: json['active_hour_end'] as String,
+        experienceLevel: json['experience_level'] as String,
+        userType: json['user_type'] as String,
+        hourlyRate: json['hourly_rate'] as int,
+        profileVisibility: json['profile_visibility'] as String,
+        taskPreferences: json['task_preferences'] as String,
+        addressLine1: json['address_line1'] as String,
         addressLine2: json['address_line2'] as String?,
         designation: json['designation'] as String?,
         points: json['points'] as int?,
@@ -122,7 +122,7 @@ class TaskerProfileCreateReq {
         city: json['city'] as int?,
         country: json['country'] as String?,
         language: json['language'] as String?,
-        chargeCurrency: json['charge_currency'] as String?,
+        chargeCurrency: json['charge_currency'] as String,
         avatar: json['avatar'] as int?,
       );
 

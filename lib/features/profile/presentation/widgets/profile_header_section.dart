@@ -19,8 +19,8 @@ class ProfileHeaderSection extends StatelessWidget {
           if (state is SignInSuccess) {
             if (state.userLoginRes.hasProfile == true) {
               return PopupMenuItem(
-                child: TextButton(
-                  onPressed: () {
+                child: InkWell(
+                  onTap: () {
                     Navigator.pushNamed(
                       context,
                       EditProfilePage.routeName,
@@ -33,8 +33,8 @@ class ProfileHeaderSection extends StatelessWidget {
               );
             } else {
               return PopupMenuItem(
-                child: TextButton(
-                  onPressed: () {
+                child: InkWell(
+                  onTap: () {
                     Navigator.pushNamed(
                       context,
                       CompleteProfilePage.routeName,

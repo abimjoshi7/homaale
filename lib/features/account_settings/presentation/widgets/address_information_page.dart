@@ -1,8 +1,13 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/utilities/data/models/models.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,22 +23,48 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
   String? addressLine1;
   String? addressLine2;
   String? languages;
-  ChargeCurrency? currency;
-  final _key = GlobalKey<FormState>();
+  String? currency;
+  TaskerProfileRetrieveRes? user;
+  List<CountryModel>? countryList = [];
+  List<LanguageModel>? languageList = [];
+  List<CurrencyModel>? currencyList = [];
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is UserEditSuccess) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Success',
+              content: 'Address information updated successfully',
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Root.routeName,
+                  (route) => false,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state is UserEditFailure) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Failure',
+              content: 'Address information update failed',
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
       },
       builder: (context, state) {
         if (state is UserLoadSuccess) {
-          countryName = state.user.country as String?;
-          addressLine1 = state.user.addressLine1;
-          addressLine2 = state.user.addressLine2 as String?;
-          languages = state.user.language as String?;
-          currency = state.user.chargeCurrency;
+          user = state.user;
 
           return Column(
             children: [
@@ -43,112 +74,157 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 'Address Information',
                 style: kPurpleText19,
               ),
-              Form(
-                key: _key,
-                child: Padding(
-                  padding: kPadding20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormField(
-                        label: 'Country',
-                        isRequired: false,
-                        child: CustomDropDownField(
-                          hintText: 'Specify your country',
-                          list: const [
-                            'Australia',
-                            'Nepal',
-                          ],
-                          onSaved: (value) => setState(
-                            () {
-                              countryName = value;
+              Padding(
+                padding: kPadding20,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlocBuilder<CountryBloc, CountryState>(
+                      builder: (context, countryState) {
+                        if (countryState is CountryLoadSuccess) {
+                          countryList = countryState.list;
+                        }
+                        return CustomFormField(
+                          label: 'Country',
+                          isRequired: false,
+                          child: CustomDropDownField(
+                            hintText:
+                                // (state.user.country as String?) ??
+                                'Specify your country',
+                            list: countryList?.map((e) => e.name).toList() ??
+                                [
+                                  'Australia',
+                                  'Nepal',
+                                ],
+                            onChanged: (value) {
+                              setState(
+                                () async {
+                                  countryName = value;
+                                },
+                              );
                             },
                           ),
+                        );
+                      },
+                    ),
+                    CustomFormField(
+                      label: 'Address Line 1',
+                      isRequired: false,
+                      child: CustomTextFormField(
+                        hintText: state.user.addressLine1 ?? 'Baneshwor',
+                        onChanged: (p0) => setState(
+                          () {
+                            addressLine1 = p0;
+                          },
                         ),
                       ),
-                      CustomFormField(
-                        label: 'Address Line 1',
-                        isRequired: false,
-                        child: CustomTextFormField(
-                          hintText: state.user.addressLine1 ?? 'Baneshwor',
-                          onSaved: (p0) => setState(
-                            () {
-                              addressLine1 = p0;
-                            },
+                    ),
+                    CustomFormField(
+                      label: 'Address Line 2',
+                      isRequired: false,
+                      child: CustomTextFormField(
+                        hintText: state.user.addressLine2.toString(),
+                        onChanged: (p0) => setState(
+                          () {
+                            addressLine2 = p0;
+                          },
+                        ),
+                      ),
+                    ),
+                    BlocBuilder<LanguageBloc, LanguageState>(
+                      builder: (context, languageState) {
+                        if (languageState is LanguageLoadSuccess) {
+                          languageList = languageState.language;
+                        }
+                        return CustomFormField(
+                          label: 'Languages',
+                          isRequired: false,
+                          child: CustomDropDownField(
+                            hintText:
+                                // (state.user.language as String?) ??
+                                'Specify your language',
+                            list: languageList?.map((e) => e.name).toList() ??
+                                [
+                                  'English',
+                                  'Nepali',
+                                ],
+                            onChanged: (value) => setState(
+                              () {
+                                languages = value;
+                              },
+                            ),
                           ),
-                        ),
+                        );
+                      },
+                    ),
+                    CustomFormField(
+                      label: 'Currency',
+                      isRequired: false,
+                      child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                        builder: (context, currencyState) {
+                          if (currencyState is CurrencyLoadSuccess) {
+                            currencyList = currencyState.currencyListRes;
+                          }
+                          return CustomDropDownField(
+                            hintText: 'Choose suitable currency',
+                            list: currencyList?.map((e) => e.name).toList() ??
+                                [
+                                  'NPR',
+                                  'AUD',
+                                ],
+                            onChanged: (value) => setState(
+                              () {
+                                currency = value;
+                              },
+                            ),
+                          );
+                        },
                       ),
-                      CustomFormField(
-                        label: 'Address Line 2',
-                        isRequired: false,
-                        child: CustomTextFormField(
-                          hintText: state.user.addressLine2.toString(),
-                          onSaved: (p0) => setState(
-                            () {
-                              addressLine2 = p0;
-                            },
-                          ),
-                        ),
-                      ),
-                      CustomFormField(
-                        label: 'Languages',
-                        isRequired: false,
-                        child: CustomDropDownField(
-                          hintText: 'Specify your language',
-                          list: const [
-                            'English',
-                            'Nepali',
-                          ],
-                          onSaved: (value) => setState(
-                            () {
-                              languages = value;
-                            },
-                          ),
-                        ),
-                      ),
-                      CustomFormField(
-                        label: 'Currency',
-                        isRequired: false,
-                        child: CustomDropDownField(
-                          hintText: 'Choose suitable currency',
-                          list: const [
-                            'NPR',
-                            'AUD',
-                          ],
-                          onSaved: (value) => setState(
-                            () {
-                              // currency = value;
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               CustomElevatedButton(
                 callback: () async {
-                  _key.currentState!.save();
+                  String? countryCode;
+                  String? languageCode;
+                  String? currencyCode;
 
-                  // final user = {
-                  //   "country": countryName ?? state.user.country,
-                  //   "address_line1": addressLine1!.isEmpty
-                  //       ? state.user.addressLine1
-                  //       : addressLine1,
-                  //   "address_line2": addressLine2!.isEmpty
-                  //       ? state.user.addressLine2
-                  //       : addressLine2,
-                  //   "language": languages ?? state.user.language,
-                  //   "charge_currency": currency ?? state.user.chargeCurrency,
-                  //   "charge_currency":
-                  // 	ChargeCurrency(
-                  //   	code: 'NPR',
-                  //   	name:
-                  //   ),
-                  // };
-                  // print(user);
+                  for (final x in countryList!) {
+                    if (countryName == x.name) {
+                      setState(() {
+                        countryCode = x.code;
+                      });
+                    }
+                  }
+                  for (final x in languageList!) {
+                    if (languages == x.name) {
+                      setState(() {
+                        languageCode = x.code;
+                      });
+                    }
+                  }
+                  for (final x in currencyList!) {
+                    if (currency == x.name) {
+                      setState(() {
+                        currencyCode = x.code;
+                      });
+                    }
+                  }
+                  final map = {
+                    "country": countryCode ?? user?.country,
+                    "address_line1": addressLine1 ?? user!.addressLine1,
+                    "address_line2": addressLine2 ?? user!.addressLine2,
+                    "language": languageCode ?? user!.language,
+                    "charge_currency":
+                        currencyCode ?? user!.chargeCurrency!.code,
+                  };
 
-                  // await context.read<UserBloc>().editTaskeruser(user);
+                  context.read<UserBloc>().add(
+                        UserEdited(
+                          req: map,
+                        ),
+                      );
                 },
                 label: 'Save',
               ),

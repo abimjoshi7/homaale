@@ -1,5 +1,5 @@
-class CurrencyListRes {
-  CurrencyListRes({
+class CurrencyModel {
+  CurrencyModel({
     this.code,
     this.name,
     this.symbol,
@@ -9,8 +9,7 @@ class CurrencyListRes {
   final String? name;
   final String? symbol;
 
-  factory CurrencyListRes.fromJson(Map<String, dynamic> json) =>
-      CurrencyListRes(
+  factory CurrencyModel.fromJson(Map<String, dynamic> json) => CurrencyModel(
         code: json["code"] as String?,
         name: json["name"] as String?,
         symbol: json["symbol"] as String?,

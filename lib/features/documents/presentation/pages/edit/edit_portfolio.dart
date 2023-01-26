@@ -22,7 +22,6 @@ class _EditPortfolioState extends State<EditPortfolio> {
   final issuedDateController = TextEditingController();
   final credentialUrlController = TextEditingController();
   DateTime? issuedDate;
-  final _key = GlobalKey<FormState>();
   Portfolio? portfolio;
 
   @override
@@ -46,27 +45,26 @@ class _EditPortfolioState extends State<EditPortfolio> {
               heading: 'Success',
               content: 'Portfolio edited successfully',
               onTap: () async {
-                context.read<TaskerPortfolioCubit>().getPortfolio();
                 if (!mounted) return;
                 Navigator.pop(context);
+                context.read<TaskerPortfolioCubit>().getPortfolio();
               },
               isSuccess: true,
             ),
           );
         }
         if (portfolioState is TaskerEditPortfolioFailure) {
-          showDialog(
+          await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
               content: error ?? "Portfolio couldn't be edited",
-              onTap: () async {
-                await context.read<TaskerPortfolioCubit>().getPortfolio();
-                if (!mounted) return;
-                Navigator.pop(context);
-              },
+              onTap: () async {},
               isSuccess: false,
             ),
+          ).then(
+            (value) async =>
+                context.read<TaskerPortfolioCubit>().getPortfolio(),
           );
         }
       },
@@ -163,122 +161,125 @@ class _EditPortfolioState extends State<EditPortfolio> {
                         style: kPurpleText16,
                       ),
                     ),
-                    Form(
-                      key: _key,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomFormField(
-                              label: 'Title',
-                              isRequired: true,
-                              child: CustomTextFormField(
-                                hintText: 'Please enter the title',
-                                onChanged: (p0) {
-                                  setState(() {
+                    Padding(
+                      padding: kPadding20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomFormField(
+                            label: 'Title',
+                            isRequired: true,
+                            child: CustomTextFormField(
+                              hintText:
+                                  portfolio?.title ?? 'Please enter the title',
+                              onChanged: (p0) {
+                                setState(
+                                  () {
                                     titleController.text = p0!;
-                                  });
-                                },
-                                validator: validateNotEmpty,
-                              ),
+                                  },
+                                );
+                              },
+                              validator: validateNotEmpty,
                             ),
-                            CustomFormField(
-                              label: 'Description',
-                              isRequired: true,
-                              child: CustomTextFormField(
-                                maxLines: 3,
-                                hintText: 'Write something...',
-                                onChanged: (p0) {
-                                  setState(
-                                    () {
-                                      descriptionController.text = p0!;
-                                    },
-                                  );
-                                },
-                                validator: validateNotEmpty,
-                              ),
+                          ),
+                          CustomFormField(
+                            label: 'Description',
+                            isRequired: true,
+                            child: CustomTextFormField(
+                              maxLines: 3,
+                              hintText: portfolio?.description ??
+                                  'Write something...',
+                              onChanged: (p0) {
+                                setState(
+                                  () {
+                                    descriptionController.text = p0!;
+                                  },
+                                );
+                              },
+                              validator: validateNotEmpty,
                             ),
-                            CustomFormField(
-                              label: 'Issued Date',
-                              isRequired: true,
-                              child: InkWell(
-                                onTap: () async {
-                                  await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2012),
-                                    lastDate: DateTime(2050),
-                                  ).then((value) {
-                                    setState(() {
-                                      issuedDate = value;
-                                    });
-                                  });
-                                },
-                                child: CustomFormContainer(
-                                  hintText:
-                                      issuedDate?.toString().substring(0, 10) ??
-                                          '1999-03-06',
-                                  leadingWidget: const Icon(
-                                    Icons.calendar_month_rounded,
-                                    color: kColorPrimary,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            CustomFormField(
-                              label: 'Portfolio URL',
-                              isRequired: true,
-                              child: CustomTextFormField(
-                                hintText: 'URL',
-                                onChanged: (p0) {
+                          ),
+                          CustomFormField(
+                            label: 'Issued Date',
+                            isRequired: true,
+                            child: InkWell(
+                              onTap: () async {
+                                await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2012),
+                                  lastDate: DateTime(2050),
+                                ).then((value) {
                                   setState(() {
-                                    credentialUrlController.text = p0!;
+                                    issuedDate = value;
                                   });
-                                },
-                                validator: validateNotEmpty,
+                                });
+                              },
+                              child: CustomFormContainer(
+                                hintText: portfolio?.issuedDate
+                                        .toString()
+                                        .substring(0, 10) ??
+                                    issuedDate?.toString().substring(0, 10) ??
+                                    '1999-03-06',
+                                leadingWidget: const Icon(
+                                  Icons.calendar_month_rounded,
+                                  color: kColorPrimary,
+                                ),
                               ),
                             ),
-                            CustomFormField(
-                              label: 'Gallery',
-                              isRequired: true,
-                              child: InkWell(
-                                onTap: () async {
-                                  await context
-                                      .read<ImageUploadCubit>()
-                                      .uploadImage();
-                                },
-                                child: SizedBox(
-                                  height: 150,
-                                  child: Card(
-                                    child: Center(
-                                      child: displayImage(),
-                                    ),
+                          ),
+                          CustomFormField(
+                            label: 'Portfolio URL',
+                            isRequired: true,
+                            child: CustomTextFormField(
+                              hintText: portfolio?.credentialUrl ?? 'URL',
+                              onChanged: (p0) {
+                                setState(() {
+                                  credentialUrlController.text = p0!;
+                                });
+                              },
+                              validator: validateNotEmpty,
+                            ),
+                          ),
+                          CustomFormField(
+                            label: 'Gallery',
+                            isRequired: true,
+                            child: InkWell(
+                              onTap: () async {
+                                await context
+                                    .read<ImageUploadCubit>()
+                                    .uploadImage();
+                              },
+                              child: SizedBox(
+                                height: 150,
+                                child: Card(
+                                  child: Center(
+                                    child: displayImage(),
                                   ),
                                 ),
                               ),
                             ),
-                            CustomFormField(
-                              label: 'Files',
-                              isRequired: true,
-                              child: InkWell(
-                                onTap: () async {
-                                  await context
-                                      .read<ImageUploadCubit>()
-                                      .uploadFile();
-                                },
-                                child: SizedBox(
-                                  height: 150,
-                                  child: Card(
-                                    child: Center(
-                                      child: displayFile(),
-                                    ),
+                          ),
+                          CustomFormField(
+                            label: 'Files',
+                            isRequired: true,
+                            child: InkWell(
+                              onTap: () async {
+                                await context
+                                    .read<ImageUploadCubit>()
+                                    .uploadFile();
+                              },
+                              child: SizedBox(
+                                height: 150,
+                                child: Card(
+                                  child: Center(
+                                    child: displayFile(),
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     Center(

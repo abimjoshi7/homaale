@@ -43,16 +43,17 @@ class UserRepositories {
     }
   }
 
-  Future<TaskerProfileRetrieveRes> edituser(
-    TaskerProfileCreateReq taskerProfileCreateReq,
+  Future<Map<String, dynamic>> edituser(
+    Map<String, dynamic> taskerProfileCreateReq,
   ) async {
     try {
       final x = await _dio.patchDataWithCredential(
-        data: taskerProfileCreateReq.toJson(),
+        data: taskerProfileCreateReq,
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );
-      return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
+      log(x.toString());
+      return x as Map<String, dynamic>;
     } catch (e) {
       log(
         e.toString(),

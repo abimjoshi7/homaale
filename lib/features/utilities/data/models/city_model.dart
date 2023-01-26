@@ -1,5 +1,5 @@
-class CityListRes {
-  CityListRes({
+class CityModel {
+  CityModel({
     this.id,
     this.name,
   });
@@ -7,7 +7,7 @@ class CityListRes {
   final int? id;
   final String? name;
 
-  factory CityListRes.fromJson(Map<String, dynamic> json) => CityListRes(
+  factory CityModel.fromJson(Map<String, dynamic> json) => CityModel(
         id: json["id"] as int?,
         name: json["name"] as String?,
       );

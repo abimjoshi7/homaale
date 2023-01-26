@@ -15,10 +15,7 @@ import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/city_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/country_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/currency_bloc.dart';
-import 'package:cipher/features/utilities/presentation/bloc/interests_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -124,6 +121,12 @@ class Cipher extends StatelessWidget {
             create: (context) => CurrencyBloc()
               ..add(
                 CurrencyLoadInitiated(),
+              ),
+          ),
+          BlocProvider(
+            create: (context) => LanguageBloc()
+              ..add(
+                LanguageLoadInitiated(),
               ),
           ),
           BlocProvider(
