@@ -5,10 +5,12 @@ class PortfolioCard extends StatelessWidget {
     super.key,
     required this.imagePath,
     required this.label,
+    this.islocalImage = true,
   });
 
   final String imagePath;
   final String label;
+  final bool islocalImage;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +20,15 @@ class PortfolioCard extends StatelessWidget {
           SizedBox(
             height: 100,
             width: 150,
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-            ),
+            child: islocalImage
+                ? Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    imagePath,
+                    fit: BoxFit.cover,
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.all(8),

@@ -29,6 +29,8 @@ class CacheHelper {
   }
 
   static Future<void> clearAllCachedData() async {
+    accessToken = null;
+    refreshToken = null;
     await _storage.deleteAll();
   }
 

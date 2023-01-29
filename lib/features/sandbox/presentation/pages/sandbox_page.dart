@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -32,6 +34,7 @@ class SandboxPage extends StatelessWidget {
           Center(
             child: CustomElevatedButton(
               callback: () async {
+                await UserRepositories().fetchuser();
                 context.read<UserBloc>().add(
                       UserLoaded(),
                     );
@@ -86,6 +89,22 @@ class SandboxPage extends StatelessWidget {
                     //     );
                   },
                   label: 'Get Country',
+                );
+              },
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: BlocBuilder<TaskerEducationCubit, TaskerEducationState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    log("123");
+                    print(123);
+                    final x = await KycRepositories().getKyc();
+                    print(x);
+                  },
+                  label: 'Get Kyc',
                 );
               },
             ),

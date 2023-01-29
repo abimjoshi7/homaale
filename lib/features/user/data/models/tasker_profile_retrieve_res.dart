@@ -97,17 +97,17 @@ class TaskerProfileRetrieveRes {
         activeHourEnd: json['active_hour_end'] as String?,
         experienceLevel: json['experience_level'] as String?,
         userType: json['user_type'] as String?,
-        hourlyRate: json['hourly_rate'] as double?,
+        hourlyRate: json['hourly_rate'] as num?,
         profileVisibility: json['profile_visibility'] as String?,
         taskPreferences: json['task_preferences'] as String?,
         addressLine1: json['address_line1'] as String?,
         addressLine2: json['address_line2'],
         isProfileVerified: json['is_profile_verified'] as bool?,
         designation: json['designation'],
-        points: json['points'] as int?,
-        remainingPoints: json['remaining_points'] as int?,
-        followersCount: json['followers_count'] as int?,
-        followingCount: json['following_count'] as int?,
+        points: json['points'] as num?,
+        remainingPoints: json['remaining_points'] as num?,
+        followersCount: json['followers_count'] as num?,
+        followingCount: json['following_count'] as num?,
         subscription: json['subscription'] == null
             ? []
             : List<dynamic>.from(
@@ -146,17 +146,17 @@ class TaskerProfileRetrieveRes {
   final String? activeHourEnd;
   final String? experienceLevel;
   final String? userType;
-  final double? hourlyRate;
+  final num? hourlyRate;
   final String? profileVisibility;
   final String? taskPreferences;
   final String? addressLine1;
   final dynamic addressLine2;
   final bool? isProfileVerified;
   final dynamic designation;
-  final int? points;
-  final int? remainingPoints;
-  final int? followersCount;
-  final int? followingCount;
+  final num? points;
+  final num? remainingPoints;
+  final num? followersCount;
+  final num? followingCount;
   final List<dynamic>? subscription;
   final List<dynamic>? securityQuestions;
 
@@ -496,22 +496,22 @@ class Stats {
   });
 
   factory Stats.fromJson(Map<String, dynamic> json) => Stats(
-        successRate: json['success_rate'] as int?,
-        happyClients: json['happy_clients'] as int?,
-        taskCompleted: json['task_completed'] as int?,
-        userReviews: json['user_reviews'] as int?,
-        taskAssigned: json['task_assigned'] as int?,
-        taskInProgress: json['task_in_progress'] as int?,
-        taskCancelled: json['task_cancelled'] as int?,
+        successRate: json['success_rate'] as num?,
+        happyClients: json['happy_clients'] as num?,
+        taskCompleted: json['task_completed'] as num?,
+        userReviews: json['user_reviews'] as num?,
+        taskAssigned: json['task_assigned'] as num?,
+        taskInProgress: json['task_in_progress'] as num?,
+        taskCancelled: json['task_cancelled'] as num?,
       );
 
-  final int? successRate;
-  final int? happyClients;
-  final int? taskCompleted;
-  final int? userReviews;
-  final int? taskAssigned;
-  final int? taskInProgress;
-  final int? taskCancelled;
+  final num? successRate;
+  final num? happyClients;
+  final num? taskCompleted;
+  final num? userReviews;
+  final num? taskAssigned;
+  final num? taskInProgress;
+  final num? taskCancelled;
 
   Map<String, dynamic> toJson() => {
         'success_rate': successRate,

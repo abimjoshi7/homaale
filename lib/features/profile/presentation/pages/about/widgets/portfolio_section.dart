@@ -89,15 +89,17 @@ class _PortfolioSectionState extends State<PortfolioSection> {
                             isScrollControlled: true,
                             context: context,
                             builder: (context) => EditPortfolio(
-                              id: state.taskerPortfolioRes[index].id!,
+                              id: state.taskerPortfolioRes[index].id ?? 0,
                             ),
                           );
                         },
                         child: PortfolioCard(
-                          // imagePath: state.taskerPortfolioRes[index].images[index],
-                          imagePath: 'assets/Casual life 3D - 39.png',
-                          label: state.taskerPortfolioRes[index].title!,
-                          // label: state.taskerPortfolioRes.result![index]!.title!,
+                          islocalImage: false,
+                          imagePath: state
+                                  .taskerPortfolioRes[index].images?[0]['media']
+                                  .toString() ??
+                              'https://cdn.pixabay.com/photo/2022/07/11/10/42/boho-style-7314646_960_720.png',
+                          label: state.taskerPortfolioRes[index].title ?? '',
                         ),
                       ),
                       separatorBuilder: (context, index) => kWidth10,
