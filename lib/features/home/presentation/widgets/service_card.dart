@@ -48,7 +48,7 @@ class ServiceCard extends StatelessWidget {
                   ),
                   Text(
                     rating ?? '3.5 (300)',
-                    style: kPurpleText10,
+                    style: kPurpleText12,
                   )
                 ],
               ),
@@ -62,7 +62,7 @@ class ServiceCard extends StatelessWidget {
                   ),
                   Text(
                     location ?? 'Anamnagar',
-                    style: kPurpleText10,
+                    style: kPurpleText12,
                   ),
                 ],
               )

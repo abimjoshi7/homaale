@@ -15,12 +15,6 @@ const kLightBlueText10 = TextStyle(
   color: Color(0xff3eaeff),
 );
 
-const kPurpleText10 = TextStyle(
-  fontWeight: FontWeight.w400,
-  fontSize: 10,
-  color: Color(0xff5c6096),
-);
-
 const kPurpleText12 = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 12,
@@ -96,7 +90,5 @@ const kSkipHelper = TextStyle(
 const kBodyText1 = TextStyle(
   color: Color(0xff5C6096),
 );
-
-const kBodyText2 = TextStyle(color: Color(0xff5C6096), fontSize: 10);
 
 const kHighlightedText = TextStyle(color: Color(0xff3EAEFF), fontSize: 10);

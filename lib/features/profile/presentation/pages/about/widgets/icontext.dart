@@ -19,7 +19,7 @@ class IconText extends StatelessWidget {
         kWidth5,
         Text(
           label,
-          style: kBodyText2,
+          style: kPurpleText12,
         ),
       ],
     );

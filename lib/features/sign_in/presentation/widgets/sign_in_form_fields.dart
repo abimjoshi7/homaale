@@ -21,6 +21,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
   bool keepLogged = false;
+  bool isObscure = true;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
@@ -43,7 +44,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
         }
         if (state is SignInFailure) {
           if (!mounted) return;
-          showDialog(
+          await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
@@ -55,6 +56,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               },
               isSuccess: false,
             ),
+          ).then(
+            (value) => context.read<SignInBloc>().add(
+                  SignInWithPhoneSelected(),
+                ),
           );
         }
       },
@@ -103,32 +108,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             );
           } else {
             return const CircularProgressIndicator();
-            // return CustomFormText(
-            //   name: 'Phone',
-            //   child: CustomTextFormField(
-            //     onSaved: (p0) => setState(
-            //       () {
-            //         phoneNumberController.text = p0!;
-            //       },
-            //     ),
-            //     textInputType: TextInputType.number,
-            //     hintText: 'Mobile Number',
-            //     prefixWidget: Padding(
-            //       padding: const EdgeInsets.all(8),
-            //       child: Row(
-            //         mainAxisSize: MainAxisSize.min,
-            //         children: [
-            //           Image.asset('assets/nepalflag.png'),
-            //           const Text(
-            //             '+977',
-            //             style: kBodyText1,
-            //           ),
-            //           const Icon(Icons.arrow_drop_down)
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // );
           }
         }
 
@@ -142,6 +121,20 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               CustomFormText(
                 name: 'Password',
                 child: CustomTextFormField(
+                  obscureText: isObscure,
+                  suffixWidget: InkWell(
+                    onTap: () {
+                      setState(() {
+                        isObscure = !isObscure;
+                      });
+                    },
+                    child: Icon(
+                      color: kColorPrimary,
+                      isObscure
+                          ? Icons.visibility_rounded
+                          : Icons.visibility_off_rounded,
+                    ),
+                  ),
                   onSaved: (p0) => setState(
                     () {
                       passwordController.text = p0!;

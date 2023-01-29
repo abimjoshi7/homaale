@@ -252,7 +252,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   }
                   if (state is SignUpFailure) {
-                    showDialog(
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Failure',
@@ -260,6 +260,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         isSuccess: false,
                         onTap: () {},
                       ),
+                    ).then(
+                      (value) => context.read<SignupBloc>().add(
+                            SignUpWithPhoneSelected(),
+                          ),
                     );
                   }
                 },

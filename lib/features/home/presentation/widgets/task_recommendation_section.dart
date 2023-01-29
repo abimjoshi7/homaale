@@ -9,7 +9,7 @@ class TaskRecommendationSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: kPadding20,
       child: Column(
         children: [
           SectionHeading(
@@ -17,7 +17,7 @@ class TaskRecommendationSection extends StatelessWidget {
             onTap: () {},
           ),
           SizedBox(
-            height: 200,
+            height: 210,
             width: double.infinity,
             child: Card(
               child: Padding(
