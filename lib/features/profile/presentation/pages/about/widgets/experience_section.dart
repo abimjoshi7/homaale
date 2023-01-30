@@ -39,8 +39,7 @@ class ExperienceSection extends StatelessWidget {
                             );
                           },
                           icon: const Icon(
-                            Icons.edit_outlined,
-                            size: 18,
+                            Icons.add,
                           ),
                         ),
                       ],

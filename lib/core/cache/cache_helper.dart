@@ -34,11 +34,5 @@ class CacheHelper {
     await _storage.deleteAll();
   }
 
-  // static Future<void> getTokens() async {
-  //   await getCachedString(CacheHelper.accessToken)
-  //       .then((value) => accessToken = value);
-  //   await getCachedString(kRefreshToken).then((value) => refreshToken = value);
-  // }
-
   Future<void> test() async {}
 }

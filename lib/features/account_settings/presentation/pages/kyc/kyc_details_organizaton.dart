@@ -294,7 +294,8 @@ class _KycDetailsOrganizationState extends State<KycDetailsOrganization> {
                           isSuccess: true,
                         ),
                       );
-                    } else if (state is KycAddFailure) {
+                    }
+                    if (state is KycAddFailure) {
                       showDialog(
                         context: context,
                         builder: (context) => CustomToast(

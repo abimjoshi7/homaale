@@ -28,6 +28,15 @@ class DioHelper {
       final response = await dio.get<dynamic>(url, queryParameters: query);
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        getData(
+          url: url,
+          query: query,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -50,6 +59,15 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        postData(
+          url: url,
+          data: data,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -78,6 +96,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        getDatawithCredential(
+          url: url,
+          query: query,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -107,6 +135,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        postDataWithCredential(
+          url: url,
+          data: data,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -135,6 +173,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        patchDataWithCredential(
+          url: url,
+          data: data,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -162,6 +210,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        deleteDataWithCredential(
+          url: url,
+          id: id,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -196,6 +254,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        postMultiFormData(
+          url: url,
+          path: path,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -227,6 +295,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        postFormData(
+          url: url,
+          map: map,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -258,6 +336,16 @@ class DioHelper {
       );
       return response.data;
     } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        await refreshToken();
+        patchFormData(
+          url: url,
+          map: map,
+          token: token,
+        );
+      } else {
+        log("API request failed: $e");
+      }
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
@@ -265,6 +353,46 @@ class DioHelper {
         ),
       );
       log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');
+    }
+  }
+
+  Future<void> refreshToken() async {
+    try {
+      final response = await dio.post(
+        "user/token/refresh/",
+        queryParameters: {
+          'refresh': CacheHelper.refreshToken,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        dio.options.headers["Authorization"] =
+            "Bearer ${response.data["token"]}";
+      } else {
+        print("Refresh token request failed");
+      }
+    } catch (e) {
+      print("Refresh token request failed: $e");
+    }
+  }
+
+// Function to make an API request
+  Future<void> makeRequest() async {
+    try {
+      // Make the API request
+      Response response = await dio.get("/some-endpoint");
+
+      // Handle successful response
+      print(response.data);
+    } catch (e) {
+      // If the error is a 401 unauthorized, refresh the token and try again
+      if (e is DioError && e.response?.statusCode == 401) {
+        await refreshToken();
+        makeRequest();
+      } else {
+        // Handle other errors
+        print("API request failed: $e");
+      }
     }
   }
 }

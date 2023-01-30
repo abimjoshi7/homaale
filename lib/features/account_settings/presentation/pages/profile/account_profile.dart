@@ -46,7 +46,7 @@ class AccountProfile extends StatelessWidget {
               return const AccountUserInfoSection(
                 name: 'FirstName LastName',
                 isVerified: true,
-                designation: 'Individual | Gardener',
+                designation: 'Individual | Homaale User',
                 credentialId: 'firstlast@gmail.com',
               );
             }

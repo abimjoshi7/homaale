@@ -1,4 +1,5 @@
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,10 @@ class _RootState extends State<Root> {
     context.read<UserBloc>().add(
           UserLoaded(),
         );
+    context.read<TaskerPortfolioCubit>().getPortfolio();
+    context.read<TaskerExperienceCubit>().getTaskerExperience();
+    context.read<TaskerEducationCubit>().getTaskerEducation();
+    context.read<TaskerCertificationCubit>().getTaskerCertification();
     super.initState();
   }
 
