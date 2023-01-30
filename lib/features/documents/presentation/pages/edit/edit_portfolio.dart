@@ -47,10 +47,11 @@ class _EditPortfolioState extends State<EditPortfolio> {
               onTap: () async {
                 if (!mounted) return;
                 Navigator.pop(context);
-                context.read<TaskerPortfolioCubit>().getPortfolio();
               },
               isSuccess: true,
             ),
+          ).then(
+            (value) => context.read<TaskerPortfolioCubit>().getPortfolio(),
           );
         }
         if (portfolioState is TaskerEditPortfolioFailure) {
@@ -108,7 +109,18 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images.png'),
+                        if (portfolioState is TaskerGetPortfolioSuccess)
+                          SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Image.network(
+                              portfolio?.images?[0]['media'].toString() ??
+                                  kNoImage,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        else
+                          Image.asset('assets/images.png'),
                         kHeight5,
                         const Text(
                           'Upload or Browse image',
@@ -155,10 +167,15 @@ class _EditPortfolioState extends State<EditPortfolio> {
                 return Column(
                   children: [
                     const CustomModalSheetDrawerIcon(),
-                    const Center(
-                      child: Text(
-                        'Edit Portfolio',
-                        style: kPurpleText16,
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          print(portfolio?.images?[0]['media']);
+                        },
+                        child: Text(
+                          'Edit Portfolio',
+                          style: kPurpleText16,
+                        ),
                       ),
                     ),
                     Padding(

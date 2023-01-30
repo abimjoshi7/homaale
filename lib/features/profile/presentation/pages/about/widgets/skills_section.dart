@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class SkillsSection extends StatelessWidget {
                     const Text('Skills'),
                     IconButton(
                       onPressed: () {
-                        buildSkills(context, state, tagsController);
+                        buildSkills(context, state, tagsController, skills);
                       },
                       icon: const Icon(
                         Icons.edit_outlined,
@@ -63,6 +64,7 @@ class SkillsSection extends StatelessWidget {
     BuildContext context,
     UserLoadSuccess state,
     TextfieldTagsController tagsController,
+    List<String>? skills,
   ) {
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -90,6 +92,7 @@ class SkillsSection extends StatelessWidget {
                       CustomTagTextField(
                         tagController: tagsController,
                         hintText: 'Enter your skills',
+                        initialList: skills,
                       ),
                     ],
                   ),
@@ -97,7 +100,43 @@ class SkillsSection extends StatelessWidget {
               ),
             ),
             BlocConsumer<UserBloc, UserState>(
-              listener: (context, state) {
+              listener: (context, state) async {
+                if (state is UserEditSuccess) {
+                  showDialog(
+                    context: context,
+                    builder: (_) => CustomToast(
+                      heading: 'Success',
+                      content: 'Skills updated successfully',
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          Profile.routeName,
+                          (route) => false,
+                        );
+                      },
+                      isSuccess: true,
+                    ),
+                  ).then(
+                    (value) => context.read<UserBloc>().add(
+                          UserLoaded(),
+                        ),
+                  );
+                }
+                if (state is UserEditFailure) {
+                  showDialog(
+                    context: context,
+                    builder: (_) => CustomToast(
+                      heading: 'Failure',
+                      content: 'Skills update failed.',
+                      onTap: () {},
+                      isSuccess: false,
+                    ),
+                  ).then(
+                    (value) => context.read<UserBloc>().add(
+                          UserLoaded(),
+                        ),
+                  );
+                }
                 // TODO: implement listener
               },
               builder: (context, state) {
@@ -112,6 +151,7 @@ class SkillsSection extends StatelessWidget {
                             req: map,
                           ),
                         );
+                    // Navigator.pop
                   },
                   label: 'Add',
                 );

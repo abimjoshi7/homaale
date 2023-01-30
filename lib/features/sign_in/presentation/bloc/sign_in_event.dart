@@ -24,3 +24,5 @@ class SignInWithEmailInitiated extends SignInEvent {
   });
   final UserLoginReq userLoginReq;
 }
+
+class SignOutInitiated extends SignInEvent {}

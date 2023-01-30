@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/app/bloc/theme_bloc.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -255,17 +254,13 @@ class AccountProfile extends StatelessWidget {
                   builder: (context, state) {
                     return AccountListTileSection(
                       onTap: () async {
-                        await CacheHelper.clearAllCachedData().then(
-                          (value) {
-                            context.read<SignInBloc>().add(
-                                  SignInWithPhoneSelected(),
-                                );
-                            return Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              SignInPage.routeName,
-                              (route) => false,
+                        context.read<SignInBloc>().add(
+                              SignOutInitiated(),
                             );
-                          },
+                        await Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          SignInPage.routeName,
+                          (route) => false,
                         );
                       },
                       icon: const Icon(Icons.logout_rounded),

@@ -16,8 +16,3 @@ void main() async {
     const Cipher(),
   );
 }
-
-
-// TODO: ui show forgot password
-// TODO: email, contact edit
-// TODO: forgot password -> confirm-otp (Phone)

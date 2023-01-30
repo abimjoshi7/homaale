@@ -1,6 +1,8 @@
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -20,6 +22,14 @@ class _RootState extends State<Root> {
     const Page1(),
     const AccountProfile(),
   ];
+
+  @override
+  void initState() {
+    context.read<UserBloc>().add(
+          UserLoaded(),
+        );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

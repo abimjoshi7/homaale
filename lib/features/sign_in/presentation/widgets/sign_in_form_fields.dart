@@ -90,18 +90,21 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 ),
                 textInputType: TextInputType.number,
                 hintText: 'Mobile Number',
-                prefixWidget: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset('assets/nepalflag.png'),
-                      const Text(
-                        '+977',
-                        style: kBodyText1,
-                      ),
-                      const Icon(Icons.arrow_drop_down)
-                    ],
+                prefixWidget: InkWell(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset('assets/nepalflag.png'),
+                        const Text(
+                          '+977',
+                          style: kBodyText1,
+                        ),
+                        const Icon(Icons.arrow_drop_down)
+                      ],
+                    ),
                   ),
                 ),
               ),

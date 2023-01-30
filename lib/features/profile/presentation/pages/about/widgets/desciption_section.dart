@@ -56,7 +56,7 @@ class DescriptionSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             return IconText(
               widget: Image.asset('assets/sparkle.png'),
-              label: state.user.skill!,
+              label: state.user.skill!.replaceAll(RegExp(r'\s*\[\d+]'), ''),
             );
           } else {
             return IconText(

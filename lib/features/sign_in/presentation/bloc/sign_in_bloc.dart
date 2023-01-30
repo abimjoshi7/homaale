@@ -10,6 +10,16 @@ part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc(this._signInRepository) : super(SignInPhoneInitial()) {
+    on<SignOutInitiated>(
+      (event, emit) async {
+        await CacheHelper.clearAllCachedData().whenComplete(
+          () => emit(
+            SignInPhoneInitial(),
+          ),
+        );
+      },
+    );
+
     on<SignInWithPhoneSelected>(
       (event, emit) => emit(
         SignInPhoneInitial(),
