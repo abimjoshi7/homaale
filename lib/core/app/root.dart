@@ -1,4 +1,5 @@
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -20,7 +21,7 @@ class _RootState extends State<Root> {
     const Home(),
     const Page1(),
     const Page1(),
-    const Page1(),
+    const BookingPages(),
     const AccountProfile(),
   ];
 

@@ -44,7 +44,7 @@ class PopularTaskerSection extends StatelessWidget {
                       ),
                       const Text(
                         'Influencer',
-                        style: kLightBlueText10,
+                        style: kLightBlueText14,
                       ),
                       kHeight10,
                       Row(

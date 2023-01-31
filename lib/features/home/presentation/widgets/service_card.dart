@@ -33,7 +33,7 @@ class ServiceCard extends StatelessWidget {
           ),
           Text(
             description ?? 'Carry Clinic',
-            style: kLightBlueText10,
+            style: kLightBlueText14,
           ),
           Row(
             children: [

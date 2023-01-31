@@ -65,7 +65,7 @@ class PopularServicesNearbySection extends StatelessWidget {
                                   kWidth10,
                                   Text(
                                     'Kantipur Nursery',
-                                    style: kLightBlueText10,
+                                    style: kLightBlueText14,
                                   ),
                                 ],
                               ),

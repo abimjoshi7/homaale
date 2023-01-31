@@ -9,9 +9,9 @@ const kTabBarTitle = TextStyle(
   ),
 );
 
-const kLightBlueText10 = TextStyle(
+const kLightBlueText14 = TextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: 10,
+  fontSize: 14,
   color: Color(0xff3eaeff),
 );
 

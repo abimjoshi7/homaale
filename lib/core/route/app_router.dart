@@ -4,6 +4,8 @@ import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
@@ -157,6 +159,14 @@ class AppRouter {
       case DeactivatePage.routeName:
         return MaterialPageRoute(
           builder: (context) => const DeactivatePage(),
+        );
+      case BookingPages.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingPages(),
+        );
+      case ServiceProviderPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ServiceProviderPage(),
         );
       case SandboxPage.routeName:
         return MaterialPageRoute(
