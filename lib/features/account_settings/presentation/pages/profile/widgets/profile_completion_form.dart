@@ -861,6 +861,38 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
+                          print(123);
+                          final q = TaskerProfileCreateReq(
+                            city: cityCode,
+                            country: countryName,
+                            interests: interestCodes,
+                            firstName: firstNameController.text,
+                            middleName: middleNameController.text,
+                            lastName: lastNameController.text,
+                            bio: bioController.text,
+                            designation: designationController.text,
+                            gender: genderGroup,
+                            skill: tagController.getTags.toString(),
+                            dateOfBirth: dateOfBirth,
+                            activeHourStart: startTime!.format(context),
+                            activeHourEnd: endTime!.format(context),
+                            experienceLevel: experienceLevel,
+                            userType: userType,
+                            hourlyRate: int.parse(baseRateController.text),
+                            profileVisibility: visibilityController.text,
+                            taskPreferences: taskPreferencesController.text,
+                            addressLine1: address1Controller.text,
+                            addressLine2: address2Controller.text,
+                            // chargeCurrency: currencyCode,
+                            chargeCurrency: 'NPR',
+                            remainingPoints: 0,
+                            points: 0,
+                            followingCount: 0,
+                            profileImage: await MultipartFile.fromFile(
+                              selectedImage?.path ??
+                                  'assets/homaale_logo_title_light.png',
+                            ),
+                          );
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
@@ -874,42 +906,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             }
                             context.read<UserBloc>().add(
                                   UserAdded(
-                                    req: TaskerProfileCreateReq(
-                                      city: cityCode,
-                                      country: countryName,
-                                      interests: interestCodes,
-                                      firstName: firstNameController.text,
-                                      middleName: middleNameController.text,
-                                      lastName: lastNameController.text,
-                                      bio: bioController.text,
-                                      designation: designationController.text,
-                                      gender: genderGroup,
-                                      skill: tagController.getTags.toString(),
-                                      dateOfBirth: dateOfBirth,
-                                      activeHourStart:
-                                          startTime!.format(context),
-                                      activeHourEnd: endTime!.format(context),
-                                      experienceLevel: experienceLevel,
-                                      userType: userType,
-                                      hourlyRate:
-                                          int.parse(baseRateController.text),
-                                      profileVisibility:
-                                          visibilityController.text,
-                                      taskPreferences:
-                                          taskPreferencesController.text,
-                                      addressLine1: address1Controller.text,
-                                      addressLine2: address2Controller.text,
-                                      // chargeCurrency: currencyCode,
-                                      chargeCurrency: 'NPR',
-                                      remainingPoints: 0,
-                                      points: 0,
-                                      followingCount: 0,
-                                      profileImage:
-                                          await MultipartFile.fromFile(
-                                        selectedImage?.path ??
-                                            'assets/homaale_logo_title_light.png',
-                                      ),
-                                    ),
+                                    req: q,
                                   ),
                                 );
                           }

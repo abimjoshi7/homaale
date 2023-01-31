@@ -28,9 +28,9 @@ class UserRepositories {
     TaskerProfileCreateReq taskerProfileCreateReq,
   ) async {
     try {
-      final x = await _dio.postDataWithCredential(
-        data: taskerProfileCreateReq.toJson(),
-        url: 'tasker/profile/',
+      final x = await _dio.postFormData(
+        map: taskerProfileCreateReq.toJson(),
+        url: 'tasker/my-profile/',
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
