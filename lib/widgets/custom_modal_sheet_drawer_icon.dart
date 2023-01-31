@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomModalSheetDrawerIcon extends StatelessWidget {
+  final Color color;
+  final double width;
   const CustomModalSheetDrawerIcon({
     super.key,
+    this.color = const Color(0xffCED4DA),
+    this.width = 0.2,
   });
 
   @override
@@ -10,11 +14,11 @@ class CustomModalSheetDrawerIcon extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: FractionallySizedBox(
-        widthFactor: 0.1,
+        widthFactor: width,
         child: Container(
           height: 3.5,
           decoration: BoxDecoration(
-            color: const Color(0xffCED4DA),
+            color: color,
             borderRadius: BorderRadius.circular(5),
           ),
         ),
