@@ -1,64 +1,76 @@
-import 'package:cipher/features/sign_up/data/models/user_model.dart';
-import 'package:cipher/features/sign_up/domain/usecases/create_user_with_email_usecase.dart';
-import 'package:cipher/features/sign_up/domain/usecases/create_user_with_phone_usecase.dart';
-import 'package:dio/dio.dart';
+import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
+import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
-class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final CreateUserWithEmailUsecase createUserWithEmailUsecase;
-  final CreateUserWithPhoneUsecase createUserWithPhoneUsecase;
-  SignUpBloc(this.createUserWithEmailUsecase, this.createUserWithPhoneUsecase)
-      : super(SignUpInitial()) {
-    on<SignUpRequestedWithEmail>(
+class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
+  final SignUpRepositories _signUpRepositories;
+  SignupBloc(
+    this._signUpRepositories,
+  ) : super(SignUpPhoneInitial()) {
+    on<SignUpWithPhoneSelected>(
+      (event, emit) => emit(
+        SignUpPhoneInitial(),
+      ),
+    );
+
+    on<SignUpWithEmailSelected>(
+      (event, emit) => emit(
+        SignUpEmailInitial(),
+      ),
+    );
+
+    on<SignUpWithEmailInitiated>(
       (event, emit) async {
-        final res = await _onSignUpRequestedWithEmail(
-          event.userModel.email!,
-          event.userModel.password!,
-        );
-        if (res.statusCode == 201) {
+        try {
           emit(
-            SignUpSuccess(
-              UserModel.fromJson(res.data),
-            ),
+            SignUpEmailInitial(),
           );
-        } else {
-          emit(SignUpFailure(res.statusMessage!));
+          final x = await _signUpRepositories.initiateSignUpEmail(
+            email: event.email,
+            password: event.password,
+          );
+          if (x != null) {
+            emit(
+              SignUpWithEmailSuccess(
+                userSignUpRes: x,
+              ),
+            );
+          }
+        } catch (e) {
+          emit(
+            SignUpFailure(),
+          );
         }
       },
     );
 
-    on<SignUpRequestedWithPhone>(
+    on<SignUpWithPhoneInitiated>(
       (event, emit) async {
-        final res = await _onSignUpRequestedWithPhone(
-          event.userModel.phone!,
-          event.userModel.password!,
-        );
-        if (res.statusCode == 201) {
+        try {
           emit(
-            SignUpSuccess(
-              UserModel.fromJson(res.data),
-            ),
+            SignUpPhoneInitial(),
           );
-        } else {
-          emit(SignUpFailure(res.statusMessage!));
+          final x = await _signUpRepositories.initiateSignUpPhone(
+            phone: event.phone,
+            password: event.password,
+          );
+          if (x != null) {
+            emit(
+              SignUpWithPhoneSuccess(
+                userSignUpRes: x,
+              ),
+            );
+          }
+        } catch (e) {
+          emit(
+            SignUpFailure(),
+          );
         }
       },
     );
-  }
-
-  Future<Response> _onSignUpRequestedWithEmail(
-      String email, String password) async {
-    final res = await createUserWithEmailUsecase.call(email, password);
-    return res;
-  }
-
-  Future<Response> _onSignUpRequestedWithPhone(
-      String phone, String password) async {
-    final res = await createUserWithPhoneUsecase.call(phone, password);
-    return res;
   }
 }

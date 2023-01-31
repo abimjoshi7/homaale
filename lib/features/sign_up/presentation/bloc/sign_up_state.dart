@@ -4,23 +4,37 @@ abstract class SignUpState extends Equatable {
   const SignUpState();
 }
 
-class SignUpInitial extends SignUpState {
+class SignUpPhoneInitial extends SignUpState {
   @override
   List<Object?> get props => [];
 }
 
-class SignUpSuccess extends SignUpState {
-  final UserModel userModel;
-
-  const SignUpSuccess(this.userModel);
+class SignUpEmailInitial extends SignUpState {
   @override
-  List<Object?> get props => [userModel];
+  List<Object?> get props => [];
+}
+
+class SignUpWithPhoneSuccess extends SignUpState {
+  final UserSignUpRes userSignUpRes;
+  const SignUpWithPhoneSuccess({
+    required this.userSignUpRes,
+  });
+
+  @override
+  List<Object?> get props => [userSignUpRes];
+}
+
+class SignUpWithEmailSuccess extends SignUpState {
+  final UserSignUpRes userSignUpRes;
+  const SignUpWithEmailSuccess({
+    required this.userSignUpRes,
+  });
+
+  @override
+  List<Object?> get props => [userSignUpRes];
 }
 
 class SignUpFailure extends SignUpState {
-  final String error;
-
-  const SignUpFailure(this.error);
   @override
-  List<Object?> get props => [error];
+  List<Object?> get props => [];
 }

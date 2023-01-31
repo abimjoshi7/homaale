@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class SkillBox extends StatelessWidget {
   const SkillBox({
-    Key? key,
+    super.key,
     required this.label,
-  }) : super(key: key);
+  });
 
   final String label;
 

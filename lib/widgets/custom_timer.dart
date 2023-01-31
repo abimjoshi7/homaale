@@ -40,7 +40,7 @@ class _CustomTimerState extends State<CustomTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Text("$_start seconds");
+    return Text('$_start seconds');
   }
 
   @override

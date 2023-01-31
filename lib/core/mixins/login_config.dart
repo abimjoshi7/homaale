@@ -3,17 +3,17 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 mixin LoginConfig {
-  showLoginConfig(BuildContext context) async {
-    bool isfingerPrintEnabled = true;
-    bool isMPINEnabled = false;
-    await showModalBottomSheet(
+  dynamic showLoginConfig(BuildContext context) async {
+    var isfingerPrintEnabled = true;
+    const isMPINEnabled = false;
+    await showModalBottomSheet<Widget>(
       context: context,
       builder: (context) => Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomLabelText(label: "Login configuration"),
+            const CustomLabelText(label: 'Login configuration'),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -21,14 +21,13 @@ mixin LoginConfig {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Enable finger print"),
+                      const Text('Enable finger print'),
                       StatefulBuilder(
                         builder: (context, setState) => Switch(
                           value: isfingerPrintEnabled,
                           onChanged: (value) => setState(
                             () {
                               isfingerPrintEnabled = !isfingerPrintEnabled;
-                              print(isfingerPrintEnabled);
                             },
                           ),
                         ),
@@ -38,7 +37,7 @@ mixin LoginConfig {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Enable MPIN"),
+                      const Text('Enable MPIN'),
                       StatefulBuilder(
                         builder: (context, setState) => Switch(
                           value: isMPINEnabled,
@@ -54,14 +53,9 @@ mixin LoginConfig {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQueryHelper.theWidth(context) * 0.23,
-              ),
-              child: CustomElevatedButton(
-                callback: () {},
-                label: "Continue",
-              ),
+            CustomElevatedButton(
+              callback: () {},
+              label: 'Continue',
             ),
             kHeight20,
           ],

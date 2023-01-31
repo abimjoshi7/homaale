@@ -1,0 +1,17 @@
+export './categories_icons.dart';
+export './categories_section.dart';
+export './deal_of_the_day_section.dart';
+export './featured_services_section.dart';
+export './header_banner_section.dart';
+export './home_header_section.dart';
+export './popular_in_city.dart';
+export './popular_services_nearby_section.dart';
+export './popular_services_section.dart';
+export './popular_task_nearby_section.dart';
+export './popular_tasker_nearby_section.dart';
+export './popular_tasker_section.dart';
+export './professional_services_section.dart';
+export './service_card.dart';
+export './task_recommendation_section.dart';
+export './verified_services_section.dart';
+export 'task_suggestion_section.dart';

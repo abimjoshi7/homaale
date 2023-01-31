@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_with_phone.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingMainBody extends StatelessWidget {
@@ -24,14 +24,14 @@ class OnboardingMainBody extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: MediaQueryHelper.theHeight(context) * 0.4,
+            // height: MediaQueryHelper.theHeight(context) * 0.4,
             child: Image.asset(mainImage),
           ),
           kHeight50,
           Expanded(
             child: Container(
-              height: MediaQueryHelper.theHeight(context),
-              width: MediaQueryHelper.theWidth(context),
+              // height: MediaQueryHelper.theHeight(context),
+              // width: MediaQueryHelper.theWidth(context),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -53,7 +53,7 @@ class OnboardingMainBody extends StatelessWidget {
                       children: [
                         Text(
                           headingText,
-                          style: kHeading2,
+                          style: kPurpleText19,
                         ),
                         kHeight10,
                         Text(
@@ -86,7 +86,7 @@ class OnboardingMainBody extends StatelessWidget {
                               onTap: () {
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
-                                  SignInWithPhone.routeName,
+                                  SignInPage.routeName,
                                   (route) => false,
                                 );
                               },
@@ -94,8 +94,9 @@ class OnboardingMainBody extends StatelessWidget {
                                 height: 50,
                                 width: 50,
                                 decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: kColorPrimary),
+                                  shape: BoxShape.circle,
+                                  color: kColorPrimary,
+                                ),
                                 child: const Icon(
                                   Icons.arrow_forward,
                                   size: 30,

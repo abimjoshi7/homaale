@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 class PortfolioCard extends StatelessWidget {
   const PortfolioCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.label,
-  }) : super(key: key);
+    this.islocalImage = true,
+  });
 
   final String imagePath;
   final String label;
+  final bool islocalImage;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,18 @@ class PortfolioCard extends StatelessWidget {
           SizedBox(
             height: 100,
             width: 150,
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-            ),
+            child: islocalImage
+                ? Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    imagePath,
+                    fit: BoxFit.cover,
+                  ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Text(label),
           )
         ],

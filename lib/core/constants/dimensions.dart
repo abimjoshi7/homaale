@@ -28,12 +28,3 @@ const kWidth15 = SizedBox(
 const kWidth20 = SizedBox(
   width: 20,
 );
-
-//MediaQuery
-class MediaQueryHelper {
-  static double theHeight(BuildContext context) =>
-      MediaQuery.of(context).size.height;
-
-  static double theWidth(BuildContext context) =>
-      MediaQuery.of(context).size.width;
-}

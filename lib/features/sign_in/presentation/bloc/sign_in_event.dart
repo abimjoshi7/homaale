@@ -6,3 +6,23 @@ abstract class SignInEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class SignInWithPhoneSelected extends SignInEvent {}
+
+class SignInWithEmailSelected extends SignInEvent {}
+
+class SignInWithPhoneInitiated extends SignInEvent {
+  const SignInWithPhoneInitiated({
+    required this.userLoginReq,
+  });
+  final UserLoginReq userLoginReq;
+}
+
+class SignInWithEmailInitiated extends SignInEvent {
+  const SignInWithEmailInitiated({
+    required this.userLoginReq,
+  });
+  final UserLoginReq userLoginReq;
+}
+
+class SignOutInitiated extends SignInEvent {}

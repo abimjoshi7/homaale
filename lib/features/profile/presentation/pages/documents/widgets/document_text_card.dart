@@ -4,24 +4,27 @@ import 'package:flutter/material.dart';
 
 class DocumentTextCard extends StatelessWidget {
   const DocumentTextCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.label,
     required this.iconPath,
-  }) : super(key: key);
+    this.isLocalFile = true,
+  });
 
   final String imagePath;
   final String label;
   final String iconPath;
+  final bool isLocalFile;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child: Image.asset(imagePath),
+            child:
+                isLocalFile ? Image.asset(imagePath) : Image.network(imagePath),
           ),
         ),
         kHeight5,

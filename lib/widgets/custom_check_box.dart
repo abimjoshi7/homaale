@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatelessWidget {
   const CustomCheckBox({
-    Key? key,
+    super.key,
     this.isChecked = false,
     required this.onTap,
-  }) : super(key: key);
+    this.boxColor = kColorSecondary,
+  });
   final bool isChecked;
   final VoidCallback onTap;
+  final Color boxColor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class CustomCheckBox extends StatelessWidget {
         height: 22,
         width: 22,
         decoration: BoxDecoration(
-          color: kColorSecondary,
+          color: boxColor,
           borderRadius: BorderRadius.circular(4),
         ),
         child: isChecked == false

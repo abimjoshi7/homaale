@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class NumberCountText extends StatelessWidget {
   const NumberCountText({
-    Key? key,
+    super.key,
     required this.numberText,
     required this.textColor,
-  }) : super(key: key);
+  });
 
   final String numberText;
   final Color textColor;
