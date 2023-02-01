@@ -16,7 +16,9 @@ class ServiceProviderPage extends StatelessWidget {
           CustomHeader(
             leadingWidget: IconButton(
               icon: const Icon(Icons.arrow_back_ios_rounded),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             trailingWidget: IconButton(
               onPressed: () {},
@@ -114,6 +116,7 @@ class ServiceProviderPage extends StatelessWidget {
                           )
                         ],
                       ),
+                      kHeight20,
                       const Text(
                         'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
                         textAlign: TextAlign.start,
@@ -126,6 +129,7 @@ class ServiceProviderPage extends StatelessWidget {
                           style: kPurpleText16,
                         ),
                       ),
+                      kHeight10,
                       Row(
                         children: [
                           const Icon(
@@ -181,6 +185,7 @@ class ServiceProviderPage extends StatelessWidget {
                           const Text('Booking available for RCT in Kathmandu')
                         ],
                       ),
+                      kHeight20,
                       const Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
@@ -193,9 +198,9 @@ class ServiceProviderPage extends StatelessWidget {
                         child: Row(
                           children: List.generate(
                             4,
-                            (index) => Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: const PackagesOffersCard(
+                            (index) => const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: PackagesOffersCard(
                                 name: 'Basic',
                                 rate: 'Rs 1000/mo',
                                 offerName: "Save up to 10%",
@@ -242,6 +247,7 @@ class ServiceProviderPage extends StatelessWidget {
                           style: kPurpleText16,
                         ),
                       ),
+                      kHeight10,
                       Placeholder(),
                     ],
                   ),

@@ -1,6 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
@@ -58,7 +58,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             ),
             trailingWidget: IconButton(
               onPressed: () async {
-                // TODO:
                 Navigator.pushNamed(
                   context,
                   CompleteProfilePage.routeName,
@@ -83,7 +82,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                KycDetailsOrganization.routeName,
+                KycDetails.routeName,
               );
             },
             child: const ProfileKycVerifySection(),

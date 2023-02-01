@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
@@ -53,6 +55,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   String experienceLevel = 'Beginner';
   final _key = GlobalKey<FormState>();
   XFile? selectedImage;
+  File? selectedFile;
   bool isClient = false;
   bool isTasker = false;
   List<Map<String, dynamic>> map = [];
@@ -74,13 +77,21 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
               children: [
                 InkWell(
                   onTap: () async {
-                    await ImagePickHelper().pickImagePath().then(
-                          (value) => setState(
-                            () {
-                              selectedImage = value;
-                            },
-                          ),
-                        );
+                    await FilePickHelper.filePicker().then(
+                      (value) => setState(
+                        () {
+                          selectedFile = value;
+                          print(selectedFile);
+                        },
+                      ),
+                    );
+                    // await ImagePickHelper().pickImagePath().then(
+                    //       (value) => setState(
+                    //         () {
+                    //           selectedImage = value;
+                    //         },
+                    //       ),
+                    //     );
                   },
                   child: Column(
                     children: [
@@ -725,46 +736,34 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   ),
                 ),
                 kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Currency',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
+                CustomFormField(
+                  label: 'Currency',
+                  isRequired: true,
+                  child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                    builder: (context, state) {
+                      if (state is CurrencyLoadSuccess) {
+                        return CustomDropDownField(
+                          list: List.generate(
+                            state.currencyListRes.length,
+                            (index) => state.currencyListRes[index].name,
+                          ),
+                          hintText: 'Enter your Currency',
+                          onChanged: (p0) => setState(
+                            () async {
+                              final x = state.currencyListRes.firstWhere(
+                                (element) => p0 == element.name,
+                              );
+                              currencyCode = x.code;
+                            },
+                          ),
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
                 ),
-                kHeight5,
-                BlocBuilder<CurrencyBloc, CurrencyState>(
-                  builder: (context, state) {
-                    if (state is CurrencyLoadSuccess) {
-                      return CustomDropDownField(
-                        list: List.generate(
-                          state.currencyListRes.length,
-                          (index) => state.currencyListRes[index].name,
-                        ),
-                        hintText: 'Enter your Currency',
-                        onChanged: (p0) => setState(
-                          () async {
-                            final x = state.currencyListRes.firstWhere(
-                              (element) => p0 == element.name,
-                            );
-                            currencyCode = x.code;
-                          },
-                        ),
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
-                kHeight10,
                 const Divider(),
-                kHeight10,
                 const Text(
                   'Profile Configurations',
                   style: kText20,
@@ -861,42 +860,13 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
-                          print(123);
-                          final q = TaskerProfileCreateReq(
-                            city: cityCode,
-                            country: countryName,
-                            interests: interestCodes,
-                            firstName: firstNameController.text,
-                            middleName: middleNameController.text,
-                            lastName: lastNameController.text,
-                            bio: bioController.text,
-                            designation: designationController.text,
-                            gender: genderGroup,
-                            skill: tagController.getTags.toString(),
-                            dateOfBirth: dateOfBirth,
-                            activeHourStart: startTime!.format(context),
-                            activeHourEnd: endTime!.format(context),
-                            experienceLevel: experienceLevel,
-                            userType: userType,
-                            hourlyRate: int.parse(baseRateController.text),
-                            profileVisibility: visibilityController.text,
-                            taskPreferences: taskPreferencesController.text,
-                            addressLine1: address1Controller.text,
-                            addressLine2: address2Controller.text,
-                            // chargeCurrency: currencyCode,
-                            chargeCurrency: 'NPR',
-                            remainingPoints: 0,
-                            points: 0,
-                            followingCount: 0,
-                            profileImage: await MultipartFile.fromFile(
-                              selectedImage?.path ??
-                                  'assets/homaale_logo_title_light.png',
-                            ),
-                          );
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
-                              userType = ["Client", "Tasker"].toString();
+                              userType = ["Client", "Tasker"]
+                                  .map((e) => "'$e'")
+                                  .toList()
+                                  .toString();
                             } else if (isClient) {
                               userType = "Client";
                             } else if (isTasker) {
@@ -904,11 +874,51 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             } else {
                               userType = "";
                             }
-                            context.read<UserBloc>().add(
-                                  UserAdded(
-                                    req: q,
-                                  ),
-                                );
+
+                            final q = TaskerProfileCreateReq(
+                              city: cityCode,
+                              country: countryName,
+                              interests: interestCodes,
+                              firstName: firstNameController.text,
+                              middleName: middleNameController.text,
+                              lastName: lastNameController.text,
+                              bio: bioController.text,
+                              designation: designationController.text,
+                              gender: genderGroup,
+                              skill: tagController.getTags != null
+                                  ? tagController.getTags!
+                                      .map((e) => "'$e'")
+                                      .toList()
+                                      .toString()
+                                  : '',
+
+                              dateOfBirth: dateOfBirth,
+                              activeHourStart: startTime!.format(context),
+                              activeHourEnd: endTime!.format(context),
+                              experienceLevel: experienceLevel,
+                              userType: userType,
+                              hourlyRate: int.parse(baseRateController.text),
+                              // hourlyRate: baseRateController.text.length,
+                              profileVisibility: visibilityController.text,
+                              taskPreferences: taskPreferencesController.text,
+                              addressLine1: address1Controller.text,
+                              addressLine2: address2Controller.text,
+                              chargeCurrency: currencyCode ?? 'NPR',
+                              remainingPoints: 0,
+                              points: 0,
+                              followingCount: 0,
+                              profileImage: '',
+                              // profileImage: await MultipartFile.fromFile(
+                              //   selectedImage?.path ?? '',
+                              // ),
+                            );
+
+                            print(q.toJson());
+                            // context.read<UserBloc>().add(
+                            //       UserAdded(
+                            //         req: q,
+                            //       ),
+                            //     );
                           }
                         },
                         label: 'Save',

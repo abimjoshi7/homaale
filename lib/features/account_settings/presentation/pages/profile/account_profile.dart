@@ -1,7 +1,6 @@
 import 'package:cipher/core/app/bloc/theme_bloc.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
@@ -137,18 +136,19 @@ class AccountProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-                kHeight10,
+                kHeight20,
                 CustomElevatedButton(
                   callback: () {
                     Navigator.pushNamed(context, Profile.routeName);
                   },
                   label: 'View Profile',
                 ),
+                kHeight20,
                 InkWell(
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      KycDetailsOrganization.routeName,
+                      KycDetails.routeName,
                     );
                   },
                   child: const ProfileKycVerifySection(),
@@ -157,7 +157,7 @@ class AccountProfile extends StatelessWidget {
                   onTap: () async {
                     Navigator.pushNamed(
                       context,
-                      KycDetailsOrganization.routeName,
+                      KycDetails.routeName,
                     );
                   },
                   icon: const Icon(

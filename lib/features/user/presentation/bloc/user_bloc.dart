@@ -14,7 +14,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         await respositories.fetchuser().then(
           (value) {
-            if (value.isNotEmpty) {
+            if (value != null && value.isNotEmpty) {
               emit(
                 UserLoadSuccess(
                   user: TaskerProfileRetrieveRes.fromJson(

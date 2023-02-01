@@ -2,7 +2,6 @@ export './billing_payment_page/billing_payment_page.dart';
 export './connected_account/connected_account_page.dart';
 export './deactivate/deactivate_page.dart';
 export './help_legal_page/help_legal_page.dart';
-export './kyc/kyc_details.dart';
 export './languages_page/languages_page.dart';
 export './membership/membership.dart';
 export './notifications_page/notifications_page.dart';

@@ -101,8 +101,9 @@ class _EditCertificationsState extends State<EditCertification> {
                         label: 'Name',
                         isRequired: true,
                         child: CustomTextFormField(
-                          hintText:
-                              certificate?.name ?? 'Eg: Certified Gardener',
+                          hintText: nameController.text.isNotEmpty
+                              ? nameController.text
+                              : certificate?.name ?? 'Eg: Certified Gardener',
                           onChanged: (p0) {
                             setState(() {
                               nameController.text = p0!;
@@ -114,8 +115,10 @@ class _EditCertificationsState extends State<EditCertification> {
                         label: 'Issuing Organization',
                         isRequired: true,
                         child: CustomTextFormField(
-                          hintText:
-                              certificate?.issuingOrganization ?? 'Eg: Cagtu',
+                          hintText: issuingOrganizationController
+                                  .text.isNotEmpty
+                              ? issuingOrganizationController.text
+                              : certificate?.issuingOrganization ?? 'Eg: Cagtu',
                           onChanged: (p0) {
                             setState(() {
                               issuingOrganizationController.text = p0!;
@@ -128,8 +131,10 @@ class _EditCertificationsState extends State<EditCertification> {
                         isRequired: false,
                         child: CustomTextFormField(
                           maxLines: 3,
-                          hintText:
-                              certificate?.description ?? 'Write something...',
+                          hintText: descriptionController.text.isNotEmpty
+                              ? descriptionController.text
+                              : certificate?.description ??
+                                  'Write something...',
                           onChanged: (p0) {
                             setState(() {
                               descriptionController.text = p0!;
@@ -157,8 +162,10 @@ class _EditCertificationsState extends State<EditCertification> {
                         label: 'Cerfication Id',
                         isRequired: true,
                         child: CustomTextFormField(
-                          hintText:
-                              certificate?.credentialId ?? 'Eg: 213224-212-212',
+                          hintText: credentialIdController.text.isNotEmpty
+                              ? credentialIdController.text
+                              : certificate?.credentialId ??
+                                  'Eg: 213224-212-212',
                           onChanged: (p0) {
                             setState(() {
                               credentialIdController.text = p0!;
@@ -170,8 +177,10 @@ class _EditCertificationsState extends State<EditCertification> {
                         label: 'Certification URL',
                         isRequired: true,
                         child: CustomTextFormField(
-                          hintText: certificate?.certificateUrl ??
-                              'Eg: https//www.cagtu.com.np',
+                          hintText: certificationUrlController.text.isNotEmpty
+                              ? certificationUrlController.text
+                              : certificate?.certificateUrl ??
+                                  'Eg: https//www.cagtu.com.np',
                           prefixWidget: const Icon(
                             Icons.location_on_outlined,
                             color: kColorPrimary,
@@ -205,11 +214,12 @@ class _EditCertificationsState extends State<EditCertification> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  hintText: certificate?.issuedDate
-                                          .toString()
-                                          .substring(0, 10) ??
+                                  hintText:
                                       issuedDate?.toString().substring(0, 10) ??
-                                      '1999-06-13',
+                                          certificate?.issuedDate
+                                              .toString()
+                                              .substring(0, 10) ??
+                                          '1999-06-13',
                                   leadingWidget: const Icon(
                                     Icons.calendar_month_rounded,
                                     color: kColorPrimary,
@@ -239,11 +249,12 @@ class _EditCertificationsState extends State<EditCertification> {
                                   );
                                 },
                                 child: CustomFormContainer(
-                                  hintText: certificate?.expireDate
-                                          .toString()
-                                          .substring(0, 10) ??
+                                  hintText:
                                       endDate?.toString().substring(0, 10) ??
-                                      '1999-06-30',
+                                          certificate?.expireDate
+                                              .toString()
+                                              .substring(0, 10) ??
+                                          '1999-06-30',
                                   leadingWidget: const Icon(
                                     Icons.calendar_month_rounded,
                                     color: kColorPrimary,
@@ -260,33 +271,51 @@ class _EditCertificationsState extends State<EditCertification> {
               ),
               CustomElevatedButton(
                 callback: () async {
-                  await context
-                      .read<TaskerCertificationCubit>()
-                      .editTaskerCertification(
-                        TaskerCertificateReq(
-                          name: nameController.text.isNotEmpty
-                              ? nameController.text
-                              : certificate!.name!,
-                          issuingOrganization:
-                              issuingOrganizationController.text.isNotEmpty
-                                  ? issuingOrganizationController.text
-                                  : certificate!.issuingOrganization!,
-                          description: descriptionController.text.isNotEmpty
-                              ? descriptionController.text
-                              : certificate!.description!,
-                          credentialId: credentialIdController.text.isNotEmpty
-                              ? credentialIdController.text
-                              : certificate!.credentialId!,
-                          certificateUrl:
-                              certificationUrlController.text.isNotEmpty
-                                  ? certificationUrlController.text
-                                  : certificate!.certificateUrl!,
-                          doesExpire: isExpirable ?? certificate!.doesExpire!,
-                          issuedDate: issuedDate ?? certificate!.issuedDate!,
-                          expireDate: endDate ?? certificate!.expireDate,
-                        ),
-                        widget.id,
-                      );
+                  setState(
+                    () {
+                      issuedDate ??= certificate!.issuedDate;
+                      endDate ??= certificate!.expireDate;
+                    },
+                  );
+                  if (issuedDate!.isAfter(endDate!)) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Error',
+                        content: 'Please verify your dates',
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  } else {
+                    await context
+                        .read<TaskerCertificationCubit>()
+                        .editTaskerCertification(
+                          TaskerCertificateReq(
+                            name: nameController.text.isNotEmpty
+                                ? nameController.text
+                                : certificate!.name!,
+                            issuingOrganization:
+                                issuingOrganizationController.text.isNotEmpty
+                                    ? issuingOrganizationController.text
+                                    : certificate!.issuingOrganization!,
+                            description: descriptionController.text.isNotEmpty
+                                ? descriptionController.text
+                                : certificate!.description!,
+                            credentialId: credentialIdController.text.isNotEmpty
+                                ? credentialIdController.text
+                                : certificate!.credentialId!,
+                            certificateUrl:
+                                certificationUrlController.text.isNotEmpty
+                                    ? certificationUrlController.text
+                                    : certificate!.certificateUrl!,
+                            doesExpire: isExpirable ?? certificate!.doesExpire!,
+                            issuedDate: issuedDate,
+                            expireDate: endDate,
+                          ),
+                          widget.id,
+                        );
+                  }
                 },
                 label: 'Save',
               ),

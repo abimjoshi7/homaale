@@ -8,14 +8,14 @@ import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dar
 class UserRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchuser() async {
+  Future<Map<String, dynamic>?> fetchuser() async {
     try {
       log(CacheHelper.accessToken!);
       final x = await _dio.getDatawithCredential(
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      return x as Map<String, dynamic>?;
     } catch (e) {
       log(
         e.toString(),

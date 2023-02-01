@@ -54,14 +54,16 @@ class DescriptionSection extends StatelessWidget {
 
         Widget displaySkill() {
           if (state is UserLoadSuccess) {
+            final x = state.user.skill?.replaceAll(RegExp(r"[^\s\w]"), '');
+            final skills = x?.split(' ');
             return IconText(
               widget: Image.asset('assets/sparkle.png'),
-              label: state.user.skill!.replaceAll(RegExp(r'\s*\[\d+]'), ''),
+              label: skills?.join(', ') ?? 'No skills added',
             );
           } else {
             return IconText(
               widget: Image.asset('assets/sparkle.png'),
-              label: 'House Cleaning',
+              label: 'No skills added',
             );
           }
         }
@@ -70,7 +72,8 @@ class DescriptionSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             return IconText(
               widget: Image.asset('assets/location.png'),
-              label: state.user.addressLine1!,
+              label:
+                  "${state.user.addressLine1}, ${state.user.country?["name"] ?? ''}",
             );
           } else {
             return IconText(

@@ -44,8 +44,9 @@ class SkillsSection extends StatelessWidget {
                   height: 30,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) =>
-                        SkillBox(label: skills?[index] ?? ''),
+                    itemBuilder: (context, index) => skills!.first != ''
+                        ? SkillBox(label: skills[index])
+                        : const SizedBox.shrink(),
                     separatorBuilder: (context, index) => kWidth10,
                     itemCount: skills?.length ?? 0,
                   ),
@@ -84,15 +85,29 @@ class SkillsSection extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Skills',
-                        style: kPurpleText16,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Skills',
+                            style: kPurpleText16,
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              tagsController.clearTags();
+                            },
+                            child: const Text(
+                              'Clear All',
+                              style: kHelper13,
+                            ),
+                          ),
+                        ],
                       ),
                       kHeight5,
                       CustomTagTextField(
                         tagController: tagsController,
                         hintText: 'Enter your skills',
-                        initialList: skills,
+                        initialList: skills?.first == '' ? [] : skills,
                       ),
                     ],
                   ),
@@ -137,21 +152,20 @@ class SkillsSection extends StatelessWidget {
                         ),
                   );
                 }
-                // TODO: implement listener
               },
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    print(tagsController.getTags);
                     final map = {
-                      'skill': tagsController.getTags.toString(),
+                      'skill':
+                          '${tagsController.getTags!.map((s) => "'$s'").toList()}',
                     };
+
                     context.read<UserBloc>().add(
                           UserEdited(
                             req: map,
                           ),
                         );
-                    // Navigator.pop
                   },
                   label: 'Add',
                 );

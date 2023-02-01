@@ -169,10 +169,8 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     const CustomModalSheetDrawerIcon(),
                     Center(
                       child: InkWell(
-                        onTap: () {
-                          print(portfolio?.images?[0]['media']);
-                        },
-                        child: Text(
+                        onTap: () {},
+                        child: const Text(
                           'Edit Portfolio',
                           style: kPurpleText16,
                         ),
@@ -187,8 +185,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             label: 'Title',
                             isRequired: true,
                             child: CustomTextFormField(
-                              hintText:
-                                  portfolio?.title ?? 'Please enter the title',
+                              hintText: titleController.text.isNotEmpty
+                                  ? titleController.text
+                                  : portfolio?.title ??
+                                      'Please enter the title',
                               onChanged: (p0) {
                                 setState(
                                   () {
@@ -204,8 +204,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: CustomTextFormField(
                               maxLines: 3,
-                              hintText: portfolio?.description ??
-                                  'Write something...',
+                              hintText: descriptionController.text.isNotEmpty
+                                  ? descriptionController.text
+                                  : portfolio?.description ??
+                                      'Write something...',
                               onChanged: (p0) {
                                 setState(
                                   () {
@@ -233,11 +235,12 @@ class _EditPortfolioState extends State<EditPortfolio> {
                                 });
                               },
                               child: CustomFormContainer(
-                                hintText: portfolio?.issuedDate
-                                        .toString()
-                                        .substring(0, 10) ??
+                                hintText:
                                     issuedDate?.toString().substring(0, 10) ??
-                                    '1999-03-06',
+                                        portfolio?.issuedDate
+                                            .toString()
+                                            .substring(0, 10) ??
+                                        '1999-03-06',
                                 leadingWidget: const Icon(
                                   Icons.calendar_month_rounded,
                                   color: kColorPrimary,

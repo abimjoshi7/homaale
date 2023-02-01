@@ -18,7 +18,7 @@ class PortfolioCard extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: 100,
+            height: 107,
             width: 150,
             child: islocalImage
                 ? Image.asset(

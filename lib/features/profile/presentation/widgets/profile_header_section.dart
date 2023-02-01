@@ -19,30 +19,30 @@ class ProfileHeaderSection extends StatelessWidget {
           if (state is SignInSuccess) {
             if (state.userLoginRes.hasProfile == true) {
               return PopupMenuItem(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
+                onTap: () async {
+                  await Future.delayed(const Duration(milliseconds: 10)).then(
+                    (value) => Navigator.pushNamed(
                       context,
                       EditProfilePage.routeName,
-                    );
-                  },
-                  child: const Text(
-                    'Edit Profile',
-                  ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Edit Profile',
                 ),
               );
             } else {
               return PopupMenuItem(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
+                onTap: () async {
+                  await Future.delayed(const Duration(milliseconds: 10)).then(
+                    (value) => Navigator.pushNamed(
                       context,
                       CompleteProfilePage.routeName,
-                    );
-                  },
-                  child: const Text(
-                    'Complete Profile',
-                  ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Complete Profile',
                 ),
               );
             }
@@ -57,6 +57,7 @@ class ProfileHeaderSection extends StatelessWidget {
               if (state2 is UserLoadSuccess) {
                 return Text(
                   '${state2.user.user?.firstName ?? ''} ${state2.user.user?.lastName ?? ''}',
+                  style: kPurpleText16,
                 );
               } else {
                 return const Text('New User');
@@ -124,6 +125,31 @@ class ProfileHeaderSection extends StatelessWidget {
               }
             }
 
+            Widget displayVerify() {
+              if (state is SignInSuccess) {
+                if (state.userLoginRes.isVerified == true) {
+                  return const Icon(
+                    Icons.verified,
+                    color: Colors.lightBlue,
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              } else {
+                return const SizedBox.shrink();
+              }
+            }
+
+            Widget displayUserType() {
+              if (state2 is UserLoadSuccess) {
+                return Text(
+                  state2.user.userType ?? '',
+                  // style: kText15,
+                );
+              }
+              return Text('Homaale Client/Tasker');
+            }
+
             return ListTile(
               leading: displayProfilePic(),
               title: Column(
@@ -133,14 +159,13 @@ class ProfileHeaderSection extends StatelessWidget {
                     children: [
                       displayName(),
                       kWidth5,
-                      const Icon(
-                        Icons.verified,
-                        color: Colors.lightBlue,
-                      ),
+                      displayVerify(),
                     ],
                   ),
                   kHeight5,
-                  displayDesignation(),
+                  // displayDesignation(),
+                  // kHeight5,
+                  displayUserType(),
                   kHeight5,
                   displayRating()
                 ],

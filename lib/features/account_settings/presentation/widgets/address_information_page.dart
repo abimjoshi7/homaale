@@ -89,8 +89,10 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                           isRequired: false,
                           child: CustomDropDownField(
                             hintText:
-                                // (state.user.country as String?) ??
-                                'Specify your country',
+                                (state.user.country?['name'] as String?) ??
+
+                                    // (state.user.country as String?) ??
+                                    'Specify your country',
                             list: countryList?.map((e) => e.name).toList() ??
                                 [
                                   'Australia',
@@ -141,8 +143,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                           isRequired: false,
                           child: CustomDropDownField(
                             hintText:
-                                // (state.user.language as String?) ??
-                                'Specify your language',
+                                (state.user.language?['name'] as String?) ??
+                                    'Specify your language',
                             list: languageList?.map((e) => e.name).toList() ??
                                 [
                                   'English',
@@ -166,7 +168,9 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                             currencyList = currencyState.currencyListRes;
                           }
                           return CustomDropDownField(
-                            hintText: 'Choose suitable currency',
+                            hintText:
+                                (state.user.chargeCurrency?.name as String?) ??
+                                    'Choose suitable currency',
                             list: currencyList?.map((e) => e.name).toList() ??
                                 [
                                   'NPR',
