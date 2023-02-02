@@ -143,11 +143,13 @@ class ProfileHeaderSection extends StatelessWidget {
             Widget displayUserType() {
               if (state2 is UserLoadSuccess) {
                 return Text(
-                  state2.user.userType ?? '',
+                  state2.user.userType
+                          ?.replaceAll(RegExp(r"\p{P}", unicode: true), "") ??
+                      '',
                   // style: kText15,
                 );
               }
-              return Text('Homaale Client/Tasker');
+              return const Text('Homaale Client/Tasker');
             }
 
             return ListTile(

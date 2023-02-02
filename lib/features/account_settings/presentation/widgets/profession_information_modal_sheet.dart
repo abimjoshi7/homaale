@@ -6,6 +6,7 @@ import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 
 class ProfessionalInformationModalSheet extends StatefulWidget {
   const ProfessionalInformationModalSheet({super.key});
@@ -24,192 +25,364 @@ class _ProfessionalInformationModalSheetState
   TimeOfDay? completeTime;
   String? daySelect;
   TaskerProfileRetrieveRes? user;
+  final tagsController = TextfieldTagsController();
+  bool isClient = false;
+  bool isTasker = false;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
-      listener: (context, state) {
-        // TODO: implement listener
+      listener: (context, state) async {
+        // if (state is UserEditSuccess) {
+        //   await showDialog(
+        //     context: context,
+        //     builder: (context) => CustomToast(
+        //       heading: 'Success',
+        //       content: 'Profile edited succesfully',
+        //       onTap: () {
+        //         Navigator.pop(context);
+        //       },
+        //       isSuccess: true,
+        //     ),
+        //   );
+        // }
+        // if (state is UserEditFailure) {
+        //   await showDialog(
+        //     context: context,
+        //     builder: (context) => CustomToast(
+        //       heading: 'Failure',
+        //       content: 'Profile edit cannot be completed',
+        //       onTap: () {},
+        //       isSuccess: false,
+        //     ),
+        //   );
+        // }
       },
       builder: (context, state) {
         if (state is UserLoadSuccess) {
           user = state.user;
-          // Widget displayUserType() {
-          //   if(user?.userType == 'Client')
-          //   return Checkbox(
-          //     value: user?.userType == ,
-          //     onChanged: (value) {
-          //       setState(
-          //         () {
-          //           // userType = value;
-          //         },
-          //       );
-          //     },
-          //   );
-          // }
+          if (user!.userType!
+                  .replaceAll(RegExp(r"\p{P}", unicode: true), '')
+                  .split(' ')
+                  .length >
+              1) {
+            isTasker = true;
+            isClient = true;
+          } else if (user!.userType!
+                      .replaceAll(RegExp(r"\p{P}", unicode: true), '')
+                      .split(' ')
+                      .length ==
+                  1 &&
+              user!.userType!
+                      .replaceAll(RegExp(r"\p{P}", unicode: true), '')
+                      .split(' ')
+                      .first
+                      .toLowerCase()
+                      .trim() ==
+                  'tasker') {
+            isTasker = true;
+          } else {
+            isClient = true;
+          }
 
-          return Column(
-            children: [
-              const CustomModalSheetDrawerIcon(),
-              const Text(
-                'Professional Information',
-                style: kPurpleText16,
-              ),
-              Padding(
-                padding: kPadding20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomFormField(
-                      isRequired: false,
-                      label: 'Select User Type',
-                      child: Row(
-                        children: [
-                          Row(
-                            children: [
-                              // displayUserType(),
-                              const Text('Client'),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Radio(
-                                groupValue: userType,
-                                value: 'Tasker',
-                                onChanged: (value) {
-                                  setState(() {
-                                    userType = value;
-                                  });
-                                },
-                              ),
-                              const Text('Tasker')
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomFormField(
-                      label: 'Specialities',
-                      isRequired: false,
-                      child: CustomTextFormField(
-                        hintText: 'Enter your skills',
-                        onChanged: (p0) => setState(
-                          () {
-                            specialities = p0;
-                          },
-                        ),
-                      ),
-                    ),
-                    // CustomFormField(
-                    //   label: 'Experience Level',
-                    //   isRequired: false,
-                    //   child: CustomDropDownField(
-                    //     hintText: 'Enter your skills',
-                    //     list: [
-                    //       'Beginner(0 to 1 years experience)'
-                    //           'Intermediate(1 to 5 years experience)'
-                    //           'Expert(5 years experience or more)'
-                    //     ],
-                    //     onSaved: (value) => setState(() {}),
-                    //   ),
-                    // ),
-                    kHeight20,
-                    const Text(
-                      'Active Hours',
-                      style: kPurpleText16,
-                    ),
-                    kHeight10,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Sunday',
-                          style: kPurpleText16,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete_outline_rounded,
-                            color: kColorPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    kHeight10,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
-                        Flexible(
-                          child: CustomFormContainer(
-                            hintText: '08: 00 AM',
-                            leadingWidget: Icon(
-                              Icons.access_time_rounded,
-                              color: kColorPrimary,
-                            ),
-                          ),
-                        ),
-                        kWidth10,
-                        Text('To'),
-                        kWidth10,
-                        Flexible(
-                          child: CustomFormContainer(
-                            hintText: '09: 00 AM',
-                            leadingWidget: Icon(
-                              Icons.access_time_rounded,
-                              color: kColorPrimary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    kHeight20,
-                    CustomFormField(
-                      label: 'Select Day',
-                      isRequired: false,
-                      child: CustomDropDownField(
-                        hintText: 'Specify the day',
-                        list: const [
-                          'Every day',
-                          'Weekend',
-                        ],
-                        onChanged: (value) => setState(
-                          () {
-                            daySelect = value;
-                          },
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: const [
-                        Flexible(
-                          child: CustomFormField(
-                            label: 'From',
-                            isRequired: false,
-                            child: CustomFormContainer(
-                              hintText: '08: 00 AM',
-                            ),
-                          ),
-                        ),
-                        kWidth20,
-                        Flexible(
-                          child: CustomFormField(
-                            label: 'To',
-                            isRequired: false,
-                            child: CustomFormContainer(
-                              hintText: '09: 00 AM',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+          Widget displayClientCheckBox() {
+            return Builder(
+              builder: (context) => StatefulBuilder(
+                builder: (context, setState) => Checkbox(
+                  value: isClient,
+                  onChanged: (value) {
+                    // if (user!.userType!
+                    //         .replaceAll(' ', '')
+                    //         .toLowerCase()
+                    //         .contains('"tasker","client"') ||
+                    //     user!.userType!
+                    //         .replaceAll(' ', '')
+                    //         .toLowerCase()
+                    //         .contains('"client","tasker"')) {
+                    //   isTasker = true;
+                    //   isClient = true;
+                    // } else if (user!.userType!.contains("Tasker")) {
+                    //   isTasker = true;
+                    // } else {
+                    //   isClient = true;
+                    // }
+                    setState(
+                      () {
+                        isClient = value!;
+                      },
+                    );
+                  },
                 ),
               ),
-              CustomElevatedButton(
-                callback: () async {},
-                label: 'Save',
-              )
-            ],
+            );
+          }
+
+          Widget displayTaskerCheckBox() {
+            return StatefulBuilder(
+              builder: (context, setState) => Checkbox(
+                value: isTasker,
+                onChanged: (value) {
+                  setState(
+                    () {
+                      isTasker = value!;
+                    },
+                  );
+                },
+              ),
+            );
+          }
+
+          Widget displaySkills() {
+            return CustomTagTextField(
+              tagController: tagsController,
+              hintText: 'Enter your skills',
+              initialList: user!.skill!
+                  .split(',')
+                  .map(
+                    (e) => e.replaceAll(
+                      RegExp(r"\p{P}", unicode: true),
+                      "",
+                    ),
+                  )
+                  .toList(),
+            );
+          }
+
+          Widget displayStartTime() {
+            return InkWell(
+              onTap: () async {
+                await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                ).then(
+                  (value) => setState(
+                    () {
+                      startTime = value;
+                    },
+                  ),
+                );
+              },
+              child: CustomFormContainer(
+                hintText: startTime?.format(context) ?? user!.activeHourStart!,
+              ),
+            );
+          }
+
+          Widget displayEndTime() {
+            return InkWell(
+              onTap: () async {
+                await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                ).then(
+                  (value) => setState(
+                    () {
+                      endTime = value;
+                    },
+                  ),
+                );
+              },
+              child: CustomFormContainer(
+                hintText: endTime?.format(context) ?? user!.activeHourEnd!,
+              ),
+            );
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const CustomModalSheetDrawerIcon(),
+                kHeight20,
+                InkWell(
+                  onTap: () {},
+                  child: const Text(
+                    'Professional Information',
+                    style: kPurpleText16,
+                  ),
+                ),
+                Padding(
+                  padding: kPadding20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomFormField(
+                        isRequired: false,
+                        label: 'Select User Type',
+                        child: Row(
+                          children: [
+                            Row(
+                              children: [
+                                displayClientCheckBox(),
+                                const Text('Client'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                displayTaskerCheckBox(),
+                                const Text('Tasker')
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      CustomFormField(
+                        label: 'Specialities',
+                        isRequired: false,
+                        child: displaySkills(),
+                      ),
+                      CustomFormField(
+                        label: 'Experience Level',
+                        isRequired: false,
+                        child: CustomDropDownField<String>(
+                          hintText:
+                              user?.experienceLevel ?? 'Enter your skills',
+                          list: const [
+                            'Beginner (0 to 1 years experience)',
+                            'Intermediate (1 to 5 years experience)',
+                            'Expert (5 years experience or more)',
+                          ],
+                          onChanged: (value) => setState(
+                            () {
+                              if (value!.startsWith('Be')) {
+                                experienceLevel = 'Beginner';
+                              } else if (value.startsWith('In')) {
+                                experienceLevel = 'Intermediate';
+                              } else {
+                                experienceLevel = 'Expert';
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        'Active Hours',
+                        style: kPurpleText16,
+                      ),
+                      kHeight10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Sunday',
+                            style: kPurpleText16,
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.delete_outline_rounded,
+                              color: kColorPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      kHeight10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: const [
+                          Flexible(
+                            child: CustomFormContainer(
+                              hintText: '08: 00 AM',
+                              leadingWidget: Icon(
+                                Icons.access_time_rounded,
+                                color: kColorPrimary,
+                              ),
+                            ),
+                          ),
+                          kWidth10,
+                          Text('To'),
+                          kWidth10,
+                          Flexible(
+                            child: CustomFormContainer(
+                              hintText: '09: 00 AM',
+                              leadingWidget: Icon(
+                                Icons.access_time_rounded,
+                                color: kColorPrimary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      kHeight20,
+                      CustomFormField(
+                        label: 'Select Day',
+                        isRequired: false,
+                        child: CustomDropDownField(
+                          hintText: 'Specify the day',
+                          list: const [
+                            'Every day',
+                            'Weekend',
+                          ],
+                          onChanged: (value) => setState(
+                            () {
+                              daySelect = value;
+                            },
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: CustomFormField(
+                              label: 'From',
+                              isRequired: false,
+                              child: displayStartTime(),
+                            ),
+                          ),
+                          kWidth20,
+                          Flexible(
+                            child: CustomFormField(
+                              label: 'To',
+                              isRequired: false,
+                              child: displayEndTime(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                CustomElevatedButton(
+                  callback: () async {
+                    if (isClient && isTasker) {
+                      userType = ["Client", "Tasker"]
+                          .map((e) => '"$e"')
+                          .toList()
+                          .toString();
+                    } else if (isClient) {
+                      userType =
+                          ["Client"].map((e) => '"$e"').toList().toString();
+                    } else if (isTasker) {
+                      userType =
+                          ["Tasker"].map((e) => '"$e"').toList().toString();
+                    } else {
+                      userType = "";
+                    }
+                    final map = {
+                      "user_type": userType ?? user?.userType,
+                      "skill": tagsController.getTags!
+                          .map((e) => '"$e"')
+                          .toList()
+                          .toString(),
+                      "active_hour_start":
+                          startTime?.format(context) ?? user?.activeHourStart,
+                      "active_hour_end":
+                          endTime?.format(context) ?? user?.activeHourEnd,
+                      "experience_level":
+                          experienceLevel ?? user?.experienceLevel,
+                    };
+                    context.read<UserBloc>().add(
+                          UserEdited(
+                            req: map,
+                          ),
+                        );
+                  },
+                  label: 'Save',
+                ),
+                kHeight20,
+              ],
+            ),
           );
         }
         return CustomElevatedButton(

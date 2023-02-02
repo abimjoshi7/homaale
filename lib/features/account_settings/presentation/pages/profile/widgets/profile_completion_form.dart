@@ -1,11 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
@@ -77,21 +74,21 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
               children: [
                 InkWell(
                   onTap: () async {
-                    await FilePickHelper.filePicker().then(
-                      (value) => setState(
-                        () {
-                          selectedFile = value;
-                          print(selectedFile);
-                        },
-                      ),
-                    );
-                    // await ImagePickHelper().pickImagePath().then(
-                    //       (value) => setState(
-                    //         () {
-                    //           selectedImage = value;
-                    //         },
-                    //       ),
-                    //     );
+                    // await FilePickHelper.filePicker().then(
+                    //   (value) => setState(
+                    //     () {
+                    //       selectedFile = value;
+                    //       print(selectedFile);
+                    //     },
+                    //   ),
+                    // );
+                    await ImagePickHelper().pickImagePath().then(
+                          (value) => setState(
+                            () {
+                              selectedImage = value;
+                            },
+                          ),
+                        );
                   },
                   child: Column(
                     children: [
@@ -864,13 +861,19 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
                               userType = ["Client", "Tasker"]
-                                  .map((e) => "'$e'")
+                                  .map((e) => '"$e"')
                                   .toList()
                                   .toString();
                             } else if (isClient) {
-                              userType = "Client";
+                              userType = ["Client"]
+                                  .map((e) => '"$e"')
+                                  .toList()
+                                  .toString();
                             } else if (isTasker) {
-                              userType = "Tasker";
+                              userType = ["Tasker"]
+                                  .map((e) => '"$e"')
+                                  .toList()
+                                  .toString();
                             } else {
                               userType = "";
                             }
@@ -887,18 +890,16 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               gender: genderGroup,
                               skill: tagController.getTags != null
                                   ? tagController.getTags!
-                                      .map((e) => "'$e'")
+                                      .map((e) => '"$e"')
                                       .toList()
                                       .toString()
                                   : '',
-
                               dateOfBirth: dateOfBirth,
                               activeHourStart: startTime!.format(context),
                               activeHourEnd: endTime!.format(context),
                               experienceLevel: experienceLevel,
                               userType: userType,
                               hourlyRate: int.parse(baseRateController.text),
-                              // hourlyRate: baseRateController.text.length,
                               profileVisibility: visibilityController.text,
                               taskPreferences: taskPreferencesController.text,
                               addressLine1: address1Controller.text,
@@ -907,18 +908,16 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               remainingPoints: 0,
                               points: 0,
                               followingCount: 0,
-                              profileImage: '',
-                              // profileImage: await MultipartFile.fromFile(
-                              //   selectedImage?.path ?? '',
-                              // ),
+                              profileImage: await MultipartFile.fromFile(
+                                selectedImage?.path ?? '',
+                              ),
                             );
 
-                            print(q.toJson());
-                            // context.read<UserBloc>().add(
-                            //       UserAdded(
-                            //         req: q,
-                            //       ),
-                            //     );
+                            context.read<UserBloc>().add(
+                                  UserAdded(
+                                    req: q,
+                                  ),
+                                );
                           }
                         },
                         label: 'Save',
@@ -948,9 +947,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
     address1Controller.dispose();
     address2Controller.dispose();
     languageController.dispose();
+    currencyController.dispose();
     visibilityController.dispose();
     taskPreferencesController.dispose();
     tagController.dispose();
+
     super.dispose();
   }
 }

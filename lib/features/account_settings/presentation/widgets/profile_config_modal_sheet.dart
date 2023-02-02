@@ -74,8 +74,10 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                 label: 'Save',
                 callback: () {
                   final map = {
-                    "profile_visibility": visibiltyType,
-                    "task_preferences": taskPreferences,
+                    "profile_visibility":
+                        visibiltyType ?? state.user.profileVisibility,
+                    "task_preferences":
+                        taskPreferences ?? state.user.taskPreferences,
                   };
                   context.read<UserBloc>().add(
                         UserEdited(
