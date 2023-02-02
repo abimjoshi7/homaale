@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/categories/data/models/category.dart';
+import 'package:cipher/features/categories/data/models/hero_category.dart';
 
 class CategoriesRepositories {
   final _dio = DioHelper();
@@ -26,15 +27,13 @@ class CategoriesRepositories {
     }
   }
 
-  Future<dynamic> fetchHeroCategory() async {
+  Future<Map<String, dynamic>> fetchHeroCategory() async {
     try {
-      // final tokenP = await CacheHelper.getCachedString(CacheHelper.accessTokenP);
-      // final token = await CacheHelper.getCachedString(CacheHelper.accessToken);
       final res = await _dio.getDatawithCredential(
         url: 'task/hero-category/',
         token: CacheHelper.accessToken,
       );
-      return res;
+      return res as Map<String, dynamic>;
     } catch (e) {
       log(
         e.toString(),

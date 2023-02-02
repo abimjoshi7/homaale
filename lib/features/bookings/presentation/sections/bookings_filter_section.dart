@@ -16,12 +16,17 @@ class BookingsFilterSection extends StatelessWidget {
           child: Row(
             children: const [
               ChoiceChip(
-                label: Text('Booked By Me'),
+                label: Text('All'),
                 selected: true,
               ),
               kWidth10,
               ChoiceChip(
-                label: Text('Booked By Others'),
+                label: Text('My Task'),
+                selected: true,
+              ),
+              kWidth10,
+              ChoiceChip(
+                label: Text('My Orders'),
                 selected: true,
               ),
             ],

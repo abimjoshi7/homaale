@@ -1,8 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class IconText extends StatelessWidget {
-  const IconText({
+class WidgetText extends StatelessWidget {
+  const WidgetText({
     super.key,
     required this.label,
     required this.widget,

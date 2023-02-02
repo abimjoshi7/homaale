@@ -2,7 +2,7 @@ export './certification_section.dart';
 export './desciption_section.dart';
 export './education_section.dart';
 export './experience_section.dart';
-export './icontext.dart';
+export '../../../../../../widgets/widget_text.dart';
 export './portfolio_card.dart';
 export './portfolio_section.dart';
 export './skill_box.dart';

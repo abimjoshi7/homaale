@@ -25,12 +25,12 @@ class DescriptionSection extends StatelessWidget {
 
         Widget displayUsername() {
           if (state is UserLoadSuccess) {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/mail.png'),
               label: state.user.user!.phone ?? state.user.user!.email!,
             );
           } else {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/mail.png'),
               label: 'harrysmith@gmail.com',
             );
@@ -39,13 +39,13 @@ class DescriptionSection extends StatelessWidget {
 
         Widget displayActiveHours() {
           if (state is UserLoadSuccess) {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/clock.png'),
               label:
                   'Active Hours ${state.user.activeHourStart!.substring(0, 5)} - ${state.user.activeHourEnd!.substring(0, 5)}',
             );
           } else {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/clock.png'),
               label: 'Active Hours 12:00 am - 8:00 pm',
             );
@@ -56,12 +56,12 @@ class DescriptionSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             final x = state.user.skill?.replaceAll(RegExp(r"[^\s\w]"), '');
             final skills = x?.split(' ');
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/sparkle.png'),
               label: skills?.join(', ') ?? 'No skills added',
             );
           } else {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/sparkle.png'),
               label: 'No skills added',
             );
@@ -70,13 +70,13 @@ class DescriptionSection extends StatelessWidget {
 
         Widget displayLocation() {
           if (state is UserLoadSuccess) {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/location.png'),
               label:
                   "${state.user.addressLine1}, ${state.user.country?["name"] ?? ''}",
             );
           } else {
-            return IconText(
+            return WidgetText(
               widget: Image.asset('assets/location.png'),
               label: 'New baneshwor, Kathmandu, Nepal',
             );

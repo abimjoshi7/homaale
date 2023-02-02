@@ -73,7 +73,7 @@ class PopularServicesNearbySection extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const IconText(
+                                  const WidgetText(
                                     label: 'Buddhanagar',
                                     widget: Icon(
                                       Icons.location_on_outlined,
@@ -81,7 +81,7 @@ class PopularServicesNearbySection extends StatelessWidget {
                                       color: Color(0xfffe5050),
                                     ),
                                   ),
-                                  const IconText(
+                                  const WidgetText(
                                     label: '3.4(190)',
                                     widget: Icon(
                                       Icons.star_rate_rounded,

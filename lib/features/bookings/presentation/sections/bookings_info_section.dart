@@ -9,7 +9,7 @@ class BookingsInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.only(top: 20),
       child: Container(
         color: kColorPrimary,
         height: 50,

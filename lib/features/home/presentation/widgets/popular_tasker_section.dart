@@ -49,7 +49,7 @@ class PopularTaskerSection extends StatelessWidget {
                       kHeight10,
                       Row(
                         children: const [
-                          IconText(
+                          WidgetText(
                             label: '200',
                             widget: Icon(
                               Icons.emoji_emotions_outlined,
@@ -58,7 +58,7 @@ class PopularTaskerSection extends StatelessWidget {
                             ),
                           ),
                           kWidth15,
-                          IconText(
+                          WidgetText(
                             label: '200',
                             widget: Icon(
                               Icons.military_tech_rounded,
@@ -67,7 +67,7 @@ class PopularTaskerSection extends StatelessWidget {
                             ),
                           ),
                           kWidth15,
-                          IconText(
+                          WidgetText(
                             label: '200',
                             widget: Icon(
                               Icons.airline_stops_sharp,
@@ -79,7 +79,7 @@ class PopularTaskerSection extends StatelessWidget {
                       ),
                       Row(
                         children: const [
-                          IconText(
+                          WidgetText(
                             label: '3.5 (100)',
                             widget: Icon(
                               Icons.star_rate_rounded,

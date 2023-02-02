@@ -30,7 +30,7 @@ class DocumentTextCard extends StatelessWidget {
         kHeight5,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: IconText(
+          child: WidgetText(
             label: label,
             widget: Image.asset(iconPath),
           ),

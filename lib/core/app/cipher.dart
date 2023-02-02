@@ -6,6 +6,7 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
+import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -34,11 +35,12 @@ class Cipher extends StatelessWidget {
               SignUpRepositories(),
             ),
           ),
-          // BlocProvider(
-          //   create: (context) => CategoriesCubit(
-          //     NetworkHelper(),
-          //   )..fetchAllCategories(),
-          // ),
+          BlocProvider(
+            create: (context) => CategoriesBloc()
+              ..add(
+                CategoriesHeroLoadInitiated(),
+              ),
+          ),
           // BlocProvider(
           //   create: (context) => HomeCubit(
           //     networkHelper: NetworkHelper(),

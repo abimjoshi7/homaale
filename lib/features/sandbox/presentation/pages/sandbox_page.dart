@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
+import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
+import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -105,6 +107,20 @@ class SandboxPage extends StatelessWidget {
                     print(x);
                   },
                   label: 'Get Kyc',
+                );
+              },
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: BlocBuilder<CategoriesBloc, CategoriesState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    await CategoriesRepositories().fetchHeroCategory();
+                    // print(x);
+                  },
+                  label: 'Get Categories',
                 );
               },
             ),

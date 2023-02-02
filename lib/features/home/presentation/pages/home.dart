@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/categories/presentation/pages/categories.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class Home extends StatelessWidget {
             const HomeHeaderSection(),
             const HeaderBannerSection(),
             const DealOfTheDaySection(),
-            // const CategoriesSection(),
+            const CategoriesSection(),
             const PopularServicesSection(),
             Padding(
               padding: const EdgeInsets.symmetric(

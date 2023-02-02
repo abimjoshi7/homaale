@@ -67,7 +67,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          IconText(
+                          WidgetText(
                             label: 'Anamnagar, KTM (1.5km)',
                             widget: Icon(
                               Icons.location_on_outlined,
@@ -75,7 +75,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               size: 13,
                             ),
                           ),
-                          IconText(
+                          WidgetText(
                             label: 'June 9, 2022',
                             widget: Icon(
                               Icons.calendar_today,
@@ -83,7 +83,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               size: 13,
                             ),
                           ),
-                          IconText(
+                          WidgetText(
                             label: '08:11 PM',
                             widget: Icon(
                               Icons.access_time_filled_outlined,
@@ -98,7 +98,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const IconText(
+                          const WidgetText(
                             label: 'Save',
                             widget: Icon(
                               Icons.favorite_border_outlined,
@@ -106,7 +106,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               color: Color(0xffFE5050),
                             ),
                           ),
-                          const IconText(
+                          const WidgetText(
                             label: 'Share',
                             widget: Icon(
                               FontAwesomeIcons.share,
@@ -114,7 +114,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               color: Color(0xff3EAEFF),
                             ),
                           ),
-                          const IconText(
+                          const WidgetText(
                             label: '180',
                             widget: Icon(
                               Icons.supervisor_account_outlined,

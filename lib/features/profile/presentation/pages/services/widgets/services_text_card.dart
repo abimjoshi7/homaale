@@ -53,7 +53,7 @@ class ServicesTextCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconText(
+              WidgetText(
                 label: reviewNumber ?? '',
                 widget: const Icon(
                   Icons.star_rounded,
@@ -61,7 +61,7 @@ class ServicesTextCard extends StatelessWidget {
                   size: 14,
                 ),
               ),
-              IconText(
+              WidgetText(
                 label: location ?? '',
                 widget: Image.asset(
                   'assets/location.png',

@@ -44,7 +44,7 @@ class ReviewsProfile extends StatelessWidget {
                       Row(
                         children: const [
                           Text('Elena Shrestha'),
-                          IconText(
+                          WidgetText(
                             label: '3',
                             widget: Icon(
                               Icons.star_rounded,

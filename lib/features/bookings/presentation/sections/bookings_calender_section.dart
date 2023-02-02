@@ -9,7 +9,7 @@ class BookingsCalenderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 150,
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(

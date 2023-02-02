@@ -49,7 +49,7 @@ class TasksSuggestionSection extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: const [
-                                  IconText(
+                                  WidgetText(
                                     label: '08:11 PM',
                                     widget: Icon(
                                       Icons.access_time_rounded,
@@ -57,7 +57,7 @@ class TasksSuggestionSection extends StatelessWidget {
                                       color: Color(0xff3eaeff),
                                     ),
                                   ),
-                                  IconText(
+                                  WidgetText(
                                     label: '08:11 PM',
                                     widget: Icon(
                                       Icons.calendar_today,
@@ -72,7 +72,7 @@ class TasksSuggestionSection extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: const [
-                                  IconText(
+                                  WidgetText(
                                     label: '3.4 (90)',
                                     widget: Icon(
                                       Icons.star_rate_rounded,
@@ -80,7 +80,7 @@ class TasksSuggestionSection extends StatelessWidget {
                                       color: Color(0xffff9700),
                                     ),
                                   ),
-                                  IconText(
+                                  WidgetText(
                                     label: 'Buddhanagar',
                                     widget: Icon(
                                       Icons.location_on_outlined,

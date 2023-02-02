@@ -4,23 +4,25 @@ import 'package:flutter/material.dart';
 class BookingsServiceCard extends StatelessWidget {
   final String serviceName;
   final String providerName;
-  final Widget firstWidget;
-  final Widget secondWidget;
-  final Widget thirdWidget;
+  final Widget mainContentWidget;
   final String status;
-  final Widget bottomWidget;
+  final Widget bottomLeftWidget;
+  final Widget bottomRightWidget;
   final Color color;
+  final double height;
+  final Widget? topRightWidget;
 
   const BookingsServiceCard({
     super.key,
     required this.serviceName,
     required this.providerName,
-    required this.firstWidget,
-    required this.secondWidget,
-    required this.thirdWidget,
     required this.status,
-    required this.bottomWidget,
+    this.bottomLeftWidget = const Text('View Detail'),
     this.color = const Color(0xfff98900),
+    this.height = 250,
+    this.topRightWidget = const SizedBox.shrink(),
+    required this.mainContentWidget,
+    required this.bottomRightWidget,
   });
 
   @override
@@ -28,7 +30,7 @@ class BookingsServiceCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 200,
+          height: height,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -39,7 +41,7 @@ class BookingsServiceCard extends StatelessWidget {
           left: 5,
           right: 0,
           child: Container(
-            height: 200,
+            height: height,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.white,
@@ -56,6 +58,7 @@ class BookingsServiceCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -71,44 +74,35 @@ class BookingsServiceCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.more_vert_rounded,
-                        ),
-                      ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      firstWidget,
-                      secondWidget,
-                    ],
-                  ),
-                  thirdWidget,
+                  mainContentWidget,
                   const Divider(
                     thickness: 1.5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          const Text("Status :"),
-                          kWidth5,
-                          Chip(
-                            backgroundColor: Colors.teal.shade100,
-                            label: Text(status),
-                          )
-                        ],
+                      bottomLeftWidget,
+                      SizedBox(
+                        height: 40,
+                        width: 100,
+                        child: bottomRightWidget,
                       ),
-                      bottomWidget
                     ],
                   )
                 ],
               ),
             ),
+          ),
+        ),
+        Positioned(
+          top: 20,
+          right: 20,
+          child: SizedBox(
+            height: 90,
+            width: 100,
+            child: topRightWidget,
           ),
         ),
       ],
