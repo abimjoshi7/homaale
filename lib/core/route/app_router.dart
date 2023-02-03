@@ -6,6 +6,7 @@ import 'package:cipher/features/account_settings/presentation/pages/profile/page
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
@@ -163,6 +164,10 @@ class AppRouter {
       case ServiceProviderPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ServiceProviderPage(),
+        );
+      case CategoriesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CategoriesPage(),
         );
       case SandboxPage.routeName:
         return MaterialPageRoute(

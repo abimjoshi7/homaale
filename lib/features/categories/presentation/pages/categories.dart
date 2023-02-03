@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
+import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/home/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
@@ -30,22 +31,34 @@ class CategoriesSection extends StatelessWidget {
                   Text('Categories', style: kPurpleText19),
                   Expanded(
                     child: GridView.builder(
-
                       itemCount: state.heroCategory.result?.length,
                       gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 10,
                       ),
-                      itemBuilder: (context, index) =>
-                          CategoriesIcons(
-                            // color: categoriesColorList[index],
-                            color: kColorPrimary,
-                            data: state.heroCategory.result?[index]?.category?.name ?? '',
-                            child: state.heroCategory.result?[index]?.category?.icon as Icon? ??
-                                const Icon(Icons.circle, color: kColorPrimary,),
-                          ),
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            CategoriesPage.routeName,
+                          );
+                        },
+                        child: CategoriesIcons(
+                          // color: categoriesColorList[index],
+                          color: kColorPrimary,
+                          data: state.heroCategory.result?[index]?.category
+                                  ?.name ??
+                              '',
+                          child: state.heroCategory.result?[index]?.category
+                                  ?.icon as Icon? ??
+                              const Icon(
+                                Icons.circle,
+                                color: kColorPrimary,
+                              ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
