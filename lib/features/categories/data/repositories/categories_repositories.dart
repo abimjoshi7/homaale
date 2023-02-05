@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/categories/data/models/category.dart';
-import 'package:cipher/features/categories/data/models/hero_category.dart';
 
 class CategoriesRepositories {
   final _dio = DioHelper();
@@ -34,6 +33,22 @@ class CategoriesRepositories {
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchNestedCategory() async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/task-category/nested/',
+        token: CacheHelper.accessToken,
+      );
+      return List<Map<String, dynamic>>.from(res as Iterable);
+
     } catch (e) {
       log(
         e.toString(),

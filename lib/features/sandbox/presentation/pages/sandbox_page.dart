@@ -3,9 +3,12 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
+import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
+import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
@@ -121,6 +124,39 @@ class SandboxPage extends StatelessWidget {
                     // print(x);
                   },
                   label: 'Get Categories',
+                );
+              },
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    final x = await CategoriesRepositories().fetchNestedCategory().then(
+                          (value) => value.map(
+                            (e) => NestedCategory.fromJson(e),
+                          ),
+                        );
+                    print(x.length);
+                    print(x.first.name);
+                    // await context.read<NestedCategoriesCubit>().getNestedCategory();
+                    // print(123);
+                  },
+                  label: 'Get Nested Categories',
+                );
+              },
+            ),
+          ),kHeight20,
+          Center(
+            child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                   await ServicesRepositories().fetchServices();
+                  },
+                  label: 'Random Test',
                 );
               },
             ),

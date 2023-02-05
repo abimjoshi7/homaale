@@ -14,7 +14,6 @@ class CategoriesLoadSuccess extends CategoriesState{
 
   const CategoriesLoadSuccess(this.categoryList);
   @override
-  // TODO: implement props
   List<Object?> get props => [categoryList];
 }
 

@@ -1,6 +1,6 @@
 // import 'package:cipher/core/constants/constants.dart';
 // import 'package:cipher/features/home/presentation/cubit/home_cubit.dart';
-// import 'package:cipher/features/home/presentation/pages/categories.dart';
+// import 'package:cipher/features/home/presentation/pages/categories_section.dart';
 // import 'package:cipher/widgets/widgets.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';

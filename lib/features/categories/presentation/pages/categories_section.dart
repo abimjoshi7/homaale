@@ -1,8 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
+import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/home/presentation/widgets/widgets.dart';
-import 'package:cipher/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,14 +11,14 @@ class CategoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CategoriesBloc, CategoriesState>(
+    return BlocConsumer<HeroCategoryCubit, HeroCategoryState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is CategoriesInitial) {
+        if (state is HeroCategoryInitial) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is CategoriesHeroLoadSuccess) {
+        } else if (state is HeroCategoryLoadSuccess) {
           return SizedBox(
             height: 200,
             width: double.infinity,
@@ -28,10 +27,10 @@ class CategoriesSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Categories', style: kPurpleText19),
+                  const Text('Categories', style: kPurpleText19),
                   Expanded(
                     child: GridView.builder(
-                      itemCount: state.heroCategory.result?.length,
+                      itemCount: state.hero.result?.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
@@ -48,10 +47,10 @@ class CategoriesSection extends StatelessWidget {
                         child: CategoriesIcons(
                           // color: categoriesColorList[index],
                           color: kColorPrimary,
-                          data: state.heroCategory.result?[index]?.category
+                          data: state.hero.result?[index]?.category
                                   ?.name ??
                               '',
-                          child: state.heroCategory.result?[index]?.category
+                          child: state.hero.result?[index]?.category
                                   ?.icon as Icon? ??
                               const Icon(
                                 Icons.circle,
@@ -66,9 +65,7 @@ class CategoriesSection extends StatelessWidget {
             ),
           );
         } else {
-          return const Center(
-            child: Text('Something went wrong'),
-          );
+          return const SizedBox.shrink();
         }
       },
     );
