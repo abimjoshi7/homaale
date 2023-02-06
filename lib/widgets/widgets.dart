@@ -15,6 +15,8 @@ export './custom_text_form_field.dart';
 export './custom_toast.dart';
 export './icon_text.dart';
 export './section_heading.dart';
+export './service_card.dart';
+export './task_card.dart';
 export './widget_text.dart';
 export '../features/home/presentation/widgets/widgets.dart';
 export '../features/sign_in/presentation/widgets/sign_in_scaffold.dart';

@@ -9,6 +9,11 @@ class ServicesInitial extends ServicesState {
   List<Object> get props => [];
 }
 
+class ServicesLoading extends ServicesState {
+  @override
+  List<Object> get props => [];
+}
+
 class ServicesLoadSuccess extends ServicesState {
   final List<ServiceList> list;
 

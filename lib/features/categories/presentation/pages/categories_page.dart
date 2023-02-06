@@ -3,6 +3,7 @@ import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,25 +66,28 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 ? Colors.white
                                 : Colors.transparent,
                             child: CategoriesIcons(
-                              onTap: () {
+                              onTap: () async {
                                 setState(
                                   () {
                                     selectedIndex = index;
                                     list =
                                         state.nestedCategory[index].child ?? [];
-                                    print(list);
                                   },
                                 );
-                                // if (list.isEmpty) {
-                                //   Navigator.pushNamed(
-                                //     context,
-                                //     ServiceProviderPage.routeName,
-                                //   );
-                                // }
-                                // print(
-                                //   state.nestedCategory[index].toJson(),
-                                // );
-                                // print(selectedIndex.isEven);
+                                if (state
+                                    .nestedCategory[index].child!.isEmpty) {
+                                  context.read<ServicesBloc>().add(
+                                        ServicesLoadInitiated(
+                                          state.nestedCategory[index].id ?? 0,
+                                        ),
+                                      );
+
+                                  await Navigator.pushNamed(
+                                    context,
+                                    ServicesPage.routeName,
+                                    arguments: state.nestedCategory[index],
+                                  );
+                                }
                               },
                               data: state.nestedCategory[index].name ?? '',
                             ),
@@ -91,9 +95,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         ],
                       ),
                       separatorBuilder: (context, index) => kHeight20,
-                      // children: [
-                      //   Text('data'),
-                      // ],
                     );
                   } else {
                     return const SizedBox.shrink();
@@ -109,63 +110,122 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         child: BlocBuilder<ServicesBloc, ServicesState>(
                           builder: (context, serviceState) {
                             List<ServiceList> servicesList = [];
+                            if (serviceState is ServicesLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
                             if (serviceState is ServicesLoadSuccess) {
                               servicesList = serviceState.list;
                             }
-                            Widget displayChild() {
-                              if (serviceState is ServicesLoadSuccess) {
-                                return Text(
-                                  serviceState.list.first.title ?? '',
-                                );
-                              } else {
-                                return const SizedBox.shrink();
-                              }
-                            }
 
-                            return ExpansionTile(
-                              title: Text(
-                                list[index].name ?? '',
-                              ),
-                              onExpansionChanged: (value) {
-                                context.read<ServicesBloc>().add(
-                                      ServicesLoadInitiated(
-                                        list[index].id ?? 0,
-                                      ),
-                                    );
-                                // if (serviceState is ServicesLoadSuccess) {
-                                //   for (var x in serviceState.list) {
-                                //     print(x.title);
-                                //   }
-                                // }
-                              },
-                              children: List.generate(
-                                servicesList.length,
-                                (index) => SizedBox(
-                                  height: 50,
-                                  width: 50,
-                                  child: GridView(
-                                    children: [Icon(Icons.add)],
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            crossAxisSpacing: 10,
-                                            mainAxisSpacing: 10,
-                                            childAspectRatio: 0.2),
-                                  ),
-                                ),
-                                // (index) => Column(
-                                //   children: [
-                                //     Container(
-                                //       color: Colors.red,
-                                //       height: 60,
-                                //       width: 80,
-                                //     ),
-                                //     kHeight5,
-                                //     Text('data'),
-                                //   ],
-                                // ),
-                              ),
-                            );
+                            return list[index].child!.isEmpty
+                                ? ListTile(
+                                    onTap: () async {
+                                      final x = list[index];
+                                      context.read<ServicesBloc>().add(
+                                            ServicesLoadInitiated(
+                                              list[index].id ?? 0,
+                                            ),
+                                          );
+
+                                      await Navigator.pushNamed(
+                                        context,
+                                        ServicesPage.routeName,
+                                        arguments: list[index],
+                                      );
+                                    },
+                                    title: Text(list[index].name ?? ''),
+                                  )
+                                : ExpansionTile(
+                                    title: Text(
+                                      list[index].name ?? '',
+                                    ),
+                                    // onExpansionChanged: (value) async {
+                                    //   // context.read<ServicesBloc>().add(
+                                    //   //       ServicesLoadInitiated(
+                                    //   //         list[index].id ?? 0,
+                                    //   //       ),
+                                    //   //     );
+                                    //   // await Navigator.pushNamed(
+                                    //   //   context,
+                                    //   //   ServiceProviderPage.routeName,
+                                    //   // );
+                                    // },
+                                    children: list[index].child!.isNotEmpty
+                                        ? List.generate(
+                                            1,
+                                            (index2) => Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: SizedBox(
+                                                height: 240,
+                                                width: 280,
+                                                child: GridView.builder(
+                                                  itemCount:
+                                                      list[index].child!.length,
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 3,
+                                                    mainAxisSpacing: 10,
+                                                    crossAxisSpacing: 10,
+                                                    childAspectRatio: 0.8,
+                                                  ),
+                                                  itemBuilder:
+                                                      (context, index3) =>
+                                                          InkWell(
+                                                    onTap: () async {
+                                                      context
+                                                          .read<ServicesBloc>()
+                                                          .add(
+                                                            ServicesLoadInitiated(
+                                                              list[index].id ??
+                                                                  0,
+                                                            ),
+                                                          );
+
+                                                      await Navigator.pushNamed(
+                                                        context,
+                                                        ServicesPage.routeName,
+                                                        arguments: list[index]
+                                                            .child![index3],
+                                                      );
+                                                    },
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                Colors.blueGrey,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                              10,
+                                                            ),
+                                                          ),
+                                                          height: 90,
+                                                        ),
+                                                        Flexible(
+                                                          child: Text(
+                                                            list[index]
+                                                                    .child![
+                                                                        index3]
+                                                                    .name ??
+                                                                '',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        )
+                                                        // Text('data1'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : [],
+                                  );
                           },
                         ),
                       ),
@@ -195,19 +255,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 );
               },
             ),
-            // Align(
-            //   alignment: Alignment.centerRight,
-            //   child: Container(
-            //     height: MediaQuery.of(context).size.height - 98,
-            //     color: Colors.red,
-            //     width: MediaQuery.of(context).size.width * 0.25,
-            //     child: ListView(
-            //       children: [
-            //         Text('data'),
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

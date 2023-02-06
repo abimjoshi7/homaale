@@ -13,6 +13,7 @@ import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
@@ -168,6 +169,11 @@ class AppRouter {
       case CategoriesPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CategoriesPage(),
+        );
+      case ServicesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ServicesPage(),
+          settings: settings,
         );
       case SandboxPage.routeName:
         return MaterialPageRoute(

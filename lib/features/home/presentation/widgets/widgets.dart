@@ -11,7 +11,7 @@ export './popular_task_nearby_section.dart';
 export './popular_tasker_nearby_section.dart';
 export './popular_tasker_section.dart';
 export './professional_services_section.dart';
-export './service_card.dart';
 export './task_recommendation_section.dart';
 export './verified_services_section.dart';
+export '../../../../widgets/service_card.dart';
 export 'task_suggestion_section.dart';

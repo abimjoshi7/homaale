@@ -25,7 +25,10 @@ class ServiceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Image.asset(imagePath ?? 'assets/Group 48099185.png'),
+            child: Image.network(
+              imagePath ?? kServiceImage,
+              fit: BoxFit.cover,
+            ),
           ),
           Text(
             title ?? 'Root Canal Treatment',

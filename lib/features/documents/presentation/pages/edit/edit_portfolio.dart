@@ -23,6 +23,13 @@ class _EditPortfolioState extends State<EditPortfolio> {
   final credentialUrlController = TextEditingController();
   DateTime? issuedDate;
   Portfolio? portfolio;
+  late String? imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    // imagePath =
+  }
 
   @override
   void dispose() {
@@ -59,7 +66,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
-              content: error ?? "Portfolio couldn't be edited",
+              content: error ?? "Portfolio cannot be updated",
               onTap: () async {},
               isSuccess: false,
             ),
@@ -327,7 +334,8 @@ class _EditPortfolioState extends State<EditPortfolio> {
                                   credentialUrl:
                                       'https://${credentialUrlController.text.isNotEmpty ? credentialUrlController.text : portfolio!.credentialUrl!}',
                                   files: [],
-                                  images: List<int>.from(list as Iterable),
+                                  images:
+                                      List<int>.from(list as Iterable) ?? [],
                                 ),
                                 widget.id,
                               );

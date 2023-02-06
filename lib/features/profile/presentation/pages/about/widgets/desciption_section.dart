@@ -3,6 +3,7 @@ import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class DescriptionSection extends StatelessWidget {
   const DescriptionSection({
@@ -41,13 +42,16 @@ class DescriptionSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             return WidgetText(
               widget: Image.asset('assets/clock.png'),
-              label:
-                  'Active Hours ${state.user.activeHourStart!.substring(0, 5)} - ${state.user.activeHourEnd!.substring(0, 5)}',
+              label: "Active Hours: ${DateFormat.jm().format(
+                DateFormat('hh:mm:ss').parse(state.user.activeHourStart ?? ''),
+              )} - ${DateFormat.jm().format(
+                DateFormat('hh:mm:ss').parse(state.user.activeHourEnd ?? ''),
+              )}",
             );
           } else {
             return WidgetText(
               widget: Image.asset('assets/clock.png'),
-              label: 'Active Hours 12:00 am - 8:00 pm',
+              label: 'Active Hours: 12:00 am - 8:00 pm',
             );
           }
         }

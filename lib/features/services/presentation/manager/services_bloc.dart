@@ -12,6 +12,9 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     on<ServicesLoadInitiated>(
       (event, emit) async {
         try {
+          emit(
+            ServicesLoading(),
+          );
           await repositories.fetchServices(event.categoryId).then(
                 (value) => emit(
                   ServicesLoadSuccess(

@@ -53,6 +53,7 @@ const kText20 = TextStyle(
 const kLabelPrimary = TextStyle(
   color: Color(0xff2D2D66),
   fontWeight: FontWeight.w600,
+  fontSize: 18,
 );
 
 const kLabelPrimary2 = TextStyle(
