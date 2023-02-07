@@ -8,6 +8,7 @@ import 'package:cipher/features/categories/data/repositories/categories_reposito
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
@@ -156,10 +157,11 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    if (state is NestedCategoriesLoadSuccess) {
-                      print(state.nestedCategory);
-                    }
-                    // await ServicesRepositories().fetchServices();
+                    await ServicesRepositories().fetchEntityServices().then(
+                          (value) => print(
+                            value,
+                          ),
+                        );
                   },
                   label: 'Random Test',
                 );

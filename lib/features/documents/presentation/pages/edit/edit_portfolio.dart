@@ -312,7 +312,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     Center(
                       child: CustomElevatedButton(
                         callback: () async {
-                          var list;
+                          var list = [];
                           if (state is ImageUploadSuccess) {
                             setState(() {
                               list = state.list;
@@ -334,8 +334,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                                   credentialUrl:
                                       'https://${credentialUrlController.text.isNotEmpty ? credentialUrlController.text : portfolio!.credentialUrl!}',
                                   files: [],
-                                  images:
-                                      List<int>.from(list as Iterable) ?? [],
+                                  images: List<int>.from(list),
                                 ),
                                 widget.id,
                               );

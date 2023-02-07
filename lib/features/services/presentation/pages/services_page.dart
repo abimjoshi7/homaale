@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,105 +40,115 @@ class ServicesPage extends StatelessWidget {
             ),
             child: Text(nestedCategory?.name ?? ''),
           ),
-          BlocBuilder<ServicesBloc, ServicesState>(
-            builder: (context, state) {
-              if (state is ServicesLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is ServicesLoadSuccess) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height - 100,
-                  child: Padding(
-                    padding: kPadding20,
-                    child: ListView(
-                      children: [
-                        CustomFormText(
-                          name: 'Select Services',
-                          child: SizedBox(
-                            height: 300,
-                            child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 10,
-                              ),
-                              itemBuilder: (context, index) => Column(
-                                children: [
-                                  Flexible(
-                                    flex: 4,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.amber,
-                                      ),
-                                    ),
+          Expanded(
+            child: BlocBuilder<ServicesBloc, ServicesState>(
+              builder: (context, state) {
+                if (state is ServicesLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is ServicesLoadSuccess) {
+                  return CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: kPadding20,
+                          child: CustomFormText(
+                            name: 'Select Services',
+                            child: SizedBox(
+                              height: 200,
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 10,
+                                ),
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () async {
+                                    context.read<EntityServiceBloc>().add(
+                                          EntityServiceInitiated(
+                                            state.list[index].id ?? '',
+                                          ),
+                                        );
+                                    await Navigator.pushNamed(
+                                      context,
+                                      EntityServicesPage.routeName,
+                                    );
+                                  },
+                                  child: CustomImageTextBox(
+                                    text: state.list[index].title,
                                   ),
-                                  kHeight5,
-                                  Flexible(
-                                    child: Text(
-                                      state.list[index].title ?? '',
-                                    ),
-                                  ),
-                                ],
+                                ),
+                                itemCount: state.list.length,
+                                padding: EdgeInsets.zero,
                               ),
-                              itemCount: state.list.length,
                             ),
                           ),
                         ),
-                        kHeight20,
-                        Padding(
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Placeholder(
                             fallbackHeight: 200,
                           ),
                         ),
-                        kHeight20,
-                        CustomFormText(
-                          name: 'Related Services',
-                          child: SizedBox(
-                            height: 250,
-                            child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 10,
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: kPadding20,
+                          child: CustomFormText(
+                            name: 'Related Services',
+                            child: SizedBox(
+                              height: 200,
+                              child: GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 10,
+                                ),
+                                itemBuilder: (context, index2) =>
+                                    const ServiceCard(),
+                                itemCount: 3,
+                                padding: EdgeInsets.zero,
                               ),
-                              itemBuilder: (context, index2) =>
-                                  Expanded(child: ServiceCard()),
-                              itemCount: state.list.length,
                             ),
                           ),
                         ),
-                        kHeight20,
-                        CustomFormText(
-                          name: 'Popular Tasks',
-                          child: SizedBox(
-                            height: 250,
-                            child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 10,
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: kPadding20,
+                          child: CustomFormText(
+                            name: 'Popular Tasks',
+                            child: SizedBox(
+                              height: 200,
+                              child: GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 20,
+                                  mainAxisSpacing: 10,
+                                ),
+                                itemBuilder: (context, index2) => ServiceCard(),
+                                itemCount: 3,
+                                padding: EdgeInsets.zero,
                               ),
-                              itemBuilder: (context, index2) =>
-                                  Expanded(child: ServiceCard()),
-                              itemCount: state.list.length,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return const SizedBox.expand();
-              }
-            },
+                      )
+                    ],
+                  );
+                } else {
+                  return const SizedBox.expand();
+                }
+              },
+            ),
           ),
         ],
       ),

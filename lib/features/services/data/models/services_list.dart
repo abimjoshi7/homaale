@@ -161,12 +161,12 @@ class CreatedBy {
   final String? email;
   final dynamic phone;
   final String? firstName;
-  final dynamic middleName;
+  final String? middleName;
   final String? lastName;
-  final dynamic profileImage;
-  final dynamic bio;
+  final String? profileImage;
+  final String? bio;
   final DateTime? createdAt;
-  final dynamic designation;
+  final String? designation;
   final dynamic userType;
   final dynamic isProfileVerified;
   final bool? isFollowed;
@@ -179,16 +179,16 @@ class CreatedBy {
         email: json["email"] as String?,
         phone: json["phone"] as dynamic,
         firstName: json["first_name"] as String?,
-        middleName: json["middle_name"],
+        middleName: json["middle_name"] as String?,
         lastName: json["last_name"] as String?,
-        profileImage: json["profile_image"],
-        bio: json["bio"],
+        profileImage: json["profile_image"] as String?,
+        bio: json["bio"] as String?,
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(
                 json["created_at"] as String,
               ),
-        designation: json["designation"],
+        designation: json["designation"] as String?,
         userType: json["user_type"],
         isProfileVerified: json["is_profile_verified"],
         isFollowed: json["is_followed"] as bool?,

@@ -30,9 +30,11 @@ class ServiceCard extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          Text(
-            title ?? 'Root Canal Treatment',
-            style: kPurpleText12,
+          FittedBox(
+            child: Text(
+              title ?? 'Root Canal Treatment',
+              style: kPurpleText16,
+            ),
           ),
           Text(
             description ?? 'Carry Clinic',

@@ -15,13 +15,16 @@ class CustomFormText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          name,
-          style: kLabelPrimary,
+        Flexible(
+          child: Text(
+            name,
+            style: kLabelPrimary,
+          ),
         ),
         kHeight10,
-        child
+        Flexible(child: child)
       ],
     );
   }

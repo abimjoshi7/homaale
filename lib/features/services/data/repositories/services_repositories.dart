@@ -23,4 +23,42 @@ class ServicesRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchEntityServices([
+    String? serviceId,
+  ]) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/service/',
+        query: {
+          'service': serviceId,
+          'is_requested': false,
+        },
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchSingleEntityServices({
+    required String serviceId,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/service/$serviceId',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
 }

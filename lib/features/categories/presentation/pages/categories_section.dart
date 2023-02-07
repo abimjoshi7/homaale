@@ -29,33 +29,36 @@ class CategoriesSection extends StatelessWidget {
                 children: [
                   const Text('Categories', style: kPurpleText19),
                   Expanded(
-                    child: GridView.builder(
-                      itemCount: state.hero.result?.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            CategoriesPage.routeName,
-                          );
-                        },
-                        child: CategoriesIcons(
-                          // color: categoriesColorList[index],
-                          color: kColorPrimary,
-                          data: state.hero.result?[index]?.category
-                                  ?.name ??
-                              '',
-                          child: state.hero.result?[index]?.category
-                                  ?.icon as Icon? ??
-                              const Icon(
-                                Icons.circle,
-                                color: kColorPrimary,
-                              ),
+                    child: Padding(
+                      padding: kPadding20,
+                      child: GridView.builder(
+                        itemCount: state.hero.result?.length,
+                        padding: EdgeInsets.zero,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              CategoriesPage.routeName,
+                            );
+                          },
+                          child: CategoriesIcons(
+                            // color: categoriesColorList[index],
+                            color: kColorPrimary,
+                            data:
+                                state.hero.result?[index]?.category?.name ?? '',
+                            child: state.hero.result?[index]?.category?.icon
+                                    as Icon? ??
+                                const Icon(
+                                  Icons.circle,
+                                  color: kColorPrimary,
+                                ),
+                          ),
                         ),
                       ),
                     ),

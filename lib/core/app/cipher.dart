@@ -10,7 +10,9 @@ import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dar
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
@@ -148,6 +150,12 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => ServicesBloc(),
+          ),
+          BlocProvider(
+            create: (context) => EntityServiceBloc(),
+          ),
+          BlocProvider(
+            create: (context) => SingleEntityServiceCubit(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
