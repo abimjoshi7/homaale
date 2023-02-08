@@ -142,9 +142,20 @@ class _RootState extends State<Root> {
                 IconButton(
                   enableFeedback: false,
                   onPressed: () {
-                    setState(() {
-                      pageIndex = 2;
-                    });
+                    showDialog(
+                      anchorPoint: Offset(0, 1),
+                      context: context,
+                      builder: (context) => CustomPaint(
+                        size: Size(
+                          100,
+                          100,
+                        ),
+                        painter: CustomPaintHelper(),
+                      ),
+                    );
+                    // setState(() {
+                    //   pageIndex = 2;
+                    // });l
                   },
                   icon: pageIndex == 2
                       ? Image.asset(
@@ -246,5 +257,22 @@ class Page1 extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CustomPaintHelper extends CustomPainter {
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return oldDelegate.shouldRebuildSemantics(oldDelegate);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawCircle(
+      Offset(0, 1),
+      20,
+      Paint(),
+    );
+    // TODO: implement paint
   }
 }

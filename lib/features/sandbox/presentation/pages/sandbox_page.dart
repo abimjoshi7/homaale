@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cipher/core/app/test.dart';
+import 'package:cipher/core/app/test_v2.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
@@ -168,6 +170,45 @@ class SandboxPage extends StatelessWidget {
               },
             ),
           ),
+        ],
+      ),
+      bottomNavigationBar: Stack(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.zero,
+                  width: double.infinity,
+                  height: 49,
+                  color: Colors.amber,
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 40,
+            top: 20,
+            right: 10,
+            left: 10,
+            child: Align(
+              child: Container(
+                height: 90,
+                width: 50,
+                margin: EdgeInsets.only(top: 10, left: 40, right: 40),
+                decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      new BorderRadius.all(Radius.elliptical(100, 50)),
+                ),
+                child: Text('     '),
+              ),
+            ),
+          )
         ],
       ),
     );
