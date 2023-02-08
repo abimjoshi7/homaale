@@ -30,6 +30,12 @@ class PopularInCity extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         color: Colors.black54,
+                        image: DecorationImage(
+                          image: AssetImage(
+                            'assets/services/Rectangle 3541.png',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

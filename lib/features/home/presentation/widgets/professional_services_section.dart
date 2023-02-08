@@ -25,7 +25,9 @@ class ProfessionalServicesSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: 7,
               separatorBuilder: (context, index) => kWidth10,
-              itemBuilder: (context, index) => const ServiceCard(),
+              itemBuilder: (context, index) => const ServiceCard(
+                imagePath: 'https://sahyadrihospital.com/wp-content/uploads/2021/09/root-canal-treatment-side-effects.jpg',
+              ),
             ),
           ),
         ],

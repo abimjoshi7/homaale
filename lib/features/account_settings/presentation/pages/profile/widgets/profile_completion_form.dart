@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
@@ -809,8 +810,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 kHeight5,
                 CustomDropDownField<String>(
                   list: const [
-                    'full-Time',
-                    'part-Time',
+                    'Long-Term Tasks',
+                    'Short-Term Tasks',
                   ],
                   onChanged: (value) => setState(
                     () {
@@ -841,7 +842,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             ),
                           ),
                         );
-                      } else {
+                      }
+                      if(state is UserAddFailure){
                         await showDialog(
                           context: context,
                           builder: (context) => CustomToast(
@@ -857,6 +859,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
+                          final image = await getImageFileFromAssets('avatar-ga3c7ddeec_640.png');
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
@@ -909,10 +912,10 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               points: 0,
                               followingCount: 0,
                               profileImage: await MultipartFile.fromFile(
-                                selectedImage?.path ?? '',
+                                selectedImage?.path ?? image.path,
                               ),
                             );
-
+                            if(!mounted) return;
                             context.read<UserBloc>().add(
                                   UserAdded(
                                     req: q,

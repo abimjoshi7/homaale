@@ -19,6 +19,8 @@ class HomeHeaderSection extends StatefulWidget {
 
 class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location;
+  late Widget? child;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
@@ -29,7 +31,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hi, ${state.userLoginRes.username ?? 'New User'}'),
+                Text('Hi, ${state.userLoginRes.username ?? 'New User'}', style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500,),),
                 kHeight5,
                 InkWell(
                   onTap: () async {
@@ -68,7 +70,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   child: Row(
                     children: [
                       const Icon(Icons.location_on_outlined),
-                      Text(location ?? 'No Location Found'),
+                      Text(location ?? 'Click to access location'),
                       // const Icon(Icons.arrow_drop_down)
                     ],
                   ),
@@ -85,29 +87,41 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
           child: Column(
             children: [
               kHeight50,
-              ListTile(
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Profile.routeName,
-                    );
-                  },
-                  child: const CircleAvatar(),
-                ),
-                title: displayUserInfo(),
-                trailing: BlocBuilder<UserBloc, UserState>(
-                  builder: (context, state) {
-                    return IconButton(
-                      onPressed: () async {
-                        // logheHelper());
-                      },
-                      icon: const Icon(
-                        Icons.notifications_none,
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  if (state is UserLoadSuccess) {
+                    child = Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              state.user.user?.profileImage as String,),
+                        ),
                       ),
                     );
-                  },
-                ),
+                  } else {
+                    child = const CircleAvatar();
+                  }
+                  return ListTile(
+                    leading: child,
+                    title: displayUserInfo(),
+                    trailing: BlocBuilder<UserBloc, UserState>(
+                      builder: (context, state) {
+                        return IconButton(
+                          onPressed: () async {
+                            // logheHelper());
+                          },
+                          icon: const Icon(
+                            Icons.notifications_none,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.all(20),

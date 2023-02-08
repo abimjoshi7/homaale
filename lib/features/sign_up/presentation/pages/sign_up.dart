@@ -26,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool isChecked = false;
+  List<bool> isObscure = [true, true];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,6 +131,20 @@ class _SignUpPageState extends State<SignUpPage> {
                             onSaved: (p0) => setState(() {
                               passwordController.text = p0 ?? '';
                             }),
+                            obscureText: isObscure[0],
+                            suffixWidget: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isObscure[0] = !isObscure[0];
+                                });
+                              },
+                              child: Icon(
+                                color: kColorPrimary,
+                                isObscure[0]
+                                    ? Icons.visibility_rounded
+                                    : Icons.visibility_off_rounded,
+                              ),
+                            ),
                           ),
                         ),
                         CustomFormField(
@@ -149,6 +164,20 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                               return null;
                             },
+                            obscureText: isObscure[1],
+                            suffixWidget: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isObscure[1] = !isObscure[1];
+                                });
+                              },
+                              child: Icon(
+                                color: kColorPrimary,
+                                isObscure[1]
+                                    ? Icons.visibility_rounded
+                                    : Icons.visibility_off_rounded,
+                              ),
+                            ),
                           ),
                         ),
                         kHeight50,
@@ -190,7 +219,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               Padding(
-                padding: kPadding10,
+                padding: kPadding20,
                 child: Row(
                   children: [
                     CustomCheckBox(
@@ -199,7 +228,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         isChecked = !isChecked;
                       }),
                     ),
-                    kWidth5,
+                    kWidth15,
                     const Flexible(
                       child: Text(
                         'By signing you agree to our term of use and privacy policy.',
@@ -208,6 +237,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
               ),
+              kHeight20,
               BlocConsumer<SignupBloc, SignUpState>(
                 listener: (context, state) async {
                   final x = await CacheHelper.getCachedString(

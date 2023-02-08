@@ -80,7 +80,7 @@ class DealOfTheDaySection extends StatelessWidget {
           ),
           kHeight20,
           SizedBox(
-            height: 188,
+            height: 240,
             width: double.infinity,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
@@ -89,13 +89,13 @@ class DealOfTheDaySection extends StatelessWidget {
                   width: 184,
                   child: Column(
                     children: [
-                      const Expanded(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
+                       Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                'assets/casual-life-3d-young-woman-working-on-laptop-and-holding-head.png',
+                                'assets/services/1111.png',
                               ),
                             ),
                           ),

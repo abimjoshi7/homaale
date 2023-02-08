@@ -3,6 +3,7 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/documents/presentation/pages/edit/edit_portfolio.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -81,6 +82,27 @@ class _PortfolioSectionState extends State<PortfolioSection> {
                       itemCount: state.taskerPortfolioRes.length,
                       // itemCount: state.taskerPortfolioRes.result!.length,
                       itemBuilder: (context, index) => InkWell(
+                        onLongPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomToast(
+                              heading: 'Delete',
+                              content:
+                                  'Are you sure to delete selected portfolio?',
+                              onTap: () async {
+                                await context
+                                    .read<TaskerPortfolioCubit>()
+                                    .deleteTaskerPortfolio(
+                                      state.taskerPortfolioRes[index].id ?? 0,
+                                    )
+                                    .then(
+                                      (value) => Navigator.pop(context),
+                                    );
+                              },
+                              isSuccess: true,
+                            ),
+                          );
+                        },
                         onTap: () {
                           showModalBottomSheet(
                             constraints: const BoxConstraints(

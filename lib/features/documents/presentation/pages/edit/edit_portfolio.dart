@@ -175,12 +175,9 @@ class _EditPortfolioState extends State<EditPortfolio> {
                   children: [
                     const CustomModalSheetDrawerIcon(),
                     Center(
-                      child: InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          'Edit Portfolio',
-                          style: kPurpleText16,
-                        ),
+                      child: const Text(
+                        'Edit Portfolio',
+                        style: kPurpleText16,
                       ),
                     ),
                     Padding(
@@ -312,30 +309,38 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     Center(
                       child: CustomElevatedButton(
                         callback: () async {
-                          var list = [];
+                          List list = [];
                           if (state is ImageUploadSuccess) {
                             setState(() {
                               list = state.list;
                             });
+                          } else {
+                            setState(() {
+                              list.add(portfolioState.taskerPortfolioRes.first
+                                  .images!.first['id'] as int);
+                            });
                           }
+
+                          final req = TaskerPortfolioReq(
+                            title: titleController.text.isNotEmpty
+                                ? titleController.text
+                                : portfolio!.title!,
+                            description: descriptionController.text.isNotEmpty
+                                ? descriptionController.text
+                                : portfolio!.description!,
+                            issuedDate: issuedDate ?? portfolio!.issuedDate!,
+                            credentialUrl:
+                                credentialUrlController.text.isNotEmpty
+                                    ? 'https://${credentialUrlController.text}'
+                                    : portfolio!.credentialUrl!,
+                            files: [],
+                            images: List<int>.from(list),
+                          );
+
                           await context
                               .read<TaskerPortfolioCubit>()
                               .editTaskerPortfolio(
-                                TaskerPortfolioReq(
-                                  title: titleController.text.isNotEmpty
-                                      ? titleController.text
-                                      : portfolio!.title!,
-                                  description:
-                                      descriptionController.text.isNotEmpty
-                                          ? descriptionController.text
-                                          : portfolio!.description!,
-                                  issuedDate:
-                                      issuedDate ?? portfolio!.issuedDate!,
-                                  credentialUrl:
-                                      'https://${credentialUrlController.text.isNotEmpty ? credentialUrlController.text : portfolio!.credentialUrl!}',
-                                  files: [],
-                                  images: List<int>.from(list),
-                                ),
+                                req,
                                 widget.id,
                               );
                         },

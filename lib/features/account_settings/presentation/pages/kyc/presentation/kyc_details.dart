@@ -222,7 +222,7 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayDocuments() {
           if (state is KycLoadSuccess) {
             return SizedBox(
-              height: 200,
+              height: 250,
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -292,8 +292,8 @@ class _KycDetailsState extends State<KycDetails> {
 
         return Scaffold(
           resizeToAvoidBottomInset: false,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          body: ListView(
+            padding: EdgeInsets.zero,
             children: [
               kHeight50,
               CustomHeader(

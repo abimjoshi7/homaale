@@ -135,7 +135,8 @@ class EntityServicesPage extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) =>
                                     CustomImageTextBox(
-                                  text: 'qwe',
+                                  image: Image.asset('assets/services/111.png'),
+                                  text: 'Machine Repair',
                                 ),
                                 itemCount: 5,
                                 separatorBuilder: (context, index) => kWidth10,
@@ -146,9 +147,13 @@ class EntityServicesPage extends StatelessWidget {
                       ),
                       SliverToBoxAdapter(
                         child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Placeholder(
                             fallbackHeight: 200,
+                            child: Image.asset(
+                              'assets/banners/banner.png',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -189,9 +194,7 @@ class EntityServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Placeholder(
-                            fallbackHeight: 200,
-                          ),
+                          child: Image.asset('assets/banners/Sliding Banner.png', fit: BoxFit.cover,),
                         ),
                       ),
                       SliverToBoxAdapter(
@@ -202,7 +205,9 @@ class EntityServicesPage extends StatelessWidget {
                             child: SizedBox(
                               height: 400,
                               child: ListView.separated(
-                                itemBuilder: (context, index) => TaskCard(),
+                                itemBuilder: (context, index) => TaskCard(
+                                  child: Image.asset('assets/services/Rectangle 3541.png', fit: BoxFit.cover,),
+                                ),
                                 separatorBuilder: (context, index) => kHeight10,
                                 itemCount: 5,
                                 padding: EdgeInsets.zero,

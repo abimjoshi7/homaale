@@ -40,19 +40,22 @@ class SignInScaffold extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: const [
-                            Text(
-                              'Skip',
-                              style: kSkipHelper,
-                            ),
-                            kWidth10,
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 12,
-                              color: Color(0xffdee2e6),
-                            )
-                          ],
+                        child: Visibility(
+                          visible: false,
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Skip',
+                                style: kSkipHelper,
+                              ),
+                              kWidth10,
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 12,
+                                color: Color(0xffdee2e6),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

@@ -79,6 +79,7 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
       if (x['status'] == 'success') emit(TaskerEditPortfolioSuccess());
       // getTaskerPortfolio();
     } catch (e) {
+      print(e);
       emit(TaskerEditPortfolioFailure());
       // getTaskerPortfolio();
     }

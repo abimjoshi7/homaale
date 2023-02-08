@@ -144,7 +144,7 @@ class ProfileHeaderSection extends StatelessWidget {
               if (state2 is UserLoadSuccess) {
                 return Text(
                   state2.user.userType
-                          ?.replaceAll(RegExp(r"\p{P}", unicode: true), "") ??
+                          ?.replaceAll(RegExp(r"\p{P}", unicode: true), "\t") ??
                       '',
                   // style: kText15,
                 );

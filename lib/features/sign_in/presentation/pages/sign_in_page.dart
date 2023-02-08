@@ -18,7 +18,10 @@ class SignInPage extends StatelessWidget {
             'Login to your account',
             style: kHelper13,
           ),
-          const Expanded(child: SignInFormFields()),
+          const Expanded(
+            child: SignInFormFields(),
+          ),
+          kHeight20,
           const FingerPrintSection(),
           kHeight50,
           const SocialLoginSection(),
