@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/sections/in_progress_section.dart';
+import 'package:cipher/features/bookings/presentation/sections/sections.dart';
 import 'package:cipher/features/bookings/presentation/widgets/bookings_service_card.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,6 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
     return Column(
       children: [
         TabBar(
-
           indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
           labelPadding: EdgeInsets.all(15),
           // padding: EdgeInsets.all(2),
@@ -45,7 +45,6 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
             Text("Bookings"),
             Text("Draft"),
             Text("History"),
-
           ],
           onTap: (value) => setState(
             () {
@@ -53,21 +52,17 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
             },
           ),
         ),
-
-        SizedBox(
-          height: 510,
-          width: double.infinity,
+        Expanded(
           child: TabBarView(
             controller: tabController,
-            children: [
+            children: const [
               InProgressSection(),
-              Text('data2'),
-              Text('data3'),
-              Text('data4'),
-            ],),
+              BookingsSection(),
+              DraftSection(),
+              HistorySection(),
+            ],
+          ),
         ),
-
-
       ],
     );
   }

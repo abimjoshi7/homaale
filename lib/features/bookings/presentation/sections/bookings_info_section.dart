@@ -12,11 +12,11 @@ class BookingsInfoSection extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20),
       child: Container(
         color: kColorPrimary,
-        height: 50,
+        height: 40,
         width: double.infinity,
         child: Center(
           child: Text(
-            '\$765.09 from 10 Bookings',
+            '\$765.90 from 10 Bookings',
             style: TextStyle(color: Colors.white),
           ),
         ),

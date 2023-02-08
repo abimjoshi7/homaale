@@ -15,7 +15,12 @@ class BookingPages extends StatelessWidget {
         children: [
           kHeight50,
           CustomHeader(
-            leadingWidget: const SizedBox.shrink(),
+            leadingWidget: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             trailingWidget: IconButton(
               onPressed: () {
                 Navigator.pushNamed(

@@ -34,15 +34,30 @@ class BookingsCalenderSection extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => Container(
-                  width: 54,
+                  width: 50,
                   decoration: BoxDecoration(
                     color: const Color(0xffF1F3F5),
                     borderRadius: BorderRadius.circular(
                       30,
                     ),
                   ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        weekNames[index],
+                        style: kBodyText1,
+                      ),
+                      kHeight5,
+                      Text(
+                        '0${index + 1}',
+                        style: kBodyText1,
+                      ),
+                    ],
+                  ),
                 ),
-                separatorBuilder: (context, index) => kWidth10,
+                separatorBuilder: (context, index) => kWidth15,
                 itemCount: 7,
               ),
             )

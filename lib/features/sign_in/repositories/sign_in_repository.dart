@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/sign_in/models/facebook_login_res.dart';
+import 'package:cipher/features/sign_in/models/google_login_res.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/models/user_login_res.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
@@ -78,6 +81,38 @@ class SignInRepository {
       log(
         e.toString(),
       );
+      rethrow;
+    }
+  }
+
+  Future<FacebookLoginRes> sendFacebookReq(
+    Map<String, dynamic> userData,
+  ) async {
+    try {
+      final x = await _dioHelper.postData(
+        data: jsonEncode(userData),
+        url: 'user/register/social/facebook/',
+      );
+
+      return FacebookLoginRes.fromJson(
+        x as Map<String, dynamic>,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<GoogleLoginRes> sendGoogleLoginReq(Map<String, dynamic> map) async {
+    try {
+      final x = await _dioHelper.postData(
+        data: jsonEncode(map),
+        url: 'user/register/social/google_oauth2/',
+      );
+
+      return GoogleLoginRes.fromJson(
+        x as Map<String, dynamic>,
+      );
+    } catch (e) {
       rethrow;
     }
   }

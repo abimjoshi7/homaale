@@ -12,7 +12,7 @@ class BookingsFilterSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: kPadding15,
           child: Row(
             children: const [
               ChoiceChip(
@@ -32,19 +32,19 @@ class BookingsFilterSection extends StatelessWidget {
             ],
           ),
         ),
-        Row(
-          children: [
-            Container(
-              height: 20,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list))
-          ],
-        )
+        // Row(
+        //   children: [
+        //     Container(
+        //       height: 20,
+        //       width: 40,
+        //       decoration: BoxDecoration(
+        //         color: Colors.amber,
+        //         borderRadius: BorderRadius.circular(10),
+        //       ),
+        //     ),
+        //     IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list))
+        //   ],
+        // )
       ],
     );
   }

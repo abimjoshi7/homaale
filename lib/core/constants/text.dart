@@ -87,8 +87,7 @@ const kSkipHelper = TextStyle(
   color: Color(0xff868E96),
 );
 
-const kBodyText1 = TextStyle(
-  color: Color(0xff5C6096),
-);
+const kBodyText1 =
+    TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
 
 const kHighlightedText = TextStyle(color: Color(0xff3EAEFF), fontSize: 10);

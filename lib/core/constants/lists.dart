@@ -72,3 +72,13 @@ List<String> bottomNavItemName = [
   'Bookings',
   'Account',
 ];
+
+List<String> weekNames = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];

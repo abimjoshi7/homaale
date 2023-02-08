@@ -2,27 +2,29 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class BookingsServiceCard extends StatelessWidget {
-  final String serviceName;
-  final String providerName;
-  final Widget mainContentWidget;
-  final String status;
-  final Widget bottomLeftWidget;
-  final Widget bottomRightWidget;
-  final Color color;
-  final double height;
-  final Widget? topRightWidget;
+  final String? serviceName;
+  final String? providerName;
+  final Widget? firstWidget;
+  final Widget? secondWidget;
+  final Widget? thirdWidget;
+  final String? status;
+  final Widget? bottomLeftWidget;
+  final Widget? bottomRightWidget;
+  final Widget? mainContentWidget;
+  final Color? color;
 
   const BookingsServiceCard({
     super.key,
-    required this.serviceName,
-    required this.providerName,
-    required this.status,
-    this.bottomLeftWidget = const Text('View Detail'),
+    this.serviceName,
+    this.providerName,
+    this.firstWidget,
+    this.secondWidget,
+    this.thirdWidget,
+    this.status,
+    this.bottomRightWidget,
+    this.mainContentWidget,
     this.color = const Color(0xfff98900),
-    this.height = 250,
-    this.topRightWidget = const SizedBox.shrink(),
-    required this.mainContentWidget,
-    required this.bottomRightWidget,
+    this.bottomLeftWidget,
   });
 
   @override
@@ -30,7 +32,7 @@ class BookingsServiceCard extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: height,
+          height: 250,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -41,7 +43,7 @@ class BookingsServiceCard extends StatelessWidget {
           left: 5,
           right: 0,
           child: Container(
-            height: height,
+            height: 250,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.white,
@@ -58,51 +60,59 @@ class BookingsServiceCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            serviceName,
+                            serviceName ?? '',
                             style: kPurpleText16,
                           ),
                           Text(
-                            providerName,
+                            providerName ?? '',
                             style: kLightBlueText14,
                           ),
                         ],
                       ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.more_vert_rounded,
+                        ),
+                      ),
                     ],
                   ),
-                  mainContentWidget,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      mainContentWidget ?? SizedBox.shrink(),
+                    ],
+                  ),
+                  thirdWidget ?? SizedBox.shrink(),
                   const Divider(
                     thickness: 1.5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      bottomLeftWidget,
-                      SizedBox(
-                        height: 40,
-                        width: 100,
-                        child: bottomRightWidget,
-                      ),
+                      bottomLeftWidget ??
+                          Row(
+                            children: [
+                              const Text("Status :"),
+                              kWidth5,
+                              Chip(
+                                backgroundColor: Colors.teal.shade100,
+                                label: Text(status ?? ''),
+                              )
+                            ],
+                          ),
+                      bottomRightWidget ?? SizedBox.shrink()
                     ],
                   )
                 ],
               ),
             ),
-          ),
-        ),
-        Positioned(
-          top: 20,
-          right: 20,
-          child: SizedBox(
-            height: 90,
-            width: 100,
-            child: topRightWidget,
           ),
         ),
       ],

@@ -4,8 +4,8 @@ import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class InProgressSection extends StatelessWidget {
-  const InProgressSection({super.key});
+class HistorySection extends StatelessWidget {
+  const HistorySection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +47,17 @@ class InProgressSection extends StatelessWidget {
                   ],
                 ),
                 status: 'In Progress',
+                bottomLeftWidget: const Text(
+                  'View Detail',
+                  style: kText15,
+                ),
                 bottomRightWidget: SizedBox(
                   width: 120,
                   child: CustomElevatedButton(
                     callback: () {},
-                    label: 'Completed',
-                    mainColor: Colors.green,
-                    borderColor: Colors.green,
+                    label: 'Cancelled',
+                    mainColor: Colors.red,
+                    borderColor: Colors.red,
                   ),
                 ),
               ),

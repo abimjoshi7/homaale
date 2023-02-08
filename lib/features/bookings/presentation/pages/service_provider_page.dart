@@ -28,13 +28,16 @@ class ServiceProviderPage extends StatelessWidget {
                   ),
                   trailingWidget: IconButton(
                     onPressed: () {
-                      print(state.result.toJson());
+                      print(123);
+                      print(state);
+                      print(state.result.rating!.first.rating);
                     },
                     icon: const Icon(Icons.search),
                   ),
                   child: Text(state.result.title ?? ''),
                 ),
-                const Divider(),
+                kHeight5,
+                // const Divider(),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
@@ -61,16 +64,30 @@ class ServiceProviderPage extends StatelessWidget {
                                     Container(
                                       height: 50,
                                       width: 50,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.amber,
+                                      decoration: BoxDecoration(
                                         shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            state.result.createdBy
+                                                    ?.profileImage ??
+                                                kDefaultAvatar,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     kWidth10,
                                     Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        const Text('data'),
-                                        const Text('data'),
+                                        Text(
+                                          state.result.title ?? '',
+                                          style: kPurpleText16,
+                                        ),
+                                        Text(
+                                          "${state.result.createdBy?.firstName ?? ''} ${state.result.createdBy?.lastName ?? ''}",
+                                          style: kLightBlueText14,
+                                        ),
                                       ],
                                     )
                                   ],
@@ -102,8 +119,11 @@ class ServiceProviderPage extends StatelessWidget {
                                       size: 18,
                                     ),
                                     kWidth5,
-                                    const Text('4.5'),
-                                    const Text('(200)'),
+                                    Text(
+                                      state.result.rating?.first.rating
+                                              .toString() ??
+                                          '4.5',
+                                    ),
                                   ],
                                 ),
                                 Row(
@@ -114,7 +134,9 @@ class ServiceProviderPage extends StatelessWidget {
                                       size: 18,
                                     ),
                                     kWidth5,
-                                    const Text('Buddhanagar, Kathmandu')
+                                    Text(
+                                      "${state.result.city?.name ?? ''}, ${state.result.city?.country?.name ?? ''}",
+                                    ),
                                   ],
                                 )
                               ],
@@ -262,14 +284,20 @@ class ServiceProviderPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: kPadding20,
-                        child: CustomFormText(name: 'Similar Services', child: SizedBox(
-                          height: 200,
-                          width: double.infinity,
-                          child: ListView.separated(
-                            padding: EdgeInsets.zero,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => ServiceCard(), separatorBuilder: (context, index) => kWidth10, itemCount: 5,),
-                        )),
+                        child: CustomFormText(
+                          name: 'Similar Services',
+                          child: SizedBox(
+                            height: 200,
+                            width: double.infinity,
+                            child: ListView.separated(
+                              padding: EdgeInsets.zero,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) => ServiceCard(),
+                              separatorBuilder: (context, index) => kWidth10,
+                              itemCount: 5,
+                            ),
+                          ),
+                        ),
                       ),
                       Container(
                         height: 100,
@@ -288,7 +316,7 @@ class ServiceProviderPage extends StatelessWidget {
                                 children: [
                                   Text('Total Price'),
                                   Text(
-                                    'Rs 3,000',
+                                    "Rs. ${state.result.budgetTo}",
                                     style: kText20,
                                   ),
                                 ],
