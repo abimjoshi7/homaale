@@ -37,7 +37,7 @@ class AuthenticatorAppCode extends StatelessWidget {
                     TextSpan(
                       text: ' provide you with a key.',
                       style: TextStyle(
-                        color: kColorBlueText,
+                        color: kColorBlue,
                       ),
                     ),
                   ],
@@ -57,7 +57,7 @@ class AuthenticatorAppCode extends StatelessWidget {
                     TextSpan(
                       text: 'download an authenticator ',
                       style: TextStyle(
-                        color: kColorBlueText,
+                        color: kColorBlue,
                       ),
                     ),
                     TextSpan(

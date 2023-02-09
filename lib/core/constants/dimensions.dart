@@ -28,3 +28,15 @@ const kWidth15 = SizedBox(
 const kWidth20 = SizedBox(
   width: 20,
 );
+
+Widget addVerticalSpace(double size) {
+  return SizedBox(
+    height: size,
+  );
+}
+
+Widget addHorizontalSpace(double size) {
+  return SizedBox(
+    width: size,
+  );
+}

@@ -4,6 +4,7 @@ import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
+import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -142,20 +143,10 @@ class _RootState extends State<Root> {
                 IconButton(
                   enableFeedback: false,
                   onPressed: () {
-                    showDialog(
-                      anchorPoint: Offset(0, 1),
-                      context: context,
-                      builder: (context) => CustomPaint(
-                        size: Size(
-                          100,
-                          100,
-                        ),
-                        painter: CustomPaintHelper(),
-                      ),
+                    Navigator.pushNamed(
+                      context,
+                      AddServicePage.routeName,
                     );
-                    // setState(() {
-                    //   pageIndex = 2;
-                    // });l
                   },
                   icon: pageIndex == 2
                       ? Image.asset(

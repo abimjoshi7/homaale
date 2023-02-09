@@ -90,6 +90,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 }
                               },
                               data: state.nestedCategory[index].name ?? '',
+                              color: randomColorGenerator(),
                             ),
                           ),
                         ],

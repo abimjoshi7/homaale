@@ -11,7 +11,7 @@ class DioHelper {
 
   static void init() {
     final options = BaseOptions(
-      baseUrl: sandbox,
+      baseUrl: baseIPSecondary,
       connectTimeout: 20 * 1000,
       receiveTimeout: 20 * 1000,
       receiveDataWhenStatusError: true,
@@ -280,7 +280,6 @@ class DioHelper {
     required Map<String, dynamic> map,
   }) async {
     try {
-
       final formData = FormData.fromMap(
         map,
       );

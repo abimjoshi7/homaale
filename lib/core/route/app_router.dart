@@ -13,6 +13,7 @@ import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -179,6 +180,11 @@ class AppRouter {
       case EntityServicesPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const EntityServicesPage(),
+          settings: settings,
+        );
+      case AddServicePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddServicePage(),
           settings: settings,
         );
       case SandboxPage.routeName:

@@ -17,12 +17,12 @@ class ProfileStatsSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             return NumberCountText(
               numberText: state.user.stats!.taskAssigned!.toString(),
-              textColor: kColorBlueText,
+              textColor: kColorBlue,
             );
           } else {
             return const NumberCountText(
               numberText: '0',
-              textColor: kColorBlueText,
+              textColor: kColorBlue,
             );
           }
         }
@@ -31,12 +31,12 @@ class ProfileStatsSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             return NumberCountText(
               numberText: state.user.stats!.taskInProgress!.toString(),
-              textColor: kColorAmberText,
+              textColor: kColorAmber,
             );
           } else {
             return const NumberCountText(
               numberText: '0',
-              textColor: kColorAmberText,
+              textColor: kColorAmber,
             );
           }
         }
@@ -45,12 +45,12 @@ class ProfileStatsSection extends StatelessWidget {
           if (state is UserLoadSuccess) {
             return NumberCountText(
               numberText: state.user.stats!.successRate!.toString(),
-              textColor: kColorGreenText,
+              textColor: kColorGreen,
             );
           } else {
             return const NumberCountText(
               numberText: '0',
-              textColor: kColorGreenText,
+              textColor: kColorGreen,
             );
           }
         }

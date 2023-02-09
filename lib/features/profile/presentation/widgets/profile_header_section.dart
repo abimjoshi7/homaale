@@ -105,7 +105,7 @@ class ProfileHeaderSection extends StatelessWidget {
               if (state2 is UserLoadSuccess) {
                 return Row(
                   children: List.generate(
-                    state2.user.rating?.userRatingCount ?? 5,
+                    (state2.user.rating?.avgRating as double?)?.round() ?? 5,
                     (index) => const Icon(
                       Icons.star_rate_rounded,
                       color: Colors.amber,

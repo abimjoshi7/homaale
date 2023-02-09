@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.theHeight = 48,
+    this.theHeight = 50,
     this.hintText = '',
     this.prefixWidget,
     this.value,

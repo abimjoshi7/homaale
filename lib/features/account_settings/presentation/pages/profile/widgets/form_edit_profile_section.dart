@@ -4,7 +4,6 @@ import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -61,9 +60,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
       },
       builder: (context, state) {
         if (state is UserLoadSuccess) {
-          firstName = state.user.user!.firstName;
-          middleName = state.user.user!.middleName;
-          lastName = state.user.user!.lastName;
+          firstName = state.user.user?.firstName;
+          middleName = state.user.user?.middleName;
+          lastName = state.user.user?.lastName;
           designation = state.user.designation.toString();
           profilePicture = state.user.profileImage.toString();
           return Padding(
@@ -84,15 +83,6 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                               },
                             );
                           }
-                        },
-                      );
-                      await MultipartFile.fromFile(selectedImage!.path).then(
-                        (value) {
-                          // context.read<UserBloc>().editProfilePic(
-                          //   {
-                          //     "profile_image": value,
-                          //   },
-                          // );
                         },
                       );
                     },
@@ -146,7 +136,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user!.firstName!,
+                              hintText: state.user.user?.firstName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   firstName = p0;
@@ -167,7 +157,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user!.middleName!,
+                              hintText: state.user.user?.middleName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   middleName = p0;
@@ -197,7 +187,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user!.lastName!,
+                              hintText: state.user.user?.lastName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   lastName = p0;
@@ -254,24 +244,26 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
-                        _key.currentState!.save();
+                        _key.currentState?.save();
 
-                        // final user = {
-                        //   "first_name": firstName!.isEmpty
-                        //       ? state.user.user!.firstName
-                        //       : firstName,
-                        //   "middle_name": middleName!.isEmpty
-                        //       ? state.user.user!.middleName
-                        //       : middleName,
-                        //   "last_name": lastName!.isEmpty
-                        //       ? state.user.user!.lastName
-                        //       : lastName,
-                        //   "designation": designation!.isEmpty
-                        //       ? state.user.designation
-                        //       : designation,
-                        // };
+                        final user = {
+                          "first_name": firstName!.isEmpty
+                              ? state.user.user!.firstName
+                              : firstName,
+                          "middle_name": middleName!.isEmpty
+                              ? state.user.user!.middleName
+                              : middleName,
+                          "last_name": lastName!.isEmpty
+                              ? state.user.user!.lastName
+                              : lastName,
+                          "designation": designation!.isEmpty
+                              ? state.user.designation
+                              : designation,
+                        };
 
-                        // await context.read<UserBloc>().editTaskeruser(user);
+                        context.read<UserBloc>().add(
+                              UserEdited(req: user),
+                            );
                       },
                       label: 'Save',
                     ),

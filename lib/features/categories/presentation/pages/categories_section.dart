@@ -9,10 +9,8 @@ class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
   static const routeName = '/categories';
 
-
   @override
   Widget build(BuildContext context) {
-  final color = [kColorGrey, kColorSecondary];
     return BlocConsumer<HeroCategoryCubit, HeroCategoryState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -50,16 +48,15 @@ class CategoriesSection extends StatelessWidget {
                             );
                           },
                           child: CategoriesIcons(
-                            // color: categoriesColorList[index],
-                            color: color[index],
                             data:
                                 state.hero.result?[index]?.category?.name ?? '',
-                            child: state.hero.result?[index]?.category?.icon
-                                    as Icon? ??
-                                Icon(
-                                  Icons.circle,
-                                  color: color[index],
-                                ),
+                            color: randomColorGenerator(),
+                            // child: state.hero.result?[index]?.category?.icon
+                            //         as Icon? ??
+                            //     Icon(
+                            //       Icons.circle,
+                            //       color: randomGenerator(),
+                            //     ),
                           ),
                         ),
                       ),

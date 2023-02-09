@@ -17,6 +17,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
@@ -37,7 +38,7 @@ class CustomFormField extends StatelessWidget {
         ),
         kHeight5,
         child,
-        kHeight20,
+        kHeight10,
       ],
     );
   }

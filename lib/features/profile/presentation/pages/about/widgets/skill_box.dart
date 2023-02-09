@@ -11,17 +11,20 @@ class SkillBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
-      width: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(32),
         color: const Color(0xff0693E3),
       ),
       child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FittedBox(
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
       ),

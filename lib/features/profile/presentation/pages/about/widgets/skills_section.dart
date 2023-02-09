@@ -41,7 +41,7 @@ class SkillsSection extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 40,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => skills!.first != ''
@@ -79,7 +79,7 @@ class SkillsSection extends StatelessWidget {
           children: [
             const CustomModalSheetDrawerIcon(),
             Padding(
-              padding: kPadding20,
+              padding: kPadding10,
               child: Column(
                 children: [
                   Column(

@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class AboutProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: kPadding10,
         child: Column(
           children: const [
             DescriptionSection(),

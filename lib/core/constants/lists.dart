@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const categoriesColorList = <Color>[
+const colorList = <Color>[
   Color(0xffffb200),
   Color(0xffC93D18),
   Color(0xff3FACDE),

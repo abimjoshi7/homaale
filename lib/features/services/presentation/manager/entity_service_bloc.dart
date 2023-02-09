@@ -15,14 +15,14 @@ class EntityServiceBloc extends Bloc<EntityServiceEvent, EntityServiceState> {
           emit(
             EntityServiceInitial(),
           );
-          await repositories.fetchEntityServices(event.id).then(
-                (value) => emit(
-                  EntityServiceLoadSuccess(
-                    EntityService.fromJson(
-                      value,
-                    ),
-                  ),
-                ),
+          await repositories.fetchEntityServices(event.id).then((value) => false
+              // emit(
+              //   EntityServiceLoadSuccess(
+              //     EntityService.fromJson(
+              //       value,
+              //     ),
+              //   ),
+              // ),
               );
         } catch (e) {
           print(e);

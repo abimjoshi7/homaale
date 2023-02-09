@@ -27,6 +27,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
                 ),
               );
         } catch (e) {
+          // print(e);
           emit(
             ServicesLoadFailure(),
           );
