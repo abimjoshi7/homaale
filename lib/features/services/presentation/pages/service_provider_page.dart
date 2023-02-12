@@ -1,8 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
+import 'package:cipher/features/services/presentation/widgets/rating_review_section.dart';
+import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -266,11 +269,63 @@ class ServiceProviderPage extends StatelessWidget {
                                   Text('Ratings & Reviews'),
                                 ],
                               ),
+                              children: [
+                                RatingReviewSection(),
+                              ],
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  await showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        CustomModalSheetDrawerIcon(),
+                                        kHeight10,
+                                        Text(
+                                          'Rating & Review',
+                                          style: kText17,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            children: [
+                                              CustomFormField(
+                                                label: 'Name',
+                                                child: CustomTextFormField(),
+                                                isRequired: true,
+                                              ),
+                                              CustomFormField(
+                                                label: 'Email',
+                                                child: CustomTextFormField(),
+                                                isRequired: true,
+                                              ),
+                                              CustomFormField(
+                                                label: 'Task Description',
+                                                child: CustomTextFormField(),
+                                                isRequired: true,
+                                              ),
+                                              CustomFormField(
+                                                label: 'Ratings',
+                                                child: CustomTextFormField(),
+                                                isRequired: true,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        CustomElevatedButton(
+                                          callback: () {},
+                                          label: 'Submit Now',
+                                        ),
+                                        kHeight20,
+                                      ],
+                                    ),
+                                  );
+                                },
                                 child: const Text('Write a Review'),
                               ),
                             ),
@@ -331,7 +386,7 @@ class ServiceProviderPage extends StatelessWidget {
                                   callback: () {
                                     Navigator.pushNamed(
                                       context,
-                                      BookingPages.routeName,
+                                      BookingDetailsPage.routeName,
                                     );
                                   },
                                   label: 'Book Now',

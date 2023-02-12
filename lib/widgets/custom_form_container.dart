@@ -7,11 +7,13 @@ class CustomFormContainer extends StatelessWidget {
     this.hintText = '',
     this.trailingWidget = const SizedBox.shrink(),
     this.leadingWidget = const SizedBox.shrink(),
+    this.isMedia = false,
   });
 
   final String hintText;
   final Widget trailingWidget;
   final Widget leadingWidget;
+  final bool isMedia;
 
   @override
   Widget build(BuildContext context) {

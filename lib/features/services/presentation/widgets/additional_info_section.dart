@@ -11,7 +11,7 @@ class AdditionalInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: 8.0,
+        vertical: 8,
         horizontal: 20,
       ),
       child: Column(

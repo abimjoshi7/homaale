@@ -97,11 +97,12 @@ class DioHelper {
       return response.data;
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
-        await refreshToken();
-        getDatawithCredential(
-          url: url,
-          query: query,
-          token: token,
+        await refreshToken().then(
+          (value) => getDatawithCredential(
+            url: url,
+            query: query,
+            token: token,
+          ),
         );
       } else {
         log("API request failed: $e");
@@ -356,43 +357,39 @@ class DioHelper {
     }
   }
 
-  Future<void> refreshToken() async {
+  Future<void> refreshToken([String? token]) async {
     try {
       final response = await dio.post(
         "user/token/refresh/",
-        queryParameters: {
-          'refresh': CacheHelper.refreshToken,
+        data: {
+          "refresh": token ?? CacheHelper.refreshToken,
         },
       );
-
-      if (response.statusCode == 200) {
-        dio.options.headers["Authorization"] =
-            "Bearer ${response.data["token"]}";
-      } else {
-        print("Refresh token request failed");
-      }
+      CacheHelper.accessToken = await response.data['access'] as String?;
+      CacheHelper.refreshToken = await response.data['refresh'] as String?;
     } catch (e) {
       print("Refresh token request failed: $e");
+      rethrow;
     }
   }
 
 // Function to make an API request
-  Future<void> makeRequest() async {
-    try {
-      // Make the API request
-      Response response = await dio.get("/some-endpoint");
+  // Future<void> makeRequest() async {
+  //   try {
+  //     // Make the API request
+  //     Response response = await dio.get("/some-endpoint");
 
-      // Handle successful response
-      print(response.data);
-    } catch (e) {
-      // If the error is a 401 unauthorized, refresh the token and try again
-      if (e is DioError && e.response?.statusCode == 401) {
-        await refreshToken();
-        makeRequest();
-      } else {
-        // Handle other errors
-        print("API request failed: $e");
-      }
-    }
-  }
+  //     // Handle successful response
+  //     print(response.data);
+  //   } catch (e) {
+  //     // If the error is a 401 unauthorized, refresh the token and try again
+  //     if (e is DioError && e.response?.statusCode == 401) {
+  //       await refreshToken();
+  //       makeRequest();
+  //     } else {
+  //       // Handle other errors
+  //       print("API request failed: $e");
+  //     }
+  //   }
+  // }
 }

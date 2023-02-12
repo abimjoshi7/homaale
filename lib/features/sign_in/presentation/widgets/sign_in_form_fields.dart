@@ -29,10 +29,17 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
         final error = await CacheHelper.getCachedString(kErrorLog);
 
         if (state is SignInSuccess) {
+          CacheHelper.accessToken = state.userLoginRes.access;
+          CacheHelper.refreshToken = state.userLoginRes.refresh;
           if (keepLogged == true) {
             await CacheHelper.setCachedString(
               kIsPersistToken,
               "1",
+            ).then(
+              (value) async => CacheHelper.setCachedString(
+                kToken,
+                CacheHelper.accessToken ?? '',
+              ),
             );
           }
           if (!mounted) return;

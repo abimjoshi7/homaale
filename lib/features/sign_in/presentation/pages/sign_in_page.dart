@@ -1,4 +1,6 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/sign_in/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_up/presentation/pages/sign_up.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,12 @@ class SignInPage extends StatelessWidget {
       child: Column(
         children: [
           kHeight20,
-          const Text('Welcome', style: kHeading1),
+          InkWell(
+              onTap: () async {
+                print(CacheHelper.refreshToken);
+                DioHelper().refreshToken();
+              },
+              child: const Text('Welcome', style: kHeading1)),
           const Text(
             'Login to your account',
             style: kHelper13,

@@ -30,7 +30,8 @@ class SandboxPage extends StatelessWidget {
           Center(
             child: CustomElevatedButton(
               callback: () {
-                log(CacheHelper.accessToken.toString());
+                log("Access: ${CacheHelper.accessToken}");
+                log("Refresh: ${CacheHelper.refreshToken}");
               },
               label: 'Get Token',
             ),

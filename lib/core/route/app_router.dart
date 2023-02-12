@@ -4,8 +4,11 @@ import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
-import 'package:cipher/features/bookings/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -185,6 +188,21 @@ class AppRouter {
       case AddServicePage.routeName:
         return MaterialPageRoute(
           builder: (context) => const AddServicePage(),
+          settings: settings,
+        );
+      case BookingDetailsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingDetailsPage(),
+          settings: settings,
+        );
+      case BookingNextDetailPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingNextDetailPage(),
+          settings: settings,
+        );
+      case CheckoutPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CheckoutPage(),
           settings: settings,
         );
       case SandboxPage.routeName:

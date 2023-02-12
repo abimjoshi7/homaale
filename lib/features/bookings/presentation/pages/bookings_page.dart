@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/bookings/presentation/sections/sections.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';

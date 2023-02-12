@@ -17,17 +17,21 @@ class IconText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5,),
-      child: Row(
-        children: [
-          Icon(iconData, color: color, size: size,),
-          kWidth10,
-          Text(
-            label,
+    return Row(
+      children: [
+        Icon(
+          iconData,
+          color: color,
+          size: size,
+        ),
+        kWidth10,
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

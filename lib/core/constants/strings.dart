@@ -1,5 +1,6 @@
 const kErrorLog = 'error-log';
-const kIsPersistToken = 'is-persis-token';
+const kIsPersistToken = 'is-persist-token';
+const kToken = 'token';
 const kDefaultAvatar =
     'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
 const kNoImage =

@@ -30,15 +30,16 @@ class CustomFormField extends StatelessWidget {
             if (isRequired == true)
               const Text(
                 '*',
-                style: TextStyle(color: Color(0xffFE5050)),
+                style: TextStyle(
+                  color: Color(0xffFE5050),
+                ),
               )
             else
               const Text(''),
           ],
         ),
-        kHeight5,
         child,
-        kHeight10,
+        addVerticalSpace(10),
       ],
     );
   }
