@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
+import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -250,6 +251,9 @@ class ServiceProviderPage extends StatelessWidget {
                                   Text('Additional Information'),
                                 ],
                               ),
+                              children: [
+                                AdditionalInfoSection(),
+                              ],
                             ),
                             ExpansionTile(
                               title: Row(

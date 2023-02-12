@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
@@ -44,20 +44,7 @@ class EntityServicesPage extends StatelessWidget {
                     ),
                   ),
                   trailingWidget: IconButton(
-                    onPressed: () async {
-                      final x = await ServicesRepositories()
-                          .fetchSingleEntityServices(
-                        serviceId: '69ddd7de-59d0-48ea-ab6f-e10b64f38ff0',
-                      );
-                      print(x);
-                      // if (state is EntityServiceLoadSuccess) {
-                      //   print(
-                      //     state.service.result?.last.toJson(),
-                      //   );
-                      // } else {
-                      //   print(123);
-                      // }
-                    },
+                    onPressed: () async {},
                     icon: const Icon(
                       Icons.search,
                     ),
@@ -194,7 +181,10 @@ class EntityServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Image.asset('assets/banners/Sliding Banner.png', fit: BoxFit.cover,),
+                          child: Image.asset(
+                            'assets/banners/Sliding Banner.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       SliverToBoxAdapter(
@@ -206,7 +196,10 @@ class EntityServicesPage extends StatelessWidget {
                               height: 400,
                               child: ListView.separated(
                                 itemBuilder: (context, index) => TaskCard(
-                                  child: Image.asset('assets/services/Rectangle 3541.png', fit: BoxFit.cover,),
+                                  child: Image.asset(
+                                    'assets/services/Rectangle 3541.png',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 separatorBuilder: (context, index) => kHeight10,
                                 itemCount: 5,
