@@ -9,11 +9,11 @@ class ServicesRepositories {
   Future<List<Map<String, dynamic>>> fetchServices([int? categoryId]) async {
     try {
       final res = await _dio.getDatawithCredential(
-        // url: 'task/service/list/',
-        url: 'task/service/list/options/',
+        url: 'task/service/list/',
+        // url: 'task/service/list/options/',
         query: {
-          'page': -1,
-          // 'category_id': categoryId,
+          // 'page': -1,
+          'category_id': categoryId,
         },
         token: CacheHelper.accessToken,
       );

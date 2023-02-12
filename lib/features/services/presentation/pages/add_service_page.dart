@@ -258,9 +258,52 @@ class _AddServicePageState extends State<AddServicePage> {
                               selected: false,
                             ),
                           ),
-                        )
+                        ),
+                        addHorizontalSpace(10),
                       ],
                     ),
+                  ),
+                ),
+                SliverFillRemaining(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: kColorSecondary,
+                            size: 10,
+                          ),
+                          addHorizontalSpace(10),
+                          Text('Sunday')
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: CustomFormContainer(
+                              leadingWidget: Icon(
+                                Icons.access_time,
+                              ),
+                              hintText: '08:30 am',
+                            ),
+                          ),
+                          Flexible(
+                            child: Text('-'),
+                          ),
+                          Flexible(
+                            child: CustomFormContainer(
+                              leadingWidget: Icon(
+                                Icons.access_time,
+                              ),
+                              hintText: '08:30 am',
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 )
               ],

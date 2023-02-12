@@ -21,7 +21,7 @@ class ServiceList {
   });
 
   final String? id;
-  final CreatedBy? createdBy;
+  final String? createdBy;
   final Category? category;
   final List<dynamic>? images;
   final List<dynamic>? videos;
@@ -41,9 +41,7 @@ class ServiceList {
 
   factory ServiceList.fromJson(Map<String, dynamic> json) => ServiceList(
         id: json["id"] as String?,
-        createdBy: json["created_by"] == null
-            ? null
-            : CreatedBy.fromJson(json["created_by"] as Map<String, dynamic>),
+        createdBy: json["created_by"] as String?,
         category: json["category"] == null
             ? null
             : Category.fromJson(json["category"] as Map<String, dynamic>),
@@ -80,7 +78,7 @@ class ServiceList {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "created_by": createdBy?.toJson(),
+        "created_by": createdBy,
         "category": category?.toJson(),
         "images":
             images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
