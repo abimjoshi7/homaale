@@ -107,6 +107,89 @@ class AddPaymentMethodPage extends StatelessWidget {
                 ),
               )
             ],
+          ),
+          Card(
+            child: SwitchListTile(
+              value: false,
+              onChanged: (v) {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Column(
+                    children: [
+                      CustomModalSheetDrawerIcon(),
+                      addVerticalSpace(10),
+                      Text(
+                        'Add New Card',
+                        style: kText15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            CustomFormField(
+                              label: 'Card Number',
+                              child: CustomTextFormField(),
+                              isRequired: false,
+                            ),
+                            CustomFormField(
+                              label: 'Card Holder\'s Name',
+                              child: CustomTextFormField(),
+                              isRequired: false,
+                            ),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: CustomFormField(
+                                    label: 'Expiration Date',
+                                    child: CustomTextFormField(),
+                                    isRequired: false,
+                                  ),
+                                ),
+                                addHorizontalSpace(20),
+                                Flexible(
+                                  child: CustomFormField(
+                                    label: 'CVV',
+                                    child: CustomTextFormField(),
+                                    isRequired: false,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                CustomCheckBox(
+                                  onTap: () {},
+                                ),
+                                Text('Save as default card ')
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      CustomElevatedButton(
+                        callback: () {},
+                        label: 'Save',
+                      ),
+                      addVerticalSpace(10),
+                      CustomElevatedButton(
+                        callback: () {},
+                        label: 'Cancel',
+                        mainColor: Colors.white,
+                        textColor: kColorPrimary,
+                      ),
+                    ],
+                  ),
+                );
+              },
+              secondary: Icon(
+                Icons.credit_card,
+                color: kColorSecondary,
+              ),
+              title: Text(
+                'Credit/Debit Card',
+                style: kText15,
+              ),
+            ),
           )
         ],
       ),

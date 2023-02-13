@@ -7,7 +7,7 @@ class DealOfTheDaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       child: Column(
         children: [
           Row(
@@ -89,7 +89,7 @@ class DealOfTheDaySection extends StatelessWidget {
                   width: 184,
                   child: Column(
                     children: [
-                       Expanded(
+                      Expanded(
                         child: Container(
                           decoration: const BoxDecoration(
                             image: DecorationImage(

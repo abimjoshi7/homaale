@@ -8,7 +8,7 @@ class PopularServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       child: Column(
         children: [
           SectionHeading(
@@ -17,7 +17,7 @@ class PopularServicesSection extends StatelessWidget {
           ),
           kHeight20,
           SizedBox(
-            height: 130,
+            height: 150,
             width: double.infinity,
             child: ListView.separated(
               itemCount: 5,

@@ -32,73 +32,89 @@ class PaymentPage extends StatelessWidget {
             ),
             child: const Text('Select Payment Method'),
           ),
-          CustomFormField(
-            label: 'Payment Methods',
-            isRequired: false,
-            child: Column(
-              children: [
-                Card(
-                  child: ListTile(
-                    leading: CircleAvatar(),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Khalti Digital Wallet'),
-                        Text('*****09876')
-                      ],
-                    ),
-                    trailing: Radio(
-                      value: 'Khalti',
-                      groupValue: 'Khalti',
-                      onChanged: (value) {},
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: CustomFormField(
+              label: 'Payment Methods',
+              isRequired: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    child: ListTile(
+                      leading: Image.asset('assets/logos/esewa 1.png'),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Esewa Digital Wallet'),
+                          Text('*****09876')
+                        ],
+                      ),
+                      trailing: Radio(
+                        value: 'Khalti',
+                        groupValue: 'Khalti',
+                        onChanged: (value) {},
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  'Other payment methods',
-                  style: kBodyText1,
-                ),
-                SizedBox(
-                  height: 80,
-                  width: double.infinity,
-                  child: ListView.separated(
-                    itemBuilder: (context, index) => Container(
-                      height: 25,
-                      width: 30,
-                      color: Colors.amber,
-                    ),
-                    separatorBuilder: (context, index) => addHorizontalSpace(
-                      10,
-                    ),
-                    itemCount: 4,
+                  addVerticalSpace(20),
+                  Text(
+                    'Other payment methods',
+                    style: kBodyText1,
                   ),
-                ),
-                Card(
-                  child: ListTile(
-                    leading: Icon(Icons.credit_card),
-                    title: Text('Add Payment Method'),
-                    trailing: Icon(Icons.arrow_forward_ios_outlined),
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        AddPaymentMethodPage.routeName,
-                      );
-                    },
+                  SizedBox(
+                    height: 60,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 90,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/logos/payment/Payment-method-button-40px1.png',
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => addHorizontalSpace(
+                        10,
+                      ),
+                      itemCount: 4,
+                    ),
                   ),
-                ),
-                addVerticalSpace(20),
-                CustomElevatedButton(
-                  callback: () {
-                    Navigator.pushNamed(
-                      context,
-                      PaymentSummaryPage.routeName,
-                    );
-                  },
-                  label: 'Proceed',
-                )
-              ],
+                  Card(
+                    child: ListTile(
+                      leading: Icon(Icons.credit_card),
+                      title: Text('Add Payment Method'),
+                      trailing: Icon(Icons.arrow_forward_ios_outlined),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AddPaymentMethodPage.routeName,
+                        );
+                      },
+                    ),
+                  ),
+                  addVerticalSpace(20),
+                ],
+              ),
             ),
           ),
+          CustomElevatedButton(
+            callback: () {
+              Navigator.pushNamed(
+                context,
+                PaymentSummaryPage.routeName,
+              );
+            },
+            label: 'Proceed',
+          )
         ],
       ),
     );

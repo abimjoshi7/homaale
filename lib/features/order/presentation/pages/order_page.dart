@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
+import 'package:cipher/widgets/my_seperator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -31,30 +32,158 @@ class OrderPage extends StatelessWidget {
             ),
             child: const Text('Your Order'),
           ),
-          Container(
-            height: 100,
+          OrderCard(),
+          addVerticalSpace(10),
+          OrderCard(
+            leadinglabel: 'Order Details',
+            trailingLabel: '',
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Order Information',
-                      style: kLabelPrimary,
+                      'Name',
+                      style: kText15,
                     ),
                     Text(
-                      'Invoice#-0023',
-                      style: kLabelPrimary,
+                      'Price',
+                      style: kText15,
+                    ),
+                    Text(
+                      'Total',
+                      style: kText15,
                     ),
                   ],
                 ),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      child: Text('Trimming & Cutting'),
+                      width: MediaQuery.of(context).size.width / 3,
+                    ),
+                    SizedBox(
+                      child: Text('Rs 1200'),
+                      width: MediaQuery.of(context).size.width / 3,
+                    ),
+                    SizedBox(
+                      child: Text('Rs 1180'),
+                      // width: MediaQuery.of(context).size.width / 3,
+                    ),
+                  ],
+                ),
+                addVerticalSpace(10),
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: MediaQuery.of(context).size.width / 3,
+                      child: Text(
+                        'Planting + Watering + Trimming trees and shrubs + Landscape plans + Fertilizing & Mowing Lawns',
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          addVerticalSpace(10),
+          OrderCard(
+            leadinglabel: 'Payment Details',
+            trailingLabel: '',
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Service Charge:',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      'Rs 1,200',
+                      style: kPurpleText16,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Service Charge:',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      'Rs 1,200',
+                      style: kPurpleText16,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Service Charge:',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      'Rs 1,200',
+                      style: kPurpleText16,
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Service Charge:',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    Text(
+                      'Rs 1,200',
+                      style: kPurpleText16,
+                    ),
+                  ],
+                ),
+                addVerticalSpace(5),
+                MySeparator(),
+                addVerticalSpace(5),
                 Expanded(
-                  child: Container(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Service Charge:',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        'Rs 1,200',
+                        style: kPurpleText16,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
+          addVerticalSpace(20),
           CustomElevatedButton(
+            label: 'Confirm Payment',
             callback: () {
               Navigator.pushNamed(
                 context,
@@ -62,6 +191,138 @@ class OrderPage extends StatelessWidget {
               );
             },
           )
+        ],
+      ),
+    );
+  }
+}
+
+class OrderCard extends StatelessWidget {
+  const OrderCard({
+    super.key,
+    this.child,
+    this.leadinglabel,
+    this.trailingLabel,
+  });
+
+  final String? leadinglabel;
+  final String? trailingLabel;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                10,
+              ),
+              color: Color(0xffECECF2),
+            ),
+            height: 200,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        leadinglabel ?? 'Order Information',
+                        style: kLabelPrimary,
+                      ),
+                      Text(
+                        trailingLabel ?? 'Invoice#-0023',
+                        style: kLabelPrimary,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Card(
+                    margin: EdgeInsets.zero,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: child ??
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Service Provider:',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Modern Gardener',
+                                    style: kPurpleText16,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Customer ID:',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    '72633',
+                                    style: kPurpleText16,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Date/Time',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    'June 28, 2022 12:12 pm',
+                                    style: kPurpleText16,
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Billing Address:',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Bagbazaar, Kathmandu',
+                                    style: kPurpleText16,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/order/presentation/pages/order_page.dart';
-import 'package:cipher/widgets/my_seperator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -32,62 +31,149 @@ class PaymentSummaryPage extends StatelessWidget {
             ),
             child: const Text('Payment Summary'),
           ),
-          Column(
-            children: [
-              CustomFormField(
-                label: 'Booking Details',
-                child: Card(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Name'),
-                          Text('Price'),
-                          Text('Total'),
-                        ],
-                      ),
-                      MySeparator(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Trimming & Cutting'),
-                          Text('Rs 1200'),
-                          Text('Rs 1180'),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 60,
-                        child: Text(
-                          'Planting + Watering + Trimming trees and shrubs + Landscape plans + Fertilizing & Mowing Lawns',
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                CustomFormField(
+                  label: 'Booking Details',
+                  isRequired: false,
+                  child: SizedBox(
+                    height: 200,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Name',
+                                  style: kText15,
+                                ),
+                                Text(
+                                  'Price',
+                                  style: kText15,
+                                ),
+                                Text(
+                                  'Total',
+                                  style: kText15,
+                                ),
+                              ],
+                            ),
+                            Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  child: Text('Trimming & Cutting'),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                ),
+                                SizedBox(
+                                  child: Text('Rs 1200'),
+                                  width: MediaQuery.of(context).size.width / 3,
+                                ),
+                                SizedBox(
+                                  child: Text('Rs 1180'),
+                                  // width: MediaQuery.of(context).size.width / 3,
+                                ),
+                              ],
+                            ),
+                            addVerticalSpace(10),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: Text(
+                                    'Planting + Watering + Trimming trees and shrubs + Landscape plans + Fertilizing & Mowing Lawns',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                isRequired: false,
-              ),
-              CustomFormField(
-                label: 'Payment Details',
-                child: Column(
-                  children: [
-                    Card(
-                      child: ListTile(
-                        leading: CircleAvatar(),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text('data')],
+                CustomFormField(
+                  label: 'Payment Details',
+                  child: Column(
+                    children: [
+                      Card(
+                        child: ListTile(
+                          leading:
+                              Image.asset('assets/logos/Group 48099169.png'),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Master Card'),
+                              Text(
+                                '****7892456',
+                                style: kHelper13,
+                              ),
+                            ],
+                          ),
+                          trailing: Icon(Icons.edit),
                         ),
-                        trailing: Icon(Icons.edit),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
+                  isRequired: false,
                 ),
-                isRequired: false,
-              ),
-            ],
+                Card(
+                  child: ListTile(
+                    title: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Billing Location',
+                              style: kPurpleText16,
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.edit,
+                                size: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconText(
+                          label: 'Bagbazaar, Kathmandu',
+                          iconData: Icons.location_on_outlined,
+                          color: Colors.pink,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              CustomCheckBox(
+                                onTap: () {},
+                              ),
+                              addHorizontalSpace(10),
+                              Text(
+                                'Same as task location',
+                                style: kBodyText1,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+          addVerticalSpace(20),
           CustomElevatedButton(
             callback: () {
               Navigator.pushNamed(
@@ -95,10 +181,14 @@ class PaymentSummaryPage extends StatelessWidget {
                 OrderPage.routeName,
               );
             },
+            label: 'Confirm',
           ),
           addVerticalSpace(10),
           CustomElevatedButton(
             callback: () {},
+            label: 'Cancel',
+            textColor: kColorPrimary,
+            mainColor: Colors.white,
           ),
         ],
       ),

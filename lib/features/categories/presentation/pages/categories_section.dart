@@ -19,45 +19,41 @@ class CategoriesSection extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (state is HeroCategoryLoadSuccess) {
-          return SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: Padding(
-              padding: kPadding20,
+          return Padding(
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              height: 100,
+              width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Categories', style: kPurpleText19),
                   Expanded(
-                    child: Padding(
-                      padding: kPadding20,
-                      child: GridView.builder(
-                        itemCount: state.hero.result?.length,
-                        padding: EdgeInsets.zero,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemBuilder: (context, index) => InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              CategoriesPage.routeName,
-                            );
-                          },
-                          child: CategoriesIcons(
-                            data:
-                                state.hero.result?[index]?.category?.name ?? '',
-                            color: randomColorGenerator(),
-                            // child: state.hero.result?[index]?.category?.icon
-                            //         as Icon? ??
-                            //     Icon(
-                            //       Icons.circle,
-                            //       color: randomGenerator(),
-                            //     ),
-                          ),
+                    child: GridView.builder(
+                      itemCount: state.hero.result?.length,
+                      padding: EdgeInsets.zero,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            CategoriesPage.routeName,
+                          );
+                        },
+                        child: CategoriesIcons(
+                          data: state.hero.result?[index]?.category?.name ?? '',
+                          color: randomColorGenerator(),
+                          // child: state.hero.result?[index]?.category?.icon
+                          //         as Icon? ??
+                          //     Icon(
+                          //       Icons.circle,
+                          //       color: randomGenerator(),
+                          //     ),
                         ),
                       ),
                     ),

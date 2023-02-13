@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -31,7 +30,14 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hi, ${state.userLoginRes.username ?? 'New User'}', style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500,),),
+                Text(
+                  'Hi, ${state.userLoginRes.username ?? 'New User'}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
                 kHeight5,
                 InkWell(
                   onTap: () async {
@@ -69,8 +75,16 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   },
                   child: Row(
                     children: [
-                      const Icon(Icons.location_on_outlined),
-                      Text(location ?? 'Click to access location'),
+                      const Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        location ?? 'Click to access location',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       // const Icon(Icons.arrow_drop_down)
                     ],
                   ),
@@ -98,7 +112,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                              state.user.user?.profileImage as String,),
+                            state.user.user?.profileImage as String,
+                          ),
                         ),
                       ),
                     );
@@ -116,6 +131,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           },
                           icon: const Icon(
                             Icons.notifications_none,
+                            color: Colors.white,
+                            size: 35,
                           ),
                         );
                       },

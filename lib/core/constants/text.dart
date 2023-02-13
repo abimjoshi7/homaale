@@ -15,6 +15,12 @@ const kLightBlueText14 = TextStyle(
   color: Color(0xff3eaeff),
 );
 
+const kTealText18 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 18,
+  color: kColorTeal,
+);
+
 const kPurpleText12 = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 12,

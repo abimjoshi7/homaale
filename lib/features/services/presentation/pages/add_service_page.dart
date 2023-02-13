@@ -43,12 +43,14 @@ class _AddServicePageState extends State<AddServicePage> {
             ),
             child: Text('Add Service'),
           ),
-          Expanded(
+          Divider(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 140,
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
                         CustomFormField(
@@ -77,7 +79,6 @@ class _AddServicePageState extends State<AddServicePage> {
                           label: 'Service Highlights',
                           child: CustomTextFormField(
                             hintText: 'Trimming & Cutting',
-                            maxLines: 3,
                           ),
                           isRequired: false,
                         ),
@@ -259,53 +260,124 @@ class _AddServicePageState extends State<AddServicePage> {
                             ),
                           ),
                         ),
-                        addHorizontalSpace(10),
+                        addVerticalSpace(10),
+                        SizedBox(
+                          height: 120,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.circle,
+                                          color: kColorSecondary,
+                                          size: 10,
+                                        ),
+                                        addHorizontalSpace(10),
+                                        Text('Sunday'),
+                                        addHorizontalSpace(50),
+                                        Flexible(
+                                          child: Row(
+                                            children: [
+                                              Flexible(
+                                                child: CustomFormContainer(
+                                                  leadingWidget: Icon(
+                                                    Icons.access_time,
+                                                  ),
+                                                  hintText: '08:30 am',
+                                                ),
+                                              ),
+                                              Text(' - '),
+                                              Flexible(
+                                                child: CustomFormContainer(
+                                                  leadingWidget: Icon(
+                                                    Icons.access_time,
+                                                  ),
+                                                  hintText: '08:30 am',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                ),
+                                child: SizedBox(
+                                  width: 340,
+                                  child: CustomElevatedButton(
+                                    callback: () {},
+                                    label: 'Add',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Service Type',
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Radio(
+                                        value: 'Remote',
+                                        groupValue: 'Remote',
+                                        onChanged: (value) => false,
+                                      ),
+                                      Text('Remote')
+                                    ],
+                                  ),
+                                  addHorizontalSpace(10),
+                                  Row(
+                                    children: [
+                                      Radio(
+                                        value: 'Remote',
+                                        groupValue: 'Remote',
+                                        onChanged: (value) => false,
+                                      ),
+                                      Text('On Premise')
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              CustomTextFormField(
+                                hintText: 'Default Address',
+                              ),
+                            ],
+                          ),
+                          isRequired: true,
+                        ),
+                        CustomFormField(
+                          label: 'Number of Revision',
+                          child: CustomTextFormField(),
+                          isRequired: false,
+                        ),
+                        CustomElevatedButton(
+                          callback: () {},
+                          label: 'Next',
+                        ),
+                        addVerticalSpace(10),
+                        CustomElevatedButton(
+                          mainColor: Colors.white,
+                          textColor: kColorPrimary,
+                          callback: () {},
+                          label: 'Cancel',
+                        ),
                       ],
                     ),
                   ),
                 ),
-                SliverFillRemaining(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            color: kColorSecondary,
-                            size: 10,
-                          ),
-                          addHorizontalSpace(10),
-                          Text('Sunday')
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                            flex: 2,
-                            child: CustomFormContainer(
-                              leadingWidget: Icon(
-                                Icons.access_time,
-                              ),
-                              hintText: '08:30 am',
-                            ),
-                          ),
-                          Flexible(
-                            child: Text('-'),
-                          ),
-                          Flexible(
-                            child: CustomFormContainer(
-                              leadingWidget: Icon(
-                                Icons.access_time,
-                              ),
-                              hintText: '08:30 am',
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )
               ],
             ),
           )

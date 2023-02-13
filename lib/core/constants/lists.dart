@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
-  Color(0xffffb200),
+  // Color(0xffffb200),
+  // Color(0xff3FACDE),
   Color(0xffC93D18),
-  Color(0xff3FACDE),
   Color(0xffFF8F00),
   Color(0xffAA00DE),
   Color(0xff4CAF50),
   Color(0xffFFC107),
   Color(0xffF44336),
-  Color(0xff805EE1),
+  Color(0xff101EE1),
   Color(0xffB68509),
   Color(0xffD9226F),
   Color(0xff62A2DD),
-  Color(0xff4577D9),
+  Color(0xff9977D9),
   Color(0xff109716),
-  Color(0xffEA7D19),
-  Color(0xffF44336),
 ];
 
 final categoriesNameList = <String>[
