@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +41,7 @@ class PaymentPage extends StatelessWidget {
                   child: ListTile(
                     leading: CircleAvatar(),
                     title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Khalti Digital Wallet'),
                         Text('*****09876')
@@ -50,6 +53,48 @@ class PaymentPage extends StatelessWidget {
                       onChanged: (value) {},
                     ),
                   ),
+                ),
+                Text(
+                  'Other payment methods',
+                  style: kBodyText1,
+                ),
+                SizedBox(
+                  height: 80,
+                  width: double.infinity,
+                  child: ListView.separated(
+                    itemBuilder: (context, index) => Container(
+                      height: 25,
+                      width: 30,
+                      color: Colors.amber,
+                    ),
+                    separatorBuilder: (context, index) => addHorizontalSpace(
+                      10,
+                    ),
+                    itemCount: 4,
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    leading: Icon(Icons.credit_card),
+                    title: Text('Add Payment Method'),
+                    trailing: Icon(Icons.arrow_forward_ios_outlined),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AddPaymentMethodPage.routeName,
+                      );
+                    },
+                  ),
+                ),
+                addVerticalSpace(20),
+                CustomElevatedButton(
+                  callback: () {
+                    Navigator.pushNamed(
+                      context,
+                      PaymentSummaryPage.routeName,
+                    );
+                  },
+                  label: 'Proceed',
                 )
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -357,7 +358,7 @@ class CheckoutPage extends StatelessWidget {
                       callback: () {
                         Navigator.pushNamed(
                           context,
-                          CheckoutPage.routeName,
+                          PaymentPage.routeName,
                         );
                       },
                       label: 'Proceed',

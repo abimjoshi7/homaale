@@ -8,6 +8,11 @@ import 'package:cipher/features/bookings/presentation/pages/booking_details_page
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
+import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
+import 'package:cipher/features/order/presentation/pages/order_page.dart';
+import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
@@ -203,6 +208,31 @@ class AppRouter {
       case CheckoutPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CheckoutPage(),
+          settings: settings,
+        );
+      case PaymentPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentPage(),
+          settings: settings,
+        );
+      case AddPaymentMethodPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddPaymentMethodPage(),
+          settings: settings,
+        );
+      case PaymentSummaryPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentSummaryPage(),
+          settings: settings,
+        );
+      case OrderPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const OrderPage(),
+          settings: settings,
+        );
+      case InvoicePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const InvoicePage(),
           settings: settings,
         );
       case SandboxPage.routeName:
