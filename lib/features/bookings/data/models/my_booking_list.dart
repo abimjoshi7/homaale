@@ -9,21 +9,21 @@ class MyBookingList {
     this.result,
   });
 
-  final int? totalPages;
-  final int? count;
-  final int? current;
+  final num? totalPages;
+  final num? count;
+  final num? current;
   final String? next;
   final dynamic previous;
-  final int? pageSize;
+  final num? pageSize;
   final List<Result>? result;
 
   factory MyBookingList.fromJson(Map<String, dynamic> json) => MyBookingList(
-        totalPages: json["total_pages"] as int?,
-        count: json["count"] as int?,
-        current: json["current"] as int?,
+        totalPages: json["total_pages"] as num?,
+        count: json["count"] as num?,
+        current: json["current"] as num?,
         next: json["next"] as String?,
         previous: json["previous"] as dynamic,
-        pageSize: json["page_size"] as int?,
+        pageSize: json["page_size"] as num?,
         result: json["result"] == null
             ? []
             : List<Result>.from(
@@ -75,32 +75,32 @@ class Result {
     this.city,
   });
 
-  final int? id;
+  final num? id;
   final ResultCreatedBy? createdBy;
   final EntityService? entityService;
   final List<Image>? images;
   final List<dynamic>? videos;
-  final int? progressPercent;
+  final num? progressPercent;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final ResultDescription? description;
-  final Map<String, Requirement>? requirements;
-  final int? budgetFrom;
-  final int? budgetTo;
+  final String? description;
+  final Map<String, dynamic>? requirements;
+  final num? budgetFrom;
+  final num? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final dynamic startTime;
   final dynamic endTime;
-  final Location? location;
+  final String? location;
   final bool? isActive;
-  final Status? status;
+  final String? status;
   final dynamic extraData;
   final bool? isAccepted;
   final dynamic bookingMerchant;
-  final int? city;
+  final num? city;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
-        id: json["id"] as int?,
+        id: json["id"] as num?,
         createdBy: json["created_by"] == null
             ? null
             : ResultCreatedBy.fromJson(
@@ -117,23 +117,17 @@ class Result {
         videos: json["videos"] == null
             ? []
             : List<dynamic>.from(json["videos"]!.map((x) => x) as Iterable),
-        progressPercent: json["progress_percent"] as int?,
+        progressPercent: json["progress_percent"] as num?,
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"] as String),
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"] as String),
-        description: resultDescriptionValues.map[json["description"]]!,
-        requirements:
-            Map.from(json["requirements"] as Map<String, dynamic>).map(
-          (k, v) => MapEntry<String, Requirement>(
-            k as String,
-            requirementValues.map[v]!,
-          ),
-        ),
-        budgetFrom: json["budget_from"] as int?,
-        budgetTo: json["budget_to"] as int?,
+        description: json["description"] as String?,
+        requirements: json["requirements"] as Map<String, dynamic>,
+        budgetFrom: json["budget_from"] as num?,
+        budgetTo: json["budget_to"] as num?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(json["start_date"] as String),
@@ -142,13 +136,13 @@ class Result {
             : DateTime.parse(json["end_date"] as String),
         startTime: json["start_time"],
         endTime: json["end_time"],
-        location: locationValues.map[json["location"]],
+        location: json["location"] as String?,
         isActive: json["is_active"] as bool?,
-        status: statusValues.map[json["status"]],
+        status: json["status"] as String?,
         extraData: json["extra_data"],
         isAccepted: json["is_accepted"] as bool?,
         bookingMerchant: json["booking_merchant"],
-        city: json["city"] as int?,
+        city: json["city"] as num?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -163,9 +157,8 @@ class Result {
         "progress_percent": progressPercent,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "description": resultDescriptionValues.reverse[description],
-        "requirements": Map.from(requirements!).map((k, v) =>
-            MapEntry<String, dynamic>(k, requirementValues.reverse[v])),
+        "description": description,
+        "requirements": requirements,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
         "start_date":
@@ -174,9 +167,9 @@ class Result {
             "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
         "start_time": startTime,
         "end_time": endTime,
-        "location": locationValues.reverse[location],
+        "location": location,
         "is_active": isActive,
-        "status": statusValues.reverse[status],
+        "status": status,
         "extra_data": extraData,
         "is_accepted": isAccepted,
         "booking_merchant": bookingMerchant,
@@ -197,52 +190,48 @@ class ResultCreatedBy {
     this.hourlyRate,
   });
 
-  final int? id;
+  final num? id;
   final User? user;
-  final Bio? bio;
-  final PurpleUserType? userType;
+  final String? bio;
+  final String? userType;
   final String? profileImage;
   final Stats? stats;
-  final Skill? skill;
+  final String? skill;
   final Currency? chargeCurrency;
-  final int? hourlyRate;
+  final num? hourlyRate;
 
   factory ResultCreatedBy.fromJson(Map<String, dynamic> json) =>
       ResultCreatedBy(
-        id: json["id"] as int?,
+        id: json["id"] as num?,
         user: json["user"] == null
             ? null
             : User.fromJson(json["user"] as Map<String, dynamic>),
-        bio: bioValues.map[json["bio"]]!,
-        userType: purpleUserTypeValues.map[json["user_type"]]!,
+        bio: json["bio"] as String?,
+        userType: json["user_type"] as String?,
         profileImage: json["profile_image"] as String?,
         stats: json["stats"] == null
             ? null
             : Stats.fromJson(json["stats"] as Map<String, dynamic>),
-        skill: skillValues.map[json["skill"]]!,
+        skill: json["skill"] as String?,
         chargeCurrency: json["charge_currency"] == null
             ? null
             : Currency.fromJson(
                 json["charge_currency"] as Map<String, dynamic>),
-        hourlyRate: json["hourly_rate"] as int?,
+        hourlyRate: json["hourly_rate"] as num?,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "user": user?.toJson(),
-        "bio": bioValues.reverse[bio],
-        "user_type": purpleUserTypeValues.reverse[userType],
+        "bio": bio,
+        "user_type": userType,
         "profile_image": profileImage,
         "stats": stats?.toJson(),
-        "skill": skillValues.reverse[skill],
+        "skill": skill,
         "charge_currency": chargeCurrency?.toJson(),
         "hourly_rate": hourlyRate,
       };
 }
-
-enum Bio { BIO }
-
-final bioValues = EnumValues({"Bio": Bio.BIO});
 
 class Currency {
   Currency({
@@ -251,42 +240,22 @@ class Currency {
     this.symbol,
   });
 
-  final ChargeCurrencyCode? code;
-  final ChargeCurrencyName? name;
-  final Symbol? symbol;
+  final String? code;
+  final String? name;
+  final String? symbol;
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
-        code: chargeCurrencyCodeValues.map[json["code"]]!,
-        name: chargeCurrencyNameValues.map[json["name"]]!,
-        symbol: symbolValues.map[json["symbol"]]!,
+        code: json["code"] as String?,
+        name: json["name"] as String?,
+        symbol: json["symbol"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
-        "code": chargeCurrencyCodeValues.reverse[code],
-        "name": chargeCurrencyNameValues.reverse[name],
-        "symbol": symbolValues.reverse[symbol],
+        "code": code,
+        "name": name,
+        "symbol": symbol,
       };
 }
-
-enum ChargeCurrencyCode { THB, NPR }
-
-final chargeCurrencyCodeValues =
-    EnumValues({"NPR": ChargeCurrencyCode.NPR, "THB": ChargeCurrencyCode.THB});
-
-enum ChargeCurrencyName { BAHT, NEPALESE_RUPEE }
-
-final chargeCurrencyNameValues = EnumValues({
-  "Baht": ChargeCurrencyName.BAHT,
-  "Nepalese Rupee": ChargeCurrencyName.NEPALESE_RUPEE
-});
-
-enum Symbol { EMPTY, SYMBOL }
-
-final symbolValues = EnumValues({"\u0024": Symbol.EMPTY, "रु": Symbol.SYMBOL});
-
-enum Skill { POLITICS }
-
-final skillValues = EnumValues({"['Politics']": Skill.POLITICS});
 
 class Stats {
   Stats({
@@ -299,22 +268,22 @@ class Stats {
     this.taskCancelled,
   });
 
-  final int? successRate;
-  final int? happyClients;
-  final int? taskCompleted;
-  final int? userReviews;
-  final int? taskAssigned;
-  final int? taskInProgress;
-  final int? taskCancelled;
+  final num? successRate;
+  final num? happyClients;
+  final num? taskCompleted;
+  final num? userReviews;
+  final num? taskAssigned;
+  final num? taskInProgress;
+  final num? taskCancelled;
 
   factory Stats.fromJson(Map<String, dynamic> json) => Stats(
-        successRate: json["success_rate"],
-        happyClients: json["happy_clients"],
-        taskCompleted: json["task_completed"],
-        userReviews: json["user_reviews"],
-        taskAssigned: json["task_assigned"],
-        taskInProgress: json["task_in_progress"],
-        taskCancelled: json["task_cancelled"],
+        successRate: json["success_rate"] as num?,
+        happyClients: json["happy_clients"] as num?,
+        taskCompleted: json["task_completed"] as num?,
+        userReviews: json["user_reviews"] as num?,
+        taskAssigned: json["task_assigned"] as num?,
+        taskInProgress: json["task_in_progress"] as num?,
+        taskCancelled: json["task_cancelled"] as num?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -341,68 +310,38 @@ class User {
   });
 
   final String? id;
-  final UsernameEnum? username;
-  final UsernameEnum? email;
+  final String? username;
+  final String? email;
   final dynamic phone;
-  final UserFirstName? firstName;
-  final MiddleName? middleName;
-  final UserLastName? lastName;
+  final String? firstName;
+  final String? middleName;
+  final String? lastName;
   final DateTime? createdAt;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        username: usernameEnumValues.map[json["username"]]!,
-        email: usernameEnumValues.map[json["email"]]!,
+        id: json["id"] as String?,
+        username: json["username"] as String?,
+        email: json["email"] as String?,
         phone: json["phone"],
-        firstName: userFirstNameValues.map[json["first_name"]]!,
-        middleName: middleNameValues.map[json["middle_name"]]!,
-        lastName: userLastNameValues.map[json["last_name"]]!,
+        firstName: json["first_name"] as String?,
+        middleName: json["middle_name"] as String?,
+        lastName: json["last_name"] as String?,
         createdAt: json["created_at"] == null
             ? null
-            : DateTime.parse(json["created_at"]),
+            : DateTime.parse(json["created_at"] as String),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "username": usernameEnumValues.reverse[username],
-        "email": usernameEnumValues.reverse[email],
+        "username": username,
+        "email": email,
         "phone": phone,
-        "first_name": userFirstNameValues.reverse[firstName],
-        "middle_name": middleNameValues.reverse[middleName],
-        "last_name": userLastNameValues.reverse[lastName],
+        "first_name": firstName,
+        "middle_name": middleName,
+        "last_name": lastName,
         "created_at": createdAt?.toIso8601String(),
       };
 }
-
-enum UsernameEnum { ABIMJOSHI_CAGTU_COM }
-
-final usernameEnumValues =
-    EnumValues({"abimjoshi@cagtu.com": UsernameEnum.ABIMJOSHI_CAGTU_COM});
-
-enum UserFirstName { COMRADE }
-
-final userFirstNameValues = EnumValues({"Comrade": UserFirstName.COMRADE});
-
-enum UserLastName { PRACHANDAA }
-
-final userLastNameValues = EnumValues({"Prachandaa": UserLastName.PRACHANDAA});
-
-enum MiddleName { KUMAR }
-
-final middleNameValues = EnumValues({"Kumar": MiddleName.KUMAR});
-
-enum PurpleUserType { CLIENT_TASKER }
-
-final purpleUserTypeValues =
-    EnumValues({"[\"Client\", \"Tasker\"]": PurpleUserType.CLIENT_TASKER});
-
-enum ResultDescription { QWE, ASI, SOME_PROBLEM }
-
-final resultDescriptionValues = EnumValues({
-  "asi": ResultDescription.ASI,
-  "qwe": ResultDescription.QWE,
-  "some problem": ResultDescription.SOME_PROBLEM
-});
 
 class EntityService {
   EntityService({
@@ -456,29 +395,29 @@ class EntityService {
   final Service? service;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final EntityServiceTitle? title;
-  final EntityServiceDescription? description;
+  final String? title;
+  final String? description;
   final List<String>? highlights;
-  final BudgetType? budgetType;
-  final int? budgetFrom;
-  final int? budgetTo;
+  final String? budgetType;
+  final num? budgetFrom;
+  final num? budgetTo;
   final dynamic startDate;
   final DateTime? endDate;
   final dynamic startTime;
   final dynamic endTime;
   final bool? shareLocation;
   final bool? isNegotiable;
-  final int? revisions;
+  final num? revisions;
   final dynamic recursionType;
-  final int? viewsCount;
-  final Location? location;
+  final num? viewsCount;
+  final String? location;
   final bool? isProfessional;
   final bool? isOnline;
   final bool? isRequested;
   final dynamic discountType;
   final dynamic discountValue;
   final List<dynamic>? extraData;
-  final int? noOfReservation;
+  final num? noOfReservation;
   final String? slug;
   final bool? isActive;
   final bool? needsApproval;
@@ -488,60 +427,74 @@ class EntityService {
   final dynamic avatar;
 
   factory EntityService.fromJson(Map<String, dynamic> json) => EntityService(
-        id: json["id"],
+        id: json["id"] as String?,
         createdBy: json["created_by"] == null
             ? null
-            : EntityServiceCreatedBy.fromJson(json["created_by"]),
+            : EntityServiceCreatedBy.fromJson(
+                json["created_by"] as Map<String, dynamic>,
+              ),
         currency: json["currency"] == null
             ? null
-            : Currency.fromJson(json["currency"]),
-        city: json["city"] == null ? null : City.fromJson(json["city"]),
+            : Currency.fromJson(
+                json["currency"] as Map<String, dynamic>,
+              ),
+        city: json["city"] == null
+            ? null
+            : City.fromJson(
+                json["city"] as Map<String, dynamic>,
+              ),
         images: json["images"] == null
             ? []
-            : List<dynamic>.from(json["images"]!.map((x) => x)),
+            : List<dynamic>.from(json["images"].map((x) => x) as Iterable),
         videos: json["videos"] == null
             ? []
-            : List<dynamic>.from(json["videos"]!.map((x) => x)),
-        service:
-            json["service"] == null ? null : Service.fromJson(json["service"]),
+            : List<dynamic>.from(json["videos"].map((x) => x) as Iterable),
+        service: json["service"] == null
+            ? null
+            : Service.fromJson(
+                json["service"] as Map<String, dynamic>,
+              ),
         createdAt: json["created_at"] == null
             ? null
-            : DateTime.parse(json["created_at"]),
+            : DateTime.parse(json["created_at"] as String),
         updatedAt: json["updated_at"] == null
             ? null
-            : DateTime.parse(json["updated_at"]),
-        title: entityServiceTitleValues.map[json["title"]]!,
-        description: entityServiceDescriptionValues.map[json["description"]]!,
+            : DateTime.parse(json["updated_at"] as String),
+        title: json["title"] as String?,
+        description: json["description"] as String?,
         highlights: json["highlights"] == null
             ? []
-            : List<String>.from(json["highlights"]!.map((x) => x)),
-        budgetType: budgetTypeValues.map[json["budget_type"]]!,
-        budgetFrom: json["budget_from"],
-        budgetTo: json["budget_to"],
+            : List<String>.from(json["highlights"].map((x) => x) as Iterable),
+        budgetType: json["budget_type"] as String?,
+        budgetFrom: json["budget_from"] as num?,
+        budgetTo: json["budget_to"] as num?,
         startDate: json["start_date"],
-        endDate:
-            json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
+        endDate: json["end_date"] == null
+            ? null
+            : DateTime.parse(
+                json["end_date"] as String,
+              ),
         startTime: json["start_time"],
         endTime: json["end_time"],
-        shareLocation: json["share_location"],
-        isNegotiable: json["is_negotiable"],
-        revisions: json["revisions"],
+        shareLocation: json["share_location"] as bool?,
+        isNegotiable: json["is_negotiable"] as bool?,
+        revisions: json["revisions"] as num?,
         recursionType: json["recursion_type"],
-        viewsCount: json["views_count"],
-        location: locationValues.map[json["location"]]!,
-        isProfessional: json["is_professional"],
-        isOnline: json["is_online"],
-        isRequested: json["is_requested"],
+        viewsCount: json["views_count"] as num?,
+        location: json["location"] as String?,
+        isProfessional: json["is_professional"] as bool?,
+        isOnline: json["is_online"] as bool?,
+        isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"],
         discountValue: json["discount_value"],
         extraData: json["extra_data"] == null
             ? []
-            : List<dynamic>.from(json["extra_data"]!.map((x) => x)),
-        noOfReservation: json["no_of_reservation"],
-        slug: json["slug"],
-        isActive: json["is_active"],
-        needsApproval: json["needs_approval"],
-        isEndorsed: json["is_endorsed"],
+            : List<dynamic>.from(json["extra_data"].map((x) => x) as Iterable),
+        noOfReservation: json["no_of_reservation"] as num?,
+        slug: json["slug"] as String?,
+        isActive: json["is_active"] as bool?,
+        needsApproval: json["needs_approval"] as bool?,
+        isEndorsed: json["is_endorsed"] as bool?,
         merchant: json["merchant"],
         event: json["event"],
         avatar: json["avatar"],
@@ -559,12 +512,12 @@ class EntityService {
         "service": service?.toJson(),
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "title": entityServiceTitleValues.reverse[title],
-        "description": entityServiceDescriptionValues.reverse[description],
+        "title": title,
+        "description": description,
         "highlights": highlights == null
             ? []
             : List<dynamic>.from(highlights!.map((x) => x)),
-        "budget_type": budgetTypeValues.reverse[budgetType],
+        "budget_type": budgetType,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
         "start_date": startDate,
@@ -577,7 +530,7 @@ class EntityService {
         "revisions": revisions,
         "recursion_type": recursionType,
         "views_count": viewsCount,
-        "location": locationValues.reverse[location],
+        "location": location,
         "is_professional": isProfessional,
         "is_online": isOnline,
         "is_requested": isRequested,
@@ -597,10 +550,6 @@ class EntityService {
       };
 }
 
-enum BudgetType { PROJECT }
-
-final budgetTypeValues = EnumValues({"Project": BudgetType.PROJECT});
-
 class City {
   City({
     this.id,
@@ -610,24 +559,25 @@ class City {
     this.country,
   });
 
-  final int? id;
-  final CityName? name;
-  final double? latitude;
-  final double? longitude;
+  final num? id;
+  final String? name;
+  final num? latitude;
+  final num? longitude;
   final Country? country;
 
   factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json["id"],
-        name: cityNameValues.map[json["name"]]!,
-        latitude: json["latitude"]?.toDouble(),
-        longitude: json["longitude"]?.toDouble(),
-        country:
-            json["country"] == null ? null : Country.fromJson(json["country"]),
+        id: json["id"] as num?,
+        name: json["name"] as String?,
+        latitude: json["latitude"] as num?,
+        longitude: json["longitude"] as num?,
+        country: json["country"] == null
+            ? null
+            : Country.fromJson(json["country"] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": cityNameValues.reverse[name],
+        "name": name,
         "latitude": latitude,
         "longitude": longitude,
         "country": country?.toJson(),
@@ -640,31 +590,19 @@ class Country {
     this.code,
   });
 
-  final CountryName? name;
-  final CountryCode? code;
+  final String? name;
+  final String? code;
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
-        name: countryNameValues.map[json["name"]]!,
-        code: countryCodeValues.map[json["code"]]!,
+        name: json["name"] as String?,
+        code: json["code"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
-        "name": countryNameValues.reverse[name],
-        "code": countryCodeValues.reverse[code],
+        "name": name,
+        "code": code,
       };
 }
-
-enum CountryCode { NP }
-
-final countryCodeValues = EnumValues({"NP": CountryCode.NP});
-
-enum CountryName { NEPAL }
-
-final countryNameValues = EnumValues({"Nepal": CountryName.NEPAL});
-
-enum CityName { KATHMANDU }
-
-final cityNameValues = EnumValues({"Kathmandu": CityName.KATHMANDU});
 
 class EntityServiceCreatedBy {
   EntityServiceCreatedBy({
@@ -688,86 +626,68 @@ class EntityServiceCreatedBy {
   });
 
   final String? id;
-  final Username? username;
-  final CreatedByEmail? email;
+  final String? username;
+  final String? email;
   final dynamic phone;
-  final CreatedByFirstName? firstName;
+  final String? firstName;
   final String? middleName;
-  final CreatedByLastName? lastName;
+  final String? lastName;
   final String? profileImage;
   final String? bio;
   final DateTime? createdAt;
-  final Designation? designation;
-  final FluffyUserType? userType;
-  final IsProfileVerified? isProfileVerified;
+  final String? designation;
+  final String? userType;
+  final String? isProfileVerified;
   final bool? isFollowed;
   final bool? isFollowing;
-  final Avatar? avatar;
+  final Map<String, dynamic>? avatar;
   final Badge? badge;
 
   factory EntityServiceCreatedBy.fromJson(Map<String, dynamic> json) =>
       EntityServiceCreatedBy(
-        id: json["id"],
-        username: usernameValues.map[json["username"]]!,
-        email: createdByEmailValues.map[json["email"]]!,
+        id: json["id"] as String?,
+        username: json["username"] as String?,
+        email: json["email"] as String?,
         phone: json["phone"],
-        firstName: createdByFirstNameValues.map[json["first_name"]]!,
-        middleName: json["middle_name"],
-        lastName: createdByLastNameValues.map[json["last_name"]]!,
-        profileImage: json["profile_image"],
-        bio: json["bio"],
+        firstName: json["first_name"] as String?,
+        middleName: json["middle_name"] as String?,
+        lastName: json["last_name"] as String?,
+        profileImage: json["profile_image"] as String?,
+        bio: json["bio"] as String?,
         createdAt: json["created_at"] == null
             ? null
-            : DateTime.parse(json["created_at"]),
-        designation: designationValues.map[json["designation"]]!,
-        userType: fluffyUserTypeValues.map[json["user_type"]]!,
-        isProfileVerified:
-            isProfileVerifiedValues.map[json["is_profile_verified"]]!,
-        isFollowed: json["is_followed"],
-        isFollowing: json["is_following"],
-        avatar: json["avatar"] == null ? null : Avatar.fromJson(json["avatar"]),
-        badge: json["badge"] == null ? null : Badge.fromJson(json["badge"]),
+            : DateTime.parse(json["created_at"] as String),
+        designation: json["designation"] as String?,
+        userType: json["user_type"] as String?,
+        isProfileVerified: json["is_profile_verified"] as String?,
+        isFollowed: json["is_followed"] as bool?,
+        isFollowing: json["is_following"] as bool?,
+        avatar: json["avatar"] == null
+            ? null
+            : json["avatar"] as Map<String, dynamic>,
+        badge: json["badge"] == null
+            ? null
+            : Badge.fromJson(json["badge"] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "username": usernameValues.reverse[username],
-        "email": createdByEmailValues.reverse[email],
+        "username": username,
+        "email": email,
         "phone": phone,
-        "first_name": createdByFirstNameValues.reverse[firstName],
+        "first_name": firstName,
         "middle_name": middleName,
-        "last_name": createdByLastNameValues.reverse[lastName],
+        "last_name": lastName,
         "profile_image": profileImage,
         "bio": bio,
         "created_at": createdAt?.toIso8601String(),
-        "designation": designationValues.reverse[designation],
-        "user_type": fluffyUserTypeValues.reverse[userType],
-        "is_profile_verified":
-            isProfileVerifiedValues.reverse[isProfileVerified],
+        "designation": designation,
+        "user_type": userType,
+        "is_profile_verified": isProfileVerified,
         "is_followed": isFollowed,
         "is_following": isFollowing,
-        "avatar": avatar?.toJson(),
+        "avatar": avatar,
         "badge": badge?.toJson(),
-      };
-}
-
-class Avatar {
-  Avatar({
-    this.image,
-    this.id,
-  });
-
-  final String? image;
-  final int? id;
-
-  factory Avatar.fromJson(Map<String, dynamic> json) => Avatar(
-        image: json["image"],
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "image": image,
-        "id": id,
       };
 }
 
@@ -778,98 +698,22 @@ class Badge {
     this.title,
   });
 
-  final int? id;
+  final num? id;
   final String? image;
-  final BadgeTitle? title;
+  final String? title;
 
   factory Badge.fromJson(Map<String, dynamic> json) => Badge(
-        id: json["id"],
-        image: json["image"],
-        title: badgeTitleValues.map[json["title"]]!,
+        id: json["id"] as num?,
+        image: json["image"] as String?,
+        title: json["title"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "image": image,
-        "title": badgeTitleValues.reverse[title],
+        "title": title,
       };
 }
-
-enum BadgeTitle { BRONZE }
-
-final badgeTitleValues = EnumValues({"Bronze": BadgeTitle.BRONZE});
-
-enum Designation { THE_1_SAD, FRONTEND_DEVELOPER, NOUN }
-
-final designationValues = EnumValues({
-  "Frontend Developer": Designation.FRONTEND_DEVELOPER,
-  "Noun": Designation.NOUN,
-  "1sad": Designation.THE_1_SAD
-});
-
-enum CreatedByEmail {
-  DARSHANMAN_180_CAGTU_COM,
-  SANDIPTHAPA_1_CAGTU_COM,
-  DARSHANMAN_CAGTU_COM
-}
-
-final createdByEmailValues = EnumValues({
-  "darshanman+180@cagtu.com": CreatedByEmail.DARSHANMAN_180_CAGTU_COM,
-  "darshanman@cagtu.com": CreatedByEmail.DARSHANMAN_CAGTU_COM,
-  "sandipthapa+1@cagtu.com": CreatedByEmail.SANDIPTHAPA_1_CAGTU_COM
-});
-
-enum CreatedByFirstName { ONE, SANDIP, NAM }
-
-final createdByFirstNameValues = EnumValues({
-  "Nam": CreatedByFirstName.NAM,
-  "one": CreatedByFirstName.ONE,
-  "Sandip": CreatedByFirstName.SANDIP
-});
-
-enum IsProfileVerified { FALSE, TRUE }
-
-final isProfileVerifiedValues = EnumValues(
-    {"False": IsProfileVerified.FALSE, "True": IsProfileVerified.TRUE});
-
-enum CreatedByLastName { EIGHTY, THAPA, SARBANAM }
-
-final createdByLastNameValues = EnumValues({
-  "eighty": CreatedByLastName.EIGHTY,
-  "Sarbanam": CreatedByLastName.SARBANAM,
-  "Thapa": CreatedByLastName.THAPA
-});
-
-enum FluffyUserType { CLIENT, TASKER }
-
-final fluffyUserTypeValues = EnumValues({
-  "[\"Client\"]": FluffyUserType.CLIENT,
-  "[\"Tasker\"]": FluffyUserType.TASKER
-});
-
-enum Username {
-  DARSHANMAN_180_CAGTU_COM,
-  SANDIPTHAPA_1_CAGTU_COM,
-  DARSHANMAN_CAGTU_COM
-}
-
-final usernameValues = EnumValues({
-  "darshanman+180@cagtu.com": Username.DARSHANMAN_180_CAGTU_COM,
-  "darshanman_cagtu_com": Username.DARSHANMAN_CAGTU_COM,
-  "sandipthapa+1@cagtu.com": Username.SANDIPTHAPA_1_CAGTU_COM
-});
-
-enum EntityServiceDescription { ASD_ASD_ASD_ASD, P_ASFASDF_P, P_134234234_P }
-
-final entityServiceDescriptionValues = EnumValues({
-  "asd asd asd asd": EntityServiceDescription.ASD_ASD_ASD_ASD,
-  "<p>134234234</p>": EntityServiceDescription.P_134234234_P,
-  "<p>asfasdf</p>": EntityServiceDescription.P_ASFASDF_P
-});
-
-enum Location { REMOTE }
-
-final locationValues = EnumValues({"remote": Location.REMOTE});
 
 class Service {
   Service({
@@ -882,28 +726,28 @@ class Service {
   });
 
   final String? id;
-  final ServiceTitle? title;
+  final String? title;
   final bool? isActive;
   final bool? isVerified;
   final Category? category;
   final List<dynamic>? images;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
-        id: json["id"],
-        title: serviceTitleValues.map[json["title"]]!,
-        isActive: json["is_active"],
-        isVerified: json["is_verified"],
+        id: json["id"] as String?,
+        title: json["title"] as String?,
+        isActive: json["is_active"] as bool?,
+        isVerified: json["is_verified"] as bool?,
         category: json["category"] == null
             ? null
-            : Category.fromJson(json["category"]),
+            : Category.fromJson(json["category"] as Map<String, dynamic>),
         images: json["images"] == null
             ? []
-            : List<dynamic>.from(json["images"]!.map((x) => x)),
+            : List<dynamic>.from(json["images"].map((x) => x) as Iterable),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "title": serviceTitleValues.reverse[title],
+        "title": title,
         "is_active": isActive,
         "is_verified": isVerified,
         "category": category?.toJson(),
@@ -920,49 +764,25 @@ class Category {
     this.slug,
   });
 
-  final int? id;
-  final CategoryName? name;
-  final int? level;
-  final Slug? slug;
+  final num? id;
+  final String? name;
+  final num? level;
+  final String? slug;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        name: categoryNameValues.map[json["name"]]!,
-        level: json["level"],
-        slug: slugValues.map[json["slug"]]!,
+        id: json["id"] as num?,
+        name: json["name"] as String?,
+        level: json["level"] as num?,
+        slug: json["slug"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": categoryNameValues.reverse[name],
+        "name": name,
         "level": level,
-        "slug": slugValues.reverse[slug],
+        "slug": slug,
       };
 }
-
-enum CategoryName { REAL_ESTATE_RENTAL }
-
-final categoryNameValues =
-    EnumValues({"Real Estate Rental": CategoryName.REAL_ESTATE_RENTAL});
-
-enum Slug { RENTAL_REAL_ESTATE }
-
-final slugValues = EnumValues({"rental_real-estate": Slug.RENTAL_REAL_ESTATE});
-
-enum ServiceTitle { OTHER_PLACES, LAND_RENTAL }
-
-final serviceTitleValues = EnumValues({
-  "Land Rental": ServiceTitle.LAND_RENTAL,
-  "Other Places": ServiceTitle.OTHER_PLACES
-});
-
-enum EntityServiceTitle { SERVICE, SADFSADF, TEJ_SASTO_DEAL }
-
-final entityServiceTitleValues = EnumValues({
-  "sadfsadf": EntityServiceTitle.SADFSADF,
-  "service": EntityServiceTitle.SERVICE,
-  "tej sasto deal": EntityServiceTitle.TEJ_SASTO_DEAL
-});
 
 class Image {
   Image({
@@ -973,18 +793,18 @@ class Image {
     this.media,
   });
 
-  final int? id;
+  final num? id;
   final String? name;
   final String? size;
   final String? mediaType;
   final String? media;
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
-        id: json["id"],
-        name: json["name"],
-        size: json["size"],
-        mediaType: json["media_type"],
-        media: json["media"],
+        id: json["id"] as num?,
+        name: json["name"] as String?,
+        size: json["size"] as String?,
+        mediaType: json["media_type"] as String?,
+        media: json["media"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -994,25 +814,4 @@ class Image {
         "media_type": mediaType,
         "media": media,
       };
-}
-
-enum Requirement { QWE, WEE, ASD }
-
-final requirementValues = EnumValues(
-    {"asd": Requirement.ASD, "qwe": Requirement.QWE, "wee": Requirement.WEE});
-
-enum Status { PENDING }
-
-final statusValues = EnumValues({"pending": Status.PENDING});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

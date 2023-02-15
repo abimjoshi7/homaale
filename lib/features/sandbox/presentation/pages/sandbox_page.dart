@@ -4,12 +4,14 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
+import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
@@ -155,16 +157,21 @@ class SandboxPage extends StatelessWidget {
           ),
           kHeight20,
           Center(
-            child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
+            child:
+                BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    // final x =
-                    await ServicesRepositories().fetchEntityServices();
-                    // print(x['result'].toJson());
-                    // print(123);
+                    await context
+                        .read<SingleEntityServiceCubit>()
+                        .getSingleEntity(
+                          "582ffb2e-c9c9-44e9-af48-77e8bd19b12c",
+                        );
+                    if (state is SingleEntityServiceLoadSuccess) {
+                      print(123);
+                    }
                   },
-                  label: 'Random Test',
+                  label: 'Get Single Entity Service',
                 );
               },
             ),
@@ -181,6 +188,26 @@ class SandboxPage extends StatelessWidget {
                     // print(123);
                   },
                   label: 'Approve Booking',
+                );
+              },
+            ),
+          ),
+          addVerticalSpace(20),
+          Center(
+            child: BlocBuilder<BookingsBloc, BookingsState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    // context.read<BookingsBloc>().add(
+                    //       ServiceBookingListInitiated(),
+                    //     );
+                    if (state is BookEntityServiceLoadSuccess) {
+                      print(
+                        state.myBookingList.result?.first.description,
+                      );
+                    }
+                  },
+                  label: 'Get Bookings',
                 );
               },
             ),

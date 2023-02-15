@@ -1,5 +1,6 @@
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -39,6 +40,9 @@ class _RootState extends State<Root> {
     context.read<TaskerCertificationCubit>().getTaskerCertification();
     context.read<KycBloc>().add(
           KycLoaded(),
+        );
+    context.read<BookingsBloc>().add(
+          ServiceBookingListInitiated(),
         );
     Future.delayed(
       const Duration(microseconds: 10),

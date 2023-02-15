@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -50,16 +51,15 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           );
         }
         if (state is SignInFailure) {
-          if (!mounted) return;
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
               content: error ?? "Please try again.",
               onTap: () {
-                context.read<SignInBloc>().add(
-                      SignInWithPhoneSelected(),
-                    );
+                // context.read<SignInBloc>().add(
+                //       SignInWithPhoneSelected(),
+                //     );
               },
               isSuccess: false,
             ),
@@ -83,6 +83,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 ),
                 textInputType: TextInputType.emailAddress,
                 hintText: 'sample@email.com',
+                validator: validateNotEmpty,
               ),
             );
           }
@@ -90,6 +91,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             return CustomFormText(
               name: 'Phone',
               child: CustomTextFormField(
+                validator: validateNotEmpty,
                 onSaved: (p0) => setState(
                   () {
                     phoneNumberController.text = p0!;
@@ -127,7 +129,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildForm(),
-              kHeight20,
               CustomFormText(
                 name: 'Password',
                 child: CustomTextFormField(
@@ -151,6 +152,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     },
                   ),
                   hintText: 'Enter your password here',
+                  validator: validateNotEmpty,
                 ),
               ),
               kHeight20,
@@ -187,26 +189,28 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               kHeight20,
               CustomElevatedButton(
                 callback: () async {
-                  _formKey.currentState!.save();
-                  if (state is SignInPhoneInitial) {
-                    context.read<SignInBloc>().add(
-                          SignInWithPhoneInitiated(
-                            userLoginReq: UserLoginReq(
-                              username: '+977${phoneNumberController.text}',
-                              password: passwordController.text,
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    if (state is SignInPhoneInitial) {
+                      context.read<SignInBloc>().add(
+                            SignInWithPhoneInitiated(
+                              userLoginReq: UserLoginReq(
+                                username: '+977${phoneNumberController.text}',
+                                password: passwordController.text,
+                              ),
                             ),
-                          ),
-                        );
-                  }
-                  if (state is SignInEmailInitial) {
-                    context.read<SignInBloc>().add(
-                          SignInWithEmailInitiated(
-                            userLoginReq: UserLoginReq(
-                              username: usernameController.text,
-                              password: passwordController.text,
+                          );
+                    }
+                    if (state is SignInEmailInitial) {
+                      context.read<SignInBloc>().add(
+                            SignInWithEmailInitiated(
+                              userLoginReq: UserLoginReq(
+                                username: usernameController.text,
+                                password: passwordController.text,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                    }
                   }
                 },
                 label: 'Login',

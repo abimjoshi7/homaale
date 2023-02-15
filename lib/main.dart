@@ -18,3 +18,7 @@ void main() async {
 }
 
 //TODO: PersonalInfoPage -> Gender Fix
+//TODO: validations -> invalid number, incorrect password
+//TODO: replace cagtu with homaale
+
+

@@ -11,3 +11,8 @@ class EntityServiceBookingInitiated extends BookingsEvent {
   @override
   List<Object?> get props => [service];
 }
+
+class ServiceBookingListInitiated extends BookingsEvent {
+  @override
+  List<Object?> get props => [];
+}

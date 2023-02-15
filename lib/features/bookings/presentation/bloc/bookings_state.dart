@@ -15,8 +15,11 @@ class BookingsFailure extends BookingsState {
 }
 
 class BookEntityServiceLoadSuccess extends BookingsState {
+  final MyBookingList myBookingList;
+
+  const BookEntityServiceLoadSuccess(this.myBookingList);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [myBookingList];
 }
 
 class BookEntityServiceLoadFailure extends BookingsState {

@@ -38,7 +38,7 @@ class BookingDetailsPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: CustomFormField(
-                          label: state.result.title ?? '',
+                          label: state.serviceModel.title ?? '',
                           isRequired: false,
                           child: Text('data'),
                         ),

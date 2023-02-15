@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'package:cipher/features/services/data/models/service_model.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:equatable/equatable.dart';
 
@@ -21,7 +21,9 @@ class SingleEntityServiceCubit extends Cubit<SingleEntityServiceState> {
           .then(
             (value) => emit(
               SingleEntityServiceLoadSuccess(
-                Result.fromJson(value),
+                ServiceModel.fromJson(
+                  value,
+                ),
               ),
             ),
           );

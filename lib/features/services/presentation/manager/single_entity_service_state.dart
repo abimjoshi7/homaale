@@ -10,11 +10,13 @@ class SingleEntityServiceInitial extends SingleEntityServiceState {
 }
 
 class SingleEntityServiceLoadSuccess extends SingleEntityServiceState {
-  final Result result;
+  final ServiceModel serviceModel;
 
-  const SingleEntityServiceLoadSuccess(this.result);
+  const SingleEntityServiceLoadSuccess(this.serviceModel);
   @override
-  List<Object> get props => [result];
+  List<Object> get props => [
+        serviceModel,
+      ];
 }
 
 class SingleEntityServiceLoadFailure extends SingleEntityServiceState {

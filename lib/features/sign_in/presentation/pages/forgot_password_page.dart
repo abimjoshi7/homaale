@@ -40,7 +40,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             );
           } else {
             return const Text(
-              'An otp code will be sent to your phone.',
+              'An otp will be sent to your phone.',
               style: kBodyText1,
             );
           }

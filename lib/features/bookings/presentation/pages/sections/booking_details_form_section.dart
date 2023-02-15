@@ -23,6 +23,8 @@ class BookingDetailsFormSection extends StatefulWidget {
 class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
   final _key = GlobalKey<FormState>();
   final problemDescController = TextEditingController();
+  final cityController = TextEditingController();
+  final locationController = TextEditingController();
   final tagController = TextfieldTagsController();
   List<int>? imageList;
   List<int>? fileList;
@@ -37,6 +39,8 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
   @override
   void dispose() {
     problemDescController.dispose();
+    cityController.dispose();
+    locationController.dispose();
     tagController.dispose();
     super.dispose();
   }
@@ -57,7 +61,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                       child: Column(
                         children: [
                           CustomFormField(
-                            label: 'Problem Description',
+                            label: 'Description',
                             isRequired: true,
                             child: CustomTextFormField(
                               controller: problemDescController,
@@ -79,6 +83,20 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                                   tagController: tagController,
                                 ),
                               ],
+                            ),
+                          ),
+                          CustomFormField(
+                            label: 'City',
+                            isRequired: false,
+                            child: CustomTextFormField(
+                              controller: cityController,
+                            ),
+                          ),
+                          CustomFormField(
+                            label: 'Location',
+                            isRequired: false,
+                            child: CustomTextFormField(
+                              controller: locationController,
                             ),
                           ),
                           CustomFormField(
@@ -173,7 +191,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                           ),
                           CustomFormField(
                             label: 'When do you need this done?',
-                            isRequired: true,
+                            isRequired: false,
                             child: Column(
                               children: [
                                 Row(
@@ -216,9 +234,18 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
-                                            'End Date',
-                                            style: kPurpleText12,
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                'End Date',
+                                                style: kPurpleText12,
+                                              ),
+                                              Text(
+                                                ' *',
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              )
+                                            ],
                                           ),
                                           InkWell(
                                             onTap: () async {
@@ -469,10 +496,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                 },
                 child: PriceBookFooterSection(
                   onPressed: () async {
-                    if (_key.currentState!.validate() &&
-                        startDate != null &&
-                        endDate != null &&
-                        startDate!.isBefore(endDate!)) {
+                    if (_key.currentState!.validate() && endDate != null) {
                       final req = BookEntityServiceReq(
                         endDate: endDate,
                         startDate: startDate,
@@ -485,13 +509,17 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                               ),
                             ),
                         description: problemDescController.text,
-                        budgetFrom: state.result.budgetFrom?.toInt(),
-                        budgetTo: state.result.budgetTo?.toInt(),
+                        budgetFrom: int.parse(
+                          state.serviceModel.budgetFrom.toString(),
+                        ),
+                        budgetTo: state.serviceModel.budgetTo?.toInt(),
                         startTime: startTime?.format(context),
                         endTime: endTime?.format(context),
-                        entityService: state.result.id,
-                        location: state.result.location,
-                        city: state.result.city?.id?.toInt(),
+                        entityService: state.serviceModel.id,
+                        location: locationController.text.isNotEmpty
+                            ? locationController.text
+                            : state.serviceModel.location,
+                        city: state.serviceModel.city?.id?.toInt(),
                       );
                       context.read<BookingsBloc>().add(
                             EntityServiceBookingInitiated(req),
@@ -508,7 +536,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                       );
                     }
                   },
-                  price: 'Rs. ${state.result.budgetTo}',
+                  price: 'Rs. ${state.serviceModel.budgetTo}',
                 ),
               ),
             ],

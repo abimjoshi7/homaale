@@ -231,7 +231,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     kWidth15,
                     const Flexible(
                       child: Text(
-                        'By signing you agree to our term of use and privacy policy.',
+                        'By signing up, you agree to our terms of use and privacy policy.',
                       ),
                     ),
                   ],

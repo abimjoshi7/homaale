@@ -83,61 +83,48 @@ class _GoogleLoginState extends State<GoogleLogin> {
   @override
   Widget build(BuildContext context) {
     return SignInScaffold(
-      child: Column(
-        children: [
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          Image.asset('assets/logos/google_logo.png'),
-          kHeight10,
-          const Text(
-            'Login with Google',
-            style: kHeading1,
-          ),
-          kHeight20,
-          const Text('Homaale is requesting access with Google.'),
-          const Text('Would you like to continue?'),
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          const Text("This doesn't let the app post to Google"),
-          kHeight20,
-          CustomElevatedButton(
-            callback: () async {
-              try {
-                await signIn();
-              } catch (e) {
-                rethrow;
-              }
-            },
-            label: 'Continue',
-          ),
-          kHeight10,
-          CustomElevatedButton(
-            mainColor: Colors.white,
-            textColor: const Color(0xff3D3F7D),
-            callback: () {
-              Navigator.pop(context);
-            },
-            label: 'Cancel',
-          ),
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'By continuing, Cagtu will receive ongoing access to the information that you share and Twitter will record when Cagtu accesses it. Learn more about this sharing and setting that you have.',
-              textAlign: TextAlign.center,
+      child: SizedBox.expand(
+        child: Column(
+          children: [
+            addVerticalSpace(30),
+            Image.asset('assets/logos/google_logo.png'),
+            kHeight10,
+            const Text(
+              'Login with Google',
+              style: kHeading1,
             ),
-          ),
-          kHeight20,
-          kHeight20,
-          const Text(
-            'Privacy | Terms & Conditions',
-            style: kHelper13,
-          ),
-        ],
+            kHeight20,
+            const Text('Homaale is requesting access to your Google.'),
+            const Text("This doesn't let the app post to Google"),
+            addVerticalSpace(50),
+            const Text('Would you like to continue?'),
+            addVerticalSpace(20),
+            CustomElevatedButton(
+              callback: () async {
+                try {
+                  await signIn();
+                } catch (e) {
+                  rethrow;
+                }
+              },
+              label: 'Continue',
+            ),
+            kHeight10,
+            CustomElevatedButton(
+              mainColor: Colors.white,
+              textColor: const Color(0xff3D3F7D),
+              callback: () {
+                Navigator.pop(context);
+              },
+              label: 'Cancel',
+            ),
+            addVerticalSpace(60),
+            const Text(
+              'Privacy | Terms & Conditions',
+              style: kText15,
+            ),
+          ],
+        ),
       ),
     );
   }

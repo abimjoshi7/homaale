@@ -26,3 +26,16 @@ class ServicesLoadFailure extends ServicesState {
   @override
   List<Object> get props => [];
 }
+
+class ServicesAddSuccess extends ServicesState {
+  final AddServiceRes addServiceRes;
+
+  const ServicesAddSuccess(this.addServiceRes);
+  @override
+  List<Object> get props => [addServiceRes];
+}
+
+class ServicesAddFailure extends ServicesState {
+  @override
+  List<Object> get props => [];
+}

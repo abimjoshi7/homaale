@@ -1,7 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddServicePage extends StatefulWidget {
   static const routeName = '/add-service-page';
@@ -15,6 +17,13 @@ class _AddServicePageState extends State<AddServicePage> {
   String? priceType;
   final controller = TextEditingController();
   bool isDiscounted = false;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+  bool isSpecified = false;
+  List<int> selectedWeekDay = [];
+  List<Widget> widgetList = [];
+  List<int>? imageList;
+  List<int>? fileList;
 
   @override
   void dispose() {
@@ -219,109 +228,186 @@ class _AddServicePageState extends State<AddServicePage> {
                         Row(
                           children: [
                             CustomCheckBox(
-                              isChecked: isDiscounted,
-                              onTap: () => setState(
-                                () {
-                                  isDiscounted = !isDiscounted;
-                                },
-                              ),
+                              isChecked: isSpecified,
+                              onTap: () {
+                                setState(() {
+                                  isSpecified = !isSpecified;
+                                });
+                              },
                             ),
-                            addHorizontalSpace(10),
-                            Text(
-                              'Set specific time',
-                              style: kPurpleText16,
-                            ),
-                            addVerticalSpace(10),
+                            addHorizontalSpace(5),
+                            const Text('Set specific time'),
                           ],
                         ),
-                        addVerticalSpace(10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(
-                            7,
-                            (index) => ChoiceChip(
-                              visualDensity: VisualDensity(
-                                horizontal: VisualDensity.minimumDensity,
-                                vertical: VisualDensity.minimumDensity,
-                              ),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              padding: EdgeInsets.all(3),
-                              labelPadding: EdgeInsets.all(
-                                8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  5,
-                                ),
-                              ),
-                              label: Text(weekNames[index]),
-                              selected: false,
+                        Visibility(
+                          visible: isSpecified,
+                          child: SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    if (selectedWeekDay.contains(index) ==
+                                        false) {
+                                      setState(
+                                        () {
+                                          selectedWeekDay.add(index);
+                                          switch (index) {
+                                            case 0:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Sunday',
+                                                  onTap1: () async {
+                                                    await showTimePicker(
+                                                      context: context,
+                                                      initialTime:
+                                                          TimeOfDay.now(),
+                                                    ).then(
+                                                      (value) => setState(
+                                                        () {
+                                                          startTime = value;
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                  onTap2: () async {
+                                                    await showTimePicker(
+                                                      context: context,
+                                                      initialTime:
+                                                          TimeOfDay.now(),
+                                                    ).then(
+                                                      (value) => setState(
+                                                        () {
+                                                          endTime = value;
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                              break;
+                                            case 1:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Monday',
+                                                ),
+                                              );
+                                              break;
+                                            case 2:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Tuesday',
+                                                ),
+                                              );
+                                              break;
+                                            case 3:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Wednesday',
+                                                ),
+                                              );
+                                              break;
+                                            case 4:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Thursday',
+                                                ),
+                                              );
+                                              break;
+                                            case 5:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Friday',
+                                                ),
+                                              );
+                                              break;
+                                            case 6:
+                                              widgetList.add(
+                                                WeekTimeSpecifier(
+                                                  weekName: 'Saturday',
+                                                ),
+                                              );
+                                              break;
+                                            default:
+                                              widgetList.clear();
+                                              break;
+                                          }
+                                        },
+                                      );
+                                    } else {
+                                      setState(
+                                        () {
+                                          selectedWeekDay.remove(index);
+                                          switch (index) {
+                                            case 0:
+                                              widgetList.removeAt(0);
+                                              break;
+                                            case 1:
+                                              widgetList
+                                                  .remove(widgetList[index]);
+                                              break;
+                                            case 2:
+                                              widgetList
+                                                  .remove(widgetList[index]);
+                                              break;
+                                            case 3:
+                                              widgetList
+                                                  .remove(widgetList[index]);
+                                              break;
+                                            case 4:
+                                              widgetList
+                                                  .remove(widgetList[index]);
+                                              break;
+                                            case 5:
+                                              print(index);
+                                              // widgetList.removeAt(widgetList[5]);
+                                              break;
+                                            case 6:
+                                              widgetList.removeLast();
+                                              break;
+                                            default:
+                                              widgetList.clear();
+                                              break;
+                                          }
+                                        },
+                                      );
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        5,
+                                      ),
+                                      child: Container(
+                                        width: 40,
+                                        color: selectedWeekDay.contains(index)
+                                            ? kColorPrimary
+                                            : kColorGrey,
+                                        child: Center(
+                                          child: Text(
+                                            weekNames[index],
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) => kWidth10,
+                              itemCount: weekNames.length,
                             ),
                           ),
                         ),
-                        addVerticalSpace(10),
-                        SizedBox(
-                          height: 120,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.circle,
-                                          color: kColorSecondary,
-                                          size: 10,
-                                        ),
-                                        addHorizontalSpace(10),
-                                        Text('Sunday'),
-                                        addHorizontalSpace(50),
-                                        Flexible(
-                                          child: Row(
-                                            children: [
-                                              Flexible(
-                                                child: CustomFormContainer(
-                                                  leadingWidget: Icon(
-                                                    Icons.access_time,
-                                                  ),
-                                                  hintText: '08:30 am',
-                                                ),
-                                              ),
-                                              Text(' - '),
-                                              Flexible(
-                                                child: CustomFormContainer(
-                                                  leadingWidget: Icon(
-                                                    Icons.access_time,
-                                                  ),
-                                                  hintText: '08:30 am',
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8,
-                                ),
-                                child: SizedBox(
-                                  width: 340,
-                                  child: CustomElevatedButton(
-                                    callback: () {},
-                                    label: 'Add',
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        Column(
+                          children: isSpecified == true ? widgetList : [],
                         ),
+                        addVerticalSpace(10),
                         CustomFormField(
                           label: 'Service Type',
                           child: Column(
@@ -362,6 +448,95 @@ class _AddServicePageState extends State<AddServicePage> {
                           label: 'Number of Revision',
                           child: CustomTextFormField(),
                           isRequired: false,
+                        ),
+                        CustomFormField(
+                          label: 'Images',
+                          isRequired: false,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Maximum Image Size 20 MB',
+                                    style: kHelper13,
+                                  ),
+                                  addHorizontalSpace(5),
+                                  const Icon(
+                                    Icons.info_outline,
+                                    color: Colors.orange,
+                                  ),
+                                ],
+                              ),
+                              addVerticalSpace(5),
+                              InkWell(
+                                onTap: () async {
+                                  await context
+                                      .read<ImageUploadCubit>()
+                                      .uploadImage();
+                                },
+                                child: BlocListener<ImageUploadCubit,
+                                    ImageUploadState>(
+                                  listener: (context, state) {
+                                    if (state is ImageUploadSuccess) {
+                                      setState(() {
+                                        imageList = List<int>.from(state.list);
+                                      });
+                                    }
+                                  },
+                                  child: CustomDottedContainerStack(
+                                    label: imageList == null
+                                        ? 'Select Images'
+                                        : 'Image Uploaded',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Videos',
+                          isRequired: false,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Maximum Video Size 20 MB',
+                                    style: kHelper13,
+                                  ),
+                                  addHorizontalSpace(5),
+                                  const Icon(
+                                    Icons.info_outline,
+                                    color: Colors.orange,
+                                  ),
+                                ],
+                              ),
+                              addVerticalSpace(5),
+                              InkWell(
+                                onTap: () async {
+                                  await context
+                                      .read<ImageUploadCubit>()
+                                      .uploadVideo();
+                                },
+                                child: BlocListener<ImageUploadCubit,
+                                    ImageUploadState>(
+                                  listener: (context, state) {
+                                    if (state is VideoUploadSuccess) {
+                                      setState(() {
+                                        fileList = List<int>.from(state.list);
+                                      });
+                                    }
+                                  },
+                                  child: CustomDottedContainerStack(
+                                    label: fileList == null
+                                        ? 'Select Videos'
+                                        : 'File Uploaded',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         CustomElevatedButton(
                           callback: () {},

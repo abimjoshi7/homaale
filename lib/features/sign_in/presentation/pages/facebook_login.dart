@@ -88,59 +88,46 @@ class _FacebookLoginState extends State<FacebookLogin> {
   @override
   Widget build(BuildContext context) {
     return SignInScaffold(
-      child: Column(
-        children: [
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          Image.asset('assets/logos/fb_logo.png'),
-          kHeight10,
-          const Text(
-            'Login with Facebook',
-            style: kHeading1,
-          ),
-          kHeight20,
-          const Text('Homaale is requesting access with Facebook.'),
-          const Text('Would you like to continue?'),
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          kHeight20,
-          const Text("This doesn't let the app post to Facebook"),
-          kHeight20,
-          CustomElevatedButton(
-            callback: () async {
-              await login();
-            },
-            label: 'Continue',
-          ),
-          kHeight10,
-          CustomElevatedButton(
-            mainColor: Colors.white,
-            textColor: const Color(0xff3D3F7D),
-            callback: () async {
-              await logout();
-              if (!mounted) return;
-              Navigator.pop(context);
-            },
-            label: 'Cancel',
-          ),
-          const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'By continuing, Cagtu will receive ongoing access to the information that you share and Twitter will record when Cagtu accesses it. Learn more about this sharing and setting that you have.',
-              textAlign: TextAlign.center,
+      child: SizedBox.expand(
+        child: Column(
+          children: [
+            addVerticalSpace(30),
+            Image.asset('assets/logos/fb_logo.png'),
+            kHeight10,
+            const Text(
+              'Login with Facebook',
+              style: kHeading1,
             ),
-          ),
-          kHeight20,
-          kHeight20,
-          const Text(
-            'Privacy | Terms & Conditions',
-            style: kHelper13,
-          ),
-        ],
+            kHeight20,
+            const Text('Homaale is requesting access to your Facebook.'),
+            const Text("This doesn't let the app post to Facebook"),
+            addVerticalSpace(50),
+            const Text('Would you like to continue?'),
+            kHeight20,
+            CustomElevatedButton(
+              callback: () async {
+                await login();
+              },
+              label: 'Continue',
+            ),
+            kHeight10,
+            CustomElevatedButton(
+              mainColor: Colors.white,
+              textColor: const Color(0xff3D3F7D),
+              callback: () async {
+                await logout();
+                if (!mounted) return;
+                Navigator.pop(context);
+              },
+              label: 'Cancel',
+            ),
+            addVerticalSpace(60),
+            const Text(
+              'Privacy | Terms & Conditions',
+              style: kText15,
+            ),
+          ],
+        ),
       ),
     );
   }

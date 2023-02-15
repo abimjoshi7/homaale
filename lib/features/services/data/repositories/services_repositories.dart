@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/services/data/models/add_service_req.dart';
 
 class ServicesRepositories {
   final _dio = DioHelper();
@@ -53,6 +54,24 @@ class ServicesRepositories {
     try {
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/service/$serviceId',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> addEntityService(
+    AddServiceReq addServiceReq,
+  ) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: addServiceReq.toJson(),
+        url: 'task/entity/service/',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

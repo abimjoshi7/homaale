@@ -30,20 +30,20 @@ class _OnboardingState extends State<Onboarding> {
       selectedIndex: 1,
       mainImage: 'assets/Group 48099185.png',
       headingText: 'Define your requirements',
-      bodyText:
-          'Post or apply for the tasks and be assured with our secured gateway.',
+      bodyText: 'Set your requirements and post or apply for the tasks.',
     ),
     OnboardingMainBody(
       selectedIndex: 2,
-      mainImage: 'assets/Casual life 3D - 580.png',
-      headingText: 'Get the task completed',
-      bodyText: 'Voila! Your task is done.',
+      mainImage: 'assets/casual-life-3d-piggy-bank-with-coins-1 3.png',
+      headingText: 'Secure payments',
+      bodyText:
+          'Choose from our reliable payment methods and get reward points.',
     ),
     OnboardingMainBody(
       selectedIndex: 3,
-      mainImage: 'assets/casual-life-3d-piggy-bank-with-coins-1 3.png',
-      headingText: 'Secure payments',
-      bodyText: 'Get secure payment transactions & get bonus rewards.',
+      mainImage: 'assets/Casual life 3D - 580.png',
+      headingText: 'Get the task completed',
+      bodyText: 'Voila! Your task is done.',
     ),
   ];
 

@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
+import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
 import 'package:cipher/features/services/presentation/widgets/rating_review_section.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -30,15 +31,15 @@ class ServiceProviderPage extends StatelessWidget {
                   ),
                   trailingWidget: IconButton(
                     onPressed: () {
-                      print(state);
-                      print(state.result.toJson());
+                      print(
+                        state.serviceModel.images?.first['media'],
+                      );
                     },
                     icon: const Icon(Icons.search),
                   ),
-                  child: Text(state.result.title ?? ''),
+                  child: Text(state.serviceModel.title ?? ''),
                 ),
-                kHeight5,
-                // const Divider(),
+                const Divider(),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
@@ -46,10 +47,11 @@ class ServiceProviderPage extends StatelessWidget {
                       SizedBox(
                         height: 200,
                         child: Image.network(
-                          state.result.images!.isNotEmpty
-                              ? state.result.images!.first.media ??
-                                  kServiceImage
-                              : kServiceImage,
+                          state.serviceModel.images!.isEmpty
+                              ? kServiceImage
+                              : state.serviceModel.images?.first['media']
+                                      .toString() ??
+                                  kServiceImage,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -69,7 +71,7 @@ class ServiceProviderPage extends StatelessWidget {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            state.result.createdBy
+                                            state.serviceModel.createdBy
                                                     ?.profileImage ??
                                                 kDefaultAvatar,
                                           ),
@@ -82,11 +84,11 @@ class ServiceProviderPage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          state.result.title ?? '',
+                                          state.serviceModel.title ?? '',
                                           style: kPurpleText16,
                                         ),
                                         Text(
-                                          "${state.result.createdBy?.firstName ?? ''} ${state.result.createdBy?.lastName ?? ''}",
+                                          "${state.serviceModel.createdBy?.firstName ?? ''} ${state.serviceModel.createdBy?.lastName ?? ''}",
                                           style: kLightBlueText14,
                                         ),
                                       ],
@@ -121,7 +123,7 @@ class ServiceProviderPage extends StatelessWidget {
                                     ),
                                     kWidth5,
                                     Text(
-                                      state.result.rating?.first.rating
+                                      state.serviceModel.rating?.first.rating
                                               .toString() ??
                                           '4.5',
                                     ),
@@ -136,15 +138,16 @@ class ServiceProviderPage extends StatelessWidget {
                                     ),
                                     kWidth5,
                                     Text(
-                                      "${state.result.city?.name ?? ''}, ${state.result.city?.country?.name ?? ''}",
+                                      "${state.serviceModel.city?.name ?? ''}, ${state.serviceModel.city?.country?.name ?? ''}",
                                     ),
                                   ],
                                 )
                               ],
                             ),
                             kHeight20,
-                            const Text(
-                              'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
+                            Text(
+                              state.serviceModel.description ??
+                                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
                               textAlign: TextAlign.start,
                             ),
                             kHeight20,
@@ -217,29 +220,8 @@ class ServiceProviderPage extends StatelessWidget {
                               ],
                             ),
                             kHeight20,
-                            const Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                'Packages & Offers',
-                                style: kPurpleText16,
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                  4,
-                                  (index) => const Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: PackagesOffersCard(
-                                      name: 'Basic',
-                                      rate: 'Rs 1000/mo',
-                                      offerName: "Save up to 10%",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            Visibility(
+                                visible: false, child: PackagesOffersSection()),
                             ExpansionTile(
                               title: Row(
                                 children: [
@@ -372,7 +354,7 @@ class ServiceProviderPage extends StatelessWidget {
                                 children: [
                                   Text('Total Price'),
                                   Text(
-                                    "Rs. ${state.result.budgetTo}",
+                                    "Rs. ${state.serviceModel.budgetTo}",
                                     style: kText20,
                                   ),
                                 ],
