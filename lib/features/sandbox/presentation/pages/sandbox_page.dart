@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
+import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
@@ -164,6 +165,22 @@ class SandboxPage extends StatelessWidget {
                     // print(123);
                   },
                   label: 'Random Test',
+                );
+              },
+            ),
+          ),
+          addVerticalSpace(20),
+          Center(
+            child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    // final x =
+                    await BookingRepositories().approveBooking(406);
+                    // print(x['result'].toJson());
+                    // print(123);
+                  },
+                  label: 'Approve Booking',
                 );
               },
             ),

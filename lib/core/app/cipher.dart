@@ -6,6 +6,7 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -156,6 +157,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => SingleEntityServiceCubit(),
+          ),
+          BlocProvider(
+            create: (context) => BookingsBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

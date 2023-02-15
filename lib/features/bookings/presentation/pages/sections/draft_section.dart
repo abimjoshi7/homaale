@@ -1,11 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/sections/sections.dart';
+import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class InProgressSection extends StatelessWidget {
-  const InProgressSection({super.key});
+class DraftSection extends StatelessWidget {
+  const DraftSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,9 @@ class InProgressSection extends StatelessWidget {
             child: ListView.separated(
               padding: EdgeInsets.zero,
               itemBuilder: (context, index) => BookingsServiceCard(
-                serviceName: 'Plumbing Services',
-                providerName: 'Cart Clinic',
+                color: Colors.blue,
+                serviceName: 'Need a Gardener',
+                providerName: 'Gardener Club',
                 mainContentWidget: Column(
                   children: [
                     IconText(
@@ -47,13 +48,17 @@ class InProgressSection extends StatelessWidget {
                   ],
                 ),
                 status: 'In Progress',
+                bottomLeftWidget: const Text(
+                  'View Detail',
+                  style: kText15,
+                ),
                 bottomRightWidget: SizedBox(
                   width: 120,
                   child: CustomElevatedButton(
                     callback: () {},
-                    label: 'Completed',
-                    mainColor: Colors.green,
-                    borderColor: Colors.green,
+                    label: 'In Progress',
+                    mainColor: Colors.grey,
+                    borderColor: Colors.grey,
                   ),
                 ),
               ),

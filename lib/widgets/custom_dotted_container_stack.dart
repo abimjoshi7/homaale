@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -21,13 +22,14 @@ class CustomDottedContainerStack extends StatelessWidget {
           child: const DashedRect(),
         ),
         Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.all(13),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconText(
-                label: label,
-                iconData: Icons.add,
+              Text(
+                label,
+                style: kHelper13,
+                // iconData: Icons.add,
               ),
             ],
           ),

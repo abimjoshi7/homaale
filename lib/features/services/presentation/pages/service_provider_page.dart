@@ -1,11 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
-import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
 import 'package:cipher/features/services/presentation/widgets/rating_review_section.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,9 +30,8 @@ class ServiceProviderPage extends StatelessWidget {
                   ),
                   trailingWidget: IconButton(
                     onPressed: () {
-                      print(123);
                       print(state);
-                      print(state.result.rating!.first.rating);
+                      print(state.result.toJson());
                     },
                     icon: const Icon(Icons.search),
                   ),

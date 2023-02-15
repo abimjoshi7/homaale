@@ -36,6 +36,58 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
     }
   }
 
+  Future<void> uploadVideo() async {
+    try {
+      emit(
+        ImageUploadInitial(),
+      );
+
+      final imagePath = await ImagePickHelper().pickVideoPath();
+      final response = await DioHelper().postMultiFormData(
+        path: imagePath!.path,
+        url: 'task/filestore/',
+        token: CacheHelper.accessToken,
+      );
+      if (response['status'] == 'success') {
+        emit(
+          ImageUploadSuccess(
+            list: response['data'] as List<dynamic>,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(
+        ImageUploadFailure(),
+      );
+    }
+  }
+
+  // Future<void> uploadMultipleImage() async {
+  //   try {
+  //     emit(
+  //       ImageUploadInitial(),
+  //     );
+  //
+  //     final imagePath = await ImagePickHelper().pickMultipleImages();
+  //     final response = await DioHelper().postMultiFormData(
+  //       path: imagePath!.path,
+  //       url: 'task/filestore/',
+  //       token: CacheHelper.accessToken,
+  //     );
+  //     if (response['status'] == 'success') {
+  //       emit(
+  //         ImageUploadSuccess(
+  //           list: response['data'] as List<dynamic>,
+  //         ),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     emit(
+  //       ImageUploadFailure(),
+  //     );
+  //   }
+  // }
+
   Future<void> uploadFile() async {
     try {
       emit(

@@ -1,8 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/sections/in_progress_section.dart';
-import 'package:cipher/features/bookings/presentation/sections/sections.dart';
-import 'package:cipher/features/bookings/presentation/widgets/bookings_service_card.dart';
-import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
+import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
 import 'package:flutter/material.dart';
 
 class BookingsMainSection extends StatefulWidget {
@@ -59,7 +56,7 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
               InProgressSection(),
               BookingsSection(),
               DraftSection(),
-              HistorySection(),
+              BookingsHistorySection(),
             ],
           ),
         ),

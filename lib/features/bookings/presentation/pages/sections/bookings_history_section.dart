@@ -1,11 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/sections/sections.dart';
+import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class HistorySection extends StatelessWidget {
-  const HistorySection({super.key});
+class BookingsHistorySection extends StatelessWidget {
+  const BookingsHistorySection({super.key});
 
   @override
   Widget build(BuildContext context) {
