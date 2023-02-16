@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
@@ -12,6 +13,7 @@ import 'package:cipher/features/categories/presentation/cubit/nested_categories_
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
@@ -41,14 +43,20 @@ class SandboxPage extends StatelessWidget {
           ),
           kHeight20,
           Center(
-            child: CustomElevatedButton(
-              callback: () async {
-                await UserRepositories().fetchuser();
-                context.read<UserBloc>().add(
-                      UserLoaded(),
-                    );
+            child: BlocBuilder<SignInBloc, SignInState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    if (state is SignInSuccess) {
+                      print(state.userLoginRes.toJson());
+                      // log(
+                      //   state.user.user!.toJson().toString(),
+                      // );
+                    }
+                  },
+                  label: 'Get User Data',
+                );
               },
-              label: 'Get User Data',
             ),
           ),
           kHeight20,

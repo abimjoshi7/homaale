@@ -7,6 +7,6 @@ export './membership/membership.dart';
 export './notifications_page/notifications_page.dart';
 export './password_and_security/change_password_modal_sheet.dart';
 export './saved/saved_page.dart';
-export './settings.dart';
+export 'settings/settings.dart';
 export 'profile/account_profile.dart';
 export 'profile/pages/complete_profile_page.dart';

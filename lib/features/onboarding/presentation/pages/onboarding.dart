@@ -2,8 +2,10 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/onboarding/presentation/widgets/onboarding_main_body.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/widgets/custom_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -67,7 +69,19 @@ class _OnboardingState extends State<Onboarding> {
                 leadingWidget: SizedBox.shrink(),
                 trailingWidget: SizedBox.shrink(),
               ),
-              Image.asset('assets/homaale_logo_title_light.png'),
+              BlocBuilder<SignInBloc, SignInState>(
+                builder: (context, state) {
+                  return InkWell(
+                      onTap: () {
+                        print(1);
+                        final x = context.read<SignInBloc>().isClosed;
+
+                        print(x);
+                      },
+                      child:
+                          Image.asset('assets/homaale_logo_title_light.png'));
+                },
+              ),
               kHeight50,
               widgetList[selectedIndex],
             ],

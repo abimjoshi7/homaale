@@ -26,7 +26,7 @@ class ServiceCard extends StatelessWidget {
         children: [
           Expanded(
             child: Image.network(
-              imagePath ?? kServiceImage,
+              imagePath ?? kServiceImageNImg,
               fit: BoxFit.cover,
             ),
           ),

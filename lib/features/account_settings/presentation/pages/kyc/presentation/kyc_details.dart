@@ -227,7 +227,7 @@ class _KycDetailsState extends State<KycDetails> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Image.network(
-                  state.list.first.file ?? kDefaultAvatar,
+                  state.list.first.file ?? kDefaultAvatarNImg,
                   fit: BoxFit.cover,
                 ),
               ),

@@ -1,5 +1,4 @@
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -13,8 +12,9 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  void inititalLogCheck() {
-    if (CacheHelper.accessToken != null) {
+  Future<void> inititalLogCheck() async {
+    const isLogged = false;
+    if (isLogged == true) {
       setState(() {
         theChild = const Root();
       });
@@ -28,7 +28,16 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     theChild = const SizedBox.shrink();
-    inititalLogCheck();
+    Future.delayed(
+      const Duration(
+        milliseconds: 500,
+      ),
+      () async => setState(
+        () {
+          inititalLogCheck();
+        },
+      ),
+    );
     super.initState();
   }
 
@@ -53,48 +62,48 @@ class _SplashPageState extends State<SplashPage> {
           ),
         );
 
-    return Stack(
-      children: [
-        Image.asset('assets/splash_ellipse.png'),
-        Positioned(
-          left: 100,
-          top: 120,
-          child: TweenAnimationBuilder(
-            tween: DecorationTween(
-              begin: initialDecoration(),
-              end: endDecoration(),
-            ),
-            duration: const Duration(seconds: 2),
-            builder: (context, value, child) {
-              return Center(
-                child: Container(
-                  height: 60,
-                  width: 160,
-                  decoration: value,
+    return Scaffold(
+      body: Center(
+        child: Stack(
+          children: [
+            Image.asset('assets/splash_ellipse.png'),
+            Positioned(
+              left: 100,
+              top: 120,
+              child: TweenAnimationBuilder(
+                tween: DecorationTween(
+                  begin: initialDecoration(),
+                  end: endDecoration(),
                 ),
-              );
-            },
-            curve: Curves.bounceIn,
-            onEnd: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                Onboarding.routeName,
-                (route) => false,
-              );
-            },
-          ),
+                duration: const Duration(seconds: 2),
+                builder: (context, value, child) {
+                  return Center(
+                    child: Container(
+                      height: 60,
+                      width: 160,
+                      decoration: value,
+                    ),
+                  );
+                },
+                curve: Curves.bounceIn,
+                onEnd: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Onboarding.routeName,
+                    (route) => false,
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
-    return Scaffold(
-      body: Center(
-        child: theChild,
-      ),
-    );
+    return theChild;
   }
 }

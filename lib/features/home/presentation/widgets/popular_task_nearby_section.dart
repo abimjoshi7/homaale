@@ -2,7 +2,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PopularTaskNearbySection extends StatelessWidget {
   const PopularTaskNearbySection({super.key});
@@ -109,7 +108,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                           const WidgetText(
                             label: 'Share',
                             widget: Icon(
-                              FontAwesomeIcons.share,
+                              Icons.share,
                               size: 19,
                               color: Color(0xff3EAEFF),
                             ),

@@ -576,6 +576,7 @@ class User {
         'middle_name': middleName,
         'last_name': lastName,
         'profile_image': profileImage,
-        'created_at': createdAt?.toIso8601String(),
+        // 'created_at': createdAt?.toIso8601String(),
+        'created_at': createdAt,
       };
 }

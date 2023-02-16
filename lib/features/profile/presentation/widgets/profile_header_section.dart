@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
@@ -142,12 +144,25 @@ class ProfileHeaderSection extends StatelessWidget {
 
             Widget displayUserType() {
               if (state2 is UserLoadSuccess) {
-                return Text(
-                  state2.user.userType
-                          ?.replaceAll(RegExp(r"\p{P}", unicode: true), "\t") ??
-                      '',
-                  // style: kText15,
-                );
+                final List<dynamic> nameList =
+                    jsonDecode(state2.user.userType ?? '[Client, Tasker]')
+                        as List<dynamic>;
+                if (nameList.length == 2) {
+                  return Text(
+                    '${nameList.first} | ${nameList.last}',
+                  );
+                } else {
+                  return Text(
+                    nameList.first.toString(),
+                  );
+                }
+
+                // return Text(
+                //   state2.user.userType
+                //           ?.replaceAll(RegExp(r"\p{P}", unicode: true), "\t") ??
+                //       '',
+                //   // style: kText15,
+                // );
               }
               return const Text('Homaale Client/Tasker');
             }

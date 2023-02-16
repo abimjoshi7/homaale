@@ -27,6 +27,7 @@ import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/task/presentation/pages/client_post_task_view.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -233,6 +234,11 @@ class AppRouter {
       case InvoicePage.routeName:
         return MaterialPageRoute(
           builder: (context) => const InvoicePage(),
+          settings: settings,
+        );
+      case ClientPostTaskViewPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ClientPostTaskViewPage(),
           settings: settings,
         );
       case SandboxPage.routeName:

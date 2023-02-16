@@ -1,23 +1,38 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class BookingsCalenderSection extends StatelessWidget {
+class BookingsCalenderSection extends StatefulWidget {
   const BookingsCalenderSection({
     super.key,
   });
 
   @override
+  State<BookingsCalenderSection> createState() =>
+      _BookingsCalenderSectionState();
+}
+
+class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
+  List<bool> isSelected = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 150,
       width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 25,
+            ),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Dec-2022'),
@@ -29,14 +44,23 @@ class BookingsCalenderSection extends StatelessWidget {
                 ),
               ],
             ),
-            kHeight10,
-            Expanded(
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => Container(
-                  width: 50,
+          ),
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected[index] = !isSelected[index];
+                  });
+                },
+                child: Container(
+                  width: 45,
                   decoration: BoxDecoration(
-                    color: const Color(0xffF1F3F5),
+                    color: isSelected[index] == true
+                        ? kColorPrimary
+                        : const Color(0xffF1F3F5),
                     borderRadius: BorderRadius.circular(
                       30,
                     ),
@@ -57,12 +81,12 @@ class BookingsCalenderSection extends StatelessWidget {
                     ],
                   ),
                 ),
-                separatorBuilder: (context, index) => kWidth15,
-                itemCount: 7,
               ),
-            )
-          ],
-        ),
+              separatorBuilder: (context, index) => addHorizontalSpace(20),
+              itemCount: isSelected.length,
+            ),
+          )
+        ],
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -123,11 +124,18 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   return ListTile(
                     leading: child,
                     title: displayUserInfo(),
-                    trailing: BlocBuilder<UserBloc, UserState>(
+                    trailing: BlocBuilder<SignInBloc, SignInState>(
                       builder: (context, state) {
                         return IconButton(
                           onPressed: () async {
-                            // logheHelper());
+                            final x = context.read<SignInBloc>().toJson(state);
+
+                            print(x);
+                            // if (state is SignInSuccess) {
+                            //   print(
+                            //     state.toJson()['value'],
+                            //   );
+                            // }
                           },
                           icon: const Icon(
                             Icons.notifications_none,

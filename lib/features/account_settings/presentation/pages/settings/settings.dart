@@ -5,7 +5,6 @@ import 'package:cipher/features/account_settings/presentation/pages/profile/page
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -58,7 +57,7 @@ class Settings extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const Icon(
-              FontAwesomeIcons.key,
+              Icons.lock_outline_sharp,
             ),
             label: 'Password & Security',
             trailingWidget: const Icon(
@@ -115,7 +114,7 @@ class Settings extends StatelessWidget {
             },
           ),
           AccountListTileSection(
-            icon: const Icon(FontAwesomeIcons.globe),
+            icon: const Icon(Icons.language),
             label: 'Languages',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios,

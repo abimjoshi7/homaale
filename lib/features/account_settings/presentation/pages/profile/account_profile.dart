@@ -11,7 +11,6 @@ import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AccountProfile extends StatelessWidget {
   const AccountProfile({super.key});
@@ -72,10 +71,15 @@ class AccountProfile extends StatelessWidget {
               children: [
                 kHeight50,
                 CustomHeader(
-                  leadingWidget: const SizedBox.shrink(),
+                  leadingWidget: addHorizontalSpace(45),
                   trailingWidget: IconButton(
                     icon: const Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        CompleteProfilePage.routeName,
+                      );
+                    },
                   ),
                   child: const Text(
                     'Account',
@@ -153,22 +157,33 @@ class AccountProfile extends StatelessWidget {
                   },
                   child: const ProfileKycVerifySection(),
                 ),
-                AccountListTileSection(
-                  onTap: () async {
-                    Navigator.pushNamed(
-                      context,
-                      KycDetails.routeName,
-                    );
+                BlocBuilder<SignInBloc, SignInState>(
+                  builder: (context, state) {
+                    if (state is SignInSuccess) {
+                      return Visibility(
+                        visible: state.userLoginRes.hasProfile ?? false,
+                        child: AccountListTileSection(
+                          onTap: () async {
+                            Navigator.pushNamed(
+                              context,
+                              KycDetails.routeName,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.card_membership_rounded,
+                            color: Color(0xff495057),
+                          ),
+                          label: 'KYC',
+                          trailingWidget: const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
                   },
-                  icon: const Icon(
-                    FontAwesomeIcons.idCard,
-                    color: Color(0xff495057),
-                  ),
-                  label: 'KYC',
-                  trailingWidget: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                  ),
                 ),
                 AccountListTileSection(
                   onTap: () {

@@ -23,7 +23,6 @@ class CustomFormText extends StatelessWidget {
             style: kLabelPrimary,
           ),
         ),
-        kHeight10,
         Flexible(child: child)
       ],
     );

@@ -9,13 +9,8 @@ class EntityServiceInitial extends EntityServiceState {
   List<Object> get props => [];
 }
 
-// class EntityService extends EntityServiceState {
-//   @override
-//   List<Object> get props => [];
-// }
-
 class EntityServiceLoadSuccess extends EntityServiceState {
-  final EntityService service;
+  final EntityServiceModel service;
 
   const EntityServiceLoadSuccess(this.service);
   @override

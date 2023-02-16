@@ -85,10 +85,10 @@ class EntityServicesPage extends StatelessWidget {
                                   child: ServiceCard(
                                     imagePath: state.service.result![index]
                                             .images!.isEmpty
-                                        ? kServiceImage
+                                        ? kServiceImageNImg
                                         : state.service.result?[index].images!
                                                 .first.media ??
-                                            kServiceImage,
+                                            kServiceImageNImg,
                                     title: state.service.result?[index].title ??
                                         '',
                                     description:

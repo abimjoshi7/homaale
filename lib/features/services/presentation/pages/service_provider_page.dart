@@ -48,10 +48,10 @@ class ServiceProviderPage extends StatelessWidget {
                         height: 200,
                         child: Image.network(
                           state.serviceModel.images!.isEmpty
-                              ? kServiceImage
+                              ? kServiceImageNImg
                               : state.serviceModel.images?.first['media']
                                       .toString() ??
-                                  kServiceImage,
+                                  kServiceImageNImg,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -73,7 +73,7 @@ class ServiceProviderPage extends StatelessWidget {
                                           image: NetworkImage(
                                             state.serviceModel.createdBy
                                                     ?.profileImage ??
-                                                kDefaultAvatar,
+                                                kDefaultAvatarNImg,
                                           ),
                                         ),
                                       ),

@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
 import 'package:flutter/material.dart';
 
@@ -29,14 +28,8 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
     return Column(
       children: [
         TabBar(
-          indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
-          labelPadding: EdgeInsets.all(15),
-          // padding: EdgeInsets.all(2),
-
-          labelColor: kColorSecondary,
           controller: tabController,
-          indicatorColor: kColorSecondary,
-          unselectedLabelColor: kColorGrey,
+          // indicatorPadding: const EdgeInsets.symmetric(horizontal: 10),
           tabs: const [
             Text("In Progress"),
             Text("Bookings"),

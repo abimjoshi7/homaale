@@ -34,7 +34,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
             builder: (context) => CustomToast(
               isSuccess: true,
               heading: 'Success',
-              content: 'Profile was edited successfully',
+              content: 'Profile was updated successfully',
               onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context,
                 Root.routeName,
@@ -48,7 +48,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
             builder: (context) => CustomToast(
               isSuccess: false,
               heading: 'Failure',
-              content: 'Profile cannot be edited',
+              content: 'Profile cannot be updated',
               onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context,
                 Root.routeName,

@@ -1,7 +1,7 @@
 import 'package:cipher/features/services/data/models/services_list.dart';
 
-class EntityService {
-  EntityService({
+class EntityServiceModel {
+  EntityServiceModel({
     this.totalPages,
     this.count,
     this.current,
@@ -17,9 +17,10 @@ class EntityService {
   final String? next;
   final dynamic previous;
   final num? pageSize;
-  final List<Result>? result;
+  final List<EntityService>? result;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) => EntityService(
+  factory EntityServiceModel.fromJson(Map<String, dynamic> json) =>
+      EntityServiceModel(
         totalPages: json["total_pages"] as num?,
         count: json["count"] as num?,
         current: json["current"] as num?,
@@ -28,9 +29,9 @@ class EntityService {
         pageSize: json["page_size"] as num?,
         result: json["result"] == null
             ? []
-            : List<Result>.from(
+            : List<EntityService>.from(
                 json["result"]!.map(
-                  (x) => Result.fromJson(
+                  (x) => EntityService.fromJson(
                     x as Map<String, dynamic>,
                   ),
                 ) as Iterable,
@@ -54,8 +55,8 @@ class EntityService {
       };
 }
 
-class Result {
-  Result({
+class EntityService {
+  EntityService({
     this.id,
     this.slug,
     this.createdAt,
@@ -99,7 +100,7 @@ class Result {
   final DateTime? endDate;
   final List<dynamic>? videos;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory EntityService.fromJson(Map<String, dynamic> json) => EntityService(
         id: json["id"] as String?,
         slug: json["slug"] as String?,
         createdAt: json["created_at"] == null

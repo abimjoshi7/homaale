@@ -33,15 +33,15 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           CacheHelper.accessToken = state.userLoginRes.access;
           CacheHelper.refreshToken = state.userLoginRes.refresh;
           if (keepLogged == true) {
-            await CacheHelper.setCachedString(
-              kIsPersistToken,
-              "1",
-            ).then(
-              (value) async => CacheHelper.setCachedString(
-                kToken,
-                CacheHelper.accessToken ?? '',
-              ),
-            );
+            // await CacheHelper.setCachedString(
+            //   kIsPersistToken,
+            //   "1",
+            // ).then(
+            //   (value) async => CacheHelper.setCachedString(
+            //     kToken,
+            //     CacheHelper.accessToken ?? '',
+            //   ),
+            // );
           }
           if (!mounted) return;
           Navigator.pushNamedAndRemoveUntil(
@@ -129,15 +129,18 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildForm(),
+              addVerticalSpace(10),
               CustomFormText(
                 name: 'Password',
                 child: CustomTextFormField(
                   obscureText: isObscure,
                   suffixWidget: InkWell(
                     onTap: () {
-                      setState(() {
-                        isObscure = !isObscure;
-                      });
+                      setState(
+                        () {
+                          isObscure = !isObscure;
+                        },
+                      );
                     },
                     child: Icon(
                       color: kColorPrimary,
@@ -155,7 +158,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   validator: validateNotEmpty,
                 ),
               ),
-              kHeight20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -186,7 +188,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   )
                 ],
               ),
-              kHeight20,
+              addVerticalSpace(20),
               CustomElevatedButton(
                 callback: () async {
                   if (_formKey.currentState!.validate()) {

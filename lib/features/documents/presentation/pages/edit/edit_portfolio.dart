@@ -122,7 +122,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             width: 50,
                             child: Image.network(
                               portfolio?.images?[0]['media'].toString() ??
-                                  kNoImage,
+                                  kNoImageNImg,
                               fit: BoxFit.cover,
                             ),
                           )
