@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
@@ -6,7 +7,9 @@ import 'package:cipher/features/categories/presentation/cubit/hero_category_cubi
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
+import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,30 +27,36 @@ class _RootState extends State<Root> {
   final pages = [
     const Home(),
     const Page1(),
-    const Page1(),
+    const SizedBox.shrink(),
     const BookingPages(),
     const AccountProfile(),
   ];
 
-  @override
-  void initState() {
-    context.read<UserBloc>().add(
-          UserLoaded(),
-        );
-    context.read<TaskerPortfolioCubit>().getPortfolio();
-    context.read<TaskerExperienceCubit>().getTaskerExperience();
-    context.read<TaskerEducationCubit>().getTaskerEducation();
-    context.read<TaskerCertificationCubit>().getTaskerCertification();
-    context.read<KycBloc>().add(
-          KycLoaded(),
-        );
-    context.read<BookingsBloc>().add(
-          ServiceBookingListInitiated(),
-        );
+  void initBlocs() {
     Future.delayed(
       const Duration(microseconds: 10),
-      () async => context.read<HeroCategoryCubit>().getHeroCategory(),
+      () async {
+        await context.read<HeroCategoryCubit>().getHeroCategory();
+        await context.read<TaskerPortfolioCubit>().getPortfolio();
+        await context.read<TaskerExperienceCubit>().getTaskerExperience();
+        await context.read<TaskerEducationCubit>().getTaskerEducation();
+        await context.read<TaskerCertificationCubit>().getTaskerCertification();
+        context.read<UserBloc>().add(
+              UserLoaded(),
+            );
+        context.read<KycBloc>().add(
+              KycLoaded(),
+            );
+        context.read<BookingsBloc>().add(
+              ServiceBookingListInitiated(),
+            );
+      },
     );
+  }
+
+  @override
+  void initState() {
+    initBlocs();
     super.initState();
   }
 
@@ -60,172 +69,144 @@ class _RootState extends State<Root> {
             microseconds: 1,
           ),
         );
-        setState(() {});
+        initBlocs();
       },
       child: Scaffold(
-        body: pages[pageIndex],
-        bottomNavigationBar: buildMyNavBar(context),
-      ),
-    );
-  }
-
-  Container buildMyNavBar(BuildContext context) {
-    return Container(
-      height: 110,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
-        ),
-        // borderRadius: BorderRadius.circular(25),
-        color: Color(0xff211D4F),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: Stack(
           children: [
-            Column(
-              children: [
-                IconButton(
-                  enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 0;
-                    });
-                  },
-                  icon: pageIndex == 0
-                      ? Image.asset(
-                          'assets/bottomNavigationItems/home.png',
-                          color: const Color(0xffFFCA6A),
-                        )
-                      : Image.asset(
-                          'assets/bottomNavigationItems/home.png',
+            pages[pageIndex],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Builder(
+                builder: (context) {
+                  return Stack(
+                    children: [
+                      Visibility(
+                        visible: pageIndex != 2,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 50),
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.11,
+                          width: MediaQuery.of(context).size.width,
+                          color: kColorPrimary,
                         ),
-                ),
-                Text(
-                  'Home',
-                  style: TextStyle(
-                    color: pageIndex == 0
-                        ? const Color(0xffFFCA6A)
-                        : const Color(0xff9CA0C1),
-                  ),
-                ),
-              ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.11,
+                        width: MediaQuery.of(context).size.width,
+                        child: CustomPaint(
+                          painter: BottomNavCustomPainter(),
+                          child: Padding(
+                            padding: kPadding20,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomBottomNavItems(
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        pageIndex = 0;
+                                      },
+                                    );
+                                  },
+                                  pageIndex: pageIndex,
+                                  index: 0,
+                                  label: 'Home',
+                                  iconData: Icons.home,
+                                ),
+                                CustomBottomNavItems(
+                                  onPressed: () {
+                                    setState(() {
+                                      pageIndex = 1;
+                                    });
+                                  },
+                                  pageIndex: pageIndex,
+                                  index: 1,
+                                  label: 'Search',
+                                  iconData: Icons.search,
+                                ),
+                                CustomBottomNavItems(
+                                  onPressed: () {
+                                    setState(() {
+                                      pageIndex = 2;
+                                    });
+                                  },
+                                  pageIndex: pageIndex,
+                                  index: 2,
+                                  label: 'Add',
+                                  iconData: Icons.add_circle_outline_rounded,
+                                ),
+                                CustomBottomNavItems(
+                                  onPressed: () {
+                                    setState(() {
+                                      pageIndex = 3;
+                                    });
+                                  },
+                                  pageIndex: pageIndex,
+                                  index: 3,
+                                  label: 'Bookings',
+                                  iconData: Icons.collections_bookmark_outlined,
+                                ),
+                                CustomBottomNavItems(
+                                  onPressed: () {
+                                    setState(() {
+                                      pageIndex = 4;
+                                    });
+                                  },
+                                  pageIndex: pageIndex,
+                                  index: 4,
+                                  label: 'Account',
+                                  iconData:
+                                      Icons.miscellaneous_services_rounded,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
-            Column(
-              children: [
-                IconButton(
-                  enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 1;
-                    });
-                  },
-                  icon: pageIndex == 1
-                      ? Image.asset(
-                          'assets/bottomNavigationItems/2.png',
-                          color: const Color(0xffFFCA6A),
-                        )
-                      : Image.asset(
-                          'assets/bottomNavigationItems/2.png',
+            Visibility(
+              visible: pageIndex == 2,
+              child: Positioned(
+                bottom: MediaQuery.of(context).size.height * 0.09,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.11,
+                  width: MediaQuery.of(context).size.width,
+                  child: CustomPaint(
+                    painter: FloatingOptionsCustomPainter(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AddPopupButton(
+                          label: 'Post a Task',
+                          icon: Icons.comment_bank_rounded,
+                          callback: () {
+                            Navigator.pushNamed(
+                              context,
+                              PostTaskPage.routeName,
+                            );
+                          },
                         ),
-                ),
-                Text(
-                  'Search',
-                  style: TextStyle(
-                    color: pageIndex == 1
-                        ? const Color(0xffFFCA6A)
-                        : const Color(0xff9CA0C1),
+                        addHorizontalSpace(40),
+                        AddPopupButton(
+                          label: 'Post a Service',
+                          icon: Icons.home_repair_service_rounded,
+                          callback: () {
+                            Navigator.pushNamed(
+                              context,
+                              AddServicePage.routeName,
+                            );
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  enableFeedback: false,
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      AddServicePage.routeName,
-                    );
-                  },
-                  icon: pageIndex == 2
-                      ? Image.asset(
-                          'assets/bottomNavigationItems/3.png',
-                          color: const Color(0xffFFCA6A),
-                        )
-                      : Image.asset(
-                          'assets/bottomNavigationItems/3.png',
-                        ),
-                ),
-                Text(
-                  'Add',
-                  style: TextStyle(
-                    color: pageIndex == 2
-                        ? const Color(0xffFFCA6A)
-                        : const Color(0xff9CA0C1),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 3;
-                    });
-                  },
-                  icon: pageIndex == 3
-                      ? Image.asset(
-                          'assets/bottomNavigationItems/1.png',
-                          color: const Color(0xffFFCA6A),
-                        )
-                      : Image.asset(
-                          'assets/bottomNavigationItems/1.png',
-                        ),
-                ),
-                Text(
-                  'Bookings',
-                  style: TextStyle(
-                    color: pageIndex == 3
-                        ? const Color(0xffFFCA6A)
-                        : const Color(0xff9CA0C1),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                IconButton(
-                  enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      pageIndex = 4;
-                    });
-                  },
-                  icon: pageIndex == 4
-                      ? Image.asset(
-                          'assets/bottomNavigationItems/4.png',
-                          color: const Color(0xffFFCA6A),
-                        )
-                      : Image.asset(
-                          'assets/bottomNavigationItems/4.png',
-                        ),
-                ),
-                Text(
-                  'Account',
-                  style: TextStyle(
-                    color: pageIndex == 4
-                        ? const Color(0xffFFCA6A)
-                        : const Color(0xff9CA0C1),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),

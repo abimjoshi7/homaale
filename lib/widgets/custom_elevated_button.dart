@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
@@ -5,9 +6,11 @@ class CustomElevatedButton extends StatelessWidget {
     super.key,
     required this.callback,
     this.label = '',
-    this.mainColor = const Color(0xff3D3F7D),
+    this.mainColor = kColorPrimary,
     this.textColor = Colors.white,
-    this.borderColor = const Color(0xff3D3F7D),
+    this.borderColor = kColorPrimary,
+    this.theHeight = 48,
+    this.theWidth = 366,
   });
 
   final VoidCallback callback;
@@ -15,14 +18,16 @@ class CustomElevatedButton extends StatelessWidget {
   final Color mainColor;
   final Color textColor;
   final Color borderColor;
+  final double theHeight;
+  final double theWidth;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: callback,
       child: Container(
-        height: 48,
-        width: 366,
+        height: theHeight,
+        width: theWidth,
         decoration: BoxDecoration(
           color: mainColor,
           borderRadius: BorderRadius.circular(10),

@@ -39,8 +39,5 @@ final kLightTheme = ThemeData(
   tabBarTheme: const TabBarTheme(
     labelColor: kColorSecondary,
     unselectedLabelColor: kColorGrey,
-    indicator: BoxDecoration(
-      color: kColorSecondary,
-    ),
   ),
 );

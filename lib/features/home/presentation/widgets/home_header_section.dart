@@ -98,7 +98,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
         }
 
         return ColoredBox(
-          color: const Color(0xff3D3F7D),
+          color: kColorPrimary,
           child: Column(
             children: [
               kHeight50,
