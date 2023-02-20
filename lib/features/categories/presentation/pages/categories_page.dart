@@ -78,7 +78,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                     .nestedCategory[index].child!.isEmpty) {
                                   context.read<ServicesBloc>().add(
                                         ServicesLoadInitiated(
-                                          state.nestedCategory[index].id ?? 0,
+                                          categoryId:
+                                              state.nestedCategory[index].id ??
+                                                  0,
                                         ),
                                       );
 
@@ -126,7 +128,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                       final x = list[index];
                                       context.read<ServicesBloc>().add(
                                             ServicesLoadInitiated(
-                                              list[index].id ?? 0,
+                                              categoryId: list[index].id ?? 0,
                                             ),
                                           );
 
@@ -179,8 +181,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                                           .read<ServicesBloc>()
                                                           .add(
                                                             ServicesLoadInitiated(
-                                                              list[index].id ??
-                                                                  0,
+                                                              categoryId:
+                                                                  list[index]
+                                                                          .id ??
+                                                                      0,
                                                             ),
                                                           );
 

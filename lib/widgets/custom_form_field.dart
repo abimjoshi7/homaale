@@ -31,7 +31,7 @@ class CustomFormField extends StatelessWidget {
               const Text(
                 '*',
                 style: TextStyle(
-                  color: Color(0xffFE5050),
+                  color: Colors.red,
                 ),
               )
             else

@@ -17,7 +17,7 @@ class ForgotPasswordBloc
           emit(
             ForgotPasswordInitial(),
           );
-          final x = await repository.resetPasswordwithPhone(
+          final x = await repository.resetPasswordWithPhone(
             phone: event.phone,
           );
           if (x['status'] == 'success') {
@@ -41,7 +41,7 @@ class ForgotPasswordBloc
           emit(
             ForgotPasswordInitial(),
           );
-          final x = await repository.resetPasswordwithEmail(
+          final x = await repository.resetPasswordWithEmail(
             email: event.email,
           );
           if (x['status'] == 'success') {

@@ -5,9 +5,9 @@ abstract class ServicesEvent extends Equatable {
 }
 
 class ServicesLoadInitiated extends ServicesEvent {
-  final int categoryId;
+  final int? categoryId;
 
-  const ServicesLoadInitiated(this.categoryId);
+  const ServicesLoadInitiated({this.categoryId});
   @override
   List<Object?> get props => [categoryId];
 }

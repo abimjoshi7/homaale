@@ -6,6 +6,7 @@ import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
+import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -49,6 +50,9 @@ class _RootState extends State<Root> {
             );
         context.read<BookingsBloc>().add(
               ServiceBookingListInitiated(),
+            );
+        context.read<ProfessionalServiceBloc>().add(
+              ProfessionalLoadInitated(),
             );
       },
     );
@@ -193,7 +197,7 @@ class _RootState extends State<Root> {
                         ),
                         addHorizontalSpace(40),
                         AddPopupButton(
-                          label: 'Post a Service',
+                          label: 'Add a Service',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
                             Navigator.pushNamed(

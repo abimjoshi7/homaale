@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
@@ -23,12 +22,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 class FloatingOptionsCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint0 = Paint()
+    final paint0 = Paint()
       ..color = kColorPrimary
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 
-    Path path0 = Path();
+    final path0 = Path();
     path0.moveTo(size.width * 0.5012500, size.height);
     path0.cubicTo(
       size.width * 0.4387500,
@@ -104,12 +103,12 @@ class FloatingOptionsCustomPainter extends CustomPainter {
 class BottomNavCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint0 = Paint()
+    final paint0 = Paint()
       ..color = kColorPrimary
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 
-    Path path0 = Path();
+    final path0 = Path();
     path0.moveTo(0, size.height);
     path0.quadraticBezierTo(
       size.width * 0.0006250,

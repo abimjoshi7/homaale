@@ -8,12 +8,14 @@ class BookingsFilterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: kPadding15,
-          child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
             children: const [
               ChoiceChip(
                 label: Text('All'),
@@ -31,21 +33,21 @@ class BookingsFilterSection extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        // Row(
-        //   children: [
-        //     Container(
-        //       height: 20,
-        //       width: 40,
-        //       decoration: BoxDecoration(
-        //         color: Colors.amber,
-        //         borderRadius: BorderRadius.circular(10),
-        //       ),
-        //     ),
-        //     IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list))
-        //   ],
-        // )
-      ],
+          // Row(
+          //   children: [
+          //     Container(
+          //       height: 20,
+          //       width: 40,
+          //       decoration: BoxDecoration(
+          //         color: Colors.amber,
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //     ),
+          //     IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list))
+          //   ],
+          // )
+        ],
+      ),
     );
   }
 }

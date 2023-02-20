@@ -13,7 +13,7 @@ class InProgressSection extends StatelessWidget {
       children: [
         const BookingsFilterSection(),
         const Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(5),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(

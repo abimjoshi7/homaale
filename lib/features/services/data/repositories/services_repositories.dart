@@ -82,4 +82,26 @@ class ServicesRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchProfessionalService({
+    int? pageNumber = 1,
+    int? pageSize = 10,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        query: {
+          'page': pageNumber,
+          'page_size': pageSize,
+        },
+        url: 'task/professional-service/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
 }

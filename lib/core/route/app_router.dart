@@ -3,6 +3,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/presenta
 import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
@@ -245,6 +246,11 @@ class AppRouter {
       case PostTaskPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const PostTaskPage(),
+          settings: settings,
+        );
+      case TaxCalculator.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const TaxCalculator(),
           settings: settings,
         );
       case SandboxPage.routeName:

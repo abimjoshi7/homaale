@@ -17,7 +17,9 @@ class ServicesPage extends StatelessWidget {
     final nestedCategory =
         ModalRoute.of(context)?.settings.arguments as NestedCategory?;
     context.read<ServicesBloc>().add(
-          ServicesLoadInitiated(nestedCategory?.id ?? 0),
+          ServicesLoadInitiated(
+            categoryId: nestedCategory?.id ?? 0,
+          ),
         );
     return Scaffold(
       body: Column(
@@ -79,7 +81,8 @@ class ServicesPage extends StatelessWidget {
                                     );
                                   },
                                   child: CustomImageTextBox(
-                                    image: Image.asset('assets/services/Rectangle 3823.png'),
+                                    image: Image.asset(
+                                        'assets/services/Rectangle 3823.png'),
                                     text: state.list[index].title,
                                   ),
                                 ),
@@ -93,7 +96,10 @@ class ServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Image.asset('assets/banners/notable.png', fit: BoxFit.cover,),
+                          child: Image.asset(
+                            'assets/banners/notable.png',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       SliverToBoxAdapter(

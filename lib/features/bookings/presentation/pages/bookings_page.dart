@@ -11,35 +11,39 @@ class BookingPages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: addHorizontalSpace(
-              MediaQuery.of(context).size.width * 0.1,
-            ),
-            trailingWidget: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  ServiceProviderPage.routeName,
-                );
-              },
-              icon: const Icon(
-                Icons.search,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.9,
+        width: double.infinity,
+        child: Column(
+          children: [
+            kHeight50,
+            CustomHeader(
+              leadingWidget: addHorizontalSpace(
+                MediaQuery.of(context).size.width * 0.1,
+              ),
+              trailingWidget: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    ServiceProviderPage.routeName,
+                  );
+                },
+                icon: const Icon(
+                  Icons.search,
+                ),
+              ),
+              child: const Text(
+                'My Bookings',
               ),
             ),
-            child: const Text(
-              'My Bookings',
+            Divider(),
+            BookingsCalenderSection(),
+            BookingsInfoSection(),
+            Expanded(
+              child: const BookingsMainSection(),
             ),
-          ),
-          Divider(),
-          BookingsCalenderSection(),
-          BookingsInfoSection(),
-          Expanded(
-            child: const BookingsMainSection(),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

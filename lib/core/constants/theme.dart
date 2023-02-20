@@ -40,4 +40,5 @@ final kLightTheme = ThemeData(
     labelColor: kColorSecondary,
     unselectedLabelColor: kColorGrey,
   ),
+  indicatorColor: kColorSecondary,
 );

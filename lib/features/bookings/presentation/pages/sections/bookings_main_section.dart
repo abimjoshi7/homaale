@@ -25,35 +25,37 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TabBar(
-          controller: tabController,
-          // indicatorPadding: const EdgeInsets.symmetric(horizontal: 10),
-          tabs: const [
-            Text("In Progress"),
-            Text("Bookings"),
-            Text("Draft"),
-            Text("History"),
-          ],
-          onTap: (value) => setState(
-            () {
-              selectedIndex = value;
-            },
-          ),
-        ),
-        Expanded(
-          child: TabBarView(
+    return SizedBox(
+      child: Column(
+        children: [
+          TabBar(
+            labelPadding: const EdgeInsets.all(10),
             controller: tabController,
-            children: const [
-              InProgressSection(),
-              BookingsSection(),
-              DraftSection(),
-              BookingsHistorySection(),
+            tabs: const [
+              Text("In Progress"),
+              Text("Bookings"),
+              Text("Draft"),
+              Text("History"),
             ],
+            onTap: (value) => setState(
+              () {
+                selectedIndex = value;
+              },
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: const [
+                InProgressSection(),
+                BookingsSection(),
+                DraftSection(),
+                BookingsHistorySection(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

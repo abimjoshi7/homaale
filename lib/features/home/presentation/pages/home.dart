@@ -11,58 +11,62 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const HomeHeaderSection(),
-            const HeaderBannerSection(),
-            const DealOfTheDaySection(),
-            const CategoriesSection(),
-            const PopularServicesSection(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
+      body: SizedBox(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.91,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const HomeHeaderSection(),
+              const HeaderBannerSection(),
+              const DealOfTheDaySection(),
+              const CategoriesSection(),
+              const PopularServicesSection(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: Image.asset(
+                  'assets/banners/Sliding Banner.png',
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-              child: Image.asset(
-                'assets/banners/Sliding Banner.png',
-                fit: BoxFit.fitWidth,
+              const ProfessionalServicesSection(),
+              const VerifiedServicesSection(),
+              const PopularServicesNearbySection(),
+              const PopularInCity(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: Image.asset(
+                  'assets/banners/banner.png',
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-            ),
-            const ProfessionalServicesSection(),
-            const VerifiedServicesSection(),
-            const PopularServicesNearbySection(),
-            const PopularInCity(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
+              const TasksSuggestionSection(),
+              const Padding(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  'Homaale Notable Quality',
+                  style: kPurpleText16,
+                ),
               ),
-              child: Image.asset(
-                'assets/banners/banner.png',
-                fit: BoxFit.fitWidth,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Image.asset(
+                  'assets/banners/notable.png',
+                  fit: BoxFit.fitWidth,
+                ),
               ),
-            ),
-            const TasksSuggestionSection(),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                'Homaale Notable Quality',
-                style: kPurpleText16,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Image.asset(
-                'assets/banners/notable.png',
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            const PopularTaskerNearbySection(),
-            const TaskRecommendationSection(),
-            const FeaturedServicesSection(),
-            const PopularTaskerSection(),
-            const PopularTaskNearbySection()
-          ],
+              const PopularTaskerNearbySection(),
+              const TaskRecommendationSection(),
+              const FeaturedServicesSection(),
+              const PopularTaskerSection(),
+              const PopularTaskNearbySection()
+            ],
+          ),
         ),
       ),
     );

@@ -11,6 +11,7 @@ import 'package:cipher/features/categories/presentation/cubit/hero_category_cubi
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -20,6 +21,7 @@ import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.d
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -47,11 +49,6 @@ class Cipher extends StatelessWidget {
                 CategoriesHeroLoadInitiated(),
               ),
           ),
-          // BlocProvider(
-          //   create: (context) => HomeCubit(
-          //     networkHelper: NetworkHelper(),
-          //   )..fetchHeroCategory(),
-          // ),
           BlocProvider(
             create: (context) => SignInBloc(SignInRepository()),
           ),
@@ -61,7 +58,6 @@ class Cipher extends StatelessWidget {
                 UserLoaded(),
               ),
           ),
-
           BlocProvider(
             create: (context) => TaskerPortfolioCubit()..getPortfolio(),
           ),
@@ -153,6 +149,9 @@ class Cipher extends StatelessWidget {
             create: (context) => ServicesBloc(),
           ),
           BlocProvider(
+            create: (context) => TaskBloc(),
+          ),
+          BlocProvider(
             create: (context) => EntityServiceBloc(),
           ),
           BlocProvider(
@@ -160,6 +159,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => BookingsBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ProfessionalServiceBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

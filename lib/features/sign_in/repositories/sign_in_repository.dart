@@ -18,9 +18,6 @@ class SignInRepository {
         url: 'user/login/',
         data: userLoginReq.toJson(),
       );
-      log(
-        z.toString(),
-      );
       return UserLoginRes.fromJson(z as Map<String, dynamic>);
     } catch (e) {
       log(
@@ -30,7 +27,7 @@ class SignInRepository {
     }
   }
 
-  Future<Map<String, dynamic>> resetPasswordwithPhone({
+  Future<Map<String, dynamic>> resetPasswordWithPhone({
     required String phone,
   }) async {
     try {
@@ -49,7 +46,7 @@ class SignInRepository {
     }
   }
 
-  Future<Map<String, dynamic>> resetPasswordwithEmail({
+  Future<Map<String, dynamic>> resetPasswordWithEmail({
     required String email,
   }) async {
     try {
