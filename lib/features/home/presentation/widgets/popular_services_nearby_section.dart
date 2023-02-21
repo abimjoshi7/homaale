@@ -47,7 +47,7 @@ class PopularServicesNearbySection extends StatelessWidget {
                                 children: const [
                                   Text(
                                     'Greenhouse Cleaning',
-                                    style: kPurpleText12,
+                                    style: kPurpleText13,
                                   ),
                                   Icon(
                                     Icons.favorite_border,

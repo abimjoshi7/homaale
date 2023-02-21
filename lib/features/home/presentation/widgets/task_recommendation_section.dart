@@ -40,7 +40,7 @@ class TaskRecommendationSection extends StatelessWidget {
                               kWidth10,
                               Text(
                                 'Trimming & Cutting',
-                                style: kPurpleText12,
+                                style: kPurpleText13,
                               )
                             ],
                           ),
@@ -89,7 +89,7 @@ class TaskRecommendationSection extends StatelessWidget {
                         children: const [
                           Text(
                             'Rs 2,000 - Rs 3,000/per hour',
-                            style: kPurpleText12,
+                            style: kPurpleText13,
                           ),
                           SizedBox(
                             width: 130,

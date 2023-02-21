@@ -21,9 +21,9 @@ const kTealText18 = TextStyle(
   color: kColorTeal,
 );
 
-const kPurpleText12 = TextStyle(
+const kPurpleText13 = TextStyle(
   fontWeight: FontWeight.w400,
-  fontSize: 12,
+  fontSize: 13,
   color: Color(0xff3d3f7d),
 );
 

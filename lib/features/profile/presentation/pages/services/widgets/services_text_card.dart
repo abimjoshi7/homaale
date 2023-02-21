@@ -47,7 +47,7 @@ class ServicesTextCard extends StatelessWidget {
           kHeight5,
           Text(
             description ?? '',
-            style: kPurpleText12,
+            style: kPurpleText13,
           ),
           kHeight5,
           Row(

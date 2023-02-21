@@ -33,7 +33,7 @@ class PopularTaskerSection extends StatelessWidget {
                         children: const [
                           Text(
                             'Harry Smith',
-                            style: kPurpleText12,
+                            style: kPurpleText13,
                           ),
                           kWidth5,
                           Icon(
@@ -90,7 +90,7 @@ class PopularTaskerSection extends StatelessWidget {
                           kWidth20,
                           Text(
                             'Rs 2,000/hr',
-                            style: kPurpleText12,
+                            style: kPurpleText13,
                           )
                         ],
                       ),

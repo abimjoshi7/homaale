@@ -274,7 +274,7 @@ class CheckoutPage extends StatelessWidget {
                           children: [
                             Text(
                               'Free trial',
-                              style: kPurpleText12,
+                              style: kPurpleText13,
                             ),
                             SizedBox(
                                 width: 150,

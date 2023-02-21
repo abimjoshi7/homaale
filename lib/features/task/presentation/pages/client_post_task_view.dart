@@ -42,7 +42,7 @@ class ClientPostTaskViewPage extends StatelessWidget {
                     children: [
                       Text(
                         'data',
-                        style: kPurpleText12,
+                        style: kPurpleText13,
                       ),
                       Text(
                         'data',

@@ -203,7 +203,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                                         children: [
                                           const Text(
                                             'Start Date',
-                                            style: kPurpleText12,
+                                            style: kPurpleText13,
                                           ),
                                           InkWell(
                                             onTap: () async {
@@ -238,7 +238,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                                             children: [
                                               const Text(
                                                 'End Date',
-                                                style: kPurpleText12,
+                                                style: kPurpleText13,
                                               ),
                                               Text(
                                                 ' *',

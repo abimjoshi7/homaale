@@ -49,7 +49,7 @@ class TaskCard extends StatelessWidget {
                 children: [
                   Text(
                     taskName ?? '',
-                    style: kPurpleText12,
+                    style: kPurpleText13,
                   ),
                   kHeight5,
                   Row(
@@ -98,7 +98,7 @@ class TaskCard extends StatelessWidget {
                   kHeight5,
                   Text(
                     rate ?? 'Rs 5,000 - Rs 10,000/per hour',
-                    style: kPurpleText12,
+                    style: kPurpleText13,
                   )
                 ],
               ),

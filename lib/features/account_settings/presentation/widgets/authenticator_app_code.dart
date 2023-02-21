@@ -21,7 +21,7 @@ class AuthenticatorAppCode extends StatelessWidget {
         kHeight20,
         const Text(
           'Scan this QR Code or request a key',
-          style: kPurpleText12,
+          style: kPurpleText13,
         ),
         Padding(
           padding: kPadding20,
