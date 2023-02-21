@@ -20,9 +20,8 @@ class Home extends StatelessWidget {
             children: [
               const HomeHeaderSection(),
               const HeaderBannerSection(),
-              const DealOfTheDaySection(),
+              const DealsOfTheDaySection(),
               const CategoriesSection(),
-              const PopularServicesSection(),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -32,19 +31,8 @@ class Home extends StatelessWidget {
                   fit: BoxFit.fitWidth,
                 ),
               ),
-              const ProfessionalServicesSection(),
-              const VerifiedServicesSection(),
+              const PopularServicesSection(),
               const PopularServicesNearbySection(),
-              const PopularInCity(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: Image.asset(
-                  'assets/banners/banner.png',
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
               const TasksSuggestionSection(),
               const Padding(
                 padding: EdgeInsets.all(20),
@@ -62,7 +50,7 @@ class Home extends StatelessWidget {
               ),
               const PopularTaskerNearbySection(),
               const TaskRecommendationSection(),
-              const FeaturedServicesSection(),
+              const RecentlyLaunchedServicesSection(),
               const PopularTaskerSection(),
               const PopularTaskNearbySection()
             ],

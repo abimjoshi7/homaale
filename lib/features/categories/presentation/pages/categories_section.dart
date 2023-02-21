@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/home/presentation/widgets/widgets.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,16 +21,25 @@ class CategoriesSection extends StatelessWidget {
           );
         } else if (state is HeroCategoryLoadSuccess) {
           return Padding(
-            padding: const EdgeInsets.all(10),
+            padding: kPadding10,
             child: SizedBox(
-              height: 100,
+              height: MediaQuery.of(context).size.height * 0.2,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Categories', style: kPurpleText19),
+                  SectionHeading(
+                    labelName: 'Categories',
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        CategoriesPage.routeName,
+                      );
+                    },
+                  ),
                   Expanded(
                     child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.hero.result?.length,
                       padding: EdgeInsets.zero,
                       gridDelegate:
@@ -48,12 +58,6 @@ class CategoriesSection extends StatelessWidget {
                         child: CategoriesIcons(
                           data: state.hero.result?[index]?.category?.name ?? '',
                           color: randomColorGenerator(),
-                          // child: state.hero.result?[index]?.category?.icon
-                          //         as Icon? ??
-                          //     Icon(
-                          //       Icons.circle,
-                          //       color: randomGenerator(),
-                          //     ),
                         ),
                       ),
                     ),

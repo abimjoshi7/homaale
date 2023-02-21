@@ -2,8 +2,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class FeaturedServicesSection extends StatelessWidget {
-  const FeaturedServicesSection({super.key});
+class RecentlyLaunchedServicesSection extends StatelessWidget {
+  const RecentlyLaunchedServicesSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class FeaturedServicesSection extends StatelessWidget {
       child: Column(
         children: [
           SectionHeading(
-            labelName: 'Featured Services',
+            labelName: 'Recently Launched',
             onTap: () {},
           ),
           kHeight10,
@@ -30,7 +30,7 @@ class FeaturedServicesSection extends StatelessWidget {
                     width: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.amber,
+                      color: kColorPrimary,
                     ),
                   ),
                   kHeight10,

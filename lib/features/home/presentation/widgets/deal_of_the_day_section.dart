@@ -1,20 +1,20 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class DealOfTheDaySection extends StatelessWidget {
-  const DealOfTheDaySection({super.key});
+class DealsOfTheDaySection extends StatelessWidget {
+  const DealsOfTheDaySection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: kPadding10,
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Deal of the day',
+                'Deals of the day',
                 style: kPurpleText19,
               ),
               Row(
@@ -78,15 +78,14 @@ class DealOfTheDaySection extends StatelessWidget {
               )
             ],
           ),
-          kHeight20,
           SizedBox(
-            height: 240,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Card(
                 child: SizedBox(
-                  width: 184,
+                  width: MediaQuery.of(context).size.width * 0.35,
                   child: Column(
                     children: [
                       Expanded(
@@ -137,9 +136,25 @@ class DealOfTheDaySection extends StatelessWidget {
                               ),
                             ),
                             kHeight5,
-                            const Text(
-                              '10 times booked',
-                              style: kHelper13,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: const Text(
+                                    '10 times booked',
+                                    style: kHelper13,
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    'You saved Rs 5,000',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                             )
                           ],
                         ),
@@ -148,7 +163,7 @@ class DealOfTheDaySection extends StatelessWidget {
                   ),
                 ),
               ),
-              separatorBuilder: (context, index) => kWidth15,
+              separatorBuilder: (context, index) => addHorizontalSpace(10),
               itemCount: 5,
             ),
           )

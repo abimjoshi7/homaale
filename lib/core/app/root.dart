@@ -126,8 +126,8 @@ class _RootState extends State<Root> {
                                   },
                                   pageIndex: pageIndex,
                                   index: 1,
-                                  label: 'Search',
-                                  iconData: Icons.search,
+                                  label: 'Offers',
+                                  iconData: Icons.wallet_giftcard_rounded,
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
@@ -149,7 +149,8 @@ class _RootState extends State<Root> {
                                   pageIndex: pageIndex,
                                   index: 3,
                                   label: 'Bookings',
-                                  iconData: Icons.collections_bookmark_outlined,
+                                  iconData: Icons.edit_calendar_rounded,
+                                  // iconData: Icons.collections_bookmark_outlined,
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
@@ -159,9 +160,8 @@ class _RootState extends State<Root> {
                                   },
                                   pageIndex: pageIndex,
                                   index: 4,
-                                  label: 'Account',
-                                  iconData:
-                                      Icons.miscellaneous_services_rounded,
+                                  label: 'Profile',
+                                  iconData: Icons.account_circle_outlined,
                                 ),
                               ],
                             ),

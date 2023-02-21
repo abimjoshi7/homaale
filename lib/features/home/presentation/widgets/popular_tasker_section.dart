@@ -17,7 +17,7 @@ class PopularTaskerSection extends StatelessWidget {
             onTap: () {},
           ),
           SizedBox(
-            height: 220,
+            height: 240,
             width: double.infinity,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
