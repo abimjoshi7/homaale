@@ -1,9 +1,13 @@
+import 'dart:convert';
+
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -18,27 +22,34 @@ class PostTaskPage extends StatefulWidget {
 }
 
 class _PostTaskPageState extends State<PostTaskPage> {
-  String? priceType;
   final startPriceController = TextEditingController();
   final endPriceController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final requirementController = TextEditingController();
+  final addressController = TextEditingController();
+  String? categoryId;
+  String? dateType = 'Fixed';
+  String? priceType = 'Fixed';
+  String? taskType = 'Remote';
+  String? budgetType = 'Project';
+  String? currencyCode;
   bool isDiscounted = false;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
-  bool isSpecified = false;
-  List<int> selectedWeekDay = [];
-  List<Widget> widgetList = [];
-  List<int>? imageList;
-  List<int>? fileList;
+  bool isSpecified = true;
   bool isAddressVisibile = false;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final addressController = TextEditingController();
-  String? categoryId;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+  List<int> selectedWeekDay = [];
+  List<Widget> widgetList = [];
+  List<String> requirementList = [];
+  List<int>? imageList;
+  List<int>? fileList;
   DateTime? startDate;
   DateTime? endDate;
+  int? cityCode;
   final _key = GlobalKey<FormState>();
 
   @override
@@ -55,6 +66,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
     endPriceController.dispose();
     titleController.dispose();
     descriptionController.dispose();
+    requirementController.dispose();
     addressController.dispose();
     super.dispose();
   }
@@ -75,20 +87,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 Icons.arrow_back,
               ),
             ),
-            trailingWidget: BlocBuilder<ServicesBloc, ServicesState>(
-              builder: (context, state) {
-                return IconButton(
-                  onPressed: () {
-                    if (state is ServicesLoadSuccess) {
-                      print(state.list.first.id);
-                    }
-                    // context.read<ServicesBloc>().add(
-                    //       ServicesLoadInitiated(),
-                    //     );
-                  },
-                  icon: const Icon(Icons.search),
-                );
-              },
+            trailingWidget: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
             ),
             child: const Text('Post a Task'),
           ),
@@ -124,11 +125,120 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               maxLines: 3,
                             ),
                           ),
-                          const CustomFormField(
+                          CustomFormField(
                             label: 'Requirements',
+                            isRequired: false,
+                            child: Column(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: List.generate(
+                                    requirementList.length,
+                                    (index) => Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.circle,
+                                                size: 12,
+                                                color: kColorSecondary,
+                                              ),
+                                              addHorizontalSpace(20),
+                                              Text(
+                                                requirementList[index],
+                                              ),
+                                            ],
+                                          ),
+                                          InkWell(
+                                            onTap: () {},
+                                            child: const Icon(
+                                              Icons.clear,
+                                              size: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                addVerticalSpace(5),
+                                CustomTextFormField(
+                                  controller: requirementController,
+                                  hintText: 'Add requirements',
+                                  onFieldSubmitted: (p0) {
+                                    requirementList.add(p0!);
+                                    requirementController.clear();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          CustomFormField(
+                            label: 'When do you need this done?',
                             isRequired: true,
-                            child: CustomTextFormField(
-                              hintText: 'Add requirements',
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: 'Fixed',
+                                      groupValue: dateType,
+                                      onChanged: (value) => setState(
+                                        () {
+                                          dateType = value;
+                                          isCustomDate = false;
+                                        },
+                                      ),
+                                    ),
+                                    const Text('Fixed'),
+                                    addHorizontalSpace(10),
+                                    Radio<String>(
+                                      value: 'Custom',
+                                      groupValue: dateType,
+                                      onChanged: (value) => setState(
+                                        () {
+                                          dateType = value;
+                                          isCustomDate = true;
+                                        },
+                                      ),
+                                    ),
+                                    const Text('Custom'),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          buildDate(),
+                          CustomFormField(
+                            isRequired: true,
+                            label: 'City',
+                            child: BlocBuilder<CityBloc, CityState>(
+                              builder: (context, state) {
+                                if (state is CityLoadSuccess) {
+                                  return CustomDropDownField(
+                                    list: List.generate(
+                                      state.list.length,
+                                      (index) => state.list[index].name,
+                                    ),
+                                    hintText: 'Enter your city',
+                                    onChanged: (p0) => setState(
+                                      () async {
+                                        final x = state.list.firstWhere(
+                                          (element) => p0 == element.name,
+                                        );
+                                        cityCode = x.id;
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
                             ),
                           ),
                           CustomFormField(
@@ -170,10 +280,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   children: [
                                     Radio<String>(
                                       value: 'Remote',
-                                      groupValue: priceType,
+                                      groupValue: taskType,
                                       onChanged: (value) => setState(
                                         () {
-                                          priceType = value;
+                                          taskType = value;
                                           isAddressVisibile = false;
                                         },
                                       ),
@@ -182,10 +292,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     addHorizontalSpace(10),
                                     Radio<String>(
                                       value: 'On premise',
-                                      groupValue: priceType,
+                                      groupValue: taskType,
                                       onChanged: (value) => setState(
                                         () {
-                                          priceType = value;
+                                          taskType = value;
                                           isAddressVisibile = true;
                                         },
                                       ),
@@ -194,6 +304,35 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   ],
                                 )
                               ],
+                            ),
+                          ),
+                          CustomFormField(
+                            label: 'Currency',
+                            isRequired: true,
+                            child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                              builder: (context, state) {
+                                if (state is CurrencyLoadSuccess) {
+                                  return CustomDropDownField(
+                                    list: List.generate(
+                                      state.currencyListRes.length,
+                                      (index) =>
+                                          state.currencyListRes[index].name,
+                                    ),
+                                    hintText: 'Enter your Currency',
+                                    onChanged: (p0) => setState(
+                                      () async {
+                                        final x =
+                                            state.currencyListRes.firstWhere(
+                                          (element) => p0 == element.name,
+                                        );
+                                        currencyCode = x.code;
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
                             ),
                           ),
                           Visibility(
@@ -265,9 +404,20 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ),
                               Flexible(
                                 child: CustomDropDownField(
-                                  list: ['Per Project'],
+                                  list: [
+                                    'Project',
+                                    'Hourly',
+                                    'Daily',
+                                    'Monthly'
+                                  ],
                                   hintText: 'Per project',
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    setState(
+                                      () {
+                                        budgetType = value;
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                             ],
@@ -379,44 +529,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             ),
                           ),
                           addVerticalSpace(10),
-                          CustomFormField(
-                            label: 'When do you need this done?',
-                            isRequired: true,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  children: [
-                                    Radio<String>(
-                                      value: 'Fixed',
-                                      groupValue: priceType,
-                                      onChanged: (value) => setState(
-                                        () {
-                                          priceType = value;
-                                          isCustomDate = false;
-                                        },
-                                      ),
-                                    ),
-                                    const Text('Fixed'),
-                                    addHorizontalSpace(10),
-                                    Radio<String>(
-                                      value: 'Custom',
-                                      groupValue: priceType,
-                                      onChanged: (value) => setState(
-                                        () {
-                                          priceType = value;
-                                          isCustomDate = true;
-                                        },
-                                      ),
-                                    ),
-                                    const Text('Custom'),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          buildDate(),
-                          addVerticalSpace(20),
                           Row(
                             children: [
                               CustomCheckBox(
@@ -452,89 +564,127 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             ],
                           ),
                           addVerticalSpace(20),
-                          CustomElevatedButton(
-                            callback: () async {
-                              if (_key.currentState!.validate() &&
-                                  startPriceController.text.isNotEmpty &&
-                                  startDate != null &&
-                                  isTermsAccepted == true) {
-                                if (startDate!.isAfter(
-                                  endDate ?? startDate!,
-                                )) {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) => CustomToast(
-                                      heading: 'Error',
-                                      content: 'Please verify dates',
-                                      onTap: () {},
-                                      isSuccess: false,
-                                    ),
-                                  );
-                                } else {
-                                  final req = PostTaskReq(
-                                    title: titleController.text,
-                                    description: descriptionController.text,
-                                    highlights: {},
-                                    budgetType: "Hourly",
-                                    budgetFrom: int.parse(
-                                      startPriceController.text,
-                                    ),
-                                    budgetTo: int.parse(
-                                      endPriceController.text.isEmpty
-                                          ? startPriceController.text
-                                          : endPriceController.text,
-                                    ),
-                                    startDate: startDate,
-                                    endDate: endDate,
-                                    startTime: startTime?.format(context),
-                                    endTime: endTime?.format(context),
-                                    shareLocation: true,
-                                    isNegotiable: true,
-                                    revisions: 32767,
-                                    recursionType: "weekly",
-                                    location: addressController.text,
-                                    isProfessional: true,
-                                    isOnline: true,
-                                    isRequested: true,
-                                    discountType: "Percentage",
-                                    discountValue: 0,
-                                    extraData: {},
-                                    noOfReservation: 2147483647,
-                                    isActive: true,
-                                    needsApproval: true,
-                                    isEndorsed: true,
-                                    service: categoryId,
-                                    event:
-                                        "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                                    city: 0,
-                                    currency: "string",
-                                    avatar: 0,
-                                    images: imageList,
-                                    videos: fileList,
-                                  );
-
-                                  print(req.toJson());
-
-                                  // context.read<TaskBloc>().add(
-                                  //       TaskAddInitiated(
-                                  //         req: req,
-                                  //       ),
-                                  //     );
-                                }
-                              } else {
+                          BlocConsumer<TaskBloc, TaskState>(
+                            listener: (context, state) {
+                              if (state is TaskAddSuccess) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
-                                    heading: 'Error',
+                                    heading: 'Success',
                                     content:
-                                        'Error validating form. Please verify the data and try again.',
+                                        'You have successfully posted a task',
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        Root.routeName,
+                                      );
+                                    },
+                                    isSuccess: true,
+                                  ),
+                                );
+                              }
+                              if (state is TaskAddFailure) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                    heading: 'Failure',
+                                    content:
+                                        'Task cannot be posted. Please try again.',
                                     onTap: () {},
                                     isSuccess: false,
                                   ),
                                 );
                               }
                             },
-                            label: 'Next',
+                            builder: (context, state) {
+                              return CustomElevatedButton(
+                                callback: () async {
+                                  if (_key.currentState!.validate() &&
+                                      startPriceController.text.isNotEmpty &&
+                                      endDate != null &&
+                                      isTermsAccepted == true) {
+                                    if (endDate!.isAfter(
+                                      startDate ?? endDate!,
+                                    )) {
+                                      return showDialog(
+                                        context: context,
+                                        builder: (context) => CustomToast(
+                                          heading: 'Error',
+                                          content: 'Please verify dates',
+                                          onTap: () {},
+                                          isSuccess: false,
+                                        ),
+                                      );
+                                    } else {
+                                      final req = PostTaskReq(
+                                        title: titleController.text,
+                                        description: descriptionController.text,
+                                        highlights: requirementList.asMap().map(
+                                              (key, value) => MapEntry(
+                                                key.toString(),
+                                                value as dynamic,
+                                              ),
+                                            ),
+                                        budgetType: budgetType,
+                                        budgetFrom: int.parse(
+                                          startPriceController.text,
+                                        ),
+                                        budgetTo: int.parse(
+                                          endPriceController.text.isEmpty
+                                              ? startPriceController.text
+                                              : endPriceController.text,
+                                        ),
+                                        startDate: startDate ?? DateTime.now(),
+                                        endDate: endDate,
+                                        startTime: startTime?.format(context),
+                                        endTime: endTime?.format(context),
+                                        shareLocation: true,
+                                        isNegotiable: true,
+                                        location: addressController.text,
+                                        revisions: 0,
+                                        avatar: 2,
+                                        isProfessional: true,
+                                        isOnline: true,
+                                        isRequested: true,
+                                        discountType: "Percentage",
+                                        discountValue: 0,
+                                        extraData: {},
+                                        noOfReservation: 2147483647,
+                                        isActive: true,
+                                        needsApproval: true,
+                                        isEndorsed: true,
+                                        service: categoryId,
+                                        event: "",
+                                        city: cityCode,
+                                        currency: currencyCode,
+                                        images: imageList,
+                                        videos: fileList,
+                                      );
+
+                                      // print(jsonEncode(req.toJson()));
+
+                                      context.read<TaskBloc>().add(
+                                            TaskAddInitiated(
+                                              req: req,
+                                            ),
+                                          );
+                                    }
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomToast(
+                                        heading: 'Error',
+                                        content:
+                                            'Error validating form. Please verify the data and try again.',
+                                        onTap: () {},
+                                        isSuccess: false,
+                                      ),
+                                    );
+                                  }
+                                },
+                                label: 'Next',
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -570,16 +720,16 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   ).then(
                     (value) => setState(
                       () {
-                        startDate = value;
+                        endDate = value;
                       },
                     ),
                   );
                 },
                 child: CustomFormContainer(
-                  leadingWidget: Icon(
+                  leadingWidget: const Icon(
                     Icons.calendar_today_rounded,
                   ),
-                  hintText: startDate?.toIso8601String().substring(
+                  hintText: endDate?.toIso8601String().substring(
                             0,
                             10,
                           ) ??

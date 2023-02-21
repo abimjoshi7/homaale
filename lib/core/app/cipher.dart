@@ -11,6 +11,7 @@ import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dar
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -166,6 +167,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => TaxCalculatorCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AddServiceCubit(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

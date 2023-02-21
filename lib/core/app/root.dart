@@ -185,26 +185,31 @@ class _RootState extends State<Root> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AddPopupButton(
-                          label: 'Post a Task',
-                          icon: Icons.comment_bank_rounded,
-                          callback: () {
-                            Navigator.pushNamed(
-                              context,
-                              PostTaskPage.routeName,
-                            );
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40),
+                          child: AddPopupButton(
+                            label: 'Post a Task',
+                            icon: Icons.comment_bank_rounded,
+                            callback: () {
+                              Navigator.pushNamed(
+                                context,
+                                PostTaskPage.routeName,
+                              );
+                            },
+                          ),
                         ),
-                        addHorizontalSpace(40),
-                        AddPopupButton(
-                          label: 'Add a Service',
-                          icon: Icons.home_repair_service_rounded,
-                          callback: () {
-                            Navigator.pushNamed(
-                              context,
-                              AddServicePage.routeName,
-                            );
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: AddPopupButton(
+                            label: 'Add a Service',
+                            icon: Icons.home_repair_service_rounded,
+                            callback: () {
+                              Navigator.pushNamed(
+                                context,
+                                AddServicePage.routeName,
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),
