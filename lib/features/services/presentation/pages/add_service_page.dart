@@ -787,48 +787,48 @@ class _AddServicePageState extends State<AddServicePage> {
                                           value as dynamic,
                                         ),
                                       ),
-                                  // budgetType: budgetType,
-                                  // budgetFrom: int.parse(
-                                  //   startPriceController.text,
-                                  // ),
-                                  // budgetTo: int.parse(
-                                  //   endPriceController.text.isEmpty
-                                  //       ? startPriceController.text
-                                  //       : endPriceController.text,
-                                  // ),
-                                  // startDate: startDate ?? DateTime.now(),
-                                  // endDate: endDate,
-                                  // startTime: startTime?.format(context),
-                                  // endTime: endTime?.format(context),
-                                  // shareLocation: true,
-                                  // isNegotiable: true,
-                                  // location: addressController.text,
-                                  // revisions: 0,
-                                  // avatar: 2,
-                                  // isProfessional: true,
-                                  // isOnline: true,
-                                  // isRequested: true,
-                                  // discountType: "Percentage",
-                                  // discountValue: 0,
-                                  // extraData: {},
-                                  // noOfReservation: 2147483647,
-                                  // isActive: true,
-                                  // needsApproval: true,
-                                  // isEndorsed: true,
-                                  // service: categoryId,
-                                  // event: "",
-                                  // city: cityCode,
-                                  // currency: currencyCode,
-                                  // images: imageList,
-                                  // videos: fileList,
+                                  budgetType: budgetType,
+                                  budgetFrom: int.parse(
+                                    startPriceController.text,
+                                  ),
+                                  budgetTo: int.parse(
+                                    endPriceController.text.isEmpty
+                                        ? startPriceController.text
+                                        : endPriceController.text,
+                                  ),
+                                  startDate: startDate ?? DateTime.now(),
+                                  endDate: endDate,
+                                  startTime: startTime?.format(context),
+                                  endTime: endTime?.format(context),
+                                  shareLocation: true,
+                                  isNegotiable: true,
+                                  location: addressController.text,
+                                  revisions: 0,
+                                  avatar: 2,
+                                  isProfessional: true,
+                                  isOnline: true,
+                                  isRequested: true,
+                                  discountType: "Percentage",
+                                  discountValue: 0,
+                                  extraData: {},
+                                  noOfReservation: 2147483647,
+                                  isActive: true,
+                                  needsApproval: true,
+                                  isEndorsed: true,
+                                  service: categoryId,
+                                  event: "",
+                                  city: cityCode,
+                                  currency: currencyCode,
+                                  images: imageList,
+                                  videos: fileList,
                                 );
 
+                                print(req);
                                 print(123);
 
                                 // await ServicesRepositories()
                                 //     .addEntityService(req);
 
-                                // print(req);
                                 // context.read<AddServiceCubit>().addService(req);
                               },
                               label: 'Next',
