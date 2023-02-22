@@ -24,7 +24,12 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
                         .map(
                           (e) => ServiceList.fromJson(e),
                         )
-                        .toList(),
+                        .toList()
+                      ..sort(
+                        (a, b) => a.title!.compareTo(
+                          b.title!,
+                        ),
+                      ),
                   ),
                 ),
               );

@@ -20,58 +20,86 @@ class ServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: kPadding10,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.12,
+            width: MediaQuery.of(context).size.width * 0.36,
             child: Image.network(
               imagePath ?? kServiceImageNImg,
               fit: BoxFit.cover,
             ),
           ),
-          FittedBox(
-            child: Text(
-              title ?? 'Root Canal Treatment',
-              style: kPurpleText16,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    title ?? 'Root Canal Treatment',
+                    style: kPurpleText16,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Flexible(
+                  child: Text(
+                    description ?? 'Carry Clinic',
+                    style: kLightBlueText14,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
           ),
-          Text(
-            description ?? 'Carry Clinic',
-            style: kLightBlueText14,
-          ),
-          Row(
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.star_rate_rounded,
-                    color: Color(
-                      0xffff9700,
-                    ),
-                    size: 13,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.017,
+            width: MediaQuery.of(context).size.width * 0.36,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.star_rate_rounded,
+                        color: Color(
+                          0xffff9700,
+                        ),
+                        size: 13,
+                      ),
+                      Flexible(
+                        child: Text(
+                          rating ?? '3.5 (300)',
+                          style: kPurpleText13,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    ],
                   ),
-                  Text(
-                    rating ?? '3.5 (300)',
-                    style: kPurpleText13,
-                  )
-                ],
-              ),
-              kWidth20,
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on_outlined,
-                    color: Color(0xfffe5050),
-                    size: 13,
+                ),
+                // addHorizontalSpace(10),
+                Flexible(
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on_outlined,
+                        color: Color(0xfffe5050),
+                        size: 13,
+                      ),
+                      Flexible(
+                        child: Text(
+                          location ?? 'Anamnagar',
+                          overflow: TextOverflow.ellipsis,
+                          style: kPurpleText13,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    location ?? 'Anamnagar',
-                    style: kPurpleText13,
-                  ),
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           )
         ],
       ),

@@ -22,7 +22,12 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
               if (value.isNotEmpty) {
                 emit(
                   CurrencyLoadSuccess(
-                    currencyListRes: value,
+                    currencyListRes: value
+                      ..sort(
+                        (a, b) => a.name!.compareTo(
+                          b.name!,
+                        ),
+                      ),
                   ),
                 );
               }

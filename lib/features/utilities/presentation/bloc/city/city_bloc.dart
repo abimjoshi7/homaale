@@ -21,7 +21,10 @@ class CityBloc extends Bloc<CityEvent, CityState> {
               if (value.isNotEmpty) {
                 emit(
                   CityLoadSuccess(
-                    list: value,
+                    list: value
+                      ..sort(
+                        (a, b) => a.name!.compareTo(b.name!),
+                      ),
                   ),
                 );
               }

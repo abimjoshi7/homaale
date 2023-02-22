@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -24,7 +23,7 @@ class PopularServicesSection extends StatelessWidget {
                   onTap: () {},
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,

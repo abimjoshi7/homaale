@@ -17,7 +17,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         try {
           await respositories.fetchCategoriesList().then(
                 (value) => emit(
-                  CategoriesLoadSuccess(value),
+                  CategoriesLoadSuccess(
+                    value,
+                  ),
                 ),
               );
         } catch (e) {

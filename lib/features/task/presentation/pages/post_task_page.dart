@@ -12,6 +12,7 @@ import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class PostTaskPage extends StatefulWidget {
   static const routeName = '/post-task-page';
@@ -154,7 +155,15 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             ],
                                           ),
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              setState(
+                                                () {
+                                                  requirementList.remove(
+                                                    requirementList[index],
+                                                  );
+                                                },
+                                              );
+                                            },
                                             child: const Icon(
                                               Icons.clear,
                                               size: 14,
@@ -836,31 +845,72 @@ class _PostTaskPageState extends State<PostTaskPage> {
     return Column(
       children: [
         Row(
-          children: const [
+          children: [
             Flexible(
               child: CustomFormField(
                 label: 'Start Date',
                 isRequired: false,
                 child: SizedBox(
-                  child: CustomFormContainer(
-                    leadingWidget: Icon(
-                      Icons.calendar_today_rounded,
+                  child: InkWell(
+                    onTap: () async {
+                      await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(
+                          2050,
+                        ),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            startDate = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      leadingWidget: const Icon(
+                        Icons.calendar_today_rounded,
+                      ),
+                      hintText: startDate != null
+                          ? DateFormat('yy/MM/dd').format(startDate!)
+                          : 'dd/mm/yy',
                     ),
-                    hintText: 'dd/mm/yy',
                   ),
                 ),
               ),
             ),
+            addHorizontalSpace(10),
             Flexible(
               child: CustomFormField(
                 label: 'End Date',
                 isRequired: false,
                 child: SizedBox(
-                  child: CustomFormContainer(
-                    leadingWidget: Icon(
-                      Icons.calendar_today_rounded,
+                  child: InkWell(
+                    onTap: () async {
+                      await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(
+                          2050,
+                        ),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            endDate = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      leadingWidget: const Icon(
+                        Icons.calendar_today_rounded,
+                      ),
+                      hintText: endDate != null
+                          ? DateFormat('yy/MM/dd').format(endDate!)
+                          : 'dd/mm/yy',
                     ),
-                    hintText: 'dd/mm/yy',
                   ),
                 ),
               ),
