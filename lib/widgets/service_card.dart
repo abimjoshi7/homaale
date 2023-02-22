@@ -26,7 +26,7 @@ class ServiceCard extends StatelessWidget {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.12,
-            width: MediaQuery.of(context).size.width * 0.36,
+            width: MediaQuery.of(context).size.width * 0.5,
             child: Image.network(
               imagePath ?? kServiceImageNImg,
               fit: BoxFit.cover,
@@ -56,7 +56,7 @@ class ServiceCard extends StatelessWidget {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.017,
-            width: MediaQuery.of(context).size.width * 0.36,
+            width: MediaQuery.of(context).size.width * 0.5,
             child: Row(
               children: [
                 Flexible(

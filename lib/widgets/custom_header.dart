@@ -19,7 +19,7 @@ class CustomHeader extends StatelessWidget {
       children: [
         leadingWidget,
         child ?? const SizedBox.shrink(),
-        trailingWidget
+        trailingWidget,
       ],
     );
   }

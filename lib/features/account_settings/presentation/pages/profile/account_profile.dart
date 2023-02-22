@@ -5,6 +5,7 @@ import 'package:cipher/features/account_settings/presentation/pages/tax_calculat
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
@@ -188,6 +189,20 @@ class AccountProfile extends StatelessWidget {
                         return const SizedBox.shrink();
                       }
                     },
+                  ),
+                  AccountListTileSection(
+                    onTap: () {
+                      Navigator.pushNamed(context, SandboxPage.routeName);
+                    },
+                    icon: const Icon(
+                      Icons.reduce_capacity_sharp,
+                      color: Color(0xff495057),
+                    ),
+                    label: 'Sandbox',
+                    trailingWidget: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                    ),
                   ),
                   AccountListTileSection(
                     onTap: () {

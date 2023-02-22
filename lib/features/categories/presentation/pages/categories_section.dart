@@ -45,19 +45,23 @@ class CategoriesSection extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
-                        crossAxisSpacing: 20,
+                        crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                       ),
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            CategoriesPage.routeName,
-                          );
-                        },
-                        child: CategoriesIcons(
-                          data: state.hero.result?[index]?.category?.name ?? '',
-                          color: randomColorGenerator(),
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              CategoriesPage.routeName,
+                            );
+                          },
+                          child: CategoriesIcons(
+                            data:
+                                state.hero.result?[index]?.category?.name ?? '',
+                            color: randomColorGenerator(),
+                          ),
                         ),
                       ),
                     ),

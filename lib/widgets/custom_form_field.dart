@@ -32,6 +32,7 @@ class CustomFormField extends StatelessWidget {
                 '*',
                 style: TextStyle(
                   color: Colors.red,
+                  fontSize: 18,
                 ),
               )
             else

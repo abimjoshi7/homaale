@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_section.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class Home extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const HomeHeaderSection(),
-              const HeaderBannerSection(),
+              const HeaderOfferSection(),
               const DealsOfTheDaySection(),
               const CategoriesSection(),
               Padding(
@@ -34,20 +33,7 @@ class Home extends StatelessWidget {
               const PopularServicesSection(),
               const PopularServicesNearbySection(),
               const TasksSuggestionSection(),
-              const Padding(
-                padding: EdgeInsets.all(20),
-                child: Text(
-                  'Homaale Notable Quality',
-                  style: kPurpleText16,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Image.asset(
-                  'assets/banners/notable.png',
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
+              const NotableBannerSection(),
               const PopularTaskerNearbySection(),
               const TaskRecommendationSection(),
               const RecentlyLaunchedServicesSection(),

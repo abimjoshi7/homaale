@@ -1,4 +1,3 @@
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -79,14 +78,20 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       const Icon(
                         Icons.location_on_outlined,
                         color: Colors.white,
+                        size: 14,
                       ),
                       Text(
                         location ?? 'Click to access location',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
+                          fontSize: 14,
                         ),
                       ),
-                      // const Icon(Icons.arrow_drop_down)
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                        size: 14,
+                      )
                     ],
                   ),
                 )
@@ -127,20 +132,11 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     trailing: BlocBuilder<SignInBloc, SignInState>(
                       builder: (context, state) {
                         return IconButton(
-                          onPressed: () async {
-                            final x = context.read<SignInBloc>().toJson(state);
-
-                            print(x);
-                            // if (state is SignInSuccess) {
-                            //   print(
-                            //     state.toJson()['value'],
-                            //   );
-                            // }
-                          },
+                          onPressed: () async {},
                           icon: const Icon(
                             Icons.notifications_none,
                             color: Colors.white,
-                            size: 35,
+                            size: 30,
                           ),
                         );
                       },
@@ -159,7 +155,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   ),
                   child: const CustomTextFormField(
                     prefixWidget: Icon(Icons.search),
-                    hintText: 'search here',
+                    hintText: 'Search here',
                   ),
                 ),
               ),

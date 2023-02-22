@@ -85,7 +85,7 @@ class DealsOfTheDaySection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Card(
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
+                  width: MediaQuery.of(context).size.width * 0.45,
                   child: Column(
                     children: [
                       Expanded(
@@ -106,28 +106,23 @@ class DealsOfTheDaySection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text('Trimming & Cutting'),
-                            kHeight5,
                             Row(
                               children: const [
                                 Text(
                                   'Rs 10,000',
                                   style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: Color(0xffADB5BD),
                                   ),
                                 ),
                                 kWidth5,
                                 Text(
                                   'Rs 5,000',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xff3eaeff),
-                                  ),
+                                  style: kLightBlueText14,
                                 ),
                               ],
                             ),
-                            kHeight5,
                             Container(
                               height: 4,
                               decoration: BoxDecoration(
@@ -135,14 +130,17 @@ class DealsOfTheDaySection extends StatelessWidget {
                                 color: const Color(0xffd9d9d9),
                               ),
                             ),
-                            kHeight5,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Flexible(
                                   child: const Text(
                                     '10 times booked',
-                                    style: kHelper13,
+                                    style: TextStyle(
+                                      color: kColorGrey,
+                                      fontSize: 13,
+                                    ),
+                                    // overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 Flexible(
@@ -151,6 +149,7 @@ class DealsOfTheDaySection extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 13,
                                       color: Colors.red,
+                                      // overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 )

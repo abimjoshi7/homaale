@@ -74,3 +74,44 @@ List<String> weekNames = [
   'Fri',
   'Sat',
 ];
+
+List<Widget> notableBannerList = [
+  Padding(
+    padding: const EdgeInsets.all(5),
+    child: Image.asset(
+      'assets/banners/notable1.png',
+      fit: BoxFit.fill,
+    ),
+  ),
+  Padding(
+    padding: const EdgeInsets.all(5),
+    child: Image.asset(
+      'assets/banners/notable2.png',
+      fit: BoxFit.fill,
+    ),
+  ),
+  Padding(
+    padding: const EdgeInsets.all(5),
+    child: Image.asset(
+      'assets/banners/notable3.png',
+      fit: BoxFit.fill,
+    ),
+  ),
+];
+
+List<Widget> offerBanner = [
+  SizedBox(
+    width: double.infinity,
+    child: Image.asset(
+      'assets/banners/1.png',
+      fit: BoxFit.fitWidth,
+    ),
+  ),
+  SizedBox(
+    width: double.infinity,
+    child: Image.asset(
+      'assets/banners/2.png',
+      fit: BoxFit.fitWidth,
+    ),
+  ),
+];
