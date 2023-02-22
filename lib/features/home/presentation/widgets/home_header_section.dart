@@ -124,7 +124,9 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       ),
                     );
                   } else {
-                    child = const CircleAvatar();
+                    child = const CircleAvatar(
+                      backgroundColor: Colors.white,
+                    );
                   }
                   return ListTile(
                     leading: child,
