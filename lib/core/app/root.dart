@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
@@ -61,6 +62,26 @@ class _RootState extends State<Root> {
   @override
   void initState() {
     initBlocs();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) async {
+        if (CacheHelper.hasProfile == false) {
+          await showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Welcome To Homaale',
+              content: 'Get started by completing your profile',
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  CompleteProfilePage.routeName,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+      },
+    );
     super.initState();
   }
 

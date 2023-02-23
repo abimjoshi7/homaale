@@ -1,17 +1,16 @@
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/models/user_login_res.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
 
 class SignInBloc extends Bloc<SignInEvent, SignInState> with HydratedMixin {
-  SignInBloc(this._signInRepository) : super(SignInPhoneInitial()) {
+  final _signInRepository = SignInRepository();
+  SignInBloc() : super(SignInPhoneInitial()) {
     on<SignOutInitiated>(
       (event, emit) async {
         await CacheHelper.clearAllCachedData().whenComplete(
@@ -82,7 +81,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> with HydratedMixin {
       },
     );
   }
-  final SignInRepository _signInRepository;
 
   @override
   SignInState? fromJson(Map<String, dynamic> json) {

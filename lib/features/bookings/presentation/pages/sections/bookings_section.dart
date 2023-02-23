@@ -18,7 +18,6 @@ class BookingsSection extends StatelessWidget {
         if (state is BookEntityServiceLoadSuccess) {
           return Column(
             children: [
-              const BookingsFilterSection(),
               const Padding(
                 padding: EdgeInsets.all(10),
                 child: Align(

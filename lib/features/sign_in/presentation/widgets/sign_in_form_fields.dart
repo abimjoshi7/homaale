@@ -30,6 +30,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
         final error = await CacheHelper.getCachedString(kErrorLog);
 
         if (state is SignInSuccess) {
+          CacheHelper.hasProfile = state.userLoginRes.hasProfile;
           CacheHelper.accessToken = state.userLoginRes.access;
           CacheHelper.refreshToken = state.userLoginRes.refresh;
           if (keepLogged == true) {

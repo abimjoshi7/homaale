@@ -25,3 +25,19 @@ class TaskAddFailure extends TaskState {
   @override
   List<Object?> get props => [];
 }
+
+class TaskLoadSuccess extends TaskState {
+  final MyTaskRes res;
+  const TaskLoadSuccess({
+    required this.res,
+  });
+  @override
+  List<Object?> get props => [
+        res,
+      ];
+}
+
+class TaskLoadFailure extends TaskState {
+  @override
+  List<Object?> get props => [];
+}

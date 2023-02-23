@@ -14,6 +14,7 @@ import 'package:cipher/features/order/presentation/pages/order_page.dart';
 import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
@@ -251,6 +252,11 @@ class AppRouter {
       case TaxCalculator.routeName:
         return MaterialPageRoute(
           builder: (context) => const TaxCalculator(),
+          settings: settings,
+        );
+      case PopularServicesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PopularServicesPage(),
           settings: settings,
         );
       case SandboxPage.routeName:

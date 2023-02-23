@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class CacheHelper {
   static String? accessToken;
   static String? refreshToken;
+  static bool? hasProfile;
 
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(

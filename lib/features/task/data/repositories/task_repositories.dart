@@ -24,4 +24,20 @@ class TaskRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchCreatedTask() async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/my-entity-services/',
+        query: {
+          "is_requested": true,
+        },
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Created Task Fetch Error: $e");
+      rethrow;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,12 @@ class PopularServicesSection extends StatelessWidget {
               children: [
                 SectionHeading(
                   labelName: 'Popular services',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      PopularServicesPage.routeName,
+                    );
+                  },
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.2,

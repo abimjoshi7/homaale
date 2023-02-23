@@ -15,3 +15,8 @@ class TaskAddInitiated extends TaskEvent {
         req,
       ];
 }
+
+class MyTaskLoadInitiated extends TaskEvent {
+  @override
+  List<Object?> get props => [];
+}

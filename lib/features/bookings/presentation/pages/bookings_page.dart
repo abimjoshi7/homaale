@@ -36,11 +36,11 @@ class BookingPages extends StatelessWidget {
                 'My Bookings',
               ),
             ),
-            Divider(),
-            BookingsCalenderSection(),
-            BookingsInfoSection(),
-            Expanded(
-              child: const BookingsMainSection(),
+            const Divider(),
+            const BookingsCalenderSection(),
+            const BookingsInfoSection(),
+            const Expanded(
+              child: BookingsMainSection(),
             ),
           ],
         ),

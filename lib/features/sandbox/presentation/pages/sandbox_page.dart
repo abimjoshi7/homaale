@@ -14,6 +14,8 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/task/data/repositories/task_repositories.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
@@ -216,6 +218,21 @@ class SandboxPage extends StatelessWidget {
                     }
                   },
                   label: 'Get Bookings',
+                );
+              },
+            ),
+          ),
+          addVerticalSpace(20),
+          Center(
+            child: BlocBuilder<TaskBloc, TaskState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    context.read<TaskBloc>().add(MyTaskLoadInitiated());
+                    final x = await TaskRepositories().fetchCreatedTask();
+                    print(23);
+                  },
+                  label: 'Get My Tasks',
                 );
               },
             ),

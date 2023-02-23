@@ -29,18 +29,14 @@ class ProfileCompletionForm extends StatefulWidget {
 }
 
 class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
-  List<int?>? interestCodes = [];
   final firstNameController = TextEditingController();
   final middleNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final bioController = TextEditingController();
   final designationController = TextEditingController();
   final genderController = TextEditingController();
-  DateTime? dateOfBirth = DateTime.now();
   final userTypeController = TextEditingController();
   final experienceController = TextEditingController();
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
   final baseRateController = TextEditingController();
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
@@ -48,19 +44,23 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   final currencyController = TextEditingController();
   final visibilityController = TextEditingController();
   final taskPreferencesController = TextEditingController();
+  final tagController = TextfieldTagsController();
+  int? cityCode;
+  DateTime? dateOfBirth = DateTime.now();
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
   String genderGroup = 'Male';
   String userType = 'Client';
   String experienceLevel = 'Beginner';
-  final _key = GlobalKey<FormState>();
+  String? countryName;
+  String? currencyCode;
   XFile? selectedImage;
   File? selectedFile;
   bool isClient = false;
   bool isTasker = false;
   List<Map<String, dynamic>> map = [];
-  int? cityCode;
-  String? countryName;
-  final tagController = TextfieldTagsController();
-  String? currencyCode;
+  List<int?>? interestCodes = [];
+  final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
         child: Form(
           key: _key,
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: kPadding10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -113,344 +113,255 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     ],
                   ),
                 ),
-                kHeight50,
+                addVerticalSpace(30),
                 Row(
                   children: [
                     Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                'First name',
-                                style: kPurpleText16,
-                              ),
-                              kWidth5,
-                              Text(
-                                '*',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            ],
+                      child: CustomFormField(
+                        label: 'First Name',
+                        isRequired: true,
+                        child: CustomTextFormField(
+                          hintText: 'Harry',
+                          onSaved: (p0) => setState(
+                            () {
+                              firstNameController.text = p0!;
+                            },
                           ),
-                          kHeight5,
-                          CustomTextFormField(
-                            hintText: 'Harry',
-                            onSaved: (p0) => setState(
-                              () {
-                                firstNameController.text = p0!;
-                              },
-                            ),
-                            validator: validateNotEmpty,
-                          ),
-                        ],
+                          validator: validateNotEmpty,
+                        ),
                       ),
                     ),
-                    kWidth10,
+                    addHorizontalSpace(10),
                     Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Middle name',
-                            style: kPurpleText16,
+                      child: CustomFormField(
+                        label: 'Middle Name',
+                        isRequired: false,
+                        child: CustomTextFormField(
+                          hintText: 'Prasad',
+                          onSaved: (p0) => setState(
+                            () {
+                              middleNameController.text = p0!;
+                            },
                           ),
-                          kHeight5,
-                          CustomTextFormField(
-                            hintText: 'Prasad',
-                            onSaved: (p0) => setState(
-                              () {
-                                middleNameController.text = p0!;
-                              },
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                    kWidth10,
+                    addHorizontalSpace(10),
                     Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                'Last name',
-                                style: kPurpleText16,
-                              ),
-                              kWidth5,
-                              Text(
-                                '*',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            ],
+                      child: CustomFormField(
+                        label: 'Last Name',
+                        isRequired: true,
+                        child: CustomTextFormField(
+                          hintText: 'Smith',
+                          onSaved: (p0) => setState(
+                            () {
+                              lastNameController.text = p0!;
+                            },
                           ),
-                          kHeight5,
-                          CustomTextFormField(
-                            hintText: 'Smith',
-                            onSaved: (p0) => setState(
+                          validator: validateNotEmpty,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                CustomFormField(
+                  label: 'Bio',
+                  isRequired: true,
+                  child: CustomTextFormField(
+                    hintText: 'Write something...',
+                    maxLines: 3,
+                    onSaved: (p0) => setState(
+                      () {
+                        bioController.text = p0!;
+                      },
+                    ),
+                    validator: validateNotEmpty,
+                  ),
+                ),
+                CustomFormField(
+                  label: 'Designation',
+                  isRequired: false,
+                  child: CustomTextFormField(
+                    hintText: 'Pilot',
+                    onSaved: (p0) => setState(
+                      () {
+                        designationController.text = p0!;
+                      },
+                    ),
+                  ),
+                ),
+                CustomFormField(
+                  label: 'Gender',
+                  isRequired: true,
+                  child: Row(
+                    children: [
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'Male',
+                            groupValue: genderGroup,
+                            onChanged: (value) => setState(
                               () {
-                                lastNameController.text = p0!;
+                                genderGroup = value!;
                               },
                             ),
-                            validator: validateNotEmpty,
                           ),
+                          const Text('Male'),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-                kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Bio',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                kHeight5,
-                CustomTextFormField(
-                  hintText: 'Write something...',
-                  maxLines: 3,
-                  onSaved: (p0) => setState(
-                    () {
-                      bioController.text = p0!;
-                    },
-                  ),
-                  validator: validateNotEmpty,
-                ),
-                kHeight20,
-                const Text(
-                  'Designation',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                CustomTextFormField(
-                  hintText: 'Pilot',
-                  onSaved: (p0) => setState(
-                    () {
-                      designationController.text = p0!;
-                    },
-                  ),
-                ),
-                kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Please specify your gender',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                kHeight5,
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Radio(
-                          value: 'Male',
-                          groupValue: genderGroup,
-                          onChanged: (value) => setState(
-                            () {
-                              genderGroup = value!;
-                            },
+                      kWidth20,
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'Female',
+                            groupValue: genderGroup,
+                            onChanged: (value) => setState(
+                              () {
+                                genderGroup = value!;
+                              },
+                            ),
                           ),
-                        ),
-                        const Text('Male'),
-                      ],
-                    ),
-                    kWidth20,
-                    Row(
-                      children: [
-                        Radio(
-                          value: 'Female',
-                          groupValue: genderGroup,
-                          onChanged: (value) => setState(
-                            () {
-                              genderGroup = value!;
-                            },
-                          ),
-                        ),
-                        const Text('Female'),
-                      ],
-                    ),
-                    kWidth20,
-                    Row(
-                      children: [
-                        Radio(
-                          value: 'Other',
-                          groupValue: genderGroup,
-                          onChanged: (value) => setState(
-                            () {
-                              genderGroup = value!;
-                            },
-                          ),
-                        ),
-                        const Text('Other'),
-                      ],
-                    ),
-                  ],
-                ),
-                kHeight20,
-                const Text(
-                  'Date of birth',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                InkWell(
-                  onTap: () async {
-                    await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1800),
-                      lastDate: DateTime(2080),
-                    ).then(
-                      (value) => setState(
-                        () {
-                          dateOfBirth = value;
-                        },
+                          const Text('Female'),
+                        ],
                       ),
-                    );
-                  },
-                  child: CustomFormContainer(
-                    leadingWidget: const Icon(
-                      Icons.calendar_month_rounded,
-                      color: kColorPrimary,
-                    ),
-                    hintText: DateFormat('yyyy-MM-dd')
-                        .format(dateOfBirth as DateTime),
+                      kWidth20,
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'Other',
+                            groupValue: genderGroup,
+                            onChanged: (value) => setState(
+                              () {
+                                genderGroup = value!;
+                              },
+                            ),
+                          ),
+                          const Text('Other'),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                kHeight10,
+                CustomFormField(
+                  label: 'Date of birth',
+                  isRequired: false,
+                  child: InkWell(
+                    onTap: () async {
+                      await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1800),
+                        lastDate: DateTime(2080),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            dateOfBirth = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      leadingWidget: const Icon(
+                        Icons.calendar_month_rounded,
+                        color: kColorPrimary,
+                      ),
+                      hintText: DateFormat('yyyy-MM-dd')
+                          .format(dateOfBirth as DateTime),
+                    ),
+                  ),
+                ),
                 const Divider(),
-                kHeight10,
                 const Text(
                   'Professional Information',
-                  style: kText20,
+                  style: kText17,
                 ),
-                kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Select User Type',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                kHeight5,
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isClient,
-                          onChanged: (value) => setState(
-                            () {
-                              isClient = value!;
-                            },
+                CustomFormField(
+                  label: 'Select User Type',
+                  isRequired: true,
+                  child: Row(
+                    children: [
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isClient,
+                            onChanged: (value) => setState(
+                              () {
+                                isClient = value!;
+                              },
+                            ),
                           ),
-                        ),
-                        // Radio(
-                        //   value: 'Client',
-                        //   groupValue: userType,
-                        //   onChanged: (value) => setState(
-                        //     () {
-                        //       userType = value!;
-                        //     },
-                        //   ),
-                        // ),
-                        const Text('Client')
-                      ],
-                    ),
-                    kWidth20,
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: isTasker,
-                          onChanged: (value) => setState(
-                            () {
-                              isTasker = value!;
-                            },
+                          // Radio(
+                          //   value: 'Client',
+                          //   groupValue: userType,
+                          //   onChanged: (value) => setState(
+                          //     () {
+                          //       userType = value!;
+                          //     },
+                          //   ),
+                          // ),
+                          const Text('Client')
+                        ],
+                      ),
+                      kWidth20,
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isTasker,
+                            onChanged: (value) => setState(
+                              () {
+                                isTasker = value!;
+                              },
+                            ),
                           ),
-                        ),
-                        // Radio(
-                        //   value: 'Tasker',
-                        //   groupValue: userType,
-                        //   onChanged: (value) => setState(
-                        //     () {
-                        //       userType = value!;
-                        //     },
-                        //   ),
-                        // ),
-                        const Text('Tasker')
-                      ],
-                    ),
-                  ],
+                          // Radio(
+                          //   value: 'Tasker',
+                          //   groupValue: userType,
+                          //   onChanged: (value) => setState(
+                          //     () {
+                          //       userType = value!;
+                          //     },
+                          //   ),
+                          // ),
+                          const Text('Tasker')
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Skills',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
+                CustomFormField(
+                  label: 'Skills',
+                  isRequired: true,
+                  child: CustomTagTextField(tagController: tagController),
                 ),
-                kHeight5,
-                CustomTagTextField(tagController: tagController),
-                kHeight20,
-                const Text(
-                  'Interests',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                BlocBuilder<InterestsBloc, InterestsState>(
-                  builder: (context, state) {
-                    if (state is InterestsLoadSuccess) {
-                      return MultiSelectDialogField(
-                        items: List.generate(
-                          state.taskCategoryListRes.length,
-                          (index) => MultiSelectItem(
-                            state.taskCategoryListRes[index].id.toString(),
-                            state.taskCategoryListRes[index].name.toString(),
+                CustomFormField(
+                  label: 'Interests',
+                  isRequired: false,
+                  child: BlocBuilder<InterestsBloc, InterestsState>(
+                    builder: (context, state) {
+                      if (state is InterestsLoadSuccess) {
+                        return MultiSelectDialogField(
+                          items: List.generate(
+                            state.taskCategoryListRes.length,
+                            (index) => MultiSelectItem(
+                              state.taskCategoryListRes[index].id.toString(),
+                              state.taskCategoryListRes[index].name.toString(),
+                            ),
                           ),
-                        ),
-                        onConfirm: (p0) {
-                          setState(
-                            () {
-                              interestCodes =
-                                  p0.map((e) => int.parse(e)).toList();
-                            },
-                          );
-                        },
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
+                          onConfirm: (p0) {
+                            setState(
+                              () {
+                                interestCodes =
+                                    p0.map((e) => int.parse(e)).toList();
+                              },
+                            );
+                          },
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
                 ),
-                kHeight20,
                 Row(
                   children: const [
                     Text(
@@ -843,7 +754,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           ),
                         );
                       }
-                      if(state is UserAddFailure){
+                      if (state is UserAddFailure) {
                         await showDialog(
                           context: context,
                           builder: (context) => CustomToast(
@@ -859,7 +770,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
-                          final image = await getImageFileFromAssets('avatar-ga3c7ddeec_640.png');
+                          final image = await getImageFileFromAssets(
+                              'avatar-ga3c7ddeec_640.png');
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
@@ -915,7 +827,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 selectedImage?.path ?? image.path,
                               ),
                             );
-                            if(!mounted) return;
+                            if (!mounted) return;
                             context.read<UserBloc>().add(
                                   UserAdded(
                                     req: q,

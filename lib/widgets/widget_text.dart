@@ -19,7 +19,7 @@ class WidgetText extends StatelessWidget {
         kWidth5,
         Text(
           label,
-          style: kPurpleText13,
+          style: kHelper13,
         ),
       ],
     );

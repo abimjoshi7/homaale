@@ -11,7 +11,6 @@ class BookingsHistorySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const BookingsFilterSection(),
         const Padding(
           padding: EdgeInsets.all(10),
           child: Align(

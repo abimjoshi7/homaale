@@ -6,13 +6,13 @@ class CustomFormField extends StatelessWidget {
   const CustomFormField({
     super.key,
     required this.label,
-    required this.child,
     required this.isRequired,
+    required this.child,
   });
 
   final String label;
-  final Widget child;
   final bool isRequired;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class CustomFormField extends StatelessWidget {
           children: [
             Text(
               label,
-              style: kLabelPrimary,
+              style: kPurpleText16,
             ),
             kWidth5,
             if (isRequired == true)
