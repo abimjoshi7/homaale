@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientPostTaskViewPage extends StatelessWidget {
   static const routeName = '/client-post-task-view-page';
@@ -9,118 +11,8 @@ class ClientPostTaskViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.search,
-              ),
-            ),
-            child: Text('Gardening'),
-          ),
-          Divider(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.2,
-            child: Image.network(
-              kServiceImageNImg,
-            ),
-          ),
-          Column(
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(),
-                  Column(
-                    children: [
-                      Text(
-                        'data',
-                        style: kPurpleText13,
-                      ),
-                      Text(
-                        'data',
-                        style: kHighlightedText,
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite_outline,
-                      color: Colors.red,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.more_vert_rounded,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          Row(
-            children: [
-              IconText(
-                label: 'June 9, 2022',
-                iconData: Icons.calendar_today_rounded,
-              ),
-              IconText(
-                label: 'Buddhanagar, Kathmandu',
-                iconData: Icons.location_on_outlined,
-                color: Colors.red,
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              IconText(
-                label: '08:11 PM',
-                iconData: Icons.calendar_today_rounded,
-                color: kColorBlue,
-              ),
-              IconText(
-                label: '10 Applied',
-                iconData: Icons.location_on_outlined,
-                color: kColorSecondary,
-              ),
-              IconText(
-                label: '2500 Views',
-                iconData: Icons.location_on_outlined,
-                color: kColorPrimary,
-              ),
-            ],
-          ),
-          CustomFormText(
-            name: 'Description',
-            child: Wrap(
-              children: [
-                Text('asd'),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Read more',
-                    style: kLightBlueText14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          CustomFormText(
-            name: 'Requirements',
-            child: Column(),
-          ),
-          ClientTaskViewTabSection()
-        ],
+      body: const Center(
+        child: Text('Something went wrong'),
       ),
     );
   }
@@ -145,7 +37,7 @@ class _ClientTaskViewTabSectionState extends State<ClientTaskViewTabSection>
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
       initialIndex: selectedIndex,
     );
@@ -153,33 +45,35 @@ class _ClientTaskViewTabSectionState extends State<ClientTaskViewTabSection>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.06,
-            child: TabBar(
-              controller: _tabController,
-              tabs: [
-                Title(
-                  color: Colors.black,
-                  child: Text('Tasker(10)'),
-                ),
-                Text('Timeline'),
-              ],
-            ),
+    return Column(
+      children: [
+        TabBar(
+          indicatorPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                TaskersTabSection(),
-                TaskersTabSection(),
-              ],
+          labelPadding: kPadding10,
+          controller: _tabController,
+          tabs: [
+            Title(
+              color: Colors.black,
+              child: const Text('Tasker(10)'),
             ),
-          )
-        ],
-      ),
+            const Text('Timeline'),
+            const Text('Collaboration'),
+          ],
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.23,
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              const TaskersTabSection(),
+              Text('data'),
+              Text('data2'),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
@@ -192,26 +86,45 @@ class TaskersTabSection extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.06,
+          // height: MediaQuery.of(context).size.height * 0.06,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.search,
-                ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.search,
+                    ),
+                  ),
+                  const Text('Search'),
+                ],
               ),
-              Text('Search'),
               IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.filter_alt,
                 ),
               ),
             ],
           ),
         ),
-        // Expanded(child: GridView.builder(gridDelegate: gridDelegate, itemBuilder: itemBuilder))
+        Expanded(
+          child: GridView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: 4,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.9,
+            ),
+            itemBuilder: (context, index) => TaskerCard(
+              callback: () {
+                print(123);
+              },
+            ),
+          ),
+        ),
       ],
     );
   }

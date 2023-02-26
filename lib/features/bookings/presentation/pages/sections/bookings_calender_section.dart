@@ -49,7 +49,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
             child: ListView.separated(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => InkWell(
+              itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
                   setState(() {
                     isSelected[index] = !isSelected[index];

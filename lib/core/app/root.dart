@@ -10,6 +10,7 @@ import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
+import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class _RootState extends State<Root> {
         context.read<ProfessionalServiceBloc>().add(
               ProfessionalLoadInitated(),
             );
+        await context.read<TaskerCubit>().loadTaskerList();
       },
     );
   }

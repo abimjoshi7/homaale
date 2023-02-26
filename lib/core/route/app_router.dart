@@ -29,7 +29,9 @@ import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/client_post_task_view.dart';
+import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:flutter/material.dart';
 
@@ -257,6 +259,16 @@ class AppRouter {
       case PopularServicesPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const PopularServicesPage(),
+          settings: settings,
+        );
+      case ApplyTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ApplyTaskPage(),
+          settings: settings,
+        );
+      case PopularTaskerPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PopularTaskerPage(),
           settings: settings,
         );
       case SandboxPage.routeName:

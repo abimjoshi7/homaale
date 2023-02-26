@@ -11,7 +11,10 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final repo = TaskRepositories();
 
-  TaskBloc() : super(TaskInitial()) {
+  TaskBloc()
+      : super(
+          TaskInitial(),
+        ) {
     on<TaskAddInitiated>(
       (event, emit) async {
         try {

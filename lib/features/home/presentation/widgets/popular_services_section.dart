@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +31,7 @@ class PopularServicesSection extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.23,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -37,12 +39,26 @@ class PopularServicesSection extends StatelessWidget {
                     separatorBuilder: (context, index) => addHorizontalSpace(
                       10,
                     ),
-                    itemBuilder: (context, index) => ServiceCard(
-                      title: state.model.result?[index].title,
-                      imagePath:
-                          'https://sahyadrihospital.com/wp-content/uploads/2021/09/root-canal-treatment-side-effects.jpg',
-                      description: state.model.result?[index].description,
-                      rating: state.model.result?[index].viewsCount.toString(),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () async {
+                        await context
+                            .read<SingleEntityServiceCubit>()
+                            .getSingleEntity(
+                              state.model.result?[index].id ?? '',
+                            );
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   ServiceProviderPage.routeName,
+                        // );
+                      },
+                      child: ServiceCard(
+                        title: state.model.result?[index].title,
+                        imagePath:
+                            'https://sahyadrihospital.com/wp-content/uploads/2021/09/root-canal-treatment-side-effects.jpg',
+                        description: state.model.result?[index].description,
+                        rating:
+                            state.model.result?[index].viewsCount.toString(),
+                      ),
                     ),
                   ),
                 ),

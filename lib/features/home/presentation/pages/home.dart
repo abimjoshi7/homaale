@@ -13,34 +13,40 @@ class Home extends StatelessWidget {
       body: SizedBox(
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.91,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const HomeHeaderSection(),
-              const HeaderOfferSection(),
-              const DealsOfTheDaySection(),
-              const CategoriesSection(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: Image.asset(
-                  'assets/banners/Sliding Banner.png',
-                  fit: BoxFit.fitWidth,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const HomeHeaderSection(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: const [
+                    HeaderOfferSection(),
+                    DealsOfTheDaySection(),
+                    CategoriesSection(),
+                    PopularServicesSection(),
+                    PopularTaskerSection(),
+                    NotableBannerSection(),
+                    TasksAndServicesNearbySection(),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //     horizontal: 10,
+                    //   ),
+                    //   child: Image.asset(
+                    //     'assets/banners/Sliding Banner.png',
+                    //     fit: BoxFit.fitWidth,
+                    //   ),
+                    // ),
+                    RecentlyLaunchedServicesSection(),
+                    TasksSuggestionSection(),
+                    // const PopularTaskerNearbySection(),
+                    // const TaskRecommendationSection(),
+                    PopularTaskNearbySection()
+                  ],
                 ),
               ),
-              const PopularServicesSection(),
-              const PopularServicesNearbySection(),
-              const TasksSuggestionSection(),
-              const NotableBannerSection(),
-              const PopularTaskerNearbySection(),
-              const TaskRecommendationSection(),
-              const RecentlyLaunchedServicesSection(),
-              const PopularTaskerSection(),
-              const PopularTaskNearbySection()
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

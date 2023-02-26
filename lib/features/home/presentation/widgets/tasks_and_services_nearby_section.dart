@@ -1,26 +1,23 @@
+
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class PopularServicesNearbySection extends StatelessWidget {
-  const PopularServicesNearbySection({super.key});
+class TasksAndServicesNearbySection extends StatelessWidget {
+  const TasksAndServicesNearbySection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-      ),
+      padding: kPadding10,
       child: Column(
         children: [
           SectionHeading(
-            labelName: 'Popular Services Near You',
+            labelName: 'Tasks & Services Near You',
             onTap: () {},
           ),
-          kHeight10,
           SizedBox(
-            height: 250,
+            height: MediaQuery.of(context).size.height * 0.24,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,7 +33,7 @@ class PopularServicesNearbySection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: 5,
                     itemBuilder: (context, index) => SizedBox(
-                      width: 300,
+                      width: MediaQuery.of(context).size.width * 0.65,
                       child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(8),

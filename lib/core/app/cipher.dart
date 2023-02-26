@@ -24,6 +24,7 @@ import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -170,6 +171,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AddServiceCubit(),
+          ),
+          BlocProvider(
+            create: (context) => TaskerCubit()..loadTaskerList(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

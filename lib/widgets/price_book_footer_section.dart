@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,12 @@ class PriceBookFooterSection extends StatelessWidget {
     super.key,
     required this.onPressed,
     this.price,
+    this.buttonLabel,
   });
 
   final VoidCallback onPressed;
   final String? price;
+  final String? buttonLabel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +42,7 @@ class PriceBookFooterSection extends StatelessWidget {
               width: 100,
               child: CustomElevatedButton(
                 callback: onPressed,
-                label: 'Book Now',
+                label: buttonLabel ?? 'Book Now',
               ),
             )
           ],

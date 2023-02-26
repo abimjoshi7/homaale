@@ -237,6 +237,19 @@ class SandboxPage extends StatelessWidget {
               },
             ),
           ),
+          addVerticalSpace(20),
+          Center(
+            child: BlocBuilder<TaskBloc, TaskState>(
+              builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () async {
+                    // context.read<TaskerBloc>().add(TaskerAllLoadInitiated());
+                  },
+                  label: 'Get All Taskers',
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

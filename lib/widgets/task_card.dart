@@ -28,20 +28,21 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           children: [
-            Container(
-              height: 100,
-              width: 100,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(
-                  10,
-                ),
-              ),
-              child: child,
-            ),
+            // Container(
+            //   height: 50,
+            //   width: 50,
+            //   decoration: BoxDecoration(
+            //     color: Colors.amber,
+            //     borderRadius: BorderRadius.circular(
+            //       10,
+            //     ),
+            //   ),
+            //   child: child,
+            // ),
             kWidth10,
             Expanded(
               child: Column(
