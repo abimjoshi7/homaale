@@ -1,6 +1,9 @@
-class EditBookingReq {
-  EditBookingReq({
+class EditBookingRes {
+  EditBookingRes({
+    this.id,
     this.status,
+    this.createdAt,
+    this.updatedAt,
     this.description,
     this.requirements,
     this.budgetFrom,
@@ -20,11 +23,14 @@ class EditBookingReq {
     this.videos,
   });
 
+  final int? id;
   final String? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final String? description;
   final Map<String, dynamic>? requirements;
-  final num? budgetFrom;
-  final num? budgetTo;
+  final int? budgetFrom;
+  final int? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? startTime;
@@ -36,17 +42,28 @@ class EditBookingReq {
   final String? bookingMerchant;
   final String? entityService;
   final int? city;
-  final List<dynamic>? images;
-  final List<dynamic>? videos;
+  final List<int>? images;
+  final List<int>? videos;
 
-  factory EditBookingReq.fromJson(Map<String, dynamic> json) => EditBookingReq(
+  factory EditBookingRes.fromJson(Map<String, dynamic> json) => EditBookingRes(
+        id: json["id"] as int?,
         status: json["status"] as String?,
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(
+                json["created_at"] as String,
+              ),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(
+                json["updated_at"] as String,
+              ),
         description: json["description"] as String?,
         requirements: json["requirements"] == null
             ? null
-            : json["requirements"] as Map<String, dynamic>,
-        budgetFrom: json["budget_from"] as num?,
-        budgetTo: json["budget_to"] as num?,
+            : json["requirements"] as Map<String, dynamic>?,
+        budgetFrom: json["budget_from"] as int?,
+        budgetTo: json["budget_to"] as int?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(
@@ -63,7 +80,7 @@ class EditBookingReq {
         isActive: json["is_active"] as bool?,
         extraData: json["extra_data"] == null
             ? null
-            : json["extra_data"] as Map<String, dynamic>,
+            : json["extra_data"] as Map<String, dynamic>?,
         createdBy: json["created_by"] as String?,
         bookingMerchant: json["booking_merchant"] as String?,
         entityService: json["entity_service"] as String?,
@@ -81,7 +98,10 @@ class EditBookingReq {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
         "description": description,
         "requirements": requirements,
         "budget_from": budgetFrom,

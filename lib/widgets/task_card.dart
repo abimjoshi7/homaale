@@ -1,7 +1,6 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../core/constants/constants.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({

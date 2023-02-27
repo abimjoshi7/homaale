@@ -122,13 +122,11 @@ class DioHelper {
     required dynamic data,
     required String url,
     required String? token,
-    Map<String, dynamic>? query,
   }) async {
     try {
       final response = await dio.post<dynamic>(
         url,
         data: jsonEncode(data),
-        queryParameters: query,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -162,12 +160,10 @@ class DioHelper {
     required Map<String, dynamic> data,
     required String url,
     required String? token,
-    Map<String, dynamic>? query,
   }) async {
     try {
       final response = await dio.patch(
         url,
-        queryParameters: query,
         data: jsonEncode(data),
         options: Options(
           headers: {
@@ -376,24 +372,4 @@ class DioHelper {
       rethrow;
     }
   }
-
-// Function to make an API request
-  // Future<void> makeRequest() async {
-  //   try {
-  //     // Make the API request
-  //     Response response = await dio.get("/some-endpoint");
-
-  //     // Handle successful response
-  //     print(response.data);
-  //   } catch (e) {
-  //     // If the error is a 401 unauthorized, refresh the token and try again
-  //     if (e is DioError && e.response?.statusCode == 401) {
-  //       await refreshToken();
-  //       makeRequest();
-  //     } else {
-  //       // Handle other errors
-  //       print("API request failed: $e");
-  //     }
-  //   }
-  // }
 }

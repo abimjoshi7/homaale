@@ -61,7 +61,6 @@ class _EditCertificationsState extends State<EditCertification> {
         }
         if (state is TaskerEditCertificationFailure) {
           if (!mounted) return;
-
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -131,7 +130,6 @@ class _EditCertificationsState extends State<EditCertification> {
                       ),
                       CustomFormField(
                         label: 'Description',
-                        isRequired: false,
                         child: CustomTextFormField(
                           maxLines: 3,
                           hintText: descriptionController.text.isNotEmpty

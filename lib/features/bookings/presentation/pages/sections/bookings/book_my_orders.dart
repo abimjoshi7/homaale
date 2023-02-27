@@ -1,10 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
-import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -21,13 +19,20 @@ class BookingsMyOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BookingsBloc, BookingsState>(
       builder: (context, state) {
-        if (state is BookEntityServiceLoadSuccess) {
+        if (state is ServiceBookingLoadSuccess) {
           return Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
               itemBuilder: (context, index) => Padding(
                 padding: kPadding10,
                 child: BookingsServiceCard(
+                  deleteTap: () {
+                    context.read<BookingsBloc>().add(
+                          ServiceBookingDeleteInitiated(
+                            id: state.myBookingList.result![index].id!.toInt(),
+                          ),
+                        );
+                  },
                   editTap: () async {
                     Future.delayed(
                       Duration.zero,
@@ -40,7 +45,7 @@ class BookingsMyOrder extends StatelessWidget {
                         context: context,
                         builder: (context) => Column(
                           children: [
-                            CustomModalSheetDrawerIcon(),
+                            const CustomModalSheetDrawerIcon(),
                             Expanded(
                               child: EditMyOrdersForm(
                                 selectedIndex: index,

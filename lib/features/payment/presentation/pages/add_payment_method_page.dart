@@ -25,35 +25,31 @@ class AddPaymentMethodPage extends StatelessWidget {
                   context: context,
                   builder: (context) => Column(
                     children: [
-                      CustomModalSheetDrawerIcon(),
-                      Text(
+                      const CustomModalSheetDrawerIcon(),
+                      const Text(
                         'Add New Card',
                         style: kText15,
                       ),
-                      CustomFormField(
+                      const CustomFormField(
                         label: 'Card Number',
                         child: CustomTextFormField(),
-                        isRequired: false,
                       ),
-                      CustomFormField(
+                      const CustomFormField(
                         label: 'Card Number',
                         child: CustomTextFormField(),
-                        isRequired: false,
                       ),
                       Row(
-                        children: [
+                        children: const [
                           Flexible(
                             child: CustomFormField(
                               label: 'Card Number',
                               child: CustomTextFormField(),
-                              isRequired: false,
                             ),
                           ),
                           Flexible(
                             child: CustomFormField(
                               label: 'Card Number',
                               child: CustomTextFormField(),
-                              isRequired: false,
                             ),
                           ),
                         ],
@@ -63,7 +59,7 @@ class AddPaymentMethodPage extends StatelessWidget {
                           CustomCheckBox(
                             onTap: () {},
                           ),
-                          Text('Save as default card ')
+                          const Text('Save as default card ')
                         ],
                       ),
                       CustomElevatedButton(
@@ -87,13 +83,13 @@ class AddPaymentMethodPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Available Methods',
                 style: kPurpleText16,
               ),
               ListTile(
-                leading: CircleAvatar(),
-                title: Text('Apple Pay'),
+                leading: const CircleAvatar(),
+                title: const Text('Apple Pay'),
                 trailing: Switch(
                   value: true,
                   onChanged: (value) => false,
@@ -103,7 +99,7 @@ class AddPaymentMethodPage extends StatelessWidget {
                 value: false,
                 onChanged: (value) => false,
                 title: Row(
-                  children: [CircleAvatar(), Text('data')],
+                  children: const [CircleAvatar(), Text('data')],
                 ),
               )
             ],
@@ -116,9 +112,9 @@ class AddPaymentMethodPage extends StatelessWidget {
                   context: context,
                   builder: (context) => Column(
                     children: [
-                      CustomModalSheetDrawerIcon(),
+                      const CustomModalSheetDrawerIcon(),
                       addVerticalSpace(10),
-                      Text(
+                      const Text(
                         'Add New Card',
                         style: kText15,
                       ),
@@ -126,31 +122,27 @@ class AddPaymentMethodPage extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            CustomFormField(
+                            const CustomFormField(
                               label: 'Card Number',
                               child: CustomTextFormField(),
-                              isRequired: false,
                             ),
-                            CustomFormField(
-                              label: 'Card Holder\'s Name',
+                            const CustomFormField(
+                              label: "Card Holder's Name",
                               child: CustomTextFormField(),
-                              isRequired: false,
                             ),
                             Row(
                               children: [
-                                Flexible(
+                                const Flexible(
                                   child: CustomFormField(
                                     label: 'Expiration Date',
                                     child: CustomTextFormField(),
-                                    isRequired: false,
                                   ),
                                 ),
                                 addHorizontalSpace(20),
-                                Flexible(
+                                const Flexible(
                                   child: CustomFormField(
                                     label: 'CVV',
                                     child: CustomTextFormField(),
-                                    isRequired: false,
                                   ),
                                 ),
                               ],
@@ -160,7 +152,7 @@ class AddPaymentMethodPage extends StatelessWidget {
                                 CustomCheckBox(
                                   onTap: () {},
                                 ),
-                                Text('Save as default card ')
+                                const Text('Save as default card ')
                               ],
                             ),
                           ],
@@ -181,11 +173,11 @@ class AddPaymentMethodPage extends StatelessWidget {
                   ),
                 );
               },
-              secondary: Icon(
+              secondary: const Icon(
                 Icons.credit_card,
                 color: kColorSecondary,
               ),
-              title: Text(
+              title: const Text(
                 'Credit/Debit Card',
                 style: kText15,
               ),

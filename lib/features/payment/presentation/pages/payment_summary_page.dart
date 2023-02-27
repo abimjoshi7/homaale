@@ -31,14 +31,13 @@ class PaymentSummaryPage extends StatelessWidget {
             ),
             child: const Text('Payment Summary'),
           ),
-          Divider(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
                 CustomFormField(
                   label: 'Booking Details',
-                  isRequired: false,
                   child: SizedBox(
                     height: 200,
                     child: Card(
@@ -48,7 +47,7 @@ class PaymentSummaryPage extends StatelessWidget {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Text(
                                   'Name',
                                   style: kText15,
@@ -63,19 +62,19 @@ class PaymentSummaryPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Divider(),
+                            const Divider(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  child: Text('Trimming & Cutting'),
                                   width: MediaQuery.of(context).size.width / 3,
+                                  child: const Text('Trimming & Cutting'),
                                 ),
                                 SizedBox(
-                                  child: Text('Rs 1200'),
                                   width: MediaQuery.of(context).size.width / 3,
+                                  child: const Text('Rs 1200'),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   child: Text('Rs 1180'),
                                   // width: MediaQuery.of(context).size.width / 3,
                                 ),
@@ -86,7 +85,7 @@ class PaymentSummaryPage extends StatelessWidget {
                               children: [
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 3,
-                                  child: Text(
+                                  child: const Text(
                                     'Planting + Watering + Trimming trees and shrubs + Landscape plans + Fertilizing & Mowing Lawns',
                                     style: TextStyle(
                                       fontSize: 10,
@@ -111,7 +110,7 @@ class PaymentSummaryPage extends StatelessWidget {
                               Image.asset('assets/logos/Group 48099169.png'),
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: const [
                               Text('Master Card'),
                               Text(
                                 '****7892456',
@@ -119,12 +118,11 @@ class PaymentSummaryPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          trailing: Icon(Icons.edit),
+                          trailing: const Icon(Icons.edit),
                         ),
                       )
                     ],
                   ),
-                  isRequired: false,
                 ),
                 Card(
                   child: ListTile(
@@ -133,20 +131,20 @@ class PaymentSummaryPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Billing Location',
                               style: kPurpleText16,
                             ),
                             IconButton(
                               onPressed: () {},
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.edit,
                                 size: 18,
                               ),
                             ),
                           ],
                         ),
-                        IconText(
+                        const IconText(
                           label: 'Bagbazaar, Kathmandu',
                           iconData: Icons.location_on_outlined,
                           color: Colors.pink,
@@ -159,7 +157,7 @@ class PaymentSummaryPage extends StatelessWidget {
                                 onTap: () {},
                               ),
                               addHorizontalSpace(10),
-                              Text(
+                              const Text(
                                 'Same as task location',
                                 style: kBodyText1,
                               ),

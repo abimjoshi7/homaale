@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,7 @@ class AdditionalInfoSection extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               IconText(
                 label: 'Date & Time',
                 iconData: Icons.calendar_today_rounded,
@@ -30,7 +29,7 @@ class AdditionalInfoSection extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               IconText(
                 label: 'Location',
                 iconData: Icons.location_on_outlined,
@@ -41,18 +40,17 @@ class AdditionalInfoSection extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               IconText(
                 label: 'Views',
                 iconData: Icons.remove_red_eye_outlined,
-                color: kColorPrimary,
               ),
               Text('3.003')
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               IconText(
                 label: 'Happy Clients',
                 iconData: Icons.emoji_emotions_outlined,
@@ -63,7 +61,7 @@ class AdditionalInfoSection extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               IconText(
                 label: 'Success Rate',
                 iconData: Icons.app_shortcut_sharp,

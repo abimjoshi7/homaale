@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
-import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -112,20 +111,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       itemBuilder: (context, index) => Card(
                         child: BlocBuilder<ServicesBloc, ServicesState>(
                           builder: (context, serviceState) {
-                            List<ServiceList> servicesList = [];
                             if (serviceState is ServicesLoading) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
-                            if (serviceState is ServicesLoadSuccess) {
-                              servicesList = serviceState.list;
-                            }
+                            if (serviceState is ServicesLoadSuccess) {}
 
                             return list[index].child!.isEmpty
                                 ? ListTile(
                                     onTap: () async {
-                                      final x = list[index];
                                       context.read<ServicesBloc>().add(
                                             ServicesLoadInitiated(
                                               categoryId: list[index].id ?? 0,

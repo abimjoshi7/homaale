@@ -34,22 +34,20 @@ class BookingRepositories {
     }
   }
 
-  Future<void> editBooking(
+  Future<Map<String, dynamic>> editBooking(
     int id,
     EditBookingReq editBookingReq,
   ) async {
     try {
       final x = await _dio.patchDataWithCredential(
         data: editBookingReq.toJson(),
-        url: 'task/entity/service-booking/',
+        url: 'task/entity/service-booking/$id',
         token: CacheHelper.accessToken,
-        query: {
-          "id": id,
-        },
       );
       log(
         "Edit Booking Reponse: $x",
       );
+      return x as Map<String, dynamic>;
     } catch (e) {
       log("Edit Booking Error: $e");
       rethrow;
@@ -74,11 +72,8 @@ class BookingRepositories {
   Future<void> cancelBooking(int id) async {
     try {
       final x = await _dio.postDataWithCredential(
-        query: {
-          "id": id,
-        },
         data: {},
-        url: 'task/entity/service-booking/cancel/',
+        url: 'task/entity/service-booking/cancel/$id',
         token: CacheHelper.accessToken,
       );
       log(

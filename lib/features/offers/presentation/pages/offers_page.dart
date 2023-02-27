@@ -1,8 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class OffersPage extends StatefulWidget {
   static const routeName = '/offers-page';
@@ -40,7 +38,7 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
                 TabBar(
                   labelPadding: kPadding10,
                   controller: _tabController,
-                  tabs: [
+                  tabs: const [
                     Text('All'),
                     Text('Coupons'),
                     Text('Scratch Cards'),
@@ -50,7 +48,7 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    children: [
+                    children: const [
                       Text('data'),
                       Text('data'),
                       Text('data'),

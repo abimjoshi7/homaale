@@ -2,7 +2,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -208,7 +207,6 @@ class _ProfessionalInformationModalSheetState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomFormField(
-                        isRequired: false,
                         label: 'Select User Type',
                         child: Row(
                           children: [
@@ -229,12 +227,10 @@ class _ProfessionalInformationModalSheetState
                       ),
                       CustomFormField(
                         label: 'Specialities',
-                        isRequired: false,
                         child: displaySkills(),
                       ),
                       CustomFormField(
                         label: 'Experience Level',
-                        isRequired: false,
                         child: CustomDropDownField<String>(
                           hintText:
                               user?.experienceLevel ?? 'Enter your skills',
@@ -307,7 +303,6 @@ class _ProfessionalInformationModalSheetState
                       kHeight20,
                       CustomFormField(
                         label: 'Select Day',
-                        isRequired: false,
                         child: CustomDropDownField(
                           hintText: 'Specify the day',
                           list: const [
@@ -326,7 +321,6 @@ class _ProfessionalInformationModalSheetState
                           Flexible(
                             child: CustomFormField(
                               label: 'From',
-                              isRequired: false,
                               child: displayStartTime(),
                             ),
                           ),
@@ -334,7 +328,6 @@ class _ProfessionalInformationModalSheetState
                           Flexible(
                             child: CustomFormField(
                               label: 'To',
-                              isRequired: false,
                               child: displayEndTime(),
                             ),
                           ),

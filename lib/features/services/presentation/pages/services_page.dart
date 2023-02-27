@@ -82,7 +82,8 @@ class ServicesPage extends StatelessWidget {
                                   },
                                   child: CustomImageTextBox(
                                     image: Image.asset(
-                                        'assets/services/Rectangle 3823.png'),
+                                      'assets/services/Rectangle 3823.png',
+                                    ),
                                     text: state.list[index].title,
                                   ),
                                 ),
@@ -139,7 +140,8 @@ class ServicesPage extends StatelessWidget {
                                   crossAxisSpacing: 20,
                                   mainAxisSpacing: 10,
                                 ),
-                                itemBuilder: (context, index2) => ServiceCard(),
+                                itemBuilder: (context, index2) =>
+                                    const ServiceCard(),
                                 itemCount: 3,
                                 padding: EdgeInsets.zero,
                               ),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
@@ -8,7 +6,6 @@ import 'package:cipher/features/services/presentation/manager/services_bloc.dart
 import 'package:cipher/features/task/data/models/post_task_req.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -128,7 +125,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           ),
                           CustomFormField(
                             label: 'Requirements',
-                            isRequired: false,
                             child: Column(
                               children: [
                                 Column(
@@ -413,7 +409,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ),
                               Flexible(
                                 child: CustomDropDownField(
-                                  list: [
+                                  list: const [
                                     'Project',
                                     'Hourly',
                                     'Daily',
@@ -449,7 +445,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           addVerticalSpace(10),
                           CustomFormField(
                             label: 'Images',
-                            isRequired: false,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -495,7 +490,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           ),
                           CustomFormField(
                             label: 'Videos',
-                            isRequired: false,
                             child: Column(
                               children: [
                                 Row(
@@ -714,7 +708,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
         children: [
           CustomFormField(
             label: 'Date',
-            isRequired: false,
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: InkWell(
@@ -849,7 +842,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
             Flexible(
               child: CustomFormField(
                 label: 'Start Date',
-                isRequired: false,
                 child: SizedBox(
                   child: InkWell(
                     onTap: () async {
@@ -884,7 +876,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
             Flexible(
               child: CustomFormField(
                 label: 'End Date',
-                isRequired: false,
                 child: SizedBox(
                   child: InkWell(
                     onTap: () async {
@@ -1046,7 +1037,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               widgetList.remove(widgetList[index]);
                               break;
                             case 5:
-                              print(index);
                               // widgetList.removeAt(widgetList[5]);
                               break;
                             case 6:

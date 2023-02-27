@@ -1,13 +1,10 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -86,7 +83,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         }
                         return CustomFormField(
                           label: 'Country',
-                          isRequired: false,
                           child: CustomDropDownField(
                             hintText:
                                 (state.user.country?['name'] as String?) ??
@@ -111,7 +107,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Address Line 1',
-                      isRequired: false,
                       child: CustomTextFormField(
                         hintText: state.user.addressLine1 ?? 'Baneshwor',
                         onChanged: (p0) => setState(
@@ -123,7 +118,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Address Line 2',
-                      isRequired: false,
                       child: CustomTextFormField(
                         hintText: state.user.addressLine2.toString(),
                         onChanged: (p0) => setState(
@@ -140,7 +134,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         }
                         return CustomFormField(
                           label: 'Languages',
-                          isRequired: false,
                           child: CustomDropDownField(
                             hintText:
                                 (state.user.language?['name'] as String?) ??
@@ -161,16 +154,14 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Currency',
-                      isRequired: false,
                       child: BlocBuilder<CurrencyBloc, CurrencyState>(
                         builder: (context, currencyState) {
                           if (currencyState is CurrencyLoadSuccess) {
                             currencyList = currencyState.currencyListRes;
                           }
                           return CustomDropDownField(
-                            hintText:
-                                (state.user.chargeCurrency?.name as String?) ??
-                                    'Choose suitable currency',
+                            hintText: state.user.chargeCurrency?.name ??
+                                'Choose suitable currency',
                             list: currencyList?.map((e) => e.name).toList() ??
                                 [
                                   'NPR',
@@ -250,33 +241,28 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 children: const [
                   CustomFormField(
                     label: 'Country',
-                    isRequired: false,
                     child: CustomFormContainer(),
                   ),
                   CustomFormField(
                     label: 'Address Line 1',
-                    isRequired: false,
                     child: CustomTextFormField(
                       hintText: 'Baneshwor',
                     ),
                   ),
                   CustomFormField(
                     label: 'Address Line 2',
-                    isRequired: false,
                     child: CustomTextFormField(
                       hintText: 'Buddhanagar',
                     ),
                   ),
                   CustomFormField(
                     label: 'Languages',
-                    isRequired: false,
                     child: CustomTextFormField(
                       hintText: 'English',
                     ),
                   ),
                   CustomFormField(
                     label: 'Currency',
-                    isRequired: false,
                     child: CustomTextFormField(
                       hintText: 'Choose suitable currency',
                     ),

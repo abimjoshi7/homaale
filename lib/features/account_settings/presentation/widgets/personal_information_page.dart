@@ -93,7 +93,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                   children: [
                     CustomFormField(
                       label: 'Email',
-                      isRequired: false,
                       child: CustomTextFormField(
                         hintText: user?.user?.email ?? '',
                         onChanged: (p0) => setState(
@@ -105,7 +104,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Contact',
-                      isRequired: false,
                       child: CustomTextFormField(
                         textInputType: TextInputType.number,
                         hintText: user?.user?.phone ?? '',
@@ -132,7 +130,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Date of birth',
-                      isRequired: false,
                       child: InkWell(
                         onTap: () async {
                           await showDatePicker(
@@ -158,7 +155,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Please specify your gender',
-                      isRequired: false,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -224,7 +220,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Bio',
-                      isRequired: false,
                       child: CustomTextFormField(
                         maxLines: 3,
                         hintText: bio ?? 'Enter Bio',

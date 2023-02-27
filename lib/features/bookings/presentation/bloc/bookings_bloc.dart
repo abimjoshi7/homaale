@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_res.dart';
+import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
+import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:equatable/equatable.dart';
@@ -11,7 +13,7 @@ part 'bookings_state.dart';
 class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
   final repositories = BookingRepositories();
   BookingsBloc() : super(BookingsInitial()) {
-    on<EntityServiceBookingInitiated>(
+    on<ServiceBookingInitiated>(
       (event, emit) async {
         try {
           emit(
@@ -19,7 +21,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           );
           await repositories.bookServiceOrTask(event.service).then(
                 (value) => emit(
-                  BookEntityServiceAddSuccess(
+                  ServiceBookingAddSuccess(
                     BookEntityServiceRes.fromJson(
                       value,
                     ),
@@ -28,13 +30,13 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
         } catch (e) {
           emit(
-            BookEntityServiceAddFailure(),
+            ServiceBookingAddFailure(),
           );
         }
       },
     );
 
-    on<ServiceBookingListInitiated>(
+    on<ServiceBookingListLoadInitiated>(
       (event, emit) async {
         try {
           emit(
@@ -42,7 +44,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           );
           await repositories.fetchMyServiceBookingList().then(
                 (value) => emit(
-                  BookEntityServiceLoadSuccess(
+                  ServiceBookingLoadSuccess(
                     MyBookingList.fromJson(
                       value,
                     ),
@@ -51,7 +53,44 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
         } catch (e) {
           emit(
-            BookEntityServiceLoadFailure(),
+            BookingsFailure(),
+          );
+        }
+      },
+    );
+
+    on<ServiceBookingEditInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            BookingsInitial(),
+          );
+          await repositories.editBooking(event.id, event.req).then(
+                (value) => ServiceBookingEditSuccess(
+                  EditBookingRes.fromJson(
+                    value,
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            BookingsFailure(),
+          );
+        }
+      },
+    );
+
+    on<ServiceBookingDeleteInitiated>(
+      (event, emit) async {
+        try {
+          await repositories.deleteBooking(event.id).then(
+                (value) => emit(
+                  ServiceBookingDeleteSuccess(),
+                ),
+              );
+        } catch (e) {
+          emit(
+            BookingsFailure(),
           );
         }
       },

@@ -14,7 +14,7 @@ class BookingsInfoSection extends StatelessWidget {
         color: kColorPrimary,
         height: 40,
         width: double.infinity,
-        child: Center(
+        child: const Center(
           child: Text(
             '\$765.90 from 10 Bookings',
             style: TextStyle(color: Colors.white),

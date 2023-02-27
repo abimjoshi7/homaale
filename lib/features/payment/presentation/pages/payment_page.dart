@@ -32,12 +32,11 @@ class PaymentPage extends StatelessWidget {
             ),
             child: const Text('Select Payment Method'),
           ),
-          Divider(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: CustomFormField(
               label: 'Payment Methods',
-              isRequired: false,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -46,7 +45,7 @@ class PaymentPage extends StatelessWidget {
                       leading: Image.asset('assets/logos/esewa 1.png'),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text('Esewa Digital Wallet'),
                           Text('*****09876')
                         ],
@@ -59,7 +58,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                   ),
                   addVerticalSpace(20),
-                  Text(
+                  const Text(
                     'Other payment methods',
                     style: kBodyText1,
                   ),
@@ -72,14 +71,15 @@ class PaymentPage extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                              width: 90,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    'assets/logos/payment/Payment-method-button-40px1.png',
-                                  ),
+                            width: 90,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  'assets/logos/payment/Payment-method-button-40px1.png',
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       separatorBuilder: (context, index) => addHorizontalSpace(
@@ -90,9 +90,9 @@ class PaymentPage extends StatelessWidget {
                   ),
                   Card(
                     child: ListTile(
-                      leading: Icon(Icons.credit_card),
-                      title: Text('Add Payment Method'),
-                      trailing: Icon(Icons.arrow_forward_ios_outlined),
+                      leading: const Icon(Icons.credit_card),
+                      title: const Text('Add Payment Method'),
+                      trailing: const Icon(Icons.arrow_forward_ios_outlined),
                       onTap: () {
                         Navigator.pushNamed(
                           context,

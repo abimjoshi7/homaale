@@ -548,7 +548,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
               ),
               BlocListener<BookingsBloc, BookingsState>(
                 listener: (context, state) {
-                  if (state is BookEntityServiceAddSuccess) {
+                  if (state is ServiceBookingAddSuccess) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
@@ -565,7 +565,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                       ),
                     );
                   }
-                  if (state is BookEntityServiceAddFailure) {
+                  if (state is ServiceBookingAddFailure) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
@@ -605,7 +605,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                         city: cityCode ?? state.serviceModel.city?.id?.toInt(),
                       );
                       context.read<BookingsBloc>().add(
-                            EntityServiceBookingInitiated(req),
+                            ServiceBookingInitiated(req),
                           );
                     } else {
                       await showDialog(

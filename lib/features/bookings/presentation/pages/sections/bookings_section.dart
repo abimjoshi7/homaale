@@ -52,7 +52,7 @@ class _BookingsSectionState extends State<BookingsSection> {
                   }
                   if (selectedIndex == 2) {
                     context.read<BookingsBloc>().add(
-                          ServiceBookingListInitiated(),
+                          ServiceBookingListLoadInitiated(),
                         );
                   }
                 },

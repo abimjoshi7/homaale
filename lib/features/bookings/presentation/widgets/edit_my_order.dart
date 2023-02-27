@@ -1,22 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/features/bookings/data/models/models.dart';
-import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/validations/validations.dart';
+import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class EditMyOrdersForm extends StatefulWidget {
   final int selectedIndex;
   const EditMyOrdersForm({
-    Key? key,
+    super.key,
     required this.selectedIndex,
-  }) : super(key: key);
+  });
 
   @override
   State<EditMyOrdersForm> createState() => _EditMyOrdersFormState();
@@ -27,13 +26,15 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   final cityController = TextEditingController();
   final locationController = TextEditingController();
   final requirementController = TextEditingController();
-  List<int>? imageList;
-  List<int>? fileList;
+  final startBudgetController = TextEditingController();
+  final endBudgetController = TextEditingController();
   DateTime? startDate;
   DateTime? endDate;
   TimeOfDay? startTime;
   TimeOfDay? endTime;
   bool isSpecified = false;
+  List<int>? imageList;
+  List<int>? fileList;
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
@@ -52,6 +53,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
     cityController.dispose();
     locationController.dispose();
     requirementController.dispose();
+    startBudgetController.dispose();
+    endBudgetController.dispose();
     super.dispose();
   }
 
@@ -59,7 +62,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<BookingsBloc, BookingsState>(
       builder: (context, state) {
-        if (state is BookEntityServiceLoadSuccess) {
+        if (state is ServiceBookingLoadSuccess) {
           final data = state.myBookingList.result;
           return Padding(
             padding: kPadding10,
@@ -182,81 +185,42 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                   ),
                 ),
                 CustomFormField(
-                  label: 'Images',
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                  label: "Budget",
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Maximum Image Size 20 MB',
-                            style: kHelper13,
-                          ),
-                          addHorizontalSpace(5),
-                          const Icon(
-                            Icons.info_outline,
-                            color: Colors.orange,
-                          ),
-                        ],
-                      ),
-                      addVerticalSpace(5),
-                      InkWell(
-                        onTap: () async {
-                          await context.read<ImageUploadCubit>().uploadImage();
-                        },
-                        child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                          listener: (context, state) {
-                            if (state is ImageUploadSuccess) {
-                              setState(() {
-                                imageList = List<int>.from(state.list);
-                              });
-                            }
-                          },
-                          child: CustomDottedContainerStack(
-                            label: imageList == null
-                                ? 'Select Images'
-                                : 'Image Uploaded',
-                          ),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Starting Price',
+                              style: kPurpleText13,
+                            ),
+                            CustomTextFormField(
+                              controller: startBudgetController,
+                              hintText: data?[selectedIndex].budgetFrom != null
+                                  ? "${data?[selectedIndex].budgetFrom}"
+                                  : 'Add starting Price',
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                CustomFormField(
-                  label: 'Videos',
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Maximum Video Size 20 MB',
-                            style: kHelper13,
-                          ),
-                          addHorizontalSpace(5),
-                          const Icon(
-                            Icons.info_outline,
-                            color: Colors.orange,
-                          ),
-                        ],
-                      ),
-                      addVerticalSpace(5),
-                      InkWell(
-                        onTap: () async {
-                          await context.read<ImageUploadCubit>().uploadVideo();
-                        },
-                        child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                          listener: (context, state) {
-                            if (state is VideoUploadSuccess) {
-                              setState(() {
-                                fileList = List<int>.from(state.list);
-                              });
-                            }
-                          },
-                          child: CustomDottedContainerStack(
-                            label: fileList == null
-                                ? 'Select Videos'
-                                : 'File Uploaded',
-                          ),
+                      addHorizontalSpace(10),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'End Price',
+                              style: kPurpleText13,
+                            ),
+                            CustomTextFormField(
+                              controller: endBudgetController,
+                              hintText: data?[selectedIndex].budgetTo != null
+                                  ? "${data?[selectedIndex].budgetTo}"
+                                  : 'Add end Price',
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -344,6 +308,87 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                     ],
                   ),
                 ),
+                CustomFormField(
+                  label: 'Images',
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            'Maximum Image Size 20 MB',
+                            style: kHelper13,
+                          ),
+                          addHorizontalSpace(5),
+                          const Icon(
+                            Icons.info_outline,
+                            color: Colors.orange,
+                          ),
+                        ],
+                      ),
+                      addVerticalSpace(5),
+                      InkWell(
+                        onTap: () async {
+                          await context.read<ImageUploadCubit>().uploadImage();
+                        },
+                        child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                          listener: (context, state) {
+                            if (state is ImageUploadSuccess) {
+                              setState(() {
+                                imageList = List<int>.from(state.list);
+                              });
+                            }
+                          },
+                          child: CustomDottedContainerStack(
+                            label: imageList == null
+                                ? 'Select Images'
+                                : 'Image Uploaded',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                CustomFormField(
+                  label: 'Videos',
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            'Maximum Video Size 20 MB',
+                            style: kHelper13,
+                          ),
+                          addHorizontalSpace(5),
+                          const Icon(
+                            Icons.info_outline,
+                            color: Colors.orange,
+                          ),
+                        ],
+                      ),
+                      addVerticalSpace(5),
+                      InkWell(
+                        onTap: () async {
+                          await context.read<ImageUploadCubit>().uploadVideo();
+                        },
+                        child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                          listener: (context, state) {
+                            if (state is VideoUploadSuccess) {
+                              setState(() {
+                                fileList = List<int>.from(state.list);
+                              });
+                            }
+                          },
+                          child: CustomDottedContainerStack(
+                            label: fileList == null
+                                ? 'Select Videos'
+                                : 'File Uploaded',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Row(
                   children: [
                     CustomCheckBox(
@@ -420,7 +465,54 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       final req = EditBookingReq(
                         bookingMerchant:
                             data?[selectedIndex].bookingMerchant.toString(),
+                        description: problemDescController.text.isNotEmpty
+                            ? problemDescController.text
+                            : data?[selectedIndex].description,
+                        requirements: requirementList.asMap().map(
+                              (key, value) => MapEntry(
+                                key.toString(),
+                                value as dynamic,
+                              ),
+                            ),
+                        city: cityCode ?? data?[selectedIndex].city?.toInt(),
+                        location: locationController.text.isNotEmpty
+                            ? locationController.text
+                            : data?[selectedIndex].location,
+                        budgetTo: startBudgetController.text.isNotEmpty
+                            ? double.parse(startBudgetController.text)
+                            : data?[selectedIndex].budgetTo,
+                        budgetFrom: endBudgetController.text.isNotEmpty
+                            ? double.parse(endBudgetController.text)
+                            : data?[selectedIndex].budgetFrom,
+                        images: imageList ?? data?[selectedIndex].images,
+                        videos: fileList ?? data?[selectedIndex].videos,
+                        startDate: startDate ?? data?[selectedIndex].startDate,
+                        endDate: endDate ?? data?[selectedIndex].endDate,
+                        startTime: startTime?.format(context) ??
+                            data?[selectedIndex].startTime.toString(),
+                        endTime: endTime?.format(context) ??
+                            data?[selectedIndex].endTime.toString(),
+                        createdBy:
+                            data?[selectedIndex].createdBy?.user?.id ?? '',
+                        entityService:
+                            data?[selectedIndex].entityService?.id ?? '',
+                        extraData: data?[selectedIndex].extraData
+                                as Map<String, dynamic>? ??
+                            {},
+                        isActive: data?[selectedIndex].isActive,
+                        status: "pending",
                       );
+
+                      print(data?[selectedIndex].id);
+                      // print(
+                      //   req.toJson(),
+                      // );
+                      // context.read<BookingsBloc>().add(
+                      //       ServiceBookingEditInitiated(
+                      //         id: data?[selectedIndex].id?.toInt() ?? 0,
+                      //         req: req,
+                      //       ),
+                      //     );
                     },
                     label: 'Save',
                   ),

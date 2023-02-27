@@ -76,7 +76,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
         Widget buildForm() {
           if (state is SignInEmailInitial) {
             return CustomFormField(
-              isRequired: false,
               label: 'Email',
               child: CustomTextFormField(
                 onSaved: (p0) => setState(
@@ -92,7 +91,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           }
           if (state is SignInPhoneInitial) {
             return CustomFormField(
-              isRequired: false,
               label: 'Phone',
               child: CustomTextFormField(
                 validator: validateNotEmpty,
@@ -135,7 +133,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               buildForm(),
               addVerticalSpace(10),
               CustomFormField(
-                isRequired: false,
                 label: 'Password',
                 child: CustomTextFormField(
                   obscureText: isObscure,

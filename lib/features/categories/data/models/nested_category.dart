@@ -49,9 +49,11 @@ class NestedCategory {
         taskCount: json["task_count"] as int?,
         child: json["child"] == null
             ? []
-            : List<NestedCategory>.from(json["child"]?.map(
-                (x) => NestedCategory.fromJson(x as Map<String, dynamic>),
-              ) as Iterable),
+            : List<NestedCategory>.from(
+                json["child"]?.map(
+                  (x) => NestedCategory.fromJson(x as Map<String, dynamic>),
+                ) as Iterable,
+              ),
         serviceCount: json["service_count"] as int?,
       );
 

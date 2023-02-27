@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class BookingsServiceCard extends StatelessWidget {
   final String? serviceName;
@@ -21,7 +20,7 @@ class BookingsServiceCard extends StatelessWidget {
   final VoidCallback? deleteTap;
 
   const BookingsServiceCard({
-    Key? key,
+    super.key,
     this.serviceName,
     this.providerName,
     this.firstWidget,
@@ -36,7 +35,7 @@ class BookingsServiceCard extends StatelessWidget {
     this.editTap,
     this.cancelTap,
     this.deleteTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

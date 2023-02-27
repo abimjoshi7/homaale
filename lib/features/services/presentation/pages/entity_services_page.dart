@@ -215,8 +215,10 @@ class EntityServicesPage extends StatelessWidget {
             );
           } else {
             return const Center(
-                child: Text(
-                    'Services cannot be loaded at the moment. Please try again later.'));
+              child: Text(
+                'Services cannot be loaded at the moment. Please try again later.',
+              ),
+            );
           }
         },
       ),

@@ -13,7 +13,7 @@ class ApplyTaskPage extends StatelessWidget {
       body: Column(
         children: [
           addVerticalSpace(50),
-          CustomHeader(
+          const CustomHeader(
             label: 'Apply',
           ),
           Padding(
@@ -22,40 +22,37 @@ class ApplyTaskPage extends StatelessWidget {
               children: [
                 CustomFormField(
                   label: 'Task Details',
-                  isRequired: false,
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text('Title :'),
                           Text('Need a garden cleaner'),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text('Budget :'),
                           Text('Rs. 1000'),
                         ],
                       ),
-                      Text(
+                      const Text(
                         'Hiring a reputable professional landscape gardener entail paying for their knowledge, experience, time, equipment, and materials. They will be able to discuss your vision and tailor your garden design to your exact needs, taking into account your taste, lifestyle, budget.',
                         style: kHelper13,
                       ),
                     ],
                   ),
                 ),
-                CustomFormField(
+                const CustomFormField(
                   label: 'Your Price',
-                  isRequired: false,
                   child: CustomTextFormField(
                     hintText: 'Rs 1,000',
                   ),
                 ),
-                CustomFormField(
+                const CustomFormField(
                   label: 'Remarks',
-                  isRequired: false,
                   child: CustomTextFormField(
                     hintText: 'Applying (Remark)',
                     maxLines: 4,
@@ -63,10 +60,9 @@ class ApplyTaskPage extends StatelessWidget {
                 ),
                 CustomFormField(
                   label: 'Pre-requisites',
-                  isRequired: false,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text(
                         'This helps clients to find about your requirements better.',
                         style: kHelper13,

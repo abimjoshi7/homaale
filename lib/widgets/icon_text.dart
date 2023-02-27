@@ -27,7 +27,7 @@ class IconText extends StatelessWidget {
         kWidth10,
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 14,
           ),
         ),

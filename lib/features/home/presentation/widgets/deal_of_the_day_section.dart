@@ -132,9 +132,9 @@ class DealsOfTheDaySection extends StatelessWidget {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Flexible(
-                                  child: const Text(
+                                  child: Text(
                                     '10 times booked',
                                     style: TextStyle(
                                       color: kColorGrey,

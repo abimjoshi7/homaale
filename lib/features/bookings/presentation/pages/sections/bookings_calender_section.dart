@@ -35,7 +35,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Dec-2022'),
+                const Text('Dec-2022'),
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(

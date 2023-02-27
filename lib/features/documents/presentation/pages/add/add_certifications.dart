@@ -100,7 +100,6 @@ class _AddCertificationsState extends State<AddCertifications> {
                     ),
                     CustomFormField(
                       label: 'Description',
-                      isRequired: false,
                       child: CustomTextFormField(
                         maxLines: 3,
                         hintText: 'Write something...',

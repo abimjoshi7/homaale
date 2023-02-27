@@ -22,7 +22,7 @@ class RatingReviewSection extends StatelessWidget {
               Flexible(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
+                  children: const [
                     Text(
                       'Reviews ',
                       style: kPurpleText16,
@@ -33,7 +33,7 @@ class RatingReviewSection extends StatelessWidget {
               ),
               Flexible(
                 child: CustomDropDownField(
-                  list: [
+                  list: const [
                     'Most Relevant',
                     'Most Popular',
                   ],
@@ -43,7 +43,7 @@ class RatingReviewSection extends StatelessWidget {
               )
             ],
           ),
-          ListTile(
+          const ListTile(
             leading: CircleAvatar(),
             title: Text('Elena'),
             trailing: Text(

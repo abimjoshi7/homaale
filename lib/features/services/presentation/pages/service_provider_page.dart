@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
-import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
@@ -84,13 +83,13 @@ class ServiceProviderPage extends StatelessWidget {
                                   ],
                                 ),
                                 Row(
-                                  children: [
-                                    const Icon(
+                                  children: const [
+                                    Icon(
                                       Icons.favorite_border_outlined,
                                       color: Colors.red,
                                     ),
                                     kWidth10,
-                                    const Icon(
+                                    Icon(
                                       Icons.share,
                                       color: Colors.blue,
                                     ),
@@ -150,25 +149,28 @@ class ServiceProviderPage extends StatelessWidget {
                               children: List.generate(
                                 2,
                                 (index) => Row(
-                                  children: [
-                                    const Icon(
+                                  children: const [
+                                    Icon(
                                       Icons.circle,
                                       size: 12,
                                       color: Colors.orange,
                                     ),
                                     kWidth10,
-                                    const Text(
-                                        'Booking available for RCT in Kathmandu')
+                                    Text(
+                                      'Booking available for RCT in Kathmandu',
+                                    )
                                   ],
                                 ),
                               ),
                             ),
-                            Visibility(
-                                visible: false, child: PackagesOffersSection()),
+                            const Visibility(
+                              visible: false,
+                              child: PackagesOffersSection(),
+                            ),
                             ExpansionTile(
                               tilePadding: EdgeInsets.zero,
                               title: Row(
-                                children: [
+                                children: const [
                                   Icon(
                                     Icons.info_outline,
                                     size: 15,
@@ -177,14 +179,14 @@ class ServiceProviderPage extends StatelessWidget {
                                   Text('Additional Information'),
                                 ],
                               ),
-                              children: [
+                              children: const [
                                 AdditionalInfoSection(),
                               ],
                             ),
                             ExpansionTile(
                               tilePadding: EdgeInsets.zero,
                               title: Row(
-                                children: [
+                                children: const [
                                   Icon(
                                     Icons.star_border_outlined,
                                     size: 15,
@@ -193,7 +195,7 @@ class ServiceProviderPage extends StatelessWidget {
                                   Text('Ratings & Reviews'),
                                 ],
                               ),
-                              children: [
+                              children: const [
                                 RatingReviewSection(),
                               ],
                             ),
@@ -208,35 +210,35 @@ class ServiceProviderPage extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
-                                        CustomModalSheetDrawerIcon(),
+                                        const CustomModalSheetDrawerIcon(),
                                         kHeight10,
-                                        Text(
+                                        const Text(
                                           'Rating & Review',
                                           style: kText17,
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(10),
                                           child: Column(
-                                            children: [
+                                            children: const [
                                               CustomFormField(
                                                 label: 'Name',
-                                                child: CustomTextFormField(),
                                                 isRequired: true,
+                                                child: CustomTextFormField(),
                                               ),
                                               CustomFormField(
                                                 label: 'Email',
-                                                child: CustomTextFormField(),
                                                 isRequired: true,
+                                                child: CustomTextFormField(),
                                               ),
                                               CustomFormField(
                                                 label: 'Task Description',
-                                                child: CustomTextFormField(),
                                                 isRequired: true,
+                                                child: CustomTextFormField(),
                                               ),
                                               CustomFormField(
                                                 label: 'Ratings',
-                                                child: CustomTextFormField(),
                                                 isRequired: true,
+                                                child: CustomTextFormField(),
                                               ),
                                             ],
                                           ),
@@ -275,7 +277,8 @@ class ServiceProviderPage extends StatelessWidget {
                             child: ListView.separated(
                               padding: EdgeInsets.zero,
                               scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => ServiceCard(),
+                              itemBuilder: (context, index) =>
+                                  const ServiceCard(),
                               separatorBuilder: (context, index) => kWidth10,
                               itemCount: 5,
                             ),
@@ -297,7 +300,7 @@ class ServiceProviderPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Total Price'),
+                                  const Text('Total Price'),
                                   Text(
                                     "Rs. ${state.serviceModel.budgetTo}",
                                     style: kText20,

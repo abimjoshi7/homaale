@@ -1,8 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientPostTaskViewPage extends StatelessWidget {
   static const routeName = '/client-post-task-view-page';
@@ -10,8 +8,8 @@ class ClientPostTaskViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Center(
+    return const Scaffold(
+      body: Center(
         child: Text('Something went wrong'),
       ),
     );
@@ -66,8 +64,8 @@ class _ClientTaskViewTabSectionState extends State<ClientTaskViewTabSection>
           height: MediaQuery.of(context).size.height * 0.23,
           child: TabBarView(
             controller: _tabController,
-            children: [
-              const TaskersTabSection(),
+            children: const [
+              TaskersTabSection(),
               Text('data'),
               Text('data2'),
             ],
@@ -114,14 +112,12 @@ class TaskersTabSection extends StatelessWidget {
           child: GridView.builder(
             padding: EdgeInsets.zero,
             itemCount: 4,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.9,
             ),
             itemBuilder: (context, index) => TaskerCard(
-              callback: () {
-                print(123);
-              },
+              callback: () {},
             ),
           ),
         ),

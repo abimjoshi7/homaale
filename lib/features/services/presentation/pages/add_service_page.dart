@@ -6,7 +6,6 @@ import 'package:cipher/features/services/data/models/add_service_req.dart';
 import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -155,7 +154,6 @@ class _AddServicePageState extends State<AddServicePage> {
                           ),
                           CustomFormField(
                             label: 'Service Highlights',
-                            isRequired: false,
                             child: Column(
                               children: [
                                 Column(
@@ -272,9 +270,10 @@ class _AddServicePageState extends State<AddServicePage> {
                                 flex: 2,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
+                                    horizontal: 10,
+                                  ),
                                   child: CustomDropDownField(
-                                    list: [
+                                    list: const [
                                       'Project',
                                       'Hourly',
                                       'Daily',
@@ -335,7 +334,7 @@ class _AddServicePageState extends State<AddServicePage> {
                                 addHorizontalSpace(10),
                                 Flexible(
                                   child: CustomDropDownField(
-                                    list: [
+                                    list: const [
                                       'Project',
                                       'Hourly',
                                       'Daily',
@@ -517,7 +516,6 @@ class _AddServicePageState extends State<AddServicePage> {
                           // ),
                           CustomFormField(
                             label: 'Images',
-                            isRequired: false,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -563,7 +561,6 @@ class _AddServicePageState extends State<AddServicePage> {
                           ),
                           CustomFormField(
                             label: 'Videos',
-                            isRequired: false,
                             child: Column(
                               children: [
                                 Row(
@@ -736,8 +733,6 @@ class _AddServicePageState extends State<AddServicePage> {
                                     context
                                         .read<AddServiceCubit>()
                                         .addService(req);
-
-                                    // print(req.toJson());
                                   } else {
                                     showDialog(
                                       context: context,
@@ -755,13 +750,6 @@ class _AddServicePageState extends State<AddServicePage> {
                               );
                             },
                           ),
-                          // addVerticalSpace(10),
-                          // CustomElevatedButton(
-                          //   mainColor: Colors.white,
-                          //   textColor: kColorPrimary,
-                          //   callback: () {},
-                          //   label: 'Cancel',
-                          // ),
                         ],
                       ),
                     ),
@@ -781,7 +769,6 @@ class _AddServicePageState extends State<AddServicePage> {
         children: [
           CustomFormField(
             label: 'Date',
-            isRequired: false,
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.4,
               child: InkWell(
@@ -916,7 +903,6 @@ class _AddServicePageState extends State<AddServicePage> {
             Flexible(
               child: CustomFormField(
                 label: 'Start Date',
-                isRequired: false,
                 child: SizedBox(
                   child: InkWell(
                     onTap: () async {
@@ -951,7 +937,6 @@ class _AddServicePageState extends State<AddServicePage> {
             Flexible(
               child: CustomFormField(
                 label: 'End Date',
-                isRequired: false,
                 child: SizedBox(
                   child: InkWell(
                     onTap: () async {
@@ -1113,7 +1098,6 @@ class _AddServicePageState extends State<AddServicePage> {
                               widgetList.remove(widgetList[index]);
                               break;
                             case 5:
-                              print(index);
                               // widgetList.removeAt(widgetList[5]);
                               break;
                             case 6:

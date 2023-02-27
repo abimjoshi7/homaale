@@ -22,27 +22,27 @@ class PopularServicesPage extends StatelessWidget {
                 addVerticalSpace(
                   50,
                 ),
-                CustomHeader(
+                const CustomHeader(
                   label: 'Popular Services',
                 ),
-                Divider(),
+                const Divider(),
                 SizedBox(
                   height: 35,
                   width: double.infinity,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                     ),
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.filter_alt_outlined,
                         color: kColorSilver,
                       ),
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
-                          children: [
+                          children: const [
                             Text(
                               'Category',
                             ),
@@ -50,14 +50,14 @@ class PopularServicesPage extends StatelessWidget {
                           ],
                         ),
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: kColorGrey),
+                        side: const BorderSide(color: kColorGrey),
                         selected: false,
                         disabledColor: Colors.white,
                       ),
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
-                          children: [
+                          children: const [
                             Text(
                               'Buddhanagar',
                             ),
@@ -65,14 +65,14 @@ class PopularServicesPage extends StatelessWidget {
                           ],
                         ),
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: kColorGrey),
+                        side: const BorderSide(color: kColorGrey),
                         selected: false,
                         disabledColor: Colors.white,
                       ),
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
-                          children: [
+                          children: const [
                             Text(
                               'Any Price',
                             ),
@@ -80,7 +80,7 @@ class PopularServicesPage extends StatelessWidget {
                           ],
                         ),
                         backgroundColor: Colors.white,
-                        side: BorderSide(color: kColorGrey),
+                        side: const BorderSide(color: kColorGrey),
                         selected: false,
                         disabledColor: Colors.white,
                       ),
@@ -91,7 +91,8 @@ class PopularServicesPage extends StatelessWidget {
                 Expanded(
                   child: GridView.builder(
                     padding: EdgeInsets.zero,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                     ),
                     itemBuilder: (context, index) => Padding(

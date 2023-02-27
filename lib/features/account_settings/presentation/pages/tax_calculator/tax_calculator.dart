@@ -3,7 +3,6 @@ import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +48,7 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Annual Gross Salary',
                                 style: kPurpleText16,
                               ),
@@ -74,7 +73,7 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Taxable Income',
                                 style: kPurpleText16,
                               ),
@@ -99,7 +98,7 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Net Payable Tax',
                                 style: kPurpleText16,
                               ),
@@ -124,7 +123,7 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Your Tax slab is:',
                                 style: kPurpleText16,
                               ),
@@ -145,7 +144,7 @@ class TaxCalculator extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Text(
                                 'Taxable Salary',
                                 style: kPurpleText13,
@@ -174,7 +173,7 @@ class TaxCalculator extends StatelessWidget {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Text(
                                 'Tax Rate',
                                 style: kPurpleText13,
@@ -200,11 +199,11 @@ class TaxCalculator extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Divider(),
+                          const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Net Tax Liability (yearly)',
                                 style: kPurpleText13,
                               ),
@@ -219,7 +218,7 @@ class TaxCalculator extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 'Net Tax Liability (monthly)',
                                 style: kPurpleText13,
                               ),
@@ -333,8 +332,7 @@ class _TaxFormSectionState extends State<TaxFormSection> {
             key: _key,
             child: Column(
               children: [
-                CustomFormField(
-                  isRequired: false,
+                const CustomFormField(
                   label: 'Calculate your tax',
                   child: Text(
                     'This tax calculator tool is designed as per the new salary tax which was announced during Budget Announcement of 2078/2079.',
@@ -360,7 +358,6 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                 ),
                 CustomFormField(
                   label: 'Income',
-                  isRequired: false,
                   child: Wrap(
                     runSpacing: 10,
                     children: [
@@ -400,7 +397,6 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                 ),
                 CustomFormField(
                   label: 'Deduction',
-                  isRequired: false,
                   child: Wrap(
                     runSpacing: 10,
                     children: [

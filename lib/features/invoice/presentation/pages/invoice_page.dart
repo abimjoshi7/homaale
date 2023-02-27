@@ -39,7 +39,7 @@ class InvoicePage extends StatelessWidget {
                 Container(
                   height: 40,
                   width: 200,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/homaale_logo_title.png'),
                     ),
@@ -47,12 +47,12 @@ class InvoicePage extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       'INVOICE',
                       style: kPurpleText19,
                     ),
                     addVerticalSpace(5),
-                    Text(
+                    const Text(
                       'INV#-0023',
                       style: kTealText18,
                     ),
@@ -67,19 +67,19 @@ class InvoicePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Bill To',
                     style: kTealText18,
                   ),
-                  Text(
+                  const Text(
                     'Dipesh Das',
                     style: kPurpleText16,
                   ),
-                  Text(
+                  const Text(
                     'Baneshwor, Kathmandu',
                     style: kPurpleText16,
                   ),
-                  Text(
+                  const Text(
                     'Nepal',
                     style: kPurpleText16,
                   ),
@@ -87,7 +87,7 @@ class InvoicePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Column(
-                        children: [
+                        children: const [
                           Text(
                             'Balance Due',
                             style: kTealText18,
@@ -103,19 +103,17 @@ class InvoicePage extends StatelessWidget {
                   addVerticalSpace(20),
                   Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    border: TableBorder(
+                    border: const TableBorder(
                       horizontalInside: BorderSide(
                         width: 0.5,
                         color: kColorGrey,
-                        style: BorderStyle.solid,
                       ),
                       bottom: BorderSide(
                         width: 0.5,
                         color: kColorGrey,
-                        style: BorderStyle.solid,
                       ),
                     ),
-                    columnWidths: {
+                    columnWidths: const {
                       0: FlexColumnWidth(4),
                       1: FlexColumnWidth(2),
                       2: FlexColumnWidth(2),
@@ -175,12 +173,12 @@ class InvoicePage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
+                          const Text(
                             'Sub Total',
                             style: kPurpleText16,
                           ),
                           addHorizontalSpace(20),
-                          Text(
+                          const Text(
                             'NPR 3000.00',
                             style: kPurpleText16,
                           ),
@@ -189,12 +187,12 @@ class InvoicePage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
+                          const Text(
                             'Total',
                             style: kPurpleText16,
                           ),
                           addHorizontalSpace(20),
-                          Text(
+                          const Text(
                             'NPR 3000.00',
                             style: kPurpleText16,
                           ),

@@ -1,7 +1,5 @@
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,9 +14,6 @@ class FingerPrintSection extends StatelessWidget {
       builder: (context, state) {
         return TextButton(
           onPressed: () async {
-            print("Access: ${CacheHelper.accessToken}");
-            print("Refresh: ${CacheHelper.refreshToken}");
-            print(state);
             // await showModalBottomSheet<Widget>(
             //   context: context,
             //   builder: (context) => Column(

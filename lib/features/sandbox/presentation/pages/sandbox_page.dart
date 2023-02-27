@@ -14,7 +14,6 @@ import 'package:cipher/features/categories/presentation/cubit/nested_categories_
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/features/task/data/repositories/task_repositories.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -209,7 +208,7 @@ class SandboxPage extends StatelessWidget {
                     // context.read<BookingsBloc>().add(
                     //       ServiceBookingListInitiated(),
                     //     );
-                    if (state is BookEntityServiceLoadSuccess) {
+                    if (state is ServiceBookingLoadSuccess) {
                       print(
                         state.myBookingList.result?.first.description,
                       );
@@ -227,7 +226,6 @@ class SandboxPage extends StatelessWidget {
                 return CustomElevatedButton(
                   callback: () async {
                     context.read<TaskBloc>().add(MyTaskLoadInitiated());
-                    final x = await TaskRepositories().fetchCreatedTask();
                     print(23);
                   },
                   label: 'Get My Tasks',

@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/text.dart';
 import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget {

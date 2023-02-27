@@ -55,36 +55,36 @@ class PackagesOffersCard extends StatelessWidget {
                       ],
                     ),
                     Row(
-                      children: [
-                        const Icon(
+                      children: const [
+                        Icon(
                           Icons.circle,
                           size: 7,
                           color: Colors.blue,
                         ),
                         kWidth10,
-                        const Text('Filings')
+                        Text('Filings')
                       ],
                     ),
                     Row(
-                      children: [
-                        const Icon(
+                      children: const [
+                        Icon(
                           Icons.circle,
                           size: 7,
                           color: Colors.blue,
                         ),
                         kWidth10,
-                        const Text('Filings')
+                        Text('Filings')
                       ],
                     ),
                     Row(
-                      children: [
-                        const Icon(
+                      children: const [
+                        Icon(
                           Icons.circle,
                           size: 7,
                           color: Colors.blue,
                         ),
                         kWidth10,
-                        const Text('Filings')
+                        Text('Filings')
                       ],
                     ),
                   ],

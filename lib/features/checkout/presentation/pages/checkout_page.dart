@@ -2,8 +2,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CheckoutPage extends StatelessWidget {
   static const routeName = '/checkout-page';
@@ -50,20 +48,20 @@ class CheckoutPage extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Billing Location',
                                       style: kPurpleText16,
                                     ),
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.edit,
                                         size: 18,
                                       ),
                                     ),
                                   ],
                                 ),
-                                IconText(
+                                const IconText(
                                   label: 'Bagbazaar, Kathmandu',
                                   iconData: Icons.location_on_outlined,
                                   color: Colors.pink,
@@ -76,7 +74,7 @@ class CheckoutPage extends StatelessWidget {
                                         onTap: () {},
                                       ),
                                       addHorizontalSpace(10),
-                                      Text(
+                                      const Text(
                                         'Same as task location',
                                         style: kBodyText1,
                                       ),
@@ -96,13 +94,13 @@ class CheckoutPage extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Service List',
                                       style: kPurpleText16,
                                     ),
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.edit,
                                         color: Colors.white,
                                       ),
@@ -120,7 +118,7 @@ class CheckoutPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Placeholder(
+                                      const Placeholder(
                                         fallbackHeight: 70,
                                         fallbackWidth: 70,
                                       ),
@@ -129,15 +127,15 @@ class CheckoutPage extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text('Trimming & Cutting'),
-                                          IconText(
+                                          const Text('Trimming & Cutting'),
+                                          const IconText(
                                             label: 'Bagbazaar, Kathmandu',
                                             iconData:
                                                 Icons.location_on_outlined,
                                             color: Colors.pink,
                                           ),
                                           Row(
-                                            children: [
+                                            children: const [
                                               IconText(
                                                 label: 'June 02, 2022',
                                                 iconData:
@@ -158,7 +156,7 @@ class CheckoutPage extends StatelessWidget {
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
-                                        children: [
+                                        children: const [
                                           Icon(Icons.delete),
                                           Text(
                                             'Rs 3,000',
@@ -181,7 +179,7 @@ class CheckoutPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    color: Color(0xffF0F8FD),
+                    color: const Color(0xffF0F8FD),
                     height: 100,
                     width: double.infinity,
                     child: Padding(
@@ -189,7 +187,7 @@ class CheckoutPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Add voucher or promo code',
                             style: kPurpleText16,
                           ),
@@ -198,7 +196,7 @@ class CheckoutPage extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Flexible(
+                              const Flexible(
                                 flex: 3,
                                 child: CustomTextFormField(
                                   hintText: 'Enter code',
@@ -222,35 +220,35 @@ class CheckoutPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Payment Details',
                             style: kPurpleText16,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Text('Service Charge'),
                               Text('Rs 3,000'),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Text('Service Charge'),
                               Text('Rs 3,000'),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Text('Service Charge'),
                               Text('Rs 3,000'),
                             ],
                           ),
-                          Divider(),
+                          const Divider(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Text('Total'),
                               Text('Rs 3,000'),
                             ],
@@ -259,7 +257,7 @@ class CheckoutPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Get Membership',
                     style: kPurpleText16,
                   ),
@@ -272,31 +270,32 @@ class CheckoutPage extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               'Free trial',
                               style: kPurpleText13,
                             ),
-                            SizedBox(
-                                width: 150,
-                                child: CustomModalSheetDrawerIcon(
-                                  color: kColorPrimary,
-                                )),
-                            Text(
+                            const SizedBox(
+                              width: 150,
+                              child: CustomModalSheetDrawerIcon(
+                                color: kColorPrimary,
+                              ),
+                            ),
+                            const Text(
                               'Free',
                               style: kPurpleText16,
                             ),
                             addVerticalSpace(20),
-                            IconText(
+                            const IconText(
                               label: 'Up to 2 users',
                               iconData: Icons.circle,
                               size: 10,
                             ),
-                            IconText(
+                            const IconText(
                               label: 'Up to 2 users',
                               iconData: Icons.circle,
                               size: 10,
                             ),
-                            IconText(
+                            const IconText(
                               label: 'Up to 2 users',
                               iconData: Icons.circle,
                               size: 10,
@@ -321,7 +320,7 @@ class CheckoutPage extends StatelessWidget {
                       itemCount: 5,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Popular on Homaale',
                     style: kPurpleText16,
                   ),
@@ -343,7 +342,7 @@ class CheckoutPage extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text('Total Price'),
                       Text(
                         // "Rs. ${state.result.budgetTo}",

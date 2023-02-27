@@ -32,7 +32,7 @@ class OrderPage extends StatelessWidget {
             ),
             child: const Text('Your Order'),
           ),
-          OrderCard(),
+          const OrderCard(),
           addVerticalSpace(10),
           OrderCard(
             leadinglabel: 'Order Details',
@@ -41,7 +41,7 @@ class OrderPage extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Text(
                       'Name',
                       style: kText15,
@@ -56,19 +56,19 @@ class OrderPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      child: Text('Trimming & Cutting'),
                       width: MediaQuery.of(context).size.width / 3,
+                      child: const Text('Trimming & Cutting'),
                     ),
                     SizedBox(
-                      child: Text('Rs 1200'),
                       width: MediaQuery.of(context).size.width / 3,
+                      child: const Text('Rs 1200'),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       child: Text('Rs 1180'),
                       // width: MediaQuery.of(context).size.width / 3,
                     ),
@@ -80,7 +80,7 @@ class OrderPage extends StatelessWidget {
                     SizedBox(
                       height: 30,
                       width: MediaQuery.of(context).size.width / 3,
-                      child: Text(
+                      child: const Text(
                         'Planting + Watering + Trimming trees and shrubs + Landscape plans + Fertilizing & Mowing Lawns',
                         style: TextStyle(
                           fontSize: 10,
@@ -100,7 +100,7 @@ class OrderPage extends StatelessWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Text(
                       'Service Charge:',
                       style: TextStyle(
@@ -115,7 +115,7 @@ class OrderPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Text(
                       'Service Charge:',
                       style: TextStyle(
@@ -130,7 +130,7 @@ class OrderPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Text(
                       'Service Charge:',
                       style: TextStyle(
@@ -145,7 +145,7 @@ class OrderPage extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Text(
                       'Service Charge:',
                       style: TextStyle(
@@ -159,12 +159,12 @@ class OrderPage extends StatelessWidget {
                   ],
                 ),
                 addVerticalSpace(5),
-                MySeparator(),
+                const MySeparator(),
                 addVerticalSpace(5),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         'Service Charge:',
                         style: TextStyle(
@@ -220,7 +220,7 @@ class OrderCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                 10,
               ),
-              color: Color(0xffECECF2),
+              color: const Color(0xffECECF2),
             ),
             height: 200,
             child: Column(
@@ -254,7 +254,7 @@ class OrderCard extends StatelessWidget {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: const [
                                   Text(
                                     'Service Provider:',
                                     style: TextStyle(
@@ -270,7 +270,7 @@ class OrderCard extends StatelessWidget {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: const [
                                   Text(
                                     'Customer ID:',
                                     style: TextStyle(
@@ -286,7 +286,7 @@ class OrderCard extends StatelessWidget {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: const [
                                   Text(
                                     'Date/Time',
                                     style: TextStyle(
@@ -302,7 +302,7 @@ class OrderCard extends StatelessWidget {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: const [
                                   Text(
                                     'Billing Address:',
                                     style: TextStyle(

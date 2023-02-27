@@ -30,21 +30,20 @@ class BookingNextDetailPage extends StatelessWidget {
               },
               icon: const Icon(Icons.search),
             ),
-            child: Text('Booking Details'),
+            child: const Text('Booking Details'),
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  CustomFormField(
+                  const CustomFormField(
                     label: 'Trimming & Cutting',
-                    isRequired: false,
                     child: Text('data'),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       IconText(
                         label: 'Jun 03,2022 to Nov 30,20222',
                         iconData: Icons.calendar_today_rounded,
@@ -70,7 +69,7 @@ class BookingNextDetailPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -79,10 +78,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -91,10 +90,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -103,10 +102,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -115,12 +114,11 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                   ],
                                 ),
                               ),
-                              isRequired: false,
                             ),
                             CustomFormField(
                               label: 'How many tress are affected ?',
@@ -130,7 +128,7 @@ class BookingNextDetailPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -139,10 +137,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -151,10 +149,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -163,10 +161,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -175,12 +173,11 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                   ],
                                 ),
                               ),
-                              isRequired: false,
                             ),
                             CustomFormField(
                               label: 'What Service are you looking for ?',
@@ -190,7 +187,7 @@ class BookingNextDetailPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -199,10 +196,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -211,10 +208,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -223,10 +220,10 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                     RadioListTile(
-                                      visualDensity: VisualDensity(
+                                      visualDensity: const VisualDensity(
                                         horizontal:
                                             VisualDensity.minimumDensity,
                                         vertical: VisualDensity.minimumDensity,
@@ -235,12 +232,11 @@ class BookingNextDetailPage extends StatelessWidget {
                                       value: 'Only trimming',
                                       groupValue: 'Only Trimming',
                                       onChanged: (value) => false,
-                                      title: Text('Only trimming'),
+                                      title: const Text('Only trimming'),
                                     ),
                                   ],
                                 ),
                               ),
-                              isRequired: false,
                             ),
                           ],
                         ),
@@ -265,7 +261,7 @@ class BookingNextDetailPage extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: const [
                       Text('Total Price'),
                       Text(
                         // "Rs. ${state.result.budgetTo}",
