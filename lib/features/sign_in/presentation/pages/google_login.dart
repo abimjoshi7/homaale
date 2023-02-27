@@ -45,7 +45,9 @@ class _GoogleLoginState extends State<GoogleLogin> {
         }
         if (x.access != null) {
           await storage.write(
-              key: CacheHelper.accessToken ?? '', value: x.access);
+            key: CacheHelper.accessToken ?? '',
+            value: x.access,
+          );
           if (!mounted) return;
           await Navigator.pushNamedAndRemoveUntil(
             context,

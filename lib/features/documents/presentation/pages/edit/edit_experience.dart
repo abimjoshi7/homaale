@@ -4,7 +4,6 @@ import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/documents/models/tasker_experience_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +46,7 @@ class _EditExperienceState extends State<EditExperience> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state is TaskerEditExperienceSuccess) {
+          if (!mounted) return;
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -62,6 +62,7 @@ class _EditExperienceState extends State<EditExperience> {
           );
         }
         if (state is TaskerEditExperienceFailure) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -223,7 +224,6 @@ class _EditExperienceState extends State<EditExperience> {
                                         ).then(
                                           (value) => setState(
                                             () {
-                                              print(value);
                                               issuedDate = value;
                                             },
                                           ),

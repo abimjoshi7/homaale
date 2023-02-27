@@ -1,4 +1,5 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
@@ -11,13 +12,10 @@ import 'package:cipher/features/categories/data/repositories/categories_reposito
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/task/data/repositories/task_repositories.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
-import 'package:cipher/features/user/data/repositories/user_repositories.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';

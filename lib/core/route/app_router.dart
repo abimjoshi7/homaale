@@ -1,30 +1,31 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
+import 'package:cipher/features/documents/presentation/pages/pages.dart';
+import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
+import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
+import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/order/presentation/pages/order_page.dart';
 import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
-import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
-import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
-import 'package:cipher/features/documents/presentation/pages/pages.dart';
-import 'package:cipher/features/home/presentation/pages/home.dart';
-import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
@@ -269,6 +270,11 @@ class AppRouter {
       case PopularTaskerPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const PopularTaskerPage(),
+          settings: settings,
+        );
+      case OffersPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const OffersPage(),
           settings: settings,
         );
       case SandboxPage.routeName:

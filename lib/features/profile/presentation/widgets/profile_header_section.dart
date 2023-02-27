@@ -66,16 +66,6 @@ class ProfileHeaderSection extends StatelessWidget {
               }
             }
 
-            Widget displayDesignation() {
-              if (state2 is UserLoadSuccess) {
-                return Text(
-                  state2.user.designation.toString(),
-                );
-              } else {
-                return const Text('New Homaale User');
-              }
-            }
-
             Widget displayProfilePic() {
               if (state2 is UserLoadSuccess) {
                 return Container(

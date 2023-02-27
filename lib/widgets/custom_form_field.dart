@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 class CustomFormField extends StatelessWidget {
   const CustomFormField({
     super.key,
-    required this.label,
-    required this.isRequired,
-    required this.child,
+    this.label,
+    this.isRequired = false,
+    this.child,
   });
 
-  final String label;
-  final bool isRequired;
-  final Widget child;
+  final String? label;
+  final bool? isRequired;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class CustomFormField extends StatelessWidget {
         Row(
           children: [
             Text(
-              label,
+              label ?? '',
               style: kPurpleText16,
             ),
             kWidth5,
@@ -39,7 +39,7 @@ class CustomFormField extends StatelessWidget {
               const Text(''),
           ],
         ),
-        child,
+        child ?? const SizedBox.shrink(),
         addVerticalSpace(10),
       ],
     );

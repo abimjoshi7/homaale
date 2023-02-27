@@ -46,7 +46,8 @@ class _EditPortfolioState extends State<EditPortfolio> {
       listener: (context, portfolioState) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (portfolioState is TaskerEditPortfolioSuccess) {
-          showDialog(
+          if (!mounted) return;
+          await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -62,6 +63,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
           );
         }
         if (portfolioState is TaskerEditPortfolioFailure) {
+          if (!mounted) return;
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -116,18 +118,15 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (portfolioState is TaskerGetPortfolioSuccess)
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Image.network(
-                              portfolio?.images?[0]['media'].toString() ??
-                                  kNoImageNImg,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        else
-                          Image.asset('assets/images.png'),
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: Image.network(
+                            portfolio?.images?[0]['media'].toString() ??
+                                kNoImageNImg,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                         kHeight5,
                         const Text(
                           'Upload or Browse image',
@@ -174,8 +173,8 @@ class _EditPortfolioState extends State<EditPortfolio> {
                 return Column(
                   children: [
                     const CustomModalSheetDrawerIcon(),
-                    Center(
-                      child: const Text(
+                    const Center(
+                      child: Text(
                         'Edit Portfolio',
                         style: kPurpleText16,
                       ),
@@ -316,8 +315,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             });
                           } else {
                             setState(() {
-                              list.add(portfolioState.taskerPortfolioRes.first
-                                  .images!.first['id'] as int);
+                              list.add(
+                                portfolioState.taskerPortfolioRes.first.images!
+                                    .first['id'] as int,
+                              );
                             });
                           }
 

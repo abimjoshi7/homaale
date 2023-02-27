@@ -69,13 +69,11 @@ class ServicesRepositories {
     AddServiceReq addServiceReq,
   ) async {
     try {
-      print(addServiceReq.toJson());
       final res = await _dio.postDataWithCredential(
         data: addServiceReq.toJson(),
         url: 'task/entity/service/',
         token: CacheHelper.accessToken,
       );
-      print(res);
       return res as Map<String, dynamic>;
     } catch (e) {
       log(

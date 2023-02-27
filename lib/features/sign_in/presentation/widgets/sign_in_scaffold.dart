@@ -27,7 +27,7 @@ class SignInScaffold extends StatelessWidget {
             children: [
               kHeight50,
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: kPadding20,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -39,7 +39,9 @@ class SignInScaffold extends StatelessWidget {
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                        ),
                         child: Visibility(
                           visible: false,
                           child: Row(
@@ -63,11 +65,11 @@ class SignInScaffold extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 70,
-                width: 290,
+                height: MediaQuery.of(context).size.width * 0.3,
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: Image.asset(
                   'assets/homaale_logo_title.png',
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               kHeight50,

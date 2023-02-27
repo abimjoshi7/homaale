@@ -13,7 +13,7 @@ import 'package:cipher/features/categories/presentation/cubit/nested_categories_
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -164,7 +164,7 @@ class Cipher extends StatelessWidget {
             create: (context) => BookingsBloc(),
           ),
           BlocProvider(
-            create: (context) => ProfessionalServiceBloc(),
+            create: (context) => ProfessionalServiceCategoryBloc(),
           ),
           BlocProvider(
             create: (context) => TaxCalculatorCubit(),

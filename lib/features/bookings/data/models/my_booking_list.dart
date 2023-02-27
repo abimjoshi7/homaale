@@ -44,7 +44,7 @@ class MyBookingList {
         "page_size": pageSize,
         "result": result == null
             ? []
-            : List<dynamic>.from(result?.map((x) => x.toJson()) as Iterable),
+            : List<dynamic>.from(result!.map((x) => x.toJson())),
       };
 }
 
@@ -104,16 +104,20 @@ class Result {
         createdBy: json["created_by"] == null
             ? null
             : ResultCreatedBy.fromJson(
-                json["created_by"] as Map<String, dynamic>),
+                json["created_by"] as Map<String, dynamic>,
+              ),
         entityService: json["entity_service"] == null
             ? null
             : EntityService.fromJson(
-                json["entity_service"] as Map<String, dynamic>),
+                json["entity_service"] as Map<String, dynamic>,
+              ),
         images: json["images"] == null
             ? []
-            : List<Image>.from(json["images"]!
-                    .map((x) => Image.fromJson(x as Map<String, dynamic>))
-                as Iterable),
+            : List<Image>.from(
+                json["images"]!
+                        .map((x) => Image.fromJson(x as Map<String, dynamic>))
+                    as Iterable,
+              ),
         videos: json["videos"] == null
             ? []
             : List<dynamic>.from(json["videos"]!.map((x) => x) as Iterable),
@@ -216,7 +220,8 @@ class ResultCreatedBy {
         chargeCurrency: json["charge_currency"] == null
             ? null
             : Currency.fromJson(
-                json["charge_currency"] as Map<String, dynamic>),
+                json["charge_currency"] as Map<String, dynamic>,
+              ),
         hourlyRate: json["hourly_rate"] as num?,
       );
 

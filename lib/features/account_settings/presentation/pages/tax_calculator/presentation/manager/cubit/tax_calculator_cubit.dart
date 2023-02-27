@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_res.dart';
@@ -29,7 +31,6 @@ class TaxCalculatorCubit extends Cubit<TaxCalculatorState> {
             ),
           );
     } catch (e) {
-      print(e);
       emit(
         TaxCalculatorFailure(),
       );

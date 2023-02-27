@@ -7,7 +7,8 @@ import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
-import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
+import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
+import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -29,7 +30,7 @@ class _RootState extends State<Root> {
 
   final pages = [
     const Home(),
-    const Page1(),
+    const OffersPage(),
     const SizedBox.shrink(),
     const BookingPages(),
     const AccountProfile(),
@@ -39,24 +40,50 @@ class _RootState extends State<Root> {
     Future.delayed(
       const Duration(microseconds: 10),
       () async {
-        await context.read<HeroCategoryCubit>().getHeroCategory();
-        await context.read<TaskerPortfolioCubit>().getPortfolio();
-        await context.read<TaskerExperienceCubit>().getTaskerExperience();
-        await context.read<TaskerEducationCubit>().getTaskerEducation();
-        await context.read<TaskerCertificationCubit>().getTaskerCertification();
-        context.read<UserBloc>().add(
-              UserLoaded(),
+        await context
+            .read<HeroCategoryCubit>()
+            .getHeroCategory()
+            .then(
+              (value) async =>
+                  context.read<TaskerPortfolioCubit>().getPortfolio(),
+            )
+            .then(
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
+            )
+            .then(
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
+            )
+            .then(
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
+            )
+            .then(
+              (value) async => context.read<UserBloc>().add(
+                    UserLoaded(),
+                  ),
+            )
+            .then(
+              (value) async => context.read<KycBloc>().add(
+                    KycLoaded(),
+                  ),
+            )
+            .then(
+              (value) async => context.read<BookingsBloc>().add(
+                    ServiceBookingListInitiated(),
+                  ),
+            )
+            .then(
+              (value) async =>
+                  context.read<ProfessionalServiceCategoryBloc>().add(
+                        ProfessionalServiceCategoryLoadInitated(),
+                      ),
+            )
+            .then(
+              (value) async => context.read<TaskerCubit>().loadTaskerList(),
             );
-        context.read<KycBloc>().add(
-              KycLoaded(),
-            );
-        context.read<BookingsBloc>().add(
-              ServiceBookingListInitiated(),
-            );
-        context.read<ProfessionalServiceBloc>().add(
-              ProfessionalLoadInitated(),
-            );
-        await context.read<TaskerCubit>().loadTaskerList();
       },
     );
   }

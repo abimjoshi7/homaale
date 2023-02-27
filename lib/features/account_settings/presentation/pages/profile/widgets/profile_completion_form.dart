@@ -9,7 +9,6 @@ import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +134,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     Flexible(
                       child: CustomFormField(
                         label: 'Middle Name',
-                        isRequired: false,
                         child: CustomTextFormField(
                           hintText: 'Prasad',
                           onSaved: (p0) => setState(
@@ -180,7 +178,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 CustomFormField(
                   label: 'Designation',
-                  isRequired: false,
                   child: CustomTextFormField(
                     hintText: 'Pilot',
                     onSaved: (p0) => setState(
@@ -244,7 +241,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 CustomFormField(
                   label: 'Date of birth',
-                  isRequired: false,
                   child: InkWell(
                     onTap: () async {
                       await showDatePicker(
@@ -265,8 +261,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         Icons.calendar_month_rounded,
                         color: kColorPrimary,
                       ),
-                      hintText: DateFormat('yyyy-MM-dd')
-                          .format(dateOfBirth as DateTime),
+                      hintText: DateFormat('yyyy-MM-dd').format(
+                        dateOfBirth ?? DateTime.now(),
+                      ),
                     ),
                   ),
                 ),
@@ -335,7 +332,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 CustomFormField(
                   label: 'Interests',
-                  isRequired: false,
                   child: BlocBuilder<InterestsBloc, InterestsState>(
                     builder: (context, state) {
                       if (state is InterestsLoadSuccess) {
@@ -740,6 +736,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         kErrorLog,
                       );
                       if (state is UserAddSuccess) {
+                        if (!mounted) return;
                         await showDialog(
                           context: context,
                           builder: (context) => CustomToast(
@@ -755,6 +752,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         );
                       }
                       if (state is UserAddFailure) {
+                        if (!mounted) return;
                         await showDialog(
                           context: context,
                           builder: (context) => CustomToast(
@@ -771,7 +769,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       return CustomElevatedButton(
                         callback: () async {
                           final image = await getImageFileFromAssets(
-                              'avatar-ga3c7ddeec_640.png');
+                            'avatar-ga3c7ddeec_640.png',
+                          );
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
@@ -792,7 +791,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             } else {
                               userType = "";
                             }
-
+                            if (!mounted) return;
                             final q = TaskerProfileCreateReq(
                               city: cityCode,
                               country: countryName,

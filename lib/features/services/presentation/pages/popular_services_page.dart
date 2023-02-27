@@ -1,7 +1,9 @@
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopularServicesPage extends StatelessWidget {
   static const routeName = '/popular-services-page';
@@ -10,92 +12,104 @@ class PopularServicesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          addVerticalSpace(
-            50,
-          ),
-          CustomHeader(
-            label: 'Popular Services',
-          ),
-          Divider(),
-          SizedBox(
-            height: 35,
-            width: double.infinity,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
+      body: BlocBuilder<ProfessionalServiceCategoryBloc,
+          ProfessionalServiceCategoryState>(
+        builder: (context, state) {
+          if (state is ProfessionalServiceCategoryLoadSuccess) {
+            final data = state.model.result;
+            return Column(
               children: [
-                Icon(
-                  Icons.filter_alt_outlined,
-                  color: kColorSilver,
+                addVerticalSpace(
+                  50,
                 ),
-                addHorizontalSpace(5),
-                ChoiceChip(
-                  label: Row(
+                CustomHeader(
+                  label: 'Popular Services',
+                ),
+                Divider(),
+                SizedBox(
+                  height: 35,
+                  width: double.infinity,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
                     children: [
-                      Text(
-                        'Category',
+                      Icon(
+                        Icons.filter_alt_outlined,
+                        color: kColorSilver,
                       ),
-                      Icon(Icons.keyboard_arrow_down_outlined)
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Category',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Buddhanagar',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: [
+                            Text(
+                              'Any Price',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
                     ],
                   ),
-                  backgroundColor: Colors.white,
-                  side: BorderSide(color: kColorGrey),
-                  selected: false,
-                  disabledColor: Colors.white,
                 ),
-                addHorizontalSpace(5),
-                ChoiceChip(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Buddhanagar',
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ServiceCard(
+                        title: data?[index].title,
                       ),
-                      Icon(Icons.keyboard_arrow_down_outlined)
-                    ],
+                    ),
+                    itemCount: data?.length,
                   ),
-                  backgroundColor: Colors.white,
-                  side: BorderSide(color: kColorGrey),
-                  selected: false,
-                  disabledColor: Colors.white,
                 ),
-                addHorizontalSpace(5),
-                ChoiceChip(
-                  label: Row(
-                    children: [
-                      Text(
-                        'Any Price',
-                      ),
-                      Icon(Icons.keyboard_arrow_down_outlined)
-                    ],
-                  ),
-                  backgroundColor: Colors.white,
-                  side: BorderSide(color: kColorGrey),
-                  selected: false,
-                  disabledColor: Colors.white,
-                ),
-                addHorizontalSpace(5),
               ],
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1,
-              ),
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ServiceCard(),
-              ),
-              itemCount: 2,
-            ),
-          ),
-        ],
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

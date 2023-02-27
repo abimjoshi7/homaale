@@ -21,31 +21,16 @@ class ServiceProviderPage extends StatelessWidget {
           if (state is SingleEntityServiceLoadSuccess) {
             return Column(
               children: [
-                kHeight50,
+                addVerticalSpace(50),
                 CustomHeader(
-                  leadingWidget: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_rounded),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  trailingWidget: IconButton(
-                    onPressed: () {
-                      print(
-                        state.serviceModel.images?.first['media'],
-                      );
-                    },
-                    icon: const Icon(Icons.search),
-                  ),
                   child: Text(state.serviceModel.title ?? ''),
                 ),
-                const Divider(),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
                       SizedBox(
-                        height: 200,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         child: Image.network(
                           state.serviceModel.images!.isEmpty
                               ? kServiceImageNImg
@@ -56,8 +41,9 @@ class ServiceProviderPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: kPadding20,
+                        padding: kPadding10,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,7 +64,9 @@ class ServiceProviderPage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    kWidth10,
+                                    addHorizontalSpace(
+                                      10,
+                                    ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -110,7 +98,7 @@ class ServiceProviderPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            kHeight10,
+                            addVerticalSpace(10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -144,7 +132,7 @@ class ServiceProviderPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            kHeight20,
+                            addVerticalSpace(10),
                             Text(
                               state.serviceModel.description ??
                                   'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
@@ -158,71 +146,27 @@ class ServiceProviderPage extends StatelessWidget {
                                 style: kPurpleText16,
                               ),
                             ),
-                            kHeight10,
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: Colors.orange,
+                            Column(
+                              children: List.generate(
+                                2,
+                                (index) => Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.circle,
+                                      size: 12,
+                                      color: Colors.orange,
+                                    ),
+                                    kWidth10,
+                                    const Text(
+                                        'Booking available for RCT in Kathmandu')
+                                  ],
                                 ),
-                                kWidth10,
-                                const Text(
-                                    'Booking available for RCT in Kathmandu')
-                              ],
+                              ),
                             ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: Colors.orange,
-                                ),
-                                kWidth10,
-                                const Text(
-                                    'Booking available for RCT in Kathmandu')
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: Colors.orange,
-                                ),
-                                kWidth10,
-                                const Text(
-                                    'Booking available for RCT in Kathmandu')
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: Colors.orange,
-                                ),
-                                kWidth10,
-                                const Text(
-                                    'Booking available for RCT in Kathmandu')
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.circle,
-                                  size: 12,
-                                  color: Colors.orange,
-                                ),
-                                kWidth10,
-                                const Text(
-                                    'Booking available for RCT in Kathmandu')
-                              ],
-                            ),
-                            kHeight20,
                             Visibility(
                                 visible: false, child: PackagesOffersSection()),
                             ExpansionTile(
+                              tilePadding: EdgeInsets.zero,
                               title: Row(
                                 children: [
                                   Icon(
@@ -238,6 +182,7 @@ class ServiceProviderPage extends StatelessWidget {
                               ],
                             ),
                             ExpansionTile(
+                              tilePadding: EdgeInsets.zero,
                               title: Row(
                                 children: [
                                   Icon(
@@ -321,11 +266,11 @@ class ServiceProviderPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: kPadding20,
-                        child: CustomFormText(
-                          name: 'Similar Services',
+                        padding: kPadding10,
+                        child: CustomFormField(
+                          label: 'Similar Services',
                           child: SizedBox(
-                            height: 200,
+                            height: MediaQuery.of(context).size.height * 0.22,
                             width: double.infinity,
                             child: ListView.separated(
                               padding: EdgeInsets.zero,

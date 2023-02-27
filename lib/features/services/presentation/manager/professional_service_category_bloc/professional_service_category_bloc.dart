@@ -3,14 +3,14 @@ import 'package:cipher/features/services/data/models/professional_service_model.
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:equatable/equatable.dart';
 
-part 'professional_service_event.dart';
-part 'professional_service_state.dart';
+part 'professional_service_category_event.dart';
+part 'professional_service_category_state.dart';
 
-class ProfessionalServiceBloc
-    extends Bloc<ProfessionalServiceEvent, ProfessionalServiceState> {
+class ProfessionalServiceCategoryBloc extends Bloc<
+    ProfessionalServiceCategoryEvent, ProfessionalServiceCategoryState> {
   final repo = ServicesRepositories();
-  ProfessionalServiceBloc() : super(ProfessionalServiceInitial()) {
-    on<ProfessionalLoadInitated>(
+  ProfessionalServiceCategoryBloc() : super(ProfessionalServiceInitial()) {
+    on<ProfessionalServiceCategoryLoadInitated>(
       (event, emit) async {
         try {
           emit(
@@ -18,8 +18,8 @@ class ProfessionalServiceBloc
           );
           await repo.fetchProfessionalService().then(
                 (value) => emit(
-                  ProfessionalServiceLoadSuccess(
-                    model: ProfessionalServiceModel.fromJson(
+                  ProfessionalServiceCategoryLoadSuccess(
+                    model: ProfessionalServiceCategoryModel.fromJson(
                       value,
                     ),
                   ),
@@ -27,7 +27,7 @@ class ProfessionalServiceBloc
               );
         } catch (e) {
           emit(
-            ProfessionalServiceLoadFailure(),
+            ProfessionalServiceCategoryLoadFailure(),
           );
         }
       },

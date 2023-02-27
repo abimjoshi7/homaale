@@ -4,7 +4,6 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_topics.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -154,7 +153,6 @@ class _HelpAndLegalPageState extends State<HelpAndLegalPage> {
                     kHeight20,
                     CustomFormField(
                       label: 'Problem Detail',
-                      isRequired: false,
                       child: CustomTextFormField(
                         hintText: 'Please explain your problem briefly',
                         maxLines: 3,

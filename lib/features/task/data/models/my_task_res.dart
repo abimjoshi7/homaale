@@ -121,7 +121,7 @@ class Result {
   final bool? isRequested;
   final String? discountType;
   final double? discountValue;
-  final ExtraData? extraData;
+  final Map<String, dynamic>? extraData;
   final int? noOfReservation;
   final String? slug;
   final bool? isActive;
@@ -211,9 +211,7 @@ class Result {
         discountValue: json["discount_value"] as double?,
         extraData: json["extra_data"] == null
             ? null
-            : ExtraData.fromJson(
-                json["extra_data"] as Map<String, dynamic>,
-              ),
+            : json["extra_data"] as Map<String, dynamic>,
         noOfReservation: json["no_of_reservation"] as int?,
         slug: json["slug"] as String?,
         isActive: json["is_active"] as bool?,
@@ -264,7 +262,7 @@ class Result {
         "is_requested": isRequested,
         "discount_type": discountType,
         "discount_value": discountValue,
-        "extra_data": extraData?.toJson(),
+        "extra_data": extraData,
         "no_of_reservation": noOfReservation,
         "slug": slug,
         "is_active": isActive,
@@ -486,14 +484,6 @@ class Currency {
         "name": name,
         "symbol": symbol,
       };
-}
-
-class ExtraData {
-  ExtraData();
-
-  factory ExtraData.fromJson(Map<String, dynamic> json) => ExtraData();
-
-  Map<String, dynamic> toJson() => {};
 }
 
 class Service {

@@ -244,6 +244,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     kErrorLog,
                   );
                   if (state is SignUpWithEmailSuccess) {
+                    if (!mounted) return;
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
@@ -262,6 +263,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   }
                   if (state is SignUpWithPhoneSuccess) {
+                    if (!mounted) return;
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
@@ -282,6 +284,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   }
                   if (state is SignUpFailure) {
+                    if (!mounted) return;
                     await showDialog(
                       context: context,
                       builder: (context) => CustomToast(

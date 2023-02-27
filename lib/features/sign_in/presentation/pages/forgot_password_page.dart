@@ -115,7 +115,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 listener: (context, state) async {
                   final x = await CacheHelper.getCachedString(kErrorLog);
                   if (state is ForgotPasswordWithEmailSuccess) {
-                    showDialog(
+                    if (!mounted) return;
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Success',
@@ -132,7 +133,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     );
                   }
                   if (state is ForgotPasswordWithPhoneSuccess) {
-                    showDialog(
+                    if (!mounted) return;
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Success',
@@ -150,7 +152,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     );
                   }
                   if (state is ForgotPasswordFailure) {
-                    showDialog(
+                    if (!mounted) return;
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Failure',

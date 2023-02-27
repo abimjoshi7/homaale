@@ -17,7 +17,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(
             BookingsInitial(),
           );
-          await repositories.bookEntityService(event.service).then(
+          await repositories.bookServiceOrTask(event.service).then(
                 (value) => emit(
                   BookEntityServiceAddSuccess(
                     BookEntityServiceRes.fromJson(
@@ -40,7 +40,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(
             BookingsInitial(),
           );
-          await repositories.fetchMyBookingList().then(
+          await repositories.fetchMyServiceBookingList().then(
                 (value) => emit(
                   BookEntityServiceLoadSuccess(
                     MyBookingList.fromJson(

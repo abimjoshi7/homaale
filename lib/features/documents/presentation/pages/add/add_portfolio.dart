@@ -258,9 +258,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     final error = await CacheHelper.getCachedString(kErrorLog);
                     if (state2 is TaskerAddPortfolioSuccess) {
                       if (!mounted) return;
-                      // await context.read<UserBloc>().getTaskeruser();
-
-                      showDialog(
+                      await showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Success',
@@ -273,22 +271,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           isSuccess: true,
                         ),
                       );
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   const SnackBar(
-                      //     content: Text('Portfolio created successfully.'),
-                      //   ),
-                      // );
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   AddExperience.routeName,
-                      // );
                     } else if (state2 is TaskerAddPortfolioFailure) {
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   SnackBar(
-                      //     content: Text(error!),
-                      //   ),
-                      // );
-                      showDialog(
+                      if (!mounted) return;
+                      await showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Failure',

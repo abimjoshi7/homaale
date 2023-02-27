@@ -56,8 +56,8 @@ class ServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Select Services',
+                          child: CustomFormField(
+                            label: 'Select Services',
                             child: SizedBox(
                               height: 200,
                               child: GridView.builder(
@@ -105,8 +105,8 @@ class ServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Related Services',
+                          child: CustomFormField(
+                            label: 'Related Services',
                             child: SizedBox(
                               height: 200,
                               child: GridView.builder(
@@ -128,8 +128,8 @@ class ServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Popular Tasks',
+                          child: CustomFormField(
+                            label: 'Popular Tasks',
                             child: SizedBox(
                               height: 200,
                               child: GridView.builder(

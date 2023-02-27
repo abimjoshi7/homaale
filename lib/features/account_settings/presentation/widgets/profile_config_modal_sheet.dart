@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +35,6 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                   children: [
                     CustomFormField(
                       label: 'Visibility',
-                      isRequired: false,
                       child: CustomDropDownField(
                         list: const [
                           'Public',
@@ -52,7 +50,6 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                     ),
                     CustomFormField(
                       label: 'Task Preferences',
-                      isRequired: false,
                       child: CustomDropDownField(
                         list: const [
                           'Short term tasks',

@@ -1,8 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/services/presentation/manager/professional_service_bloc/professional_service_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,9 +13,10 @@ class PopularServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfessionalServiceBloc, ProfessionalServiceState>(
+    return BlocBuilder<ProfessionalServiceCategoryBloc,
+        ProfessionalServiceCategoryState>(
       builder: (context, state) {
-        if (state is ProfessionalServiceLoadSuccess) {
+        if (state is ProfessionalServiceCategoryLoadSuccess) {
           return Padding(
             padding: const EdgeInsets.all(10),
             child: Column(

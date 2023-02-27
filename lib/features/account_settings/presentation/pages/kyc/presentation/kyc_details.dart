@@ -8,7 +8,6 @@ import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +56,7 @@ class _KycDetailsState extends State<KycDetails> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state is KycAddSuccess) {
+          if (!mounted) return;
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -74,7 +74,8 @@ class _KycDetailsState extends State<KycDetails> {
           );
         }
         if (state is KycAddFailure) {
-          showDialog(
+          if (!mounted) return;
+          await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
@@ -86,6 +87,7 @@ class _KycDetailsState extends State<KycDetails> {
             ),
           );
         } else if (state is KycCreateFailure) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(

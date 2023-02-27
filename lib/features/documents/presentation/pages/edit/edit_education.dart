@@ -41,6 +41,7 @@ class _EditEducationState extends State<EditEducation> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state is TaskerEditEducationSuccess) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -56,6 +57,7 @@ class _EditEducationState extends State<EditEducation> {
           );
         }
         if (state is TaskerEditEducationFailure) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(

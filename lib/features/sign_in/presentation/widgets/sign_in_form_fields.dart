@@ -52,6 +52,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           );
         }
         if (state is SignInFailure) {
+          if (!mounted) return;
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -74,8 +75,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
       builder: (context, state) {
         Widget buildForm() {
           if (state is SignInEmailInitial) {
-            return CustomFormText(
-              name: 'Email',
+            return CustomFormField(
+              isRequired: false,
+              label: 'Email',
               child: CustomTextFormField(
                 onSaved: (p0) => setState(
                   () {
@@ -89,8 +91,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             );
           }
           if (state is SignInPhoneInitial) {
-            return CustomFormText(
-              name: 'Phone',
+            return CustomFormField(
+              isRequired: false,
+              label: 'Phone',
               child: CustomTextFormField(
                 validator: validateNotEmpty,
                 onSaved: (p0) => setState(
@@ -131,8 +134,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             children: [
               buildForm(),
               addVerticalSpace(10),
-              CustomFormText(
-                name: 'Password',
+              CustomFormField(
+                isRequired: false,
+                label: 'Password',
                 child: CustomTextFormField(
                   obscureText: isObscure,
                   suffixWidget: InkWell(

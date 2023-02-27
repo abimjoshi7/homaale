@@ -71,15 +71,7 @@ class _OnboardingState extends State<Onboarding> {
               ),
               BlocBuilder<SignInBloc, SignInState>(
                 builder: (context, state) {
-                  return InkWell(
-                      onTap: () {
-                        print(1);
-                        final x = context.read<SignInBloc>().isClosed;
-
-                        print(x);
-                      },
-                      child:
-                          Image.asset('assets/homaale_logo_title_light.png'));
+                  return Image.asset('assets/homaale_logo_title_light.png');
                 },
               ),
               kHeight50,

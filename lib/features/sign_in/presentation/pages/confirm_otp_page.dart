@@ -166,7 +166,8 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                     kErrorLog,
                                   );
                                   if (state is ForgotPasswordResetSuccess) {
-                                    showDialog(
+                                    if (!mounted) return;
+                                    await showDialog(
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: 'Success',
@@ -182,7 +183,8 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                       ),
                                     );
                                   } else {
-                                    showDialog(
+                                    if (!mounted) return;
+                                    await showDialog(
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: 'Failure',

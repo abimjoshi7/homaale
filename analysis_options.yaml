@@ -15,6 +15,7 @@ analyzer:
 # can be found at https://dart-lang.github.io/linter/lints/options/options.html
 linter:
   rules:
+    avoid_dynamic_calls: false
     # Util classes are awesome!
     # avoid_classes_with_only_static_members: false
 

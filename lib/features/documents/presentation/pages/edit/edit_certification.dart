@@ -42,6 +42,7 @@ class _EditCertificationsState extends State<EditCertification> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state is TaskerEditCertificationSuccess) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -59,6 +60,8 @@ class _EditCertificationsState extends State<EditCertification> {
           );
         }
         if (state is TaskerEditCertificationFailure) {
+          if (!mounted) return;
+
           showDialog(
             context: context,
             builder: (context) => CustomToast(

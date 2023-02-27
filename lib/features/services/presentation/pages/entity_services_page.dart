@@ -58,8 +58,8 @@ class EntityServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Professional Services',
+                          child: CustomFormField(
+                            label: 'Professional Services',
                             child: SizedBox(
                               height: 250,
                               child: GridView.builder(
@@ -111,8 +111,8 @@ class EntityServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Popular Services',
+                          child: CustomFormField(
+                            label: 'Popular Services',
                             child: SizedBox(
                               height: 150,
                               width: double.infinity,
@@ -146,8 +146,8 @@ class EntityServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Verified Services',
+                          child: CustomFormField(
+                            label: 'Verified Services',
                             child: SizedBox(
                               height: 250,
                               child: GridView.builder(
@@ -189,8 +189,8 @@ class EntityServicesPage extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: kPadding20,
-                          child: CustomFormText(
-                            name: 'Tasks you may like',
+                          child: CustomFormField(
+                            label: 'Tasks you may like',
                             child: SizedBox(
                               height: 400,
                               child: ListView.separated(

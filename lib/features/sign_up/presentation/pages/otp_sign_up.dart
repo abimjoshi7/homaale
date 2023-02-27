@@ -77,7 +77,8 @@ class _OtpSignUpState extends State<OtpSignUp> {
             listener: (context, state) async {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is OtpResetVerifySuccess) {
-                showDialog(
+                if (!mounted) return;
+                await showDialog(
                   context: context,
                   builder: (context) => CustomToast(
                     heading: 'Success',
@@ -93,7 +94,8 @@ class _OtpSignUpState extends State<OtpSignUp> {
                   ),
                 );
               } else if (state is OtpResetVerifyFailure) {
-                showDialog(
+                if (!mounted) return;
+                await showDialog(
                   context: context,
                   builder: (context) => CustomToast(
                     heading: 'Failure',

@@ -58,7 +58,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 ),
               );
         } catch (e) {
-          print(e);
           emit(
             TaskLoadFailure(),
           );

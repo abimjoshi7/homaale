@@ -112,7 +112,6 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                 ),
                 CustomFormField(
                   label: 'Please explain further',
-                  isRequired: false,
                   child: CustomTextFormField(
                     onSaved: (p0) => setState(
                       () {
@@ -130,7 +129,8 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
               listener: (context, state) async {
                 final error = await CacheHelper.getCachedString(kErrorLog);
                 if (state is DeactivateSuccess) {
-                  showDialog(
+                  if (!mounted) return;
+                  await showDialog(
                     context: context,
                     builder: (context) => CustomToast(
                       heading: 'Success',
@@ -144,7 +144,8 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                     ),
                   );
                 } else {
-                  showDialog(
+                  if (!mounted) return;
+                  await showDialog(
                     context: context,
                     builder: (context) => CustomToast(
                       heading: 'Failure',

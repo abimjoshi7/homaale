@@ -122,11 +122,13 @@ class DioHelper {
     required dynamic data,
     required String url,
     required String? token,
+    Map<String, dynamic>? query,
   }) async {
     try {
       final response = await dio.post<dynamic>(
         url,
         data: jsonEncode(data),
+        queryParameters: query,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -160,10 +162,12 @@ class DioHelper {
     required Map<String, dynamic> data,
     required String url,
     required String? token,
+    Map<String, dynamic>? query,
   }) async {
     try {
       final response = await dio.patch(
         url,
+        queryParameters: query,
         data: jsonEncode(data),
         options: Options(
           headers: {
@@ -368,7 +372,7 @@ class DioHelper {
       CacheHelper.accessToken = await response.data['access'] as String?;
       CacheHelper.refreshToken = await response.data['refresh'] as String?;
     } catch (e) {
-      print("Refresh token request failed: $e");
+      log("Refresh token request failed: $e");
       rethrow;
     }
   }

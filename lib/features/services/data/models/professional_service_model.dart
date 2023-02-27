@@ -1,5 +1,5 @@
-class ProfessionalServiceModel {
-  ProfessionalServiceModel({
+class ProfessionalServiceCategoryModel {
+  ProfessionalServiceCategoryModel({
     this.totalPages,
     this.count,
     this.current,
@@ -17,8 +17,10 @@ class ProfessionalServiceModel {
   final int? pageSize;
   final List<Result>? result;
 
-  factory ProfessionalServiceModel.fromJson(Map<String, dynamic> json) =>
-      ProfessionalServiceModel(
+  factory ProfessionalServiceCategoryModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      ProfessionalServiceCategoryModel(
         totalPages: json["total_pages"] as int?,
         count: json["count"] as int?,
         current: json["current"] as int?,
@@ -27,11 +29,13 @@ class ProfessionalServiceModel {
         pageSize: json["page_size"] as int?,
         result: json["result"] == null
             ? []
-            : List<Result>.from(json["result"]!.map(
-                (x) => Result.fromJson(
-                  x as Map<String, dynamic>,
-                ),
-              ) as Iterable),
+            : List<Result>.from(
+                json["result"]!.map(
+                  (x) => Result.fromJson(
+                    x as Map<String, dynamic>,
+                  ),
+                ) as Iterable,
+              ),
       );
 
   Map<String, dynamic> toJson() => {

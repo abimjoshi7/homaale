@@ -78,7 +78,9 @@ class BookEntityServiceReq {
         "location": location,
         "offer": offer == null
             ? []
-            : List<dynamic>.from(offer?.map((x) => x) as Iterable),
+            : List<dynamic>.from(
+                offer!.map((x) => x),
+              ),
         "description": description,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
@@ -90,11 +92,9 @@ class BookEntityServiceReq {
         "booking_merchant": bookingMerchant,
         "entity_service": entityService,
         "city": city,
-        "images": images == null
-            ? []
-            : List<dynamic>.from(images?.map((x) => x) as Iterable),
-        "videos": videos == null
-            ? []
-            : List<dynamic>.from(videos?.map((x) => x) as Iterable),
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "videos":
+            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
       };
 }

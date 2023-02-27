@@ -40,10 +40,14 @@ class BookingDetailsPage extends StatelessWidget {
                         child: CustomFormField(
                           label: state.serviceModel.title ?? '',
                           isRequired: false,
-                          child: Text('data'),
+                          child: Text(
+                            state.serviceModel.description ?? '',
+                          ),
                         ),
                       ),
-                      Expanded(child: BookingDetailsFormSection()),
+                      const Expanded(
+                        child: BookingDetailsFormSection(),
+                      ),
                     ],
                   ),
                 ),
