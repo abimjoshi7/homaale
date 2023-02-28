@@ -24,13 +24,13 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
+      height: MediaQuery.of(context).size.height * 0.2,
       width: double.infinity,
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 25,
+              horizontal: 20,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +85,21 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
               separatorBuilder: (context, index) => addHorizontalSpace(20),
               itemCount: isSelected.length,
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Container(
+              color: kColorPrimary,
+              height: 40,
+              width: double.infinity,
+              child: const Center(
+                child: Text(
+                  '\$765.90 from 10 Bookings',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

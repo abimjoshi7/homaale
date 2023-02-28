@@ -129,6 +129,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     );
                   }
                   return ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     leading: child,
                     title: displayUserInfo(),
                     trailing: BlocBuilder<SignInBloc, SignInState>(

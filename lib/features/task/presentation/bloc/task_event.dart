@@ -20,3 +20,8 @@ class MyTaskLoadInitiated extends TaskEvent {
   @override
   List<Object?> get props => [];
 }
+
+class AllTaskListLoadInitiated extends TaskEvent {
+  @override
+  List<Object?> get props => [];
+}

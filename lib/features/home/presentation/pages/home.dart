@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.91,
+        height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -25,9 +25,9 @@ class Home extends StatelessWidget {
                     DealsOfTheDaySection(),
                     CategoriesSection(),
                     PopularServicesSection(),
+                    TasksSuggestionSection(),
                     PopularTaskerSection(),
                     NotableBannerSection(),
-                    TasksAndServicesNearbySection(),
                     // Padding(
                     //   padding: const EdgeInsets.symmetric(
                     //     horizontal: 10,
@@ -38,10 +38,10 @@ class Home extends StatelessWidget {
                     //   ),
                     // ),
                     RecentlyLaunchedServicesSection(),
-                    TasksSuggestionSection(),
+                    TasksAndServicesNearbySection(),
                     // const PopularTaskerNearbySection(),
                     // const TaskRecommendationSection(),
-                    PopularTaskNearbySection()
+                    // PopularTaskNearbySection()
                   ],
                 ),
               ),

@@ -12,7 +12,8 @@ const kColorGreen = Color(0xff38C675);
 const kColorGrey = Color(0xffCED4DA);
 const kColorSilver = Color(0xff9CA0C1);
 const kColorTeal = Color(0xff227196);
+const kColorLightSkyBlue = Color(0xffEDF4FF);
 
 Color randomColorGenerator() {
-  return colorList[Random().nextInt(colorList.length - 5)];
+  return colorList[Random().nextInt(colorList.length)];
 }

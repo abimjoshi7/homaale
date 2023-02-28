@@ -1,6 +1,5 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
@@ -186,39 +185,177 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             label: 'When do you need this done?',
                             isRequired: true,
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Row(
                                   children: [
-                                    Radio<String>(
-                                      value: 'Fixed',
-                                      groupValue: dateType,
-                                      onChanged: (value) => setState(
-                                        () {
-                                          dateType = value;
-                                          isCustomDate = false;
-                                        },
+                                    Flexible(
+                                      child: CustomFormField(
+                                        label: 'Start Date',
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2022),
+                                              lastDate: DateTime(
+                                                2050,
+                                              ),
+                                            ).then(
+                                              (value) => setState(
+                                                () {
+                                                  startDate = value;
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          child: CustomFormContainer(
+                                            leadingWidget: const Icon(
+                                              Icons.calendar_today_rounded,
+                                            ),
+                                            hintText: startDate
+                                                    ?.toIso8601String()
+                                                    .substring(
+                                                      0,
+                                                      10,
+                                                    ) ??
+                                                'dd/mm/yy',
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    const Text('Fixed'),
                                     addHorizontalSpace(10),
-                                    Radio<String>(
-                                      value: 'Custom',
-                                      groupValue: dateType,
-                                      onChanged: (value) => setState(
-                                        () {
-                                          dateType = value;
-                                          isCustomDate = true;
-                                        },
+                                    Flexible(
+                                      child: CustomFormField(
+                                        label: 'End Date',
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(2022),
+                                              lastDate: DateTime(
+                                                2050,
+                                              ),
+                                            ).then(
+                                              (value) => setState(
+                                                () {
+                                                  endDate = value;
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          child: CustomFormContainer(
+                                            leadingWidget: const Icon(
+                                              Icons.calendar_today_rounded,
+                                            ),
+                                            hintText: endDate
+                                                    ?.toIso8601String()
+                                                    .substring(
+                                                      0,
+                                                      10,
+                                                    ) ??
+                                                'dd/mm/yy',
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    const Text('Custom'),
                                   ],
-                                )
+                                ),
+                                Row(
+                                  children: [
+                                    CustomCheckBox(
+                                      isChecked: isSpecified,
+                                      onTap: () {
+                                        setState(
+                                          () {
+                                            isSpecified = !isSpecified;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    addHorizontalSpace(5),
+                                    const Text('Set specific time'),
+                                  ],
+                                ),
+                                Visibility(
+                                  visible: isSpecified,
+                                  child: SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.06,
+                                    width: double.infinity,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        addVerticalSpace(10),
+                                        Row(
+                                          children: [
+                                            Flexible(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now(),
+                                                  ).then(
+                                                    (value) => setState(
+                                                      () {
+                                                        startTime = value;
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                                child: CustomFormContainer(
+                                                  hintText: startTime
+                                                          ?.format(context) ??
+                                                      'hh:mm A.M',
+                                                ),
+                                              ),
+                                            ),
+                                            const Text(' - '),
+                                            Flexible(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now(),
+                                                  ).then(
+                                                    (value) => setState(
+                                                      () {
+                                                        endTime = value;
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                                child: CustomFormContainer(
+                                                  hintText: endTime
+                                                          ?.format(context) ??
+                                                      'hh:mm A.M',
+                                                ),
+                                              ),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  startTime = null;
+                                                  endTime = null;
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete_outline_rounded,
+                                                color: kColorSecondary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          buildDate(),
+                          // buildDate(),
                           CustomFormField(
                             isRequired: true,
                             label: 'City',

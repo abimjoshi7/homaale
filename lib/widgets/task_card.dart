@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -5,118 +6,131 @@ import 'package:flutter/material.dart';
 class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
-    this.child,
+    this.imageUrl,
     this.taskName,
-    this.startHour,
+    this.endDate,
     this.endHour,
-    this.ratings,
     this.location,
-    this.rate,
-    this.trailingWidget,
+    this.startRate,
+    this.endRate,
+    required this.callback,
   });
 
-  final Widget? child;
+  final String? imageUrl;
   final String? taskName;
-  final String? startHour;
+  final String? endDate;
   final String? endHour;
-  final String? ratings;
   final String? location;
-  final String? rate;
-  final Widget? trailingWidget;
+  final String? startRate;
+  final String? endRate;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
+    return Card(
+      child: Padding(
+        padding: kPadding10,
+        child: Column(
           children: [
-            // Container(
-            //   height: 50,
-            //   width: 50,
-            //   decoration: BoxDecoration(
-            //     color: Colors.amber,
-            //     borderRadius: BorderRadius.circular(
-            //       10,
-            //     ),
-            //   ),
-            //   child: child,
-            // ),
-            kWidth10,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    taskName ?? '',
-                    style: kPurpleText13,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: ListTile(
+                    leading: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            imageUrl ?? kServiceImageNImg,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    title: Text(
+                      taskName ?? 'Need Gardening',
+                      style: kPurpleText16,
+                    ),
+                    trailing: const Icon(
+                      Icons.favorite_border,
+                      color: Color(0xffFE5050),
+                    ),
                   ),
-                  kHeight5,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      WidgetText(
-                        label: taskName ?? '08:11 PM',
-                        widget: const Icon(
-                          Icons.access_time_rounded,
-                          size: 12,
-                          color: Color(0xff3eaeff),
-                        ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    WidgetText(
+                      label: location ?? 'Buddhanagar',
+                      widget: const Icon(
+                        Icons.location_on_outlined,
+                        size: 14,
+                        color: Color(0xffFE5050),
                       ),
-                      WidgetText(
-                        label: endHour ?? '08:11 PM',
-                        widget: const Icon(
-                          Icons.calendar_today,
-                          size: 12,
-                          color: Color(0xffF06700),
+                    ),
+                    Row(
+                      children: [
+                        WidgetText(
+                          label: endHour ?? 'hh:mm:ss',
+                          widget: const Icon(
+                            Icons.access_time_rounded,
+                            size: 14,
+                            color: Color(0xff3eaeff),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  kHeight5,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      WidgetText(
-                        label: ratings ?? '3.4 (90)',
-                        widget: const Icon(
-                          Icons.star_rate_rounded,
-                          size: 12,
-                          color: Color(0xffff9700),
+                        addHorizontalSpace(10),
+                        WidgetText(
+                          label: endDate ?? 'yy/mm/dd',
+                          widget: const Icon(
+                            Icons.calendar_today,
+                            size: 14,
+                            color: Color(0xffF06700),
+                          ),
                         ),
-                      ),
-                      WidgetText(
-                        label: location ?? 'Buddhanagar',
-                        widget: const Icon(
-                          Icons.location_on_outlined,
-                          size: 12,
-                          color: Color(0xffFE5050),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Rs. ${startRate ?? '0'} - ",
+                              style: kPurpleText16,
+                            ),
+                            Text(
+                              endRate ?? '0',
+                              style: kPurpleText16,
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  kHeight5,
-                  Text(
-                    rate ?? 'Rs 5,000 - Rs 10,000/per hour',
-                    style: kPurpleText13,
-                  )
-                ],
-              ),
+                        IconText(
+                          label: '80',
+                          iconData: Icons.visibility_outlined,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Divider(),
+                ),
+              ],
             ),
-            const SizedBox(
-              width: 90,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 60),
-              child: trailingWidget ??
-                  const Icon(
-                    Icons.favorite_border,
-                    color: Color(0xffFE5050),
-                  ),
-            ),
+            CustomElevatedButton(
+              callback: callback,
+              mainColor: kColorGreen,
+              borderColor: kColorGreen,
+              label: 'Apply Now',
+            )
           ],
-        )
-      ],
+        ),
+      ),
     );
   }
 }

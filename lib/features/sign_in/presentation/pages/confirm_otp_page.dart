@@ -1,6 +1,5 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';

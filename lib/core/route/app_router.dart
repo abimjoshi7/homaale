@@ -30,6 +30,7 @@ import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/client_post_task_view.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
@@ -277,6 +278,12 @@ class AppRouter {
           builder: (context) => const OffersPage(),
           settings: settings,
         );
+      case AllTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AllTaskPage(),
+          settings: settings,
+        );
+
       case SandboxPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SandboxPage(),

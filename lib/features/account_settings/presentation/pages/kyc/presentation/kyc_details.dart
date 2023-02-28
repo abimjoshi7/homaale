@@ -4,7 +4,6 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
@@ -38,8 +37,8 @@ class _KycDetailsState extends State<KycDetails> {
   final issuedFromController = TextEditingController();
   DateTime? issuedDate;
   DateTime? expiryDate;
-  final _key = GlobalKey<FormState>();
   File? file;
+  final _key = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -224,14 +223,11 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayDocuments() {
           if (state is KycLoadSuccess) {
             return SizedBox(
-              height: 250,
+              height: MediaQuery.of(context).size.height * 0.2,
               width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Image.network(
-                  state.list.first.file ?? kDefaultAvatarNImg,
-                  fit: BoxFit.cover,
-                ),
+              child: Image.network(
+                state.list.first.file ?? kDefaultAvatarNImg,
+                fit: BoxFit.cover,
               ),
             );
           }
@@ -294,8 +290,8 @@ class _KycDetailsState extends State<KycDetails> {
 
         return Scaffold(
           resizeToAvoidBottomInset: false,
-          body: ListView(
-            padding: EdgeInsets.zero,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               kHeight50,
               CustomHeader(

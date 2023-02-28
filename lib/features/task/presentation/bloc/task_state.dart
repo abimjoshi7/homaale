@@ -41,3 +41,19 @@ class TaskLoadFailure extends TaskState {
   @override
   List<Object?> get props => [];
 }
+
+class AllTaskListLoadSuccess extends TaskState {
+  final AllTaskList res;
+  const AllTaskListLoadSuccess({
+    required this.res,
+  });
+  @override
+  List<Object?> get props => [
+        res,
+      ];
+}
+
+class AllTaskListLoadFailure extends TaskState {
+  @override
+  List<Object?> get props => [];
+}

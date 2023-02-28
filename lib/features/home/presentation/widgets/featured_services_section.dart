@@ -8,7 +8,7 @@ class RecentlyLaunchedServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: kPadding10,
       child: Column(
         children: [
           SectionHeading(
@@ -17,7 +17,7 @@ class RecentlyLaunchedServicesSection extends StatelessWidget {
           ),
           kHeight10,
           SizedBox(
-            height: 180,
+            height: MediaQuery.of(context).size.height * 0.15,
             width: double.infinity,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,

@@ -29,33 +29,32 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        child: Column(
-          children: [
-            kHeight50,
-            CustomHeader(
-              leadingWidget: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              trailingWidget: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.search,
-                ),
-              ),
-              child: const Text('Categories'),
-            ),
-            BlocConsumer<NestedCategoriesCubit, NestedCategoriesState>(
-              listener: (context, state) {
-                // TODO: implement listener
+      body: Column(
+        children: [
+          kHeight50,
+          CustomHeader(
+            leadingWidget: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
               },
+            ),
+            trailingWidget: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+              ),
+            ),
+            child: const Text('Categories'),
+          ),
+          const CustomHorizontalDivider(),
+          Expanded(
+            child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
               builder: (context, state) {
                 Widget displaySideCategory() {
                   if (state is NestedCategoriesLoadSuccess) {
                     return ListView.separated(
+                      padding: EdgeInsets.zero,
                       itemCount: state.nestedCategory.length,
                       itemBuilder: (context, index) => Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,6 +105,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 Widget displayNestedCategory() {
                   if (state is NestedCategoriesLoadSuccess) {
                     return ListView.separated(
+                      padding: EdgeInsets.zero,
                       itemCount: list.length,
                       separatorBuilder: (context, index) => kHeight5,
                       itemBuilder: (context, index) => Card(
@@ -154,11 +154,21 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                         ? List.generate(
                                             1,
                                             (index2) => Padding(
-                                              padding: const EdgeInsets.all(10),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
                                               child: SizedBox(
-                                                height: 240,
-                                                width: 280,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.2,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.7,
                                                 child: GridView.builder(
+                                                  padding: EdgeInsets.zero,
                                                   itemCount:
                                                       list[index].child!.length,
                                                   gridDelegate:
@@ -239,7 +249,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height - 98,
-                      color: const Color(0xffF7FAFF),
+                      color: kColorLightSkyBlue,
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: displaySideCategory(),
                     ),
@@ -255,8 +265,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 );
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

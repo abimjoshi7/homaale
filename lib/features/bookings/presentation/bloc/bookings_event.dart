@@ -44,6 +44,12 @@ class ServiceBookingDeleteInitiated extends BookingsEvent {
 }
 
 class ServiceBookingCancelInitiated extends BookingsEvent {
+  final int id;
+  const ServiceBookingCancelInitiated({
+    required this.id,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        id,
+      ];
 }

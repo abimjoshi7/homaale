@@ -368,6 +368,7 @@ class DioHelper {
       CacheHelper.accessToken = await response.data['access'] as String?;
       CacheHelper.refreshToken = await response.data['refresh'] as String?;
     } catch (e) {
+      await CacheHelper.clearAllCachedData();
       log("Refresh token request failed: $e");
       rethrow;
     }

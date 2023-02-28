@@ -3,6 +3,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/presenta
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
@@ -93,7 +94,6 @@ class AccountProfile extends StatelessWidget {
                   ),
                 ),
               ),
-              const Divider(),
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.only(
@@ -103,7 +103,7 @@ class AccountProfile extends StatelessWidget {
                     Stack(
                       children: [
                         SizedBox(
-                          height: 160,
+                          height: MediaQuery.of(context).size.height * 0.13,
                           width: double.infinity,
                           child: Image.asset(
                             'assets/—Pngtree—blue tech line shading for_4059122 1.png',
@@ -220,18 +220,23 @@ class AccountProfile extends StatelessWidget {
                         size: 16,
                       ),
                     ),
-                    AccountListTileSection(
-                      onTap: () {},
-                      icon: const Icon(
-                        Icons.card_giftcard_outlined,
-                        color: Color(0xff495057),
-                      ),
-                      label: 'Offers',
-                      trailingWidget: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                      ),
-                    ),
+                    // AccountListTileSection(
+                    //   onTap: () {
+                    //     Navigator.pushNamed(
+                    //       context,
+                    //       OffersPage.routeName,
+                    //     );
+                    //   },
+                    //   icon: const Icon(
+                    //     Icons.card_giftcard_outlined,
+                    //     color: Color(0xff495057),
+                    //   ),
+                    //   label: 'Offers',
+                    //   trailingWidget: const Icon(
+                    //     Icons.arrow_forward_ios,
+                    //     size: 16,
+                    //   ),
+                    // ),
                     AccountListTileSection(
                       onTap: () {
                         Navigator.pushNamed(

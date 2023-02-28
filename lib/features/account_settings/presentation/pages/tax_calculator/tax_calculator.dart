@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
 import 'package:cipher/widgets/widgets.dart';

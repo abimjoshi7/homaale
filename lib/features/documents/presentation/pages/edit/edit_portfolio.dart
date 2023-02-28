@@ -1,6 +1,5 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/documents/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';

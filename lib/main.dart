@@ -11,10 +11,13 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   Bloc.observer = AppObserver();
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationSupportDirectory(),
+    storageDirectory: await getApplicationDocumentsDirectory(),
   );
   DioHelper.init();
   runApp(
     const Cipher(),
   );
 }
+
+
+//TODO: Hydrated, Infinite, Search on Dropdownfield, intial show NPR, center aligned customtoast

@@ -70,7 +70,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             child: const Text('Profile'),
           ),
           const CustomHorizontalDivider(),
-          kHeight20,
           const ProfileHeaderSection(),
           kHeight10,
           ProfileRewardBalanceSection(user: user),

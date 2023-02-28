@@ -195,10 +195,7 @@ class EntityServicesPage extends StatelessWidget {
                               height: 400,
                               child: ListView.separated(
                                 itemBuilder: (context, index) => TaskCard(
-                                  child: Image.asset(
-                                    'assets/services/Rectangle 3541.png',
-                                    fit: BoxFit.cover,
-                                  ),
+                                  callback: () {},
                                 ),
                                 separatorBuilder: (context, index) => kHeight10,
                                 itemCount: 5,

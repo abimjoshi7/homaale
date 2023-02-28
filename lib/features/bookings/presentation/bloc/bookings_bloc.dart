@@ -62,9 +62,6 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<ServiceBookingEditInitiated>(
       (event, emit) async {
         try {
-          emit(
-            BookingsInitial(),
-          );
           await repositories.editBooking(event.id, event.req).then(
                 (value) => ServiceBookingEditSuccess(
                   EditBookingRes.fromJson(
@@ -83,9 +80,16 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<ServiceBookingDeleteInitiated>(
       (event, emit) async {
         try {
-          await repositories.deleteBooking(event.id).then(
+          await repositories
+              .deleteBooking(event.id)
+              .then(
                 (value) => emit(
                   ServiceBookingDeleteSuccess(),
+                ),
+              )
+              .whenComplete(
+                () => add(
+                  ServiceBookingListLoadInitiated(),
                 ),
               );
         } catch (e) {

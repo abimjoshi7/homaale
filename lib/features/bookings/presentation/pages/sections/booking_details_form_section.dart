@@ -1,6 +1,5 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';

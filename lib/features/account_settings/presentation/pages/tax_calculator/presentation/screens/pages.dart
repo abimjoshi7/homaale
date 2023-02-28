@@ -4,7 +4,7 @@ export '../../../deactivate/deactivate_page.dart';
 export '../../../help_legal_page/help_legal_page.dart';
 export '../../../languages_page/languages_page.dart';
 export '../../../membership/membership.dart';
-export '../../../notifications_page/notifications_page.dart';
+export '../../../../../../notification/presentation/pages/notifications_page.dart';
 export '../../../password_and_security/change_password_modal_sheet.dart';
 export '../../../profile/account_profile.dart';
 export '../../../profile/pages/complete_profile_page.dart';

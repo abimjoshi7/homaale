@@ -8,10 +8,9 @@ class PopularTaskNearbySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: kPadding10,
       child: Column(
         children: [
-          kHeight10,
           SectionHeading(
             labelName: 'Popular tasks near you',
             onTap: () {},
@@ -20,6 +19,7 @@ class PopularTaskNearbySection extends StatelessWidget {
             height: 600,
             width: double.infinity,
             child: ListView.separated(
+              padding: EdgeInsets.zero,
               itemBuilder: (context, index) => Card(
                 child: Padding(
                   padding: const EdgeInsets.all(10),

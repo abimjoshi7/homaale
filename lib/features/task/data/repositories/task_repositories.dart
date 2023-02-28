@@ -40,4 +40,20 @@ class TaskRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchAllTaskList() async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/service/task/list/',
+        query: {
+          "is_requested": true,
+        },
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("All Task List Fetch Error: $e");
+      rethrow;
+    }
+  }
 }

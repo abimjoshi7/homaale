@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
 import 'package:cipher/features/task/data/models/post_task_res.dart';
@@ -60,6 +61,28 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } catch (e) {
           emit(
             TaskLoadFailure(),
+          );
+        }
+      },
+    );
+
+    on<AllTaskListLoadInitiated>(
+      (event, emit) async {
+        try {
+          await repo.fetchAllTaskList().then(
+                (value) => emit(
+                  AllTaskListLoadSuccess(
+                    res: AllTaskList.fromJson(
+                      value,
+                    ),
+                  ),
+                ),
+              );
+          print(123);
+        } catch (e) {
+          print(e);
+          emit(
+            AllTaskListLoadFailure(),
           );
         }
       },

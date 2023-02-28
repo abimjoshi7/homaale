@@ -5,7 +5,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
-import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';

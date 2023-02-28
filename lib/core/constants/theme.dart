@@ -21,6 +21,7 @@ final kDarkTheme = ThemeData(
     indicatorColor: kColorSecondary,
     unselectedLabelColor: kColorGrey,
   ),
+  indicatorColor: kColorSecondary,
 );
 
 final kLightTheme = ThemeData(
@@ -41,4 +42,8 @@ final kLightTheme = ThemeData(
     unselectedLabelColor: kColorGrey,
   ),
   indicatorColor: kColorSecondary,
+  dividerTheme: const DividerThemeData(
+    space: 0,
+    thickness: 1.2,
+  ),
 );

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -463,8 +464,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                   child: CustomElevatedButton(
                     callback: () {
                       final req = EditBookingReq(
-                        bookingMerchant:
-                            data?[selectedIndex].bookingMerchant.toString(),
+                        // bookingMerchant:
+                        //     data?[selectedIndex].bookingMerchant.toString(),
                         description: problemDescController.text.isNotEmpty
                             ? problemDescController.text
                             : data?[selectedIndex].description,
@@ -484,14 +485,14 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         budgetFrom: endBudgetController.text.isNotEmpty
                             ? double.parse(endBudgetController.text)
                             : data?[selectedIndex].budgetFrom,
-                        images: imageList ?? data?[selectedIndex].images,
+                        // images: imageList ?? data?[selectedIndex].images,
                         videos: fileList ?? data?[selectedIndex].videos,
                         startDate: startDate ?? data?[selectedIndex].startDate,
                         endDate: endDate ?? data?[selectedIndex].endDate,
-                        startTime: startTime?.format(context) ??
-                            data?[selectedIndex].startTime.toString(),
-                        endTime: endTime?.format(context) ??
-                            data?[selectedIndex].endTime.toString(),
+                        // startTime: startTime?.format(context) ??
+                        //     data?[selectedIndex].startTime.toString(),
+                        // endTime: endTime?.format(context) ??
+                        //     data?[selectedIndex].endTime.toString(),
                         createdBy:
                             data?[selectedIndex].createdBy?.user?.id ?? '',
                         entityService:
@@ -504,9 +505,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       );
 
                       print(data?[selectedIndex].id);
-                      // print(
-                      //   req.toJson(),
-                      // );
+                      print(
+                        jsonEncode(req.toJson()),
+                      );
                       // context.read<BookingsBloc>().add(
                       //       ServiceBookingEditInitiated(
                       //         id: data?[selectedIndex].id?.toInt() ?? 0,
