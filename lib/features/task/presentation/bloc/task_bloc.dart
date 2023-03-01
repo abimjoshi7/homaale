@@ -49,7 +49,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             TaskInitial(),
           );
-          await repo.fetchCreatedTask().then(
+          await repo.fetchMyCreatedTask().then(
                 (value) => emit(
                   TaskLoadSuccess(
                     res: MyTaskRes.fromJson(
@@ -78,9 +78,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                   ),
                 ),
               );
-          print(123);
         } catch (e) {
-          print(e);
           emit(
             AllTaskListLoadFailure(),
           );

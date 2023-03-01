@@ -243,9 +243,9 @@ class AppRouter {
           builder: (context) => const InvoicePage(),
           settings: settings,
         );
-      case ClientPostTaskViewPage.routeName:
+      case PostedTaskViewPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const ClientPostTaskViewPage(),
+          builder: (context) => const PostedTaskViewPage(),
           settings: settings,
         );
       case PostTaskPage.routeName:

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cipher/features/services/data/models/add_service_req.dart';
 import 'package:cipher/features/services/data/models/add_service_res.dart';
+import 'package:cipher/features/services/data/models/my_created_services_res.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:equatable/equatable.dart';
@@ -59,6 +60,29 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
         } catch (e) {
           emit(
             ServicesAddFailure(),
+          );
+        }
+      },
+    );
+
+    on<MyCreatedServicesLoadInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            ServicesInitial(),
+          );
+          await repositories.fetchMyCreatedService().then(
+                (value) => emit(
+                  MyCreatedServicesLoadSuccess(
+                    MyCreatedServicesRes.fromJson(
+                      value,
+                    ),
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            MyCreatedServicesLoadFailure(),
           );
         }
       },

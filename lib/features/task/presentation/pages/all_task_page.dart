@@ -107,7 +107,7 @@ class AllTaskPage extends StatelessWidget {
                         callback: () {
                           Navigator.pushNamed(
                             context,
-                            ClientPostTaskViewPage.routeName,
+                            PostedTaskViewPage.routeName,
                           );
                         },
                       ),

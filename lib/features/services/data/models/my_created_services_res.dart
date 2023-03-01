@@ -1,20 +1,65 @@
-class ServiceModel {
-  ServiceModel({
+class MyCreatedServicesRes {
+  MyCreatedServicesRes({
+    this.totalPages,
+    this.count,
+    this.current,
+    this.next,
+    this.previous,
+    this.pageSize,
+    this.result,
+  });
+
+  final int? totalPages;
+  final int? count;
+  final int? current;
+  final dynamic next;
+  final dynamic previous;
+  final int? pageSize;
+  final List<Result>? result;
+
+  factory MyCreatedServicesRes.fromJson(Map<String, dynamic> json) =>
+      MyCreatedServicesRes(
+        totalPages: json["total_pages"] as int?,
+        count: json["count"] as int?,
+        current: json["current"] as int?,
+        next: json["next"],
+        previous: json["previous"],
+        pageSize: json["page_size"] as int?,
+        result: json["result"] == null
+            ? []
+            : List<Result>.from(
+                json["result"]!.map(
+                  (x) => Result.fromJson(
+                    x as Map<String, dynamic>,
+                  ),
+                ) as Iterable,
+              ),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "total_pages": totalPages,
+        "count": count,
+        "current": current,
+        "next": next,
+        "previous": previous,
+        "page_size": pageSize,
+        "result": result == null
+            ? []
+            : List<dynamic>.from(result!.map((x) => x.toJson())),
+      };
+}
+
+class Result {
+  Result({
     this.id,
+    this.createdBy,
     this.currency,
     this.city,
-    this.createdBy,
-    this.service,
     this.images,
     this.videos,
-    this.rating,
-    this.count,
-    this.offers,
-    this.endorsements,
-    this.isRedeemable,
+    this.service,
     this.createdAt,
     this.updatedAt,
-    this.deletedAt,
     this.title,
     this.description,
     this.highlights,
@@ -48,53 +93,52 @@ class ServiceModel {
   });
 
   final String? id;
+  final CreatedBy? createdBy;
   final Currency? currency;
   final City? city;
-  final CreatedBy? createdBy;
-  final Service? service;
-  final List<dynamic>? images;
+  final List<Image>? images;
   final List<dynamic>? videos;
-  final List<Rating>? rating;
-  final num? count;
-  final List<dynamic>? offers;
-  final List<dynamic>? endorsements;
-  final bool? isRedeemable;
+  final Service? service;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final dynamic deletedAt;
   final String? title;
   final String? description;
-  final List<dynamic>? highlights;
+  final Map<String, dynamic>? highlights;
   final String? budgetType;
-  final dynamic budgetFrom;
-  final num? budgetTo;
-  final dynamic startDate;
-  final dynamic endDate;
-  final dynamic startTime;
-  final dynamic endTime;
+  final double? budgetFrom;
+  final double? budgetTo;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? startTime;
+  final String? endTime;
   final bool? shareLocation;
   final bool? isNegotiable;
-  final num? revisions;
+  final int? revisions;
   final dynamic recursionType;
-  final num? viewsCount;
+  final int? viewsCount;
   final String? location;
   final bool? isProfessional;
   final bool? isOnline;
   final bool? isRequested;
-  final dynamic discountType;
-  final dynamic discountValue;
-  final List<dynamic>? extraData;
-  final num? noOfReservation;
+  final String? discountType;
+  final int? discountValue;
+  final Map<String, dynamic>? extraData;
+  final int? noOfReservation;
   final String? slug;
   final bool? isActive;
   final bool? needsApproval;
   final bool? isEndorsed;
   final dynamic merchant;
   final dynamic event;
-  final dynamic avatar;
+  final int? avatar;
 
-  factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"] as String?,
+        createdBy: json["created_by"] == null
+            ? null
+            : CreatedBy.fromJson(
+                json["created_by"] as Map<String, dynamic>,
+              ),
         currency: json["currency"] == null
             ? null
             : Currency.fromJson(
@@ -105,47 +149,25 @@ class ServiceModel {
             : City.fromJson(
                 json["city"] as Map<String, dynamic>,
               ),
-        createdBy: json["created_by"] == null
-            ? null
-            : CreatedBy.fromJson(
-                json["created_by"] as Map<String, dynamic>,
+        images: json["images"] == null
+            ? []
+            : List<Image>.from(
+                json["images"]!.map(
+                  (x) => Image.fromJson(
+                    x as Map<String, dynamic>,
+                  ),
+                ) as Iterable,
+              ),
+        videos: json["videos"] == null
+            ? []
+            : List<dynamic>.from(
+                json["videos"]!.map((x) => x) as Iterable,
               ),
         service: json["service"] == null
             ? null
             : Service.fromJson(
                 json["service"] as Map<String, dynamic>,
               ),
-        images: json["images"] == null
-            ? []
-            : List<dynamic>.from(
-                json["images"].map((x) => x) as Iterable,
-              ),
-        videos: json["videos"] == null
-            ? []
-            : List<dynamic>.from(
-                json["videos"].map((x) => x) as Iterable,
-              ),
-        rating: json["rating"] == null
-            ? []
-            : List<Rating>.from(
-                json["rating"].map(
-                  (x) => Rating.fromJson(
-                    x as Map<String, dynamic>,
-                  ),
-                ) as Iterable,
-              ),
-        count: json["count"] as num?,
-        offers: json["offers"] == null
-            ? []
-            : List<dynamic>.from(
-                json["offers"].map((x) => x) as Iterable,
-              ),
-        endorsements: json["endorsements"] == null
-            ? []
-            : List<dynamic>.from(
-                json["endorsements"].map((x) => x) as Iterable,
-              ),
-        isRedeemable: json["is_redeemable"] as bool?,
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(
@@ -156,104 +178,93 @@ class ServiceModel {
             : DateTime.parse(
                 json["updated_at"] as String,
               ),
-        deletedAt: json["deleted_at"],
         title: json["title"] as String?,
         description: json["description"] as String?,
-        highlights: json["highlights"] == null
-            ? []
-            : List<dynamic>.from(
-                json["highlights"]!.map((x) => x) as Iterable,
-              ),
+        highlights: json["highlights"] as Map<String, dynamic>?,
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"],
-        budgetTo: json["budget_to"] as num?,
-        startDate: json["start_date"],
-        endDate: json["end_date"],
-        startTime: json["start_time"],
-        endTime: json["end_time"],
+        budgetFrom: json["budget_from"] as double?,
+        budgetTo: json["budget_to"] as double?,
+        startDate: json["start_date"] == null
+            ? null
+            : DateTime.parse(
+                json["start_date"] as String,
+              ),
+        endDate: json["end_date"] == null
+            ? null
+            : DateTime.parse(
+                json["end_date"] as String,
+              ),
+        startTime: json["start_time"] as String?,
+        endTime: json["end_time"] as String?,
         shareLocation: json["share_location"] as bool?,
         isNegotiable: json["is_negotiable"] as bool?,
-        revisions: json["revisions"] as num?,
+        revisions: json["revisions"] as int?,
         recursionType: json["recursion_type"],
-        viewsCount: json["views_count"] as num?,
+        viewsCount: json["views_count"] as int?,
         location: json["location"] as String?,
         isProfessional: json["is_professional"] as bool?,
         isOnline: json["is_online"] as bool?,
         isRequested: json["is_requested"] as bool?,
-        discountType: json["discount_type"],
-        discountValue: json["discount_value"],
+        discountType: json["discount_type"] as String?,
+        discountValue: json["discount_value"] as int?,
         extraData: json["extra_data"] == null
-            ? []
-            : List<dynamic>.from(
-                json["extra_data"].map((x) => x) as Iterable,
-              ),
-        noOfReservation: json["no_of_reservation"] as num?,
+            ? null
+            : json["extra_data"] as Map<String, dynamic>,
+        noOfReservation: json["no_of_reservation"] as int?,
         slug: json["slug"] as String?,
         isActive: json["is_active"] as bool?,
         needsApproval: json["needs_approval"] as bool?,
         isEndorsed: json["is_endorsed"] as bool?,
         merchant: json["merchant"],
         event: json["event"],
-        avatar: json["avatar"],
+        avatar: json["avatar"] as int?,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "created_by": createdBy?.toJson(),
         "currency": currency?.toJson(),
         "city": city?.toJson(),
-        "created_by": createdBy?.toJson(),
+        "images": images == null
+            ? []
+            : List<dynamic>.from(images!.map((x) => x.toJson())),
+        "videos":
+            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
         "service": service?.toJson(),
-        // "images":
-        //     images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        // "videos":
-        //     videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
-        // "rating": rating == null
-        //     ? []
-        //     : List<dynamic>.from(rating!.map((x) => x.toJson())),
-        // "count": count,
-        // "offers":
-        //     offers == null ? [] : List<dynamic>.from(offers!.map((x) => x)),
-        // "endorsements": endorsements == null
-        //     ? []
-        //     : List<dynamic>.from(endorsements!.map((x) => x)),
-        // "is_redeemable": isRedeemable,
-        // "created_at": createdAt?.toIso8601String(),
-        // "updated_at": updatedAt?.toIso8601String(),
-        // "deleted_at": deletedAt,
-        // "title": title,
-        // "description": description,
-        // "highlights": highlights == null
-        //     ? []
-        //     : List<dynamic>.from(highlights!.map((x) => x)),
-        // "budget_type": budgetType,
-        // "budget_from": budgetFrom,
-        // "budget_to": budgetTo,
-        // "start_date": startDate,
-        // "end_date": endDate,
-        // "start_time": startTime,
-        // "end_time": endTime,
-        // "share_location": shareLocation,
-        // "is_negotiable": isNegotiable,
-        // "revisions": revisions,
-        // "recursion_type": recursionType,
-        // "views_count": viewsCount,
-        // "location": location,
-        // "is_professional": isProfessional,
-        // "is_online": isOnline,
-        // "is_requested": isRequested,
-        // "discount_type": discountType,
-        // "discount_value": discountValue,
-        // "extra_data": extraData == null
-        //     ? []
-        //     : List<dynamic>.from(extraData!.map((x) => x)),
-        // "no_of_reservation": noOfReservation,
-        // "slug": slug,
-        // "is_active": isActive,
-        // "needs_approval": needsApproval,
-        // "is_endorsed": isEndorsed,
-        // "merchant": merchant,
-        // "event": event,
-        // "avatar": avatar,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "title": title,
+        "description": description,
+        "highlights": highlights,
+        "budget_type": budgetType,
+        "budget_from": budgetFrom,
+        "budget_to": budgetTo,
+        "start_date":
+            "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
+        "end_date":
+            "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
+        "start_time": startTime,
+        "end_time": endTime,
+        "share_location": shareLocation,
+        "is_negotiable": isNegotiable,
+        "revisions": revisions,
+        "recursion_type": recursionType,
+        "views_count": viewsCount,
+        "location": location,
+        "is_professional": isProfessional,
+        "is_online": isOnline,
+        "is_requested": isRequested,
+        "discount_type": discountType,
+        "discount_value": discountValue,
+        "extra_data": extraData,
+        "no_of_reservation": noOfReservation,
+        "slug": slug,
+        "is_active": isActive,
+        "needs_approval": needsApproval,
+        "is_endorsed": isEndorsed,
+        "merchant": merchant,
+        "event": event,
+        "avatar": avatar,
       };
 }
 
@@ -266,17 +277,17 @@ class City {
     this.country,
   });
 
-  final num? id;
+  final int? id;
   final String? name;
-  final num? latitude;
-  final num? longitude;
+  final double? latitude;
+  final double? longitude;
   final Country? country;
 
   factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json["id"] as num?,
+        id: json["id"] as int?,
         name: json["name"] as String?,
-        latitude: json["latitude"] as num?,
-        longitude: json["longitude"] as num?,
+        latitude: json["latitude"] as double?,
+        longitude: json["longitude"] as double?,
         country: json["country"] == null
             ? null
             : Country.fromJson(
@@ -319,6 +330,7 @@ class CreatedBy {
     this.username,
     this.email,
     this.phone,
+    this.fullName,
     this.firstName,
     this.middleName,
     this.lastName,
@@ -338,6 +350,7 @@ class CreatedBy {
   final String? username;
   final String? email;
   final dynamic phone;
+  final String? fullName;
   final String? firstName;
   final String? middleName;
   final String? lastName;
@@ -356,7 +369,8 @@ class CreatedBy {
         id: json["id"] as String?,
         username: json["username"] as String?,
         email: json["email"] as String?,
-        phone: json["phone"] as String?,
+        phone: json["phone"],
+        fullName: json["full_name"] as String?,
         firstName: json["first_name"] as String?,
         middleName: json["middle_name"] as String?,
         lastName: json["last_name"] as String?,
@@ -389,10 +403,11 @@ class CreatedBy {
         "username": username,
         "email": email,
         "phone": phone,
+        "full_name": fullName,
         "first_name": firstName,
         "middle_name": middleName,
         "last_name": lastName,
-        // "profile_image": profileImage,
+        "profile_image": profileImage,
         "bio": bio,
         "created_at": createdAt?.toIso8601String(),
         "designation": designation,
@@ -428,12 +443,12 @@ class Badge {
     this.title,
   });
 
-  final num? id;
+  final int? id;
   final String? image;
   final String? title;
 
   factory Badge.fromJson(Map<String, dynamic> json) => Badge(
-        id: json["id"] as num?,
+        id: json["id"] as int?,
         image: json["image"] as String?,
         title: json["title"] as String?,
       );
@@ -469,19 +484,35 @@ class Currency {
       };
 }
 
-class Rating {
-  Rating({
-    this.rating,
+class Image {
+  Image({
+    this.id,
+    this.name,
+    this.size,
+    this.mediaType,
+    this.media,
   });
 
-  final num? rating;
+  final int? id;
+  final String? name;
+  final String? size;
+  final String? mediaType;
+  final String? media;
 
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        rating: json["rating"] as num?,
+  factory Image.fromJson(Map<String, dynamic> json) => Image(
+        id: json["id"] as int?,
+        name: json["name"] as String?,
+        size: json["size"] as String?,
+        mediaType: json["media_type"] as String?,
+        media: json["media"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
-        "rating": rating,
+        "id": id,
+        "name": name,
+        "size": size,
+        "media_type": mediaType,
+        "media": media,
       };
 }
 
@@ -515,7 +546,7 @@ class Service {
         images: json["images"] == null
             ? []
             : List<dynamic>.from(
-                json["images"].map((x) => x) as Iterable,
+                json["images"]!.map((x) => x) as Iterable,
               ),
       );
 
@@ -538,15 +569,15 @@ class Category {
     this.slug,
   });
 
-  final num? id;
+  final int? id;
   final String? name;
-  final num? level;
+  final int? level;
   final String? slug;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"] as num?,
+        id: json["id"] as int?,
         name: json["name"] as String?,
-        level: json["level"] as num?,
+        level: json["level"] as int?,
         slug: json["slug"] as String?,
       );
 

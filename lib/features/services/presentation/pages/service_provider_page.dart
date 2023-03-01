@@ -18,6 +18,7 @@ class ServiceProviderPage extends StatelessWidget {
       body: BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
         builder: (context, state) {
           if (state is SingleEntityServiceLoadSuccess) {
+            final data = state.serviceModel;
             return Column(
               children: [
                 addVerticalSpace(50),
@@ -83,7 +84,7 @@ class ServiceProviderPage extends StatelessWidget {
                                   ],
                                 ),
                                 Row(
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.favorite_border_outlined,
                                       color: Colors.red,

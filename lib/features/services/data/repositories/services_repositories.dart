@@ -7,6 +7,22 @@ import 'package:cipher/features/services/data/models/add_service_req.dart';
 class ServicesRepositories {
   final _dio = DioHelper();
 
+  Future<Map<String, dynamic>> fetchMyCreatedService() async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/my-entity-services/',
+        query: {
+          "is_requested": false,
+        },
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Created Service Fetch Error: $e");
+      rethrow;
+    }
+  }
+
   Future<List<Map<String, dynamic>>> fetchServices([int? categoryId]) async {
     try {
       final res = await _dio.getDatawithCredential(
@@ -52,6 +68,7 @@ class ServicesRepositories {
     required String serviceId,
   }) async {
     try {
+      log("Service ID: $serviceId");
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/service/$serviceId',
         token: CacheHelper.accessToken,

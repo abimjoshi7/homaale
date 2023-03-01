@@ -12,6 +12,12 @@ class ServicesLoadInitiated extends ServicesEvent {
   List<Object?> get props => [categoryId];
 }
 
+class MyCreatedServicesLoadInitiated extends ServicesEvent {
+  const MyCreatedServicesLoadInitiated();
+  @override
+  List<Object?> get props => [];
+}
+
 class ServicesAddInitiated extends ServicesEvent {
   final AddServiceReq addServiceReq;
 

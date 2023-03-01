@@ -10,8 +10,11 @@ import 'package:cipher/features/profile/presentation/pages/reviews/reviews_profi
 import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -29,6 +32,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: user == 'self' ? 7 : 4, vsync: this);
+    context.read<ServicesBloc>().add(
+          const MyCreatedServicesLoadInitiated(),
+        );
     // tabController.addListener(() {
     //   setState(() {
     //     selectedIndex = tabController.index;

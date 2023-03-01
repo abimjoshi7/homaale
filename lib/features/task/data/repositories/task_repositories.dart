@@ -25,7 +25,7 @@ class TaskRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchCreatedTask() async {
+  Future<Map<String, dynamic>> fetchMyCreatedTask() async {
     try {
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/my-entity-services/',
