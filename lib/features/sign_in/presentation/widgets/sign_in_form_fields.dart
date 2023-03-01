@@ -22,6 +22,28 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   final usernameController = TextEditingController();
   bool keepLogged = false;
   bool isObscure = true;
+
+  @override
+  void initState() {
+    initLoginDetails();
+    super.initState();
+  }
+
+  Future<void> initLoginDetails() async {
+    final String phone = await CacheHelper.getCachedString(kUserPhone) ?? '';
+    final String mail = await CacheHelper.getCachedString(kUsermail) ?? '';
+    final String password = await CacheHelper.getCachedString(kUserPass) ?? '';
+    final String keepInfo =
+        await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
+
+    setState(() {
+      phoneNumberController.text = phone;
+      usernameController.text = mail;
+      passwordController.text = password;
+      keepLogged = keepInfo == 'true';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
@@ -77,6 +99,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             return CustomFormField(
               label: 'Email',
               child: CustomTextFormField(
+                controller: usernameController,
                 onSaved: (p0) => setState(
                   () {
                     usernameController.text = p0!;
@@ -92,6 +115,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             return CustomFormField(
               label: 'Phone',
               child: CustomTextFormField(
+                controller: phoneNumberController,
                 validator: validateNotEmpty,
                 onSaved: (p0) => setState(
                   () {
@@ -133,6 +157,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               CustomFormField(
                 label: 'Password',
                 child: CustomTextFormField(
+                  controller: passwordController,
                   obscureText: isObscure,
                   suffixWidget: InkWell(
                     onTap: () {
@@ -193,6 +218,31 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 callback: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
+
+                    if (keepLogged) {
+                      CacheHelper.setCachedString(
+                        kUserPhone,
+                        phoneNumberController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kUserPass,
+                        passwordController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kUsermail,
+                        usernameController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kRememberCreds,
+                        'true',
+                      );
+                    } else {
+                      CacheHelper.clearCachedData(kUsermail);
+                      CacheHelper.clearCachedData(kUserPhone);
+                      CacheHelper.clearCachedData(kUserPass);
+                      CacheHelper.clearCachedData(kRememberCreds);
+                    }
+
                     if (state is SignInPhoneInitial) {
                       context.read<SignInBloc>().add(
                             SignInWithPhoneInitiated(

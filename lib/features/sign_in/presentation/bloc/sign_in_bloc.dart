@@ -40,9 +40,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> with HydratedMixin {
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
             (value) {
               emit(
-                SignInSuccess(
-                  userLoginRes: value,
-                ),
+                SignInSuccess(userLoginRes: value),
               );
               CacheHelper.accessToken = value.access;
               CacheHelper.refreshToken = value.refresh;

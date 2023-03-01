@@ -1,6 +1,10 @@
 //literals
 const kErrorLog = 'error-log';
 const kToken = 'token';
+const kUserPhone = 'user-phone';
+const kUsermail = 'user-mail';
+const kUserPass = 'user-pass';
+const kRememberCreds = 'user-creds';
 
 //links
 const kDefaultAvatarNImg =
