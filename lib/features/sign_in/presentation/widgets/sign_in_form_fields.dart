@@ -130,7 +130,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildForm(),
-              addVerticalSpace(10),
               CustomFormField(
                 label: 'Password',
                 child: CustomTextFormField(

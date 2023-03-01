@@ -13,7 +13,6 @@ class SignInPage extends StatelessWidget {
     return SignInScaffold(
       child: Column(
         children: [
-          kHeight20,
           InkWell(
             onTap: () async {
               DioHelper().refreshToken();
