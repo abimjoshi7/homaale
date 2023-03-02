@@ -72,7 +72,7 @@ class EntityServicesPage extends StatelessWidget {
                                   onTap: () async {
                                     await context
                                         .read<SingleEntityServiceCubit>()
-                                        .getSingleEntity(
+                                        .getSingleService(
                                           state.service.result?[index].id ?? '',
                                         )
                                         .then(

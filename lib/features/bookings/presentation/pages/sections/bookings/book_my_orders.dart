@@ -5,6 +5,8 @@ import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,130 +19,114 @@ class BookingsMyOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingsBloc, BookingsState>(
+    return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
-        if (state is ServiceBookingLoadSuccess) {
+        if (state is TaskInitial) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is TaskLoadSuccess) {
+          final data = state.res.result;
           return Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              itemBuilder: (context, index) => Padding(
-                padding: kPadding10,
-                child: BookingsServiceCard(
-                  deleteTap: () {
-                    context.read<BookingsBloc>().add(
-                          ServiceBookingDeleteInitiated(
-                            id: state.myBookingList.result![index].id!.toInt(),
+              itemBuilder: (context, index) =>
+                  BlocListener<TaskBloc, TaskState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<TaskBloc>().add(
+                          SingleTaskLoadInititated(
+                            id: data?[index].id ?? 'No ID',
                           ),
                         );
+                    // print(index);
+                    // print(state.res.result?.first.id);
+                    // Navigator.pushNamed(
+                    //   context,
+                    //   PostedTaskViewPage.routeName,
+                    // );
                   },
-                  editTap: () async {
-                    Future.delayed(
-                      Duration.zero,
-                      () => showModalBottomSheet(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.85,
-                          minWidth: double.infinity,
-                        ),
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => Column(
-                          children: [
-                            const CustomModalSheetDrawerIcon(),
-                            Expanded(
-                              child: EditMyOrdersForm(
-                                selectedIndex: index,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: BookingsServiceCard(
+                      deleteTap: () {
+                        print(state.res.toJson());
+                        // context.read<BookingsBloc>().add(
+                        //       ServiceBookingDeleteInitiated(
+                        //           id: state.res.result?[index].id.to,
+                        //           ),
+                        //     );
+                      },
+                      serviceName: state.res.result?[index].title,
+                      providerName:
+                          "${state.res.result?[index].createdBy?.firstName} ${state.res.result?[index].createdBy?.lastName}",
+                      mainContentWidget: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: IconText(
+                              iconData: Icons.calendar_today_rounded,
+                              label: DateFormat().format(
+                                state.res.result?[index].createdAt ??
+                                    DateTime.now(),
                               ),
+                              color: kColorBlue,
                             ),
-                          ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: IconText(
+                              iconData: Icons.watch_later_outlined,
+                              label:
+                                  "${state.res.result?[index].startTime ?? '00:00'} ${state.res.result?[index].endTime ?? ''}",
+                              color: kColorGreen,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: IconText(
+                              iconData: Icons.attach_money_rounded,
+                              label:
+                                  "Rs. ${state.res.result?[index].budgetFrom ?? ''} - ${state.res.result?[index].budgetTo ?? ''}",
+                              color: kColorAmber,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: IconText(
+                              iconData: Icons.location_on_outlined,
+                              label: state.res.result?[index].location ??
+                                  'No address found',
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                      status: 'In Progress',
+                      bottomRightWidget: SizedBox(
+                        width: 120,
+                        child: CustomElevatedButton(
+                          callback: () {},
+                          label: 'Completed',
+                          mainColor: Colors.green,
+                          borderColor: Colors.green,
                         ),
                       ),
-                    );
-                  },
-                  callback: () async {
-                    await context
-                        .read<SingleEntityServiceCubit>()
-                        .getSingleEntity(
-                          state.myBookingList.result?[index].entityService
-                                  ?.id ??
-                              '',
-                        )
-                        .then(
-                          (value) => Navigator.pushNamed(
-                            context,
-                            ServiceProviderPage.routeName,
-                          ),
-                        );
-                  },
-                  color: Colors.blue,
-                  serviceName:
-                      state.myBookingList.result?[index].entityService?.title ??
-                          '',
-                  providerName:
-                      '${state.myBookingList.result?[index].entityService?.createdBy?.firstName} ${state.myBookingList.result?[index].entityService?.createdBy?.lastName}',
-                  mainContentWidget: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconText(
-                        color: kColorBlue,
-                        iconData: Icons.calendar_today_rounded,
-                        label: '${DateFormat.yMMMd().format(
-                          state.myBookingList.result?[index].createdAt ??
-                              DateTime.now(),
-                        )} ${DateFormat.jm().format(
-                          state.myBookingList.result?[index].createdAt ??
-                              DateTime.now(),
-                        )}',
-                      ),
-                      IconText(
-                        color: kColorGreen,
-                        iconData: Icons.access_time_outlined,
-                        label: '${DateFormat.yMMMd().format(
-                          state.myBookingList.result?[index].startDate ??
-                              DateTime.now(),
-                        )} - ${DateFormat.yMMMd().format(
-                          state.myBookingList.result?[index].endDate ??
-                              DateTime.now(),
-                        )}',
-                      ),
-                      IconText(
-                        color: kColorAmber,
-                        iconData: Icons.attach_money_outlined,
-                        label:
-                            'Rs. ${state.myBookingList.result?[index].budgetTo ?? ''}',
-                      ),
-                      IconText(
-                        color: Colors.red,
-                        iconData: Icons.location_on_outlined,
-                        label:
-                            '${state.myBookingList.result?[index].entityService?.location}',
-                      ),
-                    ],
-                  ),
-                  // status: 'In Progress',
-                  bottomLeftWidget: const Text(
-                    'View Detail',
-                    style: kText15,
-                  ),
-                  bottomRightWidget: SizedBox(
-                    width: 120,
-                    child: CustomElevatedButton(
-                      callback: () {},
-                      label: state.myBookingList.result?[index].status
-                              ?.toCapitalized() ??
-                          'Unknown',
-                      mainColor: Colors.orangeAccent,
-                      borderColor: Colors.orangeAccent,
                     ),
                   ),
                 ),
               ),
-              itemCount: state.myBookingList.result?.length ?? 1,
+              itemCount: state.res.result?.length ?? 0,
             ),
           );
         }
         return const Center(
-          child: CircularProgressIndicator(),
+          child: Text('Something went wrong. Try again later.'),
         );
       },
     );

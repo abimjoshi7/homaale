@@ -1,8 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
-import 'package:cipher/features/bookings/presentation/pages/sections/bookings/book_all.dart';
-import 'package:cipher/features/bookings/presentation/pages/sections/bookings/book_my_orders.dart';
-import 'package:cipher/features/bookings/presentation/pages/sections/bookings/book_my_task.dart';
+import 'package:cipher/features/bookings/presentation/pages/sections/bookings/bookings.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,14 +43,19 @@ class _BookingsSectionState extends State<BookingsSection> {
                       selectedIndex = index;
                     },
                   );
+                  if (selectedIndex == 0) {
+                    // context.read<BookingsBloc>().add(
+                    //       ServiceBookingListLoadInitiated(),
+                    //     );
+                  }
                   if (selectedIndex == 1) {
-                    context.read<TaskBloc>().add(
-                          MyTaskLoadInitiated(),
+                    context.read<BookingsBloc>().add(
+                          ServiceBookingListLoadInitiated(),
                         );
                   }
                   if (selectedIndex == 2) {
-                    context.read<BookingsBloc>().add(
-                          ServiceBookingListLoadInitiated(),
+                    context.read<TaskBloc>().add(
+                          MyTaskLoadInitiated(),
                         );
                   }
                 },
@@ -70,28 +73,5 @@ class _BookingsSectionState extends State<BookingsSection> {
         ),
       ],
     );
-  }
-}
-
-class BookingsTabMainSection extends StatelessWidget {
-  const BookingsTabMainSection({
-    super.key,
-    required this.selectedIndex,
-  });
-  final int selectedIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (selectedIndex) {
-      case 0:
-        return const BookingsAll();
-      case 1:
-        return const BookingsMyTask();
-
-      case 2:
-        return const BookingsMyOrder();
-      default:
-        return const SizedBox.shrink();
-    }
   }
 }

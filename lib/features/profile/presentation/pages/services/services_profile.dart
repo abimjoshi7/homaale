@@ -34,10 +34,10 @@ class ServicesProfile extends StatelessWidget {
                 address: data?[index].location ?? 'Buddhanagar, KTM',
                 title: data?[index].title ?? 'Garden Redesign',
                 viewCount: data?[index].viewsCount.toString(),
-                // imagePath: data?[index].images == null
-                //     ? kServiceImageNImg
-                //     : data?[index].images?.first.media,
                 description: data?[index].description ?? '... ',
+                imagePath: data![index].images!.isEmpty
+                    ? kServiceImageNImg
+                    : data[index].images?.first.media,
               ),
             ),
           );

@@ -25,3 +25,14 @@ class AllTaskListLoadInitiated extends TaskEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SingleTaskLoadInititated extends TaskEvent {
+  final String id;
+  const SingleTaskLoadInititated({
+    required this.id,
+  });
+  @override
+  List<Object?> get props => [
+        id,
+      ];
+}

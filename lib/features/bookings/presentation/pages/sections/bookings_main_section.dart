@@ -50,7 +50,7 @@ class _BookingsMainSectionState extends State<BookingsMainSection>
                 InProgressSection(),
                 BookingsSection(),
                 DraftSection(),
-                BookingsHistorySection(),
+                HistorySection(),
               ],
             ),
           ),

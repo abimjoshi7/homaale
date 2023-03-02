@@ -9,13 +9,13 @@ class SingleEntityServiceCubit extends Cubit<SingleEntityServiceState> {
   final repo = ServicesRepositories();
   SingleEntityServiceCubit() : super(SingleEntityServiceInitial());
 
-  Future getSingleEntity(String id) async {
+  Future getSingleService(String id) async {
     try {
       emit(
         SingleEntityServiceInitial(),
       );
       await repo
-          .fetchSingleEntityServices(
+          .fetchSingleService(
             serviceId: id,
           )
           .then(

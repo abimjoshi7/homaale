@@ -43,7 +43,7 @@ class PopularServicesSection extends StatelessWidget {
                       onTap: () async {
                         await context
                             .read<SingleEntityServiceCubit>()
-                            .getSingleEntity(
+                            .getSingleService(
                               state.model.result?[index].id ?? '',
                             );
                         // Navigator.pushNamed(

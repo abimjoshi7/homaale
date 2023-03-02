@@ -14,6 +14,7 @@ class DocumentsProfile extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(10),
             child: GridView.builder(
+              padding: EdgeInsets.zero,
               itemCount: state.list.length,
               itemBuilder: (context, index) => DocumentTextCard(
                 isLocalFile: false,

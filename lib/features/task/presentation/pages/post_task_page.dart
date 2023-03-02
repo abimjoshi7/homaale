@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -448,6 +450,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ],
                             ),
                           ),
+                          Visibility(
+                            visible: isAddressVisibile,
+                            child: CustomTextFormField(
+                              controller: addressController,
+                              hintText: 'Default Address (Home)',
+                            ),
+                          ),
                           CustomFormField(
                             label: 'Currency',
                             isRequired: true,
@@ -477,13 +486,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               },
                             ),
                           ),
-                          Visibility(
-                            visible: isAddressVisibile,
-                            child: CustomTextFormField(
-                              controller: addressController,
-                              hintText: 'Default Address (Home)',
-                            ),
-                          ),
+
                           CustomFormField(
                             label: 'Budget',
                             isRequired: true,
@@ -801,13 +804,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         videos: fileList,
                                       );
 
-                                      // print(jsonEncode(req.toJson()));
+                                      print(jsonEncode(req.toJson()));
 
-                                      context.read<TaskBloc>().add(
-                                            TaskAddInitiated(
-                                              req: req,
-                                            ),
-                                          );
+                                      // context.read<TaskBloc>().add(
+                                      //       TaskAddInitiated(
+                                      //         req: req,
+                                      //       ),
+                                      //     );
                                     }
                                   } else {
                                     showDialog(

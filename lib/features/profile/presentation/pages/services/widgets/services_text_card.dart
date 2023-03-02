@@ -28,78 +28,78 @@ class ServicesTextCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Center(
-              child: Image.network(
-                imagePath ?? kServiceImageNImg,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  imagePath ?? kServiceImageNImg,
+                ),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          kHeight5,
-          Text(
-            title ?? '',
-            style: kHeading3,
-          ),
-          kHeight5,
-          Text(
-            address ?? '',
-            style: kHighlightedText,
-          ),
-          kHeight5,
-          Text(
-            description ?? '',
-            style: kPurpleText13,
-          ),
-          kHeight5,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        Text(
+          title ?? '',
+          style: kHeading3,
+        ),
+        kHeight5,
+        Text(
+          address ?? '',
+          style: kHighlightedText,
+        ),
+        kHeight5,
+        Text(
+          description ?? '',
+          style: kPurpleText13,
+        ),
+        kHeight5,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            WidgetText(
+              label: createdDate ?? '',
+              widget: const Icon(
+                Icons.calendar_today_outlined,
+                color: kColorBlue,
+                size: 14,
+              ),
+            ),
+            WidgetText(
+              label: viewCount ?? '',
+              widget: const Icon(
+                Icons.visibility_outlined,
+                size: 14,
+                color: kColorPrimaryAccent,
+              ),
+            )
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(2),
+          child: Row(
             children: [
-              WidgetText(
-                label: createdDate ?? '',
-                widget: const Icon(
-                  Icons.calendar_today_outlined,
-                  color: kColorBlue,
-                  size: 14,
+              const Icon(Icons.favorite_outline_rounded, color: Colors.red),
+              kWidth5,
+              const Icon(
+                Icons.subdirectory_arrow_right_outlined,
+                color: Colors.blue,
+              ),
+              Expanded(
+                child: Text(
+                  price ?? '',
+                  style: kHeading3,
+                  textAlign: TextAlign.end,
                 ),
               ),
-              WidgetText(
-                label: viewCount ?? '',
-                widget: const Icon(
-                  Icons.visibility_outlined,
-                  size: 14,
-                  color: kColorPrimaryAccent,
-                ),
-              )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: Row(
-              children: [
-                const Icon(Icons.favorite_outline_rounded, color: Colors.red),
-                kWidth5,
-                const Icon(
-                  Icons.subdirectory_arrow_right_outlined,
-                  color: Colors.blue,
-                ),
-                Expanded(
-                  child: Text(
-                    price ?? '',
-                    style: kHeading3,
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

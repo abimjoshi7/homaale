@@ -1,69 +1,67 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
-import 'package:cipher/widgets/widgets.dart';
+import 'package:cipher/features/bookings/presentation/pages/sections/draft/draft.dart';
 import 'package:flutter/material.dart';
 
-class DraftSection extends StatelessWidget {
+class DraftSection extends StatefulWidget {
   const DraftSection({super.key});
 
   @override
+  State<DraftSection> createState() => _DraftSectionState();
+}
+
+class _DraftSectionState extends State<DraftSection> {
+  int selectedIndex = 0;
+  List<String> l = [
+    'All',
+    'My Task',
+    'My Orders',
+  ];
+  @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(10),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '04 Dec 2022, Sunday',
-              style: kHelper13,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          child: Wrap(
+            spacing: 10,
+            children: List.generate(
+              l.length,
+              (index) => ChoiceChip(
+                label: Text(
+                  l[index],
+                ),
+                selected: selectedIndex == index,
+                onSelected: (value) async {
+                  setState(
+                    () {
+                      selectedIndex = index;
+                    },
+                  );
+                  if (selectedIndex == 1) {
+                    // context.read<TaskBloc>().add(
+                    //       MyTaskLoadInitiated(),
+                    //     );
+                  }
+                  if (selectedIndex == 2) {
+                    // context.read<BookingsBloc>().add(
+                    //       ServiceBookingListLoadInitiated(),
+                    //     );
+                  }
+                },
+                backgroundColor: Colors.white,
+                selectedColor: kColorBlue,
+                side: BorderSide(
+                  color: selectedIndex == index ? kColorBlue : kColorGrey,
+                ),
+              ),
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ListView.separated(
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) => BookingsServiceCard(
-                color: Colors.blue,
-                serviceName: 'Need a Gardener',
-                providerName: 'Gardener Club',
-                mainContentWidget: Column(
-                  children: [
-                    IconText(
-                      iconData: Icons.calendar_today_rounded,
-                      label: '${DateTime.now()}',
-                    ),
-                    IconText(
-                      iconData: Icons.calendar_today_rounded,
-                      label: '${DateTime.now()}',
-                    ),
-                    IconText(
-                      iconData: Icons.calendar_today_rounded,
-                      label: '${DateTime.now()}',
-                    ),
-                  ],
-                ),
-                status: 'In Progress',
-                bottomLeftWidget: const Text(
-                  'View Detail',
-                  style: kText15,
-                ),
-                bottomRightWidget: SizedBox(
-                  width: 120,
-                  child: CustomElevatedButton(
-                    callback: () {},
-                    label: 'In Progress',
-                    mainColor: Colors.grey,
-                    borderColor: Colors.grey,
-                  ),
-                ),
-              ),
-              separatorBuilder: (context, index) => kHeight10,
-              itemCount: 5,
-            ),
-          ),
+        DraftTabMainSection(
+          selectedIndex: selectedIndex,
         ),
       ],
     );

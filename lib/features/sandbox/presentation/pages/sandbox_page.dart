@@ -171,7 +171,7 @@ class SandboxPage extends StatelessWidget {
                   callback: () async {
                     await context
                         .read<SingleEntityServiceCubit>()
-                        .getSingleEntity(
+                        .getSingleService(
                           "582ffb2e-c9c9-44e9-af48-77e8bd19b12c",
                         );
                     if (state is SingleEntityServiceLoadSuccess) {
