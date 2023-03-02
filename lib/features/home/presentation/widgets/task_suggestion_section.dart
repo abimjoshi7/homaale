@@ -35,7 +35,7 @@ class TasksSuggestionSection extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.21,
+            height: MediaQuery.of(context).size.height * 0.22,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.zero,
