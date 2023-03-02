@@ -93,6 +93,21 @@ const kSkipHelper = TextStyle(
   color: Color(0xff868E96),
 );
 
+const kHeading3seconday = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+);
+
+const kSubHeading = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+);
+
+const kInfo = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 10,
+);
+
 const kBodyText1 =
     TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
 

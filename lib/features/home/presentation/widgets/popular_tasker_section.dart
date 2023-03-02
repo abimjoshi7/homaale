@@ -2,6 +2,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
+import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,25 +43,29 @@ class PopularTaskerSection extends StatelessWidget {
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => TaskerCard(
-                      networkImageUrl: data?[index].profileImage,
-                      label:
-                          "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
-                      designation: data?[index].designation,
-                      happyClients: data?[index].stats?.happyClients.toString(),
-                      ratings:
-                          "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
-                      rate: "Rs. ${data?[index].hourlyRate}",
-                      callback: () {
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
                         context.read<TaskerCubit>().loadSingleTasker(
                               data?[index].user?.id ?? '',
                             );
 
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   ClientPostTaskViewPage.routeName,
-                        // );
+                        Navigator.pushNamed(
+                          context,
+                          TaskerProfile.routeName,
+                        );
                       },
+                      child: TaskerCard(
+                        networkImageUrl: data?[index].profileImage,
+                        label:
+                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        designation: data?[index].designation,
+                        happyClients:
+                            data?[index].stats?.happyClients.toString(),
+                        ratings:
+                            "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                        rate: "Rs. ${data?[index].hourlyRate}",
+                        callback: () {},
+                      ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,
                     itemCount: state.taskerListRes.result?.length ?? 1,

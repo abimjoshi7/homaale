@@ -1,3 +1,5 @@
+import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+
 class TaskerListRes {
   TaskerListRes({
     this.totalPages,
@@ -96,7 +98,7 @@ class Tasker {
   final User? user;
   final List<Portfolio>? portfolio;
   final List<Experience>? experience;
-  final List<dynamic>? education;
+  final List<Education>? education;
   final List<dynamic>? certificates;
   final Stats? stats;
   final Rating? rating;
@@ -163,8 +165,12 @@ class Tasker {
               ),
         education: json["education"] == null
             ? []
-            : List<dynamic>.from(
-                json["education"]!.map((x) => x) as Iterable,
+            : List<Education>.from(
+                json["education"]!.map(
+                  (x) => Education.fromJson(
+                    x as Map<String, dynamic>,
+                  ),
+                ) as Iterable,
               ),
         certificates: json["certificates"] == null
             ? []
@@ -265,7 +271,7 @@ class Tasker {
             : List<dynamic>.from(experience!.map((x) => x.toJson())),
         "education": education == null
             ? []
-            : List<dynamic>.from(education!.map((x) => x)),
+            : List<dynamic>.from(education!.map((x) => x.toJson())),
         "certificates": certificates == null
             ? []
             : List<dynamic>.from(certificates!.map((x) => x)),
