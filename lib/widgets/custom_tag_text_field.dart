@@ -19,7 +19,7 @@ class CustomTagTextField extends StatelessWidget {
     return TextFieldTags(
       textfieldTagsController: tagController,
       initialTags: initialList,
-      textSeparators: const [' ', ','],
+      textSeparators: const [','],
       letterCase: LetterCase.normal,
       validator: (String? tag) {
         if (tag!.isEmpty) {
