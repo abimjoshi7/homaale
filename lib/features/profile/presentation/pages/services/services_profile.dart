@@ -11,22 +11,23 @@ class ServicesProfile extends StatelessWidget {
     return BlocBuilder<ServicesBloc, ServicesState>(
       builder: (context, state) {
         if (state is MyCreatedServicesLoadSuccess) {
+          final data = state.list.result;
           return Padding(
             padding: const EdgeInsets.all(10),
             child: GridView.builder(
-              itemCount: 5,
+              itemCount: data?.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.8,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 10,
               ),
-              itemBuilder: (context, index) => const ServicesTextCard(
-                price: 'Rs 2000',
-                location: 'Shantinagar',
+              itemBuilder: (context, index) => ServicesTextCard(
+                price: data?[index].budgetTo.toString() ?? 'Rs 2000',
+                location: data?[index].location ?? 'Shantinagar',
                 reviewNumber: '4.5(200)',
                 address: 'Buddhanagar, KTM',
-                title: 'Garden Redesign',
+                title: data?[index].title ?? 'Garden Redesign',
                 imagePath: 'assets/Casual life 3D - 43.png',
                 description:
                     'Almost no computer knowledge, socan provide the fitness for... ',

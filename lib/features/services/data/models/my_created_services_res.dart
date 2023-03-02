@@ -121,7 +121,7 @@ class Result {
   final bool? isOnline;
   final bool? isRequested;
   final String? discountType;
-  final int? discountValue;
+  final double? discountValue;
   final Map<String, dynamic>? extraData;
   final int? noOfReservation;
   final String? slug;
@@ -206,7 +206,7 @@ class Result {
         isOnline: json["is_online"] as bool?,
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
-        discountValue: json["discount_value"] as int?,
+        discountValue: json["discount_value"] as double?,
         extraData: json["extra_data"] == null
             ? null
             : json["extra_data"] as Map<String, dynamic>,
