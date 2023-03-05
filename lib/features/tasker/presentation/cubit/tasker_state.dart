@@ -27,12 +27,16 @@ class TaskerAllLoadFailure extends TaskerState {
 
 class TaskerSingleLoadSuccess extends TaskerState {
   final Tasker tasker;
+  final EntityServiceModel entityService;
+
   const TaskerSingleLoadSuccess({
     required this.tasker,
+    required this.entityService,
   });
   @override
   List<Object?> get props => [
         tasker,
+        entityService,
       ];
 }
 

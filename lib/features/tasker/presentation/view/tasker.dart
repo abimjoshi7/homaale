@@ -2,15 +2,15 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/text.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
+import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
+import 'package:cipher/features/tasker/presentation/view/widgets/tasker_task.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
-import '../../../profile/presentation/widgets/profile_kyc_verification_section.dart';
 
 class TaskerProfile extends StatefulWidget {
   const TaskerProfile({super.key});
@@ -27,7 +27,7 @@ class TaskerProfileState extends State<TaskerProfile>
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
 
     super.initState();
   }
@@ -299,9 +299,6 @@ class TaskerProfileState extends State<TaskerProfile>
                     Tab(
                       text: 'Reviews',
                     ),
-                    Tab(
-                      text: 'Documents',
-                    ),
                   ],
                 ),
                 Expanded(
@@ -321,8 +318,9 @@ class TaskerProfileState extends State<TaskerProfile>
                         education: state.tasker.education ?? [],
                         experience: state.tasker.experience ?? [],
                       ),
-                      Container(),
-                      Container(),
+                      TaskerTask(
+                        tasks: state.entityService,
+                      ),
                       Container(),
                     ],
                   ),

@@ -3,6 +3,8 @@ import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../services/data/models/entity_service.dart';
+
 part 'tasker_state.dart';
 
 class TaskerCubit extends Cubit<TaskerState> {
@@ -45,11 +47,20 @@ class TaskerCubit extends Cubit<TaskerState> {
         id: id,
       )
           .then(
-        (value) {
-          emit(
-            TaskerSingleLoadSuccess(
-              tasker: Tasker.fromJson(value),
-            ),
+        (tasker) async {
+          await repo
+              .getSingleTaskerTask(
+            createdBy: id,
+          )
+              .then(
+            (task) {
+              emit(
+                TaskerSingleLoadSuccess(
+                  tasker: Tasker.fromJson(tasker),
+                  entityService: EntityServiceModel.fromJson(task),
+                ),
+              );
+            },
           );
         },
       );

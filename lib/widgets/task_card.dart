@@ -108,7 +108,7 @@ class TaskCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconText(
+                        const IconText(
                           label: '80',
                           iconData: Icons.visibility_outlined,
                         ),
