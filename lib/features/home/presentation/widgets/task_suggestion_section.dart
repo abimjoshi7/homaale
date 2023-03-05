@@ -14,22 +14,23 @@ class TasksSuggestionSection extends StatelessWidget {
       padding: kPadding10,
       child: Column(
         children: [
-          BlocListener<AllTaskListCubit, AllTaskListState>(
-            listener: (context, state) async {
-              if (state is AllTaskListLoadSuccess) {
-                Navigator.pushNamed(
-                  context,
-                  AllTaskPage.routeName,
-                );
-              }
+          SectionHeading(
+            labelName: 'Tasks you may like',
+            onTap: () async {
+              await context.read<AllTaskListCubit>().fetchAllTaskList();
             },
-            child: SectionHeading(
-              labelName: 'Tasks you may like',
-              onTap: () async {
-                await context.read<AllTaskListCubit>().fetchAllTaskList();
-              },
-            ),
           ),
+          // BlocListener<AllTaskListCubit, AllTaskListState>(
+          //   listener: (context, state) async {
+          //     if (state is AllTaskListLoadSuccess) {
+          //       Navigator.pushNamed(
+          //         context,
+          //         AllTaskPage.routeName,
+          //       );
+          //     }
+          //   },
+          //   child: ,
+          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.22,
             child: ListView.builder(
