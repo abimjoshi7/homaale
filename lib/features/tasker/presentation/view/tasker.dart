@@ -79,7 +79,23 @@ class TaskerProfileState extends State<TaskerProfile>
                       right: 16,
                       child: InkWell(
                         onTap: () {
-                          print('click');
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const ListTile(
+                                  leading: Icon(Icons.share),
+                                  title: Text('Share'),
+                                ),
+                                const ListTile(
+                                  leading: Icon(Icons.report),
+                                  title: Text('Report'),
+                                ),
+                                addVerticalSpace(16)
+                              ],
+                            ),
+                          );
                         },
                         child: Card(
                           elevation: 5,

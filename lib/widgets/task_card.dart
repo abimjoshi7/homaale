@@ -14,6 +14,7 @@ class TaskCard extends StatelessWidget {
     this.startRate,
     this.endRate,
     required this.callback,
+    this.count,
   });
 
   final String? imageUrl;
@@ -23,6 +24,7 @@ class TaskCard extends StatelessWidget {
   final String? location;
   final String? startRate;
   final String? endRate;
+  final String? count;
   final VoidCallback callback;
 
   @override
@@ -108,8 +110,8 @@ class TaskCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const IconText(
-                          label: '80',
+                        IconText(
+                          label: count ?? '80',
                           iconData: Icons.visibility_outlined,
                         ),
                       ],

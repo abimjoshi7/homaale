@@ -43,6 +43,7 @@ class _TaskerTaskState extends State<TaskerTask> {
             location: taskList[index].location,
             endHour: Jiffy(taskList[index].createdAt.toString()).jm,
             endDate: Jiffy(taskList[index].endDate.toString()).yMMMMd,
+            count: taskList[index].count.toString(),
             callback: () {},
           );
         },
