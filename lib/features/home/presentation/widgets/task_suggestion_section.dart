@@ -1,8 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task/data/repositories/task_repositories.dart';
-import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/cubit/all_task_list_cubit.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
-import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +14,7 @@ class TasksSuggestionSection extends StatelessWidget {
       padding: kPadding10,
       child: Column(
         children: [
-          BlocListener<TaskBloc, TaskState>(
+          BlocListener<AllTaskListCubit, AllTaskListState>(
             listener: (context, state) async {
               if (state is AllTaskListLoadSuccess) {
                 Navigator.pushNamed(
@@ -28,9 +26,7 @@ class TasksSuggestionSection extends StatelessWidget {
             child: SectionHeading(
               labelName: 'Tasks you may like',
               onTap: () async {
-                context.read<TaskBloc>().add(
-                      AllTaskListLoadInitiated(),
-                    );
+                await context.read<AllTaskListCubit>().fetchAllTaskList();
               },
             ),
           ),

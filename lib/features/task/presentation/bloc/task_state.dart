@@ -57,19 +57,3 @@ class AllTaskListLoadFailure extends TaskState {
   @override
   List<Object?> get props => [];
 }
-
-class SingleTaskLoadSuccess extends TaskState {
-  final TaskModel taskModel;
-  const SingleTaskLoadSuccess({
-    required this.taskModel,
-  });
-  @override
-  List<Object?> get props => [
-        taskModel,
-      ];
-}
-
-class SingleTaskLoadFailure extends TaskState {
-  @override
-  List<Object?> get props => [];
-}

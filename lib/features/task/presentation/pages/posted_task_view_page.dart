@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/cubit/single_entity_task_cubit.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class PostedTaskViewPage extends StatelessWidget {
   static const routeName = '/posted-task-view-page';
@@ -16,10 +18,10 @@ class PostedTaskViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<TaskBloc, TaskState>(
+      body: BlocBuilder<SingleEntityTaskCubit, SingleEntityTaskState>(
         builder: (context, state) {
-          if (state is TaskLoadSuccess) {
-            final data = state.res.result;
+          if (state is SingleEntityTaskLoadSuccess) {
+            final data = state.taskModel;
             return Column(
               children: [
                 addVerticalSpace(50),
@@ -31,7 +33,7 @@ class PostedTaskViewPage extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    data?[0].title ?? '',
+                    data.title ?? '',
                   ),
                 ),
                 const Divider(),
@@ -53,16 +55,30 @@ class PostedTaskViewPage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                CircleAvatar(),
+                                Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        data.createdBy?.profileImage ??
+                                            kServiceImageNImg,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 addHorizontalSpace(10),
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'data1',
+                                      data.title ?? '',
                                       style: kPurpleText16,
                                     ),
                                     Text(
-                                      'data',
+                                      "${data.createdBy?.firstName ?? ''} ${data.createdBy?.lastName ?? ''}",
                                       style: kLightBlueText14,
                                     ),
                                   ],
@@ -94,11 +110,13 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: 'June 9, 2022',
+                              label: DateFormat.yMMMEd().format(
+                                data.createdAt ?? DateTime.now(),
+                              ),
                               iconData: Icons.calendar_today_rounded,
                             ),
                             IconText(
-                              label: 'Buddhanagar, Kathmandu',
+                              label: data.location ?? 'Buddhanagar, Kathmandu',
                               iconData: Icons.location_on_outlined,
                               color: Colors.red,
                             ),
@@ -109,8 +127,8 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: '08:11 PM',
-                              iconData: Icons.calendar_today_rounded,
+                              label: "${data.startTime} ${data.endTime}",
+                              iconData: Icons.watch_later_outlined,
                               color: kColorBlue,
                             ),
                             IconText(
@@ -130,32 +148,75 @@ class PostedTaskViewPage extends StatelessWidget {
                           label: 'Description',
                           child: Wrap(
                             children: [
-                              Text(
+                              Text(data.description ??
                                   'Hiring a reputable professional landscape gardener entail paying for their knowledge, experience, time, equipment, and materials.'),
                             ],
                           ),
                         ),
+                        addVerticalSpace(
+                          10,
+                        ),
                         CustomFormField(
-                          label: 'Requirements',
+                          label: 'My Orders',
+                          isRequired: false,
                           child: Column(
-                            children: List.generate(
-                                3,
-                                (index) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.circle,
-                                            color: kColorSecondary,
-                                            size: 12,
-                                          ),
-                                          addHorizontalSpace(10),
-                                          Text('data')
-                                        ],
-                                      ),
-                                    )),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconText(
+                                  color: kColorBlue,
+                                  label: 'Today, Wednesday',
+                                  iconData: Icons.calendar_today_outlined,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconText(
+                                  color: kColorGreen,
+                                  label: 'Today, Wednesday',
+                                  iconData: Icons.watch_later_outlined,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconText(
+                                  color: kColorSecondary,
+                                  label: 'Today, Wednesday',
+                                  iconData: Icons.attach_money_rounded,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconText(
+                                  color: Colors.red,
+                                  label: 'Today, Wednesday',
+                                  iconData: Icons.location_on_outlined,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        // CustomFormField(
+                        //   label: 'Requirements',
+                        //   child: Column(
+                        //     children: List.generate(
+                        //         3,
+                        //         (index) => Padding(
+                        //               padding: const EdgeInsets.all(8.0),
+                        //               child: Row(
+                        //                 children: [
+                        //                   Icon(
+                        //                     Icons.circle,
+                        //                     color: kColorSecondary,
+                        //                     size: 12,
+                        //                   ),
+                        //                   addHorizontalSpace(10),
+                        //                   Text('data')
+                        //                 ],
+                        //               ),
+                        //             )),
+                        //   ),
+                        // ),
                         Expanded(
                           child: ClientTaskViewTabSection(),
                         ),
@@ -163,10 +224,15 @@ class PostedTaskViewPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                PriceBookFooterSection(
+                  onPressed: () {},
+                  buttonLabel: 'Reschedule',
+                  theLeftWidget: Text('Do you want to reschedule?'),
+                ),
               ],
             );
           }
-          return const SizedBox.shrink();
+          return const Placeholder();
         },
       ),
     );

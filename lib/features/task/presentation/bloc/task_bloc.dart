@@ -66,52 +66,5 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         }
       },
     );
-
-    on<AllTaskListLoadInitiated>(
-      (event, emit) async {
-        try {
-          await repo.fetchAllTaskList().then(
-                (value) => emit(
-                  AllTaskListLoadSuccess(
-                    res: AllTaskList.fromJson(
-                      value,
-                    ),
-                  ),
-                ),
-              );
-        } catch (e) {
-          emit(
-            AllTaskListLoadFailure(),
-          );
-        }
-      },
-    );
-
-    on<SingleTaskLoadInititated>(
-      (event, emit) async {
-        try {
-          await repo.fetchSingleTask(id: event.id).then(
-            (value) {
-              print('-----------------');
-              TaskModel.fromJson(
-                value as Map<String, dynamic>,
-              );
-              // emit(
-              //   SingleTaskLoadSuccess(
-              //     taskModel: TaskModel.fromJson(
-              //       value,
-              //     ),
-              //   ),
-              // );
-            },
-          );
-        } catch (e) {
-          print(e);
-          emit(
-            SingleTaskLoadFailure(),
-          );
-        }
-      },
-    );
   }
 }

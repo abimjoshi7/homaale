@@ -55,7 +55,7 @@ class TaskModel {
   final List<dynamic>? images;
   final List<dynamic>? videos;
   final dynamic rating;
-  final int? count;
+  final num? count;
   final List<Offer>? offers;
   final List<dynamic>? endorsements;
   final bool? isRedeemable;
@@ -65,33 +65,33 @@ class TaskModel {
   final dynamic deletedAt;
   final String? title;
   final String? description;
-  final List<String>? highlights;
+  final dynamic highlights;
   final String? budgetType;
-  final double? budgetFrom;
-  final double? budgetTo;
+  final num? budgetFrom;
+  final num? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final dynamic startTime;
   final dynamic endTime;
   final bool? shareLocation;
   final bool? isNegotiable;
-  final int? revisions;
+  final num? revisions;
   final dynamic recursionType;
-  final int? viewsCount;
+  final num? viewsCount;
   final String? location;
   final bool? isProfessional;
   final bool? isOnline;
   final bool? isRequested;
   final String? discountType;
-  final double? discountValue;
-  final List<String>? extraData;
-  final int? noOfReservation;
+  final num? discountValue;
+  final dynamic extraData;
+  final num? noOfReservation;
   final String? slug;
   final bool? isActive;
   final bool? needsApproval;
   final bool? isEndorsed;
   final dynamic merchant;
-  final int? avatar;
+  final num? avatar;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         id: json["id"] as String?,
@@ -126,7 +126,7 @@ class TaskModel {
                 json["videos"]!.map((x) => x) as Iterable,
               ),
         rating: json["rating"],
-        count: json["count"] as int?,
+        count: json["count"] as num?,
         offers: json["offers"] == null
             ? []
             : List<Offer>.from(
@@ -156,12 +156,11 @@ class TaskModel {
         deletedAt: json["deleted_at"],
         title: json["title"] as String?,
         description: json["description"] as String?,
-        highlights: json["highlights"] == null
-            ? null
-            : json["highlights"] as List<String>?,
+        highlights:
+            json["highlights"] == null ? null : json["highlights"] as dynamic,
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"] as double?,
-        budgetTo: json["budget_to"] as double?,
+        budgetFrom: json["budget_from"] as num?,
+        budgetTo: json["budget_to"] as num?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(
@@ -176,25 +175,24 @@ class TaskModel {
         endTime: json["end_time"],
         shareLocation: json["share_location"] as bool?,
         isNegotiable: json["is_negotiable"] as bool?,
-        revisions: json["revisions"] as int?,
+        revisions: json["revisions"] as num?,
         recursionType: json["recursion_type"],
-        viewsCount: json["views_count"] as int?,
+        viewsCount: json["views_count"] as num?,
         location: json["location"] as String?,
         isProfessional: json["is_professional"] as bool?,
         isOnline: json["is_online"] as bool?,
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
-        discountValue: json["discount_value"] as double?,
-        extraData: json["extra_data"] == null
-            ? null
-            : json["extra_data"] as List<String>?,
-        noOfReservation: json["no_of_reservation"] as int?,
+        discountValue: json["discount_value"] as num?,
+        extraData:
+            json["extra_data"] == null ? null : json["extra_data"] as dynamic,
+        noOfReservation: json["no_of_reservation"] as num?,
         slug: json["slug"] as String?,
         isActive: json["is_active"] as bool?,
         needsApproval: json["needs_approval"] as bool?,
         isEndorsed: json["is_endorsed"] as bool?,
         merchant: json["merchant"],
-        avatar: json["avatar"] as int?,
+        avatar: json["avatar"] as num?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -263,17 +261,17 @@ class City {
     this.country,
   });
 
-  final int? id;
+  final num? id;
   final String? name;
-  final int? latitude;
-  final int? longitude;
+  final num? latitude;
+  final num? longitude;
   final Country? country;
 
   factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json["id"] as int?,
+        id: json["id"] as num?,
         name: json["name"] as String?,
-        latitude: json["latitude"] as int?,
-        longitude: json["longitude"] as int?,
+        latitude: json["latitude"] as num?,
+        longitude: json["longitude"] as num?,
         country: json["country"] == null
             ? null
             : Country.fromJson(
@@ -429,12 +427,12 @@ class Badge {
     this.title,
   });
 
-  final int? id;
+  final num? id;
   final String? image;
   final String? title;
 
   factory Badge.fromJson(Map<String, dynamic> json) => Badge(
-        id: json["id"] as int?,
+        id: json["id"] as num?,
         image: json["image"] as String?,
         title: json["title"] as String?,
       );
@@ -482,23 +480,23 @@ class Offer {
     this.free,
   });
 
-  final int? id;
+  final num? id;
   final String? title;
   final String? description;
   final String? image;
   final String? offerType;
   final String? code;
-  final int? offerRule;
+  final num? offerRule;
   final String? free;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
-        id: json["id"] as int?,
+        id: json["id"] as num?,
         title: json["title"] as String?,
         description: json["description"] as String?,
         image: json["image"] as String?,
         offerType: json["offer_type"] as String?,
         code: json["code"] as String?,
-        offerRule: json["offer_rule"] as int?,
+        offerRule: json["offer_rule"] as num?,
         free: json["free"] as String?,
       );
 
@@ -567,15 +565,15 @@ class Category {
     this.slug,
   });
 
-  final int? id;
+  final num? id;
   final String? name;
-  final int? level;
+  final num? level;
   final String? slug;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"] as int?,
+        id: json["id"] as num?,
         name: json["name"] as String?,
-        level: json["level"] as int?,
+        level: json["level"] as num?,
         slug: json["slug"] as String?,
       );
 

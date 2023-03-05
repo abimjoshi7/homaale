@@ -6,6 +6,8 @@ import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/cubit/single_entity_task_cubit.dart';
+import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -32,35 +34,33 @@ class BookingsMyOrder extends StatelessWidget {
             child: ListView.builder(
               padding: EdgeInsets.zero,
               itemBuilder: (context, index) =>
-                  BlocListener<TaskBloc, TaskState>(
+                  BlocListener<SingleEntityTaskCubit, SingleEntityTaskState>(
                 listener: (context, state) {
-                  // TODO: implement listener
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    context.read<TaskBloc>().add(
-                          SingleTaskLoadInititated(
-                            id: data?[index].id ?? 'No ID',
-                          ),
-                        );
-                    // print(index);
-                    // print(state.res.result?.first.id);
+                  if (state is SingleEntityTaskLoadSuccess) {
                     // Navigator.pushNamed(
                     //   context,
                     //   PostedTaskViewPage.routeName,
                     // );
+                  }
+                },
+                child: GestureDetector(
+                  onTap: () async {
+                    await context
+                        .read<SingleEntityTaskCubit>()
+                        .fetchSingleEntityTask(
+                          data?[index].id ?? 'No ID',
+                        )
+                        .then(
+                          (value) => Navigator.pushNamed(
+                            context,
+                            PostedTaskViewPage.routeName,
+                          ),
+                        );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: BookingsServiceCard(
-                      deleteTap: () {
-                        print(state.res.toJson());
-                        // context.read<BookingsBloc>().add(
-                        //       ServiceBookingDeleteInitiated(
-                        //           id: state.res.result?[index].id.to,
-                        //           ),
-                        //     );
-                      },
+                      deleteTap: () {},
                       serviceName: state.res.result?[index].title,
                       providerName:
                           "${state.res.result?[index].createdBy?.firstName} ${state.res.result?[index].createdBy?.lastName}",

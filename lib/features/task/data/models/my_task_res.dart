@@ -102,7 +102,7 @@ class Result {
   final DateTime? updatedAt;
   final String? title;
   final String? description;
-  final Map<String, String>? highlights;
+  final dynamic highlights;
   final String? budgetType;
   final num? budgetFrom;
   final num? budgetTo;
@@ -121,7 +121,7 @@ class Result {
   final bool? isRequested;
   final String? discountType;
   final double? discountValue;
-  final Map<String, dynamic>? extraData;
+  final dynamic extraData;
   final int? noOfReservation;
   final String? slug;
   final bool? isActive;
@@ -175,14 +175,15 @@ class Result {
               ),
         title: json["title"] as String?,
         description: json["description"] as String?,
-        highlights: Map.from(
-          json["highlights"] as Map<String, dynamic>,
-        ).map(
-          (k, v) => MapEntry<String, String>(
-            k as String,
-            v as String,
-          ),
-        ),
+        highlights: [],
+        // highlights: Map.from(
+        //   json["highlights"] as Map<String, dynamic>,
+        // ).map(
+        //   (k, v) => MapEntry<String, String>(
+        //     k as String,
+        //     v as String,
+        //   ),
+        // ),
         budgetType: json["budget_type"] as String?,
         budgetFrom: json["budget_from"] as num?,
         budgetTo: json["budget_to"] as num?,
@@ -209,9 +210,8 @@ class Result {
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
         discountValue: json["discount_value"] as double?,
-        extraData: json["extra_data"] == null
-            ? null
-            : json["extra_data"] as Map<String, dynamic>,
+        extraData:
+            json["extra_data"] == null ? null : json["extra_data"] as dynamic,
         noOfReservation: json["no_of_reservation"] as int?,
         slug: json["slug"] as String?,
         isActive: json["is_active"] as bool?,
@@ -236,12 +236,13 @@ class Result {
         "updated_at": updatedAt?.toIso8601String(),
         "title": title,
         "description": description,
-        "highlights": Map.from(highlights!).map(
-          (k, v) => MapEntry<String, dynamic>(
-            k as String,
-            v,
-          ),
-        ),
+        "highlights": [],
+        // "highlights": Map.from(highlights!).map(
+        //   (k, v) => MapEntry<String, dynamic>(
+        //     k as String,
+        //     v,
+        //   ),
+        // ),
         "budget_type": budgetType,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
