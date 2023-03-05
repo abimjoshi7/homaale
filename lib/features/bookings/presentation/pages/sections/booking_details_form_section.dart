@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -545,9 +546,9 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                   ),
                 ),
               ),
-              BlocListener<BookingsBloc, BookingsState>(
+              BlocListener<BookingsBloc, BookingState>(
                 listener: (context, state) {
-                  if (state is ServiceBookingAddSuccess) {
+                  if (state.states == TheStates.success) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
@@ -564,7 +565,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                       ),
                     );
                   }
-                  if (state is ServiceBookingAddFailure) {
+                  if (state.states == TheStates.failure) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
@@ -13,15 +14,12 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final repo = TaskRepositories();
 
-  TaskBloc()
-      : super(
-          TaskInitial(),
-        ) {
+  TaskBloc() : super(const TaskState()) {
     on<TaskAddInitiated>(
       (event, emit) async {
         try {
           emit(
-            TaskInitial(),
+            state.copyWith(theState: TheStates.initial),
           );
           await repo
               .postTask(
@@ -29,8 +27,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               )
               .then(
                 (value) => emit(
-                  TaskAddSuccess(
-                    res: PostTaskRes.fromJson(
+                  state.copyWith(
+                    theState: TheStates.success,
+                    postTaskRes: PostTaskRes.fromJson(
                       value,
                     ),
                   ),
@@ -38,7 +37,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               );
         } catch (e) {
           emit(
-            TaskAddFailure(),
+            state.copyWith(theState: TheStates.failure),
           );
         }
       },
@@ -48,12 +47,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) async {
         try {
           emit(
-            TaskInitial(),
+            state.copyWith(theState: TheStates.initial),
           );
           await repo.fetchMyCreatedTask().then(
                 (value) => emit(
-                  TaskLoadSuccess(
-                    res: MyTaskRes.fromJson(
+                  state.copyWith(
+                    theState: TheStates.success,
+                    myTaskRes: MyTaskRes.fromJson(
                       value,
                     ),
                   ),
@@ -61,7 +61,59 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               );
         } catch (e) {
           emit(
-            TaskLoadFailure(),
+            state.copyWith(theState: TheStates.failure),
+          );
+        }
+      },
+    );
+
+    on<AllTaskLoadInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(theState: TheStates.initial),
+          );
+          await repo.fetchAllTaskList().then(
+                (value) => emit(
+                  state.copyWith(
+                    theState: TheStates.success,
+                    allTaskList: AllTaskList.fromJson(
+                      value,
+                    ),
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(theState: TheStates.failure),
+          );
+        }
+      },
+    );
+
+    on<SingleEntityTaskLoadInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              theState: TheStates.initial,
+            ),
+          );
+          await repo.fetchSingleTask(id: event.id).then(
+                (value) => emit(
+                  state.copyWith(
+                    theState: TheStates.success,
+                    taskModel: TaskModel.fromJson(
+                      value,
+                    ),
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              theState: TheStates.failure,
+            ),
           );
         }
       },

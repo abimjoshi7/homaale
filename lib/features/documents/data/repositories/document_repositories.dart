@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/features/documents/models/tasker_certification_req.dart';
-import 'package:cipher/features/documents/models/tasker_education_req.dart';
-import 'package:cipher/features/documents/models/tasker_experience_req.dart';
-import 'package:cipher/features/documents/models/tasker_portfolio_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_certification_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_education_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_experience_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 
 class DocumentRepositories {
   final _dio = DioHelper();

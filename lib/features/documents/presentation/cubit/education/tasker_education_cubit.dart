@@ -1,5 +1,5 @@
-import 'package:cipher/features/documents/models/tasker_education_req.dart';
-import 'package:cipher/features/documents/repositories/document_repositories.dart';
+import 'package:cipher/features/documents/data/models/tasker_education_req.dart';
+import 'package:cipher/features/documents/data/repositories/document_repositories.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

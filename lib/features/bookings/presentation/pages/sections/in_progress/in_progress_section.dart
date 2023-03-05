@@ -45,7 +45,7 @@ class _InProgressSectionState extends State<InProgressSection> {
                   );
                   if (selectedIndex == 1) {
                     context.read<TaskBloc>().add(
-                          MyTaskLoadInitiated(),
+                          AllTaskLoadInitiated(),
                         );
                   }
                 },

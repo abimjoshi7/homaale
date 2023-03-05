@@ -1,59 +1,44 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'task_bloc.dart';
 
-abstract class TaskState extends Equatable {
-  const TaskState();
-}
-
-class TaskInitial extends TaskState {
-  @override
-  List<Object?> get props => [];
-}
-
-class TaskAddSuccess extends TaskState {
-  final PostTaskRes res;
-  const TaskAddSuccess({
-    required this.res,
+class TaskState extends Equatable {
+  final TheStates? theState;
+  final PostTaskRes? postTaskRes;
+  final MyTaskRes? myTaskRes;
+  final AllTaskList? allTaskList;
+  final TaskModel? taskModel;
+  const TaskState({
+    this.theState = TheStates.initial,
+    this.postTaskRes,
+    this.myTaskRes,
+    this.allTaskList,
+    this.taskModel,
   });
-  @override
-  List<Object?> get props => [
-        res,
-      ];
-}
 
-class TaskAddFailure extends TaskState {
   @override
-  List<Object?> get props => [];
-}
+  // TODO: implement props
+  List<Object?> get props {
+    return [
+      theState,
+      postTaskRes,
+      myTaskRes,
+      allTaskList,
+      taskModel,
+    ];
+  }
 
-class TaskLoadSuccess extends TaskState {
-  final MyTaskRes res;
-  const TaskLoadSuccess({
-    required this.res,
-  });
-  @override
-  List<Object?> get props => [
-        res,
-      ];
-}
-
-class TaskLoadFailure extends TaskState {
-  @override
-  List<Object?> get props => [];
-}
-
-class AllTaskListLoadSuccess extends TaskState {
-  final AllTaskList res;
-  const AllTaskListLoadSuccess({
-    required this.res,
-  });
-  @override
-  List<Object?> get props => [
-        res,
-      ];
-}
-
-class AllTaskListLoadFailure extends TaskState {
-  @override
-  List<Object?> get props => [];
+  TaskState copyWith({
+    TheStates? theState,
+    PostTaskRes? postTaskRes,
+    MyTaskRes? myTaskRes,
+    AllTaskList? allTaskList,
+    TaskModel? taskModel,
+  }) {
+    return TaskState(
+      theState: theState ?? this.theState,
+      postTaskRes: postTaskRes ?? this.postTaskRes,
+      myTaskRes: myTaskRes ?? this.myTaskRes,
+      allTaskList: allTaskList ?? this.allTaskList,
+      taskModel: taskModel ?? this.taskModel,
+    );
+  }
 }

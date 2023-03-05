@@ -39,7 +39,7 @@ class TaskRepositories {
     }
   }
 
-  Future<dynamic> fetchSingleTask({
+  Future<Map<String, dynamic>> fetchSingleTask({
     required String id,
   }) async {
     try {
@@ -47,7 +47,7 @@ class TaskRepositories {
         url: 'task/entity/service/$id',
         token: CacheHelper.accessToken,
       );
-      return res;
+      return res as Map<String, dynamic>;
     } catch (e) {
       log(
         e.toString(),

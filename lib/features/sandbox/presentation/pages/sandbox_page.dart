@@ -200,39 +200,41 @@ class SandboxPage extends StatelessWidget {
             ),
           ),
           addVerticalSpace(20),
-          Center(
-            child: BlocBuilder<BookingsBloc, BookingsState>(
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  callback: () async {
-                    // context.read<BookingsBloc>().add(
-                    //       ServiceBookingListInitiated(),
-                    //     );
-                    if (state is ServiceBookingLoadSuccess) {
-                      print(
-                        state.myBookingList.result?.first.description,
-                      );
-                    }
-                  },
-                  label: 'Get Bookings',
-                );
-              },
-            ),
-          ),
-          addVerticalSpace(20),
-          Center(
-            child: BlocBuilder<TaskBloc, TaskState>(
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  callback: () async {
-                    context.read<TaskBloc>().add(MyTaskLoadInitiated());
-                    print(23);
-                  },
-                  label: 'Get My Tasks',
-                );
-              },
-            ),
-          ),
+          // Center(
+          //   child: BlocBuilder<BookingsBloc, BookingsState>(
+          //     builder: (context, state) {
+          //       return CustomElevatedButton(
+          //         callback: () async {
+          //           // context.read<BookingsBloc>().add(
+          //           //       ServiceBookingListInitiated(),
+          //           //     );
+          //           if (state is ServiceBookingLoadSuccess) {
+          //             print(
+          //               state.myBookingList.result?.first.description,
+          //             );
+          //           }
+          //         },
+          //         label: 'Get Bookings',
+          //       );
+          //     },
+          //   ),
+          // ),
+          // addVerticalSpace(20),
+          // Center(
+          //   child: BlocBuilder<TaskBloc, TaskState>(
+          //     builder: (context, state) {
+          //       return CustomElevatedButton(
+          //         callback: () async {
+          //           context
+          //               .read<TaskBloc>()
+          //               .add(SingleEntityTaskLoadInitiated());
+          //           print(23);
+          //         },
+          //         label: 'Get My Tasks',
+          //       );
+          //     },
+          //   ),
+          // ),
           addVerticalSpace(20),
           Center(
             child: BlocBuilder<TaskBloc, TaskState>(

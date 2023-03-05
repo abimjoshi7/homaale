@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
@@ -709,7 +710,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           addVerticalSpace(20),
                           BlocConsumer<TaskBloc, TaskState>(
                             listener: (context, state) {
-                              if (state is TaskAddSuccess) {
+                              if (state.theState == TheStates.success) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
@@ -726,7 +727,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   ),
                                 );
                               }
-                              if (state is TaskAddFailure) {
+                              if (state.theState == TheStates.failure) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
