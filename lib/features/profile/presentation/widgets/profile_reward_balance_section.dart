@@ -1,7 +1,7 @@
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileRewardBalanceSection extends StatelessWidget {
   const ProfileRewardBalanceSection({

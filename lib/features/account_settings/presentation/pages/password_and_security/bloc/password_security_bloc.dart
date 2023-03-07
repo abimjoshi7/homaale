@@ -1,7 +1,6 @@
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/models/password_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'password_security_event.dart';
 part 'password_security_state.dart';

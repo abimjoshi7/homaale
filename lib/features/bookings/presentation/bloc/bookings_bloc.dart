@@ -1,11 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'bookings_event.dart';
 part 'bookings_state.dart';

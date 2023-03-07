@@ -1,7 +1,6 @@
 import 'package:cipher/features/services/data/models/entity_service.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'entity_service_event.dart';
 part 'entity_service_state.dart';

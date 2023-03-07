@@ -5,8 +5,8 @@ import 'package:cipher/features/services/presentation/pages/sections/packages_of
 import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
 import 'package:cipher/features/services/presentation/widgets/rating_review_section.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ServiceProviderPage extends StatelessWidget {
   static const String routeName = '/service_provider_page';

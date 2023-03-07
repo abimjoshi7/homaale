@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/services/data/models/service_model.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'single_entity_service_state.dart';
 

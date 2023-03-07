@@ -32,7 +32,7 @@
 
 //Reponse: {status: success, message: Profile Successfully created}
 
-import 'package:dio/dio.dart';
+import 'package:dependencies/dependencies.dart';
 
 class TaskerProfileCreateReq {
   TaskerProfileCreateReq({

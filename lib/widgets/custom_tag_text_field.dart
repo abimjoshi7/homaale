@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 class CustomTagTextField extends StatelessWidget {
   const CustomTagTextField({

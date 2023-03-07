@@ -2,8 +2,8 @@ import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 
 class TaskerExperienceSection extends StatelessWidget {
   const TaskerExperienceSection({super.key, required this.experience});

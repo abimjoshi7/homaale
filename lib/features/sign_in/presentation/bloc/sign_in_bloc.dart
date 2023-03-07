@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/models/user_login_res.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';

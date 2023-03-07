@@ -1,9 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'package:cipher/features/services/data/models/entity_service.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
-import 'package:equatable/equatable.dart';
-
-import '../../../services/data/models/entity_service.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'tasker_state.dart';
 

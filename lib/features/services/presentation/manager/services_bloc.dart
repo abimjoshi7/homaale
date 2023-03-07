@@ -1,10 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/services/data/models/add_service_req.dart';
 import 'package:cipher/features/services/data/models/add_service_res.dart';
 import 'package:cipher/features/services/data/models/my_created_services_res.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'services_event.dart';
 part 'services_state.dart';

@@ -9,13 +9,8 @@ import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart'
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dio/dio.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 class ProfileCompletionForm extends StatefulWidget {
   const ProfileCompletionForm({

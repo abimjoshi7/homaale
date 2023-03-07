@@ -4,12 +4,9 @@ import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
-import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
-import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class BookingsMyTask extends StatelessWidget {
   const BookingsMyTask({

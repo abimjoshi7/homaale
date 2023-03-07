@@ -4,8 +4,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/onboarding/presentation/widgets/onboarding_main_body.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/widgets/custom_header.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});

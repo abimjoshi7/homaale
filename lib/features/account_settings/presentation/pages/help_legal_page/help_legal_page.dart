@@ -5,8 +5,8 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_topics.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HelpAndLegalPage extends StatefulWidget {
   const HelpAndLegalPage({super.key});

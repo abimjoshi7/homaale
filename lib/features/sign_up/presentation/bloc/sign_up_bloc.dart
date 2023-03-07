@@ -1,7 +1,6 @@
 import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';

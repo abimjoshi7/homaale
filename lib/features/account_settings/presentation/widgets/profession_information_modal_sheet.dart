@@ -3,9 +3,8 @@ import 'package:cipher/features/account_settings/presentation/pages/tax_calculat
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:textfield_tags/textfield_tags.dart';
 
 class ProfessionalInformationModalSheet extends StatefulWidget {
   const ProfessionalInformationModalSheet({super.key});

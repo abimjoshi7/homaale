@@ -1,8 +1,7 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';

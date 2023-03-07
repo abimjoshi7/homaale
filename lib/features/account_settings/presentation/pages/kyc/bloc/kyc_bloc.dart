@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/get_kyc_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'kyc_event.dart';
 part 'kyc_state.dart';

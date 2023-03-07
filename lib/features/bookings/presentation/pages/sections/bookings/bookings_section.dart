@@ -2,8 +2,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/sections/bookings/bookings.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookingsSection extends StatefulWidget {
   const BookingsSection({super.key});

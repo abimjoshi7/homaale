@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:dependencies/dependencies.dart';
 
 class CacheHelper {
   static String? accessToken;
