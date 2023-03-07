@@ -49,6 +49,12 @@ class PopularTaskerSection extends StatelessWidget {
                         context.read<TaskerCubit>().loadSingleTasker(
                               data?[index].user?.id ?? '',
                             );
+                        context.read<TaskerCubit>().loadSingleTasker(
+                              data?[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerReviews(
+                              data?[index].user?.id ?? '',
+                            );
 
                         Navigator.pushNamed(
                           context,

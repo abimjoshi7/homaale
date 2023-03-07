@@ -48,12 +48,14 @@ part of 'tasker_cubit.dart';
 class TaskerState extends Equatable {
   final TheStates? states;
   final TaskerListRes? taskerListRes;
+  final TaskerReviewResponse? taskerReviewsResponse;
   final Tasker? tasker;
   final EntityServiceModel? entityService;
 
   const TaskerState({
     this.states = TheStates.initial,
     this.taskerListRes,
+    this.taskerReviewsResponse,
     this.tasker,
     this.entityService,
   });
@@ -61,17 +63,28 @@ class TaskerState extends Equatable {
   TaskerState copyWith({
     TheStates? states,
     TaskerListRes? taskerListRes,
+    TaskerReviewResponse? taskerReviewsResponse,
     Tasker? tasker,
     EntityServiceModel? entityService,
   }) {
     return TaskerState(
       states: states ?? this.states,
       taskerListRes: taskerListRes ?? this.taskerListRes,
+      taskerReviewsResponse:
+          taskerReviewsResponse ?? this.taskerReviewsResponse,
       tasker: tasker ?? this.tasker,
       entityService: entityService ?? this.entityService,
     );
   }
 
   @override
-  List<Object?> get props => [states, taskerListRes, tasker, entityService];
+  List<Object?> get props {
+    return [
+      states,
+      taskerListRes,
+      taskerReviewsResponse,
+      tasker,
+      entityService,
+    ];
+  }
 }
