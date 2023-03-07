@@ -15,4 +15,14 @@ void main() async {
 }
 
 
-//TODO: Hydrated, Infinite, Search on Dropdownfield, intial show NPR, center aligned customtoast
+//TODO:
+// * 1) Infinite,
+// * 2) Search on Dropdownfield,
+// * 3) location -> cipher
+// * 4) location -> not updatable
+// * 5) Complete Profile -> Interest Sorting
+// * 6) Complete Profile -> Time of the day showing
+// * 7) Complete Profile -> Country, city, language, currency mandatory field with initial value
+// * 8) Complete Profile -> Designation -> Job Profile
+// * 8) Complete Profile -> Visibility, Task Prefs (Not Mandatory)
+// * 8) Complete Profile -> Designation -> Job Profile

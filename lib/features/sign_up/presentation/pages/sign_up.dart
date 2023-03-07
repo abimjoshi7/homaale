@@ -177,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                         ),
-                        addVerticalSpace(8),
+                        addVerticalSpace(16),
                         Column(
                           children: [
                             Row(
@@ -210,121 +210,135 @@ class _SignUpPageState extends State<SignUpPage> {
                             )
                           ],
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomCheckBox(
-                              isChecked: isChecked,
-                              onTap: () => setState(() {
-                                isChecked = !isChecked;
-                              }),
-                            ),
-                            addHorizontalSpace(8),
-                            FittedBox(
-                              child: Text(
-                                'By signing up, you agree to our terms of use and privacy policy.',
+                        addVerticalSpace(16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomCheckBox(
+                                isChecked: isChecked,
+                                onTap: () => setState(() {
+                                  isChecked = !isChecked;
+                                }),
                               ),
-                            ),
-                          ],
+                              addHorizontalSpace(8),
+                              const Flexible(
+                                child: AutoSizeText(
+                                  minFontSize: 13,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  'By signing up, you agree to our terms of use and privacy policy.',
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        BlocConsumer<SignupBloc, SignUpState>(
-                          listener: (context, state) async {
-                            final x = await CacheHelper.getCachedString(
-                              kErrorLog,
-                            );
-                            if (state is SignUpWithEmailSuccess) {
-                              if (!mounted) return;
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                  heading: 'Success',
-                                  content:
-                                      'Succesfully signed up. Please verify your email',
-                                  onTap: () {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      SignInPage.routeName,
-                                      (route) => false,
-                                    );
-                                  },
-                                  isSuccess: true,
-                                ),
+                        addVerticalSpace(32),
+                        Flexible(
+                          child: BlocConsumer<SignupBloc, SignUpState>(
+                            listener: (context, state) async {
+                              final x = await CacheHelper.getCachedString(
+                                kErrorLog,
                               );
-                            }
-                            if (state is SignUpWithPhoneSuccess) {
-                              if (!mounted) return;
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                  heading: 'Success',
-                                  content: 'Succesfully signed up.',
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      OtpSignUp.routeName,
-                                      arguments: {
-                                        'phone':
-                                            '+977${phoneNumberController.text}',
-                                        'password': passwordController.text,
-                                      },
-                                    );
-                                  },
-                                  isSuccess: true,
-                                ),
-                              );
-                            }
-                            if (state is SignUpFailure) {
-                              if (!mounted) return;
-                              await showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                  heading: 'Failure',
-                                  content: x ?? '',
-                                  isSuccess: false,
-                                  onTap: () {},
-                                ),
-                              ).then(
-                                (value) => context.read<SignupBloc>().add(
-                                      SignUpWithPhoneSelected(),
-                                    ),
-                              );
-                            }
-                          },
-                          builder: (context, state) {
-                            return CustomElevatedButton(
-                              callback: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState!.save();
-                                  if (isChecked == false) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Please agree to the terms and policy.',
-                                        ),
+                              if (state is SignUpWithEmailSuccess) {
+                                if (!mounted) return;
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                    heading: 'Success',
+                                    content:
+                                        'Succesfully signed up. Please verify your email',
+                                    onTap: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        SignInPage.routeName,
+                                        (route) => false,
+                                      );
+                                    },
+                                    isSuccess: true,
+                                  ),
+                                );
+                              }
+                              if (state is SignUpWithPhoneSuccess) {
+                                if (!mounted) return;
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                    heading: 'Success',
+                                    content: 'Succesfully signed up.',
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        OtpSignUp.routeName,
+                                        arguments: {
+                                          'phone':
+                                              '+977${phoneNumberController.text}',
+                                          'password': passwordController.text,
+                                        },
+                                      );
+                                    },
+                                    isSuccess: true,
+                                  ),
+                                );
+                              }
+                              if (state is SignUpFailure) {
+                                if (!mounted) return;
+                                await showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                    heading: 'Failure',
+                                    content: x ?? '',
+                                    isSuccess: false,
+                                    onTap: () {},
+                                  ),
+                                ).then(
+                                  (value) => context.read<SignupBloc>().add(
+                                        SignUpWithPhoneSelected(),
                                       ),
-                                    );
-                                  } else {
-                                    if (state is SignUpPhoneInitial) {
-                                      context.read<SignupBloc>().add(
-                                            SignUpWithPhoneInitiated(
-                                              phone: phoneNumberController.text,
-                                              password: passwordController.text,
-                                            ),
-                                          );
-                                    } else if (state is SignUpEmailInitial) {
-                                      context.read<SignupBloc>().add(
-                                            SignUpWithEmailInitiated(
-                                              email: emailController.text,
-                                              password: passwordController.text,
-                                            ),
-                                          );
+                                );
+                              }
+                            },
+                            builder: (context, state) {
+                              return CustomElevatedButton(
+                                callback: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    if (isChecked == false) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Please agree to the terms and policy.',
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      if (state is SignUpPhoneInitial) {
+                                        context.read<SignupBloc>().add(
+                                              SignUpWithPhoneInitiated(
+                                                phone:
+                                                    phoneNumberController.text,
+                                                password:
+                                                    passwordController.text,
+                                              ),
+                                            );
+                                      } else if (state is SignUpEmailInitial) {
+                                        context.read<SignupBloc>().add(
+                                              SignUpWithEmailInitiated(
+                                                email: emailController.text,
+                                                password:
+                                                    passwordController.text,
+                                              ),
+                                            );
+                                      }
                                     }
                                   }
-                                }
-                              },
-                              label: 'Sign Up',
-                            );
-                          },
+                                },
+                                label: 'Sign Up',
+                              );
+                            },
+                          ),
                         ),
                         const SignUpFooterSection(),
                       ],

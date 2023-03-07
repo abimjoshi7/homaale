@@ -3,15 +3,20 @@ const taskPath = "/task/entity/service/";
 const taskerPath = "/tasker/";
 const careerPath = "/career/vacancy/";
 const localePath = "/locale/client/";
-const bookings = "/task/entity/service-booking/";
-const myBookings = "/task/entity/service-mybooking/";
+
+// * bookings
+const kCreateBookings = "/task/entity/service-booking/";
+const kCreateBookingsApproval = "/task/entity/service-booking/approval/";
+const kCreateBookingsDecline = "/task/entity/service-booking/reject/";
+const kCreateBookingsCancel = "/task/entity/service-booking/cancel/";
+const kMyBookingList = "/task/entity/service-mybooking/";
 const tasks = "/task/entity/service/";
 const support = "/support/";
 const payment = "/payment/";
 const offer = "/offer/";
 const event = "/event/";
 
-Map<String, Object> urls = {
+Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",
     'signup': "/user/signup/",
@@ -22,25 +27,20 @@ Map<String, Object> urls = {
   },
   "task": {
     'list': taskPath,
-    'myBookings': '$myBookings?is_requested=false',
+    'myBookings': '$kMyBookingList?is_requested=false',
     'service': '$taskPath?is_requested=false',
     'service_per_user': '$taskPath?is_requested=false&user=',
     'task': '$taskPath?is_requested=true',
     'my_task': '$tasks?is_requested=true',
-    'requested_task': '$myBookings?is_requested=true',
-    'my_applicants': bookings,
+    'requested_task': '$kMyBookingList?is_requested=true',
     'taskApplicantsNumber': '${tasks}tasker-count',
     'approvedTaskList': '${tasks}task/list/',
     'application': "/task/application",
-    'cancelApplication': 'task/entity/service-booking/cancel',
     'assigneeDetail': "task/asignee-task-detail/",
     'assignerDetail': "task/assigner-task-detail/",
     'assignerApplication': "task",
     'heroCategory': "task/hero-category",
-    'approval': 'task/entity/service-booking/approval/',
-    'decline': 'task/entity/service-booking/reject/',
     'status': '${taskPath}task/status/',
-    'booking': bookings,
   },
   "profile": {
     'portfolio': '${taskerPath}portfolio/',

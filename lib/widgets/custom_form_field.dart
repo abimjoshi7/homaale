@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -26,21 +25,25 @@ class CustomFormField extends StatelessWidget {
               label ?? '',
               style: kPurpleText16,
             ),
-            kWidth5,
+            addHorizontalSpace(
+              4,
+            ),
             if (isRequired == true)
               const Text(
                 '*',
                 style: TextStyle(
                   color: Colors.red,
-                  fontSize: 18,
+                  fontSize: 15,
                 ),
               )
             else
               const Text(''),
           ],
         ),
-        child ?? const SizedBox.shrink(),
-        addVerticalSpace(10),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: child ?? const SizedBox.shrink(),
+        ),
       ],
     );
   }

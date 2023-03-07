@@ -12,8 +12,17 @@ class DioHelper {
   static void init() {
     final options = BaseOptions(
       baseUrl: sandbox,
+<<<<<<< HEAD
       connectTimeout: const Duration(seconds: 20 * 1000),
       receiveTimeout: const Duration(seconds: 20 * 1000),
+=======
+      connectTimeout: const Duration(
+        seconds: 10,
+      ),
+      receiveTimeout: const Duration(
+        seconds: 10,
+      ),
+>>>>>>> e0bd9b5 (complete profile fix)
       receiveDataWhenStatusError: true,
     );
 

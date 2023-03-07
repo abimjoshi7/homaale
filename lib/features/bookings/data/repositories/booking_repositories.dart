@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 
@@ -13,7 +12,7 @@ class BookingRepositories {
     try {
       final res = await _dio.postDataWithCredential(
         data: bookEntityService.toJson(),
-        url: 'task/entity/service-booking/',
+        url: kCreateBookings,
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
@@ -22,10 +21,24 @@ class BookingRepositories {
     }
   }
 
+// ! incomplete parameters
+  Future<Map<String, dynamic>> fetchOthersBookingList() async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        query: {},
+        url: kCreateBookings,
+        token: CacheHelper.accessToken,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> fetchMyServiceBookingList() async {
     try {
       final x = await _dio.getDatawithCredential(
-        url: 'task/entity/service-mybooking/',
+        url: kMyBookingList,
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
@@ -41,28 +54,22 @@ class BookingRepositories {
     try {
       final x = await _dio.patchDataWithCredential(
         data: editBookingReq.toJson(),
-        url: 'task/entity/service-booking/$id',
+        url: '$kCreateBookings$id',
         token: CacheHelper.accessToken,
       );
-      log(
-        "Edit Booking Reponse: $x",
-      );
+
       return x as Map<String, dynamic>;
     } catch (e) {
-      log("Edit Booking Error: $e");
       rethrow;
     }
   }
 
   Future<void> deleteBooking(int id) async {
     try {
-      final x = await _dio.deleteDataWithCredential(
+      await _dio.deleteDataWithCredential(
         id: id,
-        url: 'task/entity/service-booking/',
+        url: kCreateBookings,
         token: CacheHelper.accessToken,
-      );
-      log(
-        x.toString(),
       );
     } catch (e) {
       rethrow;
@@ -71,13 +78,10 @@ class BookingRepositories {
 
   Future<void> cancelBooking(int id) async {
     try {
-      final x = await _dio.postDataWithCredential(
+      await _dio.postDataWithCredential(
         data: {},
-        url: 'task/entity/service-booking/cancel/$id',
+        url: '$kCreateBookingsCancel$id',
         token: CacheHelper.accessToken,
-      );
-      log(
-        x.toString(),
       );
     } catch (e) {
       rethrow;
@@ -86,15 +90,12 @@ class BookingRepositories {
 
   Future<void> approveBooking(int id) async {
     try {
-      final x = await _dio.postDataWithCredential(
+      await _dio.postDataWithCredential(
         data: {
           "booking": id,
         },
-        url: 'task/entity/service-booking/approval/',
+        url: kCreateBookingsApproval,
         token: CacheHelper.accessToken,
-      );
-      log(
-        x.toString(),
       );
     } catch (e) {
       rethrow;

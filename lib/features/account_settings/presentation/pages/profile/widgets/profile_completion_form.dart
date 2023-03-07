@@ -26,7 +26,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   final middleNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final bioController = TextEditingController();
-  final designationController = TextEditingController();
+  final jobProfileController = TextEditingController();
   final genderController = TextEditingController();
   final userTypeController = TextEditingController();
   final experienceController = TextEditingController();
@@ -62,20 +62,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
         child: Form(
           key: _key,
           child: Padding(
-            padding: kPadding10,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              spacing: 10,
               children: [
                 InkWell(
                   onTap: () async {
-                    // await FilePickHelper.filePicker().then(
-                    //   (value) => setState(
-                    //     () {
-                    //       selectedFile = value;
-                    //       print(selectedFile);
-                    //     },
-                    //   ),
-                    // );
                     await ImagePickHelper().pickImagePath().then(
                           (value) => setState(
                             () {
@@ -88,8 +80,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     children: [
                       Center(
                         child: SizedBox(
-                          height: 100,
-                          width: 100,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.25,
                           child: Image.file(
                             fit: BoxFit.contain,
                             File(
@@ -98,15 +90,16 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           ),
                         ),
                       ),
-                      kHeight15,
-                      const Text(
-                        'Change profile photo',
-                        style: kPurpleText16,
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Change profile photo',
+                          style: kPurpleText16,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                addVerticalSpace(30),
                 Row(
                   children: [
                     Flexible(
@@ -171,12 +164,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   ),
                 ),
                 CustomFormField(
-                  label: 'Designation',
+                  label: 'Job Profile',
                   child: CustomTextFormField(
                     hintText: 'Pilot',
                     onSaved: (p0) => setState(
                       () {
-                        designationController.text = p0!;
+                        jobProfileController.text = p0!;
                       },
                     ),
                   ),
@@ -234,6 +227,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   ),
                 ),
                 CustomFormField(
+                  isRequired: true,
                   label: 'Date of birth',
                   child: InkWell(
                     onTap: () async {
@@ -261,10 +255,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     ),
                   ),
                 ),
-                const Divider(),
-                const Text(
-                  'Professional Information',
-                  style: kText17,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Divider(),
                 ),
                 CustomFormField(
                   label: 'Select User Type',
@@ -293,7 +286,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           const Text('Client')
                         ],
                       ),
-                      kWidth20,
+                      kWidth10,
                       Row(
                         children: [
                           Checkbox(
@@ -352,77 +345,58 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     },
                   ),
                 ),
-                Row(
-                  children: const [
-                    Text(
-                      'Experience level',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Radio(
-                      value: 'Beginner',
-                      groupValue: experienceLevel,
-                      onChanged: (value) => setState(
-                        () {
-                          experienceLevel = value!;
-                        },
+                CustomFormField(
+                  label: 'Experience level',
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'Beginner',
+                            groupValue: experienceLevel,
+                            onChanged: (value) => setState(
+                              () {
+                                experienceLevel = value!;
+                              },
+                            ),
+                          ),
+                          const Text('Beginner (0 to 1 year experience)')
+                        ],
                       ),
-                    ),
-                    const Text('Beginner (0 to 1 year experience)')
-                  ],
-                ),
-                Row(
-                  children: [
-                    Radio(
-                      value: 'Intermediate',
-                      groupValue: experienceLevel,
-                      onChanged: (value) => setState(
-                        () {
-                          experienceLevel = value!;
-                        },
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'Intermediate',
+                            groupValue: experienceLevel,
+                            onChanged: (value) => setState(
+                              () {
+                                experienceLevel = value!;
+                              },
+                            ),
+                          ),
+                          const Text('Intermediate (2 to 4 years experience)')
+                        ],
                       ),
-                    ),
-                    const Text('Intermediate (2 to 4 years experience)')
-                  ],
-                ),
-                Row(
-                  children: [
-                    Radio(
-                      value: 'Expert',
-                      groupValue: experienceLevel,
-                      onChanged: (value) => setState(
-                        () {
-                          experienceLevel = value!;
-                        },
+                      Row(
+                        children: [
+                          Radio(
+                            value: 'Expert',
+                            groupValue: experienceLevel,
+                            onChanged: (value) => setState(
+                              () {
+                                experienceLevel = value!;
+                              },
+                            ),
+                          ),
+                          const Text('Expert (5 or more years experience)')
+                        ],
                       ),
-                    ),
-                    const Text('Expert (5 or more years experience)')
-                  ],
+                    ],
+                  ),
                 ),
-                kHeight10,
-                Row(
-                  children: const [
-                    Text(
-                      'Active Hours',
-                      style: kPurpleText16,
-                    ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
+                CustomFormField(
+                  label: 'Active Hours',
+                  isRequired: true,
                   child: Row(
                     children: [
                       Flexible(
@@ -433,7 +407,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               'From',
                               style: kPurpleText16,
                             ),
-                            kHeight10,
                             InkWell(
                               onTap: () async {
                                 await showTimePicker(
@@ -454,7 +427,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           ],
                         ),
                       ),
-                      kWidth20,
+                      addHorizontalSpace(
+                        10,
+                      ),
                       Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,7 +438,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               'To',
                               style: kPurpleText16,
                             ),
-                            kHeight10,
                             InkWell(
                               onTap: () async {
                                 await showTimePicker(
@@ -487,94 +461,73 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     ],
                   ),
                 ),
-                kHeight10,
-                Row(
-                  children: const [
-                    Text(
-                      'Base Rate Per Hour',
-                      style: kPurpleText16,
+                CustomFormField(
+                  label: 'Base Rate Per Hour',
+                  isRequired: true,
+                  child: CustomTextFormField(
+                    hintText: 'Base Rate Per Hour',
+                    onSaved: (p0) => setState(
+                      () {
+                        baseRateController.text = p0!;
+                      },
                     ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
+                    validator: validateNotEmpty,
+                  ),
                 ),
-                kHeight5,
-                CustomTextFormField(
-                  hintText: 'Base Rate Per Hour',
-                  onSaved: (p0) => setState(
-                    () {
-                      baseRateController.text = p0!;
+                CustomFormField(
+                  isRequired: true,
+                  label: 'Country',
+                  child: BlocBuilder<CountryBloc, CountryState>(
+                    builder: (context, state) {
+                      if (state is CountryLoadSuccess) {
+                        return CustomDropDownField(
+                          list: List.generate(
+                            state.list.length,
+                            (index) => state.list[index].name,
+                          ),
+                          hintText: 'Nepal',
+                          onChanged: (p0) => setState(
+                            () async {
+                              final x = state.list.firstWhere(
+                                (element) => p0 == element.name,
+                              );
+                              countryName = x.name;
+                            },
+                          ),
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
                     },
                   ),
-                  validator: validateNotEmpty,
                 ),
-                kHeight20,
-                const Text(
-                  'Address',
-                  style: kText20,
+                CustomFormField(
+                  isRequired: true,
+                  label: 'City',
+                  child: BlocBuilder<CityBloc, CityState>(
+                    builder: (context, state) {
+                      if (state is CityLoadSuccess) {
+                        return CustomDropDownField(
+                          list: List.generate(
+                            state.list.length,
+                            (index) => state.list[index].name,
+                          ),
+                          hintText: 'Enter your city',
+                          onChanged: (p0) => setState(
+                            () async {
+                              final x = state.list.firstWhere(
+                                (element) => p0 == element.name,
+                              );
+                              cityCode = x.id;
+                            },
+                          ),
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
                 ),
-                kHeight20,
-                const Text(
-                  'Country',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                BlocBuilder<CountryBloc, CountryState>(
-                  builder: (context, state) {
-                    if (state is CountryLoadSuccess) {
-                      return CustomDropDownField(
-                        list: List.generate(
-                          state.list.length,
-                          (index) => state.list[index].name,
-                        ),
-                        hintText: 'Enter your country',
-                        onChanged: (p0) => setState(
-                          () async {
-                            final x = state.list.firstWhere(
-                              (element) => p0 == element.name,
-                            );
-                            countryName = x.name;
-                          },
-                        ),
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
-                kHeight20,
-                const Text(
-                  'City',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                BlocBuilder<CityBloc, CityState>(
-                  builder: (context, state) {
-                    if (state is CityLoadSuccess) {
-                      return CustomDropDownField(
-                        list: List.generate(
-                          state.list.length,
-                          (index) => state.list[index].name,
-                        ),
-                        hintText: 'Enter your city',
-                        onChanged: (p0) => setState(
-                          () async {
-                            final x = state.list.firstWhere(
-                              (element) => p0 == element.name,
-                            );
-                            cityCode = x.id;
-                          },
-                        ),
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
-                kHeight20,
                 Row(
                   children: const [
                     Text(
@@ -602,39 +555,48 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   ),
                   validator: validateNotEmpty,
                 ),
-                kHeight20,
-                const Text(
-                  'Address Line 2',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                CustomTextFormField(
-                  hintText: 'Enter your secondary address',
-                  prefixWidget: const Icon(
-                    Icons.location_on_outlined,
-                    color: kColorPrimary,
+                CustomFormField(
+                  label: 'Address Line 2',
+                  child: CustomTextFormField(
+                    hintText: 'Enter your secondary address',
+                    prefixWidget: const Icon(
+                      Icons.location_on_outlined,
+                      color: kColorPrimary,
+                    ),
+                    onSaved: (p0) => setState(
+                      () {
+                        address2Controller.text = p0!;
+                      },
+                    ),
                   ),
-                  onSaved: (p0) => setState(
-                    () {
-                      address2Controller.text = p0!;
+                ),
+                CustomFormField(
+                  isRequired: true,
+                  label: 'Language',
+                  child: BlocBuilder<LanguageBloc, LanguageState>(
+                    builder: (context, state) {
+                      if (state is LanguageLoadSuccess) {
+                        return CustomDropDownField(
+                          list: List.generate(
+                            state.language.length,
+                            (index) => state.language[index].name,
+                          ),
+                          hintText: 'Enter your city',
+                          onChanged: (p0) => setState(
+                            () async {
+                              final x = state.language.firstWhere(
+                                (element) => p0 == element.name,
+                              );
+                              languageController.text = x.code;
+                            },
+                          ),
+                        );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
                     },
                   ),
                 ),
-                kHeight20,
-                const Text(
-                  'Language',
-                  style: kPurpleText16,
-                ),
-                kHeight5,
-                CustomTextFormField(
-                  hintText: 'Nepali',
-                  onSaved: (p0) => setState(
-                    () {
-                      languageController.text = p0!;
-                    },
-                  ),
-                ),
-                kHeight20,
                 CustomFormField(
                   label: 'Currency',
                   isRequired: true,
@@ -646,7 +608,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             state.currencyListRes.length,
                             (index) => state.currencyListRes[index].name,
                           ),
-                          hintText: 'Enter your Currency',
+                          hintText: 'NPR',
                           onChanged: (p0) => setState(
                             () async {
                               final x = state.currencyListRes.firstWhere(
@@ -662,67 +624,40 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     },
                   ),
                 ),
-                const Divider(),
-                const Text(
-                  'Profile Configurations',
-                  style: kText20,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  child: Divider(),
                 ),
-                kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Visibility',
-                      style: kPurpleText16,
+                CustomFormField(
+                  label: 'Visibility',
+                  child: CustomDropDownField<String>(
+                    hintText: 'Choose one',
+                    list: const [
+                      'Private',
+                      'Public',
+                    ],
+                    onChanged: (value) => setState(
+                      () {
+                        visibilityController.text = value!;
+                      },
                     ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                kHeight5,
-                CustomDropDownField<String>(
-                  hintText: 'Choose one',
-                  list: const [
-                    'Private',
-                    'Public',
-                  ],
-                  onChanged: (value) => setState(
-                    () {
-                      visibilityController.text = value!;
-                    },
                   ),
                 ),
-                kHeight20,
-                Row(
-                  children: const [
-                    Text(
-                      'Task Preferences',
-                      style: kPurpleText16,
+                CustomFormField(
+                  label: 'Task Preferences',
+                  child: CustomDropDownField<String>(
+                    list: const [
+                      'Long-Term Tasks',
+                      'Short-Term Tasks',
+                    ],
+                    onChanged: (value) => setState(
+                      () {
+                        taskPreferencesController.text = value!;
+                      },
                     ),
-                    kWidth5,
-                    Text(
-                      '*',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  ],
-                ),
-                kHeight5,
-                CustomDropDownField<String>(
-                  list: const [
-                    'Long-Term Tasks',
-                    'Short-Term Tasks',
-                  ],
-                  onChanged: (value) => setState(
-                    () {
-                      taskPreferencesController.text = value!;
-                    },
+                    hintText: 'Choose one',
                   ),
-                  hintText: 'Choose one',
                 ),
-                kHeight20,
-                kHeight50,
                 Center(
                   child: BlocConsumer<UserBloc, UserState>(
                     listener: (context, state) async {
@@ -762,6 +697,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
+                          print(21);
                           final image = await getImageFileFromAssets(
                             'avatar-ga3c7ddeec_640.png',
                           );
@@ -794,7 +730,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               middleName: middleNameController.text,
                               lastName: lastNameController.text,
                               bio: bioController.text,
-                              designation: designationController.text,
+                              designation: jobProfileController.text,
                               gender: genderGroup,
                               skill: tagController.getTags != null
                                   ? tagController.getTags!
@@ -820,12 +756,13 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 selectedImage?.path ?? image.path,
                               ),
                             );
-                            if (!mounted) return;
-                            context.read<UserBloc>().add(
-                                  UserAdded(
-                                    req: q,
-                                  ),
-                                );
+                            print(123);
+                            print(q);
+                            // context.read<UserBloc>().add(
+                            //       UserAdded(
+                            //         req: q,
+                            //       ),
+                            //     );
                           }
                         },
                         label: 'Save',
@@ -847,7 +784,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
     middleNameController.dispose();
     lastNameController.dispose();
     bioController.dispose();
-    designationController.dispose();
+    jobProfileController.dispose();
     genderController.dispose();
     userTypeController.dispose();
     experienceController.dispose();
