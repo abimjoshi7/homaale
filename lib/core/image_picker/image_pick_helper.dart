@@ -1,4 +1,4 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:dependencies/dependencies.dart';
 
 class ImagePickHelper {
   final _picker = ImagePicker();

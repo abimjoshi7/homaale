@@ -6,9 +6,8 @@ import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/widgets/custom_timer.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 
 class ConfirmOtpPage extends StatefulWidget {
   const ConfirmOtpPage({super.key});

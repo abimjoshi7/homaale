@@ -6,9 +6,8 @@ import 'package:cipher/features/services/presentation/manager/add_service/add_se
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class AddServicePage extends StatefulWidget {
   static const routeName = '/add-service-page';

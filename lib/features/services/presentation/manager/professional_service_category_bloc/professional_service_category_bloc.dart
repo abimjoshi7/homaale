@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/services/data/models/professional_service_model.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'professional_service_category_event.dart';
 part 'professional_service_category_state.dart';

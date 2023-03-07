@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/categories/data/models/hero_category.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'hero_category_state.dart';
 

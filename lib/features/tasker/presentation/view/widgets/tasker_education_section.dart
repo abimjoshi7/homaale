@@ -2,8 +2,8 @@ import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 
 class TaskerEducationSection extends StatelessWidget {
   const TaskerEducationSection({super.key, required this.education});

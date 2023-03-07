@@ -1,9 +1,8 @@
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/profile/presentation/pages/services/widgets/services_text_card.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class ServicesProfile extends StatelessWidget {
   const ServicesProfile({super.key});

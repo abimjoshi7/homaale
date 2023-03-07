@@ -1,7 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

@@ -1,4 +1,5 @@
-import 'package:dio/dio.dart';
+
+import 'package:dependencies/dependencies.dart';
 
 class AddKycReq {
   AddKycReq({

@@ -4,9 +4,8 @@ import 'package:cipher/features/documents/presentation/pages/edit/edit_portfolio
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class PortfolioSection extends StatefulWidget {
   const PortfolioSection({

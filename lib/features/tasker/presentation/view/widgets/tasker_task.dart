@@ -2,8 +2,8 @@ import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/services/data/models/entity_service.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
 
 class TaskerTask extends StatefulWidget {
   const TaskerTask({super.key, required this.tasks});

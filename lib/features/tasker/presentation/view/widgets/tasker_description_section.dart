@@ -1,7 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widget_text.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TaskerDescriptionSection extends StatelessWidget {
   const TaskerDescriptionSection({
@@ -84,8 +84,7 @@ class TaskerDescriptionSection extends StatelessWidget {
       if (location != null && location!.isNotEmpty) {
         return WidgetText(
           widget: Image.asset('assets/location.png'),
-          label:
-             location!,
+          label: location!,
         );
       } else {
         return WidgetText(

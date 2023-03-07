@@ -2,9 +2,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/documents/presentation/pages/edit/edit_education.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class EducationSection extends StatelessWidget {
   const EducationSection({

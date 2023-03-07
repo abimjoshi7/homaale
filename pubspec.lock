@@ -42,7 +42,7 @@ packages:
     source: hosted
     version: "2.10.0"
   bloc:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: bloc
       sha256: "658a5ae59edcf1e58aac98b000a71c762ad8f46f1394c34a52050cafb3e11a80"
@@ -122,7 +122,7 @@ packages:
     source: hosted
     version: "8.4.4"
   carousel_slider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: carousel_slider
       sha256: "9c695cc963bf1d04a47bd6021f68befce8970bcd61d24938e1fb0918cf5d9c42"
@@ -210,7 +210,7 @@ packages:
     source: hosted
     version: "0.17.2"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cupertino_icons
       sha256: e35129dc44c9118cee2a5603506d823bab99c68393879edb440e0090d07586be
@@ -225,8 +225,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.5"
-  dio:
+  dependencies:
     dependency: "direct main"
+    description:
+      path: "packages/dependencies"
+      relative: true
+    source: path
+    version: "0.0.1"
+  dio:
+    dependency: transitive
     description:
       name: dio
       sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
@@ -234,7 +241,7 @@ packages:
     source: hosted
     version: "4.0.6"
   equatable:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: equatable
       sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
@@ -274,7 +281,7 @@ packages:
     source: hosted
     version: "6.1.4"
   file_picker:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: file_picker
       sha256: d090ae03df98b0247b82e5928f44d1b959867049d18d73635e2e0bc3f49542b9
@@ -295,7 +302,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bloc:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_bloc
       sha256: "434951eea948dbe87f737b674281465f610b8259c16c097b8163ce138749a775"
@@ -303,7 +310,7 @@ packages:
     source: hosted
     version: "8.1.2"
   flutter_facebook_auth:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_facebook_auth
       sha256: e74475e4d0d87f34069a42ec6e839872222ca8a65fbb506ec3329b5d595ca75b
@@ -327,13 +334,13 @@ packages:
     source: hosted
     version: "4.1.1"
   flutter_native_splash:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_native_splash
-      sha256: e301ae206ff0fb09b67d3716009c6c28c2da57a0ad164827b178421bb9d601f7
+      sha256: af665ef80a213a9ed502845a3d7a61b9acca4100ee7e9f067a7440bc3acd6730
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.18"
+    version: "2.2.19"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -343,7 +350,7 @@ packages:
     source: hosted
     version: "2.0.9"
   flutter_secure_storage:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_secure_storage
       sha256: f2afec1f1762c040a349ea2a588e32f442da5d0db3494a52a929a97c9e550bc5
@@ -409,7 +416,7 @@ packages:
     source: hosted
     version: "2.3.2"
   freezed_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: freezed_annotation
       sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
@@ -425,7 +432,7 @@ packages:
     source: hosted
     version: "3.2.0"
   geocoding:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: geocoding
       sha256: "26218460a902d4249b81e6baf9d55ce400fd1ebe6fc0a7e92b2c12b0b8e1e14e"
@@ -441,7 +448,7 @@ packages:
     source: hosted
     version: "2.0.1"
   geolocator:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: geolocator
       sha256: "5c23f3613f50586c0bbb2b8f970240ae66b3bd992088cf60dd5ee2e6f7dde3a8"
@@ -497,7 +504,7 @@ packages:
     source: hosted
     version: "2.1.1"
   google_fonts:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: google_fonts
       sha256: "8f099045e2f2a30e4d4d0a35f40c6bc941a8f2ca0e10ad9d214ee9edd3f37483"
@@ -505,7 +512,7 @@ packages:
     source: hosted
     version: "3.0.1"
   google_sign_in:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: google_sign_in
       sha256: "821f354c053d51a2d417b02d42532a19a6ea8057d2f9ebb8863c07d81c98aaf9"
@@ -593,7 +600,7 @@ packages:
     source: hosted
     version: "4.0.15"
   image_picker:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: image_picker
       sha256: "715d68a53d6bcc2eae26005097dc74c375a04c0d7c0e657da84deebbbbbf51ed"
@@ -633,7 +640,7 @@ packages:
     source: hosted
     version: "2.6.3"
   infinite_scroll_pagination:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: infinite_scroll_pagination
       sha256: "9517328f4e373f08f57dbb11c5aac5b05554142024d6b60c903f3b73476d52db"
@@ -641,7 +648,7 @@ packages:
     source: hosted
     version: "3.2.0"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
@@ -657,7 +664,7 @@ packages:
     source: hosted
     version: "1.0.4"
   jiffy:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: jiffy
       sha256: c3c1da3fe0c08bba3c2c455e8a3e724dfe7ea34dbe8069b992cab90ea1fe40b6
@@ -673,7 +680,7 @@ packages:
     source: hosted
     version: "0.6.5"
   json_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: json_annotation
       sha256: c33da08e136c3df0190bd5bbe51ae1df4a7d96e7954d1d7249fea2968a72d317
@@ -745,7 +752,7 @@ packages:
     source: hosted
     version: "0.3.0"
   multi_select_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: multi_select_flutter
       sha256: "503857b415d390d29159df8a9d92d83c6aac17aaf1c307fb7bcfc77d097d20ed"
@@ -785,7 +792,7 @@ packages:
     source: hosted
     version: "1.8.2"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       sha256: "04890b994ee89bfa80bf3080bfec40d5a92c5c7a785ebb02c13084a099d2b6f9"
@@ -841,7 +848,7 @@ packages:
     source: hosted
     version: "5.1.0"
   pinput:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pinput
       sha256: "1773743c188cdd2f8d0398ea708ec72645bb41ac9311755c4f7bb03a4184bdcf"
@@ -921,7 +928,7 @@ packages:
     source: hosted
     version: "3.2.1"
   responsive_framework:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: responsive_framework
       sha256: e083346029b008335b008274c4d3fac5b9e0ca8796f201ed20884f579101d584
@@ -1086,7 +1093,7 @@ packages:
     source: hosted
     version: "0.4.20"
   textfield_tags:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: textfield_tags
       sha256: c1d215f481e7e8da5c79719825e595db4f829bf1ad3fce4c7ce43d340aa72683
@@ -1126,7 +1133,7 @@ packages:
     source: hosted
     version: "1.0.0+1"
   url_launcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher
       sha256: "75f2846facd11168d007529d6cd8fcb2b750186bea046af9711f10b907e1587e"
@@ -1262,5 +1269,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.0 <4.0.0"
   flutter: ">=3.7.0"

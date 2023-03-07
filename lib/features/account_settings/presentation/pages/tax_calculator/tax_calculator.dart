@@ -3,8 +3,8 @@ import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaxCalculator extends StatelessWidget {
   static const routeName = '/tax-calculator';

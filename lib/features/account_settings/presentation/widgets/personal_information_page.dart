@@ -3,9 +3,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class PersonalInformationPage extends StatefulWidget {
   static const routeName = '/personal-information-page';

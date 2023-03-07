@@ -2,8 +2,8 @@ import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopularServicesPage extends StatelessWidget {
   static const routeName = '/popular-services-page';

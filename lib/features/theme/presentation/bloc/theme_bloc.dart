@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/core/constants/theme.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 part 'theme_event.dart';

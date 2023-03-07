@@ -1,8 +1,7 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/repositories/tax_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'tax_calculator_state.dart';
 

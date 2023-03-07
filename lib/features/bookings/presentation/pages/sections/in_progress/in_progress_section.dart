@@ -2,8 +2,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/sections/in_progress/in_progess.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InProgressSection extends StatefulWidget {
   const InProgressSection({super.key});

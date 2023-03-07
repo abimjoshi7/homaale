@@ -2,8 +2,7 @@
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/models/support_help_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'support_help_event.dart';
 part 'support_help_state.dart';

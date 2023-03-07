@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/repositories/task_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'all_task_list_state.dart';
 

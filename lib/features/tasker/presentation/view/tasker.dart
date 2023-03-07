@@ -9,8 +9,8 @@ import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_task.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskerProfile extends StatefulWidget {
   const TaskerProfile({super.key});

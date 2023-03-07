@@ -3,8 +3,8 @@ import 'package:cipher/features/services/presentation/manager/entity_service_blo
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EntityServicesPage extends StatelessWidget {
   static const routeName = '/entity-services-page';

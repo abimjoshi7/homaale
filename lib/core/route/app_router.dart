@@ -32,13 +32,11 @@ import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
-import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
-import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
+import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
+import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
-
-import '../../features/tasker/presentation/view/tasker.dart';
 
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {

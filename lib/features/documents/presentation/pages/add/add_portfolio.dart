@@ -4,8 +4,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPortfolio extends StatefulWidget {
   const AddPortfolio({super.key});

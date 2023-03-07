@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/utilities/data/models/city_model.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'city_event.dart';
 part 'city_state.dart';

@@ -8,9 +8,8 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dio/dio.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class KycDetails extends StatefulWidget {
   const KycDetails({super.key});

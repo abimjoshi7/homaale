@@ -1,7 +1,7 @@
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/widgets/document_text_card.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DocumentsProfile extends StatelessWidget {
   const DocumentsProfile({super.key});
