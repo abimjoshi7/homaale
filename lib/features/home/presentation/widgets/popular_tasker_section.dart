@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
@@ -31,13 +32,13 @@ class PopularTaskerSection extends StatelessWidget {
           ),
           BlocBuilder<TaskerCubit, TaskerState>(
             builder: (context, state) {
-              if (state is TaskerInitial) {
+              if (state.states == TheStates.initial) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-              if (state is TaskerAllLoadSuccess) {
-                final data = state.taskerListRes.result;
+              if (state.states == TheStates.success) {
+                final data = state.taskerListRes?.result;
                 return SizedBox(
                   height: MediaQuery.of(context).size.height * 0.25,
                   width: double.infinity,
@@ -68,7 +69,7 @@ class PopularTaskerSection extends StatelessWidget {
                       ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,
-                    itemCount: state.taskerListRes.result?.length ?? 1,
+                    itemCount: state.taskerListRes?.result?.length ?? 1,
                   ),
                 );
               }

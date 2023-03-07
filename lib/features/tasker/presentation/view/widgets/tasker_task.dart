@@ -6,20 +6,23 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TaskerTask extends StatefulWidget {
-  const TaskerTask({super.key, required this.tasks});
+  const TaskerTask({
+    super.key,
+    this.tasks,
+  });
 
-  final EntityServiceModel tasks;
+  final EntityServiceModel? tasks;
 
   @override
   State<TaskerTask> createState() => _TaskerTaskState();
 }
 
 class _TaskerTaskState extends State<TaskerTask> {
-  List<EntityService> taskList = [];
+  List<EntityService>? taskList = [];
 
   @override
   void initState() {
-    taskList = widget.tasks.result!;
+    taskList = widget.tasks?.result;
     super.initState();
   }
 
@@ -32,18 +35,18 @@ class _TaskerTaskState extends State<TaskerTask> {
         primary: false,
         padding: EdgeInsets.zero,
         separatorBuilder: (context, index) => addVerticalSpace(16),
-        itemCount: taskList.length,
+        itemCount: taskList?.length ?? 0,
         itemBuilder: (context, index) {
           return TaskCard(
-            taskName: taskList[index].title,
-            startRate: taskList[index].budgetFrom?.toString() ?? '0',
-            endRate: taskList[index].budgetTo?.toString() ?? '0',
+            taskName: taskList![index].title ?? 'taskName',
+            startRate: taskList![index].budgetFrom?.toString() ?? '0',
+            endRate: taskList![index].budgetTo?.toString() ?? '0',
             imageUrl:
-                taskList[index].createdBy?.profileImage ?? kServiceImageNImg,
-            location: taskList[index].location,
-            endHour: Jiffy(taskList[index].createdAt.toString()).jm,
-            endDate: Jiffy(taskList[index].endDate.toString()).yMMMMd,
-            count: taskList[index].count.toString(),
+                taskList![index].createdBy?.profileImage ?? kServiceImageNImg,
+            location: taskList![index].location,
+            endHour: Jiffy(taskList![index].createdAt.toString()).jm,
+            endDate: Jiffy(taskList![index].endDate.toString()).yMMMMd,
+            count: taskList![index].count.toString(),
             callback: () {},
           );
         },

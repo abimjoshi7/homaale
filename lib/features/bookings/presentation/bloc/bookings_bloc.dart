@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';

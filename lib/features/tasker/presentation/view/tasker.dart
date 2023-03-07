@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
@@ -39,15 +40,15 @@ class TaskerProfileState extends State<TaskerProfile>
       body: BlocBuilder<TaskerCubit, TaskerState>(
         builder: (context, state) {
           String profilePicUrl() {
-            if (state is TaskerSingleLoadSuccess) {
-              return state.tasker.profileImage.toString();
-            } else {
-              return 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
+            if (state.states == TheStates.success) {
+              return state.tasker?.profileImage.toString() ??
+                  'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
             }
+            return 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
           }
 
           Widget displayTaskerHeader() {
-            if (state is TaskerSingleLoadSuccess) {
+            if (state.states == TheStates.success) {
               return SizedBox(
                 height: 160,
                 child: Stack(
@@ -118,10 +119,10 @@ class TaskerProfileState extends State<TaskerProfile>
           }
 
           Widget displayRating() {
-            if (state is TaskerSingleLoadSuccess) {
+            if (state.states == TheStates.success) {
               return Row(
                 children: List.generate(
-                  (state.tasker.rating?.avgRating as double?)?.round() ?? 5,
+                  (state.tasker?.rating?.avgRating as double?)?.round() ?? 5,
                   (index) => const Icon(
                     Icons.star_rate_rounded,
                     color: Colors.amber,
@@ -142,9 +143,10 @@ class TaskerProfileState extends State<TaskerProfile>
           }
 
           Widget buildTaskSuccessRate() {
-            if (state is TaskerSingleLoadSuccess) {
+            if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker.stats!.successRate!.toStringAsFixed(0),
+                numberText:
+                    state.tasker?.stats!.successRate!.toStringAsFixed(0) ?? '0',
                 textColor: kColorGreen,
               );
             } else {
@@ -156,10 +158,11 @@ class TaskerProfileState extends State<TaskerProfile>
           }
 
           Widget buildTaskHappyClients() {
-            if (state is TaskerSingleLoadSuccess) {
+            if (state.states == TheStates.success) {
               return NumberCountText(
                 numberText:
-                    state.tasker.stats!.happyClients!.toStringAsFixed(0),
+                    state.tasker?.stats!.happyClients!.toStringAsFixed(0) ??
+                        '0',
                 textColor: kColorPurple,
               );
             } else {
@@ -171,10 +174,11 @@ class TaskerProfileState extends State<TaskerProfile>
           }
 
           Widget buildTaskCompleted() {
-            if (state is TaskerSingleLoadSuccess) {
+            if (state.states == TheStates.success) {
               return NumberCountText(
                 numberText:
-                    state.tasker.stats!.taskCompleted!.toStringAsFixed(0),
+                    state.tasker?.stats!.taskCompleted!.toStringAsFixed(0) ??
+                        '0',
                 textColor: kColorOrange,
               );
             } else {
@@ -185,7 +189,7 @@ class TaskerProfileState extends State<TaskerProfile>
             }
           }
 
-          if (state is TaskerSingleLoadSuccess) {
+          if (state.states == TheStates.success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -225,11 +229,11 @@ class TaskerProfileState extends State<TaskerProfile>
                           Row(
                             children: [
                               Text(
-                                '${state.tasker.user!.firstName!} ${state.tasker.user!.lastName!}',
+                                '${state.tasker?.user!.firstName!} ${state.tasker?.user!.lastName!}',
                                 style: kPurpleText16,
                               ),
                               kWidth5,
-                              if (state.tasker.isProfileVerified! == true)
+                              if (state.tasker?.isProfileVerified! == true)
                                 const Icon(
                                   Icons.verified,
                                   color: Colors.lightBlue,
@@ -238,7 +242,7 @@ class TaskerProfileState extends State<TaskerProfile>
                           ),
                           kHeight5,
                           Text(
-                            state.tasker.designation?.toString() ??
+                            state.tasker?.designation?.toString() ??
                                 'Homaale User',
                           ),
                           kHeight5,
@@ -249,7 +253,7 @@ class TaskerProfileState extends State<TaskerProfile>
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            'Rs. ${state.tasker.hourlyRate!}/hr',
+                            'Rs. ${state.tasker?.hourlyRate!}/hr',
                             style: kPurpleText16,
                           ),
                           kHeight8,
@@ -322,17 +326,17 @@ class TaskerProfileState extends State<TaskerProfile>
                     controller: tabController,
                     children: [
                       TaskerAboutSection(
-                        bio: state.tasker.bio,
-                        contact: state.tasker.user!.phone?.toString() ??
-                            state.tasker.user!.email!,
-                        activeHourStart: state.tasker.activeHourStart ?? '',
-                        activeHourEnd: state.tasker.activeHourEnd ?? '',
-                        skills: state.tasker.skill,
+                        bio: state.tasker?.bio,
+                        contact: state.tasker?.user!.phone?.toString() ??
+                            state.tasker?.user!.email!,
+                        activeHourStart: state.tasker?.activeHourStart ?? '',
+                        activeHourEnd: state.tasker?.activeHourEnd ?? '',
+                        skills: state.tasker?.skill,
                         location:
-                            "${state.tasker.addressLine1}, ${state.tasker.country!.name ?? ''}",
-                        portfolio: state.tasker.portfolio ?? [],
-                        education: state.tasker.education ?? [],
-                        experience: state.tasker.experience ?? [],
+                            "${state.tasker?.addressLine1}, ${state.tasker?.country!.name ?? ''}",
+                        portfolio: state.tasker?.portfolio ?? [],
+                        education: state.tasker?.education ?? [],
+                        experience: state.tasker?.experience ?? [],
                       ),
                       TaskerTask(
                         tasks: state.entityService,

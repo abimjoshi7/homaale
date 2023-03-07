@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/services/data/models/entity_service.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
@@ -7,29 +8,21 @@ part 'tasker_state.dart';
 
 class TaskerCubit extends Cubit<TaskerState> {
   final repo = TaskerRepositories();
-  TaskerCubit()
-      : super(
-          TaskerInitial(),
-        );
+  TaskerCubit() : super(const TaskerState());
 
   Future loadTaskerList() async {
     try {
-      emit(
-        TaskerInitial(),
-      );
+      emit(state.copyWith(states: TheStates.initial));
       await repo.fetchAllTaskers().then(
             (value) => emit(
-              TaskerAllLoadSuccess(
-                taskerListRes: TaskerListRes.fromJson(
-                  value,
-                ),
+              state.copyWith(
+                states: TheStates.success,
+                taskerListRes: TaskerListRes.fromJson(value),
               ),
             ),
           );
     } catch (e) {
-      emit(
-        TaskerAllLoadFailure(),
-      );
+      emit(state.copyWith(states: TheStates.failure));
     }
   }
 
@@ -37,9 +30,8 @@ class TaskerCubit extends Cubit<TaskerState> {
     String id,
   ) async {
     try {
-      emit(
-        TaskerInitial(),
-      );
+      emit(state.copyWith(states: TheStates.initial));
+
       await repo
           .fetchSingleTasker(
         id: id,
@@ -53,7 +45,8 @@ class TaskerCubit extends Cubit<TaskerState> {
               .then(
             (task) {
               emit(
-                TaskerSingleLoadSuccess(
+                state.copyWith(
+                  states: TheStates.success,
                   tasker: Tasker.fromJson(tasker),
                   entityService: EntityServiceModel.fromJson(task),
                 ),
@@ -63,9 +56,7 @@ class TaskerCubit extends Cubit<TaskerState> {
         },
       );
     } catch (e) {
-      emit(
-        TaskerSingleLoadFailure(),
-      );
+      emit(state.copyWith(states: TheStates.failure));
     }
   }
 }
