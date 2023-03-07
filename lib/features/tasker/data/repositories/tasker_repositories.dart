@@ -52,4 +52,21 @@ class TaskerRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getSingleTaskerReviews({
+    required String userId,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/rating/list/$userId',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
 }

@@ -8,6 +8,7 @@ import 'package:cipher/features/profile/presentation/widgets/number_count_text.d
 import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
+import 'package:cipher/features/tasker/presentation/view/widgets/tasker_review_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_task.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -341,7 +342,9 @@ class TaskerProfileState extends State<TaskerProfile>
                       TaskerTask(
                         tasks: state.entityService,
                       ),
-                      Container(),
+                      TaskerReviewSection(
+                        taskerReviewsResponse: state.taskerReviewsResponse,
+                      ),
                     ],
                   ),
                 ),

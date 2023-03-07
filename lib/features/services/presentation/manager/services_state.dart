@@ -1,4 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 part of 'services_bloc.dart';
+
+class ServiceState extends Equatable {
+  final TheStates? theStates;
+  final SelfCreatedTaskService? selfCreatedTaskServiceModel;
+  const ServiceState({
+    this.theStates,
+    this.selfCreatedTaskServiceModel,
+  });
+
+  @override
+  List<Object?> get props => [
+        theStates,
+        selfCreatedTaskServiceModel,
+      ];
+
+  ServiceState copyWith({
+    TheStates? theStates,
+    SelfCreatedTaskService? selfCreatedTaskServiceModel,
+  }) {
+    return ServiceState(
+      theStates: theStates ?? this.theStates,
+      selfCreatedTaskServiceModel:
+          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+    );
+  }
+}
 
 abstract class ServicesState extends Equatable {
   const ServicesState();
@@ -27,13 +55,13 @@ class ServicesLoadFailure extends ServicesState {
   List<Object> get props => [];
 }
 
-class MyCreatedServicesLoadSuccess extends ServicesState {
-  final MyCreatedServicesRes list;
+// class MyCreatedServicesLoadSuccess extends ServicesState {
+//   final MyCreatedServicesRes list;
 
-  const MyCreatedServicesLoadSuccess(this.list);
-  @override
-  List<Object> get props => [list];
-}
+//   const MyCreatedServicesLoadSuccess(this.list);
+//   @override
+//   List<Object> get props => [list];
+// }
 
 class MyCreatedServicesLoadFailure extends ServicesState {
   @override

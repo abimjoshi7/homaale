@@ -6,16 +6,17 @@ class TaskState extends Equatable {
   final MyTaskRes? myTaskRes;
   final AllTaskList? allTaskList;
   final TaskModel? taskModel;
+  final SelfCreatedTaskService? selfCreatedTaskServiceModel;
   const TaskState({
     this.theState = TheStates.initial,
     this.postTaskRes,
     this.myTaskRes,
     this.allTaskList,
     this.taskModel,
+    this.selfCreatedTaskServiceModel,
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props {
     return [
       theState,
@@ -23,6 +24,7 @@ class TaskState extends Equatable {
       myTaskRes,
       allTaskList,
       taskModel,
+      selfCreatedTaskServiceModel,
     ];
   }
 
@@ -32,6 +34,7 @@ class TaskState extends Equatable {
     MyTaskRes? myTaskRes,
     AllTaskList? allTaskList,
     TaskModel? taskModel,
+    SelfCreatedTaskService? selfCreatedTaskServiceModel,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
@@ -39,6 +42,8 @@ class TaskState extends Equatable {
       myTaskRes: myTaskRes ?? this.myTaskRes,
       allTaskList: allTaskList ?? this.allTaskList,
       taskModel: taskModel ?? this.taskModel,
+      selfCreatedTaskServiceModel:
+          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
     );
   }
 }

@@ -52,9 +52,12 @@ class ServicesTextCard extends StatelessWidget {
           style: kHighlightedText,
         ),
         kHeight5,
-        Text(
-          description ?? '',
-          style: kPurpleText13,
+        FittedBox(
+          child: Text(
+            description ?? '',
+            style: kPurpleText13,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         kHeight5,
         Row(
