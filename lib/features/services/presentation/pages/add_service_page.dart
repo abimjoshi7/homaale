@@ -111,35 +111,35 @@ class _AddServicePageState extends State<AddServicePage> {
                               validator: validateNotEmpty,
                             ),
                           ),
-                          CustomFormField(
-                            label: 'Category',
-                            isRequired: true,
-                            child: BlocBuilder<ServicesBloc, ServicesState>(
-                              builder: (context, state) {
-                                if (state is ServicesLoadSuccess) {
-                                  return CustomDropDownField(
-                                    list: List.generate(
-                                      state.list.length,
-                                      (index) => state.list[index].title,
-                                    ),
-                                    hintText: 'Trimming & Cutting',
-                                    onChanged: (value) {
-                                      for (final element in state.list) {
-                                        if (value == element.title) {
-                                          setState(
-                                            () {
-                                              categoryId = element.id;
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
-                                  );
-                                }
-                                return const CustomTextFormField();
-                              },
-                            ),
-                          ),
+                          // CustomFormField(
+                          //   label: 'Category',
+                          //   isRequired: true,
+                          //   child: BlocBuilder<ServicesBloc, ServicesState>(
+                          //     builder: (context, state) {
+                          //       if (state is ServicesLoadSuccess) {
+                          //         return CustomDropDownField(
+                          //           list: List.generate(
+                          //             state.list.length,
+                          //             (index) => state.list[index].title,
+                          //           ),
+                          //           hintText: 'Trimming & Cutting',
+                          //           onChanged: (value) {
+                          //             for (final element in state.list) {
+                          //               if (value == element.title) {
+                          //                 setState(
+                          //                   () {
+                          //                     categoryId = element.id;
+                          //                   },
+                          //                 );
+                          //               }
+                          //             }
+                          //           },
+                          //         );
+                          //       }
+                          //       return const CustomTextFormField();
+                          //     },
+                          //   ),
+                          // ),
                           CustomFormField(
                             label: 'Service Description',
                             isRequired: true,

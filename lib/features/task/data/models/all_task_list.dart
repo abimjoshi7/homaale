@@ -209,11 +209,11 @@ class Result {
         "estimated_time": estimatedTime,
         "slug": slug,
         "start_date":
-            "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
+            "${startDate?.year.toString().padLeft(4, '0')}-${startDate?.month.toString().padLeft(2, '0')}-${startDate?.day.toString().padLeft(2, '0')}",
         "end_date":
-            "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
+            "${endDate?.year.toString().padLeft(4, '0')}-${endDate?.month.toString().padLeft(2, '0')}-${endDate?.day.toString().padLeft(2, '0')}",
         "completed_on":
-            "${completedOn!.year.toString().padLeft(4, '0')}-${completedOn!.month.toString().padLeft(2, '0')}-${completedOn!.day.toString().padLeft(2, '0')}",
+            "${completedOn?.year.toString().padLeft(4, '0')}-${completedOn?.month.toString().padLeft(2, '0')}-${completedOn?.day.toString().padLeft(2, '0')}",
         "start_time": startTime,
         "end_time": endTime,
         "extra_data": extraData == null

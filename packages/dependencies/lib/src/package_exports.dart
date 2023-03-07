@@ -1,3 +1,4 @@
+export 'package:auto_size_text/auto_size_text.dart';
 export 'package:bloc/bloc.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:dio/dio.dart';

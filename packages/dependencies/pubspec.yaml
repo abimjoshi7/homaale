@@ -9,23 +9,24 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  auto_size_text: ^3.0.0
   bloc: ^8.1.0
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
-  dio: ^4.0.6
+  dio: ^5.0.1
   equatable: ^2.0.5
   file_picker: ^5.2.4
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
-  flutter_facebook_auth: ^5.0.6
+  flutter_facebook_auth: ^5.0.8
   flutter_native_splash: ^2.2.16
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^8.0.0
   freezed_annotation: ^2.2.0
   geocoding: ^2.0.5
   geolocator: ^9.0.2
-  google_fonts: ^3.0.1
-  google_sign_in: ^5.4.2
+  google_fonts: ^4.0.3
+  google_sign_in: ^6.0.2
   image_picker: ^0.8.6
   infinite_scroll_pagination: ^3.2.0
   intl: ^0.18.0

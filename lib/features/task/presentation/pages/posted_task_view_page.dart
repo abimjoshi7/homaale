@@ -19,6 +19,7 @@ class PostedTaskViewPage extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
+          print(state);
           if (state.theState == TheStates.success) {
             final taskModel = state.taskModel;
             return Column(
@@ -26,7 +27,11 @@ class PostedTaskViewPage extends StatelessWidget {
                 addVerticalSpace(50),
                 CustomHeader(
                   trailingWidget: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print(state.allTaskList?.result?.last.entityService?.id);
+                      // print(state);
+                      // print(state.allTaskList?.toJson());
+                    },
                     icon: const Icon(
                       Icons.search,
                     ),

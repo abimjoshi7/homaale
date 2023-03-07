@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
@@ -42,20 +43,26 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       },
     );
 
-    on<MyTaskLoadInitiated>(
+    on<MyServiceTaskLoadInitiated>(
       (event, emit) async {
         try {
           emit(
             state.copyWith(theState: TheStates.initial),
           );
-          await repo.fetchMyCreatedTask().then(
+          await repo
+              .fetchMyCreatedEntityServiceTask(
+                isTask: event.isTask,
+              )
+              .then(
                 (value) => emit(
                   state.copyWith(
-                    theState: TheStates.success,
-                    myTaskRes: MyTaskRes.fromJson(
-                      value,
-                    ),
-                  ),
+                      theState: TheStates.success,
+                      selfCreatedTaskServiceModel:
+                          SelfCreatedTaskService.fromJson(value)
+                      // myTaskRes: MyTaskRes.fromJson(
+                      //   value,
+                      // ),
+                      ),
                 ),
               );
         } catch (e) {
@@ -72,7 +79,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             state.copyWith(theState: TheStates.initial),
           );
-          await repo.fetchAllTaskList().then(
+          await repo.fetchAllTaskList(true).then(
                 (value) => emit(
                   state.copyWith(
                     theState: TheStates.success,
@@ -119,3 +126,40 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     );
   }
 }
+
+
+// on<MyCreatedServiceTaskLoadInitiated>(
+//       (event, emit) async {
+//         try {
+//           emit(
+//             state.copyWith(
+//               theStates: TheStates.initial,
+//             ),
+//           );
+//           await repositories
+//               .fetchMyCreatedEntityServiceTask(
+//                 isTask: event.isTask,
+//               )
+//               .then(
+//                 (value) => emit(
+//                   state.copyWith(
+//                     theStates: TheStates.success,
+//                     selfCreatedTaskServiceModel:
+//                         SelfCreatedTaskServiceModel.fromJson(value),
+//                   ),
+//                   // MyCreatedServicesLoadSuccess(
+//                   //   MyCreatedServicesRes.fromJson(
+//                   //     value,
+//                   //   ),
+//                   // ),
+//                 ),
+//               );
+//         } catch (e) {
+//           emit(
+//             state.copyWith(
+//               theStates: TheStates.failure,
+//             ),
+//           );
+//         }
+//       },
+//     );

@@ -7,28 +7,31 @@ import 'package:cipher/features/task/data/models/post_task_req.dart';
 class TaskRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchMyCreatedTask() async {
+  Future<Map<String, dynamic>> fetchMyCreatedEntityServiceTask({
+    required bool isTask,
+  }) async {
     try {
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/my-entity-services/',
         query: {
-          "is_requested": true,
+          "is_requested": isTask,
         },
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
     } catch (e) {
-      log("Created Task Fetch Error: $e");
+      log("Created Service/Task Fetch Error: $e");
       rethrow;
     }
   }
 
-  Future<Map<String, dynamic>> fetchAllTaskList() async {
+// * List tasks or services by entity service ID
+  Future<Map<String, dynamic>> fetchAllTaskList(bool isTask) async {
     try {
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/service/task/list/',
         query: {
-          "is_requested": true,
+          "is_requested": isTask,
         },
         token: CacheHelper.accessToken,
       );
