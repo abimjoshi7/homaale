@@ -17,6 +17,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/common_custom_floating_action_button.dart';
+
 class Root extends StatefulWidget {
   const Root({super.key});
   static const routeName = '/root';
@@ -27,11 +29,17 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> {
   int pageIndex = 0;
+  bool isFloatingIndex = false;
 
   final pages = [
     const Home(),
     const OffersPage(),
-    const SizedBox.shrink(),
+    // Container(
+    //   color: Colors.amber,
+    //   height: 200,width: 200,
+    //   child:const Text("hello",),
+    // ),
+    // const Home(),
     const BookingPages(),
     const AccountProfile(),
   ];
@@ -126,6 +134,16 @@ class _RootState extends State<Root> {
         initBlocs();
       },
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: CommonCustomFloatingAction(
+          onPressed: () {
+            setState(() {
+              isFloatingIndex = !isFloatingIndex;
+            });
+          },
+          text: "Add",
+          floatingAction: isFloatingIndex,
+        ),
         body: Stack(
           children: [
             pages[pageIndex],
@@ -136,7 +154,7 @@ class _RootState extends State<Root> {
                   return Stack(
                     children: [
                       Visibility(
-                        visible: pageIndex != 2,
+                        visible: !isFloatingIndex,
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 50),
                           alignment: Alignment.center,
@@ -160,6 +178,7 @@ class _RootState extends State<Root> {
                                     setState(
                                       () {
                                         pageIndex = 0;
+                                        isFloatingIndex = false;
                                       },
                                     );
                                   },
@@ -167,51 +186,62 @@ class _RootState extends State<Root> {
                                   index: 0,
                                   label: 'Home',
                                   iconData: Icons.home,
+                                  checkOpenAdd: isFloatingIndex,
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(() {
                                       pageIndex = 1;
+                                      isFloatingIndex = false;
                                     });
                                   },
                                   pageIndex: pageIndex,
                                   index: 1,
                                   label: 'Offers',
                                   iconData: Icons.wallet_giftcard_rounded,
+                                  checkOpenAdd: isFloatingIndex,
                                 ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                // commented this lines cause of changes this functionality by applying floating acton button
+                                // CustomBottomNavItems(
+                                //   onPressed: () {
+                                //     setState(() {
+                                //       pageIndex = 2;
+                                //     });
+                                //   },
+                                //   pageIndex: pageIndex,
+                                //   index: 2,
+                                //   label: 'Add',
+                                //   iconData: Icons.add_circle,
+                                // ),
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(() {
                                       pageIndex = 2;
+                                      isFloatingIndex = false;
                                     });
                                   },
                                   pageIndex: pageIndex,
                                   index: 2,
-                                  label: 'Add',
-                                  iconData: Icons.add_circle_outline_rounded,
-                                ),
-                                CustomBottomNavItems(
-                                  onPressed: () {
-                                    setState(() {
-                                      pageIndex = 3;
-                                    });
-                                  },
-                                  pageIndex: pageIndex,
-                                  index: 3,
                                   label: 'Bookings',
                                   iconData: Icons.edit_calendar_rounded,
+                                  checkOpenAdd: isFloatingIndex,
                                   // iconData: Icons.collections_bookmark_outlined,
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(() {
-                                      pageIndex = 4;
+                                      pageIndex = 3;
+                                      isFloatingIndex = false;
                                     });
                                   },
                                   pageIndex: pageIndex,
-                                  index: 4,
+                                  index: 3,
                                   label: 'Profile',
                                   iconData: Icons.account_circle_outlined,
+                                  checkOpenAdd: isFloatingIndex,
                                 ),
                               ],
                             ),
@@ -224,7 +254,7 @@ class _RootState extends State<Root> {
               ),
             ),
             Visibility(
-              visible: pageIndex == 2,
+              visible: isFloatingIndex,
               child: Positioned(
                 bottom: MediaQuery.of(context).size.height * 0.09,
                 child: SizedBox(

@@ -25,6 +25,9 @@ final kDarkTheme = ThemeData(
 );
 
 final kLightTheme = ThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Colors.transparent,
+  ),
   textTheme: GoogleFonts.poppinsTextTheme(),
   brightness: Brightness.light,
   radioTheme: RadioThemeData(
@@ -46,4 +49,5 @@ final kLightTheme = ThemeData(
     space: 0,
     thickness: 1.2,
   ),
+
 );
