@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -60,10 +61,10 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingsBloc, BookingsState>(
+    return BlocBuilder<BookingsBloc, BookingState>(
       builder: (context, state) {
-        if (state is ServiceBookingLoadSuccess) {
-          final data = state.myBookingList.result;
+        if (state.states == TheStates.success) {
+          final myBookingList = state.myBookingList?.result;
           return Padding(
             padding: kPadding10,
             child: ListView(
@@ -73,7 +74,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                   child: CustomTextFormField(
                     controller: problemDescController,
                     validator: validateNotEmpty,
-                    hintText: data?[selectedIndex].description ?? '',
+                    hintText: myBookingList?[selectedIndex].description ?? '',
                   ),
                 ),
                 CustomFormField(
@@ -130,7 +131,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       addVerticalSpace(5),
                       CustomTextFormField(
                         controller: requirementController,
-                        hintText: data?[selectedIndex]
+                        hintText: myBookingList?[selectedIndex]
                                 .requirements
                                 ?.values
                                 .join(', ') ??
@@ -152,7 +153,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       String? x;
                       if (cityState is CityLoadSuccess) {
                         for (final element in cityState.list) {
-                          if (element.id == data?[selectedIndex].city) {
+                          if (element.id ==
+                              myBookingList?[selectedIndex].city) {
                             x = element.name;
                           }
                         }
@@ -181,7 +183,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                   label: 'Location',
                   child: CustomTextFormField(
                     controller: locationController,
-                    hintText: data?[selectedIndex].location ?? '',
+                    hintText: myBookingList?[selectedIndex].location ?? '',
                   ),
                 ),
                 CustomFormField(
@@ -198,8 +200,10 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             ),
                             CustomTextFormField(
                               controller: startBudgetController,
-                              hintText: data?[selectedIndex].budgetFrom != null
-                                  ? "${data?[selectedIndex].budgetFrom}"
+                              hintText: myBookingList?[selectedIndex]
+                                          .budgetFrom !=
+                                      null
+                                  ? "${myBookingList?[selectedIndex].budgetFrom}"
                                   : 'Add starting Price',
                             ),
                           ],
@@ -216,8 +220,10 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             ),
                             CustomTextFormField(
                               controller: endBudgetController,
-                              hintText: data?[selectedIndex].budgetTo != null
-                                  ? "${data?[selectedIndex].budgetTo}"
+                              hintText: myBookingList?[selectedIndex]
+                                          .budgetTo !=
+                                      null
+                                  ? "${myBookingList?[selectedIndex].budgetTo}"
                                   : 'Add end Price',
                             ),
                           ],
@@ -257,7 +263,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   },
                                   child: CustomFormContainer(
                                     hintText: DateFormat.yMMMMEEEEd().format(
-                                      data?[selectedIndex].startDate ??
+                                      myBookingList?[selectedIndex].startDate ??
                                           DateTime.now(),
                                     ),
                                   ),
@@ -295,7 +301,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   },
                                   child: CustomFormContainer(
                                     hintText: DateFormat.yMMMMEEEEd().format(
-                                      data?[selectedIndex].endDate ??
+                                      myBookingList?[selectedIndex].endDate ??
                                           DateTime.now(),
                                     ),
                                   ),
@@ -415,7 +421,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             label: 'Start Time',
                             child: CustomFormContainer(
                               hintText: startTime?.format(context) ??
-                                  data?[selectedIndex].startTime.toString() ??
+                                  myBookingList?[selectedIndex]
+                                      .startTime
+                                      .toString() ??
                                   '',
                               callback: () async {
                                 await showTimePicker(
@@ -436,7 +444,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             label: 'End Time',
                             child: CustomFormContainer(
                               hintText: endTime?.format(context) ??
-                                  data?[selectedIndex].endTime.toString() ??
+                                  myBookingList?[selectedIndex]
+                                      .endTime
+                                      .toString() ??
                                   '',
                               callback: () async {
                                 await showTimePicker(
@@ -467,43 +477,49 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         //     data?[selectedIndex].bookingMerchant.toString(),
                         description: problemDescController.text.isNotEmpty
                             ? problemDescController.text
-                            : data?[selectedIndex].description,
+                            : myBookingList?[selectedIndex].description,
                         requirements: requirementList.asMap().map(
                               (key, value) => MapEntry(
                                 key.toString(),
                                 value as dynamic,
                               ),
                             ),
-                        city: cityCode ?? data?[selectedIndex].city?.toInt(),
+                        city: cityCode ??
+                            myBookingList?[selectedIndex].city?.toInt(),
                         location: locationController.text.isNotEmpty
                             ? locationController.text
-                            : data?[selectedIndex].location,
+                            : myBookingList?[selectedIndex].location,
                         budgetTo: startBudgetController.text.isNotEmpty
                             ? double.parse(startBudgetController.text)
-                            : data?[selectedIndex].budgetTo,
+                            : myBookingList?[selectedIndex].budgetTo,
                         budgetFrom: endBudgetController.text.isNotEmpty
                             ? double.parse(endBudgetController.text)
-                            : data?[selectedIndex].budgetFrom,
+                            : myBookingList?[selectedIndex].budgetFrom,
                         // images: imageList ?? data?[selectedIndex].images,
-                        videos: fileList ?? data?[selectedIndex].videos,
-                        startDate: startDate ?? data?[selectedIndex].startDate,
-                        endDate: endDate ?? data?[selectedIndex].endDate,
+                        videos:
+                            fileList ?? myBookingList?[selectedIndex].videos,
+                        startDate: startDate ??
+                            myBookingList?[selectedIndex].startDate,
+                        endDate:
+                            endDate ?? myBookingList?[selectedIndex].endDate,
                         // startTime: startTime?.format(context) ??
                         //     data?[selectedIndex].startTime.toString(),
                         // endTime: endTime?.format(context) ??
                         //     data?[selectedIndex].endTime.toString(),
                         createdBy:
-                            data?[selectedIndex].createdBy?.user?.id ?? '',
+                            myBookingList?[selectedIndex].createdBy?.user?.id ??
+                                '',
                         entityService:
-                            data?[selectedIndex].entityService?.id ?? '',
-                        extraData: data?[selectedIndex].extraData
+                            myBookingList?[selectedIndex].entityService?.id ??
+                                '',
+                        extraData: myBookingList?[selectedIndex].extraData
                                 as Map<String, dynamic>? ??
                             {},
-                        isActive: data?[selectedIndex].isActive,
+                        isActive: myBookingList?[selectedIndex].isActive,
                         status: "pending",
                       );
 
-                      print(data?[selectedIndex].id);
+                      print(myBookingList?[selectedIndex].id);
                       print(
                         jsonEncode(req.toJson()),
                       );

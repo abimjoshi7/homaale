@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task/presentation/cubit/single_entity_task_cubit.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +15,10 @@ class PostedTaskViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<SingleEntityTaskCubit, SingleEntityTaskState>(
+      body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          if (state is SingleEntityTaskLoadSuccess) {
-            final data = state.taskModel;
+          if (state.theState == TheStates.success) {
+            final taskModel = state.taskModel;
             return Column(
               children: [
                 addVerticalSpace(50),
@@ -31,7 +30,7 @@ class PostedTaskViewPage extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    data.title ?? '',
+                    taskModel?.title ?? '',
                   ),
                 ),
                 const Divider(),
@@ -61,7 +60,7 @@ class PostedTaskViewPage extends StatelessWidget {
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
-                                        data.createdBy?.profileImage ??
+                                        taskModel?.createdBy?.profileImage ??
                                             kServiceImageNImg,
                                       ),
                                     ),
@@ -72,11 +71,11 @@ class PostedTaskViewPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      data.title ?? '',
+                                      taskModel?.title ?? '',
                                       style: kPurpleText16,
                                     ),
                                     Text(
-                                      "${data.createdBy?.firstName ?? ''} ${data.createdBy?.lastName ?? ''}",
+                                      "${taskModel?.createdBy?.firstName ?? ''} ${taskModel?.createdBy?.lastName ?? ''}",
                                       style: kLightBlueText14,
                                     ),
                                   ],
@@ -109,12 +108,13 @@ class PostedTaskViewPage extends StatelessWidget {
                           children: [
                             IconText(
                               label: DateFormat.yMMMEd().format(
-                                data.createdAt ?? DateTime.now(),
+                                taskModel?.createdAt ?? DateTime.now(),
                               ),
                               iconData: Icons.calendar_today_rounded,
                             ),
                             IconText(
-                              label: data.location ?? 'Buddhanagar, Kathmandu',
+                              label: taskModel?.location ??
+                                  'Buddhanagar, Kathmandu',
                               iconData: Icons.location_on_outlined,
                               color: Colors.red,
                             ),
@@ -125,7 +125,8 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: "${data.startTime} ${data.endTime}",
+                              label:
+                                  "${taskModel?.startTime} ${taskModel?.endTime}",
                               iconData: Icons.watch_later_outlined,
                               color: kColorBlue,
                             ),
@@ -146,7 +147,7 @@ class PostedTaskViewPage extends StatelessWidget {
                           label: 'Description',
                           child: Wrap(
                             children: [
-                              Text(data.description ??
+                              Text(taskModel?.description ??
                                   'Hiring a reputable professional landscape gardener entail paying for their knowledge, experience, time, equipment, and materials.'),
                             ],
                           ),

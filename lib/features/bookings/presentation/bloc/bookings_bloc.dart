@@ -9,19 +9,20 @@ import 'package:dependencies/dependencies.dart';
 part 'bookings_event.dart';
 part 'bookings_state.dart';
 
-class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
+class BookingsBloc extends Bloc<BookingsEvent, BookingState> {
   final repositories = BookingRepositories();
-  BookingsBloc() : super(BookingsInitial()) {
+  BookingsBloc() : super(const BookingState()) {
     on<ServiceBookingInitiated>(
       (event, emit) async {
         try {
           emit(
-            BookingsInitial(),
+            state.copyWith(states: TheStates.initial),
           );
           await repositories.bookServiceOrTask(event.service).then(
                 (value) => emit(
-                  ServiceBookingAddSuccess(
-                    BookEntityServiceRes.fromJson(
+                  state.copyWith(
+                    states: TheStates.success,
+                    bookEntityServiceRes: BookEntityServiceRes.fromJson(
                       value,
                     ),
                   ),
@@ -29,7 +30,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
         } catch (e) {
           emit(
-            ServiceBookingAddFailure(),
+            state.copyWith(states: TheStates.failure),
           );
         }
       },
@@ -39,12 +40,15 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       (event, emit) async {
         try {
           emit(
-            BookingsInitial(),
+            state.copyWith(
+              states: TheStates.initial,
+            ),
           );
           await repositories.fetchMyServiceBookingList().then(
                 (value) => emit(
-                  ServiceBookingLoadSuccess(
-                    MyBookingList.fromJson(
+                  state.copyWith(
+                    states: TheStates.success,
+                    myBookingList: MyBookingList.fromJson(
                       value,
                     ),
                   ),
@@ -52,7 +56,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
         } catch (e) {
           emit(
-            BookingsFailure(),
+            state.copyWith(states: TheStates.failure),
           );
         }
       },
@@ -62,15 +66,20 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       (event, emit) async {
         try {
           await repositories.editBooking(event.id, event.req).then(
-                (value) => ServiceBookingEditSuccess(
-                  EditBookingRes.fromJson(
-                    value,
+                (value) => emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    editBookingRes: EditBookingRes.fromJson(
+                      value,
+                    ),
                   ),
                 ),
               );
         } catch (e) {
           emit(
-            BookingsFailure(),
+            state.copyWith(
+              states: TheStates.failure,
+            ),
           );
         }
       },
@@ -83,7 +92,10 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               .deleteBooking(event.id)
               .then(
                 (value) => emit(
-                  ServiceBookingDeleteSuccess(),
+                  state.copyWith(
+                    states: TheStates.success,
+                    isDeleteSuccess: true,
+                  ),
                 ),
               )
               .whenComplete(
@@ -93,7 +105,9 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
         } catch (e) {
           emit(
-            BookingsFailure(),
+            state.copyWith(
+              states: TheStates.failure,
+            ),
           );
         }
       },

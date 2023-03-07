@@ -55,7 +55,7 @@ class _BookingsSectionState extends State<BookingsSection> {
                   }
                   if (selectedIndex == 2) {
                     context.read<TaskBloc>().add(
-                          MyTaskLoadInitiated(),
+                          AllTaskLoadInitiated(),
                         );
                   }
                 },

@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -14,8 +15,8 @@ class AllTaskPage extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          if (state is AllTaskListLoadSuccess) {
-            final data = state.res.result;
+          if (state.theState == TheStates.success) {
+            final data = state.allTaskList?.result;
             return Column(
               children: [
                 addVerticalSpace(50),

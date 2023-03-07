@@ -16,13 +16,13 @@ class BookingsMyOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
-        if (state is TaskInitial) {
+        if (state.theState == TheStates.initial) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        if (state is TaskLoadSuccess) {
-          final data = state.res.result;
+        if (state.theState == TheStates.success) {
+          final allTaskList = state.allTaskList?.result;
           return Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
@@ -41,7 +41,7 @@ class BookingsMyOrder extends StatelessWidget {
                     await context
                         .read<SingleEntityTaskCubit>()
                         .fetchSingleEntityTask(
-                          data?[index].id ?? 'No ID',
+                          allTaskList?[index].id ?? 'No ID',
                         )
                         .then(
                           (value) => Navigator.pushNamed(
@@ -54,9 +54,9 @@ class BookingsMyOrder extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: BookingsServiceCard(
                       deleteTap: () {},
-                      serviceName: state.res.result?[index].title,
-                      providerName:
-                          "${state.res.result?[index].createdBy?.firstName} ${state.res.result?[index].createdBy?.lastName}",
+                      serviceName: allTaskList?[index].title,
+                      providerName: '',
+                      // "${allTaskList?[index].createdBy?.firstName} ${allTaskList?[index].createdBy?.lastName}",
                       mainContentWidget: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -65,8 +65,7 @@ class BookingsMyOrder extends StatelessWidget {
                             child: IconText(
                               iconData: Icons.calendar_today_rounded,
                               label: DateFormat().format(
-                                state.res.result?[index].createdAt ??
-                                    DateTime.now(),
+                                allTaskList?[index].createdAt ?? DateTime.now(),
                               ),
                               color: kColorBlue,
                             ),
@@ -76,7 +75,7 @@ class BookingsMyOrder extends StatelessWidget {
                             child: IconText(
                               iconData: Icons.watch_later_outlined,
                               label:
-                                  "${state.res.result?[index].startTime ?? '00:00'} ${state.res.result?[index].endTime ?? ''}",
+                                  "${allTaskList?[index].startTime ?? '00:00'} ${allTaskList?[index].endTime ?? ''}",
                               color: kColorGreen,
                             ),
                           ),
@@ -84,16 +83,16 @@ class BookingsMyOrder extends StatelessWidget {
                             padding: const EdgeInsets.all(3),
                             child: IconText(
                               iconData: Icons.attach_money_rounded,
-                              label:
-                                  "Rs. ${state.res.result?[index].budgetFrom ?? ''} - ${state.res.result?[index].budgetTo ?? ''}",
-                              color: kColorAmber,
+                              label: '',
+                              // "Rs. ${allTaskList?[index].budgetFrom ?? ''} - ${allTaskList?[index].budgetTo ?? ''}",
+                              // color: kColorAmber,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(3),
                             child: IconText(
                               iconData: Icons.location_on_outlined,
-                              label: state.res.result?[index].location ??
+                              label: allTaskList?[index].location ??
                                   'No address found',
                               color: Colors.red,
                             ),
@@ -114,7 +113,7 @@ class BookingsMyOrder extends StatelessWidget {
                   ),
                 ),
               ),
-              itemCount: state.res.result?.length ?? 0,
+              itemCount: allTaskList?.length ?? 0,
             ),
           );
         }
