@@ -336,7 +336,7 @@ class TaskerProfileState extends State<TaskerProfile>
                         location:
                             "${state.tasker?.addressLine1}, ${state.tasker?.country!.name ?? ''}",
                         portfolio: state.tasker?.portfolio ?? [],
-                        education: state.tasker?.education ?? [],
+                        education: [],
                         experience: state.tasker?.experience ?? [],
                       ),
                       TaskerTask(

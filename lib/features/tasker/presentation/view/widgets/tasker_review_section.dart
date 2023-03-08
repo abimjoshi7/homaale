@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/tasker/data/models/tasker_review_response.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TaskerReviewSection extends StatefulWidget {
@@ -45,29 +46,36 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
             itemBuilder: (context, index) => Column(
               children: [
                 ListTile(
-                  leading: const CircleAvatar(),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      '${widget.taskerReviewsResponse?.result?[index].ratedBy?.profileImage}',
+                    ),
+                  ),
                   title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Text(
                             '${widget.taskerReviewsResponse?.result?[index].ratedBy?.fullName}',
                           ),
-                          WidgetText(
+                          const WidgetText(
                             label: '3',
                             widget: Icon(
                               Icons.star_rounded,
+                              color: kColorAmber,
                             ),
                           ),
                         ],
                       ),
-                      const Text(
-                        'Great work, very easy to deal with and great communication',
+                      Text(
+                        '${widget.taskerReviewsResponse?.result?[index].review}',
                       ),
                     ],
                   ),
-                  trailing: const Text(
-                    '3 days ago',
+                  trailing: Text(
+                    Jiffy('${widget.taskerReviewsResponse?.result?[index].createdAt}')
+                        .yMMMMd,
                     style: kHelper13,
                   ),
                 ),

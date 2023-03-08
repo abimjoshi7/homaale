@@ -17,14 +17,18 @@ class TaskerCubit extends Cubit<TaskerState> {
     try {
       emit(state.copyWith(states: TheStates.initial));
       await repo.fetchAllTaskers().then(
-            (value) => emit(
-              state.copyWith(
-                states: TheStates.success,
-                taskerListRes: TaskerListRes.fromJson(value),
-              ),
+        (value) {
+          final taskerListRes = TaskerListRes.fromJson(value);
+          emit(
+            state.copyWith(
+              states: TheStates.success,
+              taskerListRes: taskerListRes,
             ),
           );
+        },
+      );
     } catch (e) {
+      log(e.toString());
       emit(state.copyWith(states: TheStates.failure));
     }
   }
@@ -108,6 +112,7 @@ class TaskerCubit extends Cubit<TaskerState> {
         },
       );
     } catch (e) {
+      log(e.toString());
       emit(state.copyWith(states: TheStates.failure));
     }
   }

@@ -23,8 +23,8 @@ mixin _$TaskerReviewResponse {
   int? get totalPages => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   int? get current => throw _privateConstructorUsedError;
-  dynamic? get next => throw _privateConstructorUsedError;
-  dynamic? get previous => throw _privateConstructorUsedError;
+  String? get next => throw _privateConstructorUsedError;
+  String? get previous => throw _privateConstructorUsedError;
   int? get pageSize => throw _privateConstructorUsedError;
   List<Result>? get result => throw _privateConstructorUsedError;
 
@@ -44,8 +44,8 @@ abstract class $TaskerReviewResponseCopyWith<$Res> {
       {int? totalPages,
       int? count,
       int? current,
-      dynamic? next,
-      dynamic? previous,
+      String? next,
+      String? previous,
       int? pageSize,
       List<Result>? result});
 }
@@ -88,11 +88,11 @@ class _$TaskerReviewResponseCopyWithImpl<$Res,
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       previous: freezed == previous
           ? _value.previous
           : previous // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -117,8 +117,8 @@ abstract class _$$_TaskerReviewResponseCopyWith<$Res>
       {int? totalPages,
       int? count,
       int? current,
-      dynamic? next,
-      dynamic? previous,
+      String? next,
+      String? previous,
       int? pageSize,
       List<Result>? result});
 }
@@ -158,11 +158,11 @@ class __$$_TaskerReviewResponseCopyWithImpl<$Res>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       previous: freezed == previous
           ? _value.previous
           : previous // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -198,9 +198,9 @@ class _$_TaskerReviewResponse implements _TaskerReviewResponse {
   @override
   final int? current;
   @override
-  final dynamic? next;
+  final String? next;
   @override
-  final dynamic? previous;
+  final String? previous;
   @override
   final int? pageSize;
   final List<Result>? _result;
@@ -227,8 +227,9 @@ class _$_TaskerReviewResponse implements _TaskerReviewResponse {
                 other.totalPages == totalPages) &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.current, current) || other.current == current) &&
-            const DeepCollectionEquality().equals(other.next, next) &&
-            const DeepCollectionEquality().equals(other.previous, previous) &&
+            (identical(other.next, next) || other.next == next) &&
+            (identical(other.previous, previous) ||
+                other.previous == previous) &&
             (identical(other.pageSize, pageSize) ||
                 other.pageSize == pageSize) &&
             const DeepCollectionEquality().equals(other._result, _result));
@@ -236,15 +237,8 @@ class _$_TaskerReviewResponse implements _TaskerReviewResponse {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      totalPages,
-      count,
-      current,
-      const DeepCollectionEquality().hash(next),
-      const DeepCollectionEquality().hash(previous),
-      pageSize,
-      const DeepCollectionEquality().hash(_result));
+  int get hashCode => Object.hash(runtimeType, totalPages, count, current, next,
+      previous, pageSize, const DeepCollectionEquality().hash(_result));
 
   @JsonKey(ignore: true)
   @override
@@ -266,8 +260,8 @@ abstract class _TaskerReviewResponse implements TaskerReviewResponse {
       {final int? totalPages,
       final int? count,
       final int? current,
-      final dynamic? next,
-      final dynamic? previous,
+      final String? next,
+      final String? previous,
       final int? pageSize,
       final List<Result>? result}) = _$_TaskerReviewResponse;
 
@@ -281,9 +275,9 @@ abstract class _TaskerReviewResponse implements TaskerReviewResponse {
   @override
   int? get current;
   @override
-  dynamic? get next;
+  String? get next;
   @override
-  dynamic? get previous;
+  String? get previous;
   @override
   int? get pageSize;
   @override
@@ -301,13 +295,18 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Result {
   int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'rated_to')
   Rated? get ratedTo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'rated_by')
   Rated? get ratedBy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   int? get rating => throw _privateConstructorUsedError;
   String? get review => throw _privateConstructorUsedError;
   dynamic? get reply => throw _privateConstructorUsedError;
+  @JsonKey(name: 'replied_date')
   dynamic? get repliedDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_verified')
   bool? get isVerified => throw _privateConstructorUsedError;
   String? get task => throw _privateConstructorUsedError;
 
@@ -323,14 +322,14 @@ abstract class $ResultCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      Rated? ratedTo,
-      Rated? ratedBy,
-      DateTime? createdAt,
+      @JsonKey(name: 'rated_to') Rated? ratedTo,
+      @JsonKey(name: 'rated_by') Rated? ratedBy,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
       int? rating,
       String? review,
       dynamic? reply,
-      dynamic? repliedDate,
-      bool? isVerified,
+      @JsonKey(name: 'replied_date') dynamic? repliedDate,
+      @JsonKey(name: 'is_verified') bool? isVerified,
       String? task});
 
   $RatedCopyWith<$Res>? get ratedTo;
@@ -438,14 +437,14 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      Rated? ratedTo,
-      Rated? ratedBy,
-      DateTime? createdAt,
+      @JsonKey(name: 'rated_to') Rated? ratedTo,
+      @JsonKey(name: 'rated_by') Rated? ratedBy,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
       int? rating,
       String? review,
       dynamic? reply,
-      dynamic? repliedDate,
-      bool? isVerified,
+      @JsonKey(name: 'replied_date') dynamic? repliedDate,
+      @JsonKey(name: 'is_verified') bool? isVerified,
       String? task});
 
   @override
@@ -525,14 +524,14 @@ class __$$_ResultCopyWithImpl<$Res>
 class _$_Result implements _Result {
   const _$_Result(
       {this.id,
-      this.ratedTo,
-      this.ratedBy,
-      this.createdAt,
+      @JsonKey(name: 'rated_to') this.ratedTo,
+      @JsonKey(name: 'rated_by') this.ratedBy,
+      @JsonKey(name: 'created_at') this.createdAt,
       this.rating,
       this.review,
       this.reply,
-      this.repliedDate,
-      this.isVerified,
+      @JsonKey(name: 'replied_date') this.repliedDate,
+      @JsonKey(name: 'is_verified') this.isVerified,
       this.task});
 
   factory _$_Result.fromJson(Map<String, dynamic> json) =>
@@ -541,10 +540,13 @@ class _$_Result implements _Result {
   @override
   final int? id;
   @override
+  @JsonKey(name: 'rated_to')
   final Rated? ratedTo;
   @override
+  @JsonKey(name: 'rated_by')
   final Rated? ratedBy;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
   final int? rating;
@@ -553,8 +555,10 @@ class _$_Result implements _Result {
   @override
   final dynamic? reply;
   @override
+  @JsonKey(name: 'replied_date')
   final dynamic? repliedDate;
   @override
+  @JsonKey(name: 'is_verified')
   final bool? isVerified;
   @override
   final String? task;
@@ -616,14 +620,14 @@ class _$_Result implements _Result {
 abstract class _Result implements Result {
   const factory _Result(
       {final int? id,
-      final Rated? ratedTo,
-      final Rated? ratedBy,
-      final DateTime? createdAt,
+      @JsonKey(name: 'rated_to') final Rated? ratedTo,
+      @JsonKey(name: 'rated_by') final Rated? ratedBy,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
       final int? rating,
       final String? review,
       final dynamic? reply,
-      final dynamic? repliedDate,
-      final bool? isVerified,
+      @JsonKey(name: 'replied_date') final dynamic? repliedDate,
+      @JsonKey(name: 'is_verified') final bool? isVerified,
       final String? task}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
@@ -631,10 +635,13 @@ abstract class _Result implements Result {
   @override
   int? get id;
   @override
+  @JsonKey(name: 'rated_to')
   Rated? get ratedTo;
   @override
+  @JsonKey(name: 'rated_by')
   Rated? get ratedBy;
   @override
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
   int? get rating;
@@ -643,8 +650,10 @@ abstract class _Result implements Result {
   @override
   dynamic? get reply;
   @override
+  @JsonKey(name: 'replied_date')
   dynamic? get repliedDate;
   @override
+  @JsonKey(name: 'is_verified')
   bool? get isVerified;
   @override
   String? get task;
@@ -663,20 +672,29 @@ mixin _$Rated {
   String? get id => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  dynamic? get phone => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
   String? get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'middle_name')
   String? get middleName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_name')
   String? get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_image')
   String? get profileImage => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_type')
   String? get userType => throw _privateConstructorUsedError;
-  String? get isProfileVerified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_profile_verified')
+  bool? get isProfileVerified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_followed')
   bool? get isFollowed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_following')
   bool? get isFollowing => throw _privateConstructorUsedError;
-  Avatar? get avatar => throw _privateConstructorUsedError;
   Badge? get badge => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -693,23 +711,21 @@ abstract class $RatedCopyWith<$Res> {
       {String? id,
       String? username,
       String? email,
-      dynamic? phone,
-      String? fullName,
-      String? firstName,
-      String? middleName,
-      String? lastName,
-      String? profileImage,
+      String? phone,
+      @JsonKey(name: 'full_name') String? fullName,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      @JsonKey(name: 'profile_image') String? profileImage,
       String? bio,
-      DateTime? createdAt,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
       String? designation,
-      String? userType,
-      String? isProfileVerified,
-      bool? isFollowed,
-      bool? isFollowing,
-      Avatar? avatar,
+      @JsonKey(name: 'user_type') String? userType,
+      @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') bool? isFollowed,
+      @JsonKey(name: 'is_following') bool? isFollowing,
       Badge? badge});
 
-  $AvatarCopyWith<$Res>? get avatar;
   $BadgeCopyWith<$Res>? get badge;
 }
 
@@ -742,7 +758,6 @@ class _$RatedCopyWithImpl<$Res, $Val extends Rated>
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
-    Object? avatar = freezed,
     Object? badge = freezed,
   }) {
     return _then(_value.copyWith(
@@ -761,7 +776,7 @@ class _$RatedCopyWithImpl<$Res, $Val extends Rated>
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -801,7 +816,7 @@ class _$RatedCopyWithImpl<$Res, $Val extends Rated>
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
           : isFollowed // ignore: cast_nullable_to_non_nullable
@@ -810,27 +825,11 @@ class _$RatedCopyWithImpl<$Res, $Val extends Rated>
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
               as bool?,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as Avatar?,
       badge: freezed == badge
           ? _value.badge
           : badge // ignore: cast_nullable_to_non_nullable
               as Badge?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AvatarCopyWith<$Res>? get avatar {
-    if (_value.avatar == null) {
-      return null;
-    }
-
-    return $AvatarCopyWith<$Res>(_value.avatar!, (value) {
-      return _then(_value.copyWith(avatar: value) as $Val);
-    });
   }
 
   @override
@@ -856,24 +855,21 @@ abstract class _$$_RatedCopyWith<$Res> implements $RatedCopyWith<$Res> {
       {String? id,
       String? username,
       String? email,
-      dynamic? phone,
-      String? fullName,
-      String? firstName,
-      String? middleName,
-      String? lastName,
-      String? profileImage,
+      String? phone,
+      @JsonKey(name: 'full_name') String? fullName,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      @JsonKey(name: 'profile_image') String? profileImage,
       String? bio,
-      DateTime? createdAt,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
       String? designation,
-      String? userType,
-      String? isProfileVerified,
-      bool? isFollowed,
-      bool? isFollowing,
-      Avatar? avatar,
+      @JsonKey(name: 'user_type') String? userType,
+      @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') bool? isFollowed,
+      @JsonKey(name: 'is_following') bool? isFollowing,
       Badge? badge});
 
-  @override
-  $AvatarCopyWith<$Res>? get avatar;
   @override
   $BadgeCopyWith<$Res>? get badge;
 }
@@ -903,7 +899,6 @@ class __$$_RatedCopyWithImpl<$Res> extends _$RatedCopyWithImpl<$Res, _$_Rated>
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
-    Object? avatar = freezed,
     Object? badge = freezed,
   }) {
     return _then(_$_Rated(
@@ -922,7 +917,7 @@ class __$$_RatedCopyWithImpl<$Res> extends _$RatedCopyWithImpl<$Res, _$_Rated>
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -962,7 +957,7 @@ class __$$_RatedCopyWithImpl<$Res> extends _$RatedCopyWithImpl<$Res, _$_Rated>
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
           : isFollowed // ignore: cast_nullable_to_non_nullable
@@ -971,10 +966,6 @@ class __$$_RatedCopyWithImpl<$Res> extends _$RatedCopyWithImpl<$Res, _$_Rated>
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
               as bool?,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as Avatar?,
       badge: freezed == badge
           ? _value.badge
           : badge // ignore: cast_nullable_to_non_nullable
@@ -991,19 +982,18 @@ class _$_Rated implements _Rated {
       this.username,
       this.email,
       this.phone,
-      this.fullName,
-      this.firstName,
-      this.middleName,
-      this.lastName,
-      this.profileImage,
+      @JsonKey(name: 'full_name') this.fullName,
+      @JsonKey(name: 'first_name') this.firstName,
+      @JsonKey(name: 'middle_name') this.middleName,
+      @JsonKey(name: 'last_name') this.lastName,
+      @JsonKey(name: 'profile_image') this.profileImage,
       this.bio,
-      this.createdAt,
+      @JsonKey(name: 'created_at') this.createdAt,
       this.designation,
-      this.userType,
-      this.isProfileVerified,
-      this.isFollowed,
-      this.isFollowing,
-      this.avatar,
+      @JsonKey(name: 'user_type') this.userType,
+      @JsonKey(name: 'is_profile_verified') this.isProfileVerified,
+      @JsonKey(name: 'is_followed') this.isFollowed,
+      @JsonKey(name: 'is_following') this.isFollowing,
       this.badge});
 
   factory _$_Rated.fromJson(Map<String, dynamic> json) =>
@@ -1016,39 +1006,47 @@ class _$_Rated implements _Rated {
   @override
   final String? email;
   @override
-  final dynamic? phone;
+  final String? phone;
   @override
+  @JsonKey(name: 'full_name')
   final String? fullName;
   @override
+  @JsonKey(name: 'first_name')
   final String? firstName;
   @override
+  @JsonKey(name: 'middle_name')
   final String? middleName;
   @override
+  @JsonKey(name: 'last_name')
   final String? lastName;
   @override
+  @JsonKey(name: 'profile_image')
   final String? profileImage;
   @override
   final String? bio;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
   final String? designation;
   @override
+  @JsonKey(name: 'user_type')
   final String? userType;
   @override
-  final String? isProfileVerified;
+  @JsonKey(name: 'is_profile_verified')
+  final bool? isProfileVerified;
   @override
+  @JsonKey(name: 'is_followed')
   final bool? isFollowed;
   @override
+  @JsonKey(name: 'is_following')
   final bool? isFollowing;
-  @override
-  final Avatar? avatar;
   @override
   final Badge? badge;
 
   @override
   String toString() {
-    return 'Rated(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, userType: $userType, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, avatar: $avatar, badge: $badge)';
+    return 'Rated(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, userType: $userType, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
   }
 
   @override
@@ -1060,7 +1058,7 @@ class _$_Rated implements _Rated {
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
-            const DeepCollectionEquality().equals(other.phone, phone) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.firstName, firstName) ||
@@ -1084,7 +1082,6 @@ class _$_Rated implements _Rated {
                 other.isFollowed == isFollowed) &&
             (identical(other.isFollowing, isFollowing) ||
                 other.isFollowing == isFollowing) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.badge, badge) || other.badge == badge));
   }
 
@@ -1095,7 +1092,7 @@ class _$_Rated implements _Rated {
       id,
       username,
       email,
-      const DeepCollectionEquality().hash(phone),
+      phone,
       fullName,
       firstName,
       middleName,
@@ -1108,7 +1105,6 @@ class _$_Rated implements _Rated {
       isProfileVerified,
       isFollowed,
       isFollowing,
-      avatar,
       badge);
 
   @JsonKey(ignore: true)
@@ -1130,20 +1126,19 @@ abstract class _Rated implements Rated {
       {final String? id,
       final String? username,
       final String? email,
-      final dynamic? phone,
-      final String? fullName,
-      final String? firstName,
-      final String? middleName,
-      final String? lastName,
-      final String? profileImage,
+      final String? phone,
+      @JsonKey(name: 'full_name') final String? fullName,
+      @JsonKey(name: 'first_name') final String? firstName,
+      @JsonKey(name: 'middle_name') final String? middleName,
+      @JsonKey(name: 'last_name') final String? lastName,
+      @JsonKey(name: 'profile_image') final String? profileImage,
       final String? bio,
-      final DateTime? createdAt,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
       final String? designation,
-      final String? userType,
-      final String? isProfileVerified,
-      final bool? isFollowed,
-      final bool? isFollowing,
-      final Avatar? avatar,
+      @JsonKey(name: 'user_type') final String? userType,
+      @JsonKey(name: 'is_profile_verified') final bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') final bool? isFollowed,
+      @JsonKey(name: 'is_following') final bool? isFollowing,
       final Badge? badge}) = _$_Rated;
 
   factory _Rated.fromJson(Map<String, dynamic> json) = _$_Rated.fromJson;
@@ -1155,184 +1150,46 @@ abstract class _Rated implements Rated {
   @override
   String? get email;
   @override
-  dynamic? get phone;
+  String? get phone;
   @override
+  @JsonKey(name: 'full_name')
   String? get fullName;
   @override
+  @JsonKey(name: 'first_name')
   String? get firstName;
   @override
+  @JsonKey(name: 'middle_name')
   String? get middleName;
   @override
+  @JsonKey(name: 'last_name')
   String? get lastName;
   @override
+  @JsonKey(name: 'profile_image')
   String? get profileImage;
   @override
   String? get bio;
   @override
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
   String? get designation;
   @override
+  @JsonKey(name: 'user_type')
   String? get userType;
   @override
-  String? get isProfileVerified;
+  @JsonKey(name: 'is_profile_verified')
+  bool? get isProfileVerified;
   @override
+  @JsonKey(name: 'is_followed')
   bool? get isFollowed;
   @override
+  @JsonKey(name: 'is_following')
   bool? get isFollowing;
-  @override
-  Avatar? get avatar;
   @override
   Badge? get badge;
   @override
   @JsonKey(ignore: true)
   _$$_RatedCopyWith<_$_Rated> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Avatar _$AvatarFromJson(Map<String, dynamic> json) {
-  return _Avatar.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Avatar {
-  String? get image => throw _privateConstructorUsedError;
-  int? get id => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $AvatarCopyWith<Avatar> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AvatarCopyWith<$Res> {
-  factory $AvatarCopyWith(Avatar value, $Res Function(Avatar) then) =
-      _$AvatarCopyWithImpl<$Res, Avatar>;
-  @useResult
-  $Res call({String? image, int? id});
-}
-
-/// @nodoc
-class _$AvatarCopyWithImpl<$Res, $Val extends Avatar>
-    implements $AvatarCopyWith<$Res> {
-  _$AvatarCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? image = freezed,
-    Object? id = freezed,
-  }) {
-    return _then(_value.copyWith(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_AvatarCopyWith<$Res> implements $AvatarCopyWith<$Res> {
-  factory _$$_AvatarCopyWith(_$_Avatar value, $Res Function(_$_Avatar) then) =
-      __$$_AvatarCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? image, int? id});
-}
-
-/// @nodoc
-class __$$_AvatarCopyWithImpl<$Res>
-    extends _$AvatarCopyWithImpl<$Res, _$_Avatar>
-    implements _$$_AvatarCopyWith<$Res> {
-  __$$_AvatarCopyWithImpl(_$_Avatar _value, $Res Function(_$_Avatar) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? image = freezed,
-    Object? id = freezed,
-  }) {
-    return _then(_$_Avatar(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Avatar implements _Avatar {
-  const _$_Avatar({this.image, this.id});
-
-  factory _$_Avatar.fromJson(Map<String, dynamic> json) =>
-      _$$_AvatarFromJson(json);
-
-  @override
-  final String? image;
-  @override
-  final int? id;
-
-  @override
-  String toString() {
-    return 'Avatar(image: $image, id: $id)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Avatar &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.id, id) || other.id == id));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, image, id);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_AvatarCopyWith<_$_Avatar> get copyWith =>
-      __$$_AvatarCopyWithImpl<_$_Avatar>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AvatarToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Avatar implements Avatar {
-  const factory _Avatar({final String? image, final int? id}) = _$_Avatar;
-
-  factory _Avatar.fromJson(Map<String, dynamic> json) = _$_Avatar.fromJson;
-
-  @override
-  String? get image;
-  @override
-  int? get id;
-  @override
-  @JsonKey(ignore: true)
-  _$$_AvatarCopyWith<_$_Avatar> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
