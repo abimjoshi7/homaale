@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/skill_box.dart';
@@ -10,17 +12,15 @@ class TaskerSkillsSection extends StatelessWidget {
 
   Widget displaySkills() {
     if (skills != null && skills!.isNotEmpty) {
-      final x = skills?.replaceAll(RegExp(r"[^\s\w]"), '');
-      final skill = x?.split(' ');
+      final List<String> skill = [...jsonDecode(skills.toString())];
+
       return SizedBox(
         height: 40,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => skill!.first != ''
-              ? SkillBox(label: skill[index])
-              : const SizedBox.shrink(),
+          itemBuilder: (context, index) => SkillBox(label: skill[index]),
           separatorBuilder: (context, index) => kWidth10,
-          itemCount: skill?.length ?? 0,
+          itemCount: skill.length,
         ),
       );
     } else {

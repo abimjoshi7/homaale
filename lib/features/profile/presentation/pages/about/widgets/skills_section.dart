@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
@@ -17,8 +19,9 @@ class SkillsSection extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserLoadSuccess) {
-          final x = state.user.skill?.replaceAll(RegExp(r"[^\s\w]"), '');
-          final skills = x?.split(' ');
+          final List<String> skills = [
+            ...jsonDecode(state.user.skill.toString())
+          ];
           return Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -43,11 +46,10 @@ class SkillsSection extends StatelessWidget {
                   height: 40,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => skills!.first != ''
-                        ? SkillBox(label: skills[index])
-                        : const SizedBox.shrink(),
+                    itemBuilder: (context, index) =>
+                        SkillBox(label: skills[index]),
                     separatorBuilder: (context, index) => kWidth10,
-                    itemCount: skills?.length ?? 0,
+                    itemCount: skills.length,
                   ),
                 ),
               ],
