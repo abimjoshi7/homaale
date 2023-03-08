@@ -2,6 +2,8 @@
 //
 //     final taskerReviewResponse = taskerReviewResponseFromJson(jsonString);
 
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'tasker_review_response.freezed.dart';
@@ -13,8 +15,8 @@ class TaskerReviewResponse with _$TaskerReviewResponse {
     int? totalPages,
     int? count,
     int? current,
-    dynamic? next,
-    dynamic? previous,
+    String? next,
+    String? previous,
     int? pageSize,
     List<Result>? result,
   }) = _TaskerReviewResponse;
@@ -27,14 +29,14 @@ class TaskerReviewResponse with _$TaskerReviewResponse {
 class Result with _$Result {
   const factory Result({
     int? id,
-    Rated? ratedTo,
-    Rated? ratedBy,
-    DateTime? createdAt,
+    @JsonKey(name: 'rated_to') Rated? ratedTo,
+    @JsonKey(name: 'rated_by') Rated? ratedBy,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
     int? rating,
     String? review,
     dynamic? reply,
-    dynamic? repliedDate,
-    bool? isVerified,
+    @JsonKey(name: 'replied_date') dynamic? repliedDate,
+    @JsonKey(name: 'is_verified') bool? isVerified,
     String? task,
   }) = _Result;
 
@@ -47,34 +49,23 @@ class Rated with _$Rated {
     String? id,
     String? username,
     String? email,
-    dynamic? phone,
-    String? fullName,
-    String? firstName,
-    String? middleName,
-    String? lastName,
-    String? profileImage,
+    String? phone,
+    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'middle_name') String? middleName,
+    @JsonKey(name: 'last_name') String? lastName,
+    @JsonKey(name: 'profile_image') String? profileImage,
     String? bio,
-    DateTime? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
     String? designation,
-    String? userType,
-    String? isProfileVerified,
-    bool? isFollowed,
-    bool? isFollowing,
-    Avatar? avatar,
+    @JsonKey(name: 'user_type') String? userType,
+    @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+    @JsonKey(name: 'is_followed') bool? isFollowed,
+    @JsonKey(name: 'is_following') bool? isFollowing,
     Badge? badge,
   }) = _Rated;
 
   factory Rated.fromJson(Map<String, dynamic> json) => _$RatedFromJson(json);
-}
-
-@freezed
-class Avatar with _$Avatar {
-  const factory Avatar({
-    String? image,
-    int? id,
-  }) = _Avatar;
-
-  factory Avatar.fromJson(Map<String, dynamic> json) => _$AvatarFromJson(json);
 }
 
 @freezed
