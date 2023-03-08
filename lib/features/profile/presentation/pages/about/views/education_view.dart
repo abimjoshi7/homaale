@@ -5,8 +5,8 @@ import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class EducationSection extends StatelessWidget {
-  const EducationSection({
+class EducationView extends StatelessWidget {
+  const EducationView({
     super.key,
   });
 
@@ -20,34 +20,31 @@ class EducationSection extends StatelessWidget {
         //   );
         // }
         if (state is TaskerGetEducationSuccess) {
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Card(
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Education',
-                          style: kPurpleText19,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Education',
+                        style: kPurpleText19,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AddEducation.routeName,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.add,
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AddEducation.routeName,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Column(
                     children: List.generate(

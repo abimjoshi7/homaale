@@ -17,21 +17,22 @@ class PortfolioCard extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          SizedBox(
-            height: 107,
-            width: 150,
-            child: islocalImage
-                ? Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
-                  )
-                : Image.network(
-                    imagePath,
-                    fit: BoxFit.cover,
-                  ),
+          Expanded(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: islocalImage
+                  ? Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      imagePath,
+                      fit: BoxFit.cover,
+                    ),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8.0),
             child: Text(label),
           )
         ],

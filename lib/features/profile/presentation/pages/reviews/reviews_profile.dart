@@ -1,7 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ReviewsProfile extends StatelessWidget {

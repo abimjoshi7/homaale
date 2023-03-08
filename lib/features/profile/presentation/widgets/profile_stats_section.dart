@@ -34,9 +34,12 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.taskInProgress
-                              .toString() ??
-                          '',
+                      numberText:
+                          state.taskerProfile?.stats?.taskInProgress == null
+                              ? '0'
+                              : state.taskerProfile?.stats?.taskInProgress
+                                      .toString() ??
+                                  '',
                       textColor: kColorAmber,
                     ),
                     const Text('Task in Progress')

@@ -5,8 +5,8 @@ import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class ExperienceSection extends StatelessWidget {
-  const ExperienceSection({
+class ExperienceView extends StatelessWidget {
+  const ExperienceView({
     super.key,
   });
 
@@ -15,34 +15,31 @@ class ExperienceSection extends StatelessWidget {
     return BlocBuilder<TaskerExperienceCubit, TaskerExperienceState>(
       builder: (context, state) {
         if (state is TaskerGetExperienceSuccess) {
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Card(
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Experience',
-                          style: kPurpleText19,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Experience',
+                        style: kPurpleText19,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AddExperience.routeName,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.add,
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AddExperience.routeName,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.add,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Column(
                     children: List.generate(
