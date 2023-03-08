@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -20,7 +21,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
+        if (state.theStates == TheStates.success) {
           return Column(
             children: [
               const CustomModalSheetDrawerIcon(),
@@ -40,7 +41,8 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                           'Public',
                           'Private',
                         ],
-                        hintText: state.user.profileVisibility ?? 'Choose one',
+                        hintText: state.taskerProfile?.profileVisibility ??
+                            'Choose one',
                         onChanged: (value) => setState(
                           () {
                             visibiltyType = value;
@@ -55,7 +57,8 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                           'Short term tasks',
                           'Long term tasks',
                         ],
-                        hintText: state.user.taskPreferences ?? 'Choose one',
+                        hintText: state.taskerProfile?.taskPreferences ??
+                            'Choose one',
                         onChanged: (value) => setState(
                           () {
                             taskPreferences = value;
@@ -72,9 +75,9 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                 callback: () {
                   final map = {
                     "profile_visibility":
-                        visibiltyType ?? state.user.profileVisibility,
+                        visibiltyType ?? state.taskerProfile?.profileVisibility,
                     "task_preferences":
-                        taskPreferences ?? state.user.taskPreferences,
+                        taskPreferences ?? state.taskerProfile?.taskPreferences,
                   };
                   context.read<UserBloc>().add(
                         UserEdited(

@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -22,7 +22,6 @@ class _ProfessionalInformationModalSheetState
   TimeOfDay? issuedTime;
   TimeOfDay? completeTime;
   String? daySelect;
-  TaskerProfileRetrieveRes? user;
   final tagsController = TextfieldTagsController();
   bool isClient = false;
   bool isTasker = false;
@@ -59,21 +58,25 @@ class _ProfessionalInformationModalSheetState
         // }
       },
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
-          user = state.user;
-          if (user!.userType!
-                  .replaceAll(RegExp(r"\p{P}", unicode: true), '')
+        if (state.theStates == TheStates.success) {
+          if (state.taskerProfile!.userType!
+                  .replaceAll(
+                      RegExp(
+                        r"\p{P}",
+                        unicode: true,
+                      ),
+                      '')
                   .split(' ')
                   .length >
               1) {
             isTasker = true;
             isClient = true;
-          } else if (user!.userType!
+          } else if (state.taskerProfile!.userType!
                       .replaceAll(RegExp(r"\p{P}", unicode: true), '')
                       .split(' ')
                       .length ==
                   1 &&
-              user!.userType!
+              state.taskerProfile!.userType!
                       .replaceAll(RegExp(r"\p{P}", unicode: true), '')
                       .split(' ')
                       .first
@@ -136,7 +139,7 @@ class _ProfessionalInformationModalSheetState
             return CustomTagTextField(
               tagController: tagsController,
               hintText: 'Enter your skills',
-              initialList: user!.skill!
+              initialList: state.taskerProfile!.skill!
                   .split(',')
                   .map(
                     (e) => e.replaceAll(
@@ -163,7 +166,8 @@ class _ProfessionalInformationModalSheetState
                 );
               },
               child: CustomFormContainer(
-                hintText: startTime?.format(context) ?? user!.activeHourStart!,
+                hintText: startTime?.format(context) ??
+                    state.taskerProfile!.activeHourStart!,
               ),
             );
           }
@@ -183,7 +187,8 @@ class _ProfessionalInformationModalSheetState
                 );
               },
               child: CustomFormContainer(
-                hintText: endTime?.format(context) ?? user!.activeHourEnd!,
+                hintText: endTime?.format(context) ??
+                    state.taskerProfile!.activeHourEnd!,
               ),
             );
           }
@@ -231,8 +236,8 @@ class _ProfessionalInformationModalSheetState
                       CustomFormField(
                         label: 'Experience Level',
                         child: CustomDropDownField<String>(
-                          hintText:
-                              user?.experienceLevel ?? 'Enter your skills',
+                          hintText: state.taskerProfile?.experienceLevel ??
+                              'Enter your skills',
                           list: const [
                             'Beginner (0 to 1 years experience)',
                             'Intermediate (1 to 5 years experience)',
@@ -352,17 +357,17 @@ class _ProfessionalInformationModalSheetState
                       userType = "";
                     }
                     final map = {
-                      "user_type": userType ?? user?.userType,
+                      "user_type": userType ?? state.taskerProfile?.userType,
                       "skill": tagsController.getTags!
                           .map((e) => '"$e"')
                           .toList()
                           .toString(),
-                      "active_hour_start":
-                          startTime?.format(context) ?? user?.activeHourStart,
-                      "active_hour_end":
-                          endTime?.format(context) ?? user?.activeHourEnd,
-                      "experience_level":
-                          experienceLevel ?? user?.experienceLevel,
+                      "active_hour_start": startTime?.format(context) ??
+                          state.taskerProfile?.activeHourStart,
+                      "active_hour_end": endTime?.format(context) ??
+                          state.taskerProfile?.activeHourEnd,
+                      "experience_level": experienceLevel ??
+                          state.taskerProfile?.experienceLevel,
                     };
                     context.read<UserBloc>().add(
                           UserEdited(

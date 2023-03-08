@@ -1,6 +1,7 @@
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -9,29 +10,33 @@ part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final respositories = UserRepositories();
-  UserBloc() : super(UserLoading()) {
+  UserBloc()
+      : super(
+          const UserState(),
+        ) {
     on<UserLoaded>(
       (event, emit) async {
         try {
           emit(
-            UserLoading(),
+            state.copyWith(
+              theStates: TheStates.initial,
+            ),
           );
           await respositories.fetchUser().then(
             (value) {
-              if (value != null && value.isNotEmpty) {
-                emit(
-                  UserLoadSuccess(
-                    user: TaskerProfileRetrieveRes.fromJson(
-                      value,
-                    ),
-                  ),
-                );
-              }
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  taskerProfile: value,
+                ),
+              );
             },
           );
         } catch (e) {
           emit(
-            UserLoadFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
           );
         }
       },
@@ -44,7 +49,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               .addUser(event.req)
               .then(
                 (value) => emit(
-                  UserAddSuccess(),
+                  state.copyWith(
+                    theStates: TheStates.success,
+                  ),
                 ),
               )
               .whenComplete(
@@ -57,7 +64,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           );
         } catch (e) {
           emit(
-            UserAddFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
           );
         }
       },
@@ -70,7 +79,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               .edituser(event.req)
               .then(
                 (value) => emit(
-                  UserEditSuccess(),
+                  state.copyWith(
+                    theStates: TheStates.success,
+                  ),
                 ),
               )
               .whenComplete(
@@ -80,7 +91,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               );
         } catch (e) {
           emit(
-            UserEditFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
           );
           add(
             UserLoaded(),

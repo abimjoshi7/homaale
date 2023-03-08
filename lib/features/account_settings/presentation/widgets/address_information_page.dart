@@ -1,6 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -21,7 +21,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
   String? addressLine2;
   String? languages;
   String? currency;
-  TaskerProfileRetrieveRes? user;
   List<CountryModel>? countryList = [];
   List<LanguageModel>? languageList = [];
   List<CurrencyModel>? currencyList = [];
@@ -30,7 +29,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {
-        if (state is UserEditSuccess) {
+        if (state.theStates == TheStates.success) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -47,7 +46,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
             ),
           );
         }
-        if (state is UserEditFailure) {
+        if (state.theStates == TheStates.failure) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -60,8 +59,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
         }
       },
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
-          user = state.user;
+        if (state.theStates == TheStates.success) {
+          // user = state.taskerProfile?.user;
 
           return Column(
             children: [
@@ -84,11 +83,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         return CustomFormField(
                           label: 'Country',
                           child: CustomDropDownField(
-                            hintText:
-                                (state.user.country?['name'] as String?) ??
-
-                                    // (state.user.country as String?) ??
-                                    'Specify your country',
+                            hintText: state.taskerProfile?.country?.name ??
+                                'Specify your country',
                             list: countryList?.map((e) => e.name).toList() ??
                                 [
                                   'Australia',
@@ -108,7 +104,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     CustomFormField(
                       label: 'Address Line 1',
                       child: CustomTextFormField(
-                        hintText: state.user.addressLine1 ?? 'Baneshwor',
+                        hintText:
+                            state.taskerProfile?.addressLine1 ?? 'Baneshwor',
                         onChanged: (p0) => setState(
                           () {
                             addressLine1 = p0;
@@ -119,7 +116,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     CustomFormField(
                       label: 'Address Line 2',
                       child: CustomTextFormField(
-                        hintText: state.user.addressLine2.toString(),
+                        hintText: state.taskerProfile?.addressLine2 ?? '',
                         onChanged: (p0) => setState(
                           () {
                             addressLine2 = p0;
@@ -135,9 +132,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         return CustomFormField(
                           label: 'Languages',
                           child: CustomDropDownField(
-                            hintText:
-                                (state.user.language?['name'] as String?) ??
-                                    'Specify your language',
+                            hintText: state.taskerProfile?.language?.name ??
+                                'Specify your language',
                             list: languageList?.map((e) => e.name).toList() ??
                                 [
                                   'English',
@@ -160,8 +156,9 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                             currencyList = currencyState.currencyListRes;
                           }
                           return CustomDropDownField(
-                            hintText: state.user.chargeCurrency?.name ??
-                                'Choose suitable currency',
+                            hintText:
+                                state.taskerProfile?.chargeCurrency?.name ??
+                                    'Choose suitable currency',
                             list: currencyList?.map((e) => e.name).toList() ??
                                 [
                                   'NPR',
@@ -207,12 +204,14 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     }
                   }
                   final map = {
-                    "country": countryCode ?? user?.country,
-                    "address_line1": addressLine1 ?? user!.addressLine1,
-                    "address_line2": addressLine2 ?? user!.addressLine2,
-                    "language": languageCode ?? user!.language,
-                    "charge_currency":
-                        currencyCode ?? user!.chargeCurrency!.code,
+                    "country": countryCode ?? state.taskerProfile?.country,
+                    "address_line1":
+                        addressLine1 ?? state.taskerProfile?.addressLine1,
+                    "address_line2":
+                        addressLine2 ?? state.taskerProfile?.addressLine2,
+                    "language": languageCode ?? state.taskerProfile?.language,
+                    "charge_currency": currencyCode ??
+                        state.taskerProfile?.chargeCurrency?.code,
                   };
 
                   context.read<UserBloc>().add(

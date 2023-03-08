@@ -116,9 +116,10 @@ class _PortfolioSectionState extends State<PortfolioSection> {
                         },
                         child: PortfolioCard(
                           islocalImage: false,
-                          imagePath: state
-                                  .taskerPortfolioRes[index].images?[0]['media']
-                                  .toString() ??
+                          imagePath:
+                              // state
+                              //         .taskerPortfolioRes[index].images?[0]['media']
+                              //         .toString() ??
                               'https://cdn.pixabay.com/photo/2022/07/11/10/42/boho-style-7314646_960_720.png',
                           label: state.taskerPortfolioRes[index].title ?? '',
                         ),

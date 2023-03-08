@@ -36,7 +36,7 @@ class PostTaskReq {
 
   final String? title;
   final String? description;
-  final Map<String, dynamic>? highlights;
+  final List<String?>? highlights;
   final String? budgetType;
   final num? budgetFrom;
   final num? budgetTo;
@@ -54,7 +54,7 @@ class PostTaskReq {
   final bool? isRequested;
   final String? discountType;
   final num? discountValue;
-  final Map<String, dynamic>? extraData;
+  final List<String?>? extraData;
   final num? noOfReservation;
   final bool? isActive;
   final bool? needsApproval;
@@ -72,7 +72,7 @@ class PostTaskReq {
         description: json["description"] as String?,
         highlights: json["highlights"] == null
             ? null
-            : json["highlights"] as Map<String, dynamic>,
+            : json["highlights"] as List<String?>?,
         budgetType: json["budget_type"] as String?,
         budgetFrom: json["budget_from"] as num?,
         budgetTo: json["budget_to"] as num?,
@@ -100,7 +100,7 @@ class PostTaskReq {
         discountValue: json["discount_value"] as num?,
         extraData: json["extra_data"] == null
             ? null
-            : json["extra_data"] as Map<String, dynamic>?,
+            : json["extra_data"] as List<String?>?,
         noOfReservation: json["no_of_reservation"] as num?,
         isActive: json["is_active"] as bool?,
         needsApproval: json["needs_approval"] as bool?,

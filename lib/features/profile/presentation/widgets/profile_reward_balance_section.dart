@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
@@ -15,36 +16,27 @@ class ProfileRewardBalanceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        Widget displayRewardPoints() {
-          if (state is UserLoadSuccess) {
-            return ProfileStatsCard(
-              imagePath: 'assets/reward.png',
-              label: 'Reward Points',
-              value: state.user.points.toString(),
-            );
-          } else {
-            return const ProfileStatsCard(
-              imagePath: 'assets/reward.png',
-              label: 'Reward Points',
-              value: '000',
-            );
-          }
+        if (state.theStates == TheStates.success) {
+          return Visibility(
+            visible: user == 'self',
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ProfileStatsCard(
+                  imagePath: 'assets/reward.png',
+                  label: 'Reward Points',
+                  value: state.taskerProfile?.points.toString() ?? '',
+                ),
+                const ProfileStatsCard(
+                  imagePath: 'assets/wallet.png',
+                  label: 'Account Balance',
+                  value: 'Rs. 1,00,000.00',
+                ),
+              ],
+            ),
+          );
         }
-
-        return Visibility(
-          visible: user == 'self',
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              displayRewardPoints(),
-              const ProfileStatsCard(
-                imagePath: 'assets/wallet.png',
-                label: 'Account Balance',
-                value: 'Rs. 1,00,000.00',
-              ),
-            ],
-          ),
-        );
+        return const SizedBox.shrink();
       },
     );
   }

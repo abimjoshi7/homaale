@@ -69,7 +69,7 @@ class PopularTaskerSection extends StatelessWidget {
 
                         Navigator.pushNamed(
                           context,
-                          TaskerProfile.routeName,
+                          TaskerProfileView.routeName,
                         );
                       },
                     ),

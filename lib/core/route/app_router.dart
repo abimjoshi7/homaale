@@ -89,9 +89,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const Profile(),
         );
-      case TaskerProfile.routeName:
+      case TaskerProfileView.routeName:
         return MaterialPageRoute(
-          builder: (context) => const TaskerProfile(),
+          builder: (context) => const TaskerProfileView(),
         );
       case AddPortfolio.routeName:
         return MaterialPageRoute(

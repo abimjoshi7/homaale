@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -27,7 +28,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is UserEditSuccess) {
+        if (state.theStates == TheStates.success) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -41,7 +42,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is UserEditFailure) {
+        } else if (state.theStates == TheStates.failure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -58,12 +59,12 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
         }
       },
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
-          firstName = state.user.user?.firstName;
-          middleName = state.user.user?.middleName;
-          lastName = state.user.user?.lastName;
-          designation = state.user.designation.toString();
-          profilePicture = state.user.profileImage.toString();
+        if (state.theStates == TheStates.success) {
+          firstName = state.taskerProfile?.user?.firstName;
+          middleName = state.taskerProfile?.user?.middleName;
+          lastName = state.taskerProfile?.user?.lastName;
+          designation = state.taskerProfile?.designation;
+          profilePicture = state.taskerProfile?.profileImage;
           return Padding(
             padding: kPadding20,
             child: Form(
@@ -135,7 +136,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user?.firstName ?? '',
+                              hintText:
+                                  state.taskerProfile?.user?.firstName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   firstName = p0;
@@ -156,7 +158,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user?.middleName ?? '',
+                              hintText:
+                                  state.taskerProfile?.user?.middleName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   middleName = p0;
@@ -186,7 +189,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user?.lastName ?? '',
+                              hintText:
+                                  state.taskerProfile?.user?.lastName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   lastName = p0;
@@ -208,7 +212,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       ),
                       kHeight5,
                       CustomTextFormField(
-                        hintText: state.user.designation.toString(),
+                        hintText: state.taskerProfile?.designation ?? '',
                         onSaved: (p0) => setState(
                           () {
                             designation = p0;
@@ -247,16 +251,16 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
 
                         final user = {
                           "first_name": firstName!.isEmpty
-                              ? state.user.user!.firstName
+                              ? state.taskerProfile?.user!.firstName
                               : firstName,
                           "middle_name": middleName!.isEmpty
-                              ? state.user.user!.middleName
+                              ? state.taskerProfile?.user!.middleName
                               : middleName,
                           "last_name": lastName!.isEmpty
-                              ? state.user.user!.lastName
+                              ? state.taskerProfile?.user!.lastName
                               : lastName,
                           "designation": designation!.isEmpty
-                              ? state.user.designation
+                              ? state.taskerProfile?.designation
                               : designation,
                         };
 
@@ -271,7 +275,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is UserLoadFailure) {
+        } else if (state.theStates == TheStates.failure) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

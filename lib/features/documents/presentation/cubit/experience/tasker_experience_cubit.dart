@@ -1,6 +1,6 @@
 import 'package:cipher/features/documents/data/models/tasker_experience_req.dart';
 import 'package:cipher/features/documents/data/repositories/document_repositories.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'tasker_experience_state.dart';

@@ -82,7 +82,7 @@ class ServicesRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> addEntityService(
+  Future<Map<String, dynamic>> createTaskEntityService(
     AddServiceReq addServiceReq,
   ) async {
     try {

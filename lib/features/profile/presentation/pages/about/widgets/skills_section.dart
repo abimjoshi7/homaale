@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -33,7 +34,7 @@ class SkillsSection extends StatelessWidget {
                     const Text('Skills'),
                     IconButton(
                       onPressed: () {
-                        buildSkills(context, state, tagsController, skills);
+                        buildSkills(context, tagsController, skills);
                       },
                       icon: const Icon(
                         Icons.edit_outlined,
@@ -64,7 +65,7 @@ class SkillsSection extends StatelessWidget {
 
   Future<dynamic> buildSkills(
     BuildContext context,
-    UserLoadSuccess state,
+    // UserLoadSuccess state,
     TextfieldTagsController tagsController,
     List<String>? skills,
   ) {
@@ -117,7 +118,7 @@ class SkillsSection extends StatelessWidget {
             ),
             BlocConsumer<UserBloc, UserState>(
               listener: (context, state) async {
-                if (state is UserEditSuccess) {
+                if (state.theStates == TheStates.success) {
                   showDialog(
                     context: context,
                     builder: (_) => CustomToast(
@@ -138,7 +139,7 @@ class SkillsSection extends StatelessWidget {
                         ),
                   );
                 }
-                if (state is UserEditFailure) {
+                if (state.theStates == TheStates.failure) {
                   showDialog(
                     context: context,
                     builder: (_) => CustomToast(

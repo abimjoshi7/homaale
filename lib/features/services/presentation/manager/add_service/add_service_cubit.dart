@@ -16,7 +16,7 @@ class AddServiceCubit extends Cubit<AddServiceState> {
       emit(
         AddServiceInitial(),
       );
-      await repo.addEntityService(addServiceReq).then(
+      await repo.createTaskEntityService(addServiceReq).then(
             (value) => emit(
               AddServiceSuccess(
                 res: AddServiceRes.fromJson(

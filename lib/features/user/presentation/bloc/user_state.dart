@@ -1,45 +1,26 @@
 part of 'user_bloc.dart';
 
-abstract class UserState extends Equatable {
-  const UserState();
-}
-
-class UserLoading extends UserState {
-  @override
-  List<Object?> get props => [];
-}
-
-class UserLoadSuccess extends UserState {
-  final TaskerProfileRetrieveRes user;
-  const UserLoadSuccess({
-    required this.user,
+class UserState extends Equatable {
+  final TheStates? theStates;
+  final TaskerProfile? taskerProfile;
+  const UserState({
+    this.theStates,
+    this.taskerProfile,
   });
 
-  @override
-  List<Object?> get props => [user];
-}
+  UserState copyWith({
+    TheStates? theStates,
+    TaskerProfile? taskerProfile,
+  }) {
+    return UserState(
+      theStates: theStates ?? this.theStates,
+      taskerProfile: taskerProfile ?? this.taskerProfile,
+    );
+  }
 
-class UserLoadFailure extends UserState {
   @override
-  List<Object?> get props => [];
-}
-
-class UserAddSuccess extends UserState {
-  @override
-  List<Object?> get props => [];
-}
-
-class UserAddFailure extends UserState {
-  @override
-  List<Object?> get props => [];
-}
-
-class UserEditSuccess extends UserState {
-  @override
-  List<Object?> get props => [];
-}
-
-class UserEditFailure extends UserState {
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        theStates,
+        taskerProfile,
+      ];
 }

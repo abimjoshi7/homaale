@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
@@ -658,7 +659,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       final error = await CacheHelper.getCachedString(
                         kErrorLog,
                       );
-                      if (state is UserAddSuccess) {
+                      if (state.theStates == TheStates.success) {
                         if (!mounted) return;
                         await showDialog(
                           context: context,
@@ -674,7 +675,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           ),
                         );
                       }
-                      if (state is UserAddFailure) {
+                      if (state.theStates == TheStates.failure) {
                         if (!mounted) return;
                         await showDialog(
                           context: context,
@@ -766,9 +767,10 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               remainingPoints: 0,
                               points: 0,
                               followingCount: 0,
+                              // ! Error
                               profileImage: await MultipartFile.fromFile(
                                 selectedImage?.path ?? image.path,
-                              ),
+                              ).toString(),
                               language: languageController.text,
                             );
                             if (!mounted) return;

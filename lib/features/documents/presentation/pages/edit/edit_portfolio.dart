@@ -2,7 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -120,11 +120,12 @@ class _EditPortfolioState extends State<EditPortfolio> {
                         SizedBox(
                           height: 50,
                           width: 50,
-                          child: Image.network(
-                            portfolio?.images?[0]['media'].toString() ??
-                                kNoImageNImg,
-                            fit: BoxFit.cover,
-                          ),
+                          // ! TODO
+                          // child: Image.network(
+                          //   portfolio?.images?[0]['media'].toString() ??
+                          //       kNoImageNImg,
+                          //   fit: BoxFit.cover,
+                          // ),
                         ),
                         kHeight5,
                         const Text(
@@ -154,7 +155,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/qwe.png'),
+                        // Image.asset('assets/qwe.png'),
                         kHeight20,
                         const Text(
                           'Upload or Browse file',
@@ -314,10 +315,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             });
                           } else {
                             setState(() {
-                              list.add(
-                                portfolioState.taskerPortfolioRes.first.images!
-                                    .first['id'] as int,
-                              );
+                              // list.add(
+                              //   portfolioState.taskerPortfolioRes.first.images!
+                              //       .first['id'] as int,
+                              // );
                             });
                           }
 

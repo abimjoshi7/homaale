@@ -410,7 +410,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     },
                                   );
                                 }
-                                return const CustomTextFormField();
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
@@ -746,7 +746,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       startPriceController.text.isNotEmpty &&
                                       endDate != null &&
                                       isTermsAccepted == true) {
-                                    if (endDate!.isAfter(
+                                    if (endDate!.isBefore(
                                       startDate ?? endDate!,
                                     )) {
                                       return showDialog(
@@ -762,12 +762,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       final req = PostTaskReq(
                                         title: titleController.text,
                                         description: descriptionController.text,
-                                        highlights: requirementList.asMap().map(
-                                              (key, value) => MapEntry(
-                                                key.toString(),
-                                                value as dynamic,
-                                              ),
-                                            ),
+                                        highlights: requirementList,
+                                        // requirementList.asMap().map(
+                                        //       (key, value) => MapEntry(
+                                        //         key.toString(),
+                                        //         value as dynamic,
+                                        //       ),
+                                        //     ),
                                         budgetType: budgetType,
                                         budgetFrom: int.parse(
                                           startPriceController.text,
@@ -791,7 +792,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         isRequested: true,
                                         discountType: "Percentage",
                                         discountValue: 0,
-                                        extraData: {},
+                                        extraData: [],
                                         noOfReservation: 2147483647,
                                         isActive: true,
                                         needsApproval: true,
@@ -806,11 +807,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
 
                                       print(jsonEncode(req.toJson()));
 
-                                      // context.read<TaskBloc>().add(
-                                      //       TaskAddInitiated(
-                                      //         req: req,
-                                      //       ),
-                                      //     );
+                                      context.read<TaskBloc>().add(
+                                            TaskAddInitiated(
+                                              req: req,
+                                            ),
+                                          );
                                     }
                                   } else {
                                     showDialog(
@@ -842,387 +843,387 @@ class _PostTaskPageState extends State<PostTaskPage> {
     );
   }
 
-  Widget buildDate() {
-    if (isCustomDate == false) {
-      return Column(
-        children: [
-          CustomFormField(
-            label: 'Date',
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
-              child: InkWell(
-                onTap: () async {
-                  await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2022),
-                    lastDate: DateTime(
-                      2050,
-                    ),
-                  ).then(
-                    (value) => setState(
-                      () {
-                        endDate = value;
-                      },
-                    ),
-                  );
-                },
-                child: CustomFormContainer(
-                  leadingWidget: const Icon(
-                    Icons.calendar_today_rounded,
-                  ),
-                  hintText: endDate?.toIso8601String().substring(
-                            0,
-                            10,
-                          ) ??
-                      'dd/mm/yy',
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              CustomCheckBox(
-                isChecked: isSpecified,
-                onTap: () {
-                  setState(
-                    () {
-                      isSpecified = !isSpecified;
-                    },
-                  );
-                },
-              ),
-              addHorizontalSpace(5),
-              const Text('Set specific time'),
-            ],
-          ),
-          Visibility(
-            visible: isSpecified,
-            child: SizedBox(
-              height: 130,
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: InkWell(
-                            onTap: () async {
-                              await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    startTime = value;
-                                  },
-                                ),
-                              );
-                            },
-                            child: CustomFormContainer(
-                              hintText:
-                                  startTime?.format(context) ?? 'hh:mm A.M',
-                            ),
-                          ),
-                        ),
-                        const Text(' - '),
-                        Flexible(
-                          child: InkWell(
-                            onTap: () async {
-                              await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    endTime = value;
-                                  },
-                                ),
-                              );
-                            },
-                            child: CustomFormContainer(
-                              hintText: endTime?.format(context) ?? 'hh:mm A.M',
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete_outline_rounded,
-                            color: kColorSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 8.0,
-                        right: MediaQuery.of(context).size.width * 0.6,
-                      ),
-                      child: CustomElevatedButton(
-                        callback: () {},
-                        label: 'Add',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-    return Column(
-      children: [
-        Row(
-          children: [
-            Flexible(
-              child: CustomFormField(
-                label: 'Start Date',
-                child: SizedBox(
-                  child: InkWell(
-                    onTap: () async {
-                      await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(
-                          2050,
-                        ),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            startDate = value;
-                          },
-                        ),
-                      );
-                    },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: startDate != null
-                          ? DateFormat('yy/MM/dd').format(startDate!)
-                          : 'dd/mm/yy',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            addHorizontalSpace(10),
-            Flexible(
-              child: CustomFormField(
-                label: 'End Date',
-                child: SizedBox(
-                  child: InkWell(
-                    onTap: () async {
-                      await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(
-                          2050,
-                        ),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            endDate = value;
-                          },
-                        ),
-                      );
-                    },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: endDate != null
-                          ? DateFormat('yy/MM/dd').format(endDate!)
-                          : 'dd/mm/yy',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            CustomCheckBox(
-              isChecked: isSpecified,
-              onTap: () {
-                setState(() {
-                  isSpecified = !isSpecified;
-                });
-              },
-            ),
-            addHorizontalSpace(5),
-            const Text('Set specific time'),
-          ],
-        ),
-        Visibility(
-          visible: isSpecified,
-          child: SizedBox(
-            height: 50,
-            width: double.infinity,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    if (selectedWeekDay.contains(index) == false) {
-                      setState(
-                        () {
-                          selectedWeekDay.add(index);
-                          switch (index) {
-                            case 0:
-                              widgetList.add(
-                                WeekTimeSpecifier(
-                                  weekName: 'Sunday',
-                                  onTap1: () async {
-                                    await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now(),
-                                    ).then(
-                                      (value) => setState(
-                                        () {
-                                          startTime = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  onTap2: () async {
-                                    await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now(),
-                                    ).then(
-                                      (value) => setState(
-                                        () {
-                                          endTime = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                              break;
-                            case 1:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Monday',
-                                ),
-                              );
-                              break;
-                            case 2:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Tuesday',
-                                ),
-                              );
-                              break;
-                            case 3:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Wednesday',
-                                ),
-                              );
-                              break;
-                            case 4:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Thursday',
-                                ),
-                              );
-                              break;
-                            case 5:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Friday',
-                                ),
-                              );
-                              break;
-                            case 6:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Saturday',
-                                ),
-                              );
-                              break;
-                            default:
-                              widgetList.clear();
-                              break;
-                          }
-                        },
-                      );
-                    } else {
-                      setState(
-                        () {
-                          selectedWeekDay.remove(index);
-                          switch (index) {
-                            case 0:
-                              widgetList.removeAt(0);
-                              break;
-                            case 1:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 2:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 3:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 4:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 5:
-                              // widgetList.removeAt(widgetList[5]);
-                              break;
-                            case 6:
-                              widgetList.removeLast();
-                              break;
-                            default:
-                              widgetList.clear();
-                              break;
-                          }
-                        },
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        5,
-                      ),
-                      child: Container(
-                        width: 40,
-                        color: selectedWeekDay.contains(index)
-                            ? kColorPrimary
-                            : kColorGrey,
-                        child: Center(
-                          child: Text(
-                            weekNames[index],
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => kWidth10,
-              itemCount: weekNames.length,
-            ),
-          ),
-        ),
-        Column(
-          children: isSpecified == true ? widgetList : [],
-        ),
-      ],
-    );
-  }
+  // Widget buildDate() {
+  //   if (isCustomDate == false) {
+  //     return Column(
+  //       children: [
+  //         CustomFormField(
+  //           label: 'Date',
+  //           child: SizedBox(
+  //             width: MediaQuery.of(context).size.width * 0.4,
+  //             child: InkWell(
+  //               onTap: () async {
+  //                 await showDatePicker(
+  //                   context: context,
+  //                   initialDate: DateTime.now(),
+  //                   firstDate: DateTime(2022),
+  //                   lastDate: DateTime(
+  //                     2050,
+  //                   ),
+  //                 ).then(
+  //                   (value) => setState(
+  //                     () {
+  //                       endDate = value;
+  //                     },
+  //                   ),
+  //                 );
+  //               },
+  //               child: CustomFormContainer(
+  //                 leadingWidget: const Icon(
+  //                   Icons.calendar_today_rounded,
+  //                 ),
+  //                 hintText: endDate?.toIso8601String().substring(
+  //                           0,
+  //                           10,
+  //                         ) ??
+  //                     'dd/mm/yy',
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         Row(
+  //           children: [
+  //             CustomCheckBox(
+  //               isChecked: isSpecified,
+  //               onTap: () {
+  //                 setState(
+  //                   () {
+  //                     isSpecified = !isSpecified;
+  //                   },
+  //                 );
+  //               },
+  //             ),
+  //             addHorizontalSpace(5),
+  //             const Text('Set specific time'),
+  //           ],
+  //         ),
+  //         Visibility(
+  //           visible: isSpecified,
+  //           child: SizedBox(
+  //             height: 130,
+  //             width: double.infinity,
+  //             child: Padding(
+  //               padding: const EdgeInsets.all(10),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       Flexible(
+  //                         child: InkWell(
+  //                           onTap: () async {
+  //                             await showTimePicker(
+  //                               context: context,
+  //                               initialTime: TimeOfDay.now(),
+  //                             ).then(
+  //                               (value) => setState(
+  //                                 () {
+  //                                   startTime = value;
+  //                                 },
+  //                               ),
+  //                             );
+  //                           },
+  //                           child: CustomFormContainer(
+  //                             hintText:
+  //                                 startTime?.format(context) ?? 'hh:mm A.M',
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       const Text(' - '),
+  //                       Flexible(
+  //                         child: InkWell(
+  //                           onTap: () async {
+  //                             await showTimePicker(
+  //                               context: context,
+  //                               initialTime: TimeOfDay.now(),
+  //                             ).then(
+  //                               (value) => setState(
+  //                                 () {
+  //                                   endTime = value;
+  //                                 },
+  //                               ),
+  //                             );
+  //                           },
+  //                           child: CustomFormContainer(
+  //                             hintText: endTime?.format(context) ?? 'hh:mm A.M',
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       IconButton(
+  //                         onPressed: () {},
+  //                         icon: const Icon(
+  //                           Icons.delete_outline_rounded,
+  //                           color: kColorSecondary,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   Padding(
+  //                     padding: EdgeInsets.only(
+  //                       top: 8.0,
+  //                       right: MediaQuery.of(context).size.width * 0.6,
+  //                     ),
+  //                     child: CustomElevatedButton(
+  //                       callback: () {},
+  //                       label: 'Add',
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   }
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         children: [
+  //           Flexible(
+  //             child: CustomFormField(
+  //               label: 'Start Date',
+  //               child: SizedBox(
+  //                 child: InkWell(
+  //                   onTap: () async {
+  //                     await showDatePicker(
+  //                       context: context,
+  //                       initialDate: DateTime.now(),
+  //                       firstDate: DateTime(2020),
+  //                       lastDate: DateTime(
+  //                         2050,
+  //                       ),
+  //                     ).then(
+  //                       (value) => setState(
+  //                         () {
+  //                           startDate = value;
+  //                         },
+  //                       ),
+  //                     );
+  //                   },
+  //                   child: CustomFormContainer(
+  //                     leadingWidget: const Icon(
+  //                       Icons.calendar_today_rounded,
+  //                     ),
+  //                     hintText: startDate != null
+  //                         ? DateFormat('yy/MM/dd').format(startDate!)
+  //                         : 'dd/mm/yy',
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           addHorizontalSpace(10),
+  //           Flexible(
+  //             child: CustomFormField(
+  //               label: 'End Date',
+  //               child: SizedBox(
+  //                 child: InkWell(
+  //                   onTap: () async {
+  //                     await showDatePicker(
+  //                       context: context,
+  //                       initialDate: DateTime.now(),
+  //                       firstDate: DateTime(2020),
+  //                       lastDate: DateTime(
+  //                         2050,
+  //                       ),
+  //                     ).then(
+  //                       (value) => setState(
+  //                         () {
+  //                           endDate = value;
+  //                         },
+  //                       ),
+  //                     );
+  //                   },
+  //                   child: CustomFormContainer(
+  //                     leadingWidget: const Icon(
+  //                       Icons.calendar_today_rounded,
+  //                     ),
+  //                     hintText: endDate != null
+  //                         ? DateFormat('yy/MM/dd').format(endDate!)
+  //                         : 'dd/mm/yy',
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       Row(
+  //         children: [
+  //           CustomCheckBox(
+  //             isChecked: isSpecified,
+  //             onTap: () {
+  //               setState(() {
+  //                 isSpecified = !isSpecified;
+  //               });
+  //             },
+  //           ),
+  //           addHorizontalSpace(5),
+  //           const Text('Set specific time'),
+  //         ],
+  //       ),
+  //       Visibility(
+  //         visible: isSpecified,
+  //         child: SizedBox(
+  //           height: 50,
+  //           width: double.infinity,
+  //           child: ListView.separated(
+  //             scrollDirection: Axis.horizontal,
+  //             itemBuilder: (context, index) {
+  //               return InkWell(
+  //                 onTap: () {
+  //                   if (selectedWeekDay.contains(index) == false) {
+  //                     setState(
+  //                       () {
+  //                         selectedWeekDay.add(index);
+  //                         switch (index) {
+  //                           case 0:
+  //                             widgetList.add(
+  //                               WeekTimeSpecifier(
+  //                                 weekName: 'Sunday',
+  //                                 onTap1: () async {
+  //                                   await showTimePicker(
+  //                                     context: context,
+  //                                     initialTime: TimeOfDay.now(),
+  //                                   ).then(
+  //                                     (value) => setState(
+  //                                       () {
+  //                                         startTime = value;
+  //                                       },
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                                 onTap2: () async {
+  //                                   await showTimePicker(
+  //                                     context: context,
+  //                                     initialTime: TimeOfDay.now(),
+  //                                   ).then(
+  //                                     (value) => setState(
+  //                                       () {
+  //                                         endTime = value;
+  //                                       },
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 1:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Monday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 2:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Tuesday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 3:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Wednesday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 4:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Thursday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 5:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Friday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 6:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Saturday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           default:
+  //                             widgetList.clear();
+  //                             break;
+  //                         }
+  //                       },
+  //                     );
+  //                   } else {
+  //                     setState(
+  //                       () {
+  //                         selectedWeekDay.remove(index);
+  //                         switch (index) {
+  //                           case 0:
+  //                             widgetList.removeAt(0);
+  //                             break;
+  //                           case 1:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 2:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 3:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 4:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 5:
+  //                             // widgetList.removeAt(widgetList[5]);
+  //                             break;
+  //                           case 6:
+  //                             widgetList.removeLast();
+  //                             break;
+  //                           default:
+  //                             widgetList.clear();
+  //                             break;
+  //                         }
+  //                       },
+  //                     );
+  //                   }
+  //                 },
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.all(8),
+  //                   child: ClipRRect(
+  //                     borderRadius: BorderRadius.circular(
+  //                       5,
+  //                     ),
+  //                     child: Container(
+  //                       width: 40,
+  //                       color: selectedWeekDay.contains(index)
+  //                           ? kColorPrimary
+  //                           : kColorGrey,
+  //                       child: Center(
+  //                         child: Text(
+  //                           weekNames[index],
+  //                           style: const TextStyle(
+  //                             color: Colors.white,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //             separatorBuilder: (context, index) => kWidth10,
+  //             itemCount: weekNames.length,
+  //           ),
+  //         ),
+  //       ),
+  //       Column(
+  //         children: isSpecified == true ? widgetList : [],
+  //       ),
+  //     ],
+  //   );
+  // }
 }

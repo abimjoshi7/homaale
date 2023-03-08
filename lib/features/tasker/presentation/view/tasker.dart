@@ -15,15 +15,15 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class TaskerProfile extends StatefulWidget {
-  const TaskerProfile({super.key});
+class TaskerProfileView extends StatefulWidget {
+  const TaskerProfileView({super.key});
   static const routeName = '/taskerProfile-profile';
 
   @override
-  State<TaskerProfile> createState() => TaskerProfileState();
+  State<TaskerProfileView> createState() => TaskerProfileViewState();
 }
 
-class TaskerProfileState extends State<TaskerProfile>
+class TaskerProfileViewState extends State<TaskerProfileView>
     with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;

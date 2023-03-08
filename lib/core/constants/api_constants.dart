@@ -1,4 +1,4 @@
-const taskPath = "/task/entity/service/";
+const kTaskEntityServicePath = "/task/entity/service/";
 // const blogPath = "/blog/";
 const taskerPath = "/tasker/";
 const careerPath = "/career/vacancy/";
@@ -26,11 +26,11 @@ Map<String, Object> kUrls = {
     'activity': "/history/my-activities/",
   },
   "task": {
-    'list': taskPath,
+    'list': kTaskEntityServicePath,
     'myBookings': '$kMyBookingList?is_requested=false',
-    'service': '$taskPath?is_requested=false',
-    'service_per_user': '$taskPath?is_requested=false&user=',
-    'task': '$taskPath?is_requested=true',
+    'service': '$kTaskEntityServicePath?is_requested=false',
+    'service_per_user': '$kTaskEntityServicePath?is_requested=false&user=',
+    'task': '$kTaskEntityServicePath?is_requested=true',
     'my_task': '$tasks?is_requested=true',
     'requested_task': '$kMyBookingList?is_requested=true',
     'taskApplicantsNumber': '${tasks}tasker-count',
@@ -40,7 +40,7 @@ Map<String, Object> kUrls = {
     'assignerDetail': "task/assigner-task-detail/",
     'assignerApplication': "task",
     'heroCategory': "task/hero-category",
-    'status': '${taskPath}task/status/',
+    'status': '${kTaskEntityServicePath}task/status/',
   },
   "profile": {
     'portfolio': '${taskerPath}portfolio/',

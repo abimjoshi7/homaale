@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -107,7 +108,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
               kHeight50,
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
-                  if (state is UserLoadSuccess) {
+                  if (state.theStates == TheStates.success) {
                     child = Container(
                       height: 40,
                       width: 40,
@@ -116,7 +117,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            state.user.user?.profileImage as String,
+                            state.taskerProfile?.profileImage ??
+                                kServiceImageNImg,
                           ),
                         ),
                       ),

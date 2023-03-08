@@ -2,19 +2,21 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 
 class UserRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>?> fetchUser() async {
+  Future<TaskerProfile> fetchUser() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>?;
+      return TaskerProfile.fromJson(
+        x as Map<String, dynamic>,
+      );
     } catch (e) {
       rethrow;
     }
@@ -54,7 +56,7 @@ class UserRepositories {
     }
   }
 
-  Future<TaskerProfileRetrieveRes> deleteuser(
+  Future<TaskerProfile> deleteuser(
     TaskerProfileCreateReq taskerProfileCreateReq,
   ) async {
     try {
@@ -63,7 +65,7 @@ class UserRepositories {
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );
-      return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
+      return TaskerProfile.fromJson(x as Map<String, dynamic>);
     } catch (e) {
       log(
         e.toString(),
