@@ -8,23 +8,19 @@ import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dar
 class UserRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>?> fetchuser() async {
+  Future<Map<String, dynamic>?> fetchUser() async {
     try {
-      log(CacheHelper.accessToken!);
       final x = await _dio.getDatawithCredential(
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>?;
     } catch (e) {
-      log(
-        e.toString(),
-      );
       rethrow;
     }
   }
 
-  Future<Map<String, dynamic>> adduser(
+  Future<Map<String, dynamic>> addUser(
     TaskerProfileCreateReq taskerProfileCreateReq,
   ) async {
     try {
@@ -34,11 +30,7 @@ class UserRepositories {
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
-      // return TaskerProfileRetrieveRes.fromJson(x as Map<String, dynamic>);
     } catch (e) {
-      log(
-        e.toString(),
-      );
       rethrow;
     }
   }

@@ -158,7 +158,7 @@ class ProfileHeaderSection extends StatelessWidget {
             }
 
             return ListTile(
-              leading: displayProfilePic(),
+              // leading: displayProfilePic(),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

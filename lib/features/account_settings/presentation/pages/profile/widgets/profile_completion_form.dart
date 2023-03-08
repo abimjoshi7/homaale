@@ -39,7 +39,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   final taskPreferencesController = TextEditingController();
   final tagController = TextfieldTagsController();
   int? cityCode;
-  DateTime? dateOfBirth = DateTime.now();
+  DateTime? dateOfBirth;
   TimeOfDay? startTime;
   TimeOfDay? endTime;
   String genderGroup = 'Male';
@@ -82,11 +82,20 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.25,
-                          child: Image.file(
-                            fit: BoxFit.contain,
-                            File(
-                              selectedImage?.path ?? '',
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              16,
                             ),
+                            child: selectedImage == null
+                                ? const Placeholder(
+                                    color: kColorSecondary,
+                                  )
+                                : Image.file(
+                                    fit: BoxFit.cover,
+                                    File(
+                                      selectedImage?.path ?? '',
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
@@ -250,7 +259,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         color: kColorPrimary,
                       ),
                       hintText: DateFormat('yyyy-MM-dd').format(
-                        dateOfBirth ?? DateTime.now(),
+                        dateOfBirth ?? DateTime(1980),
                       ),
                     ),
                   ),
@@ -274,15 +283,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               },
                             ),
                           ),
-                          // Radio(
-                          //   value: 'Client',
-                          //   groupValue: userType,
-                          //   onChanged: (value) => setState(
-                          //     () {
-                          //       userType = value!;
-                          //     },
-                          //   ),
-                          // ),
                           const Text('Client')
                         ],
                       ),
@@ -297,15 +297,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               },
                             ),
                           ),
-                          // Radio(
-                          //   value: 'Tasker',
-                          //   groupValue: userType,
-                          //   onChanged: (value) => setState(
-                          //     () {
-                          //       userType = value!;
-                          //     },
-                          //   ),
-                          // ),
                           const Text('Tasker')
                         ],
                       ),
@@ -421,7 +412,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText: '${startTime ?? '--:-- A.M'}',
+                                hintText:
+                                    startTime?.format(context) ?? '--:-- A.M',
                               ),
                             )
                           ],
@@ -452,7 +444,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText: '${endTime ?? '--:-- P.M'}',
+                                hintText:
+                                    endTime?.format(context) ?? '--:-- P.M',
                               ),
                             )
                           ],
@@ -465,6 +458,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   label: 'Base Rate Per Hour',
                   isRequired: true,
                   child: CustomTextFormField(
+                    textInputType: TextInputType.number,
                     hintText: 'Base Rate Per Hour',
                     onSaved: (p0) => setState(
                       () {
@@ -491,7 +485,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               final x = state.list.firstWhere(
                                 (element) => p0 == element.name,
                               );
-                              countryName = x.name;
+                              countryName = x.code;
                             },
                           ),
                         );
@@ -697,10 +691,21 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
-                          print(21);
                           final image = await getImageFileFromAssets(
                             'avatar-ga3c7ddeec_640.png',
                           );
+                          if (startTime == null && endTime == null) {
+                            if (!mounted) return;
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomToast(
+                                heading: 'Error',
+                                content: 'Verify your Active Hours',
+                                onTap: () {},
+                                isSuccess: false,
+                              ),
+                            );
+                          }
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
@@ -724,7 +729,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             if (!mounted) return;
                             final q = TaskerProfileCreateReq(
                               city: cityCode,
-                              country: countryName,
+                              country: countryName ?? 'NP',
                               interests: interestCodes,
                               firstName: firstNameController.text,
                               middleName: middleNameController.text,
@@ -738,14 +743,23 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                       .toList()
                                       .toString()
                                   : '',
-                              dateOfBirth: dateOfBirth,
+                              dateOfBirth: dateOfBirth ??
+                                  DateTime(
+                                    1980,
+                                  ),
                               activeHourStart: startTime!.format(context),
                               activeHourEnd: endTime!.format(context),
                               experienceLevel: experienceLevel,
                               userType: userType,
                               hourlyRate: int.parse(baseRateController.text),
-                              profileVisibility: visibilityController.text,
-                              taskPreferences: taskPreferencesController.text,
+                              profileVisibility:
+                                  visibilityController.text.isNotEmpty
+                                      ? visibilityController.text
+                                      : 'Public',
+                              taskPreferences:
+                                  taskPreferencesController.text.isNotEmpty
+                                      ? taskPreferencesController.text
+                                      : 'Short-Term tasks',
                               addressLine1: address1Controller.text,
                               addressLine2: address2Controller.text,
                               chargeCurrency: currencyCode ?? 'NPR',
@@ -755,14 +769,25 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               profileImage: await MultipartFile.fromFile(
                                 selectedImage?.path ?? image.path,
                               ),
+                              language: languageController.text,
                             );
-                            print(123);
-                            print(q);
-                            // context.read<UserBloc>().add(
-                            //       UserAdded(
-                            //         req: q,
-                            //       ),
-                            //     );
+                            if (!mounted) return;
+                            context.read<UserBloc>().add(
+                                  UserAdded(
+                                    req: q,
+                                  ),
+                                );
+                          } else {
+                            if (!mounted) return;
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomToast(
+                                heading: 'Error',
+                                content: 'Something went wrong.',
+                                onTap: () {},
+                                isSuccess: false,
+                              ),
+                            );
                           }
                         },
                         label: 'Save',

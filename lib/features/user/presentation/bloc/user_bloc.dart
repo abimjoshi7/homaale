@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
@@ -11,51 +12,54 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserLoading()) {
     on<UserLoaded>(
       (event, emit) async {
-        await respositories.fetchuser().then(
-          (value) {
-            if (value != null && value.isNotEmpty) {
-              emit(
-                UserLoadSuccess(
-                  user: TaskerProfileRetrieveRes.fromJson(
-                    value,
+        try {
+          emit(
+            UserLoading(),
+          );
+          await respositories.fetchUser().then(
+            (value) {
+              if (value != null && value.isNotEmpty) {
+                emit(
+                  UserLoadSuccess(
+                    user: TaskerProfileRetrieveRes.fromJson(
+                      value,
+                    ),
                   ),
-                ),
-              );
-            } else {
-              emit(
-                UserLoadFailure(),
-              );
-            }
-          },
-        );
+                );
+              }
+            },
+          );
+        } catch (e) {
+          emit(
+            UserLoadFailure(),
+          );
+        }
       },
     );
 
     on<UserAdded>(
       (event, emit) async {
-        await respositories.adduser(event.req).then(
-          (value) {
-            if (value.isNotEmpty) {
-              emit(
-                UserLoadSuccess(
-                  user: TaskerProfileRetrieveRes.fromJson(
-                    value,
-                  ),
+        try {
+          await respositories
+              .addUser(event.req)
+              .then(
+                (value) => emit(
+                  UserAddSuccess(),
                 ),
-              );
+              )
+              .whenComplete(
+            () {
+              CacheHelper.hasProfile = true;
               add(
                 UserLoaded(),
               );
-            } else {
-              emit(
-                UserLoadFailure(),
-              );
-              add(
-                UserLoaded(),
-              );
-            }
-          },
-        );
+            },
+          );
+        } catch (e) {
+          emit(
+            UserAddFailure(),
+          );
+        }
       },
     );
 
@@ -69,8 +73,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                   UserEditSuccess(),
                 ),
               )
-              .then(
-                (value) => add(
+              .whenComplete(
+                () => add(
                   UserLoaded(),
                 ),
               );
