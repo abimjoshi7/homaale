@@ -34,7 +34,7 @@ class ServiceProviderPage extends StatelessWidget {
                         child: Image.network(
                           state.serviceModel.images!.isEmpty
                               ? kServiceImageNImg
-                              : state.serviceModel.images?.first['media']
+                              : state.serviceModel.images?.first.media
                                       .toString() ??
                                   kServiceImageNImg,
                           fit: BoxFit.cover,

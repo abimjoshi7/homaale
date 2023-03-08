@@ -592,7 +592,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                             ),
                         description: problemDescController.text,
                         budgetFrom: int.parse(
-                          state.serviceModel.budgetFrom.toString(),
+                          state.serviceModel.budgetFrom?.toString() ?? '0',
                         ),
                         budgetTo: state.serviceModel.budgetTo?.toInt(),
                         startTime: startTime?.format(context),

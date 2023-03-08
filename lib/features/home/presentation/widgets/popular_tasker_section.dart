@@ -44,12 +44,23 @@ class PopularTaskerSection extends StatelessWidget {
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => InkWell(
-                      onTap: () {
+                    itemBuilder: (context, index) => TaskerCard(
+                      networkImageUrl: data?[index].profileImage,
+                      label:
+                          "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                      designation: data?[index].designation,
+                      happyClients: data?[index].stats?.happyClients.toString(),
+                      ratings:
+                          "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                      rate: "Rs. ${data?[index].hourlyRate}",
+                      callback: () {
                         context.read<TaskerCubit>().loadSingleTasker(
                               data?[index].user?.id ?? '',
                             );
-                        context.read<TaskerCubit>().loadSingleTasker(
+                        context.read<TaskerCubit>().loadSingleTaskerServices(
+                              data?[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerTask(
                               data?[index].user?.id ?? '',
                             );
                         context.read<TaskerCubit>().loadSingleTaskerReviews(
@@ -61,18 +72,6 @@ class PopularTaskerSection extends StatelessWidget {
                           TaskerProfile.routeName,
                         );
                       },
-                      child: TaskerCard(
-                        networkImageUrl: data?[index].profileImage,
-                        label:
-                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
-                        designation: data?[index].designation,
-                        happyClients:
-                            data?[index].stats?.happyClients.toString(),
-                        ratings:
-                            "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
-                        rate: "Rs. ${data?[index].hourlyRate}",
-                        callback: () {},
-                      ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,
                     itemCount: state.taskerListRes?.result?.length ?? 1,

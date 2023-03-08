@@ -69,7 +69,6 @@ class ServicesRepositories {
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/service/',
         query: {
-          'service': serviceId,
           'is_requested': false,
         },
         token: CacheHelper.accessToken,

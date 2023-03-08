@@ -44,21 +44,36 @@ class TaskerCubit extends Cubit<TaskerState> {
         id: id,
       )
           .then(
-        (tasker) async {
-          await repo
-              .getSingleTaskerTask(
-            createdBy: id,
-          )
-              .then(
-            (task) {
-              emit(
-                state.copyWith(
-                  states: TheStates.success,
-                  tasker: Tasker.fromJson(tasker),
-                  entityService: EntityServiceModel.fromJson(task),
-                ),
-              );
-            },
+        (tasker) {
+          emit(
+            state.copyWith(
+              states: TheStates.success,
+              tasker: Tasker.fromJson(tasker),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      emit(state.copyWith(states: TheStates.failure));
+    }
+  }
+
+  Future loadSingleTaskerServices(
+    String id,
+  ) async {
+    try {
+      emit(state.copyWith(states: TheStates.initial));
+      await repo
+          .getSingleTaskerService(
+        createdBy: id,
+      )
+          .then(
+        (service) {
+          emit(
+            state.copyWith(
+              states: TheStates.success,
+              service: EntityServiceModel.fromJson(service),
+            ),
           );
         },
       );
@@ -81,7 +96,7 @@ class TaskerCubit extends Cubit<TaskerState> {
           emit(
             state.copyWith(
               states: TheStates.success,
-              entityService: EntityServiceModel.fromJson(task),
+              task: EntityServiceModel.fromJson(task),
             ),
           );
         },

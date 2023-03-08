@@ -6,7 +6,6 @@ import 'package:cipher/features/tasker/presentation/view/widgets/tasker_educatio
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_experience_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_portfolio_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_skills_section.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:flutter/material.dart';
 
 class TaskerAboutSection extends StatefulWidget {
@@ -31,7 +30,7 @@ class TaskerAboutSection extends StatefulWidget {
   final String? location;
   final List<tsklst.Portfolio>? portfolio;
   final List<tsklst.Experience>? experience;
-  final List<Education>? education;
+  final List<tsklst.Education>? education;
 
   @override
   State<TaskerAboutSection> createState() => _TaskerAboutSectionState();

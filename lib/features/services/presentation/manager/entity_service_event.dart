@@ -5,11 +5,9 @@ abstract class EntityServiceEvent extends Equatable {
 }
 
 class EntityServiceInitiated extends EntityServiceEvent {
-  final String id;
-
-  const EntityServiceInitiated(this.id);
+  const EntityServiceInitiated();
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [];
 }
 
 class SingleEntityServiceInitiated extends EntityServiceEvent {

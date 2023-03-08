@@ -8,6 +8,7 @@ import 'package:cipher/features/categories/presentation/cubit/hero_category_cubi
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
@@ -84,10 +85,9 @@ class _RootState extends State<Root> {
                   ),
             )
             .then(
-              (value) async =>
-                  context.read<ProfessionalServiceCategoryBloc>().add(
-                        ProfessionalServiceCategoryLoadInitated(),
-                      ),
+              (value) async => context
+                  .read<EntityServiceBloc>()
+                  .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),

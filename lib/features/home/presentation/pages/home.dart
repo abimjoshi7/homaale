@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
                 child: Column(
                   children: const [
                     HeaderOfferSection(),
-                    DealsOfTheDaySection(),
+                    // DealsOfTheDaySection(),
                     CategoriesSection(),
                     PopularServicesSection(),
                     TasksSuggestionSection(),

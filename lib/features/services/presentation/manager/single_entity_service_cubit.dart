@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/features/services/data/models/service_model.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -15,18 +17,21 @@ class SingleEntityServiceCubit extends Cubit<SingleEntityServiceState> {
       );
       await repo
           .fetchSingleService(
-            serviceId: id,
-          )
+        serviceId: id,
+      )
           .then(
-            (value) => emit(
-              SingleEntityServiceLoadSuccess(
-                ServiceModel.fromJson(
-                  value,
-                ),
+        (value) {
+          emit(
+            SingleEntityServiceLoadSuccess(
+              ServiceModel.fromJson(
+                value,
               ),
             ),
           );
+        },
+      );
     } catch (e) {
+      log(e.toString());
       emit(
         SingleEntityServiceLoadFailure(),
       );

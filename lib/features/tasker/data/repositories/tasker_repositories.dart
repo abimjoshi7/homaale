@@ -32,6 +32,27 @@ class TaskerRepositories {
     }
   }
 
+  Future<Map<String, dynamic>> getSingleTaskerService({
+    required String createdBy,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        query: {
+          'created_by': createdBy,
+          'is_requested': false,
+        },
+        url: 'task/entity/service/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> getSingleTaskerTask({
     required String createdBy,
   }) async {

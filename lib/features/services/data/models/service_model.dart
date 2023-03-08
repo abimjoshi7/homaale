@@ -1,559 +1,226 @@
-class ServiceModel {
-  ServiceModel({
-    this.id,
-    this.currency,
-    this.city,
-    this.createdBy,
-    this.service,
-    this.images,
-    this.videos,
-    this.rating,
-    this.count,
-    this.offers,
-    this.endorsements,
-    this.isRedeemable,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.title,
-    this.description,
-    this.highlights,
-    this.budgetType,
-    this.budgetFrom,
-    this.budgetTo,
-    this.startDate,
-    this.endDate,
-    this.startTime,
-    this.endTime,
-    this.shareLocation,
-    this.isNegotiable,
-    this.revisions,
-    this.recursionType,
-    this.viewsCount,
-    this.location,
-    this.isProfessional,
-    this.isOnline,
-    this.isRequested,
-    this.discountType,
-    this.discountValue,
-    this.extraData,
-    this.noOfReservation,
-    this.slug,
-    this.isActive,
-    this.needsApproval,
-    this.isEndorsed,
-    this.merchant,
-    this.event,
-    this.avatar,
-  });
+// ignore_for_file: invalid_annotation_target
 
-  final String? id;
-  final Currency? currency;
-  final City? city;
-  final CreatedBy? createdBy;
-  final Service? service;
-  final List<dynamic>? images;
-  final List<dynamic>? videos;
-  final List<Rating>? rating;
-  final num? count;
-  final List<dynamic>? offers;
-  final List<dynamic>? endorsements;
-  final bool? isRedeemable;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final dynamic deletedAt;
-  final String? title;
-  final String? description;
-  final List<dynamic>? highlights;
-  final String? budgetType;
-  final dynamic budgetFrom;
-  final num? budgetTo;
-  final dynamic startDate;
-  final dynamic endDate;
-  final dynamic startTime;
-  final dynamic endTime;
-  final bool? shareLocation;
-  final bool? isNegotiable;
-  final num? revisions;
-  final dynamic recursionType;
-  final num? viewsCount;
-  final String? location;
-  final bool? isProfessional;
-  final bool? isOnline;
-  final bool? isRequested;
-  final dynamic discountType;
-  final dynamic discountValue;
-  final List<dynamic>? extraData;
-  final num? noOfReservation;
-  final String? slug;
-  final bool? isActive;
-  final bool? needsApproval;
-  final bool? isEndorsed;
-  final dynamic merchant;
-  final dynamic event;
-  final dynamic avatar;
+import 'package:dependencies/dependencies.dart';
 
-  factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
-        id: json["id"] as String?,
-        currency: json["currency"] == null
-            ? null
-            : Currency.fromJson(
-                json["currency"] as Map<String, dynamic>,
-              ),
-        city: json["city"] == null
-            ? null
-            : City.fromJson(
-                json["city"] as Map<String, dynamic>,
-              ),
-        createdBy: json["created_by"] == null
-            ? null
-            : CreatedBy.fromJson(
-                json["created_by"] as Map<String, dynamic>,
-              ),
-        service: json["service"] == null
-            ? null
-            : Service.fromJson(
-                json["service"] as Map<String, dynamic>,
-              ),
-        images: json["images"] == null
-            ? []
-            : List<dynamic>.from(
-                json["images"].map((x) => x) as Iterable,
-              ),
-        videos: json["videos"] == null
-            ? []
-            : List<dynamic>.from(
-                json["videos"].map((x) => x) as Iterable,
-              ),
-        rating: json["rating"] == null
-            ? []
-            : List<Rating>.from(
-                json["rating"].map(
-                  (x) => Rating.fromJson(
-                    x as Map<String, dynamic>,
-                  ),
-                ) as Iterable,
-              ),
-        count: json["count"] as num?,
-        offers: json["offers"] == null
-            ? []
-            : List<dynamic>.from(
-                json["offers"].map((x) => x) as Iterable,
-              ),
-        endorsements: json["endorsements"] == null
-            ? []
-            : List<dynamic>.from(
-                json["endorsements"].map((x) => x) as Iterable,
-              ),
-        isRedeemable: json["is_redeemable"] as bool?,
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(
-                json["created_at"] as String,
-              ),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(
-                json["updated_at"] as String,
-              ),
-        deletedAt: json["deleted_at"],
-        title: json["title"] as String?,
-        description: json["description"] as String?,
-        highlights: json["highlights"] == null
-            ? []
-            : List<dynamic>.from(
-                json["highlights"]!.map((x) => x) as Iterable,
-              ),
-        budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"],
-        budgetTo: json["budget_to"] as num?,
-        startDate: json["start_date"],
-        endDate: json["end_date"],
-        startTime: json["start_time"],
-        endTime: json["end_time"],
-        shareLocation: json["share_location"] as bool?,
-        isNegotiable: json["is_negotiable"] as bool?,
-        revisions: json["revisions"] as num?,
-        recursionType: json["recursion_type"],
-        viewsCount: json["views_count"] as num?,
-        location: json["location"] as String?,
-        isProfessional: json["is_professional"] as bool?,
-        isOnline: json["is_online"] as bool?,
-        isRequested: json["is_requested"] as bool?,
-        discountType: json["discount_type"],
-        discountValue: json["discount_value"],
-        extraData: json["extra_data"] == null
-            ? []
-            : List<dynamic>.from(
-                json["extra_data"].map((x) => x) as Iterable,
-              ),
-        noOfReservation: json["no_of_reservation"] as num?,
-        slug: json["slug"] as String?,
-        isActive: json["is_active"] as bool?,
-        needsApproval: json["needs_approval"] as bool?,
-        isEndorsed: json["is_endorsed"] as bool?,
-        merchant: json["merchant"],
-        event: json["event"],
-        avatar: json["avatar"],
-      );
+part 'service_model.freezed.dart';
+part 'service_model.g.dart';
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "currency": currency?.toJson(),
-        "city": city?.toJson(),
-        "created_by": createdBy?.toJson(),
-        "service": service?.toJson(),
-        // "images":
-        //     images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        // "videos":
-        //     videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
-        // "rating": rating == null
-        //     ? []
-        //     : List<dynamic>.from(rating!.map((x) => x.toJson())),
-        // "count": count,
-        // "offers":
-        //     offers == null ? [] : List<dynamic>.from(offers!.map((x) => x)),
-        // "endorsements": endorsements == null
-        //     ? []
-        //     : List<dynamic>.from(endorsements!.map((x) => x)),
-        // "is_redeemable": isRedeemable,
-        // "created_at": createdAt?.toIso8601String(),
-        // "updated_at": updatedAt?.toIso8601String(),
-        // "deleted_at": deletedAt,
-        // "title": title,
-        // "description": description,
-        // "highlights": highlights == null
-        //     ? []
-        //     : List<dynamic>.from(highlights!.map((x) => x)),
-        // "budget_type": budgetType,
-        // "budget_from": budgetFrom,
-        // "budget_to": budgetTo,
-        // "start_date": startDate,
-        // "end_date": endDate,
-        // "start_time": startTime,
-        // "end_time": endTime,
-        // "share_location": shareLocation,
-        // "is_negotiable": isNegotiable,
-        // "revisions": revisions,
-        // "recursion_type": recursionType,
-        // "views_count": viewsCount,
-        // "location": location,
-        // "is_professional": isProfessional,
-        // "is_online": isOnline,
-        // "is_requested": isRequested,
-        // "discount_type": discountType,
-        // "discount_value": discountValue,
-        // "extra_data": extraData == null
-        //     ? []
-        //     : List<dynamic>.from(extraData!.map((x) => x)),
-        // "no_of_reservation": noOfReservation,
-        // "slug": slug,
-        // "is_active": isActive,
-        // "needs_approval": needsApproval,
-        // "is_endorsed": isEndorsed,
-        // "merchant": merchant,
-        // "event": event,
-        // "avatar": avatar,
-      };
+@freezed
+class ServiceModel with _$ServiceModel {
+  const factory ServiceModel({
+    String? id,
+    Currency? currency,
+    City? city,
+    @JsonKey(name: 'created_by') CreatedBy? createdBy,
+    Service? service,
+    List<Image>? images,
+    List<Image>? videos,
+    List<Rating>? rating,
+    int? count,
+    List<Offer>? offers,
+    List<Endorsement>? endorsements,
+    @JsonKey(name: 'is_redeemable') bool? isRedeemable,
+    Event? event,
+    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'updated_at') String? updatedAt,
+    @JsonKey(name: 'deleted_at') String? deletedAt,
+    String? title,
+    String? description,
+    List<String>? highlights,
+    @JsonKey(name: 'budget_type') String? budgetType,
+    @JsonKey(name: 'budget_from') double? budgetFrom,
+    @JsonKey(name: 'budget_to') double? budgetTo,
+    @JsonKey(name: 'start_date') String? startDate,
+    @JsonKey(name: 'end_date') String? endDate,
+    @JsonKey(name: 'start_time') String? startTime,
+    @JsonKey(name: 'end_time') String? endTime,
+    @JsonKey(name: 'share_location') bool? shareLocation,
+    @JsonKey(name: 'is_negotiable') bool? isNegotiable,
+    int? revisions,
+    @JsonKey(name: 'recursion_type') String? recursionType,
+    @JsonKey(name: 'views_count') int? viewsCount,
+    String? location,
+    @JsonKey(name: 'is_professional') bool? isProfessional,
+    @JsonKey(name: 'is_online') bool? isOnline,
+    @JsonKey(name: 'is_requested') bool? isRequested,
+    @JsonKey(name: 'discount_type') String? discountType,
+    @JsonKey(name: 'discount_value') int? discountValue,
+    @JsonKey(name: 'extra_data') List<String>? extraData,
+    @JsonKey(name: 'no_of_reservaton') int? noOfReservation,
+    String? slug,
+    @JsonKey(name: 'is_active') bool? isActive,
+    @JsonKey(name: 'needs_approval') bool? needsApproval,
+    @JsonKey(name: 'is_endorsed') bool? isEndorsed,
+    String? merchant,
+    int? avatar,
+  }) = _ServiceModel;
+
+  factory ServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$ServiceModelFromJson(json);
 }
 
-class City {
-  City({
-    this.id,
-    this.name,
-    this.latitude,
-    this.longitude,
-    this.country,
-  });
+@freezed
+class City with _$City {
+  const factory City({
+    int? id,
+    String? name,
+    double? latitude,
+    double? longitude,
+    Country? country,
+  }) = _City;
 
-  final num? id;
-  final String? name;
-  final num? latitude;
-  final num? longitude;
-  final Country? country;
-
-  factory City.fromJson(Map<String, dynamic> json) => City(
-        id: json["id"] as num?,
-        name: json["name"] as String?,
-        latitude: json["latitude"] as num?,
-        longitude: json["longitude"] as num?,
-        country: json["country"] == null
-            ? null
-            : Country.fromJson(
-                json["country"] as Map<String, dynamic>,
-              ),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "latitude": latitude,
-        "longitude": longitude,
-        "country": country?.toJson(),
-      };
+  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 }
 
-class Country {
-  Country({
-    this.name,
-    this.code,
-  });
+@freezed
+class Country with _$Country {
+  const factory Country({
+    String? name,
+    String? code,
+  }) = _Country;
 
-  final String? name;
-  final String? code;
-
-  factory Country.fromJson(Map<String, dynamic> json) => Country(
-        name: json["name"] as String?,
-        code: json["code"] as String?,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "code": code,
-      };
+  factory Country.fromJson(Map<String, dynamic> json) =>
+      _$CountryFromJson(json);
 }
 
-class CreatedBy {
-  CreatedBy({
-    this.id,
-    this.username,
-    this.email,
-    this.phone,
-    this.firstName,
-    this.middleName,
-    this.lastName,
-    this.profileImage,
-    this.bio,
-    this.createdAt,
-    this.designation,
-    this.userType,
-    this.isProfileVerified,
-    this.isFollowed,
-    this.isFollowing,
-    this.avatar,
-    this.badge,
-  });
+@freezed
+class CreatedBy with _$CreatedBy {
+  const factory CreatedBy({
+    String? id,
+    String? username,
+    String? email,
+    String? phone,
+    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'middle_name') String? middleName,
+    @JsonKey(name: 'last_name') String? lastName,
+    @JsonKey(name: 'profile_image') String? profileImage,
+    String? bio,
+    @JsonKey(name: 'created_at') String? createdAt,
+    String? designation,
+    @JsonKey(name: 'user_type') String? userType,
+    @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+    @JsonKey(name: 'is_followed') bool? isFollowed,
+    @JsonKey(name: 'is_following') bool? isFollowing,
+    Badge? badge,
+  }) = _CreatedBy;
 
-  final String? id;
-  final String? username;
-  final String? email;
-  final dynamic phone;
-  final String? firstName;
-  final String? middleName;
-  final String? lastName;
-  final String? profileImage;
-  final String? bio;
-  final DateTime? createdAt;
-  final String? designation;
-  final String? userType;
-  final String? isProfileVerified;
-  final bool? isFollowed;
-  final bool? isFollowing;
-  final Avatar? avatar;
-  final Badge? badge;
-
-  factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
-        id: json["id"] as String?,
-        username: json["username"] as String?,
-        email: json["email"] as String?,
-        phone: json["phone"] as String?,
-        firstName: json["first_name"] as String?,
-        middleName: json["middle_name"] as String?,
-        lastName: json["last_name"] as String?,
-        profileImage: json["profile_image"] as String?,
-        bio: json["bio"] as String?,
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(
-                json["created_at"] as String,
-              ),
-        designation: json["designation"] as String?,
-        userType: json["user_type"] as String?,
-        isProfileVerified: json["is_profile_verified"] as String?,
-        isFollowed: json["is_followed"] as bool?,
-        isFollowing: json["is_following"] as bool?,
-        avatar: json["avatar"] == null
-            ? null
-            : Avatar.fromJson(
-                json["avatar"] as Map<String, dynamic>,
-              ),
-        badge: json["badge"] == null
-            ? null
-            : Badge.fromJson(
-                json["badge"] as Map<String, dynamic>,
-              ),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "username": username,
-        "email": email,
-        "phone": phone,
-        "first_name": firstName,
-        "middle_name": middleName,
-        "last_name": lastName,
-        // "profile_image": profileImage,
-        "bio": bio,
-        "created_at": createdAt?.toIso8601String(),
-        "designation": designation,
-        "user_type": userType,
-        "is_profile_verified": isProfileVerified,
-        "is_followed": isFollowed,
-        "is_following": isFollowing,
-        "avatar": avatar?.toJson(),
-        "badge": badge?.toJson(),
-      };
+  factory CreatedBy.fromJson(Map<String, dynamic> json) =>
+      _$CreatedByFromJson(json);
 }
 
-class Avatar {
-  Avatar({
-    this.image,
-  });
+@freezed
+class Badge with _$Badge {
+  const factory Badge({
+    int? id,
+    String? image,
+    String? title,
+  }) = _Badge;
 
-  final dynamic image;
-
-  factory Avatar.fromJson(Map<String, dynamic> json) => Avatar(
-        image: json["image"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "image": image,
-      };
+  factory Badge.fromJson(Map<String, dynamic> json) => _$BadgeFromJson(json);
 }
 
-class Badge {
-  Badge({
-    this.id,
-    this.image,
-    this.title,
-  });
+@freezed
+class Endorsement with _$Endorsement {
+  const factory Endorsement({
+    int? id,
+    String? image,
+    String? title,
+  }) = _Endorsement;
 
-  final num? id;
-  final String? image;
-  final String? title;
-
-  factory Badge.fromJson(Map<String, dynamic> json) => Badge(
-        id: json["id"] as num?,
-        image: json["image"] as String?,
-        title: json["title"] as String?,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "image": image,
-        "title": title,
-      };
+  factory Endorsement.fromJson(Map<String, dynamic> json) => _$EndorsementFromJson(json);
 }
 
-class Currency {
-  Currency({
-    this.code,
-    this.name,
-    this.symbol,
-  });
+@freezed
+class Currency with _$Currency {
+  const factory Currency({
+    String? code,
+    String? name,
+    String? symbol,
+  }) = _Currency;
 
-  final String? code;
-  final String? name;
-  final String? symbol;
-
-  factory Currency.fromJson(Map<String, dynamic> json) => Currency(
-        code: json["code"] as String?,
-        name: json["name"] as String?,
-        symbol: json["symbol"] as String?,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "code": code,
-        "name": name,
-        "symbol": symbol,
-      };
+  factory Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
 }
 
-class Rating {
-  Rating({
-    this.rating,
-  });
+@freezed
+class Offer with _$Offer {
+  const factory Offer({
+    int? id,
+    String? title,
+    String? description,
+    String? image,
+    @JsonKey(name: 'offer_type') String? offerType,
+    String? code,
+    @JsonKey(name: 'offer_rule') int? offerRule,
+    String? free,
+  }) = _Offer;
 
-  final num? rating;
-
-  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        rating: json["rating"] as num?,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "rating": rating,
-      };
+  factory Offer.fromJson(Map<String, dynamic> json) => _$OfferFromJson(json);
 }
 
-class Service {
-  Service({
-    this.id,
-    this.title,
-    this.isActive,
-    this.isVerified,
-    this.category,
-    this.images,
-  });
+@freezed
+class Event with _$Event {
+  const factory Event({
+    String? id,
+    String? title,
+    String? start,
+    String? end,
+    String? duration,
+    @JsonKey(name: 'is_flexible') bool? isFlexible,
+    @JsonKey(name: 'is_active') bool? isActive,
+    @JsonKey(name: 'active_dates') List<String>? activeDates,
+  }) = _Event;
 
-  final String? id;
-  final String? title;
-  final bool? isActive;
-  final bool? isVerified;
-  final Category? category;
-  final List<dynamic>? images;
-
-  factory Service.fromJson(Map<String, dynamic> json) => Service(
-        id: json["id"] as String?,
-        title: json["title"] as String?,
-        isActive: json["is_active"] as bool?,
-        isVerified: json["is_verified"] as bool?,
-        category: json["category"] == null
-            ? null
-            : Category.fromJson(
-                json["category"] as Map<String, dynamic>,
-              ),
-        images: json["images"] == null
-            ? []
-            : List<dynamic>.from(
-                json["images"].map((x) => x) as Iterable,
-              ),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "is_active": isActive,
-        "is_verified": isVerified,
-        "category": category?.toJson(),
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-      };
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 }
 
-class Category {
-  Category({
-    this.id,
-    this.name,
-    this.level,
-    this.slug,
-  });
+@freezed
+class Image with _$Image {
+  const factory Image({
+    int? id,
+    String? name,
+    String? size,
+    @JsonKey(name: 'media_type') String? mediaType,
+    String? media,
+  }) = _Image;
 
-  final num? id;
-  final String? name;
-  final num? level;
-  final String? slug;
+  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+}
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"] as num?,
-        name: json["name"] as String?,
-        level: json["level"] as num?,
-        slug: json["slug"] as String?,
-      );
+@freezed
+class Rating with _$Rating {
+  const factory Rating({
+    double? rating,
+  }) = _Rating;
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "level": level,
-        "slug": slug,
-      };
+  factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
+}
+
+@freezed
+class Service with _$Service {
+  const factory Service({
+    String? id,
+    String? title,
+    @JsonKey(name: 'is_active') bool? isActive,
+    @JsonKey(name: 'is_verified') bool? isVerified,
+    Category? category,
+    List<Image>? images,
+  }) = _Service;
+
+  factory Service.fromJson(Map<String, dynamic> json) =>
+      _$ServiceFromJson(json);
+}
+
+@freezed
+class Category with _$Category {
+  const factory Category({
+    int? id,
+    String? name,
+    int? level,
+    String? slug,
+  }) = _Category;
+
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }

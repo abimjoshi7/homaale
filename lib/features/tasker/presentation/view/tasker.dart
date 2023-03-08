@@ -9,6 +9,7 @@ import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verific
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_review_section.dart';
+import 'package:cipher/features/tasker/presentation/view/widgets/tasker_service.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_task.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -29,8 +30,7 @@ class TaskerProfileState extends State<TaskerProfile>
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
-
+    tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -315,7 +315,10 @@ class TaskerProfileState extends State<TaskerProfile>
                       text: 'About',
                     ),
                     Tab(
-                      text: 'Task',
+                      text: 'Services',
+                    ),
+                    Tab(
+                      text: 'Tasks',
                     ),
                     Tab(
                       text: 'Reviews',
@@ -336,11 +339,14 @@ class TaskerProfileState extends State<TaskerProfile>
                         location:
                             "${state.tasker?.addressLine1}, ${state.tasker?.country!.name ?? ''}",
                         portfolio: state.tasker?.portfolio ?? [],
-                        education: [],
+                        education: state.tasker?.education ?? [],
                         experience: state.tasker?.experience ?? [],
                       ),
+                      TaskerService(
+                        service: state.service,
+                      ),
                       TaskerTask(
-                        tasks: state.entityService,
+                        tasks: state.task,
                       ),
                       TaskerReviewSection(
                         taskerReviewsResponse: state.taskerReviewsResponse,
