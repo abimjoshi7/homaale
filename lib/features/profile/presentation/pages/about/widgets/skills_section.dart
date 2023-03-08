@@ -19,9 +19,11 @@ class SkillsSection extends StatelessWidget {
     final tagsController = TextfieldTagsController();
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
+        if (state.theStates == TheStates.success) {
           final List<String> skills = [
-            ...jsonDecode(state.user.skill.toString())
+            ...jsonDecode(
+              state.taskerProfile?.skill.toString() ?? '',
+            )
           ];
           return Padding(
             padding: const EdgeInsets.all(10),
