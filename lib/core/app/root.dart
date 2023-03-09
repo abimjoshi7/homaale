@@ -30,7 +30,12 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> {
   int pageIndex = 0;
-  bool isFloatingIndex = false;
+
+  bool homeActive = true;
+  bool offerActive = false;
+  bool addActive = false;
+  bool bookingsActive = false;
+  bool profileActive = false;
 
   final pages = [
     const Home(),
@@ -132,25 +137,6 @@ class _RootState extends State<Root> {
         initBlocs();
       },
       child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-          padding: Platform.isAndroid ? kPadding20 : kPadding0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CommonCustomFloatingAction(
-                onPressed: () {
-                  setState(() {
-                    isFloatingIndex = !isFloatingIndex;
-                  });
-                },
-                text: "Add",
-                floatingAction: isFloatingIndex,
-              ),
-            ],
-          ),
-        ),
         body: Stack(
           children: [
             pages[pageIndex],
@@ -161,7 +147,7 @@ class _RootState extends State<Root> {
                   return Stack(
                     children: [
                       Visibility(
-                        visible: !isFloatingIndex,
+                        visible: !addActive,
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 50),
                           alignment: Alignment.center,
@@ -185,7 +171,11 @@ class _RootState extends State<Root> {
                                     setState(
                                       () {
                                         pageIndex = 0;
-                                        isFloatingIndex = false;
+                                        homeActive = true;
+                                        offerActive = false;
+                                        addActive = false;
+                                        bookingsActive = false;
+                                        profileActive = false;
                                       },
                                     );
                                   },
@@ -193,62 +183,87 @@ class _RootState extends State<Root> {
                                   index: 0,
                                   label: 'Home',
                                   iconData: Icons.home,
-                                  checkOpenAdd: isFloatingIndex,
+                                  isActive: homeActive,
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(() {
                                       pageIndex = 1;
-                                      isFloatingIndex = false;
+                                      homeActive = false;
+                                      offerActive = true;
+                                      addActive = false;
+                                      bookingsActive = false;
+                                      profileActive = false;
                                     });
                                   },
                                   pageIndex: pageIndex,
                                   index: 1,
                                   label: 'Offers',
                                   iconData: Icons.wallet_giftcard_rounded,
-                                  checkOpenAdd: isFloatingIndex,
+                                  isActive: offerActive,
                                 ),
-                                const SizedBox(
-                                  width: 40,
-                                ),
+
                                 // commented this lines cause of changes this functionality by applying floating acton button
-                                // CustomBottomNavItems(
-                                //   onPressed: () {
-                                //     setState(() {
-                                //       pageIndex = 2;
-                                //     });
-                                //   },
-                                //   pageIndex: pageIndex,
-                                //   index: 2,
-                                //   label: 'Add',
-                                //   iconData: Icons.add_circle,
-                                // ),
+                                CustomBottomNavItems(
+                                  onPressed: () {
+                                    if (addActive) {
+                                      setState(() {
+                                        homeActive = pageIndex == 0;
+                                        offerActive = pageIndex == 1;
+                                        addActive = false;
+                                        bookingsActive = pageIndex == 2;
+                                        profileActive = pageIndex == 3;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        homeActive = false;
+                                        offerActive = false;
+                                        addActive = true;
+                                        bookingsActive = false;
+                                        profileActive = false;
+                                      });
+                                    }
+                                  },
+                                  pageIndex: pageIndex,
+                                  //random index so that it is not active
+                                  index: 5,
+                                  label: 'Add',
+                                  iconData: Icons.add_circle_outline,
+                                  isActive: addActive,
+                                ),
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(() {
                                       pageIndex = 2;
-                                      isFloatingIndex = false;
+                                      homeActive = false;
+                                      offerActive = false;
+                                      addActive = false;
+                                      bookingsActive = true;
+                                      profileActive = false;
                                     });
                                   },
                                   pageIndex: pageIndex,
                                   index: 2,
                                   label: 'Bookings',
                                   iconData: Icons.edit_calendar_rounded,
-                                  checkOpenAdd: isFloatingIndex,
-                                  // iconData: Icons.collections_bookmark_outlined,
+                                  isActive: bookingsActive,
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(() {
                                       pageIndex = 3;
-                                      isFloatingIndex = false;
+                                      homeActive = false;
+                                      offerActive = false;
+                                      addActive = false;
+                                      bookingsActive = false;
+                                      profileActive = true;
                                     });
                                   },
                                   pageIndex: pageIndex,
                                   index: 3,
                                   label: 'Profile',
                                   iconData: Icons.account_circle_outlined,
-                                  checkOpenAdd: isFloatingIndex,
+                                  isActive: profileActive,
                                 ),
                               ],
                             ),
@@ -261,7 +276,7 @@ class _RootState extends State<Root> {
               ),
             ),
             Visibility(
-              visible: isFloatingIndex,
+              visible: addActive,
               child: Positioned(
                 bottom: MediaQuery.of(context).size.height * 0.09,
                 child: SizedBox(
@@ -278,6 +293,13 @@ class _RootState extends State<Root> {
                             label: 'Post a Task',
                             icon: Icons.comment_bank_rounded,
                             callback: () {
+                              setState(() {
+                                homeActive = pageIndex == 0;
+                                offerActive = pageIndex == 1;
+                                addActive = false;
+                                bookingsActive = pageIndex == 2;
+                                profileActive = pageIndex == 3;
+                              });
                               Navigator.pushNamed(
                                 context,
                                 PostTaskPage.routeName,
@@ -291,6 +313,13 @@ class _RootState extends State<Root> {
                             label: 'Add a Service',
                             icon: Icons.home_repair_service_rounded,
                             callback: () {
+                              setState(() {
+                                homeActive = pageIndex == 0;
+                                offerActive = pageIndex == 1;
+                                addActive = false;
+                                bookingsActive = pageIndex == 2;
+                                profileActive = pageIndex == 3;
+                              });
                               Navigator.pushNamed(
                                 context,
                                 AddServicePage.routeName,
@@ -305,27 +334,6 @@ class _RootState extends State<Root> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class Page1 extends StatelessWidget {
-  const Page1({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ColoredBox(
-      color: const Color(0xffC4DFCB),
-      child: Center(
-        child: Text(
-          'Page Number 1',
-          style: TextStyle(
-            color: Colors.green[900],
-            fontSize: 45,
-            fontWeight: FontWeight.w500,
-          ),
         ),
       ),
     );
