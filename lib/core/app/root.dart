@@ -128,28 +128,23 @@ class _RootState extends State<Root> {
       },
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.10,
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: kPadding20,
-                  child: CommonCustomFloatingAction(
-                    onPressed: () {
-                      setState(() {
-                        isFloatingIndex = !isFloatingIndex;
-                      });
-                    },
-                    text: "Add",
-                    floatingAction: isFloatingIndex,
-                  ),
-                ),
+        floatingActionButton: Padding(
+          padding: kPadding20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              CommonCustomFloatingAction(
+                onPressed: () {
+                  setState(() {
+                    isFloatingIndex = !isFloatingIndex;
+                  });
+                },
+                text: "Add",
+                floatingAction: isFloatingIndex,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         body: Stack(
           children: [
