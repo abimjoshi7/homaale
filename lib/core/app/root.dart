@@ -34,12 +34,6 @@ class _RootState extends State<Root> {
   final pages = [
     const Home(),
     const OffersPage(),
-    // Container(
-    //   color: Colors.amber,
-    //   height: 200,width: 200,
-    //   child:const Text("hello",),
-    // ),
-    // const Home(),
     const BookingPages(),
     const AccountProfile(),
   ];
@@ -134,24 +128,28 @@ class _RootState extends State<Root> {
       },
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.10,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: kPadding20,
-              child: CommonCustomFloatingAction(
-                onPressed: () {
-                  setState(() {
-                    isFloatingIndex = !isFloatingIndex;
-                  });
-                },
-                text: "Add",
-                floatingAction: isFloatingIndex,
+        floatingActionButton: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.10,
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: kPadding20,
+                  child: CommonCustomFloatingAction(
+                    onPressed: () {
+                      setState(() {
+                        isFloatingIndex = !isFloatingIndex;
+                      });
+                    },
+                    text: "Add",
+                    floatingAction: isFloatingIndex,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
         body: Stack(
           children: [

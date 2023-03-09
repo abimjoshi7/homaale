@@ -15,7 +15,6 @@ class CommonCustomFloatingAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
           onTap: onPressed,
@@ -31,10 +30,13 @@ class CommonCustomFloatingAction extends StatelessWidget {
                   size: 30,
                 ),
         ),
-        Text(
-          text,
-          style: TextStyle(
-            color: floatingAction ? kColorSecondary : kColorSilver,
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: floatingAction ? kColorSecondary : kColorSilver,
+            ),
           ),
         ),
       ],
