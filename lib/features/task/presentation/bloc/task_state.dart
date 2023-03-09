@@ -5,6 +5,7 @@ class TaskState extends Equatable {
   final PostTaskRes? postTaskRes;
   final MyTaskRes? myTaskRes;
   final AllTaskList? allTaskList;
+  final EntityServiceModel? tasksList;
   final TaskModel? taskModel;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
   const TaskState({
@@ -12,6 +13,7 @@ class TaskState extends Equatable {
     this.postTaskRes,
     this.myTaskRes,
     this.allTaskList,
+    this.tasksList,
     this.taskModel,
     this.selfCreatedTaskServiceModel,
   });
@@ -23,6 +25,7 @@ class TaskState extends Equatable {
       postTaskRes,
       myTaskRes,
       allTaskList,
+      tasksList,
       taskModel,
       selfCreatedTaskServiceModel,
     ];
@@ -33,6 +36,7 @@ class TaskState extends Equatable {
     PostTaskRes? postTaskRes,
     MyTaskRes? myTaskRes,
     AllTaskList? allTaskList,
+    EntityServiceModel? tasksList,
     TaskModel? taskModel,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
   }) {
@@ -41,6 +45,7 @@ class TaskState extends Equatable {
       postTaskRes: postTaskRes ?? this.postTaskRes,
       myTaskRes: myTaskRes ?? this.myTaskRes,
       allTaskList: allTaskList ?? this.allTaskList,
+      tasksList: tasksList ?? this.tasksList,
       taskModel: taskModel ?? this.taskModel,
       selfCreatedTaskServiceModel:
           selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,

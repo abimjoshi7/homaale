@@ -10,6 +10,7 @@ import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -17,7 +18,6 @@ import 'package:cipher/widgets/common_custom_floating_action_button.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -48,6 +48,10 @@ class _RootState extends State<Root> {
             .then(
               (value) async =>
                   context.read<TaskerPortfolioCubit>().getPortfolio(),
+            )
+            .then(
+              (value) async =>
+                  context.read<TaskBloc>().add(AllTaskLoadInitiated()),
             )
             .then(
               (value) async =>

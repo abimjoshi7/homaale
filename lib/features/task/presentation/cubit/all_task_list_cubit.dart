@@ -10,7 +10,7 @@ class AllTaskListCubit extends Cubit<AllTaskListState> {
 
   Future fetchAllTaskList() async {
     try {
-      await repo.fetchAllTaskList(true).then(
+      await repo.fetchAllTaskList().then(
             (value) => emit(
               AllTaskListLoadSuccess(
                 list: AllTaskList.fromJson(

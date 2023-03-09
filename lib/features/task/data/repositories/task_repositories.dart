@@ -26,12 +26,12 @@ class TaskRepositories {
   }
 
 // * List tasks or services by entity service ID
-  Future<Map<String, dynamic>> fetchAllTaskList(bool isTask) async {
+  Future<Map<String, dynamic>> fetchAllTaskList() async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/task/list/',
+        url: 'task/entity/service/',
         query: {
-          "is_requested": isTask,
+          "is_requested": true,
         },
         token: CacheHelper.accessToken,
       );

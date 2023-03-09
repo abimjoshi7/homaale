@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/services/data/models/entity_service.dart';
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
@@ -79,16 +82,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             state.copyWith(theState: TheStates.initial),
           );
-          await repo.fetchAllTaskList(true).then(
-                (value) => emit(
-                  state.copyWith(
-                    theState: TheStates.success,
-                    allTaskList: AllTaskList.fromJson(
-                      value,
-                    ),
-                  ),
+          await repo.fetchAllTaskList().then(
+            (value) {
+              final allTaskList = EntityServiceModel.fromJson(value);
+
+              emit(
+                state.copyWith(
+                  theState: TheStates.success,
+                  tasksList: allTaskList,
                 ),
               );
+            },
+          );
         } catch (e) {
           emit(
             state.copyWith(theState: TheStates.failure),
