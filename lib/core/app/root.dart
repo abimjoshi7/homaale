@@ -9,7 +9,6 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -135,14 +134,24 @@ class _RootState extends State<Root> {
       },
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: CommonCustomFloatingAction(
-          onPressed: () {
-            setState(() {
-              isFloatingIndex = !isFloatingIndex;
-            });
-          },
-          text: "Add",
-          floatingAction: isFloatingIndex,
+        floatingActionButton: Align(
+          alignment: Alignment.bottomCenter,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.10,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: kPadding20,
+              child: CommonCustomFloatingAction(
+                onPressed: () {
+                  setState(() {
+                    isFloatingIndex = !isFloatingIndex;
+                  });
+                },
+                text: "Add",
+                floatingAction: isFloatingIndex,
+              ),
+            ),
+          ),
         ),
         body: Stack(
           children: [
