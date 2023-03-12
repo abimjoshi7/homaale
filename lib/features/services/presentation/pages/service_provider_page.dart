@@ -19,6 +19,10 @@ class ServiceProviderPage extends StatelessWidget {
         builder: (context, state) {
           if (state is SingleEntityServiceLoadSuccess) {
             final data = state.serviceModel;
+            final document = parse(
+              state.serviceModel.description ??
+                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
+            );
             return Column(
               children: [
                 addVerticalSpace(50),
@@ -71,28 +75,48 @@ class ServiceProviderPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          state.serviceModel.title ?? '',
-                                          style: kPurpleText16,
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          child: Text(
+                                            state.serviceModel.title ?? '',
+                                            style: kPurpleText16,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                         Text(
-                                          "${state.serviceModel.createdBy?.firstName ?? ''} ${state.serviceModel.createdBy?.lastName ?? ''}",
+                                          "${state.serviceModel.createdBy?.firstName ?? ''}"
+                                          " ${state.serviceModel.createdBy?.lastName ?? ''}",
                                           style: kLightBlueText14,
                                         ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.favorite_border_outlined,
                                       color: Colors.red,
                                     ),
                                     kWidth10,
-                                    Icon(
-                                      Icons.share,
-                                      color: Colors.blue,
+                                    GestureDetector(
+                                      onTap: () {
+                                        final box = context.findRenderObject()
+                                            as RenderBox?;
+                                        Share.share(
+                                          "Share this Hommale with friends.",
+                                          sharePositionOrigin:
+                                              box!.localToGlobal(Offset.zero) &
+                                                  box.size,
+                                        );
+                                      },
+                                      child: const Icon(
+                                        Icons.share,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -134,8 +158,7 @@ class ServiceProviderPage extends StatelessWidget {
                             ),
                             addVerticalSpace(10),
                             Text(
-                              state.serviceModel.description ??
-                                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
+                              document.outerHtml,
                               textAlign: TextAlign.start,
                             ),
                             kHeight20,

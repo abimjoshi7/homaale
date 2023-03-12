@@ -41,10 +41,13 @@ class ServiceCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(
-                    child: Text(
-                      title ?? 'Root Canal Treatment',
-                      style: kPurpleText16,
-                      overflow: TextOverflow.ellipsis,
+                    child: SizedBox(
+                      width:MediaQuery.of(context).size.width * 0.5,
+                      child: Text(
+                        title ?? 'Root Canal Treatment',
+                        style: kPurpleText16,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   Flexible(
