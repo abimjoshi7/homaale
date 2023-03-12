@@ -1,7 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
-import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class AllTaskPage extends StatelessWidget {
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state.theState == TheStates.success) {
-            final data = state.allTaskList?.result;
+            final data = state.tasksList?.result;
             return Column(
               children: [
                 addVerticalSpace(50),
@@ -92,22 +92,26 @@ class AllTaskPage extends StatelessWidget {
                     itemBuilder: (context, index) => Padding(
                       padding: kPadding10,
                       child: TaskCard(
-                        taskName: data?[index].title,
-                        imageUrl: data?[index].assigner?.profileImage,
-                        startRate: data?[index].entityService?.budgetFrom ==
-                                null
-                            ? '0'
-                            : data?[index].entityService?.budgetFrom.toString(),
+                        startRate:
+                            '${state.tasksList?.result?[index].budgetFrom ?? 0}',
                         endRate:
-                            data?[index].entityService?.budgetTo.toString(),
-                        endHour: data?[index].endTime,
-                        endDate: DateFormat.yMMMMEEEEd().format(
-                          data?[index].endDate ?? DateTime.now(),
-                        ),
+                            '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                        count: state.tasksList?.result?[index].count.toString(),
+                        imageUrl: state.tasksList?.result?[index].createdBy
+                                ?.profileImage ??
+                            kServiceImageNImg,
+                        location: state.tasksList?.result?[index].location,
+                        endHour: Jiffy(
+                          state.tasksList?.result?[index].createdAt.toString(),
+                        ).jm,
+                        endDate: Jiffy(
+                          state.tasksList?.result?[index].endDate.toString(),
+                        ).yMMMMd,
+                        taskName: state.tasksList?.result?[index].title,
                         callback: () {
                           Navigator.pushNamed(
                             context,
-                            PostedTaskViewPage.routeName,
+                            ApplyTaskPage.routeName,
                           );
                         },
                       ),

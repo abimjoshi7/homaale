@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/task/data/models/apply_task_req.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
 
 class TaskRepositories {
@@ -66,6 +67,26 @@ class TaskRepositories {
       final res = await _dio.postDataWithCredential(
         data: postTaskReq.toJson(),
         url: 'task/entity/service/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> bookTask(
+    ApplyTaskReq applyTaskReq,
+  ) async {
+    try {
+      final data = applyTaskReq.toJson();
+
+      final res = await _dio.postDataWithCredential(
+        data: data,
+        url: 'task/entity/service-booking/',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
