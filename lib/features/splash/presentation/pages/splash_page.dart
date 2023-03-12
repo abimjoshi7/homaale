@@ -1,6 +1,8 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -12,6 +14,13 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  Future<void> readOnboardingScreenViewState() async {
+    String? _initScreenState = await CacheHelper.getCachedString('initScreen');
+    setState(() {
+      CacheHelper.initScreen = int.parse(_initScreenState!);
+    });
+  }
+
   Future<void> inititalLogCheck() async {
     const isLogged = false;
     if (isLogged == true) {
@@ -34,6 +43,7 @@ class _SplashPageState extends State<SplashPage> {
       ),
       () async => setState(
         () {
+          readOnboardingScreenViewState();
           inititalLogCheck();
         },
       ),
@@ -87,11 +97,19 @@ class _SplashPageState extends State<SplashPage> {
                 },
                 curve: Curves.bounceIn,
                 onEnd: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Onboarding.routeName,
-                    (route) => false,
-                  );
+                  if (CacheHelper.initScreen == null) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Onboarding.routeName,
+                      (route) => false,
+                    );
+                  } else {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SignInPage.routeName,
+                      (route) => false,
+                    );
+                  }
                 },
               ),
             ),

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,17 @@ class OnboardingMainBody extends StatelessWidget {
   final String bodyText;
   final int selectedIndex;
   // final VoidCallback onTap;
+
+  Future<void> setOnboardingState() async {
+    if (CacheHelper.initScreen == null) {
+      await CacheHelper.setCachedString(
+        "initScreen",
+        "1",
+      );
+      log('Onboarding state: SET');
+    }
+    log('Onboarding state: NOT SET');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,36 +98,28 @@ class OnboardingMainBody extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  'Skip',
-                                  style: kText17,
+                            GestureDetector(
+                              onTap: () {
+                                setOnboardingState();
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  SignInPage.routeName,
+                                  (route) => false,
+                                );
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: kColorPrimary,
                                 ),
-                                kWidth10,
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      SignInPage.routeName,
-                                      (route) => false,
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: kColorPrimary,
-                                    ),
-                                    child: const Icon(
-                                      Icons.arrow_forward,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                child: const Icon(
+                                  Icons.arrow_forward,
+                                  size: 30,
+                                  color: Colors.white,
                                 ),
-                              ],
+                              ),
                             )
                           ],
                         ),

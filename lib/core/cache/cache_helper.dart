@@ -6,6 +6,7 @@ class CacheHelper {
   static String? accessToken;
   static String? refreshToken;
   static bool? hasProfile;
+  static int? initScreen;
 
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(
