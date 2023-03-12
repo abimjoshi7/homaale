@@ -37,6 +37,7 @@ dependencies:
   responsive_framework: ^0.2.0
   textfield_tags: ^2.0.2
   url_launcher: ^6.1.8
+  khalti_flutter: ^2.2.1
 
 dev_dependencies:
   flutter_test:
