@@ -109,6 +109,11 @@ class AllTaskPage extends StatelessWidget {
                         ).yMMMMd,
                         taskName: state.tasksList?.result?[index].title,
                         callback: () {
+                          context.read<TaskBloc>().add(
+                                SingleEntityTaskLoadInitiated(
+                                  id: state.tasksList!.result![index].id!,
+                                ),
+                              );
                           Navigator.pushNamed(
                             context,
                             ApplyTaskPage.routeName,
