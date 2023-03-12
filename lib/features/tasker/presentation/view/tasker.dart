@@ -86,9 +86,19 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                             builder: (context) => Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const ListTile(
-                                  leading: Icon(Icons.share),
-                                  title: Text('Share'),
+                                GestureDetector(
+                                  onTap: ()  {
+                                    Navigator.pop(context);
+                                    final box = context.findRenderObject() as RenderBox?;
+                                     Share.share(
+                                       "Share this Hommale with friends.",
+                                        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size ,
+                                    );
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.share),
+                                    title: Text('Share'),
+                                  ),
                                 ),
                                 const ListTile(
                                   leading: Icon(Icons.report),
@@ -123,7 +133,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
             if (state.states == TheStates.success) {
               return Row(
                 children: List.generate(
-                  (state.tasker?.rating?.avgRating as double?)?.round() ?? 5,
+                  (state.tasker?.rating?.avgRating)?.round() ?? 5,
                   (index) => const Icon(
                     Icons.star_rate_rounded,
                     color: Colors.amber,
