@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingMainBody extends StatelessWidget {
@@ -12,22 +11,14 @@ class OnboardingMainBody extends StatelessWidget {
     required this.headingText,
     required this.bodyText,
     required this.selectedIndex,
-    // required this.onTap,
+    required this.onNextButtonPressed,
   });
 
   final String mainImage;
   final String headingText;
   final String bodyText;
   final int selectedIndex;
-  // final VoidCallback onTap;
-
-  Future<void> setOnboardingScreenViewState() async {
-    await CacheHelper.setCachedString(
-      "onBoardingScreenState",
-      "1",
-    );
-    log("Onboarding Screen State Status: Cached");
-  }
+  final VoidCallback onNextButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -97,12 +88,7 @@ class OnboardingMainBody extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                setOnboardingScreenViewState();
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  SignInPage.routeName,
-                                  (route) => false,
-                                );
+                                onNextButtonPressed();
                               },
                               child: Container(
                                 height: 50,
