@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'task_bloc.dart';
 
 abstract class TaskEvent extends Equatable {
@@ -41,4 +40,32 @@ class TaskAddInitiated extends TaskEvent {
   List<Object?> get props => [
         req,
       ];
+}
+
+class SelectedTask extends TaskEvent {
+  final es.EntityService? entityService;
+  const SelectedTask({
+    this.entityService,
+  });
+  @override
+  List<Object?> get props => [
+        entityService,
+      ];
+}
+
+class TaskBook extends TaskEvent {
+  final ApplyTaskReq req;
+  const TaskBook({
+    required this.req,
+  });
+  @override
+  List<Object?> get props => [
+        req,
+      ];
+}
+
+class TaskBookInitiated extends TaskEvent {
+  const TaskBookInitiated();
+  @override
+  List<Object?> get props => [];
 }

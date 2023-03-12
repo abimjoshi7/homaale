@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +49,17 @@ class _TaskerTaskState extends State<TaskerTask> {
             endHour: Jiffy(taskList![index].createdAt.toString()).jm,
             endDate: Jiffy(taskList![index].endDate.toString()).yMMMMd,
             count: taskList![index].count.toString(),
-            callback: () {},
+            callback: () {
+              context.read<TaskBloc>().add(
+                    SingleEntityTaskLoadInitiated(
+                      id: taskList![index].id!,
+                    ),
+                  );
+              Navigator.pushNamed(
+                context,
+                ApplyTaskPage.routeName,
+              );
+            },
           );
         },
       ),

@@ -4037,19 +4037,19 @@ Stats _$StatsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Stats {
   @JsonKey(name: "success_rate")
-  int? get successRate => throw _privateConstructorUsedError;
+  double? get successRate => throw _privateConstructorUsedError;
   @JsonKey(name: "happy_clients")
-  int? get happyClients => throw _privateConstructorUsedError;
+  double? get happyClients => throw _privateConstructorUsedError;
   @JsonKey(name: "task_completed")
-  int? get taskCompleted => throw _privateConstructorUsedError;
+  double? get taskCompleted => throw _privateConstructorUsedError;
   @JsonKey(name: "user_reviews")
-  int? get userReviews => throw _privateConstructorUsedError;
+  double? get userReviews => throw _privateConstructorUsedError;
   @JsonKey(name: "task_assigned")
-  int? get taskAssigned => throw _privateConstructorUsedError;
+  double? get taskAssigned => throw _privateConstructorUsedError;
   @JsonKey(name: "task_in_progess")
-  int? get taskInProgress => throw _privateConstructorUsedError;
+  double? get taskInProgress => throw _privateConstructorUsedError;
   @JsonKey(name: "task_cancelled")
-  int? get taskCancelled => throw _privateConstructorUsedError;
+  double? get taskCancelled => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -4062,13 +4062,13 @@ abstract class $StatsCopyWith<$Res> {
       _$StatsCopyWithImpl<$Res, Stats>;
   @useResult
   $Res call(
-      {@JsonKey(name: "success_rate") int? successRate,
-      @JsonKey(name: "happy_clients") int? happyClients,
-      @JsonKey(name: "task_completed") int? taskCompleted,
-      @JsonKey(name: "user_reviews") int? userReviews,
-      @JsonKey(name: "task_assigned") int? taskAssigned,
-      @JsonKey(name: "task_in_progess") int? taskInProgress,
-      @JsonKey(name: "task_cancelled") int? taskCancelled});
+      {@JsonKey(name: "success_rate") double? successRate,
+      @JsonKey(name: "happy_clients") double? happyClients,
+      @JsonKey(name: "task_completed") double? taskCompleted,
+      @JsonKey(name: "user_reviews") double? userReviews,
+      @JsonKey(name: "task_assigned") double? taskAssigned,
+      @JsonKey(name: "task_in_progess") double? taskInProgress,
+      @JsonKey(name: "task_cancelled") double? taskCancelled});
 }
 
 /// @nodoc
@@ -4096,31 +4096,31 @@ class _$StatsCopyWithImpl<$Res, $Val extends Stats>
       successRate: freezed == successRate
           ? _value.successRate
           : successRate // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       happyClients: freezed == happyClients
           ? _value.happyClients
           : happyClients // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskCompleted: freezed == taskCompleted
           ? _value.taskCompleted
           : taskCompleted // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       userReviews: freezed == userReviews
           ? _value.userReviews
           : userReviews // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskAssigned: freezed == taskAssigned
           ? _value.taskAssigned
           : taskAssigned // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskInProgress: freezed == taskInProgress
           ? _value.taskInProgress
           : taskInProgress // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskCancelled: freezed == taskCancelled
           ? _value.taskCancelled
           : taskCancelled // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
     ) as $Val);
   }
 }
@@ -4132,13 +4132,13 @@ abstract class _$$_StatsCopyWith<$Res> implements $StatsCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "success_rate") int? successRate,
-      @JsonKey(name: "happy_clients") int? happyClients,
-      @JsonKey(name: "task_completed") int? taskCompleted,
-      @JsonKey(name: "user_reviews") int? userReviews,
-      @JsonKey(name: "task_assigned") int? taskAssigned,
-      @JsonKey(name: "task_in_progess") int? taskInProgress,
-      @JsonKey(name: "task_cancelled") int? taskCancelled});
+      {@JsonKey(name: "success_rate") double? successRate,
+      @JsonKey(name: "happy_clients") double? happyClients,
+      @JsonKey(name: "task_completed") double? taskCompleted,
+      @JsonKey(name: "user_reviews") double? userReviews,
+      @JsonKey(name: "task_assigned") double? taskAssigned,
+      @JsonKey(name: "task_in_progess") double? taskInProgress,
+      @JsonKey(name: "task_cancelled") double? taskCancelled});
 }
 
 /// @nodoc
@@ -4162,31 +4162,31 @@ class __$$_StatsCopyWithImpl<$Res> extends _$StatsCopyWithImpl<$Res, _$_Stats>
       successRate: freezed == successRate
           ? _value.successRate
           : successRate // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       happyClients: freezed == happyClients
           ? _value.happyClients
           : happyClients // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskCompleted: freezed == taskCompleted
           ? _value.taskCompleted
           : taskCompleted // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       userReviews: freezed == userReviews
           ? _value.userReviews
           : userReviews // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskAssigned: freezed == taskAssigned
           ? _value.taskAssigned
           : taskAssigned // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskInProgress: freezed == taskInProgress
           ? _value.taskInProgress
           : taskInProgress // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       taskCancelled: freezed == taskCancelled
           ? _value.taskCancelled
           : taskCancelled // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
     ));
   }
 }
@@ -4208,25 +4208,25 @@ class _$_Stats implements _Stats {
 
   @override
   @JsonKey(name: "success_rate")
-  final int? successRate;
+  final double? successRate;
   @override
   @JsonKey(name: "happy_clients")
-  final int? happyClients;
+  final double? happyClients;
   @override
   @JsonKey(name: "task_completed")
-  final int? taskCompleted;
+  final double? taskCompleted;
   @override
   @JsonKey(name: "user_reviews")
-  final int? userReviews;
+  final double? userReviews;
   @override
   @JsonKey(name: "task_assigned")
-  final int? taskAssigned;
+  final double? taskAssigned;
   @override
   @JsonKey(name: "task_in_progess")
-  final int? taskInProgress;
+  final double? taskInProgress;
   @override
   @JsonKey(name: "task_cancelled")
-  final int? taskCancelled;
+  final double? taskCancelled;
 
   @override
   String toString() {
@@ -4275,37 +4275,37 @@ class _$_Stats implements _Stats {
 
 abstract class _Stats implements Stats {
   const factory _Stats(
-      {@JsonKey(name: "success_rate") final int? successRate,
-      @JsonKey(name: "happy_clients") final int? happyClients,
-      @JsonKey(name: "task_completed") final int? taskCompleted,
-      @JsonKey(name: "user_reviews") final int? userReviews,
-      @JsonKey(name: "task_assigned") final int? taskAssigned,
-      @JsonKey(name: "task_in_progess") final int? taskInProgress,
-      @JsonKey(name: "task_cancelled") final int? taskCancelled}) = _$_Stats;
+      {@JsonKey(name: "success_rate") final double? successRate,
+      @JsonKey(name: "happy_clients") final double? happyClients,
+      @JsonKey(name: "task_completed") final double? taskCompleted,
+      @JsonKey(name: "user_reviews") final double? userReviews,
+      @JsonKey(name: "task_assigned") final double? taskAssigned,
+      @JsonKey(name: "task_in_progess") final double? taskInProgress,
+      @JsonKey(name: "task_cancelled") final double? taskCancelled}) = _$_Stats;
 
   factory _Stats.fromJson(Map<String, dynamic> json) = _$_Stats.fromJson;
 
   @override
   @JsonKey(name: "success_rate")
-  int? get successRate;
+  double? get successRate;
   @override
   @JsonKey(name: "happy_clients")
-  int? get happyClients;
+  double? get happyClients;
   @override
   @JsonKey(name: "task_completed")
-  int? get taskCompleted;
+  double? get taskCompleted;
   @override
   @JsonKey(name: "user_reviews")
-  int? get userReviews;
+  double? get userReviews;
   @override
   @JsonKey(name: "task_assigned")
-  int? get taskAssigned;
+  double? get taskAssigned;
   @override
   @JsonKey(name: "task_in_progess")
-  int? get taskInProgress;
+  double? get taskInProgress;
   @override
   @JsonKey(name: "task_cancelled")
-  int? get taskCancelled;
+  double? get taskCancelled;
   @override
   @JsonKey(ignore: true)
   _$$_StatsCopyWith<_$_Stats> get copyWith =>

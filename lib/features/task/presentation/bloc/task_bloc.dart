@@ -1,12 +1,14 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'package:cipher/features/services/data/models/entity_service.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
+import 'package:cipher/features/task/data/models/apply_task_req.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
 import 'package:cipher/features/task/data/models/post_task_res.dart';
+import 'package:cipher/features/task/data/models/single_task_entity_service.dart';
 import 'package:cipher/features/task/data/models/task_model.dart';
 import 'package:cipher/features/task/data/repositories/task_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -84,7 +86,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           );
           await repo.fetchAllTaskList().then(
             (value) {
-              final allTaskList = EntityServiceModel.fromJson(value);
+              final allTaskList = es.EntityServiceModel.fromJson(value);
 
               emit(
                 state.copyWith(
@@ -114,7 +116,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 (value) => emit(
                   state.copyWith(
                     theState: TheStates.success,
-                    taskModel: TaskModel.fromJson(
+                    taskModel: SingleTaskEntityService.fromJson(
                       value,
                     ),
                   ),
@@ -129,8 +131,39 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         }
       },
     );
+
+    on<TaskBookInitiated>(
+      (event, emit) async {
+        emit(
+          state.copyWith(applyTaskFail: false, applyTaskSuccess: false),
+        );
+      },
+    );
+
+    on<TaskBook>(
+      (event, emit) async {
+        try {
+          await repo.bookTask(event.req).then(
+            (value) {
+              emit(
+                state.copyWith(
+                  applyTaskFail: false,
+                  applyTaskSuccess: true,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(applyTaskFail: true),
+          );
+        }
+      },
+    );
   }
 }
+
+
 
 
 // on<MyCreatedServiceTaskLoadInitiated>(
