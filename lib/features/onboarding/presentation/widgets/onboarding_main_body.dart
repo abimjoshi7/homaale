@@ -84,27 +84,36 @@ class OnboardingMainBody extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  SignInPage.routeName,
-                                  (route) => false,
-                                );
-                              },
-                              child: Container(
-                                height: 50,
-                                width: 50,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: kColorPrimary,
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Skip',
+                                  style: kText17,
                                 ),
-                                child: const Icon(
-                                  Icons.arrow_forward,
-                                  size: 30,
-                                  color: Colors.white,
+                                kWidth10,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      SignInPage.routeName,
+                                      (route) => false,
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kColorPrimary,
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             )
                           ],
                         ),
