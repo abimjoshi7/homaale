@@ -14,11 +14,21 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  Future<void> readOnboardingScreenViewState() async {
-    String? _initScreenState = await CacheHelper.getCachedString('initScreen');
-    setState(() {
-      CacheHelper.initScreen = int.parse(_initScreenState!);
-    });
+  Future<void> readOnboardingScreenViewState(NavigatorState navigator) async {
+    final String? onBoardingScreenState =
+        await CacheHelper.getCachedString('onBoardingScreenState');
+
+    if (onBoardingScreenState == null) {
+      navigator.pushNamedAndRemoveUntil(
+        Onboarding.routeName,
+        (route) => false,
+      );
+    } else {
+      navigator.pushNamedAndRemoveUntil(
+        SignInPage.routeName,
+        (route) => false,
+      );
+    }
   }
 
   Future<void> inititalLogCheck() async {
@@ -43,7 +53,6 @@ class _SplashPageState extends State<SplashPage> {
       ),
       () async => setState(
         () {
-          readOnboardingScreenViewState();
           inititalLogCheck();
         },
       ),
@@ -96,21 +105,8 @@ class _SplashPageState extends State<SplashPage> {
                   );
                 },
                 curve: Curves.bounceIn,
-                onEnd: () {
-                  if (CacheHelper.initScreen == null) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      Onboarding.routeName,
-                      (route) => false,
-                    );
-                  } else {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      SignInPage.routeName,
-                      (route) => false,
-                    );
-                  }
-                },
+                onEnd: () =>
+                    readOnboardingScreenViewState(Navigator.of(context)),
               ),
             ),
           ],

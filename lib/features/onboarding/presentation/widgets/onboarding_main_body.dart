@@ -21,15 +21,12 @@ class OnboardingMainBody extends StatelessWidget {
   final int selectedIndex;
   // final VoidCallback onTap;
 
-  Future<void> setOnboardingState() async {
-    if (CacheHelper.initScreen == null) {
-      await CacheHelper.setCachedString(
-        "initScreen",
-        "1",
-      );
-      log('Onboarding state: SET');
-    }
-    log('Onboarding state: NOT SET');
+  Future<void> setOnboardingScreenViewState() async {
+    await CacheHelper.setCachedString(
+      "onBoardingScreenState",
+      "1",
+    );
+    log("Onboarding Screen State Status: Cached");
   }
 
   @override
@@ -100,7 +97,7 @@ class OnboardingMainBody extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                setOnboardingState();
+                                setOnboardingScreenViewState();
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
                                   SignInPage.routeName,
