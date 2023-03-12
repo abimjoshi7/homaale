@@ -60,6 +60,12 @@ class CategoriesSection extends StatelessWidget {
                             data:
                                 state.hero.result?[index]?.category?.name ?? '',
                             color: randomColorGenerator(),
+                            child: SvgPicture.network(
+                              state.hero.result?[index]?.category?.icon.toString()
+                                      ??
+                                  "",
+                            ),
+                            // const Icon(Icons.add_circle),
                           ),
                         ),
                       ),
