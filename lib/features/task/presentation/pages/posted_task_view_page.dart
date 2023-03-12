@@ -114,9 +114,9 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: DateFormat.yMMMEd().format(
-                                taskModel?.createdAt ?? DateTime.now(),
-                              ),
+                              label: Jiffy(taskModel?.createdAt ??
+                                      DateTime.now().toString())
+                                  .yMMMEd,
                               iconData: Icons.calendar_today_rounded,
                             ),
                             IconText(

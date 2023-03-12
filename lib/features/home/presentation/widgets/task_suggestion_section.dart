@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +19,10 @@ class TasksSuggestionSection extends StatelessWidget {
           SectionHeading(
             labelName: 'Tasks you may like',
             onTap: () {
-              // Navigator.pushNamed(
-              //   context,
-              //   ClientPostTaskViewPage.routeName,
-              // );
+              Navigator.pushNamed(
+                context,
+                AllTaskPage.routeName,
+              );
             },
           ),
           BlocBuilder<TaskBloc, TaskState>(
@@ -45,15 +47,25 @@ class TasksSuggestionSection extends StatelessWidget {
                                   ?.profileImage ??
                               kServiceImageNImg,
                           location: state.tasksList?.result?[index].location,
-                          endHour: Jiffy(state
-                                  .tasksList?.result?[index].createdAt
-                                  .toString())
-                              .jm,
-                          endDate: Jiffy(state.tasksList?.result?[index].endDate
-                                  .toString())
-                              .yMMMMd,
+                          endHour: Jiffy(
+                            state.tasksList?.result?[index].createdAt
+                                .toString(),
+                          ).jm,
+                          endDate: Jiffy(
+                            state.tasksList?.result?[index].endDate.toString(),
+                          ).yMMMMd,
                           taskName: state.tasksList?.result?[index].title,
-                          callback: () {},
+                          callback: () {
+                            context.read<TaskBloc>().add(
+                                  SingleEntityTaskLoadInitiated(
+                                    id: state.tasksList!.result![index].id!,
+                                  ),
+                                );
+                            Navigator.pushNamed(
+                              context,
+                              ApplyTaskPage.routeName,
+                            );
+                          },
                         ),
                       ),
                       itemCount: state.tasksList?.result?.length ?? 0,

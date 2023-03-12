@@ -57,9 +57,12 @@ class TaskCard extends StatelessWidget {
                       taskName ?? 'Need Gardening',
                       style: kPurpleText16,
                     ),
-                    trailing: const Icon(
-                      Icons.favorite_border,
-                      color: Color(0xffFE5050),
+                    trailing: InkWell(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.favorite_border,
+                        color: Color(0xffFE5050),
+                      ),
                     ),
                   ),
                 ),
