@@ -18,6 +18,7 @@ class UserRepositories {
         x as Map<String, dynamic>,
       );
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }
