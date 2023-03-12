@@ -32,6 +32,8 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/payment_key.dart';
+
 class Cipher extends StatelessWidget {
   const Cipher({super.key});
 
@@ -190,23 +192,35 @@ class Cipher extends StatelessWidget {
               }
               return theme;
             }
-
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: displayTheme(),
-              builder: (context, child) => ResponsiveWrapper.builder(
-                BouncingScrollWrapper.builder(context, child!),
-                maxWidth: 1200,
-                minWidth: 480,
-                defaultScale: true,
-                breakpoints: [
-                  const ResponsiveBreakpoint.resize(480, name: MOBILE),
-                  const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                  const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                ],
-              ),
-              initialRoute: SplashPage.routeName,
-              onGenerateRoute: AppRouter().onGenerate,
+            return KhaltiScope(
+              publicKey: testPublicKey,
+              builder: (context, navigatorKey) {
+                return MaterialApp(
+                  navigatorKey: navigatorKey,
+                  supportedLocales: const [
+                    Locale('en', 'US'),
+                    Locale('ne', 'NP'),
+                  ],
+                  localizationsDelegates: const [
+                    KhaltiLocalizations.delegate,
+                  ],
+                  debugShowCheckedModeBanner: false,
+                  theme: displayTheme(),
+                  builder: (context, child) => ResponsiveWrapper.builder(
+                    BouncingScrollWrapper.builder(context, child!),
+                    maxWidth: 1200,
+                    minWidth: 480,
+                    defaultScale: true,
+                    breakpoints: [
+                      const ResponsiveBreakpoint.resize(480, name: MOBILE),
+                      const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                      const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                    ],
+                  ),
+                  initialRoute: SplashPage.routeName,
+                  onGenerateRoute: AppRouter().onGenerate,
+                );
+              },
             );
           },
         ),

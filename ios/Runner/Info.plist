@@ -55,5 +55,20 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>FlutterDeepLinkingEnabled</key>
+		<true/>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>kpg</string>
+				</array>
+				<key>CFBundleURLName</key>
+				<string>com.cagtu.cipher</string>
+			</dict>
+		</array>
 	</dict>
 </plist>
