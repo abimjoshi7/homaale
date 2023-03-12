@@ -349,13 +349,13 @@ Map<String, dynamic> _$$_RatingToJson(_$_Rating instance) => <String, dynamic>{
     };
 
 _$_Stats _$$_StatsFromJson(Map<String, dynamic> json) => _$_Stats(
-      successRate: json['success_rate'] as int?,
-      happyClients: json['happy_clients'] as int?,
-      taskCompleted: json['task_completed'] as int?,
-      userReviews: json['user_reviews'] as int?,
-      taskAssigned: json['task_assigned'] as int?,
-      taskInProgress: json['task_in_progess'] as int?,
-      taskCancelled: json['task_cancelled'] as int?,
+      successRate: (json['success_rate'] as num?)?.toDouble(),
+      happyClients: (json['happy_clients'] as num?)?.toDouble(),
+      taskCompleted: (json['task_completed'] as num?)?.toDouble(),
+      userReviews: (json['user_reviews'] as num?)?.toDouble(),
+      taskAssigned: (json['task_assigned'] as num?)?.toDouble(),
+      taskInProgress: (json['task_in_progess'] as num?)?.toDouble(),
+      taskCancelled: (json['task_cancelled'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$_StatsToJson(_$_Stats instance) => <String, dynamic>{

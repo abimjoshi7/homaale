@@ -23,9 +23,10 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText:
-                          state.taskerProfile?.stats?.taskAssigned.toString() ??
-                              '',
+                      numberText: state.taskerProfile?.stats?.taskAssigned
+                              ?.toInt()
+                              .toString() ??
+                          '',
                       textColor: kColorBlue,
                     ),
                     const Text('Task Created'),
@@ -38,6 +39,7 @@ class ProfileStatsSection extends StatelessWidget {
                           state.taskerProfile?.stats?.taskInProgress == null
                               ? '0'
                               : state.taskerProfile?.stats?.taskInProgress
+                                      ?.toInt()
                                       .toString() ??
                                   '',
                       textColor: kColorAmber,
@@ -48,9 +50,10 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText:
-                          state.taskerProfile?.stats?.successRate.toString() ??
-                              '',
+                      numberText: state.taskerProfile?.stats?.successRate
+                              ?.toInt()
+                              .toString() ??
+                          '',
                       textColor: kColorGreen,
                     ),
                     const Text('Success Rate'),
