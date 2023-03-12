@@ -225,13 +225,13 @@ class Rating with _$Rating {
 @freezed
 class Stats with _$Stats {
   const factory Stats({
-    @JsonKey(name: "success_rate") int? successRate,
-    @JsonKey(name: "happy_clients") int? happyClients,
-    @JsonKey(name: "task_completed") int? taskCompleted,
-    @JsonKey(name: "user_reviews") int? userReviews,
-    @JsonKey(name: "task_assigned") int? taskAssigned,
-    @JsonKey(name: "task_in_progess") int? taskInProgress,
-    @JsonKey(name: "task_cancelled") int? taskCancelled,
+    @JsonKey(name: "success_rate") double? successRate,
+    @JsonKey(name: "happy_clients") double? happyClients,
+    @JsonKey(name: "task_completed") double? taskCompleted,
+    @JsonKey(name: "user_reviews") double? userReviews,
+    @JsonKey(name: "task_assigned") double? taskAssigned,
+    @JsonKey(name: "task_in_progess") double? taskInProgress,
+    @JsonKey(name: "task_cancelled") double? taskCancelled,
   }) = _Stats;
 
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
