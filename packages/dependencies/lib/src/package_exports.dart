@@ -24,7 +24,7 @@ export 'package:pinput/pinput.dart';
 export 'package:responsive_framework/responsive_framework.dart';
 export 'package:textfield_tags/textfield_tags.dart';
 export 'package:url_launcher/url_launcher.dart';
-export  'package:khalti_flutter/khalti_flutter.dart';
+export 'package:khalti_flutter/khalti_flutter.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:share_plus/share_plus.dart';
-
+export 'package:basic_utils/basic_utils.dart';

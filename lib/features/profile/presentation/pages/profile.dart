@@ -10,9 +10,7 @@ import 'package:cipher/features/profile/presentation/pages/reviews/reviews_profi
 import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {

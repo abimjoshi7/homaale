@@ -87,12 +87,15 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 GestureDetector(
-                                  onTap: ()  {
+                                  onTap: () {
                                     Navigator.pop(context);
-                                    final box = context.findRenderObject() as RenderBox?;
-                                     Share.share(
-                                       "Share this Hommale with friends.",
-                                        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size ,
+                                    final box = context.findRenderObject()
+                                        as RenderBox?;
+                                    Share.share(
+                                      "Share this Hommale with friends.",
+                                      sharePositionOrigin:
+                                          box!.localToGlobal(Offset.zero) &
+                                              box.size,
                                     );
                                   },
                                   child: const ListTile(
