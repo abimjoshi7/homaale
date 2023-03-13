@@ -35,6 +35,7 @@ import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
+import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
 
@@ -271,6 +272,11 @@ class AppRouter {
       case ApplyTaskPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ApplyTaskPage(),
+          settings: settings,
+        );
+      case SingleTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SingleTaskPage(),
           settings: settings,
         );
       case PopularTaskerPage.routeName:

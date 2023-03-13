@@ -86,12 +86,13 @@ class AllTaskPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: data?.length,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (context, index) => Padding(
-                      padding: kPadding10,
-                      child: TaskCard(
+                  child: Padding(
+                    padding: kPadding15,
+                    child: ListView.separated(
+                      itemCount: data?.length ?? 0,
+                      separatorBuilder: (context, index) => addVerticalSpace(8),
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) => TaskCard(
                         startRate:
                             '${state.tasksList?.result?[index].budgetFrom ?? 0}',
                         endRate:

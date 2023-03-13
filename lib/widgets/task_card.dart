@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TaskCard extends StatelessWidget {
@@ -30,6 +31,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
         padding: kPadding10,
         child: Column(
@@ -39,55 +41,60 @@ class TaskCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
-                  child: ListTile(
-                    leading: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            imageUrl ?? kServiceImageNImg,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  imageUrl ?? kServiceImageNImg,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                          fit: BoxFit.cover,
+                          addHorizontalSpace(8),
+                          Text(
+                            StringUtils.capitalize(
+                              taskName ?? 'Need Gardening',
+                            ),
+                            style: kPurpleText16,
+                          ),
+                        ],
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.favorite_border,
+                          color: Color(0xffFE5050),
                         ),
-                        shape: BoxShape.circle,
                       ),
-                    ),
-                    title: Text(
-                      taskName ?? 'Need Gardening',
-                      style: kPurpleText16,
-                    ),
-                    trailing: InkWell(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.favorite_border,
-                        color: Color(0xffFE5050),
-                      ),
-                    ),
+                    ],
                   ),
                 ),
+                addVerticalSpace(8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     WidgetText(
-                      label: location ?? 'Buddhanagar',
+                      label: StringUtils.capitalize(
+                        location ?? 'Buddhanagar',
+                      ),
                       widget: const Icon(
                         Icons.location_on_outlined,
                         size: 14,
                         color: Color(0xffFE5050),
                       ),
                     ),
+                    addVerticalSpace(4),
                     Row(
                       children: [
-                        WidgetText(
-                          label: endHour ?? 'hh:mm:ss',
-                          widget: const Icon(
-                            Icons.access_time_rounded,
-                            size: 14,
-                            color: Color(0xff3eaeff),
-                          ),
-                        ),
-                        addHorizontalSpace(10),
                         WidgetText(
                           label: endDate ?? 'yy/mm/dd',
                           widget: const Icon(
@@ -96,8 +103,18 @@ class TaskCard extends StatelessWidget {
                             color: Color(0xffF06700),
                           ),
                         ),
+                        addHorizontalSpace(10),
+                        WidgetText(
+                          label: endHour ?? 'hh:mm:ss',
+                          widget: const Icon(
+                            Icons.access_time_rounded,
+                            size: 14,
+                            color: Color(0xff3eaeff),
+                          ),
+                        ),
                       ],
                     ),
+                    addVerticalSpace(8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -128,6 +145,7 @@ class TaskCard extends StatelessWidget {
               ],
             ),
             CustomElevatedButton(
+              theWidth: double.infinity,
               callback: callback,
               mainColor: kColorGreen,
               borderColor: kColorGreen,
