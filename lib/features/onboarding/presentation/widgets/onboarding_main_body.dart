@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingMainBody extends StatelessWidget {
@@ -15,7 +16,7 @@ class OnboardingMainBody extends StatelessWidget {
   final String headingText;
   final String bodyText;
   final int selectedIndex;
-  final VoidCallback onNextButtonPressed;
+  final OnNextButtonPressed onNextButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +94,19 @@ class OnboardingMainBody extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.29,
+                            ),
+                            if (selectedIndex == 3)
+                              const Text(
+                                'Continue to Login',
+                                style: kPurpleText17,
+                              )
+                            else
+                              const SizedBox(),
                             GestureDetector(
-                              onTap: () {
-                                onNextButtonPressed();
-                              },
+                              onTap: () =>
+                                  onNextButtonPressed(Navigator.of(context)),
                               child: Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.05,

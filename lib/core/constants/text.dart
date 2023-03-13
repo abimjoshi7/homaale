@@ -33,6 +33,12 @@ const kPurpleText16 = TextStyle(
   color: Color(0xff3D3F7D),
 );
 
+const kPurpleText17 = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.w600,
+  color: Color(0xff3D3F7D),
+);
+
 const kPurpleText19 = TextStyle(
   color: Color(0xff3D3F7D),
   fontWeight: FontWeight.w600,

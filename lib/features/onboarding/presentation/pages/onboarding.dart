@@ -20,33 +20,44 @@ class Onboarding extends StatefulWidget {
   State<Onboarding> createState() => _OnboardingState();
 }
 
+typedef OnNextButtonPressed = void Function(NavigatorState navigator);
+
 class _OnboardingState extends State<Onboarding> {
   int selectedIndex = 0;
   final pageController = PageController();
   late List<Widget> widgetList;
 
-  void changeSelectedIndex() {
+  void onNextButtonPressed(NavigatorState navigator) {
     if (selectedIndex == widgetList.length - 1) {
-      selectedIndex = 0;
+      navigateToSignInPage(navigator);
+      setOnboardingScreenViewState(navigator);
     } else {
       selectedIndex++;
+      pageController.animateToPage(
+        selectedIndex,
+        duration: kOnboardingAnimationDuration,
+        curve: Curves.ease,
+      );
     }
-    pageController.animateToPage(
-      selectedIndex,
-      duration: kOnboardingAnimationDuration,
-      curve: Curves.ease,
-    );
   }
+
+  // int get widgetListLength => widgetList.length;
+  void navigateToSignInPage(NavigatorState navigator) =>
+      navigator.pushNamedAndRemoveUntil(
+        SignInPage.routeName,
+        (route) => false,
+      );
 
   Future<void> setOnboardingScreenViewState(NavigatorState navigator) async {
     await CacheHelper.setCachedString(
       "onBoardingScreenState",
       "1",
     );
-    navigator.pushNamedAndRemoveUntil(
-      SignInPage.routeName,
-      (route) => false,
-    );
+    navigateToSignInPage(navigator);
+    // navigator.pushNamedAndRemoveUntil(
+    //   SignInPage.routeName,
+    //   (route) => false,
+    // );
     log("Onboarding Screen State Status: Cached");
   }
 
@@ -61,14 +72,14 @@ class _OnboardingState extends State<Onboarding> {
         headingText: 'Welcome to Homaale',
         bodyText:
             'Get connected to variety of services and collaborate with reliable people.',
-        onNextButtonPressed: changeSelectedIndex,
+        onNextButtonPressed: onNextButtonPressed,
       ),
       OnboardingMainBody(
         selectedIndex: 1,
         mainImage: 'assets/Group 48099185.png',
         headingText: 'Define your requirements',
         bodyText: 'Set your requirements and post or apply for the tasks.',
-        onNextButtonPressed: changeSelectedIndex,
+        onNextButtonPressed: onNextButtonPressed,
       ),
       OnboardingMainBody(
         selectedIndex: 2,
@@ -76,14 +87,14 @@ class _OnboardingState extends State<Onboarding> {
         headingText: 'Secure payments',
         bodyText:
             'Choose from our reliable payment methods and get reward points.',
-        onNextButtonPressed: changeSelectedIndex,
+        onNextButtonPressed: onNextButtonPressed,
       ),
       OnboardingMainBody(
         selectedIndex: 3,
         mainImage: 'assets/Casual life 3D - 580.png',
         headingText: 'Get the task completed',
         bodyText: 'Voila! Your task is done.',
-        onNextButtonPressed: changeSelectedIndex,
+        onNextButtonPressed: onNextButtonPressed,
       ),
     ];
   }
@@ -133,9 +144,7 @@ class _OnboardingState extends State<Onboarding> {
         backgroundColor: kColorPrimaryAccent,
         elevation: 0,
       ),
-      body: Container(
-        // padding:
-        //     EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04),
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: PageView.builder(
           controller: pageController,
