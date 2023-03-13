@@ -14,14 +14,13 @@ class ServiceProviderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
         builder: (context, state) {
           if (state is SingleEntityServiceLoadSuccess) {
-            final data = state.serviceModel;
-            final document = parse(
-              state.serviceModel.description ??
-                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
+            final documentDescription = Bidi.stripHtmlIfNeeded(state.serviceModel.description ??
+                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
             );
             return Column(
               children: [
@@ -158,7 +157,7 @@ class ServiceProviderPage extends StatelessWidget {
                             ),
                             addVerticalSpace(10),
                             Text(
-                              document.outerHtml,
+                              documentDescription,
                               textAlign: TextAlign.start,
                             ),
                             kHeight20,
