@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
+import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingMainBody extends StatelessWidget {
@@ -9,21 +9,22 @@ class OnboardingMainBody extends StatelessWidget {
     required this.headingText,
     required this.bodyText,
     required this.selectedIndex,
-    // required this.onTap,
+    required this.onNextButtonPressed,
   });
 
   final String mainImage;
   final String headingText;
   final String bodyText;
   final int selectedIndex;
-  // final VoidCallback onTap;
+  final OnNextButtonPressed onNextButtonPressed;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
-        children: [
-          SizedBox(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
             height: MediaQuery.of(context).size.height * 0.4,
             child: Image.asset(
               mainImage,
@@ -32,8 +33,8 @@ class OnboardingMainBody extends StatelessWidget {
           kHeight50,
           Expanded(
             child: Container(
-              // height: MediaQueryHelper.theHeight(context),
-              // width: MediaQueryHelper.theWidth(context),
+              height: MediaQuery.of(context).size.height * 0.306,
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -49,7 +50,9 @@ class OnboardingMainBody extends StatelessWidget {
                     color: Color(0xffCED4DA),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -62,7 +65,9 @@ class OnboardingMainBody extends StatelessWidget {
                           bodyText,
                           style: kBodyText1,
                         ),
-                        kHeight50,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -72,8 +77,13 @@ class OnboardingMainBody extends StatelessWidget {
                                 (index) => Padding(
                                   padding: const EdgeInsets.all(2),
                                   child: Container(
-                                    height: 10,
-                                    width: selectedIndex == index ? 20 : 10,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01,
+                                    width: selectedIndex == index
+                                        ? MediaQuery.of(context).size.width *
+                                            0.02
+                                        : MediaQuery.of(context).size.height *
+                                            0.01,
                                     decoration: BoxDecoration(
                                       color: selectedIndex == index
                                           ? kColorPrimary
@@ -84,17 +94,24 @@ class OnboardingMainBody extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.29,
+                            ),
+                            if (selectedIndex == 3)
+                              const Text(
+                                'Continue to Login',
+                                style: kPurpleText17,
+                              )
+                            else
+                              const SizedBox(),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  SignInPage.routeName,
-                                  (route) => false,
-                                );
-                              },
+                              onTap: () =>
+                                  onNextButtonPressed(Navigator.of(context)),
                               child: Container(
-                                height: 50,
-                                width: 50,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                width:
+                                    MediaQuery.of(context).size.height * 0.05,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: kColorPrimary,
