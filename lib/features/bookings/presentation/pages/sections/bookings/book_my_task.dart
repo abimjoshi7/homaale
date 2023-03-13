@@ -16,7 +16,7 @@ class BookingsMyTask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingsBloc, BookingState>(
+    return BlocBuilder<BookingsBloc, BookingsState>(
       builder: (context, state) {
         if (state.states == TheStates.success) {
           final myBookingList = state.myBookingList;
