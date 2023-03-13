@@ -27,6 +27,4 @@ export 'package:url_launcher/url_launcher.dart';
 export  'package:khalti_flutter/khalti_flutter.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:share_plus/share_plus.dart';
-export 'package:html/dom_parsing.dart';
-export 'package:html/html_escape.dart';
-export 'package:html/parser.dart';
+
