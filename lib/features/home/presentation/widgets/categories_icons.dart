@@ -38,10 +38,12 @@ class CategoriesIcons extends StatelessWidget {
                 data,
                 style: const TextStyle(
                   color: Color(0xff3d3f7d),
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: FontWeight.w400,
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
