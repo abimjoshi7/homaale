@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -34,8 +31,8 @@ class OnboardingMainBody extends StatelessWidget {
           kHeight50,
           Expanded(
             child: Container(
-              // height: MediaQueryHelper.theHeight(context),
-              // width: MediaQueryHelper.theWidth(context),
+              height: MediaQuery.of(context).size.height * 0.306,
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -51,7 +48,9 @@ class OnboardingMainBody extends StatelessWidget {
                     color: Color(0xffCED4DA),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -64,7 +63,9 @@ class OnboardingMainBody extends StatelessWidget {
                           bodyText,
                           style: kBodyText1,
                         ),
-                        kHeight50,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -74,8 +75,13 @@ class OnboardingMainBody extends StatelessWidget {
                                 (index) => Padding(
                                   padding: const EdgeInsets.all(2),
                                   child: Container(
-                                    height: 10,
-                                    width: selectedIndex == index ? 20 : 10,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.01,
+                                    width: selectedIndex == index
+                                        ? MediaQuery.of(context).size.width *
+                                            0.02
+                                        : MediaQuery.of(context).size.height *
+                                            0.01,
                                     decoration: BoxDecoration(
                                       color: selectedIndex == index
                                           ? kColorPrimary
@@ -91,8 +97,10 @@ class OnboardingMainBody extends StatelessWidget {
                                 onNextButtonPressed();
                               },
                               child: Container(
-                                height: 50,
-                                width: 50,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                width:
+                                    MediaQuery.of(context).size.height * 0.05,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: kColorPrimary,

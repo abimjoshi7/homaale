@@ -91,6 +91,7 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: (selectedIndex > 0)
             ? IconButton(
@@ -109,9 +110,8 @@ class _OnboardingState extends State<Onboarding> {
           Row(
             children: <Widget>[
               GestureDetector(
-                onTap: () {
-                  setOnboardingScreenViewState(Navigator.of(context));
-                },
+                onTap: () =>
+                    setOnboardingScreenViewState(Navigator.of(context)),
                 child: SizedBox(
                   child: Text(
                     'Skip',
@@ -133,29 +133,38 @@ class _OnboardingState extends State<Onboarding> {
         backgroundColor: kColorPrimaryAccent,
         elevation: 0,
       ),
-      body: PageView.builder(
-        controller: pageController,
-        itemCount: widgetList.length,
-        onPageChanged: (value) => setState(
-          () => selectedIndex = value,
-        ),
-        itemBuilder: (context, index) => ColoredBox(
-          color: const Color(0xff5c6096),
-          child: Column(
-            children: [
-              kHeight50,
-              const CustomHeader(
-                leadingWidget: SizedBox.shrink(),
-                trailingWidget: SizedBox.shrink(),
-              ),
-              BlocBuilder<SignInBloc, SignInState>(
-                builder: (context, state) {
-                  return Image.asset('assets/homaale_logo_title_light.png');
-                },
-              ),
-              kHeight50,
-              widgetList[selectedIndex],
-            ],
+      body: Container(
+        padding:
+            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+        height: MediaQuery.of(context).size.height,
+        child: PageView.builder(
+          controller: pageController,
+          itemCount: widgetList.length,
+          onPageChanged: (value) => setState(
+            () => selectedIndex = value,
+          ),
+          itemBuilder: (context, index) => ColoredBox(
+            color: const Color(0xff5c6096),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                const CustomHeader(
+                  leadingWidget: SizedBox.shrink(),
+                  trailingWidget: SizedBox.shrink(),
+                ),
+                BlocBuilder<SignInBloc, SignInState>(
+                  builder: (context, state) {
+                    return Image.asset('assets/homaale_logo_title_light.png');
+                  },
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                widgetList[selectedIndex],
+              ],
+            ),
           ),
         ),
       ),
