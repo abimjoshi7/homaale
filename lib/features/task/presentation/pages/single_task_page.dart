@@ -17,13 +17,27 @@ class SingleTaskPage extends StatefulWidget {
   State<SingleTaskPage> createState() => _SingleTaskPageState();
 }
 
-class _SingleTaskPageState extends State<SingleTaskPage> {
+class _SingleTaskPageState extends State<SingleTaskPage>
+    with SingleTickerProviderStateMixin {
+  int selectedIndex = 0;
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state.theState == TheStates.success && state.taskModel != null) {
+            final documentDescription = Bidi.stripHtmlIfNeeded(
+              state.taskModel?.description ??
+                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
+            );
             final List<ses.Image> taskMedia = [
               ...state.taskModel?.images ?? [],
               ...state.taskModel?.videos ?? [],
@@ -50,7 +64,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> {
                       Icons.search,
                     ),
                   ),
-                  child: const Text('Task Title'),
+                  child: Text(
+                      state.taskModel?.service?.category?.name ?? 'Task Title'),
                 ),
                 Expanded(
                   child: ListView(
@@ -265,7 +280,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> {
                                 )
                               ],
                             ),
-                            kHeight20,
+                            addVerticalSpace(24),
                             const Align(
                               alignment: Alignment.bottomLeft,
                               child: Text(
@@ -273,10 +288,11 @@ class _SingleTaskPageState extends State<SingleTaskPage> {
                                 style: kPurpleText16,
                               ),
                             ),
+                            kHeight10,
                             Text(
-                              "${state.taskModel?.description}",
+                              documentDescription,
                             ),
-                            kHeight20,
+                            addVerticalSpace(24),
                             const Align(
                               alignment: Alignment.bottomLeft,
                               child: Text(
@@ -284,30 +300,55 @@ class _SingleTaskPageState extends State<SingleTaskPage> {
                                 style: kPurpleText16,
                               ),
                             ),
-                            Column(
-                              children: List.generate(
-                                state.taskModel?.highlights?.length ?? 0,
-                                (index) => Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 12,
-                                      color: Colors.orange,
+                            kHeight10,
+                            ListView.separated(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => Row(
+                                children: [
+                                  const Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                    color: Colors.orange,
+                                  ),
+                                  kWidth10,
+                                  Text(
+                                    StringUtils.capitalize(
+                                      state.taskModel?.highlights![index] ?? '',
                                     ),
-                                    kWidth10,
-                                    Text(
-                                      StringUtils.capitalize(
-                                        state.taskModel?.highlights![index] ??
-                                            '',
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                    style: kRequirements,
+                                  )
+                                ],
                               ),
+                              separatorBuilder: (context, index) =>
+                                  addVerticalSpace(8.0),
+                              itemCount:
+                                  state.taskModel?.highlights?.length ?? 0,
                             ),
                           ],
                         ),
                       ),
+                      TabBar(
+                        controller: tabController,
+                        tabs: const [
+                          Tab(
+                            text: 'Taskers',
+                          ),
+                          Tab(
+                            text: 'Collaboration',
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          controller: tabController,
+                          children: [
+                            Container(),
+                            Container(),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
