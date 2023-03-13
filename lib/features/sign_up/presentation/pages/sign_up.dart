@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -42,11 +44,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   validator: validateNumber,
-                  onSaved: (p0) => setState(
-                    () {
-                      phoneNumberController.text = p0 ?? '';
-                    },
-                  ),
+                  onSaved: (value) {
+                    setState(
+                      () => phoneNumberController.text = value ?? '',
+                    );
+                  },
                   hintText: 'Mobile Number',
                   prefixWidget: Padding(
                     padding: const EdgeInsets.all(10),
@@ -71,10 +73,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: CustomTextFormField(
                   textInputType: TextInputType.emailAddress,
                   validator: validateEmail,
-                  onSaved: (p0) => setState(
-                    () {
-                      emailController.text = p0 ?? '';
-                    },
+                  onSaved: (value) => setState(
+                    () => setState(() => emailController.text = value ?? ''),
                   ),
                   hintText: 'Enter your email here',
                 ),
@@ -129,8 +129,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: CustomTextFormField(
                             validator: validatePassword,
                             textInputType: TextInputType.visiblePassword,
-                            onSaved: (p0) => setState(() {
-                              passwordController.text = p0 ?? '';
+                            onSaved: (value) => setState(() {
+                              passwordController.text = '$value';
+                              setState(() => {});
+                              log("pwd: ${passwordController.text}");
                             }),
                             obscureText: isObscure[0],
                             suffixWidget: InkWell(
@@ -153,14 +155,17 @@ class _SignUpPageState extends State<SignUpPage> {
                           label: 'Confirm Password',
                           child: CustomTextFormField(
                             textInputType: TextInputType.visiblePassword,
-                            onSaved: (p0) => setState(
+                            onSaved: (value) => setState(
                               () {
-                                confirmPasswordController.text = p0 ?? '';
+                                confirmPasswordController.text = '$value';
+                                setState(() => {});
+                                log("confirm pwd: ${confirmPasswordController.text}");
                               },
                             ),
                             validator: (val) {
                               if (val!.isEmpty) return 'Cannot be empty';
-                              if (!val.contains(passwordController.text)) {
+                              if (!(confirmPasswordController.text ==
+                                  passwordController.text)) {
                                 return "Password didn't match";
                               }
                               return null;
