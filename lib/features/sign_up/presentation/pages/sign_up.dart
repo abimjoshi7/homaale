@@ -7,6 +7,7 @@ import 'package:cipher/features/sign_up/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -37,6 +38,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 label: 'Phone',
                 child: CustomTextFormField(
                   textInputType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
                   validator: validateNumber,
                   onSaved: (p0) => setState(
                     () {
