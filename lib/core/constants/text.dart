@@ -108,6 +108,12 @@ const kInfo = TextStyle(
   fontSize: 10,
 );
 
+const kRequirements = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: kColorSilver,
+);
+
 const kBodyText1 =
     TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
 
