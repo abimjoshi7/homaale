@@ -7,6 +7,7 @@ import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignInFormFields extends StatefulWidget {
   const SignInFormFields({super.key});
@@ -123,6 +124,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   },
                 ),
                 textInputType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
                 hintText: 'Mobile Number',
                 prefixWidget: InkWell(
                   onTap: () {},

@@ -21,8 +21,9 @@ class OnboardingMainBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
-        children: [
-          SizedBox(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
             height: MediaQuery.of(context).size.height * 0.4,
             child: Image.asset(
               mainImage,

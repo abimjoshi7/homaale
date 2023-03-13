@@ -101,7 +101,7 @@ class _OnboardingState extends State<Onboarding> {
                 ),
                 icon: const Icon(
                   Icons.arrow_back_rounded,
-                  color: kColorGrey,
+                  color: Colors.white,
                 ),
                 iconSize: 30,
               )
@@ -115,7 +115,7 @@ class _OnboardingState extends State<Onboarding> {
                 child: SizedBox(
                   child: Text(
                     'Skip',
-                    style: kText20.copyWith(color: kColorGrey),
+                    style: kText20.copyWith(color: Colors.white),
                   ),
                 ),
               ),
@@ -123,7 +123,7 @@ class _OnboardingState extends State<Onboarding> {
                 onPressed: null,
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: kColorGrey,
+                  color: Colors.white,
                 ),
                 iconSize: 30,
               )
@@ -134,8 +134,8 @@ class _OnboardingState extends State<Onboarding> {
         elevation: 0,
       ),
       body: Container(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+        // padding:
+        //     EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.04),
         height: MediaQuery.of(context).size.height,
         child: PageView.builder(
           controller: pageController,
@@ -148,7 +148,7 @@ class _OnboardingState extends State<Onboarding> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.1,
                 ),
                 const CustomHeader(
                   leadingWidget: SizedBox.shrink(),

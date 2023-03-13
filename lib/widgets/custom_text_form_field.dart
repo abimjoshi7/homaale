@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.controller,
     this.node,
+    this.inputFormatters,
   });
 
   final double theHeight;
@@ -36,6 +38,7 @@ class CustomTextFormField extends StatelessWidget {
   final int maxLines;
   final TextEditingController? controller;
   final FocusNode? node;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       keyboardType: textInputType,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(10),
         constraints: BoxConstraints(minHeight: theHeight),
