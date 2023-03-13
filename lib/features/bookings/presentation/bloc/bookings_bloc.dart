@@ -4,15 +4,16 @@ import 'package:cipher/features/bookings/data/models/book_entity_service_res.dar
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'bookings_event.dart';
 part 'bookings_state.dart';
 
-class BookingsBloc extends Bloc<BookingsEvent, BookingState> {
+class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
   final repositories = BookingRepositories();
-  BookingsBloc() : super(const BookingState()) {
+  BookingsBloc() : super(const BookingsState()) {
     on<ServiceBookingInitiated>(
       (event, emit) async {
         try {
@@ -37,7 +38,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingState> {
       },
     );
 
-    on<ServiceBookingListLoadInitiated>(
+    on<MyTaskServiceBookingListLoadInitiated>(
       (event, emit) async {
         try {
           emit(
@@ -45,13 +46,15 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingState> {
               states: TheStates.initial,
             ),
           );
-          await repositories.fetchMyServiceBookingList().then(
+          await repositories
+              .fetchMyServiceTaskBookingList(
+                isTask: event.isTask,
+              )
+              .then(
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
-                    myBookingList: MyBookingList.fromJson(
-                      value,
-                    ),
+                    myBookingListModel: value,
                   ),
                 ),
               );
@@ -101,7 +104,9 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingState> {
               )
               .whenComplete(
                 () => add(
-                  ServiceBookingListLoadInitiated(),
+                  const MyTaskServiceBookingListLoadInitiated(
+                    isTask: true,
+                  ),
                 ),
               );
         } catch (e) {

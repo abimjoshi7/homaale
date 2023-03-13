@@ -82,7 +82,7 @@ class _RootState extends State<Root> {
             )
             .then(
               (value) async => context.read<BookingsBloc>().add(
-                    ServiceBookingListLoadInitiated(),
+                    MyTaskServiceBookingListLoadInitiated(),
                   ),
             )
             .then(

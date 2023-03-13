@@ -2,6 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 
 class BookingRepositories {
   final _dio = DioHelper();
@@ -35,13 +36,20 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchMyServiceBookingList() async {
+  Future<MyBookingListModel> fetchMyServiceTaskBookingList({
+    required bool isTask,
+  }) async {
     try {
       final x = await _dio.getDatawithCredential(
         url: kMyBookingList,
+        query: {
+          "is_requested": isTask,
+        },
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      return MyBookingListModel.fromJson(
+        x as Map<String, dynamic>,
+      );
     } catch (e) {
       rethrow;
     }

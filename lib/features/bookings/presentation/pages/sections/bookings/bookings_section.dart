@@ -50,7 +50,9 @@ class _BookingsSectionState extends State<BookingsSection> {
                   }
                   if (selectedIndex == 1) {
                     context.read<BookingsBloc>().add(
-                          ServiceBookingListLoadInitiated(),
+                          const MyTaskServiceBookingListLoadInitiated(
+                            isTask: false,
+                          ),
                         );
                   }
                   if (selectedIndex == 2) {

@@ -545,7 +545,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                   ),
                 ),
               ),
-              BlocListener<BookingsBloc, BookingState>(
+              BlocListener<BookingsBloc, BookingsState>(
                 listener: (context, state) {
                   if (state.states == TheStates.success) {
                     showDialog(

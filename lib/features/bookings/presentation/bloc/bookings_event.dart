@@ -13,9 +13,15 @@ class ServiceBookingInitiated extends BookingsEvent {
   List<Object?> get props => [service];
 }
 
-class ServiceBookingListLoadInitiated extends BookingsEvent {
+class MyTaskServiceBookingListLoadInitiated extends BookingsEvent {
+  final bool isTask;
+  const MyTaskServiceBookingListLoadInitiated({
+    required this.isTask,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+        isTask,
+      ];
 }
 
 class ServiceBookingEditInitiated extends BookingsEvent {

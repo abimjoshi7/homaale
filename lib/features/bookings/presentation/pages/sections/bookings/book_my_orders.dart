@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/cubit/single_entity_task_cubit.dart';
@@ -15,15 +16,16 @@ class BookingsMyOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskBloc, TaskState>(
+    return BlocBuilder<BookingsBloc, BookingsState>(
       builder: (context, state) {
-        if (state.theState == TheStates.initial) {
+        if (state.states == TheStates.initial) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-        if (state.theState == TheStates.success) {
-          final allTaskList = state.allTaskList?.result;
+        if (state.states == TheStates.success) {
+          final myBookingList = state.myBookingListModel?.result;
+          // final allTaskList = state.allTaskList?.result;
           return Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
@@ -39,23 +41,23 @@ class BookingsMyOrder extends StatelessWidget {
                 },
                 child: GestureDetector(
                   onTap: () async {
-                    await context
-                        .read<SingleEntityTaskCubit>()
-                        .fetchSingleEntityTask(
-                          allTaskList?[index].id ?? 'No ID',
-                        )
-                        .then(
-                          (value) => Navigator.pushNamed(
-                            context,
-                            PostedTaskViewPage.routeName,
-                          ),
-                        );
+                    // await context
+                    //     .read<SingleEntityTaskCubit>()
+                    //     .fetchSingleEntityTask(
+                    //       allTaskList?[index].id ?? 'No ID',
+                    //     )
+                    //     .then(
+                    //       (value) => Navigator.pushNamed(
+                    //         context,
+                    //         PostedTaskViewPage.routeName,
+                    //       ),
+                    //     );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: BookingsServiceCard(
                       deleteTap: () {},
-                      serviceName: allTaskList?[index].title,
+                      serviceName: myBookingList[index].,
                       providerName: '',
                       // "${allTaskList?[index].createdBy?.firstName} ${allTaskList?[index].createdBy?.lastName}",
                       mainContentWidget: Column(
