@@ -34,7 +34,7 @@ String? validatePassword(String? value) {
   } else {
     if (!regex.hasMatch(value)) {
       return '''
-Your password must be at least 6 character long
+Your password must be at least 10 character long
  with minimum 1 upper case, lowercase, special character each
 ''';
     } else {

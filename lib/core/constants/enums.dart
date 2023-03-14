@@ -3,3 +3,8 @@ enum TheStates {
   success,
   failure,
 }
+
+enum SignUpMethod {
+  phone,
+  email,
+}
