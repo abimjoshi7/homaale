@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/payment_key.dart';
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
@@ -29,10 +30,9 @@ import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import '../constants/payment_key.dart';
 
 class Cipher extends StatelessWidget {
   const Cipher({super.key});
@@ -154,7 +154,7 @@ class Cipher extends StatelessWidget {
             create: (context) => ServicesBloc(),
           ),
           BlocProvider(
-            create: (context) => TaskBloc(),
+            create: (context) => locator<TaskBloc>(),
           ),
           BlocProvider(
             create: (context) => EntityServiceBloc(),
@@ -175,7 +175,7 @@ class Cipher extends StatelessWidget {
             create: (context) => AddServiceCubit(),
           ),
           BlocProvider(
-            create: (context) => TaskerCubit()..loadTaskerList(),
+            create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
           BlocProvider(
             create: (context) => SingleEntityTaskCubit(),
@@ -192,6 +192,7 @@ class Cipher extends StatelessWidget {
               }
               return theme;
             }
+
             return KhaltiScope(
               publicKey: testPublicKey,
               builder: (context, navigatorKey) {

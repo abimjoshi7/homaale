@@ -8,7 +8,7 @@ part of 'tasker_list_res.dart';
 
 _$_TaskerListRes _$$_TaskerListResFromJson(Map<String, dynamic> json) =>
     _$_TaskerListRes(
-      totalPages: json['totalPages'] as int?,
+      totalPages: json['total_pages'] as int?,
       count: json['count'] as int?,
       current: json['current'] as int?,
       next: json['next'] as String?,
@@ -21,7 +21,7 @@ _$_TaskerListRes _$$_TaskerListResFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_TaskerListResToJson(_$_TaskerListRes instance) =>
     <String, dynamic>{
-      'totalPages': instance.totalPages,
+      'total_pages': instance.totalPages,
       'count': instance.count,
       'current': instance.current,
       'next': instance.next,

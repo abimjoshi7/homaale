@@ -30,3 +30,4 @@ export 'package:share_plus/share_plus.dart';
 export 'package:basic_utils/basic_utils.dart';
 export 'package:video_player/video_player.dart';
 export 'package:chewie/chewie.dart';
+export 'package:get_it/get_it.dart';
