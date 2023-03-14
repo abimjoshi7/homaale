@@ -38,7 +38,7 @@ class _TasksSuggestionSectionState extends State<TasksSuggestionSection> {
       child: Column(
         children: [
           SectionHeading(
-            labelName: 'Tasks you may like',
+            labelName: 'Task recommendations for you',
             onTap: () {
               Navigator.pushNamed(
                 context,
@@ -68,6 +68,8 @@ class _TasksSuggestionSectionState extends State<TasksSuggestionSection> {
                                 '${state.tasksList?.result?[index].budgetFrom ?? 0}',
                             endRate:
                                 '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                            budgetType:
+                                '${state.tasksList?.result?[index].budgetType}',
                             count: state.tasksList?.result?[index].count
                                 .toString(),
                             imageUrl: state.tasksList?.result?[index].createdBy

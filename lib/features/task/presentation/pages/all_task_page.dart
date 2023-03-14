@@ -2,13 +2,34 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
+import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class AllTaskPage extends StatelessWidget {
+class AllTaskPage extends StatefulWidget {
   static const routeName = '/all-task-page';
   const AllTaskPage({super.key});
+
+  @override
+  State<AllTaskPage> createState() => _AllTaskPageState();
+}
+
+class _AllTaskPageState extends State<AllTaskPage> {
+  void onTaskPressed({
+    required TaskState state,
+    required int index,
+    required bool isApply,
+  }) {
+    context.read<TaskBloc>().add(
+          SingleEntityTaskLoadInitiated(
+            id: state.tasksList!.result![index].id!,
+          ),
+        );
+    isApply
+        ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
+        : Navigator.pushNamed(context, SingleTaskPage.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,34 +113,39 @@ class AllTaskPage extends StatelessWidget {
                       itemCount: data?.length ?? 0,
                       separatorBuilder: (context, index) => addVerticalSpace(8),
                       padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) => TaskCard(
-                        startRate:
-                            '${state.tasksList?.result?[index].budgetFrom ?? 0}',
-                        endRate:
-                            '${state.tasksList?.result?[index].budgetTo ?? 0}',
-                        count: state.tasksList?.result?[index].count.toString(),
-                        imageUrl: state.tasksList?.result?[index].createdBy
-                                ?.profileImage ??
-                            kServiceImageNImg,
-                        location: state.tasksList?.result?[index].location,
-                        endHour: Jiffy(
-                          state.tasksList?.result?[index].createdAt.toString(),
-                        ).jm,
-                        endDate: Jiffy(
-                          state.tasksList?.result?[index].endDate.toString(),
-                        ).yMMMMd,
-                        taskName: state.tasksList?.result?[index].title,
-                        callback: () {
-                          context.read<TaskBloc>().add(
-                                SingleEntityTaskLoadInitiated(
-                                  id: state.tasksList!.result![index].id!,
-                                ),
-                              );
-                          Navigator.pushNamed(
-                            context,
-                            ApplyTaskPage.routeName,
-                          );
-                        },
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () => onTaskPressed(
+                          state: state,
+                          index: index,
+                          isApply: false,
+                        ),
+                        child: TaskCard(
+                          startRate:
+                              '${state.tasksList?.result?[index].budgetFrom ?? 0}',
+                          endRate:
+                              '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                          budgetType:
+                              '${state.tasksList?.result?[index].budgetType}',
+                          count:
+                              state.tasksList?.result?[index].count.toString(),
+                          imageUrl: state.tasksList?.result?[index].createdBy
+                                  ?.profileImage ??
+                              kServiceImageNImg,
+                          location: state.tasksList?.result?[index].location,
+                          endHour: Jiffy(
+                            state.tasksList?.result?[index].createdAt
+                                .toString(),
+                          ).jm,
+                          endDate: Jiffy(
+                            state.tasksList?.result?[index].endDate.toString(),
+                          ).yMMMMd,
+                          taskName: state.tasksList?.result?[index].title,
+                          callback: () => onTaskPressed(
+                            state: state,
+                            index: index,
+                            isApply: true,
+                          ),
+                        ),
                       ),
                     ),
                   ),
