@@ -4,7 +4,6 @@ import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/data/models/single_task_entity_service.dart'
     as ses;
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
-import 'package:cipher/widgets/custom_header.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -42,17 +41,14 @@ class _SingleTaskPageState extends State<SingleTaskPage>
               ...state.taskModel?.images ?? [],
               ...state.taskModel?.videos ?? [],
             ];
+
             return Column(
               children: [
                 kHeight50,
                 CustomHeader(
                   leadingWidget: IconButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Root.routeName,
-                        (route) => false,
-                      );
+                      Navigator.pop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,
@@ -65,12 +61,11 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     ),
                   ),
                   child: Text(
-                      state.taskModel?.service?.category?.name ?? 'Task Title'),
+                    state.taskModel?.service?.category?.name ?? 'Task Title',
+                  ),
                 ),
                 Expanded(
-                  child: ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
+                  child: Column(
                     children: [
                       if (taskMedia.isNotEmpty)
                         CarouselSlider.builder(
@@ -81,10 +76,16 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                               child: Stack(
                                 children: [
                                   if (taskMedia[index].mediaType == 'mp4')
-                                    const Placeholder()
+                                    VideoPlayerWidget(
+                                      videoURL: taskMedia[index].media ??
+                                          'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                    )
                                   else
                                     Image.network(
                                       taskMedia[index].media.toString(),
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Image.network(kServiceImageNImg),
                                       width: MediaQuery.of(context).size.width,
                                       fit: BoxFit.cover,
                                     ),
@@ -179,7 +180,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         Text(
                                           "${state.taskModel?.createdBy?.firstName ?? ''}"
                                           " ${state.taskModel?.createdBy?.lastName ?? ''}",
-                                          style: kLightBlueText14,
+                                          style: kLightBlueText12,
                                         ),
                                       ],
                                     ),
@@ -262,7 +263,9 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                       size: 18,
                                     ),
                                     kWidth5,
-                                    Text('${state.taskModel?.count} Applied'),
+                                    Text(
+                                      '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
+                                    ),
                                   ],
                                 ),
                                 Row(
@@ -284,7 +287,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                             const Align(
                               alignment: Alignment.bottomLeft,
                               child: Text(
-                                'Problem Description',
+                                'Description',
                                 style: kPurpleText16,
                               ),
                             ),
@@ -315,7 +318,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   kWidth10,
                                   Text(
                                     StringUtils.capitalize(
-                                      state.taskModel?.highlights![index] ?? '',
+                                      state.taskModel?.highlights?[index] ?? '',
                                     ),
                                     style: kRequirements,
                                   )

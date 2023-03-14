@@ -26,6 +26,7 @@ export './section_heading.dart';
 export './service_card.dart';
 export './task_card.dart';
 export './tasker_card.dart';
+export './video_player.dart';
 export './week_time_specifier.dart';
 export './widget_text.dart';
 export '../features/home/presentation/widgets/widgets.dart';

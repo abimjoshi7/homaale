@@ -97,4 +97,20 @@ class TaskRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> singleTaskAppliedCount(
+      {required String id}) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/service/tasker-count/$id',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
 }

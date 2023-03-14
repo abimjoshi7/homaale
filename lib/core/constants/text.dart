@@ -9,6 +9,12 @@ const kTabBarTitle = TextStyle(
   ),
 );
 
+const kLightBlueText12 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: Color(0xff3eaeff),
+);
+
 const kLightBlueText14 = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 14,
@@ -90,7 +96,7 @@ const kHeading3 = TextStyle(
 const kHelper13 = TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.w400,
-  color: Color(0xff9CA0C1),
+  color: Color(0xff495057),
 );
 
 const kSkipHelper = TextStyle(
