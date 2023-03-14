@@ -54,12 +54,12 @@ class Result {
   });
 
   final int? id;
-  final Category? category;
+  final CategoryHero? category;
   final bool? isActive;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"] as int?,
-        category: Category.fromJson(json["category"] as Map<String, dynamic>),
+        category: CategoryHero.fromJson(json["category"] as Map<String, dynamic>),
         isActive: json["is_active"] as bool?,
       );
 
@@ -70,8 +70,8 @@ class Result {
       };
 }
 
-class Category {
-  Category({
+class CategoryHero {
+  CategoryHero({
     this.name,
     this.icon,
     this.slug,
@@ -81,7 +81,7 @@ class Category {
   final dynamic icon;
   final String? slug;
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory CategoryHero.fromJson(Map<String, dynamic> json) => CategoryHero(
         name: json["name"] as String?,
         icon: json["icon"],
         slug: json["slug"] as String?,

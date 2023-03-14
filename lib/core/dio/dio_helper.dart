@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:cipher/core/app/api_end_points.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:dio/dio.dart';
+import 'package:dependencies/dependencies.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -12,8 +12,12 @@ class DioHelper {
   static void init() {
     final options = BaseOptions(
       baseUrl: sandbox,
-      connectTimeout: 20 * 1000,
-      receiveTimeout: 20 * 1000,
+      connectTimeout: const Duration(
+        seconds: 10,
+      ),
+      receiveTimeout: const Duration(
+        seconds: 10,
+      ),
       receiveDataWhenStatusError: true,
     );
 
@@ -97,11 +101,12 @@ class DioHelper {
       return response.data;
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
-        await refreshToken();
-        getDatawithCredential(
-          url: url,
-          query: query,
-          token: token,
+        await refreshToken().then(
+          (value) => getDatawithCredential(
+            url: url,
+            query: query,
+            token: token,
+          ),
         );
       } else {
         log("API request failed: $e");
@@ -356,43 +361,20 @@ class DioHelper {
     }
   }
 
-  Future<void> refreshToken() async {
+  Future<void> refreshToken([String? token]) async {
     try {
       final response = await dio.post(
         "user/token/refresh/",
-        queryParameters: {
-          'refresh': CacheHelper.refreshToken,
+        data: {
+          "refresh": token ?? CacheHelper.refreshToken,
         },
       );
-
-      if (response.statusCode == 200) {
-        dio.options.headers["Authorization"] =
-            "Bearer ${response.data["token"]}";
-      } else {
-        print("Refresh token request failed");
-      }
+      CacheHelper.accessToken = await response.data['access'] as String?;
+      CacheHelper.refreshToken = await response.data['refresh'] as String?;
     } catch (e) {
-      print("Refresh token request failed: $e");
-    }
-  }
-
-// Function to make an API request
-  Future<void> makeRequest() async {
-    try {
-      // Make the API request
-      Response response = await dio.get("/some-endpoint");
-
-      // Handle successful response
-      print(response.data);
-    } catch (e) {
-      // If the error is a 401 unauthorized, refresh the token and try again
-      if (e is DioError && e.response?.statusCode == 401) {
-        await refreshToken();
-        makeRequest();
-      } else {
-        // Handle other errors
-        print("API request failed: $e");
-      }
+      await CacheHelper.clearAllCachedData();
+      log("Refresh token request failed: $e");
+      rethrow;
     }
   }
 }

@@ -1,13 +1,12 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dio/dio.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class FormEditProfileSection extends StatefulWidget {
   const FormEditProfileSection({super.key});
@@ -29,13 +28,13 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is UserEditSuccess) {
+        if (state.theStates == TheStates.success) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
               isSuccess: true,
               heading: 'Success',
-              content: 'Profile was edited successfully',
+              content: 'Profile was updated successfully',
               onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context,
                 Root.routeName,
@@ -43,13 +42,13 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is UserEditFailure) {
+        } else if (state.theStates == TheStates.failure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
               isSuccess: false,
               heading: 'Failure',
-              content: 'Profile cannot be edited',
+              content: 'Profile cannot be updated',
               onTap: () => Navigator.pushNamedAndRemoveUntil(
                 context,
                 Root.routeName,
@@ -60,12 +59,12 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
         }
       },
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
-          firstName = state.user.user!.firstName;
-          middleName = state.user.user!.middleName;
-          lastName = state.user.user!.lastName;
-          designation = state.user.designation.toString();
-          profilePicture = state.user.profileImage.toString();
+        if (state.theStates == TheStates.success) {
+          firstName = state.taskerProfile?.user?.firstName;
+          middleName = state.taskerProfile?.user?.middleName;
+          lastName = state.taskerProfile?.user?.lastName;
+          designation = state.taskerProfile?.designation;
+          profilePicture = state.taskerProfile?.profileImage;
           return Padding(
             padding: kPadding20,
             child: Form(
@@ -84,15 +83,6 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                               },
                             );
                           }
-                        },
-                      );
-                      await MultipartFile.fromFile(selectedImage!.path).then(
-                        (value) {
-                          // context.read<UserBloc>().editProfilePic(
-                          //   {
-                          //     "profile_image": value,
-                          //   },
-                          // );
                         },
                       );
                     },
@@ -146,7 +136,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user!.firstName!,
+                              hintText:
+                                  state.taskerProfile?.user?.firstName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   firstName = p0;
@@ -167,7 +158,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user!.middleName!,
+                              hintText:
+                                  state.taskerProfile?.user?.middleName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   middleName = p0;
@@ -197,7 +189,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText: state.user.user!.lastName!,
+                              hintText:
+                                  state.taskerProfile?.user?.lastName ?? '',
                               onSaved: (p0) => setState(
                                 () {
                                   lastName = p0;
@@ -219,7 +212,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       ),
                       kHeight5,
                       CustomTextFormField(
-                        hintText: state.user.designation.toString(),
+                        hintText: state.taskerProfile?.designation ?? '',
                         onSaved: (p0) => setState(
                           () {
                             designation = p0;
@@ -254,24 +247,26 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
-                        _key.currentState!.save();
+                        _key.currentState?.save();
 
-                        // final user = {
-                        //   "first_name": firstName!.isEmpty
-                        //       ? state.user.user!.firstName
-                        //       : firstName,
-                        //   "middle_name": middleName!.isEmpty
-                        //       ? state.user.user!.middleName
-                        //       : middleName,
-                        //   "last_name": lastName!.isEmpty
-                        //       ? state.user.user!.lastName
-                        //       : lastName,
-                        //   "designation": designation!.isEmpty
-                        //       ? state.user.designation
-                        //       : designation,
-                        // };
+                        final user = {
+                          "first_name": firstName!.isEmpty
+                              ? state.taskerProfile?.user!.firstName
+                              : firstName,
+                          "middle_name": middleName!.isEmpty
+                              ? state.taskerProfile?.user!.middleName
+                              : middleName,
+                          "last_name": lastName!.isEmpty
+                              ? state.taskerProfile?.user!.lastName
+                              : lastName,
+                          "designation": designation!.isEmpty
+                              ? state.taskerProfile?.designation
+                              : designation,
+                        };
 
-                        // await context.read<UserBloc>().editTaskeruser(user);
+                        context.read<UserBloc>().add(
+                              UserEdited(req: user),
+                            );
                       },
                       label: 'Save',
                     ),
@@ -280,7 +275,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
               ),
             ),
           );
-        } else if (state is UserLoadFailure) {
+        } else if (state.theStates == TheStates.failure) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

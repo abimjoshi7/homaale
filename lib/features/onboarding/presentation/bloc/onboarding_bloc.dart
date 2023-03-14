@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'onboarding_event.dart';
 part 'onboarding_state.dart';

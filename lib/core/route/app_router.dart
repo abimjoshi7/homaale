@@ -1,18 +1,41 @@
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
-import 'package:cipher/features/account_settings/presentation/pages/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
+import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
+import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
+import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
+import 'package:cipher/features/order/presentation/pages/order_page.dart';
+import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
+import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
+import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
+import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
+import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
+import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -66,6 +89,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const Profile(),
         );
+      case TaskerProfileView.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const TaskerProfileView(),
+        );
       case AddPortfolio.routeName:
         return MaterialPageRoute(
           builder: (context) => const AddPortfolio(),
@@ -114,10 +141,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const KycDetails(),
         );
-      case KycDetailsOrganization.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const KycDetailsOrganization(),
-        );
       case SavedPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SavedPage(),
@@ -158,6 +181,114 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const DeactivatePage(),
         );
+      case BookingPages.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingPages(),
+        );
+      case ServiceProviderPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ServiceProviderPage(),
+        );
+      case CategoriesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CategoriesPage(),
+        );
+      case ServicesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ServicesPage(),
+          settings: settings,
+        );
+      case EntityServicesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const EntityServicesPage(),
+          settings: settings,
+        );
+      case AddServicePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddServicePage(),
+          settings: settings,
+        );
+      case BookingDetailsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingDetailsPage(),
+          settings: settings,
+        );
+      case BookingNextDetailPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingNextDetailPage(),
+          settings: settings,
+        );
+      case CheckoutPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CheckoutPage(),
+          settings: settings,
+        );
+      case PaymentPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentPage(),
+          settings: settings,
+        );
+      case AddPaymentMethodPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddPaymentMethodPage(),
+          settings: settings,
+        );
+      case PaymentSummaryPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentSummaryPage(),
+          settings: settings,
+        );
+      case OrderPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const OrderPage(),
+          settings: settings,
+        );
+      case InvoicePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const InvoicePage(),
+          settings: settings,
+        );
+      case PostedTaskViewPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PostedTaskViewPage(),
+          settings: settings,
+        );
+      case PostTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PostTaskPage(),
+          settings: settings,
+        );
+      case TaxCalculator.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const TaxCalculator(),
+          settings: settings,
+        );
+      case PopularServicesPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PopularServicesPage(),
+          settings: settings,
+        );
+      case ApplyTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ApplyTaskPage(),
+          settings: settings,
+        );
+      case PopularTaskerPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PopularTaskerPage(),
+          settings: settings,
+        );
+      case OffersPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const OffersPage(),
+          settings: settings,
+        );
+      case AllTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AllTaskPage(),
+          settings: settings,
+        );
+
       case SandboxPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SandboxPage(),

@@ -24,8 +24,10 @@ class OnboardingMainBody extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            // height: MediaQueryHelper.theHeight(context) * 0.4,
-            child: Image.asset(mainImage),
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Image.asset(
+              mainImage,
+            ),
           ),
           kHeight50,
           Expanded(

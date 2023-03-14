@@ -1,4 +1,5 @@
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/core/constants/paddings.dart';
+import 'package:cipher/features/profile/presentation/pages/about/views/views.dart';
 import 'package:flutter/material.dart';
 
 class AboutProfile extends StatelessWidget {
@@ -10,15 +11,16 @@ class AboutProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
+        padding: kPadding10,
+        child: Wrap(
+          runSpacing: 8,
           children: const [
-            DescriptionSection(),
-            SkillsSection(),
-            PortfolioSection(),
-            ExperienceSection(),
-            EducationSection(),
-            CertificationSection(),
+            DescriptionView(),
+            SkillsView(),
+            PortfolioView(),
+            ExperienceView(),
+            EducationView(),
+            CertificationView(),
           ],
         ),
       ),

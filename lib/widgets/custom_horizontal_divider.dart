@@ -11,7 +11,9 @@ class CustomHorizontalDivider extends StatelessWidget {
       widthFactor: 1,
       child: Container(
         height: 1,
-        decoration: BoxDecoration(color: Colors.grey.shade200),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+        ),
       ),
     );
   }

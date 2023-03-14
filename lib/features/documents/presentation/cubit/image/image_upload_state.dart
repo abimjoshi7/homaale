@@ -23,6 +23,34 @@ class ImageUploadFailure extends ImageUploadState {
   List<Object?> get props => [];
 }
 
+class VideoUploadSuccess extends ImageUploadState {
+  const VideoUploadSuccess({
+    required this.list,
+  });
+  final List<dynamic> list;
+  @override
+  List<Object?> get props => [list];
+}
+
+class VideoUploadFailure extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
+class MultipleImageUploadSuccess extends ImageUploadState {
+  const MultipleImageUploadSuccess({
+    required this.list,
+  });
+  final List<dynamic> list;
+  @override
+  List<Object?> get props => [list];
+}
+
+class MultipleImageUploadFailure extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
 class FileUploadSuccess extends ImageUploadState {
   const FileUploadSuccess({
     required this.list,

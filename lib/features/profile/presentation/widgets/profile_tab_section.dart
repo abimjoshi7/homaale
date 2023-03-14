@@ -12,9 +12,6 @@ class ProfileTabSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBar(
       isScrollable: true,
-      labelColor: Colors.amber,
-      indicatorColor: Colors.amber,
-      unselectedLabelColor: Colors.grey,
       controller: tabController,
       tabs: const [
         Tab(

@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+import 'package:dependencies/dependencies.dart';
 
 class FilePickHelper {
   static Future<File?> filePicker() async {

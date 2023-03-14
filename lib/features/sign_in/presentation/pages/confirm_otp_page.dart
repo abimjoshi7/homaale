@@ -1,15 +1,13 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validations.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/widgets/custom_timer.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 
 class ConfirmOtpPage extends StatefulWidget {
   const ConfirmOtpPage({super.key});
@@ -166,7 +164,8 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                     kErrorLog,
                                   );
                                   if (state is ForgotPasswordResetSuccess) {
-                                    showDialog(
+                                    if (!mounted) return;
+                                    await showDialog(
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: 'Success',
@@ -182,7 +181,8 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                       ),
                                     );
                                   } else {
-                                    showDialog(
+                                    if (!mounted) return;
+                                    await showDialog(
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: 'Failure',

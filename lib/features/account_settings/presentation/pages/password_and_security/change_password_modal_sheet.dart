@@ -1,11 +1,10 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_password.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/models/password_security.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordModalSheet extends StatefulWidget {
   const ChangePasswordModalSheet({

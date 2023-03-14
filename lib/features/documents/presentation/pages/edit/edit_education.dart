@@ -1,11 +1,11 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/documents/models/tasker_education_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_education_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditEducation extends StatefulWidget {
   const EditEducation({super.key, required this.id});
@@ -41,6 +41,7 @@ class _EditEducationState extends State<EditEducation> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state is TaskerEditEducationSuccess) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -56,6 +57,7 @@ class _EditEducationState extends State<EditEducation> {
           );
         }
         if (state is TaskerEditEducationFailure) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -99,8 +101,10 @@ class _EditEducationState extends State<EditEducation> {
                           label: 'School',
                           isRequired: true,
                           child: CustomTextFormField(
-                            hintText:
-                                education?.school ?? 'Eg: Tribhuvan University',
+                            hintText: schoolController.text.isNotEmpty
+                                ? schoolController.text
+                                : education?.school ??
+                                    'Eg: Tribhuvan University',
                             onChanged: (p0) {
                               setState(
                                 () {
@@ -115,8 +119,10 @@ class _EditEducationState extends State<EditEducation> {
                           isRequired: true,
                           child: CustomTextFormField(
                             maxLines: 3,
-                            hintText:
-                                education?.description ?? 'Write something...',
+                            hintText: descriptionController.text.isNotEmpty
+                                ? descriptionController.text
+                                : education?.description ??
+                                    'Write something...',
                             onChanged: (p0) {
                               setState(() {
                                 descriptionController.text = p0!;
@@ -128,7 +134,9 @@ class _EditEducationState extends State<EditEducation> {
                           label: 'Degree',
                           isRequired: true,
                           child: CustomTextFormField(
-                            hintText: education?.degree ?? "Eg: Bachelor's",
+                            hintText: degreeController.text.isNotEmpty
+                                ? degreeController.text
+                                : education?.degree ?? "Eg: Bachelor's",
                             onChanged: (p0) {
                               setState(() {
                                 degreeController.text = p0!;
@@ -140,7 +148,9 @@ class _EditEducationState extends State<EditEducation> {
                           label: 'Field of Study',
                           isRequired: true,
                           child: CustomTextFormField(
-                            hintText: education?.fieldOfStudy ?? 'Eg: Business',
+                            hintText: fieldOfStudyController.text.isNotEmpty
+                                ? fieldOfStudyController.text
+                                : education?.fieldOfStudy ?? 'Eg: Business',
                             onChanged: (p0) {
                               setState(() {
                                 fieldOfStudyController.text = p0!;
@@ -156,8 +166,10 @@ class _EditEducationState extends State<EditEducation> {
                               Icons.location_on_outlined,
                               color: kColorPrimary,
                             ),
-                            hintText: education?.location ??
-                                'Eg: New Baneshwor, Kathmandu',
+                            hintText: locationController.text.isNotEmpty
+                                ? locationController.text
+                                : education?.location ??
+                                    'Eg: New Baneshwor, Kathmandu',
                             onChanged: (p0) {
                               setState(() {
                                 locationController.text = p0!;
@@ -202,10 +214,10 @@ class _EditEducationState extends State<EditEducation> {
                                         );
                                       },
                                       child: CustomFormContainer(
-                                        hintText: education?.startDate
+                                        hintText: startDate
                                                 ?.toString()
                                                 .substring(0, 10) ??
-                                            startDate
+                                            education?.startDate
                                                 ?.toString()
                                                 .substring(0, 10) ??
                                             '1999-03-06',
@@ -243,10 +255,10 @@ class _EditEducationState extends State<EditEducation> {
                                         );
                                       },
                                       child: CustomFormContainer(
-                                        hintText: education?.endDate
+                                        hintText: endDate
                                                 ?.toString()
                                                 .substring(0, 10) ??
-                                            endDate
+                                            education?.endDate
                                                 ?.toString()
                                                 .substring(0, 10) ??
                                             '1999-06-03',
@@ -265,34 +277,51 @@ class _EditEducationState extends State<EditEducation> {
                         Center(
                           child: CustomElevatedButton(
                             callback: () {
-                              context
-                                  .read<TaskerEducationCubit>()
-                                  .editTaskerEducation(
-                                    TaskerEducationReq(
-                                      school: schoolController.text.isNotEmpty
-                                          ? schoolController.text
-                                          : education!.school!,
-                                      description:
-                                          descriptionController.text.isNotEmpty
-                                              ? descriptionController.text
-                                              : education!.description!,
-                                      degree: degreeController.text.isNotEmpty
-                                          ? degreeController.text
-                                          : education!.degree!,
-                                      fieldOfStudy:
-                                          fieldOfStudyController.text.isNotEmpty
-                                              ? fieldOfStudyController.text
-                                              : education!.fieldOfStudy!,
-                                      location:
-                                          locationController.text.isNotEmpty
-                                              ? locationController.text
-                                              : education!.location!,
-                                      startDate:
-                                          startDate ?? education!.startDate!,
-                                      endDate: endDate ?? education!.endDate,
-                                    ),
-                                    widget.id,
-                                  );
+                              setState(
+                                () {
+                                  startDate ??= education!.startDate;
+                                  endDate ??= education!.endDate;
+                                },
+                              );
+                              if (startDate!.isAfter(endDate!)) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                    heading: 'Error',
+                                    content: 'Please verify your dates',
+                                    onTap: () {},
+                                    isSuccess: false,
+                                  ),
+                                );
+                              } else {
+                                context
+                                    .read<TaskerEducationCubit>()
+                                    .editTaskerEducation(
+                                      TaskerEducationReq(
+                                        school: schoolController.text.isNotEmpty
+                                            ? schoolController.text
+                                            : education!.school!,
+                                        description: descriptionController
+                                                .text.isNotEmpty
+                                            ? descriptionController.text
+                                            : education!.description!,
+                                        degree: degreeController.text.isNotEmpty
+                                            ? degreeController.text
+                                            : education!.degree!,
+                                        fieldOfStudy: fieldOfStudyController
+                                                .text.isNotEmpty
+                                            ? fieldOfStudyController.text
+                                            : education!.fieldOfStudy!,
+                                        location:
+                                            locationController.text.isNotEmpty
+                                                ? locationController.text
+                                                : education!.location!,
+                                        startDate: startDate!,
+                                        endDate: endDate,
+                                      ),
+                                      widget.id,
+                                    );
+                              }
                             },
                             label: 'Save',
                           ),

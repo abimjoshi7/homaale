@@ -1,11 +1,10 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class PersonalInformationPage extends StatefulWidget {
   static const routeName = '/personal-information-page';
@@ -24,13 +23,12 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   String? contact;
   DateTime? dob;
   String? bio;
-  TaskerProfileRetrieveRes? user;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) async {
-        if (state is UserEditSuccess) {
+        if (state.theStates == TheStates.success) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -44,7 +42,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
               ),
             ),
           );
-        } else if (state is UserEditFailure) {
+        } else if (state.theStates == TheStates.failure) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -61,23 +59,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         }
       },
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
-          user = state.user;
-
-          String getGender() {
-            if (user?.gender == null) {
-              if (isMale) {
-                return 'Male';
-              } else if (isFemale) {
-                return 'Female';
-              } else {
-                return 'Other';
-              }
-            } else {
-              return user!.gender!;
-            }
-          }
-
+        if (state.theStates == TheStates.success) {
           return Column(
             children: [
               const CustomModalSheetDrawerIcon(),
@@ -93,9 +75,8 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                   children: [
                     CustomFormField(
                       label: 'Email',
-                      isRequired: false,
                       child: CustomTextFormField(
-                        hintText: user?.user?.email ?? '',
+                        hintText: state.taskerProfile?.user?.email ?? '',
                         onChanged: (p0) => setState(
                           () {
                             email = p0;
@@ -105,10 +86,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Contact',
-                      isRequired: false,
                       child: CustomTextFormField(
                         textInputType: TextInputType.number,
-                        hintText: user?.user?.phone ?? '',
+                        hintText: state.taskerProfile?.user?.phone ?? '',
                         prefixWidget: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Row(
@@ -132,7 +112,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Date of birth',
-                      isRequired: false,
                       child: InkWell(
                         onTap: () async {
                           await showDatePicker(
@@ -151,14 +130,15 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                         child: CustomFormContainer(
                           leadingWidget: const Icon(Icons.calendar_month),
                           hintText: DateFormat('yyyy-MM-dd').format(
-                            dob ?? user!.dateOfBirth!,
+                            dob ??
+                                state.taskerProfile?.dateOfBirth ??
+                                DateTime.now(),
                           ),
                         ),
                       ),
                     ),
                     CustomFormField(
                       label: 'Please specify your gender',
-                      isRequired: false,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -224,7 +204,6 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                     ),
                     CustomFormField(
                       label: 'Bio',
-                      isRequired: false,
                       child: CustomTextFormField(
                         maxLines: 3,
                         hintText: bio ?? 'Enter Bio',
@@ -243,10 +222,10 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                 callback: () {
                   final x = {
                     "date_of_birth": DateFormat("yyyy-MM-dd").format(
-                      dob ?? user?.dateOfBirth ?? DateTime.now(),
+                      dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
                     ),
-                    "bio": bio ?? user?.bio ?? 'Bio',
-                    "gender": getGender(),
+                    "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
+                    // "gender":  getGender(),
                   };
                   context.read<UserBloc>().add(
                         UserEdited(

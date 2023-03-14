@@ -1,18 +1,28 @@
 import 'package:cipher/core/app/app_observer.dart';
 import 'package:cipher/core/app/cipher.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   Bloc.observer = AppObserver();
   DioHelper.init();
-  await CacheHelper.clearAllCachedData();
   runApp(
     const Cipher(),
   );
 }
+
+
+//TODO:
+// * 1) Infinite,
+// * 2) Search on Dropdownfield,
+// * 3) location -> cipher
+// * 4) location -> not updatable
+// * 5) Complete Profile -> Interest Sorting
+// * 6) Complete Profile -> Time of the day showing
+// * 7) Complete Profile -> Country, city, language, currency mandatory field with initial value
+// * 8) Complete Profile -> Designation -> Job Profile
+// * 8) Complete Profile -> Visibility, Task Prefs (Not Mandatory)
+// * 8) Complete Profile -> Designation -> Job Profile

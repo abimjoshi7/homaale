@@ -81,7 +81,7 @@ class BillingAndPaymentPage extends StatelessWidget {
                             Text('Customer ID :'),
                             Text(
                               '72633',
-                              style: kPurpleText12,
+                              style: kPurpleText13,
                             ),
                           ],
                         ),
@@ -92,7 +92,7 @@ class BillingAndPaymentPage extends StatelessWidget {
                             Text('Name :'),
                             Text(
                               'Harry Smith',
-                              style: kPurpleText12,
+                              style: kPurpleText13,
                             ),
                           ],
                         ),
@@ -103,7 +103,7 @@ class BillingAndPaymentPage extends StatelessWidget {
                             Text('Phone number :'),
                             Text(
                               '+977-9876543210',
-                              style: kPurpleText12,
+                              style: kPurpleText13,
                             ),
                           ],
                         ),
@@ -114,7 +114,7 @@ class BillingAndPaymentPage extends StatelessWidget {
                             Text('Email :'),
                             Text(
                               'harrysmith@gmail.com',
-                              style: kPurpleText12,
+                              style: kPurpleText13,
                             ),
                           ],
                         ),
@@ -125,7 +125,7 @@ class BillingAndPaymentPage extends StatelessWidget {
                             Text('Billing Address :'),
                             Text(
                               'Bagbazaar, Kathmandu',
-                              style: kPurpleText12,
+                              style: kPurpleText13,
                             ),
                           ],
                         ),

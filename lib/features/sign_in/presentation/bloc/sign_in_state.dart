@@ -19,6 +19,12 @@ class SignInSuccess extends SignInState {
 
   @override
   List<Object> get props => [userLoginRes];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'value': userLoginRes,
+    };
+  }
 }
 
 class SignInFailure extends SignInState {}

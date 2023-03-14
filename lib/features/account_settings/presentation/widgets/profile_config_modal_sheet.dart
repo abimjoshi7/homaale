@@ -1,9 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileConfigModalSheet extends StatefulWidget {
   const ProfileConfigModalSheet({super.key});
@@ -21,7 +21,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserLoadSuccess) {
+        if (state.theStates == TheStates.success) {
           return Column(
             children: [
               const CustomModalSheetDrawerIcon(),
@@ -36,13 +36,13 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                   children: [
                     CustomFormField(
                       label: 'Visibility',
-                      isRequired: false,
                       child: CustomDropDownField(
                         list: const [
                           'Public',
                           'Private',
                         ],
-                        hintText: state.user.profileVisibility ?? 'Choose one',
+                        hintText: state.taskerProfile?.profileVisibility ??
+                            'Choose one',
                         onChanged: (value) => setState(
                           () {
                             visibiltyType = value;
@@ -52,13 +52,13 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                     ),
                     CustomFormField(
                       label: 'Task Preferences',
-                      isRequired: false,
                       child: CustomDropDownField(
                         list: const [
                           'Short term tasks',
                           'Long term tasks',
                         ],
-                        hintText: state.user.taskPreferences ?? 'Choose one',
+                        hintText: state.taskerProfile?.taskPreferences ??
+                            'Choose one',
                         onChanged: (value) => setState(
                           () {
                             taskPreferences = value;
@@ -74,8 +74,10 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                 label: 'Save',
                 callback: () {
                   final map = {
-                    "profile_visibility": visibiltyType,
-                    "task_preferences": taskPreferences,
+                    "profile_visibility":
+                        visibiltyType ?? state.taskerProfile?.profileVisibility,
+                    "task_preferences":
+                        taskPreferences ?? state.taskerProfile?.taskPreferences,
                   };
                   context.read<UserBloc>().add(
                         UserEdited(

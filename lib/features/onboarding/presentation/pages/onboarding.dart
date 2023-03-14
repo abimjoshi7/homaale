@@ -2,7 +2,9 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/onboarding/presentation/widgets/onboarding_main_body.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/widgets/custom_header.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class Onboarding extends StatefulWidget {
@@ -30,20 +32,20 @@ class _OnboardingState extends State<Onboarding> {
       selectedIndex: 1,
       mainImage: 'assets/Group 48099185.png',
       headingText: 'Define your requirements',
-      bodyText:
-          'Post or apply for the tasks and be assured with our secured gateway.',
+      bodyText: 'Set your requirements and post or apply for the tasks.',
     ),
     OnboardingMainBody(
       selectedIndex: 2,
-      mainImage: 'assets/Casual life 3D - 580.png',
-      headingText: 'Get the task completed',
-      bodyText: 'Voila! Your task is done.',
+      mainImage: 'assets/casual-life-3d-piggy-bank-with-coins-1 3.png',
+      headingText: 'Secure payments',
+      bodyText:
+          'Choose from our reliable payment methods and get reward points.',
     ),
     OnboardingMainBody(
       selectedIndex: 3,
-      mainImage: 'assets/casual-life-3d-piggy-bank-with-coins-1 3.png',
-      headingText: 'Secure payments',
-      bodyText: 'Get secure payment transactions & get bonus rewards.',
+      mainImage: 'assets/Casual life 3D - 580.png',
+      headingText: 'Get the task completed',
+      bodyText: 'Voila! Your task is done.',
     ),
   ];
 
@@ -67,7 +69,11 @@ class _OnboardingState extends State<Onboarding> {
                 leadingWidget: SizedBox.shrink(),
                 trailingWidget: SizedBox.shrink(),
               ),
-              Image.asset('assets/homaale_logo_title_light.png'),
+              BlocBuilder<SignInBloc, SignInState>(
+                builder: (context, state) {
+                  return Image.asset('assets/homaale_logo_title_light.png');
+                },
+              ),
               kHeight50,
               widgetList[selectedIndex],
             ],

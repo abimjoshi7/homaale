@@ -2,7 +2,7 @@
 
 import 'dart:developer';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 
 class AppObserver implements BlocObserver {
   @override
@@ -17,21 +17,21 @@ class AppObserver implements BlocObserver {
 
   @override
   void onCreate(BlocBase bloc) {
-    log('Bloc created! ${bloc.toString()}');
+    log('Bloc created! $bloc');
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    log('Error: ${error.toString()}');
+    log('Error: $error');
   }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
-    log('Event called: ${event.toString()}');
+    log('Event called: $event');
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    // log('Transition current: ${transition.currentState}, Transition next: ${transition.nextState.toString()}');
+    // log('Transition current: ${transition.currentState}, Transition next: ${transition.nextState}');
   }
 }

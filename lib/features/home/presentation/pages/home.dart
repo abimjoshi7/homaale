@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/categories/presentation/pages/categories_section.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/constants/payment_key.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -10,57 +13,61 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SizedBox(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const HomeHeaderSection(),
-            const HeaderBannerSection(),
-            const DealOfTheDaySection(),
-            // const CategoriesSection(),
-            const PopularServicesSection(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              child: Image.asset(
-                'assets/banners/Sliding Banner.png',
-                fit: BoxFit.fitWidth,
-              ),
+            KhaltiButton(
+              config: config,
+              preferences: const [ // Not providing this will enable all the payment methods.
+                PaymentPreference.khalti,
+                PaymentPreference.eBanking,
+                PaymentPreference.connectIPS,
+                PaymentPreference.sct,
+                PaymentPreference.mobileBanking,
+              ],
+              onSuccess: (successModel) {
+                // Perform Server Verification
+              },
+              onFailure: (failureModel) {
+                // What to do on failure?
+              },
+              onCancel: () {
+                // User manually cancelled the transaction
+              },
             ),
-            const ProfessionalServicesSection(),
-            const VerifiedServicesSection(),
-            const PopularServicesNearbySection(),
-            const PopularInCity(),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: const [
+                    HeaderOfferSection(),
+                    // DealsOfTheDaySection(),
+                    CategoriesSection(),
+                    PopularServicesSection(),
+                    TasksSuggestionSection(),
+                    PopularTaskerSection(),
+                    NotableBannerSection(),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //     horizontal: 10,
+                    //   ),
+                    //   child: Image.asset(
+                    //     'assets/banners/Sliding Banner.png',
+                    //     fit: BoxFit.fitWidth,
+                    //   ),
+                    // ),
+                    RecentlyLaunchedServicesSection(),
+                    TasksAndServicesNearbySection(),
+                    // const PopularTaskerNearbySection(),
+                    // const TaskRecommendationSection(),
+                    // PopularTaskNearbySection()
+                  ],
+                ),
               ),
-              child: Image.asset(
-                'assets/banners/banner.png',
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            const TasksSuggestionSection(),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                'Homaale Notable Quality',
-                style: kPurpleText16,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Image.asset(
-                'assets/banners/notable.png',
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            const PopularTaskerNearbySection(),
-            const TaskRecommendationSection(),
-            const FeaturedServicesSection(),
-            const PopularTaskerSection(),
-            const PopularTaskNearbySection()
+            )
           ],
         ),
       ),

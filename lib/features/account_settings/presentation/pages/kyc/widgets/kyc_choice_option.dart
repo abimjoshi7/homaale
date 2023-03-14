@@ -296,7 +296,7 @@ class _KYC123State extends State<KYC123> {
                             onPressed: () {},
                             child: const Text(
                               '+Add More Bank',
-                              style: kLightBlueText10,
+                              style: kLightBlueText14,
                             ),
                           ),
                         ],

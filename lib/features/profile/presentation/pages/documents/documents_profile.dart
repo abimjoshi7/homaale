@@ -1,7 +1,7 @@
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/widgets/document_text_card.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DocumentsProfile extends StatelessWidget {
   const DocumentsProfile({super.key});
@@ -14,6 +14,7 @@ class DocumentsProfile extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(10),
             child: GridView.builder(
+              padding: EdgeInsets.zero,
               itemCount: state.list.length,
               itemBuilder: (context, index) => DocumentTextCard(
                 isLocalFile: false,

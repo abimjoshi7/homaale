@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,9 @@ class PopularTaskerNearbySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
       child: Column(
         children: [
           SectionHeading(
@@ -47,7 +48,7 @@ class PopularTaskerNearbySection extends StatelessWidget {
                                 children: const [
                                   Text(
                                     'Greenhouse Cleaning',
-                                    style: kPurpleText12,
+                                    style: kPurpleText13,
                                   ),
                                   Icon(
                                     Icons.favorite_border,
@@ -65,7 +66,7 @@ class PopularTaskerNearbySection extends StatelessWidget {
                                   kWidth10,
                                   Text(
                                     'Kantipur Nursery',
-                                    style: kLightBlueText10,
+                                    style: kLightBlueText14,
                                   ),
                                 ],
                               ),
@@ -73,7 +74,7 @@ class PopularTaskerNearbySection extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const IconText(
+                                  const WidgetText(
                                     label: 'Buddhanagar',
                                     widget: Icon(
                                       Icons.location_on_outlined,
@@ -81,7 +82,7 @@ class PopularTaskerNearbySection extends StatelessWidget {
                                       color: Color(0xfffe5050),
                                     ),
                                   ),
-                                  const IconText(
+                                  const WidgetText(
                                     label: '3.4(190)',
                                     widget: Icon(
                                       Icons.star_rate_rounded,

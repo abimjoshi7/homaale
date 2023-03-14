@@ -1,32 +1,67 @@
+import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/profile/presentation/pages/services/widgets/services_text_card.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class ServicesProfile extends StatelessWidget {
+class ServicesProfile extends StatefulWidget {
   const ServicesProfile({super.key});
 
   @override
+  State<ServicesProfile> createState() => _ServicesProfileState();
+}
+
+class _ServicesProfileState extends State<ServicesProfile> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TaskBloc>().add(
+          const MyServiceTaskLoadInitiated(
+            isTask: false,
+          ),
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: GridView.builder(
-        itemCount: 5,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.8,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 10,
-        ),
-        itemBuilder: (context, index) => const ServicesTextCard(
-          price: 'Rs 2000',
-          location: 'Shantinagar',
-          reviewNumber: '4.5(200)',
-          address: 'Buddhanagar, KTM',
-          title: 'Garden Redesign',
-          imagePath: 'assets/Casual life 3D - 43.png',
-          description:
-              'Almost no computer knowledge, socan provide the fitness for... ',
-        ),
-      ),
+    // return const Text('asd');
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, state) {
+        if (state.theState == TheStates.success) {
+          // final data = state.list.result;
+          final data = state.selfCreatedTaskServiceModel?.result;
+          return Padding(
+            padding: const EdgeInsets.all(10),
+            child: GridView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: data?.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.8,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 10,
+              ),
+              itemBuilder: (context, index) => ServicesTextCard(
+                price: data?[index].budgetTo.toString() ?? 'Rs 2000',
+                location: data?[index].location ?? 'Shantinagar',
+                createdDate: DateFormat.yMMMEd().format(
+                  data?[index].createdAt ?? DateTime.now(),
+                ),
+                address: data?[index].location ?? 'Buddhanagar, KTM',
+                title: data?[index].title ?? 'Garden Redesign',
+                viewCount: data?[index].viewsCount.toString(),
+                description: data?[index].description ?? '... ',
+                // imagePath: data![index]..isEmpty
+                //     ? kServiceImageNImg
+                //     : data[index].images?.first.media,
+              ),
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }

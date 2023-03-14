@@ -4,17 +4,19 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.theHeight = 48,
+    this.theHeight = 50,
     this.hintText = '',
     this.prefixWidget,
+    this.suffixWidget,
     this.value,
     this.onSaved,
+    this.onChanged,
+    this.onEditingComplete,
+    this.onFieldSubmitted,
     this.textInputType,
     this.validator,
     this.obscureText = false,
-    this.onChanged,
     this.maxLines = 1,
-    this.suffixWidget,
     this.controller,
     this.node,
   });
@@ -26,6 +28,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? value;
   final void Function(String?)? onSaved;
   final void Function(String?)? onChanged;
+  final void Function()? onEditingComplete;
+  final void Function(String?)? onFieldSubmitted;
   final TextInputType? textInputType;
   final String? Function(String?)? validator;
   final bool obscureText;
@@ -39,11 +43,14 @@ class CustomTextFormField extends StatelessWidget {
       focusNode: node,
       controller: controller,
       maxLines: maxLines,
+      onEditingComplete: onEditingComplete,
+      onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
+      onSaved: onSaved,
+      enableInteractiveSelection: true,
       obscureText: obscureText,
       validator: validator,
       keyboardType: textInputType,
-      onSaved: onSaved,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(10),
         constraints: BoxConstraints(minHeight: theHeight),

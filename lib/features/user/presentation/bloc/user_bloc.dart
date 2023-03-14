@@ -1,62 +1,74 @@
-import 'package:bloc/bloc.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final respositories = UserRepositories();
-  UserBloc() : super(UserLoading()) {
+  UserBloc()
+      : super(
+          const UserState(),
+        ) {
     on<UserLoaded>(
       (event, emit) async {
-        await respositories.fetchuser().then(
-          (value) {
-            if (value.isNotEmpty) {
+        try {
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+            ),
+          );
+          await respositories.fetchUser().then(
+            (value) {
               emit(
-                UserLoadSuccess(
-                  user: TaskerProfileRetrieveRes.fromJson(
-                    value,
-                  ),
+                state.copyWith(
+                  theStates: TheStates.success,
+                  taskerProfile: value,
                 ),
               );
-            } else {
-              emit(
-                UserLoadFailure(),
-              );
-            }
-          },
-        );
+            },
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
+          );
+        }
       },
     );
 
     on<UserAdded>(
       (event, emit) async {
-        await respositories.adduser(event.req).then(
-          (value) {
-            if (value.isNotEmpty) {
-              emit(
-                UserLoadSuccess(
-                  user: TaskerProfileRetrieveRes.fromJson(
-                    value,
+        try {
+          await respositories
+              .addUser(event.req)
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
                   ),
                 ),
-              );
+              )
+              .whenComplete(
+            () {
+              CacheHelper.hasProfile = true;
               add(
                 UserLoaded(),
               );
-            } else {
-              emit(
-                UserLoadFailure(),
-              );
-              add(
-                UserLoaded(),
-              );
-            }
-          },
-        );
+            },
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
+          );
+        }
       },
     );
 
@@ -67,17 +79,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               .edituser(event.req)
               .then(
                 (value) => emit(
-                  UserEditSuccess(),
+                  state.copyWith(
+                    theStates: TheStates.success,
+                  ),
                 ),
               )
-              .then(
-                (value) => add(
+              .whenComplete(
+                () => add(
                   UserLoaded(),
                 ),
               );
         } catch (e) {
           emit(
-            UserEditFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
           );
           add(
             UserLoaded(),

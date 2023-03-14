@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileHeaderSection extends StatelessWidget {
   const ProfileHeaderSection({
@@ -15,34 +18,49 @@ class ProfileHeaderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
+        Widget displayVerify() {
+          if (state is SignInSuccess) {
+            if (state.userLoginRes.isVerified == true) {
+              return const Icon(
+                Icons.verified,
+                color: Colors.lightBlue,
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          } else {
+            return const SizedBox.shrink();
+          }
+        }
+
         PopupMenuItem displayPopupMenu() {
           if (state is SignInSuccess) {
             if (state.userLoginRes.hasProfile == true) {
               return PopupMenuItem(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
+                onTap: () async {
+                  await Future.delayed(const Duration(milliseconds: 10)).then(
+                    (value) => Navigator.pushNamed(
                       context,
                       EditProfilePage.routeName,
-                    );
-                  },
-                  child: const Text(
-                    'Edit Profile',
-                  ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Edit Profile',
                 ),
               );
             } else {
               return PopupMenuItem(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
+                onTap: () async {
+                  await Future.delayed(const Duration(milliseconds: 10)).then(
+                    (value) => Navigator.pushNamed(
                       context,
                       CompleteProfilePage.routeName,
-                    );
-                  },
-                  child: const Text(
-                    'Complete Profile',
-                  ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Complete Profile',
                 ),
               );
             }
@@ -53,29 +71,9 @@ class ProfileHeaderSection extends StatelessWidget {
 
         return BlocBuilder<UserBloc, UserState>(
           builder: (context, state2) {
-            Widget displayName() {
-              if (state2 is UserLoadSuccess) {
-                return Text(
-                  '${state2.user.user?.firstName ?? ''} ${state2.user.user?.lastName ?? ''}',
-                );
-              } else {
-                return const Text('New User');
-              }
-            }
-
-            Widget displayDesignation() {
-              if (state2 is UserLoadSuccess) {
-                return Text(
-                  state2.user.designation.toString(),
-                );
-              } else {
-                return const Text('New Homaale User');
-              }
-            }
-
-            Widget displayProfilePic() {
-              if (state2 is UserLoadSuccess) {
-                return Container(
+            if (state2.theStates == TheStates.success) {
+              return ListTile(
+                leading: Container(
                   height: 70,
                   width: 70,
                   decoration: BoxDecoration(
@@ -83,74 +81,66 @@ class ProfileHeaderSection extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                        state2.user.profileImage as String,
+                        state2.taskerProfile?.profileImage ?? kServiceImageNImg,
                       ),
                     ),
                   ),
-                );
-              } else {
-                return Container(
-                  height: 70,
-                  width: 70,
-                  decoration: const BoxDecoration(
-                    color: Colors.blueAccent,
-                    shape: BoxShape.circle,
-                  ),
-                );
-              }
-            }
-
-            Widget displayRating() {
-              if (state2 is UserLoadSuccess) {
-                return Row(
-                  children: List.generate(
-                    state2.user.rating?.userRatingCount ?? 5,
-                    (index) => const Icon(
-                      Icons.star_rate_rounded,
-                      color: Colors.amber,
+                ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '${state2.taskerProfile?.user?.firstName ?? ''} ${state2.taskerProfile?.user?.lastName ?? ''}',
+                          style: kPurpleText16,
+                        ),
+                        kWidth5,
+                        displayVerify(),
+                      ],
                     ),
-                  ),
-                );
-              } else {
-                return Row(
-                  children: List.generate(
-                    5,
-                    (index) => const Icon(
-                      Icons.star_rate_rounded,
-                      color: Colors.amber,
-                    ),
-                  ),
-                );
-              }
-            }
+                    kHeight5,
+                    // displayDesignation(),
+                    // kHeight5,
+                    // 				  Widget displayUserType() {
+                    //   if (state2 is UserLoadSuccess) {
 
-            return ListTile(
-              leading: displayProfilePic(),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      displayName(),
-                      kWidth5,
-                      const Icon(
-                        Icons.verified,
-                        color: Colors.lightBlue,
+                    //     if (nameList.length == 2) {
+                    //       return Text(
+                    //         '${nameList.first} | ${nameList.last}',
+                    //       );
+                    //     } else {
+                    //       return Text(
+                    //         nameList.first.toString(),
+                    //       );
+                    //     }
+                    //   }
+                    //   return const Text('Homaale Client/Tasker');
+                    // }
+
+                    // displayUserType(),
+                    kHeight5,
+                    Row(
+                      children: List.generate(
+                        (state2.taskerProfile?.rating?.avgRating as double?)
+                                ?.round() ??
+                            5,
+                        (index) => const Icon(
+                          Icons.star_rate_rounded,
+                          color: Colors.amber,
+                        ),
                       ),
-                    ],
-                  ),
-                  kHeight5,
-                  displayDesignation(),
-                  kHeight5,
-                  displayRating()
-                ],
-              ),
-              trailing: PopupMenuButton(
-                itemBuilder: (context) => <PopupMenuItem<dynamic>>[
-                  displayPopupMenu(),
-                ],
-              ),
-            );
+                    ),
+                  ],
+                ),
+                trailing: PopupMenuButton(
+                  itemBuilder: (context) => <PopupMenuItem<dynamic>>[
+                    displayPopupMenu(),
+                  ],
+                ),
+              );
+            }
+            return const SizedBox.shrink();
           },
         );
       },

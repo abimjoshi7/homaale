@@ -1,13 +1,11 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
-import 'package:cipher/features/documents/models/tasker_experience_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_experience_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
-import 'package:cipher/widgets/custom_drop_down_field.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditExperience extends StatefulWidget {
   final int id;
@@ -47,7 +45,8 @@ class _EditExperienceState extends State<EditExperience> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state is TaskerEditExperienceSuccess) {
-          showDialog(
+          if (!mounted) return;
+          await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -62,6 +61,7 @@ class _EditExperienceState extends State<EditExperience> {
           );
         }
         if (state is TaskerEditExperienceFailure) {
+          if (!mounted) return;
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -105,8 +105,9 @@ class _EditExperienceState extends State<EditExperience> {
                         isRequired: true,
                         child: CustomTextFormField(
                           validator: validateNotEmpty,
-                          hintText:
-                              experience?.title ?? 'Please enter the title',
+                          hintText: titleController.text.isNotEmpty
+                              ? titleController.text
+                              : experience?.title ?? 'Please enter the title',
                           onChanged: (p0) {
                             setState(
                               () {
@@ -122,8 +123,9 @@ class _EditExperienceState extends State<EditExperience> {
                         child: CustomTextFormField(
                           validator: validateNotEmpty,
                           maxLines: 3,
-                          hintText:
-                              experience?.description ?? 'Write something...',
+                          hintText: descriptionController.text.isNotEmpty
+                              ? descriptionController.text
+                              : experience?.description ?? 'Write something...',
                           onChanged: (p0) {
                             setState(
                               () {
@@ -138,8 +140,9 @@ class _EditExperienceState extends State<EditExperience> {
                         isRequired: true,
                         child: CustomDropDownField(
                           list: val,
-                          hintText:
-                              experience?.employmentType ?? 'Please select',
+                          hintText: employmentController.text.isNotEmpty
+                              ? employmentController.text
+                              : experience?.employmentType ?? 'Please select',
                           onChanged: (value) => setState(
                             () {
                               employmentController.text = value!;
@@ -152,7 +155,9 @@ class _EditExperienceState extends State<EditExperience> {
                         isRequired: true,
                         child: CustomTextFormField(
                           validator: validateNotEmpty,
-                          hintText: experience?.companyName ?? 'Eg: Cagtu',
+                          hintText: companyNameController.text.isNotEmpty
+                              ? companyNameController.text
+                              : experience?.companyName ?? 'Eg: Cagtu',
                           onChanged: (p0) {
                             setState(
                               () {
@@ -167,8 +172,10 @@ class _EditExperienceState extends State<EditExperience> {
                         isRequired: true,
                         child: CustomTextFormField(
                           validator: validateNotEmpty,
-                          hintText: experience?.location ??
-                              'Eg: New Baneshwor, Kathmandu',
+                          hintText: locationController.text.isNotEmpty
+                              ? locationController.text
+                              : experience?.location ??
+                                  'Eg: New Baneshwor, Kathmandu',
                           prefixWidget: const Icon(
                             Icons.location_on_outlined,
                             color: kColorPrimary,
@@ -205,8 +212,8 @@ class _EditExperienceState extends State<EditExperience> {
                                   isRequired: true,
                                   child: InkWell(
                                     onTap: () async {
-                                      setState(() async {
-                                        await showDatePicker(
+                                      setState(() {
+                                        showDatePicker(
                                           context: context,
                                           initialDate: DateTime.now(),
                                           firstDate: DateTime(2002),
@@ -223,10 +230,10 @@ class _EditExperienceState extends State<EditExperience> {
                                       });
                                     },
                                     child: CustomFormContainer(
-                                      hintText: experience?.startDate
+                                      hintText: issuedDate
                                               ?.toString()
                                               .substring(0, 10) ??
-                                          issuedDate
+                                          experience?.startDate
                                               ?.toString()
                                               .substring(0, 10) ??
                                           '1998-01-01',
@@ -268,10 +275,10 @@ class _EditExperienceState extends State<EditExperience> {
                                         );
                                       },
                                       child: CustomFormContainer(
-                                        hintText: experience?.endDate
+                                        hintText: expiryDate
                                                 ?.toString()
                                                 .substring(0, 10) ??
-                                            expiryDate
+                                            experience?.endDate
                                                 ?.toString()
                                                 .substring(0, 10) ??
                                             '1999-01-18',
@@ -294,31 +301,49 @@ class _EditExperienceState extends State<EditExperience> {
               ),
               CustomElevatedButton(
                 callback: () async {
-                  await context
-                      .read<TaskerExperienceCubit>()
-                      .editTaskerExperience(
-                        TaskerExperienceReq(
-                          title: titleController.text.isNotEmpty
-                              ? titleController.text
-                              : experience!.title!,
-                          description: descriptionController.text.isNotEmpty
-                              ? descriptionController.text
-                              : experience!.description!,
-                          companyName: companyNameController.text.isNotEmpty
-                              ? companyNameController.text
-                              : experience!.companyName!,
-                          currentlyWorking: true,
-                          employmentType: employmentController.text.isNotEmpty
-                              ? employmentController.text
-                              : experience!.employmentType!,
-                          location: locationController.text.isNotEmpty
-                              ? locationController.text
-                              : experience!.location!,
-                          startDate: issuedDate ?? experience!.startDate!,
-                          endDate: expiryDate ?? experience!.endDate,
-                        ),
-                        widget.id,
-                      );
+                  setState(
+                    () {
+                      issuedDate ??= experience!.startDate;
+                      expiryDate ??= experience!.endDate;
+                    },
+                  );
+                  if (issuedDate!.isAfter(expiryDate!)) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Error',
+                        content: 'Please verify your dates',
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  } else {
+                    await context
+                        .read<TaskerExperienceCubit>()
+                        .editTaskerExperience(
+                          TaskerExperienceReq(
+                            title: titleController.text.isNotEmpty
+                                ? titleController.text
+                                : experience!.title!,
+                            description: descriptionController.text.isNotEmpty
+                                ? descriptionController.text
+                                : experience!.description!,
+                            companyName: companyNameController.text.isNotEmpty
+                                ? companyNameController.text
+                                : experience!.companyName!,
+                            currentlyWorking: true,
+                            employmentType: employmentController.text.isNotEmpty
+                                ? employmentController.text
+                                : experience!.employmentType!,
+                            location: locationController.text.isNotEmpty
+                                ? locationController.text
+                                : experience!.location!,
+                            startDate: issuedDate!,
+                            endDate: expiryDate,
+                          ),
+                          widget.id,
+                        );
+                  }
                 },
                 label: 'Add',
               ),

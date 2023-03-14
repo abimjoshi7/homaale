@@ -26,15 +26,29 @@ class CategoriesRepositories {
     }
   }
 
-  Future<dynamic> fetchHeroCategory() async {
+  Future<Map<String, dynamic>> fetchHeroCategory() async {
     try {
-      // final tokenP = await CacheHelper.getCachedString(CacheHelper.accessTokenP);
-      // final token = await CacheHelper.getCachedString(CacheHelper.accessToken);
       final res = await _dio.getDatawithCredential(
         url: 'task/hero-category/',
         token: CacheHelper.accessToken,
       );
-      return res;
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchNestedCategory() async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/task-category/nested/',
+        token: CacheHelper.accessToken,
+      );
+      return List<Map<String, dynamic>>.from(res as Iterable);
+
     } catch (e) {
       log(
         e.toString(),

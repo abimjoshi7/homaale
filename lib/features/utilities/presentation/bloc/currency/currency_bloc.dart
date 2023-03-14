@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/utilities/data/models/currency_model.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'currency_event.dart';
 part 'currency_state.dart';
@@ -22,7 +21,12 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
               if (value.isNotEmpty) {
                 emit(
                   CurrencyLoadSuccess(
-                    currencyListRes: value,
+                    currencyListRes: value
+                      ..sort(
+                        (a, b) => a.name!.compareTo(
+                          b.name!,
+                        ),
+                      ),
                   ),
                 );
               }

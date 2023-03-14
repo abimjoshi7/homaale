@@ -58,7 +58,7 @@ class SavedPage extends StatelessWidget {
                     kHeight5,
                     const Text(
                       'All',
-                      style: kPurpleText12,
+                      style: kPurpleText13,
                     ),
                   ],
                 ),
@@ -72,7 +72,7 @@ class SavedPage extends StatelessWidget {
                     kHeight5,
                     const Text(
                       'Taskers',
-                      style: kPurpleText12,
+                      style: kPurpleText13,
                     ),
                   ],
                 ),

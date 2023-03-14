@@ -1,12 +1,11 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
-import 'package:cipher/features/documents/models/tasker_portfolio_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_retrieve_res.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditPortfolio extends StatefulWidget {
   final int id;
@@ -23,6 +22,13 @@ class _EditPortfolioState extends State<EditPortfolio> {
   final credentialUrlController = TextEditingController();
   DateTime? issuedDate;
   Portfolio? portfolio;
+  late String? imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    // imagePath =
+  }
 
   @override
   void dispose() {
@@ -39,7 +45,8 @@ class _EditPortfolioState extends State<EditPortfolio> {
       listener: (context, portfolioState) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (portfolioState is TaskerEditPortfolioSuccess) {
-          showDialog(
+          if (!mounted) return;
+          await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -55,11 +62,12 @@ class _EditPortfolioState extends State<EditPortfolio> {
           );
         }
         if (portfolioState is TaskerEditPortfolioFailure) {
+          if (!mounted) return;
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
-              content: error ?? "Portfolio couldn't be edited",
+              content: error ?? "Portfolio cannot be updated",
               onTap: () async {},
               isSuccess: false,
             ),
@@ -109,18 +117,16 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (portfolioState is TaskerGetPortfolioSuccess)
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Image.network(
-                              portfolio?.images?[0]['media'].toString() ??
-                                  kNoImage,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        else
-                          Image.asset('assets/images.png'),
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          // ! TODO
+                          // child: Image.network(
+                          //   portfolio?.images?[0]['media'].toString() ??
+                          //       kNoImageNImg,
+                          //   fit: BoxFit.cover,
+                          // ),
+                        ),
                         kHeight5,
                         const Text(
                           'Upload or Browse image',
@@ -149,7 +155,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/qwe.png'),
+                        // Image.asset('assets/qwe.png'),
                         kHeight20,
                         const Text(
                           'Upload or Browse file',
@@ -167,15 +173,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                 return Column(
                   children: [
                     const CustomModalSheetDrawerIcon(),
-                    Center(
-                      child: InkWell(
-                        onTap: () {
-                          print(portfolio?.images?[0]['media']);
-                        },
-                        child: Text(
-                          'Edit Portfolio',
-                          style: kPurpleText16,
-                        ),
+                    const Center(
+                      child: Text(
+                        'Edit Portfolio',
+                        style: kPurpleText16,
                       ),
                     ),
                     Padding(
@@ -187,8 +188,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             label: 'Title',
                             isRequired: true,
                             child: CustomTextFormField(
-                              hintText:
-                                  portfolio?.title ?? 'Please enter the title',
+                              hintText: titleController.text.isNotEmpty
+                                  ? titleController.text
+                                  : portfolio?.title ??
+                                      'Please enter the title',
                               onChanged: (p0) {
                                 setState(
                                   () {
@@ -204,8 +207,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: CustomTextFormField(
                               maxLines: 3,
-                              hintText: portfolio?.description ??
-                                  'Write something...',
+                              hintText: descriptionController.text.isNotEmpty
+                                  ? descriptionController.text
+                                  : portfolio?.description ??
+                                      'Write something...',
                               onChanged: (p0) {
                                 setState(
                                   () {
@@ -233,11 +238,12 @@ class _EditPortfolioState extends State<EditPortfolio> {
                                 });
                               },
                               child: CustomFormContainer(
-                                hintText: portfolio?.issuedDate
-                                        .toString()
-                                        .substring(0, 10) ??
+                                hintText:
                                     issuedDate?.toString().substring(0, 10) ??
-                                    '1999-03-06',
+                                        portfolio?.issuedDate
+                                            .toString()
+                                            .substring(0, 10) ??
+                                        '1999-03-06',
                                 leadingWidget: const Icon(
                                   Icons.calendar_month_rounded,
                                   color: kColorPrimary,
@@ -302,30 +308,40 @@ class _EditPortfolioState extends State<EditPortfolio> {
                     Center(
                       child: CustomElevatedButton(
                         callback: () async {
-                          var list;
+                          List list = [];
                           if (state is ImageUploadSuccess) {
                             setState(() {
                               list = state.list;
                             });
+                          } else {
+                            setState(() {
+                              // list.add(
+                              //   portfolioState.taskerPortfolioRes.first.images!
+                              //       .first['id'] as int,
+                              // );
+                            });
                           }
+
+                          final req = TaskerPortfolioReq(
+                            title: titleController.text.isNotEmpty
+                                ? titleController.text
+                                : portfolio!.title!,
+                            description: descriptionController.text.isNotEmpty
+                                ? descriptionController.text
+                                : portfolio!.description!,
+                            issuedDate: issuedDate ?? portfolio!.issuedDate!,
+                            credentialUrl:
+                                credentialUrlController.text.isNotEmpty
+                                    ? 'https://${credentialUrlController.text}'
+                                    : portfolio!.credentialUrl!,
+                            files: [],
+                            images: List<int>.from(list),
+                          );
+
                           await context
                               .read<TaskerPortfolioCubit>()
                               .editTaskerPortfolio(
-                                TaskerPortfolioReq(
-                                  title: titleController.text.isNotEmpty
-                                      ? titleController.text
-                                      : portfolio!.title!,
-                                  description:
-                                      descriptionController.text.isNotEmpty
-                                          ? descriptionController.text
-                                          : portfolio!.description!,
-                                  issuedDate:
-                                      issuedDate ?? portfolio!.issuedDate!,
-                                  credentialUrl:
-                                      'https://${credentialUrlController.text.isNotEmpty ? credentialUrlController.text : portfolio!.credentialUrl!}',
-                                  files: [],
-                                  images: List<int>.from(list as Iterable),
-                                ),
+                                req,
                                 widget.id,
                               );
                         },

@@ -1,11 +1,10 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DeactivatePage extends StatelessWidget {
   const DeactivatePage({super.key});
@@ -112,7 +111,6 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                 ),
                 CustomFormField(
                   label: 'Please explain further',
-                  isRequired: false,
                   child: CustomTextFormField(
                     onSaved: (p0) => setState(
                       () {
@@ -130,7 +128,8 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
               listener: (context, state) async {
                 final error = await CacheHelper.getCachedString(kErrorLog);
                 if (state is DeactivateSuccess) {
-                  showDialog(
+                  if (!mounted) return;
+                  await showDialog(
                     context: context,
                     builder: (context) => CustomToast(
                       heading: 'Success',
@@ -144,7 +143,8 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                     ),
                   );
                 } else {
-                  showDialog(
+                  if (!mounted) return;
+                  await showDialog(
                     context: context,
                     builder: (context) => CustomToast(
                       heading: 'Failure',

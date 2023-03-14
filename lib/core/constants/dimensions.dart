@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 const kHeight5 = SizedBox(
   height: 5,
 );
+const kHeight8 = SizedBox(
+  height: 8,
+);
 const kHeight10 = SizedBox(
   height: 10,
 );
@@ -28,3 +31,15 @@ const kWidth15 = SizedBox(
 const kWidth20 = SizedBox(
   width: 20,
 );
+
+Widget addVerticalSpace(double size) {
+  return SizedBox(
+    height: size,
+  );
+}
+
+Widget addHorizontalSpace(double size) {
+  return SizedBox(
+    width: size,
+  );
+}

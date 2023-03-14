@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/utilities/data/models/city_model.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'city_event.dart';
 part 'city_state.dart';
@@ -21,7 +20,10 @@ class CityBloc extends Bloc<CityEvent, CityState> {
               if (value.isNotEmpty) {
                 emit(
                   CityLoadSuccess(
-                    list: value,
+                    list: value
+                      ..sort(
+                        (a, b) => a.name!.compareTo(b.name!),
+                      ),
                   ),
                 );
               }

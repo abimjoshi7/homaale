@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 
-const categoriesColorList = <Color>[
-  Color(0xffffb200),
-  Color(0xffC93D18),
-  Color(0xff3FACDE),
+const colorList = <Color>[
   Color(0xffFF8F00),
   Color(0xffAA00DE),
   Color(0xff4CAF50),
   Color(0xffFFC107),
-  Color(0xffF44336),
-  Color(0xff805EE1),
-  Color(0xffB68509),
+  Color(0xff101EE1),
   Color(0xffD9226F),
   Color(0xff62A2DD),
-  Color(0xff4577D9),
-  Color(0xff109716),
-  Color(0xffEA7D19),
-  Color(0xffF44336),
+  Color(0xff9977D9),
 ];
 
 final categoriesNameList = <String>[
@@ -71,4 +63,55 @@ List<String> bottomNavItemName = [
   'Add',
   'Bookings',
   'Account',
+];
+
+List<String> weekNames = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
+
+List<Widget> notableBannerList = [
+  Padding(
+    padding: const EdgeInsets.all(5),
+    child: Image.asset(
+      'assets/banners/notable1.png',
+      fit: BoxFit.fill,
+    ),
+  ),
+  Padding(
+    padding: const EdgeInsets.all(5),
+    child: Image.asset(
+      'assets/banners/notable2.png',
+      fit: BoxFit.fill,
+    ),
+  ),
+  Padding(
+    padding: const EdgeInsets.all(5),
+    child: Image.asset(
+      'assets/banners/notable3.png',
+      fit: BoxFit.fill,
+    ),
+  ),
+];
+
+List<Widget> offerBanner = [
+  SizedBox(
+    width: double.infinity,
+    child: Image.asset(
+      'assets/banners/1.png',
+      fit: BoxFit.fitWidth,
+    ),
+  ),
+  SizedBox(
+    width: double.infinity,
+    child: Image.asset(
+      'assets/banners/2.png',
+      fit: BoxFit.fitWidth,
+    ),
+  ),
 ];

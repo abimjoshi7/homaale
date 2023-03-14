@@ -1,12 +1,10 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/profile.dart';
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({
@@ -19,6 +17,8 @@ class HomeHeaderSection extends StatefulWidget {
 
 class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location;
+  late Widget? child;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
@@ -29,7 +29,14 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hi, ${state.userLoginRes.username ?? 'New User'}'),
+                Text(
+                  'Hi, ${state.userLoginRes.username ?? 'New User'}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
                 kHeight5,
                 InkWell(
                   onTap: () async {
@@ -67,9 +74,23 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   },
                   child: Row(
                     children: [
-                      const Icon(Icons.location_on_outlined),
-                      Text(location ?? 'No Location Found'),
-                      // const Icon(Icons.arrow_drop_down)
+                      const Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.white,
+                        size: 14,
+                      ),
+                      Text(
+                        location ?? 'Click to access location',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                        size: 14,
+                      )
                     ],
                   ),
                 )
@@ -81,33 +102,50 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
         }
 
         return ColoredBox(
-          color: const Color(0xff3D3F7D),
+          color: kColorPrimary,
           child: Column(
             children: [
               kHeight50,
-              ListTile(
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Profile.routeName,
-                    );
-                  },
-                  child: const CircleAvatar(),
-                ),
-                title: displayUserInfo(),
-                trailing: BlocBuilder<UserBloc, UserState>(
-                  builder: (context, state) {
-                    return IconButton(
-                      onPressed: () async {
-                        // logheHelper());
-                      },
-                      icon: const Icon(
-                        Icons.notifications_none,
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  if (state.theStates == TheStates.success) {
+                    child = Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            state.taskerProfile?.profileImage ??
+                                kServiceImageNImg,
+                          ),
+                        ),
                       ),
                     );
-                  },
-                ),
+                  } else {
+                    child = const CircleAvatar(
+                      backgroundColor: Colors.white,
+                    );
+                  }
+                  return ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    leading: child,
+                    title: displayUserInfo(),
+                    trailing: BlocBuilder<SignInBloc, SignInState>(
+                      builder: (context, state) {
+                        return IconButton(
+                          onPressed: () async {},
+                          icon: const Icon(
+                            Icons.notifications_none,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -120,7 +158,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   ),
                   child: const CustomTextFormField(
                     prefixWidget: Icon(Icons.search),
-                    hintText: 'search here',
+                    hintText: 'Search here',
                   ),
                 ),
               ),

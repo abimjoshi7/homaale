@@ -1,127 +1,87 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
+import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
+import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class PopularTaskerSection extends StatelessWidget {
-  const PopularTaskerSection({super.key});
+  const PopularTaskerSection({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
       child: Column(
         children: [
           SectionHeading(
             labelName: 'Popular Taskers',
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                PopularTaskerPage.routeName,
+              );
+            },
           ),
-          SizedBox(
-            height: 220,
-            width: double.infinity,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      kHeight10,
-                      const CircleAvatar(),
-                      kHeight10,
-                      Row(
-                        children: const [
-                          Text(
-                            'Harry Smith',
-                            style: kPurpleText12,
-                          ),
-                          kWidth5,
-                          Icon(
-                            Icons.verified,
-                            color: Color(0xff3EAEFF),
-                          )
-                        ],
-                      ),
-                      const Text(
-                        'Influencer',
-                        style: kLightBlueText10,
-                      ),
-                      kHeight10,
-                      Row(
-                        children: const [
-                          IconText(
-                            label: '200',
-                            widget: Icon(
-                              Icons.emoji_emotions_outlined,
-                              color: Color(0xffF98900),
-                              size: 13,
-                            ),
-                          ),
-                          kWidth15,
-                          IconText(
-                            label: '200',
-                            widget: Icon(
-                              Icons.military_tech_rounded,
-                              color: Color(0xff0693E3),
-                              size: 13,
-                            ),
-                          ),
-                          kWidth15,
-                          IconText(
-                            label: '200',
-                            widget: Icon(
-                              Icons.airline_stops_sharp,
-                              color: Color(0xffF98900),
-                              size: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: const [
-                          IconText(
-                            label: '3.5 (100)',
-                            widget: Icon(
-                              Icons.star_rate_rounded,
-                              size: 13,
-                              color: Color(0xffFF9700),
-                            ),
-                          ),
-                          kWidth20,
-                          Text(
-                            'Rs 2,000/hr',
-                            style: kPurpleText12,
-                          )
-                        ],
-                      ),
-                      kHeight15,
-                      Row(
-                        children: [
-                          kWidth5,
-                          const Icon(
-                            Icons.favorite_outline,
-                            color: Color(0xffFE5050),
-                          ),
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          SizedBox(
-                            height: 30,
-                            width: 80,
-                            child: CustomElevatedButton(
-                              callback: () {},
-                              label: 'Hire Me',
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+          BlocBuilder<TaskerCubit, TaskerState>(
+            builder: (context, state) {
+              if (state.states == TheStates.initial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state.states == TheStates.success) {
+                final data = state.taskerListRes?.result;
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: double.infinity,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => TaskerCard(
+                      networkImageUrl: data?[index].profileImage,
+                      label:
+                          "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                      designation: data?[index].designation,
+                      happyClients: data?[index].stats?.happyClients.toString(),
+                      ratings:
+                          "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                      rate: "Rs. ${data?[index].hourlyRate}",
+                      callback: () {
+                        context.read<TaskerCubit>().loadSingleTasker(
+                              data?[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerServices(
+                              data?[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerTask(
+                              data?[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerReviews(
+                              data?[index].user?.id ?? '',
+                            );
+
+                        Navigator.pushNamed(
+                          context,
+                          TaskerProfileView.routeName,
+                        );
+                      },
+                    ),
+                    separatorBuilder: (context, index) => kWidth10,
+                    itemCount: state.taskerListRes?.result?.length ?? 1,
                   ),
-                ),
-              ),
-              separatorBuilder: (context, index) => kWidth10,
-              itemCount: 7,
-            ),
+                );
+              }
+              return const Center(
+                child: Text('Something went wrong. Please try again.'),
+              );
+            },
           )
         ],
       ),

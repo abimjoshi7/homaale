@@ -1,7 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/account_settings/data/models/task_category_list_res.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
-import 'package:equatable/equatable.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'interests_event.dart';
 part 'interests_state.dart';

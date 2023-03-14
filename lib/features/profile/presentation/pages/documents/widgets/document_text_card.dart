@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class DocumentTextCard extends StatelessWidget {
@@ -21,18 +21,23 @@ class DocumentTextCard extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: DecoratedBox(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-            child:
-                isLocalFile ? Image.asset(imagePath) : Image.network(imagePath),
+          child: Container(
+            decoration: BoxDecoration(
+              // borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(imagePath),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
         kHeight5,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: IconText(
-            label: label,
-            widget: Image.asset(iconPath),
+        WidgetText(
+          label: label,
+          widget: const Icon(
+            Icons.filter,
+            size: 14,
+            color: kColorSilver,
           ),
         ),
       ],

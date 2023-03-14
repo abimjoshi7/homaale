@@ -5,8 +5,8 @@ import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInFormFields extends StatefulWidget {
   const SignInFormFields({super.key});
@@ -22,6 +22,28 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   final usernameController = TextEditingController();
   bool keepLogged = false;
   bool isObscure = true;
+
+  @override
+  void initState() {
+    initLoginDetails();
+    super.initState();
+  }
+
+  Future<void> initLoginDetails() async {
+    final String phone = await CacheHelper.getCachedString(kUserPhone) ?? '';
+    final String mail = await CacheHelper.getCachedString(kUsermail) ?? '';
+    final String password = await CacheHelper.getCachedString(kUserPass) ?? '';
+    final String keepInfo =
+        await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
+
+    setState(() {
+      phoneNumberController.text = phone;
+      usernameController.text = mail;
+      passwordController.text = password;
+      keepLogged = keepInfo == 'true';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
@@ -29,11 +51,19 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
         final error = await CacheHelper.getCachedString(kErrorLog);
 
         if (state is SignInSuccess) {
+          CacheHelper.hasProfile = state.userLoginRes.hasProfile;
+          CacheHelper.accessToken = state.userLoginRes.access;
+          CacheHelper.refreshToken = state.userLoginRes.refresh;
           if (keepLogged == true) {
-            await CacheHelper.setCachedString(
-              kIsPersistToken,
-              "1",
-            );
+            // await CacheHelper.setCachedString(
+            //   kIsPersistToken,
+            //   "1",
+            // ).then(
+            //   (value) async => CacheHelper.setCachedString(
+            //     kToken,
+            //     CacheHelper.accessToken ?? '',
+            //   ),
+            // );
           }
           if (!mounted) return;
           Navigator.pushNamedAndRemoveUntil(
@@ -50,9 +80,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               heading: 'Failure',
               content: error ?? "Please try again.",
               onTap: () {
-                context.read<SignInBloc>().add(
-                      SignInWithPhoneSelected(),
-                    );
+                // context.read<SignInBloc>().add(
+                //       SignInWithPhoneSelected(),
+                //     );
               },
               isSuccess: false,
             ),
@@ -66,9 +96,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
       builder: (context, state) {
         Widget buildForm() {
           if (state is SignInEmailInitial) {
-            return CustomFormText(
-              name: 'Email',
+            return CustomFormField(
+              label: 'Email',
               child: CustomTextFormField(
+                controller: usernameController,
                 onSaved: (p0) => setState(
                   () {
                     usernameController.text = p0!;
@@ -76,13 +107,16 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 ),
                 textInputType: TextInputType.emailAddress,
                 hintText: 'sample@email.com',
+                validator: validateNotEmpty,
               ),
             );
           }
           if (state is SignInPhoneInitial) {
-            return CustomFormText(
-              name: 'Phone',
+            return CustomFormField(
+              label: 'Phone',
               child: CustomTextFormField(
+                controller: phoneNumberController,
+                validator: validateNotEmpty,
                 onSaved: (p0) => setState(
                   () {
                     phoneNumberController.text = p0!;
@@ -120,16 +154,18 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildForm(),
-              kHeight20,
-              CustomFormText(
-                name: 'Password',
+              CustomFormField(
+                label: 'Password',
                 child: CustomTextFormField(
+                  controller: passwordController,
                   obscureText: isObscure,
                   suffixWidget: InkWell(
                     onTap: () {
-                      setState(() {
-                        isObscure = !isObscure;
-                      });
+                      setState(
+                        () {
+                          isObscure = !isObscure;
+                        },
+                      );
                     },
                     child: Icon(
                       color: kColorPrimary,
@@ -144,9 +180,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     },
                   ),
                   hintText: 'Enter your password here',
+                  validator: validateNotEmpty,
                 ),
               ),
-              kHeight20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -177,29 +213,56 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   )
                 ],
               ),
-              kHeight20,
+              addVerticalSpace(20),
               CustomElevatedButton(
                 callback: () async {
-                  _formKey.currentState!.save();
-                  if (state is SignInPhoneInitial) {
-                    context.read<SignInBloc>().add(
-                          SignInWithPhoneInitiated(
-                            userLoginReq: UserLoginReq(
-                              username: '+977${phoneNumberController.text}',
-                              password: passwordController.text,
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+
+                    if (keepLogged) {
+                      CacheHelper.setCachedString(
+                        kUserPhone,
+                        phoneNumberController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kUserPass,
+                        passwordController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kUsermail,
+                        usernameController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kRememberCreds,
+                        'true',
+                      );
+                    } else {
+                      CacheHelper.clearCachedData(kUsermail);
+                      CacheHelper.clearCachedData(kUserPhone);
+                      CacheHelper.clearCachedData(kUserPass);
+                      CacheHelper.clearCachedData(kRememberCreds);
+                    }
+
+                    if (state is SignInPhoneInitial) {
+                      context.read<SignInBloc>().add(
+                            SignInWithPhoneInitiated(
+                              userLoginReq: UserLoginReq(
+                                username: '+977${phoneNumberController.text}',
+                                password: passwordController.text,
+                              ),
                             ),
-                          ),
-                        );
-                  }
-                  if (state is SignInEmailInitial) {
-                    context.read<SignInBloc>().add(
-                          SignInWithEmailInitiated(
-                            userLoginReq: UserLoginReq(
-                              username: usernameController.text,
-                              password: passwordController.text,
+                          );
+                    }
+                    if (state is SignInEmailInitial) {
+                      context.read<SignInBloc>().add(
+                            SignInWithEmailInitiated(
+                              userLoginReq: UserLoginReq(
+                                username: usernameController.text,
+                                password: passwordController.text,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                    }
                   }
                 },
                 label: 'Login',

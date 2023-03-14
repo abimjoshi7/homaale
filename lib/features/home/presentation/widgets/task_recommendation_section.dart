@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +39,7 @@ class TaskRecommendationSection extends StatelessWidget {
                               kWidth10,
                               Text(
                                 'Trimming & Cutting',
-                                style: kPurpleText12,
+                                style: kPurpleText13,
                               )
                             ],
                           ),
@@ -54,7 +53,7 @@ class TaskRecommendationSection extends StatelessWidget {
                         ],
                       ),
                       kHeight5,
-                      const IconText(
+                      const WidgetText(
                         label: 'Buddhanagar, Kathmandu (15km)',
                         widget: Icon(
                           Icons.location_on_outlined,
@@ -65,7 +64,7 @@ class TaskRecommendationSection extends StatelessWidget {
                       kHeight5,
                       Row(
                         children: const [
-                          IconText(
+                          WidgetText(
                             label: 'June 9, 2022',
                             widget: Icon(
                               Icons.calendar_today,
@@ -74,7 +73,7 @@ class TaskRecommendationSection extends StatelessWidget {
                             ),
                           ),
                           kWidth20,
-                          IconText(
+                          WidgetText(
                             label: '08:11 PM',
                             widget: Icon(
                               Icons.access_time_rounded,
@@ -89,12 +88,12 @@ class TaskRecommendationSection extends StatelessWidget {
                         children: const [
                           Text(
                             'Rs 2,000 - Rs 3,000/per hour',
-                            style: kPurpleText12,
+                            style: kPurpleText13,
                           ),
                           SizedBox(
                             width: 130,
                           ),
-                          IconText(
+                          WidgetText(
                             label: '180',
                             widget: Icon(
                               Icons.remove_red_eye_sharp,

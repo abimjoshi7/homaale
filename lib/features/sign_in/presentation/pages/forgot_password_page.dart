@@ -1,12 +1,11 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -40,7 +39,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             );
           } else {
             return const Text(
-              'An otp code will be sent to your phone.',
+              'An otp will be sent to your phone.',
               style: kBodyText1,
             );
           }
@@ -115,7 +114,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 listener: (context, state) async {
                   final x = await CacheHelper.getCachedString(kErrorLog);
                   if (state is ForgotPasswordWithEmailSuccess) {
-                    showDialog(
+                    if (!mounted) return;
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Success',
@@ -132,7 +132,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     );
                   }
                   if (state is ForgotPasswordWithPhoneSuccess) {
-                    showDialog(
+                    if (!mounted) return;
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Success',
@@ -150,7 +151,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     );
                   }
                   if (state is ForgotPasswordFailure) {
-                    showDialog(
+                    if (!mounted) return;
+                    await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Failure',

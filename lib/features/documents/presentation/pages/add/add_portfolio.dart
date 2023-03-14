@@ -1,12 +1,11 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/validations/validate_not_empty.dart';
-import 'package:cipher/features/documents/models/tasker_portfolio_req.dart';
+import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPortfolio extends StatefulWidget {
   const AddPortfolio({super.key});
@@ -258,9 +257,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     final error = await CacheHelper.getCachedString(kErrorLog);
                     if (state2 is TaskerAddPortfolioSuccess) {
                       if (!mounted) return;
-                      // await context.read<UserBloc>().getTaskeruser();
-
-                      showDialog(
+                      await showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Success',
@@ -273,22 +270,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           isSuccess: true,
                         ),
                       );
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   const SnackBar(
-                      //     content: Text('Portfolio created successfully.'),
-                      //   ),
-                      // );
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   AddExperience.routeName,
-                      // );
                     } else if (state2 is TaskerAddPortfolioFailure) {
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   SnackBar(
-                      //     content: Text(error!),
-                      //   ),
-                      // );
-                      showDialog(
+                      if (!mounted) return;
+                      await showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Failure',

@@ -1,6 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/kyc_details_organizaton.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
@@ -10,7 +10,9 @@ import 'package:cipher/features/profile/presentation/pages/reviews/reviews_profi
 import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -29,6 +31,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: user == 'self' ? 7 : 4, vsync: this);
+    // context.read<ServicesBloc>().add(
+    //       const MyCreatedServiceTaskLoadInitiated(
+    //         isTask: true,
+    //       ),
+    //     );
     // tabController.addListener(() {
     //   setState(() {
     //     selectedIndex = tabController.index;
@@ -58,7 +65,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             ),
             trailingWidget: IconButton(
               onPressed: () async {
-                // TODO:
                 Navigator.pushNamed(
                   context,
                   CompleteProfilePage.routeName,
@@ -71,7 +77,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             child: const Text('Profile'),
           ),
           const CustomHorizontalDivider(),
-          kHeight20,
           const ProfileHeaderSection(),
           kHeight10,
           ProfileRewardBalanceSection(user: user),
@@ -83,7 +88,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                KycDetailsOrganization.routeName,
+                KycDetails.routeName,
               );
             },
             child: const ProfileKycVerifySection(),

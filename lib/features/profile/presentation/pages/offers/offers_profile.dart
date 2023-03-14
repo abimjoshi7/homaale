@@ -17,7 +17,7 @@ class OffersProfile extends StatelessWidget {
       itemBuilder: (context, index) => const ServicesTextCard(
         price: 'Rs 2000',
         location: 'Shantinagar',
-        reviewNumber: '4.5(200)',
+        createdDate: '4.5(200)',
         address: 'Buddhanagar, KTM',
         title: 'Garden Redesign',
         imagePath: 'assets/Casual life 3D - 43.png',

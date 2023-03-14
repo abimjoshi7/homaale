@@ -1,20 +1,20 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class DealOfTheDaySection extends StatelessWidget {
-  const DealOfTheDaySection({super.key});
+class DealsOfTheDaySection extends StatelessWidget {
+  const DealsOfTheDaySection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: kPadding10,
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Deal of the day',
+                'Deals of the day',
                 style: kPurpleText19,
               ),
               Row(
@@ -78,24 +78,23 @@ class DealOfTheDaySection extends StatelessWidget {
               )
             ],
           ),
-          kHeight20,
           SizedBox(
-            height: 188,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => Card(
                 child: SizedBox(
-                  width: 184,
+                  width: MediaQuery.of(context).size.width * 0.45,
                   child: Column(
                     children: [
-                      const Expanded(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
+                      Expanded(
+                        child: Container(
+                          decoration: const BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                'assets/casual-life-3d-young-woman-working-on-laptop-and-holding-head.png',
+                                'assets/services/1111.png',
                               ),
                             ),
                           ),
@@ -107,28 +106,23 @@ class DealOfTheDaySection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text('Trimming & Cutting'),
-                            kHeight5,
                             Row(
                               children: const [
                                 Text(
                                   'Rs 10,000',
                                   style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: Color(0xffADB5BD),
                                   ),
                                 ),
                                 kWidth5,
                                 Text(
                                   'Rs 5,000',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xff3eaeff),
-                                  ),
+                                  style: kLightBlueText14,
                                 ),
                               ],
                             ),
-                            kHeight5,
                             Container(
                               height: 4,
                               decoration: BoxDecoration(
@@ -136,10 +130,30 @@ class DealOfTheDaySection extends StatelessWidget {
                                 color: const Color(0xffd9d9d9),
                               ),
                             ),
-                            kHeight5,
-                            const Text(
-                              '10 times booked',
-                              style: kHelper13,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Flexible(
+                                  child: Text(
+                                    '10 times booked',
+                                    style: TextStyle(
+                                      color: kColorGrey,
+                                      fontSize: 13,
+                                    ),
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    'You saved Rs 5,000',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.red,
+                                      // overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                )
+                              ],
                             )
                           ],
                         ),
@@ -148,7 +162,7 @@ class DealOfTheDaySection extends StatelessWidget {
                   ),
                 ),
               ),
-              separatorBuilder: (context, index) => kWidth15,
+              separatorBuilder: (context, index) => addHorizontalSpace(10),
               itemCount: 5,
             ),
           )

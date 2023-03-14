@@ -10,9 +10,11 @@
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+        # this is a deep linking meta data for the khalti payment gateway
+    <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
 
 
-        <activity
+    <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
@@ -35,13 +37,19 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+      # this is a intent filter meta data for the khalti payment gateway
+
+          <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="kpg" android:host="{your package name}" />
+          </intent-filter>
+
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
-
+        <meta-data android:name="flutterEmbedding" android:value="2" />
     </application>
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />

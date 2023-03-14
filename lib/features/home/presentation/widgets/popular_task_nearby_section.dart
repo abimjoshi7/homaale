@@ -1,8 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PopularTaskNearbySection extends StatelessWidget {
   const PopularTaskNearbySection({super.key});
@@ -10,10 +8,9 @@ class PopularTaskNearbySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: kPadding10,
       child: Column(
         children: [
-          kHeight10,
           SectionHeading(
             labelName: 'Popular tasks near you',
             onTap: () {},
@@ -22,6 +19,7 @@ class PopularTaskNearbySection extends StatelessWidget {
             height: 600,
             width: double.infinity,
             child: ListView.separated(
+              padding: EdgeInsets.zero,
               itemBuilder: (context, index) => Card(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
@@ -67,7 +65,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
-                          IconText(
+                          WidgetText(
                             label: 'Anamnagar, KTM (1.5km)',
                             widget: Icon(
                               Icons.location_on_outlined,
@@ -75,7 +73,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               size: 13,
                             ),
                           ),
-                          IconText(
+                          WidgetText(
                             label: 'June 9, 2022',
                             widget: Icon(
                               Icons.calendar_today,
@@ -83,7 +81,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                               size: 13,
                             ),
                           ),
-                          IconText(
+                          WidgetText(
                             label: '08:11 PM',
                             widget: Icon(
                               Icons.access_time_filled_outlined,
@@ -98,7 +96,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const IconText(
+                          const WidgetText(
                             label: 'Save',
                             widget: Icon(
                               Icons.favorite_border_outlined,
@@ -106,15 +104,15 @@ class PopularTaskNearbySection extends StatelessWidget {
                               color: Color(0xffFE5050),
                             ),
                           ),
-                          const IconText(
+                          const WidgetText(
                             label: 'Share',
                             widget: Icon(
-                              FontAwesomeIcons.share,
+                              Icons.share,
                               size: 19,
                               color: Color(0xff3EAEFF),
                             ),
                           ),
-                          const IconText(
+                          const WidgetText(
                             label: '180',
                             widget: Icon(
                               Icons.supervisor_account_outlined,
