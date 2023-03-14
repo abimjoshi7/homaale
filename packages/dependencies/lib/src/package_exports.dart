@@ -28,3 +28,5 @@ export 'package:khalti_flutter/khalti_flutter.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:share_plus/share_plus.dart';
 export 'package:basic_utils/basic_utils.dart';
+export 'package:video_player/video_player.dart';
+export 'package:chewie/chewie.dart';

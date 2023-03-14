@@ -16,12 +16,14 @@ class TaskCard extends StatelessWidget {
     this.endRate,
     required this.callback,
     this.count,
+    this.budgetType,
   });
 
   final String? imageUrl;
   final String? taskName;
   final String? endDate;
   final String? endHour;
+  final String? budgetType;
   final String? location;
   final String? startRate;
   final String? endRate;
@@ -59,7 +61,7 @@ class TaskCard extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                           ),
-                          addHorizontalSpace(8),
+                          addHorizontalSpace(10),
                           Text(
                             StringUtils.capitalize(
                               taskName ?? 'Need Gardening',
@@ -124,9 +126,16 @@ class TaskCard extends StatelessWidget {
                               "Rs. ${startRate ?? '0'} - ",
                               style: kPurpleText16,
                             ),
-                            Text(
-                              endRate ?? '0',
-                              style: kPurpleText16,
+                            Row(
+                              children: [
+                                Text(
+                                  endRate ?? '0',
+                                  style: kPurpleText16,
+                                ),
+                                Text(
+                                  '/ ${budgetType?.toLowerCase()}',
+                                )
+                              ],
                             ),
                           ],
                         ),
