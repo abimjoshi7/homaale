@@ -6,10 +6,10 @@ import 'package:cipher/core/dio/dio_helper.dart';
 class TaskerRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchAllTaskers() async {
+  Future<Map<String, dynamic>> fetchAllTaskers({int? page}) async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: 'tasker/',
+        url: 'tasker/?page=$page&page_size=10',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

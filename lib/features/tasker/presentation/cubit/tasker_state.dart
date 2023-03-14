@@ -20,6 +20,7 @@ class TaskerState extends Equatable {
   TaskerState copyWith({
     TheStates? states,
     TaskerListRes? taskerListRes,
+    TaskerListRes? nextFetchTaskerListRes,
     TaskerReviewResponse? taskerReviewsResponse,
     Tasker? tasker,
     EntityServiceModel? service,

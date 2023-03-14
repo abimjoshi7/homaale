@@ -8,7 +8,7 @@ part 'tasker_list_res.g.dart';
 @freezed
 class TaskerListRes with _$TaskerListRes {
   const factory TaskerListRes({
-    int? totalPages,
+    @JsonKey(name: 'total_pages') int? totalPages,
     int? count,
     int? current,
     String? next,

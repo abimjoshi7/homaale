@@ -20,6 +20,7 @@ TaskerListRes _$TaskerListResFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskerListRes {
+  @JsonKey(name: 'total_pages')
   int? get totalPages => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   int? get current => throw _privateConstructorUsedError;
@@ -42,7 +43,7 @@ abstract class $TaskerListResCopyWith<$Res> {
       _$TaskerListResCopyWithImpl<$Res, TaskerListRes>;
   @useResult
   $Res call(
-      {int? totalPages,
+      {@JsonKey(name: 'total_pages') int? totalPages,
       int? count,
       int? current,
       String? next,
@@ -114,7 +115,7 @@ abstract class _$$_TaskerListResCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? totalPages,
+      {@JsonKey(name: 'total_pages') int? totalPages,
       int? count,
       int? current,
       String? next,
@@ -179,7 +180,7 @@ class __$$_TaskerListResCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TaskerListRes implements _TaskerListRes {
   const _$_TaskerListRes(
-      {this.totalPages,
+      {@JsonKey(name: 'total_pages') this.totalPages,
       this.count,
       this.current,
       this.next,
@@ -192,6 +193,7 @@ class _$_TaskerListRes implements _TaskerListRes {
       _$$_TaskerListResFromJson(json);
 
   @override
+  @JsonKey(name: 'total_pages')
   final int? totalPages;
   @override
   final int? count;
@@ -257,7 +259,7 @@ class _$_TaskerListRes implements _TaskerListRes {
 
 abstract class _TaskerListRes implements TaskerListRes {
   const factory _TaskerListRes(
-      {final int? totalPages,
+      {@JsonKey(name: 'total_pages') final int? totalPages,
       final int? count,
       final int? current,
       final String? next,
@@ -269,6 +271,7 @@ abstract class _TaskerListRes implements TaskerListRes {
       _$_TaskerListRes.fromJson;
 
   @override
+  @JsonKey(name: 'total_pages')
   int? get totalPages;
   @override
   int? get count;
