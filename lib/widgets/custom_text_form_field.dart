@@ -43,6 +43,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: value,
       focusNode: node,
       controller: controller,
       maxLines: maxLines,

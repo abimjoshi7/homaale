@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -30,11 +28,61 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<SignupBloc>().add(
-          SignUpWithPhoneSelected(),
+          const SignUpWithPhoneSelected(),
         );
+  }
+
+  Widget buildFormField(SignUpState state) {
+    if (state.theStates == TheStates.initial) {
+      if (state.isPhoneNumber) {
+        return CustomFormField(
+          isRequired: true,
+          label: 'Phone',
+          child: CustomTextFormField(
+            value: state.identifierFormFieldValue ?? '',
+            textInputType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+            validator: validateNumber,
+            onSaved: (value) =>
+                setState(() => phoneNumberController.text = '$value'),
+            hintText: 'Mobile Number',
+            prefixWidget: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset('assets/nepalflag.png'),
+                  const Text(
+                    '+977',
+                    style: kBodyText1,
+                  ),
+                  const Icon(Icons.arrow_drop_down)
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+
+      if (!state.isPhoneNumber) {
+        return CustomFormField(
+          isRequired: true,
+          label: 'Email',
+          child: CustomTextFormField(
+            value: state.identifierFormFieldValue ?? '',
+            textInputType: TextInputType.emailAddress,
+            validator: validateEmail,
+            onSaved: (value) => setState(() => emailController.text = '$value'),
+            hintText: 'Enter your email here',
+          ),
+        );
+      }
+    }
+    return const LinearProgressIndicator();
   }
 
   Future signUpSuccessDialogBox(BuildContext context, SignUpState state) {
@@ -67,8 +115,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future signUpFailureDialogBox(
-      String? x, BuildContext context, SignUpState state) async {
-    log('failure dialog box ayo');
+    String? x,
+    BuildContext context,
+    SignUpState state,
+  ) async {
     return showDialog(
       context: context,
       builder: (_) => CustomToast(
@@ -80,10 +130,10 @@ class _SignUpPageState extends State<SignUpPage> {
     ).then(
       (value) => (!state.isPhoneNumber)
           ? context.read<SignupBloc>().add(
-                SignUpWithEmailSelected(),
+                SignUpWithEmailSelected(email: emailController.text),
               )
           : context.read<SignupBloc>().add(
-                SignUpWithPhoneSelected(),
+                SignUpWithPhoneSelected(phone: phoneNumberController.text),
               ),
     );
   }
@@ -154,99 +204,22 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  GestureDetector selectSignUpMethodButton(SignUpState state) {
-    return GestureDetector(
-      onTap: () {
-        if (state.theStates == TheStates.initial) {
-          if (state.isPhoneNumber) {
-            context.read<SignupBloc>().add(
-                  SignUpWithEmailSelected(),
-                );
-          }
-          if (!state.isPhoneNumber) {
-            context.read<SignupBloc>().add(
-                  SignUpWithPhoneSelected(),
-                );
-          }
-        }
-      },
-      child: SignUpDisplayLogo(
-        state: state,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocListener<SignupBloc, SignUpState>(
-        listener: (context, state) {
+        listener: (_, state) {
           if (state.theStates == TheStates.failure) {
             signUpFailureDialogBox(
-                state.errorMsg ?? 'Failed to log.', context, state);
+                state.errorMsg ?? 'Failed to log.', _, state);
           }
           if (state.theStates == TheStates.success) {
-            signUpSuccessDialogBox(context, state);
+            signUpSuccessDialogBox(_, state);
           }
         },
         child: BlocBuilder<SignupBloc, SignUpState>(
-          builder: (context, state) {
-            Widget buildFormField() {
-              if (state.theStates == TheStates.initial) {
-                if (state.isPhoneNumber) {
-                  return CustomFormField(
-                    isRequired: true,
-                    label: 'Phone',
-                    child: CustomTextFormField(
-                      textInputType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      validator: validateNumber,
-                      onSaved: (value) {
-                        setState(
-                          () => phoneNumberController.text = value ?? '',
-                        );
-                      },
-                      hintText: 'Mobile Number',
-                      prefixWidget: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset('assets/nepalflag.png'),
-                            const Text(
-                              '+977',
-                              style: kBodyText1,
-                            ),
-                            const Icon(Icons.arrow_drop_down)
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }
-
-                if (!state.isPhoneNumber) {
-                  return CustomFormField(
-                    isRequired: true,
-                    label: 'Email',
-                    child: CustomTextFormField(
-                      textInputType: TextInputType.emailAddress,
-                      validator: validateEmail,
-                      onSaved: (value) => setState(
-                        () =>
-                            setState(() => emailController.text = value ?? ''),
-                      ),
-                      hintText: 'Enter your email here',
-                    ),
-                  );
-                }
-              }
-              return const LinearProgressIndicator();
-            }
-
+          builder: (_, state) {
             return Column(
               children: [
                 SignUpHeaderSection(mounted: mounted),
@@ -258,7 +231,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          buildFormField(),
+                          buildFormField(state),
                           passwordFormField(),
                           confirmPasswordFormField(),
                           addVerticalSpace(16),
@@ -278,7 +251,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ],
                               ),
                               addVerticalSpace(8),
-                              selectSignUpMethodButton(state),
+                              SelectSignUpMethodButton(state: state),
                             ],
                           ),
                           addVerticalSpace(16),
@@ -323,7 +296,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                 } else {
                                   if (state.theStates == TheStates.initial) {
                                     if (state.isPhoneNumber) {
-                                      log('phone number event triggered!');
                                       context.read<SignupBloc>().add(
                                             SignUpWithPhoneInitiated(
                                               phone: phoneNumberController.text,
@@ -332,8 +304,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                           );
                                     }
                                     if (!state.isPhoneNumber) {
-                                      log('email event triggered!');
-
                                       context.read<SignupBloc>().add(
                                             SignUpWithEmailInitiated(
                                               email: emailController.text,
@@ -341,7 +311,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                             ),
                                           );
                                     }
-                                    log('signup state test: ${state.theStates}');
                                   }
                                 }
                               }
