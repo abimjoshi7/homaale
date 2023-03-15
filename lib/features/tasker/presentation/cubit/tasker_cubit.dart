@@ -13,10 +13,12 @@ class TaskerCubit extends Cubit<TaskerState> {
   final repo = TaskerRepositories();
   TaskerCubit() : super(const TaskerState());
 
-  Future loadTaskerList() async {
+  Future loadTaskerList({
+    int? page,
+  }) async {
     try {
       emit(state.copyWith(states: TheStates.initial));
-      await repo.fetchAllTaskers().then(
+      await repo.fetchAllTaskers(page: page ?? 1).then(
         (value) {
           final taskerListRes = TaskerListRes.fromJson(value);
           emit(
