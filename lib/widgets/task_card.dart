@@ -99,7 +99,6 @@ class TaskCard extends StatelessWidget {
                         color: Color(0xffFE5050),
                       ),
                     ),
-                    addVerticalSpace(4),
                     Row(
                       children: [
                         WidgetText(
@@ -121,7 +120,7 @@ class TaskCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    addVerticalSpace(8),
+                    // addVerticalSpace(8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

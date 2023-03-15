@@ -390,15 +390,15 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             isRequired: true,
                             child: BlocBuilder<ServicesBloc, ServicesState>(
                               builder: (context, state) {
-                                if (state is ServicesLoadSuccess) {
+                                if (state.theStates == TheStates.success) {
                                   return CustomDropDownField(
                                     list: List.generate(
-                                      state.list.length,
-                                      (index) => state.list[index].title,
+                                      state.list!.length,
+                                      (index) => state.list![index].title,
                                     ),
                                     hintText: 'Trimming & Cutting',
                                     onChanged: (value) {
-                                      for (final element in state.list) {
+                                      for (final element in state.list!) {
                                         if (value == element.title) {
                                           setState(
                                             () {

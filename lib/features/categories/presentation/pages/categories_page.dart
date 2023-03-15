@@ -111,131 +111,134 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       itemBuilder: (context, index) => Card(
                         child: BlocBuilder<ServicesBloc, ServicesState>(
                           builder: (context, serviceState) {
-                            if (serviceState is ServicesLoading) {
+                            if (serviceState.theStates == TheStates.initial) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
-                            if (serviceState is ServicesLoadSuccess) {}
 
-                            return list[index].child!.isEmpty
-                                ? ListTile(
-                                    onTap: () async {
-                                      context.read<ServicesBloc>().add(
-                                            ServicesLoadInitiated(
-                                              categoryId: list[index].id ?? 0,
+                            if (serviceState.theStates == TheStates.success) {
+                              if (list[index].child!.isEmpty) {
+                                return ListTile(
+                                  onTap: () async {
+                                    context.read<ServicesBloc>().add(
+                                          ServicesLoadInitiated(
+                                            categoryId: list[index].id ?? 0,
+                                          ),
+                                        );
+
+                                    await Navigator.pushNamed(
+                                      context,
+                                      ServicesPage.routeName,
+                                      arguments: list[index],
+                                    );
+                                  },
+                                  title: Text(list[index].name ?? ''),
+                                );
+                              } else {
+                                return ExpansionTile(
+                                  title: Text(
+                                    list[index].name ?? '',
+                                  ),
+                                  // onExpansionChanged: (value) async {
+                                  //   // context.read<ServicesBloc>().add(
+                                  //   //       ServicesLoadInitiated(
+                                  //   //         list[index].id ?? 0,
+                                  //   //       ),
+                                  //   //     );
+                                  //   // await Navigator.pushNamed(
+                                  //   //   context,
+                                  //   //   ServiceProviderPage.routeName,
+                                  //   // );
+                                  // },
+                                  children: list[index].child!.isNotEmpty
+                                      ? List.generate(
+                                          1,
+                                          (index2) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
                                             ),
-                                          );
-
-                                      await Navigator.pushNamed(
-                                        context,
-                                        ServicesPage.routeName,
-                                        arguments: list[index],
-                                      );
-                                    },
-                                    title: Text(list[index].name ?? ''),
-                                  )
-                                : ExpansionTile(
-                                    title: Text(
-                                      list[index].name ?? '',
-                                    ),
-                                    // onExpansionChanged: (value) async {
-                                    //   // context.read<ServicesBloc>().add(
-                                    //   //       ServicesLoadInitiated(
-                                    //   //         list[index].id ?? 0,
-                                    //   //       ),
-                                    //   //     );
-                                    //   // await Navigator.pushNamed(
-                                    //   //   context,
-                                    //   //   ServiceProviderPage.routeName,
-                                    //   // );
-                                    // },
-                                    children: list[index].child!.isNotEmpty
-                                        ? List.generate(
-                                            1,
-                                            (index2) => Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                              ),
-                                              child: SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.7,
-                                                child: GridView.builder(
-                                                  padding: EdgeInsets.zero,
-                                                  itemCount:
-                                                      list[index].child!.length,
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 3,
-                                                    mainAxisSpacing: 10,
-                                                    crossAxisSpacing: 10,
-                                                    childAspectRatio: 0.8,
-                                                  ),
-                                                  itemBuilder:
-                                                      (context, index3) =>
-                                                          InkWell(
-                                                    onTap: () async {
-                                                      context
-                                                          .read<ServicesBloc>()
-                                                          .add(
-                                                            ServicesLoadInitiated(
-                                                              categoryId:
-                                                                  list[index]
-                                                                          .id ??
-                                                                      0,
-                                                            ),
-                                                          );
-
-                                                      await Navigator.pushNamed(
-                                                        context,
-                                                        ServicesPage.routeName,
-                                                        arguments: list[index]
-                                                            .child![index3],
-                                                      );
-                                                    },
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Colors.blueGrey,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                              10,
-                                                            ),
+                                            child: SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.2,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.7,
+                                              child: GridView.builder(
+                                                padding: EdgeInsets.zero,
+                                                itemCount:
+                                                    list[index].child!.length,
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 3,
+                                                  mainAxisSpacing: 10,
+                                                  crossAxisSpacing: 10,
+                                                  childAspectRatio: 0.8,
+                                                ),
+                                                itemBuilder:
+                                                    (context, index3) =>
+                                                        InkWell(
+                                                  onTap: () async {
+                                                    context
+                                                        .read<ServicesBloc>()
+                                                        .add(
+                                                          ServicesLoadInitiated(
+                                                            categoryId:
+                                                                list[index]
+                                                                        .id ??
+                                                                    0,
                                                           ),
-                                                          height: 90,
+                                                        );
+
+                                                    await Navigator.pushNamed(
+                                                      context,
+                                                      ServicesPage.routeName,
+                                                      arguments: list[index]
+                                                          .child![index3],
+                                                    );
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Colors.blueGrey,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            10,
+                                                          ),
                                                         ),
-                                                        Flexible(
-                                                          child: Text(
-                                                            list[index]
-                                                                    .child![
-                                                                        index3]
-                                                                    .name ??
-                                                                '',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        )
-                                                        // Text('data1'),
-                                                      ],
-                                                    ),
+                                                        height: 90,
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          list[index]
+                                                                  .child![
+                                                                      index3]
+                                                                  .name ??
+                                                              '',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          )
-                                        : [],
-                                  );
+                                          ),
+                                        )
+                                      : [],
+                                );
+                              }
+                            }
+
+                            return const SizedBox.shrink();
                           },
                         ),
                       ),

@@ -25,6 +25,7 @@ import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/service_booking.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -294,6 +295,11 @@ class AppRouter {
       case AllTaskPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const AllTaskPage(),
+          settings: settings,
+        );
+      case ServiceBookingPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ServiceBookingPage(),
           settings: settings,
         );
 
