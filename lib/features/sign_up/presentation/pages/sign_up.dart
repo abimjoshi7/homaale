@@ -6,6 +6,7 @@ import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/features/sign_up/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -262,7 +263,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 CustomCheckBox(
                                   isChecked: isChecked,
@@ -271,12 +272,44 @@ class _SignUpPageState extends State<SignUpPage> {
                                   }),
                                 ),
                                 addHorizontalSpace(8),
-                                const Flexible(
-                                  child: AutoSizeText(
-                                    minFontSize: 13,
+                                Flexible(
+                                  child: RichText(
+                                    strutStyle:
+                                        const StrutStyle(fontFamily: 'Poppins'),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    'By signing up, you agree to our terms of use and privacy policy.',
+                                    text: TextSpan(
+                                      text: 'By signing up, you agree to our ',
+                                      style: kHeading3.copyWith(
+                                        wordSpacing: 1,
+                                        // letterSpacing: 0.1,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'terms of use ',
+                                          style: kPurpleText14.copyWith(
+                                            color: const Color(0xffFCA500),
+                                            letterSpacing: 0.3,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap =
+                                                () => print('Tap Here onTap'),
+                                        ),
+                                        const TextSpan(
+                                          text: 'and ',
+                                        ),
+                                        TextSpan(
+                                          text: 'privacy policy.',
+                                          style: kPurpleText14.copyWith(
+                                            color: const Color(0xffFCA500),
+                                            letterSpacing: 0.3,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap =
+                                                () => print('Tap Here onTap'),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
