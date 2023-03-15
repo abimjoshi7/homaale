@@ -57,6 +57,7 @@ class SocialLoginSection extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
+										FocusScope.of(context).unfocus();
                     if (state is SignInPhoneInitial) {
                       context.read<SignInBloc>().add(
                             SignInWithEmailSelected(),
