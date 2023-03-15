@@ -39,6 +39,8 @@ import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/notification/presentation/pages/notification_from_home.dart';
+
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -298,6 +300,11 @@ class AppRouter {
       case SandboxPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SandboxPage(),
+        );
+        case NotificationFromHome.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const NotificationFromHome(),
+          settings: settings,
         );
       default:
         return MaterialPageRoute(

@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/payment_key.dart';
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dar
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
@@ -33,6 +33,8 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../../features/notification/presentation/cubit/all_notification_list_cubit.dart';
 
 class Cipher extends StatelessWidget {
   const Cipher({super.key});
@@ -190,6 +192,9 @@ class Cipher extends StatelessWidget {
           BlocProvider(
             create: (context) => SingleEntityTaskCubit(),
           ),
+          BlocProvider(
+            create: (context) => NotificationBloc(),
+          ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
@@ -202,36 +207,22 @@ class Cipher extends StatelessWidget {
               }
               return theme;
             }
-
-            return KhaltiScope(
-              publicKey: testPublicKey,
-              builder: (context, navigatorKey) {
-                return MaterialApp(
-                  navigatorKey: navigatorKey,
-                  supportedLocales: const [
-                    Locale('en', 'US'),
-                    Locale('ne', 'NP'),
-                  ],
-                  localizationsDelegates: const [
-                    KhaltiLocalizations.delegate,
-                  ],
-                  debugShowCheckedModeBanner: false,
-                  theme: displayTheme(),
-                  builder: (context, child) => ResponsiveWrapper.builder(
-                    BouncingScrollWrapper.builder(context, child!),
-                    maxWidth: 1200,
-                    minWidth: 480,
-                    defaultScale: true,
-                    breakpoints: [
-                      const ResponsiveBreakpoint.resize(480, name: MOBILE),
-                      const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                      const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-                    ],
-                  ),
-                  initialRoute: SplashPage.routeName,
-                  onGenerateRoute: AppRouter().onGenerate,
-                );
-              },
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: displayTheme(),
+              builder: (context, child) => ResponsiveWrapper.builder(
+                BouncingScrollWrapper.builder(context, child!),
+                maxWidth: 1200,
+                minWidth: 480,
+                defaultScale: true,
+                breakpoints: [
+                  const ResponsiveBreakpoint.resize(480, name: MOBILE),
+                  const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                  const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                ],
+              ),
+              initialRoute: SplashPage.routeName,
+              onGenerateRoute: AppRouter().onGenerate,
             );
           },
         ),
