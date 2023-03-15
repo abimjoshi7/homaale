@@ -1,82 +1,38 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 part of 'services_bloc.dart';
 
-class ServiceState extends Equatable {
+class ServicesState extends Equatable {
   final TheStates? theStates;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
-  const ServiceState({
+  final AddServiceRes? addServiceRes;
+  final List<ServiceList>? list;
+
+  const ServicesState({
     this.theStates,
     this.selfCreatedTaskServiceModel,
+    this.addServiceRes,
+    this.list,
   });
 
   @override
   List<Object?> get props => [
         theStates,
         selfCreatedTaskServiceModel,
+        addServiceRes,
+        list,
       ];
 
-  ServiceState copyWith({
+  ServicesState copyWith({
     TheStates? theStates,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
+    AddServiceRes? addServiceRes,
+    List<ServiceList>? list,
   }) {
-    return ServiceState(
+    return ServicesState(
       theStates: theStates ?? this.theStates,
       selfCreatedTaskServiceModel:
           selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      addServiceRes: addServiceRes ?? this.addServiceRes,
+      list: list ?? this.list,
     );
   }
-}
-
-abstract class ServicesState extends Equatable {
-  const ServicesState();
-}
-
-class ServicesInitial extends ServicesState {
-  @override
-  List<Object> get props => [];
-}
-
-class ServicesLoading extends ServicesState {
-  @override
-  List<Object> get props => [];
-}
-
-class ServicesLoadSuccess extends ServicesState {
-  final List<ServiceList> list;
-
-  const ServicesLoadSuccess(this.list);
-  @override
-  List<Object> get props => [list];
-}
-
-class ServicesLoadFailure extends ServicesState {
-  @override
-  List<Object> get props => [];
-}
-
-// class MyCreatedServicesLoadSuccess extends ServicesState {
-//   final MyCreatedServicesRes list;
-
-//   const MyCreatedServicesLoadSuccess(this.list);
-//   @override
-//   List<Object> get props => [list];
-// }
-
-class MyCreatedServicesLoadFailure extends ServicesState {
-  @override
-  List<Object> get props => [];
-}
-
-class ServicesAddSuccess extends ServicesState {
-  final AddServiceRes addServiceRes;
-
-  const ServicesAddSuccess(this.addServiceRes);
-  @override
-  List<Object> get props => [addServiceRes];
-}
-
-class ServicesAddFailure extends ServicesState {
-  @override
-  List<Object> get props => [];
 }

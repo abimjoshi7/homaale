@@ -12,33 +12,38 @@ part 'services_state.dart';
 
 class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
   final repositories = ServicesRepositories();
-  ServicesBloc() : super(ServicesInitial()) {
+  ServicesBloc()
+      : super(
+          const ServicesState(),
+        ) {
     on<ServicesLoadInitiated>(
       (event, emit) async {
         try {
-          // emit(
-          //   ServicesLoading(),
-          // );
-          // await repositories.fetchServices(event.categoryId).then(
-          //       (value) => emit(
-          //         ServicesLoadSuccess(
-          //           value
-          //               .map(
-          //                 (e) => ServiceList.fromJson(e),
-          //               )
-          //               .toList()
-          //             ..sort(
-          //               (a, b) => a.title!.compareTo(
-          //                 b.title!,
-          //               ),
-          //             ),
-          //         ),
-          //       ),
-          //     );
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+            ),
+          );
+          await repositories.fetchServices(event.categoryId).then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    list: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort(
+                        (a, b) => a.title!.compareTo(
+                          b.title!,
+                        ),
+                      ),
+                  ),
+                ),
+              );
         } catch (e) {
-          // emit(
-          // ServicesLoadFailure(),
-          // );
+          print(e);
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
+          );
         }
       },
     );

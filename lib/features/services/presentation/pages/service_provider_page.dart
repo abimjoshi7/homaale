@@ -1,3 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/services/presentation/pages/service_booking.dart';
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
@@ -5,8 +10,6 @@ import 'package:cipher/features/services/presentation/pages/sections/packages_of
 import 'package:cipher/features/services/presentation/widgets/additional_info_section.dart';
 import 'package:cipher/features/services/presentation/widgets/rating_review_section.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class ServiceProviderPage extends StatelessWidget {
   static const String routeName = '/service_provider_page';
@@ -14,13 +17,13 @@ class ServiceProviderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
         builder: (context, state) {
           if (state is SingleEntityServiceLoadSuccess) {
-            final documentDescription = Bidi.stripHtmlIfNeeded(state.serviceModel.description ??
-                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
+            final documentDescription = Bidi.stripHtmlIfNeeded(
+              state.serviceModel.description ??
+                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
             );
             return Column(
               children: [
@@ -156,10 +159,10 @@ class ServiceProviderPage extends StatelessWidget {
                               ],
                             ),
                             addVerticalSpace(10),
-                            Text(
-                              documentDescription,
-                              textAlign: TextAlign.start,
-                            ),
+                            HtmlRemover(
+                                text: state.serviceModel.description ??
+                                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
+
                             kHeight20,
                             const Align(
                               alignment: Alignment.bottomLeft,
@@ -336,7 +339,8 @@ class ServiceProviderPage extends StatelessWidget {
                                   callback: () {
                                     Navigator.pushNamed(
                                       context,
-                                      BookingDetailsPage.routeName,
+                                      // BookingDetailsPage.routeName,
+                                      ServiceBookingPage.routeName,
                                     );
                                   },
                                   label: 'Book Now',

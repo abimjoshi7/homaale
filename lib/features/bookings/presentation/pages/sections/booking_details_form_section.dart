@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
@@ -581,28 +583,24 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                     if (_key.currentState!.validate() && endDate != null) {
                       final req = BookEntityServiceReq(
                         endDate: endDate,
-                        startDate: startDate,
+                        startDate: startDate ?? DateTime.now(),
                         videos: fileList,
                         images: imageList,
-                        requirements: requirementList.asMap().map(
-                              (key, value) => MapEntry(
-                                key.toString(),
-                                value as dynamic,
-                              ),
-                            ),
+                        requirements: requirementList,
                         description: problemDescController.text,
-                        budgetFrom: int.parse(
+                        budgetFrom: double.parse(
                           state.serviceModel.budgetFrom?.toString() ?? '0',
                         ),
-                        budgetTo: state.serviceModel.budgetTo?.toInt(),
+                        budgetTo: state.serviceModel.budgetTo,
                         startTime: startTime?.format(context),
                         endTime: endTime?.format(context),
                         entityService: state.serviceModel.id,
                         location: locationController.text.isNotEmpty
                             ? locationController.text
                             : state.serviceModel.location,
-                        city: cityCode ?? state.serviceModel.city?.id?.toInt(),
+                        city: cityCode ?? state.serviceModel.city?.id,
                       );
+                      print(jsonEncode(req.toJson()));
                       context.read<BookingsBloc>().add(
                             ServiceBookingInitiated(req),
                           );
