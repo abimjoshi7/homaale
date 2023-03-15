@@ -1,4 +1,6 @@
-import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'dart:developer';
+
+import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -24,6 +26,7 @@ class EntityServiceBloc extends Bloc<EntityServiceEvent, EntityServiceState> {
                 ),
               );
         } catch (e) {
+          log("Service load error: $e");
           emit(
             EntityServiceLoadFailure(),
           );

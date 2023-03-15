@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/constants/payment_key.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_section.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/constants/payment_key.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -22,7 +21,8 @@ class Home extends StatelessWidget {
             const HomeHeaderSection(),
             KhaltiButton(
               config: config,
-              preferences: const [ // Not providing this will enable all the payment methods.
+              preferences: const [
+                // Not providing this will enable all the payment methods.
                 PaymentPreference.khalti,
                 PaymentPreference.eBanking,
                 PaymentPreference.connectIPS,

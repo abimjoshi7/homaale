@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_is_empty
+
 import 'package:cipher/core/constants/colors.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +15,10 @@ class PopularServicesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ProfessionalServiceCategoryBloc,
-          ProfessionalServiceCategoryState>(
+      body: BlocBuilder<EntityServiceBloc, EntityServiceState>(
         builder: (context, state) {
-          if (state is ProfessionalServiceCategoryLoadSuccess) {
-            final data = state.model.result;
+          if (state is EntityServiceLoadSuccess) {
+            final data = state.service.result;
             return Column(
               children: [
                 addVerticalSpace(
@@ -99,6 +101,12 @@ class PopularServicesPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: ServiceCard(
                         title: data?[index].title,
+                        imagePath: data?[index].images?.length == 0
+                            ? kServiceImageNImg
+                            : data?[index].images?.first.media,
+                        rating: state
+                            .service.result?[index].rating?.first.rating
+                            .toString(),
                       ),
                     ),
                     itemCount: data?.length,

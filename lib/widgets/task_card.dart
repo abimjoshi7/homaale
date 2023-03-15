@@ -62,11 +62,16 @@ class TaskCard extends StatelessWidget {
                             ),
                           ),
                           addHorizontalSpace(10),
-                          Text(
-                            StringUtils.capitalize(
-                              taskName ?? 'Need Gardening',
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              StringUtils.capitalize(
+                                taskName ?? 'Need Gardening',
+                              ),
+                              style: kPurpleText16,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            style: kPurpleText16,
                           ),
                         ],
                       ),
