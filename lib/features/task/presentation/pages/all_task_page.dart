@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
@@ -7,8 +7,6 @@ import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import '../../../services/data/models/entity_service_model.dart';
 
 class AllTaskPage extends StatefulWidget {
   static const routeName = '/all-task-page';

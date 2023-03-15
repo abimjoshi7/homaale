@@ -157,7 +157,7 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<TaskBloc>(),
           ),
           BlocProvider(
-            create: (context) => EntityServiceBloc(),
+            create: (context) => locator<EntityServiceBloc>(),
           ),
           BlocProvider(
             create: (context) => SingleEntityServiceCubit(),

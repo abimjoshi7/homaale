@@ -16,7 +16,7 @@ class EntityServiceBloc extends Bloc<EntityServiceEvent, EntityServiceState> {
           emit(
             EntityServiceInitial(),
           );
-          await repositories.fetchEntityServices().then(
+          await repositories.fetchEntityServices(page: event.page ?? 1).then(
                 (value) => emit(
                   EntityServiceLoadSuccess(
                     EntityServiceModel.fromJson(
