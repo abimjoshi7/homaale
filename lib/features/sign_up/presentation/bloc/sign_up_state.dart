@@ -1,40 +1,62 @@
 part of 'sign_up_bloc.dart';
 
-abstract class SignUpState extends Equatable {
-  const SignUpState();
-}
+class SignUpState extends Equatable {
+<<<<<<< HEAD
+  final String? identifierFormFieldValue;
+=======
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
+  final bool isPhoneNumber;
+  final TheStates? theStates;
+  final UserSignUpRes? userSignUpRes;
+  final String? errorMsg;
 
-class SignUpPhoneInitial extends SignUpState {
-  @override
-  List<Object?> get props => [];
-}
-
-class SignUpEmailInitial extends SignUpState {
-  @override
-  List<Object?> get props => [];
-}
-
-class SignUpWithPhoneSuccess extends SignUpState {
-  final UserSignUpRes userSignUpRes;
-  const SignUpWithPhoneSuccess({
-    required this.userSignUpRes,
+  const SignUpState({
+<<<<<<< HEAD
+    this.identifierFormFieldValue,
+=======
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
+    this.isPhoneNumber = true,
+    this.theStates,
+    this.userSignUpRes,
+    this.errorMsg,
   });
 
-  @override
-  List<Object?> get props => [userSignUpRes];
-}
+  SignUpState copyWith({
+<<<<<<< HEAD
+    String? identifierFormFieldValue,
+=======
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
+    bool? isPhoneNumber,
+    TheStates? theStates,
+    UserSignUpRes? userSignUpRes,
+    String? errorMsg,
+  }) {
+    return SignUpState(
+<<<<<<< HEAD
+      identifierFormFieldValue:
+          identifierFormFieldValue ?? this.identifierFormFieldValue,
+=======
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
+      isPhoneNumber: isPhoneNumber ?? this.isPhoneNumber,
+      theStates: theStates ?? this.theStates,
+      userSignUpRes: userSignUpRes ?? this.userSignUpRes,
+      errorMsg: errorMsg ?? this.errorMsg,
+    );
+  }
 
-class SignUpWithEmailSuccess extends SignUpState {
-  final UserSignUpRes userSignUpRes;
-  const SignUpWithEmailSuccess({
-    required this.userSignUpRes,
-  });
-
   @override
-  List<Object?> get props => [userSignUpRes];
-}
-
-class SignUpFailure extends SignUpState {
-  @override
-  List<Object?> get props => [];
+<<<<<<< HEAD
+  List<Object?> get props {
+    return [
+      identifierFormFieldValue,
+      isPhoneNumber,
+      theStates,
+      userSignUpRes,
+      errorMsg,
+    ];
+  }
+=======
+  List<Object?> get props =>
+      [isPhoneNumber, theStates, userSignUpRes, errorMsg];
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
 }
