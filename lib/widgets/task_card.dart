@@ -153,7 +153,7 @@ class TaskCard extends StatelessWidget {
                   ],
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                  padding: EdgeInsets.symmetric(vertical: 4.0),
                   child: Divider(),
                 ),
               ],
