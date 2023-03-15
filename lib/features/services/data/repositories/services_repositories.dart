@@ -62,14 +62,16 @@ class ServicesRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchEntityServices([
+  Future<Map<String, dynamic>> fetchEntityServices({
     String? serviceId,
-  ]) async {
+    int? page,
+  }) async {
     try {
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/service/',
         query: {
           'is_requested': false,
+          'page': page,
         },
         token: CacheHelper.accessToken,
       );
