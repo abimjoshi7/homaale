@@ -4,10 +4,10 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/box/box.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
-import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -30,14 +30,15 @@ class _RootState extends State<Root> {
   int pageIndex = 0;
 
   bool homeActive = true;
-  bool offerActive = false;
+  bool boxActive = false;
   bool addActive = false;
   bool bookingsActive = false;
   bool profileActive = false;
 
   final pages = [
     const Home(),
-    const OffersPage(),
+    // const OffersPage(),
+    const BoxPage(),
     const BookingPages(),
     const AccountProfile(),
   ];
@@ -171,7 +172,7 @@ class _RootState extends State<Root> {
                                       () {
                                         pageIndex = 0;
                                         homeActive = true;
-                                        offerActive = false;
+                                        boxActive = false;
                                         addActive = false;
                                         bookingsActive = false;
                                         profileActive = false;
@@ -189,7 +190,7 @@ class _RootState extends State<Root> {
                                     setState(() {
                                       pageIndex = 1;
                                       homeActive = false;
-                                      offerActive = true;
+                                      boxActive = true;
                                       addActive = false;
                                       bookingsActive = false;
                                       profileActive = false;
@@ -197,9 +198,9 @@ class _RootState extends State<Root> {
                                   },
                                   pageIndex: pageIndex,
                                   index: 1,
-                                  label: 'Offers',
-                                  iconData: Icons.wallet_giftcard_rounded,
-                                  isActive: offerActive,
+                                  label: 'Box',
+                                  iconData: Icons.add_box_outlined,
+                                  isActive: boxActive,
                                 ),
 
                                 // commented this lines cause of changes this functionality by applying floating acton button
@@ -208,7 +209,7 @@ class _RootState extends State<Root> {
                                     if (addActive) {
                                       setState(() {
                                         homeActive = pageIndex == 0;
-                                        offerActive = pageIndex == 1;
+                                        boxActive = pageIndex == 1;
                                         addActive = false;
                                         bookingsActive = pageIndex == 2;
                                         profileActive = pageIndex == 3;
@@ -216,7 +217,7 @@ class _RootState extends State<Root> {
                                     } else {
                                       setState(() {
                                         homeActive = false;
-                                        offerActive = false;
+                                        boxActive = false;
                                         addActive = true;
                                         bookingsActive = false;
                                         profileActive = false;
@@ -235,7 +236,7 @@ class _RootState extends State<Root> {
                                     setState(() {
                                       pageIndex = 2;
                                       homeActive = false;
-                                      offerActive = false;
+                                      boxActive = false;
                                       addActive = false;
                                       bookingsActive = true;
                                       profileActive = false;
@@ -252,7 +253,7 @@ class _RootState extends State<Root> {
                                     setState(() {
                                       pageIndex = 3;
                                       homeActive = false;
-                                      offerActive = false;
+                                      boxActive = false;
                                       addActive = false;
                                       bookingsActive = false;
                                       profileActive = true;
@@ -294,7 +295,7 @@ class _RootState extends State<Root> {
                             callback: () {
                               setState(() {
                                 homeActive = pageIndex == 0;
-                                offerActive = pageIndex == 1;
+                                boxActive = pageIndex == 1;
                                 addActive = false;
                                 bookingsActive = pageIndex == 2;
                                 profileActive = pageIndex == 3;
@@ -314,7 +315,7 @@ class _RootState extends State<Root> {
                             callback: () {
                               setState(() {
                                 homeActive = pageIndex == 0;
-                                offerActive = pageIndex == 1;
+                                boxActive = pageIndex == 1;
                                 addActive = false;
                                 bookingsActive = pageIndex == 2;
                                 profileActive = pageIndex == 3;
