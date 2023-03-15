@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'task_bloc.dart';
 
 abstract class TaskEvent extends Equatable {
@@ -27,8 +28,10 @@ class SingleEntityTaskLoadInitiated extends TaskEvent {
 }
 
 class AllTaskLoadInitiated extends TaskEvent {
+  final int? page;
+  const AllTaskLoadInitiated({this.page});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [page];
 }
 
 class TaskAddInitiated extends TaskEvent {

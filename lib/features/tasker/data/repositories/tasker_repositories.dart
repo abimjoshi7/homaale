@@ -9,7 +9,11 @@ class TaskerRepositories {
   Future<Map<String, dynamic>> fetchAllTaskers({int? page}) async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: 'tasker/?page=$page&page_size=10',
+        query: {
+          "page": page,
+          "page_size": 10,
+        },
+        url: 'tasker/',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

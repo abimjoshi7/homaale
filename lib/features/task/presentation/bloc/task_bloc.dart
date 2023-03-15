@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/services/data/models/entity_service.dart' as es;
+import 'package:cipher/features/services/data/models/entity_service_model.dart'
+    as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/apply_task_req.dart';
@@ -82,7 +85,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             state.copyWith(theState: TheStates.initial),
           );
-          await repo.fetchAllTaskList().then(
+          await repo.fetchAllTaskList(page: event.page ?? 1).then(
             (value) {
               final allTaskList = es.EntityServiceModel.fromJson(value);
 
@@ -95,6 +98,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             },
           );
         } catch (e) {
+          log("All Task List Fetch Parse error: $e");
           emit(
             state.copyWith(theState: TheStates.failure),
           );
@@ -157,42 +161,3 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     );
   }
 }
-
-
-
-
-// on<MyCreatedServiceTaskLoadInitiated>(
-//       (event, emit) async {
-//         try {
-//           emit(
-//             state.copyWith(
-//               theStates: TheStates.initial,
-//             ),
-//           );
-//           await repositories
-//               .fetchMyCreatedEntityServiceTask(
-//                 isTask: event.isTask,
-//               )
-//               .then(
-//                 (value) => emit(
-//                   state.copyWith(
-//                     theStates: TheStates.success,
-//                     selfCreatedTaskServiceModel:
-//                         SelfCreatedTaskServiceModel.fromJson(value),
-//                   ),
-//                   // MyCreatedServicesLoadSuccess(
-//                   //   MyCreatedServicesRes.fromJson(
-//                   //     value,
-//                   //   ),
-//                   // ),
-//                 ),
-//               );
-//         } catch (e) {
-//           emit(
-//             state.copyWith(
-//               theStates: TheStates.failure,
-//             ),
-//           );
-//         }
-//       },
-//     );

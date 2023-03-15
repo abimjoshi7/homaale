@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/strings.dart';
-import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
 import 'package:cipher/widgets/service_card.dart';
