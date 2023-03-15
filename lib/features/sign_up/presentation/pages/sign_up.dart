@@ -75,6 +75,9 @@ class _SignUpPageState extends State<SignUpPage> {
           child: CustomTextFormField(
             value: state.identifierFormFieldValue ?? '',
             textInputType: TextInputType.emailAddress,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.singleLineFormatter
+            ],
             validator: validateEmail,
             onSaved: (value) => setState(() => emailController.text = '$value'),
             hintText: 'Enter your email here',

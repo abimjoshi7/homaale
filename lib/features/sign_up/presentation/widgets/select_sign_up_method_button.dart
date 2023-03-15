@@ -13,14 +13,15 @@ class SelectSignUpMethodButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (state.theStates == TheStates.initial) {
+          FocusScope.of(context).unfocus();
           if (state.isPhoneNumber) {
             context.read<SignupBloc>().add(
-                  SignUpWithEmailSelected(),
+                  const SignUpWithEmailSelected(),
                 );
           }
           if (!state.isPhoneNumber) {
             context.read<SignupBloc>().add(
-                  SignUpWithPhoneSelected(),
+                  const SignUpWithPhoneSelected(),
                 );
           }
         }
