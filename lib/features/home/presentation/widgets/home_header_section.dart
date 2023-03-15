@@ -1,5 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
+import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -132,17 +134,17 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     leading: child,
                     title: displayUserInfo(),
-                    trailing: BlocBuilder<SignInBloc, SignInState>(
-                      builder: (context, state) {
-                        return IconButton(
-                          onPressed: () async {},
+                    trailing: IconButton(
+                          onPressed: () {
+                            context.read<NotificationBloc>().add(const MyNotificationListInitiated());
+                            Navigator.pushNamed(context, NotificationFromHome.routeName);
+                          },
                           icon: const Icon(
                             Icons.notifications_none,
                             color: Colors.white,
                             size: 30,
                           ),
-                        );
-                      },
+
                     ),
                   );
                 },
