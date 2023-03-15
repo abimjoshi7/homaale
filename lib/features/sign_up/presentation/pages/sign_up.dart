@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-import 'dart:developer';
-
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -33,7 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   void initState() {
-<<<<<<< HEAD
     super.initState();
     context.read<SignupBloc>().add(
           const SignUpWithPhoneSelected(),
@@ -94,15 +88,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return const LinearProgressIndicator();
   }
 
-=======
-    // TODO: implement initState
-    super.initState();
-    context.read<SignupBloc>().add(
-          SignUpWithPhoneSelected(),
-        );
-  }
-
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
   Future signUpSuccessDialogBox(BuildContext context, SignUpState state) {
     return showDialog(
       context: context,
@@ -133,15 +118,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future signUpFailureDialogBox(
-<<<<<<< HEAD
     String? x,
     BuildContext context,
     SignUpState state,
   ) async {
-=======
-      String? x, BuildContext context, SignUpState state) async {
-    log('failure dialog box ayo');
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
     return showDialog(
       context: context,
       builder: (_) => CustomToast(
@@ -153,17 +133,10 @@ class _SignUpPageState extends State<SignUpPage> {
     ).then(
       (value) => (!state.isPhoneNumber)
           ? context.read<SignupBloc>().add(
-<<<<<<< HEAD
                 SignUpWithEmailSelected(email: emailController.text),
               )
           : context.read<SignupBloc>().add(
                 SignUpWithPhoneSelected(phone: phoneNumberController.text),
-=======
-                SignUpWithEmailSelected(),
-              )
-          : context.read<SignupBloc>().add(
-                SignUpWithPhoneSelected(),
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
               ),
     );
   }
@@ -234,37 +207,11 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-<<<<<<< HEAD
-=======
-  GestureDetector selectSignUpMethodButton(SignUpState state) {
-    return GestureDetector(
-      onTap: () {
-        if (state.theStates == TheStates.initial) {
-          if (state.isPhoneNumber) {
-            context.read<SignupBloc>().add(
-                  SignUpWithEmailSelected(),
-                );
-          }
-          if (!state.isPhoneNumber) {
-            context.read<SignupBloc>().add(
-                  SignUpWithPhoneSelected(),
-                );
-          }
-        }
-      },
-      child: SignUpDisplayLogo(
-        state: state,
-      ),
-    );
-  }
-
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocListener<SignupBloc, SignUpState>(
-<<<<<<< HEAD
         listener: (_, state) {
           if (state.theStates == TheStates.failure) {
             signUpFailureDialogBox(
@@ -276,74 +223,6 @@ class _SignUpPageState extends State<SignUpPage> {
         },
         child: BlocBuilder<SignupBloc, SignUpState>(
           builder: (_, state) {
-=======
-        listener: (context, state) {
-          if (state.theStates == TheStates.failure) {
-            signUpFailureDialogBox(
-                state.errorMsg ?? 'Failed to log.', context, state);
-          }
-          if (state.theStates == TheStates.success) {
-            signUpSuccessDialogBox(context, state);
-          }
-        },
-        child: BlocBuilder<SignupBloc, SignUpState>(
-          builder: (context, state) {
-            Widget buildFormField() {
-              if (state.theStates == TheStates.initial) {
-                if (state.isPhoneNumber) {
-                  return CustomFormField(
-                    isRequired: true,
-                    label: 'Phone',
-                    child: CustomTextFormField(
-                      textInputType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      validator: validateNumber,
-                      onSaved: (value) {
-                        setState(
-                          () => phoneNumberController.text = value ?? '',
-                        );
-                      },
-                      hintText: 'Mobile Number',
-                      prefixWidget: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset('assets/nepalflag.png'),
-                            const Text(
-                              '+977',
-                              style: kBodyText1,
-                            ),
-                            const Icon(Icons.arrow_drop_down)
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }
-
-                if (!state.isPhoneNumber) {
-                  return CustomFormField(
-                    isRequired: true,
-                    label: 'Email',
-                    child: CustomTextFormField(
-                      textInputType: TextInputType.emailAddress,
-                      validator: validateEmail,
-                      onSaved: (value) => setState(
-                        () =>
-                            setState(() => emailController.text = value ?? ''),
-                      ),
-                      hintText: 'Enter your email here',
-                    ),
-                  );
-                }
-              }
-              return const LinearProgressIndicator();
-            }
-
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
             return Column(
               children: [
                 SignUpHeaderSection(mounted: mounted),
@@ -355,11 +234,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-<<<<<<< HEAD
                           buildFormField(state),
-=======
-                          buildFormField(),
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
                           passwordFormField(),
                           confirmPasswordFormField(),
                           addVerticalSpace(16),
@@ -379,11 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ],
                               ),
                               addVerticalSpace(8),
-<<<<<<< HEAD
                               SelectSignUpMethodButton(state: state),
-=======
-                              selectSignUpMethodButton(state),
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
                             ],
                           ),
                           addVerticalSpace(16),
@@ -413,55 +284,46 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           addVerticalSpace(32),
                           Flexible(
-                              child: CustomElevatedButton(
-                            callback: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                if (isChecked == false) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Please agree to the terms and policy.',
+                            child: CustomElevatedButton(
+                              callback: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+                                  if (isChecked == false) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Please agree to the terms and policy.',
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                } else {
-                                  if (state.theStates == TheStates.initial) {
-                                    if (state.isPhoneNumber) {
-<<<<<<< HEAD
-=======
-                                      log('phone number event triggered!');
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
-                                      context.read<SignupBloc>().add(
-                                            SignUpWithPhoneInitiated(
-                                              phone: phoneNumberController.text,
-                                              password: passwordController.text,
-                                            ),
-                                          );
+                                    );
+                                  } else {
+                                    if (state.theStates == TheStates.initial) {
+                                      if (state.isPhoneNumber) {
+                                        context.read<SignupBloc>().add(
+                                              SignUpWithPhoneInitiated(
+                                                phone:
+                                                    phoneNumberController.text,
+                                                password:
+                                                    passwordController.text,
+                                              ),
+                                            );
+                                      }
+                                      if (!state.isPhoneNumber) {
+                                        context.read<SignupBloc>().add(
+                                              SignUpWithEmailInitiated(
+                                                email: emailController.text,
+                                                password:
+                                                    passwordController.text,
+                                              ),
+                                            );
+                                      }
                                     }
-                                    if (!state.isPhoneNumber) {
-<<<<<<< HEAD
-=======
-                                      log('email event triggered!');
-
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
-                                      context.read<SignupBloc>().add(
-                                            SignUpWithEmailInitiated(
-                                              email: emailController.text,
-                                              password: passwordController.text,
-                                            ),
-                                          );
-                                    }
-<<<<<<< HEAD
-=======
-                                    log('signup state test: ${state.theStates}');
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
                                   }
                                 }
-                              }
-                            },
-                            label: 'Sign Up',
-                          )),
+                              },
+                              label: 'Sign Up',
+                            ),
+                          ),
                           const SignUpFooterSection(),
                         ],
                       ),

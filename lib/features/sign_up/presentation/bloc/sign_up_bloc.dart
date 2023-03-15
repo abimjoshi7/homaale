@@ -1,6 +1,5 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -20,10 +19,7 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
         state.copyWith(
           isPhoneNumber: true,
           theStates: TheStates.initial,
-<<<<<<< HEAD
           identifierFormFieldValue: event.phone,
-=======
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
         ),
       ),
     );
@@ -33,10 +29,7 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
         state.copyWith(
           isPhoneNumber: false,
           theStates: TheStates.initial,
-<<<<<<< HEAD
           identifierFormFieldValue: event.email,
-=======
->>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
         ),
       ),
     );
