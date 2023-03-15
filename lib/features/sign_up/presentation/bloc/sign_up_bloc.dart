@@ -20,7 +20,10 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
         state.copyWith(
           isPhoneNumber: true,
           theStates: TheStates.initial,
+<<<<<<< HEAD
           identifierFormFieldValue: event.phone,
+=======
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
         ),
       ),
     );
@@ -30,7 +33,10 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
         state.copyWith(
           isPhoneNumber: false,
           theStates: TheStates.initial,
+<<<<<<< HEAD
           identifierFormFieldValue: event.email,
+=======
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
         ),
       ),
     );

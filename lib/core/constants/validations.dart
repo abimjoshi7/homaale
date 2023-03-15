@@ -35,7 +35,11 @@ String? validatePassword(String? value) {
     if (!regex.hasMatch(value)) {
       return '''
 Your password must be at least 10 character long
+<<<<<<< HEAD
  with atleast 1 numeric charater, 1 capital case and 1 special character each
+=======
+ with minimum 1 upper case, lowercase, special character each
+>>>>>>> 3c8e9b4 (fixed bloc state class for sign up)
 ''';
     } else {
       return null;
