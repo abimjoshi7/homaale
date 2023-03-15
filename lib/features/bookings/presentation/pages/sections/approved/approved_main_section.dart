@@ -1,8 +1,8 @@
-import 'package:cipher/features/bookings/presentation/pages/sections/bookings/bookings.dart';
+import 'package:cipher/features/bookings/presentation/pages/sections/approved/approved.dart';
 import 'package:flutter/material.dart';
 
-class BookingsTabMainSection extends StatelessWidget {
-  const BookingsTabMainSection({
+class ApprovedMainSection extends StatelessWidget {
+  const ApprovedMainSection({
     super.key,
     required this.selectedIndex,
   });
@@ -12,11 +12,11 @@ class BookingsTabMainSection extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (selectedIndex) {
       case 0:
-        return const BookingsAll();
+        return const ApprovedAll();
       case 1:
-        return const BookingsMyTask();
+        return const ApprovedMyTask();
       case 2:
-        return const BookingsMyOrder();
+        return const ApprovedMyServices();
       default:
         return const SizedBox.shrink();
     }

@@ -48,16 +48,29 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           );
           await repositories
               .fetchMyServiceTaskBookingList(
-                isTask: event.isTask,
-              )
+            isTask: event.isTask,
+            status: event.status,
+          )
               .then(
-                (value) => emit(
+            (value) {
+              final data = MyBookingListModel.fromJson(value);
+              if (event.isTask == true) {
+                emit(
                   state.copyWith(
                     states: TheStates.success,
-                    myBookingListModel: value,
+                    myBookingListModelTask: data,
                   ),
-                ),
-              );
+                );
+              } else {
+                emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    myBookingListModelService: data,
+                  ),
+                );
+              }
+            },
+          );
         } catch (e) {
           emit(
             state.copyWith(states: TheStates.failure),

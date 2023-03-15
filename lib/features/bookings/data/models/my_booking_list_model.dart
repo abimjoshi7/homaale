@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final myBookingListModel = myBookingListModelFromJson(jsonString);
+// ignore_for_file: invalid_annotation_target
 
 import 'package:dependencies/dependencies.dart';
 
@@ -29,15 +27,15 @@ class Result with _$Result {
     int? id,
     @JsonKey(name: "created_by") ResultCreatedBy? createdBy,
     @JsonKey(name: "entity_service") EntityService? entityService,
-    List<dynamic>? images,
-    List<dynamic>? videos,
-    num? progressPercent,
+    List<Image>? images,
+    List<Image>? videos,
+    @JsonKey(name: "progress_percent") double? progressPercent,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     String? description,
-    List<String?>? requirements,
-    @JsonKey(name: "budget_from") num? budgetFrom,
-    @JsonKey(name: "budget_to") num? budgetTo,
+    List<String>? requirements,
+    @JsonKey(name: "budget_from") double? budgetFrom,
+    @JsonKey(name: "budget_to") double? budgetTo,
     @JsonKey(name: "start_date") DateTime? startDate,
     @JsonKey(name: "end_date") DateTime? endDate,
     @JsonKey(name: "start_time") String? startTime,
@@ -45,7 +43,7 @@ class Result with _$Result {
     String? location,
     @JsonKey(name: "is_active") bool? isActive,
     String? status,
-    @JsonKey(name: "extra_data") List<String?>? extraData,
+    // @JsonKey(name: "extra_data") List<String>? extraData,
     @JsonKey(name: "is_accepted") bool? isAccepted,
     @JsonKey(name: "booking_merchant") dynamic bookingMerchant,
     int? city,
@@ -65,7 +63,7 @@ class ResultCreatedBy with _$ResultCreatedBy {
     Stats? stats,
     String? skill,
     @JsonKey(name: "charge_currency") Currency? chargeCurrency,
-    @JsonKey(name: "hourly_rate") num? hourlyRate,
+    @JsonKey(name: "hourly_rate") double? hourlyRate,
   }) = _ResultCreatedBy;
 
   factory ResultCreatedBy.fromJson(Map<String, dynamic> json) =>
@@ -87,13 +85,13 @@ class Currency with _$Currency {
 @freezed
 class Stats with _$Stats {
   const factory Stats({
-    @JsonKey(name: "success_rate") int? successRate,
-    @JsonKey(name: "happy_clients") int? happyClients,
-    @JsonKey(name: "task_completed") int? taskCompleted,
-    @JsonKey(name: "user_reviews") int? userReviews,
-    @JsonKey(name: "task_assigned") int? taskAssigned,
-    @JsonKey(name: "task_in_progress") int? taskInProgress,
-    @JsonKey(name: "task_cancelled") int? taskCancelled,
+    @JsonKey(name: "success_rate") double? successRate,
+    @JsonKey(name: "happy_clients") double? happyClients,
+    @JsonKey(name: "task_completed") double? taskCompleted,
+    @JsonKey(name: "user_reviews") double? userReviews,
+    @JsonKey(name: "task_assigned") double? taskAssigned,
+    @JsonKey(name: "task_in_progress") double? taskInProgress,
+    @JsonKey(name: "task_cancelled") double? taskCancelled,
   }) = _Stats;
 
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
@@ -124,7 +122,7 @@ class EntityService with _$EntityService {
     Currency? currency,
     City? city,
     List<Image>? images,
-    List<dynamic>? videos,
+    List<Image>? videos,
     Service? service,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -132,8 +130,8 @@ class EntityService with _$EntityService {
     String? description,
     List<String>? highlights,
     @JsonKey(name: "budget_type") String? budgetType,
-    @JsonKey(name: "budget_from") int? budgetFrom,
-    @JsonKey(name: "budget_to") int? budgetTo,
+    @JsonKey(name: "budget_from") double? budgetFrom,
+    @JsonKey(name: "budget_to") double? budgetTo,
     @JsonKey(name: "start_date") DateTime? startDate,
     @JsonKey(name: "end_date") DateTime? endDate,
     @JsonKey(name: "start_time") String? startTime,
@@ -148,8 +146,8 @@ class EntityService with _$EntityService {
     @JsonKey(name: "is_online") bool? isOnline,
     @JsonKey(name: "is_requested") bool? isRequested,
     @JsonKey(name: "discount_type") String? discountType,
-    @JsonKey(name: "discount_value") num? discountValue,
-    @JsonKey(name: "extra_data") List<String>? extraData,
+    @JsonKey(name: "discount_value") double? discountValue,
+    // @JsonKey(name: "extra_data") List<String>? extraData,
     @JsonKey(name: "no_of_reservation") int? noOfReservation,
     String? slug,
     @JsonKey(name: "is_active") bool? isActive,
@@ -204,7 +202,7 @@ class EntityServiceCreatedBy with _$EntityServiceCreatedBy {
     @JsonKey(name: "created_at") DateTime? createdAt,
     String? designation,
     @JsonKey(name: "user_type") String? userType,
-    @JsonKey(name: "is_profile_verified") String? isProfileVerified,
+    @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
     @JsonKey(name: "is_followed") bool? isFollowed,
     @JsonKey(name: "is_following") bool? isFollowing,
     Badge? badge,

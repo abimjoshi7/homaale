@@ -36,20 +36,20 @@ class BookingRepositories {
     }
   }
 
-  Future<MyBookingListModel> fetchMyServiceTaskBookingList({
+  Future<Map<String, dynamic>> fetchMyServiceTaskBookingList({
     required bool isTask,
+    String? status,
   }) async {
     try {
       final x = await _dio.getDatawithCredential(
         url: kMyBookingList,
         query: {
           "is_requested": isTask,
+          "status": status,
         },
         token: CacheHelper.accessToken,
       );
-      return MyBookingListModel.fromJson(
-        x as Map<String, dynamic>,
-      );
+      return x as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }

@@ -115,3 +115,9 @@ List<Widget> offerBanner = [
     ),
   ),
 ];
+
+List<String> bookingDropDownStrings = [
+  "All",
+  "Tasks",
+  "Services",
+];

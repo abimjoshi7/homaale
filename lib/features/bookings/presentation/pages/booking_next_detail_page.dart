@@ -30,7 +30,7 @@ class BookingNextDetailPage extends StatelessWidget {
               },
               icon: const Icon(Icons.search),
             ),
-            child: const Text('Booking Details'),
+            child: const Text('Booking Next Details'),
           ),
           Expanded(
             child: Padding(

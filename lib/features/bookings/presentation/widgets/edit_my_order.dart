@@ -64,7 +64,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
     return BlocBuilder<BookingsBloc, BookingsState>(
       builder: (context, state) {
         if (state.states == TheStates.success) {
-          final myBookingList = state.myBookingList?.result;
+          final myBookingList = state.myBookingListModelTask?.result;
           return Padding(
             padding: kPadding10,
             child: ListView(
@@ -132,8 +132,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       CustomTextFormField(
                         controller: requirementController,
                         hintText: myBookingList?[selectedIndex]
-                                .requirements
-                                ?.values
+                                .requirements!
                                 .join(', ') ??
                             'Add requirements',
                         onFieldSubmitted: (p0) {
@@ -512,9 +511,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         entityService:
                             myBookingList?[selectedIndex].entityService?.id ??
                                 '',
-                        extraData: myBookingList?[selectedIndex].extraData
-                                as Map<String, dynamic>? ??
-                            {},
+                        // extraData: myBookingList?[selectedIndex].extraData
+                        //         as Map<String, dynamic>? ??
+                        //     {},
                         isActive: myBookingList?[selectedIndex].isActive,
                         status: "pending",
                       );

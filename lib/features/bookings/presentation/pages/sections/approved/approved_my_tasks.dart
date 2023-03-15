@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -9,8 +10,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class BookingsMyTask extends StatelessWidget {
-  const BookingsMyTask({
+class ApprovedMyTask extends StatelessWidget {
+  const ApprovedMyTask({
     super.key,
   });
 
@@ -19,7 +20,7 @@ class BookingsMyTask extends StatelessWidget {
     return BlocBuilder<BookingsBloc, BookingsState>(
       builder: (context, state) {
         if (state.states == TheStates.success) {
-          final myBookingList = state.myBookingList;
+          final myBookingList = state.myBookingListModelTask;
 
           return myBookingList != null
               ? Expanded(
@@ -74,71 +75,62 @@ class BookingsMyTask extends StatelessWidget {
                                 ),
                               );
                         },
-                        color: Colors.blue,
+                        cardColor: Colors.blue,
                         serviceName:
                             myBookingList.result?[index].entityService?.title ??
                                 '',
                         providerName:
                             '${myBookingList.result?[index].entityService?.createdBy?.firstName} ${myBookingList.result?[index].entityService?.createdBy?.lastName}',
-                        mainContentWidget: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        mainContentWidget: Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconText(
+                                    color: kColorBlue,
+                                    iconData: Icons.calendar_today_rounded,
+                                    label: DateFormat.yMMMEd().format(
+                                      myBookingList.result?[index].createdAt ??
+                                          DateTime.now(),
+                                    ),
+                                  ),
+                                  IconText(
+                                    color: kColorGreen,
+                                    iconData: Icons.access_time_outlined,
+                                    label:
+                                        "${myBookingList.result?[index].startTime ?? '00:00'} - ${myBookingList.result?[index].endTime ?? '00:00'}",
+                                  ),
+                                ],
+                              ),
+                              IconText(
+                                color: Colors.red,
+                                iconData: Icons.location_on_outlined,
+                                label:
+                                    '${myBookingList.result?[index].entityService?.location}',
+                              ),
+                            ],
+                          ),
+                        ),
+                        status: myBookingList.result?[index].status,
+                        bottomRightWidget: Column(
                           children: [
-                            IconText(
-                              color: kColorBlue,
-                              iconData: Icons.calendar_today_rounded,
-                              label: '${DateFormat.yMMMd().format(
-                                myBookingList.result?[index].createdAt ??
-                                    DateTime.now(),
-                              )} ${DateFormat.jm().format(
-                                myBookingList.result?[index].createdAt ??
-                                    DateTime.now(),
-                              )}',
+                            Text(
+                              "Rs. ${myBookingList.result?[index].budgetFrom ?? '0'} - Rs. ${myBookingList.result?[index].budgetTo ?? ''}",
+                              style: kText17,
                             ),
-                            IconText(
-                              color: kColorGreen,
-                              iconData: Icons.access_time_outlined,
-                              label: '${DateFormat.yMMMd().format(
-                                myBookingList.result?[index].startDate ??
-                                    DateTime.now(),
-                              )} - ${DateFormat.yMMMd().format(
-                                myBookingList.result?[index].endDate ??
-                                    DateTime.now(),
-                              )}',
-                            ),
-                            IconText(
-                              color: kColorAmber,
-                              iconData: Icons.attach_money_outlined,
-                              label:
-                                  'Rs. ${myBookingList.result?[index].budgetTo ?? ''}',
-                            ),
-                            IconText(
-                              color: Colors.red,
-                              iconData: Icons.location_on_outlined,
-                              label:
-                                  '${myBookingList.result?[index].entityService?.location}',
+                            Text(
+                              '/ per project',
+                              style: kHelper13,
                             ),
                           ],
                         ),
-                        // status: 'In Progress',
-                        bottomLeftWidget: const Text(
-                          'View Detail',
-                          style: kText15,
-                        ),
-                        bottomRightWidget: SizedBox(
-                          width: 120,
-                          child: CustomElevatedButton(
-                            callback: () {},
-                            // label: myBookingList.result?[index].status
-                            //         ?.toCapitalized() ??
-                            //     'Unknown',
-                            mainColor: Colors.orangeAccent,
-                            borderColor: Colors.orangeAccent,
-                          ),
-                        ),
                       ),
                     ),
-                    itemCount: myBookingList.result?.length ?? 1,
+                    itemCount: myBookingList.result?.length ?? 0,
                   ),
                 )
               : const SizedBox();
