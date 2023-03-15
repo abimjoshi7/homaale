@@ -69,13 +69,21 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
               children: [
                 InkWell(
                   onTap: () async {
-                    await ImagePickHelper().pickImagePath().then(
+                    await ImagePickHelper()
+                        .pickImagePath()
+                        .then(
                           (value) => setState(
                             () {
                               selectedImage = value;
                             },
                           ),
-                        );
+                        )
+                        .then(
+                          (value) async => MultipartFile.fromFile(
+                            selectedImage?.path ?? '',
+                          ),
+                        )
+                        .then((value) => null);
                   },
                   child: Column(
                     children: [

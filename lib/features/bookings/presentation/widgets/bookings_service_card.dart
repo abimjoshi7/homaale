@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class BookingsServiceCard extends StatelessWidget {
   final Widget? bottomLeftWidget;
   final Widget? bottomRightWidget;
   final Widget? mainContentWidget;
-  final Color? color;
+  final Color? cardColor;
   final VoidCallback? callback;
   final VoidCallback? editTap;
   final VoidCallback? cancelTap;
@@ -30,7 +31,7 @@ class BookingsServiceCard extends StatelessWidget {
     this.bottomLeftWidget,
     this.bottomRightWidget,
     this.mainContentWidget,
-    this.color = const Color(0xfff98900),
+    this.cardColor = const Color(0xfff98900),
     this.callback,
     this.editTap,
     this.cancelTap,
@@ -44,18 +45,18 @@ class BookingsServiceCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: 250,
+            height: MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: color,
+              color: cardColor,
             ),
           ),
           Positioned(
             left: 5,
             right: 0,
             child: Container(
-              height: 250,
+              height: MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
@@ -67,7 +68,9 @@ class BookingsServiceCard extends StatelessWidget {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(
+                  8,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -134,7 +137,7 @@ class BookingsServiceCard extends StatelessWidget {
                                 kWidth5,
                                 Chip(
                                   backgroundColor: Colors.teal.shade100,
-                                  label: Text(status ?? ''),
+                                  label: Text(status?.toTitleCase() ?? ''),
                                 )
                               ],
                             ),

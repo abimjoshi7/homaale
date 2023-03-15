@@ -163,7 +163,17 @@ class Cipher extends StatelessWidget {
             create: (context) => SingleEntityServiceCubit(),
           ),
           BlocProvider(
-            create: (context) => BookingsBloc(),
+            create: (context) => BookingsBloc()
+              ..add(
+                const MyTaskServiceBookingListLoadInitiated(
+                  isTask: false,
+                ),
+              )
+              ..add(
+                const MyTaskServiceBookingListLoadInitiated(
+                  isTask: true,
+                ),
+              ),
           ),
           BlocProvider(
             create: (context) => ProfessionalServiceCategoryBloc(),

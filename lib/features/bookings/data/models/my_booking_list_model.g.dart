@@ -42,9 +42,13 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           ? null
           : EntityService.fromJson(
               json['entity_service'] as Map<String, dynamic>),
-      images: json['images'] as List<dynamic>?,
-      videos: json['videos'] as List<dynamic>?,
-      progressPercent: json['progressPercent'] as num?,
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      videos: (json['videos'] as List<dynamic>?)
+          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      progressPercent: (json['progress_percent'] as num?)?.toDouble(),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -53,10 +57,10 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           : DateTime.parse(json['updated_at'] as String),
       description: json['description'] as String?,
       requirements: (json['requirements'] as List<dynamic>?)
-          ?.map((e) => e as String?)
+          ?.map((e) => e as String)
           .toList(),
-      budgetFrom: json['budget_from'] as num?,
-      budgetTo: json['budget_to'] as num?,
+      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
+      budgetTo: (json['budget_to'] as num?)?.toDouble(),
       startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['start_date'] as String),
@@ -68,9 +72,6 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       location: json['location'] as String?,
       isActive: json['is_active'] as bool?,
       status: json['status'] as String?,
-      extraData: (json['extra_data'] as List<dynamic>?)
-          ?.map((e) => e as String?)
-          .toList(),
       isAccepted: json['is_accepted'] as bool?,
       bookingMerchant: json['booking_merchant'],
       city: json['city'] as int?,
@@ -82,7 +83,7 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'entity_service': instance.entityService,
       'images': instance.images,
       'videos': instance.videos,
-      'progressPercent': instance.progressPercent,
+      'progress_percent': instance.progressPercent,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'description': instance.description,
@@ -96,7 +97,6 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'location': instance.location,
       'is_active': instance.isActive,
       'status': instance.status,
-      'extra_data': instance.extraData,
       'is_accepted': instance.isAccepted,
       'booking_merchant': instance.bookingMerchant,
       'city': instance.city,
@@ -118,7 +118,7 @@ _$_ResultCreatedBy _$$_ResultCreatedByFromJson(Map<String, dynamic> json) =>
       chargeCurrency: json['charge_currency'] == null
           ? null
           : Currency.fromJson(json['charge_currency'] as Map<String, dynamic>),
-      hourlyRate: json['hourly_rate'] as num?,
+      hourlyRate: (json['hourly_rate'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$_ResultCreatedByToJson(_$_ResultCreatedBy instance) =>
@@ -148,13 +148,13 @@ Map<String, dynamic> _$$_CurrencyToJson(_$_Currency instance) =>
     };
 
 _$_Stats _$$_StatsFromJson(Map<String, dynamic> json) => _$_Stats(
-      successRate: json['success_rate'] as int?,
-      happyClients: json['happy_clients'] as int?,
-      taskCompleted: json['task_completed'] as int?,
-      userReviews: json['user_reviews'] as int?,
-      taskAssigned: json['task_assigned'] as int?,
-      taskInProgress: json['task_in_progress'] as int?,
-      taskCancelled: json['task_cancelled'] as int?,
+      successRate: (json['success_rate'] as num?)?.toDouble(),
+      happyClients: (json['happy_clients'] as num?)?.toDouble(),
+      taskCompleted: (json['task_completed'] as num?)?.toDouble(),
+      userReviews: (json['user_reviews'] as num?)?.toDouble(),
+      taskAssigned: (json['task_assigned'] as num?)?.toDouble(),
+      taskInProgress: (json['task_in_progress'] as num?)?.toDouble(),
+      taskCancelled: (json['task_cancelled'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$_StatsToJson(_$_Stats instance) => <String, dynamic>{
@@ -209,7 +209,9 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
-      videos: json['videos'] as List<dynamic>?,
+      videos: (json['videos'] as List<dynamic>?)
+          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
       service: json['service'] == null
           ? null
           : Service.fromJson(json['service'] as Map<String, dynamic>),
@@ -225,8 +227,8 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       budgetType: json['budget_type'] as String?,
-      budgetFrom: json['budget_from'] as int?,
-      budgetTo: json['budget_to'] as int?,
+      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
+      budgetTo: (json['budget_to'] as num?)?.toDouble(),
       startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['start_date'] as String),
@@ -245,10 +247,7 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       isOnline: json['is_online'] as bool?,
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
-      discountValue: json['discount_value'] as num?,
-      extraData: (json['extra_data'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      discountValue: (json['discount_value'] as num?)?.toDouble(),
       noOfReservation: json['no_of_reservation'] as int?,
       slug: json['slug'] as String?,
       isActive: json['is_active'] as bool?,
@@ -291,7 +290,6 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'is_requested': instance.isRequested,
       'discount_type': instance.discountType,
       'discount_value': instance.discountValue,
-      'extra_data': instance.extraData,
       'no_of_reservation': instance.noOfReservation,
       'slug': instance.slug,
       'is_active': instance.isActive,
@@ -349,7 +347,7 @@ _$_EntityServiceCreatedBy _$$_EntityServiceCreatedByFromJson(
           : DateTime.parse(json['created_at'] as String),
       designation: json['designation'] as String?,
       userType: json['user_type'] as String?,
-      isProfileVerified: json['is_profile_verified'] as String?,
+      isProfileVerified: json['is_profile_verified'] as bool?,
       isFollowed: json['is_followed'] as bool?,
       isFollowing: json['is_following'] as bool?,
       badge: json['badge'] == null
