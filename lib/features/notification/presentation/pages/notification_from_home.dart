@@ -41,13 +41,22 @@ class NotificationFromHome extends StatelessWidget {
       ),
       body: BlocBuilder<NotificationBloc, NotificationState>(
         builder: (context, state) {
-          DateTime today = DateTime.now(); // 30/09/2021 15:54:30
+          DateTime today = DateTime.now().subtract(const Duration( days: 1,hours: 24));
+          // var now = DateTime.now();
+          // var twoWeeksAgo = now.subtract(const Duration(hours: 12));
+          // var today = state.allNotificationList?.result!.where((map) {
+          //   var date = DateTime.tryParse(state.allNotificationList!.result![2].createdDate!.toString() );
+          //   return date != null &&
+          //       date.compareTo(twoWeeksAgo) >= 0 &&
+          //       date.compareTo(now) <= 0;
+          // }).toList();
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
@@ -66,6 +75,12 @@ class NotificationFromHome extends StatelessWidget {
                   ),
                 ),
                 kHeight10,
+                if (state.theStates == TheStates.initial)
+                  const SizedBox(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
                 if (state.theStates == TheStates.success &&
                     state.allNotificationList!.result != null)
                   ListView.builder(
@@ -102,22 +117,28 @@ class NotificationFromHome extends StatelessWidget {
                           : const SizedBox();
                     },
                   ),
-                if (state.allNotificationList == null ||
-                    state.allNotificationList?.result![0].createdDate != today)
+                if (state.theStates==TheStates.success &&
+                    state.allNotificationList?.result![0].createdDate != today )
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding: kPadding20,
                     color: Colors.white,
                     child: const Center(
-                        child: Text("No today's notifications to show.")),
+                        child: Text("No today's notifications to show."),),
                   ),
                 kHeight10,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Text("Earlier"),
                 ),
+                if (state.theStates == TheStates.initial)
+                  const SizedBox(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
                 if (state.theStates == TheStates.success &&
-                    state.allNotificationList != null)
+                    state.allNotificationList!.result != null)
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.allNotificationList?.result!.length,
@@ -163,7 +184,6 @@ class NotificationFromHome extends StatelessWidget {
                     ),
                   ),
                 kHeight10,
-
               ],
             ),
           );
