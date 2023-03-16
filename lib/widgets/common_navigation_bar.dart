@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/box/box.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
@@ -29,7 +30,7 @@ class _CommonNavigationBarState extends State<CommonNavigationBar> {
 
   final pages = [
     const Home(),
-    const OffersPage(),
+    const BoxPage(),
     const BookingPages(),
     const AccountProfile(),
   ];
@@ -97,7 +98,7 @@ class _CommonNavigationBarState extends State<CommonNavigationBar> {
                               },
                               pageIndex: pageIndex,
                               index: 1,
-                              label: 'Offers',
+                              label: 'Box',
                               iconData: Icons.wallet_giftcard_rounded,
                               isActive: offerActive,
                             ),
