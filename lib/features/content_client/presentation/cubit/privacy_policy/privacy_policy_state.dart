@@ -5,7 +5,7 @@ class PrivacyPolicyState extends Equatable {
   final TheStates? theStates;
   const PrivacyPolicyState({
     this.contentClient,
-    this.theStates,
+    this.theStates = TheStates.initial,
   });
   PrivacyPolicyState copyWith({
     ContentClient? contentClient,

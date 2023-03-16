@@ -5,15 +5,17 @@ class HtmlRemover extends StatelessWidget {
   const HtmlRemover({
     super.key,
     required this.text,
+    this.textAlign = TextAlign.start,
   });
 
   final String text;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       Bidi.stripHtmlIfNeeded(text),
-      textAlign: TextAlign.start,
+      textAlign: textAlign,
     );
   }
 }

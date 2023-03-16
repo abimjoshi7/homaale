@@ -62,6 +62,11 @@ const kText13 = TextStyle(
   color: Color(0xff495057),
   fontWeight: FontWeight.normal,
 );
+const kText14 = TextStyle(
+  fontSize: 14,
+  color: Color(0xff495057),
+  fontWeight: FontWeight.w500,
+);
 
 const kText15 = TextStyle(
   fontSize: 15,
