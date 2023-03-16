@@ -37,6 +37,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/notification/presentation/cubit/all_notification_list_cubit.dart';
+import '../../features/payment/presentation/bloc/payment_bloc.dart';
 
 class Cipher extends StatelessWidget {
   const Cipher({super.key});
@@ -202,6 +203,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => NotificationBloc(),
+          ),
+          BlocProvider(
+            create: (context) => PaymentBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
