@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 
-class PrivacyPolicy extends StatelessWidget {
-	const PrivacyPolicy({super.key});
+class PrivacyPolicyPage extends StatelessWidget {
+  const PrivacyPolicyPage({super.key});
+  static const String routeName = '/privacy-policy-page';
 
-	@override
-	Widget build(BuildContext context) {
-		return Container();
-	}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Terms of Use'),
+        backgroundColor: Colors.transparent,
+        leading: Container(),
+      ),
+    );
+  }
 }

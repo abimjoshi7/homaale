@@ -1,6 +1,22 @@
 part of 'terms_of_use_cubit.dart';
 
-@immutable
-abstract class TermsOfUseState {}
+class TermsOfUseState extends Equatable {
+  final ContentClient? contentClient;
+  final TheStates? theStates;
+  const TermsOfUseState({
+    this.contentClient,
+    this.theStates,
+  });
+  TermsOfUseState copyWith({
+    ContentClient? contentClient,
+    TheStates? theStates,
+  }) {
+    return TermsOfUseState(
+      contentClient: contentClient ?? this.contentClient,
+      theStates: theStates ?? this.theStates,
+    );
+  }
 
-class TermsOfUseInitial extends TermsOfUseState {}
+  @override
+  List<Object?> get props => [contentClient, theStates];
+}
