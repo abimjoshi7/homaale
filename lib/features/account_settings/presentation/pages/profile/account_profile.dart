@@ -1,10 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
@@ -297,6 +298,25 @@ class AccountProfile extends StatelessWidget {
                             ),
                           );
                         },
+                      ),
+                      // BlocBuilder<PaymentBloc, PaymentIntentState>(
+                      //   builder: (context, state) {
+                      //     return
+                            AccountListTileSection(
+                            onTap: () async {
+                              await Navigator.pushNamed(
+                                context,
+                                CheckoutPage.routeName,
+                              );
+                            },
+                            icon: const Icon(Icons.check_box),
+                            label: 'Checkout',
+                            trailingWidget: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
+                            ),
+                        //   );
+                        // },
                       ),
                     ],
                   ),
