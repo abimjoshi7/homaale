@@ -1,4 +1,5 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
@@ -23,10 +24,10 @@ import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
-import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
+import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/services/presentation/pages/service_booking.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
@@ -199,9 +200,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const BookingPages(),
         );
-      case ServiceProviderPage.routeName:
+      case TaskEntityServicePage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const ServiceProviderPage(),
+          builder: (context) => const TaskEntityServicePage(),
         );
       case CategoriesPage.routeName:
         return MaterialPageRoute(
@@ -212,9 +213,9 @@ class AppRouter {
           builder: (context) => const ServicesPage(),
           settings: settings,
         );
-      case EntityServicesPage.routeName:
+      case CategoryProfessionalServiceSection.routeName:
         return MaterialPageRoute(
-          builder: (context) => const EntityServicesPage(),
+          builder: (context) => const CategoryProfessionalServiceSection(),
           settings: settings,
         );
       case AddServicePage.routeName:
@@ -324,11 +325,7 @@ class AppRouter {
         );
       default:
         return MaterialPageRoute(
-          builder: (context) => const Scaffold(
-            body: Center(
-              child: Text('Page not found'),
-            ),
-          ),
+          builder: (context) => const ErrorPage(),
         );
     }
   }

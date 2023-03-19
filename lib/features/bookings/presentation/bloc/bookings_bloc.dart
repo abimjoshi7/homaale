@@ -20,13 +20,23 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(
             state.copyWith(states: TheStates.initial),
           );
-          await repositories.bookServiceOrTask(event.service).then(
+          await repositories
+              .bookServiceOrTask(event.service)
+              .then(
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
-                    bookEntityServiceRes: BookEntityServiceRes.fromJson(
-                      value,
-                    ),
+                    isBookingSuccess: true,
+                    // bookEntityServiceRes: BookEntityServiceRes.fromJson(
+                    //   value,
+                    // ),
+                  ),
+                ),
+              )
+              .whenComplete(
+                () => emit(
+                  state.copyWith(
+                    isBookingSuccess: false,
                   ),
                 ),
               );

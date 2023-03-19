@@ -29,6 +29,7 @@ class ServicesRepositories {
     required String serviceId,
   }) async {
     try {
+      print(serviceId);
       final res = await _dio.getDatawithCredential(
         url: 'task/entity/service/$serviceId',
         token: CacheHelper.accessToken,

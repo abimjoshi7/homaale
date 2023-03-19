@@ -9,6 +9,7 @@ class BookingsState extends Equatable {
   final BookEntityServiceRes? bookEntityServiceRes;
   final BookingType? bookingType;
   final EditBookingRes? editBookingRes;
+  final bool? isBookingSuccess;
   final bool? isDeleteSuccess;
 
   const BookingsState({
@@ -16,8 +17,9 @@ class BookingsState extends Equatable {
     this.myBookingListModelTask,
     this.myBookingListModelService,
     this.bookEntityServiceRes,
-    this.editBookingRes,
     this.bookingType = BookingType.all,
+    this.editBookingRes,
+    this.isBookingSuccess,
     this.isDeleteSuccess = false,
   });
 
@@ -28,6 +30,7 @@ class BookingsState extends Equatable {
     BookEntityServiceRes? bookEntityServiceRes,
     BookingType? bookingType,
     EditBookingRes? editBookingRes,
+    bool? isBookingSuccess,
     bool? isDeleteSuccess,
   }) {
     return BookingsState(
@@ -39,6 +42,7 @@ class BookingsState extends Equatable {
       bookEntityServiceRes: bookEntityServiceRes ?? this.bookEntityServiceRes,
       bookingType: bookingType ?? this.bookingType,
       editBookingRes: editBookingRes ?? this.editBookingRes,
+      isBookingSuccess: isBookingSuccess ?? this.isBookingSuccess,
       isDeleteSuccess: isDeleteSuccess ?? this.isDeleteSuccess,
     );
   }
@@ -52,6 +56,7 @@ class BookingsState extends Equatable {
       bookEntityServiceRes,
       bookingType,
       editBookingRes,
+      isBookingSuccess,
       isDeleteSuccess,
     ];
   }

@@ -1,7 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_main_section.dart';
 import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class _BookingPagesState extends State<BookingPages> {
                 onPressed: () {
                   Navigator.pushNamed(
                     context,
-                    ServiceProviderPage.routeName,
+                    TaskEntityServicePage.routeName,
                   );
                 },
                 icon: const Icon(

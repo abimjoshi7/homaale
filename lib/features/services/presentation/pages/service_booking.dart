@@ -1,6 +1,16 @@
+import 'dart:convert';
+
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/error/error_page.dart';
+import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
+import 'package:cipher/features/services/presentation/pages/sections/service_detail_header_section.dart';
 import 'package:cipher/features/services/presentation/pages/views/details_view.dart';
 import 'package:cipher/features/services/presentation/pages/views/schedule_view.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -14,162 +24,203 @@ class ServiceBookingPage extends StatefulWidget {
 }
 
 class _ServiceBookingPageState extends State<ServiceBookingPage> {
-  late int selectedIndex;
+  int selectedIndex = 0;
+  late PageController _pageController;
+  final List<Widget> widgetList = [
+    const ScheduleView(),
+    const DetailsView(),
+  ];
 
   @override
   void initState() {
     super.initState();
-    selectedIndex = 0;
+    _pageController = PageController(initialPage: selectedIndex);
+    // Future.delayed(
+    //   Duration.zero,
+    //   () async {
+    //     final res = await CacheHelper.getCachedString(kBookedMap);
+    //     if (res != null) cachedData = jsonDecode(res) as Map<String, dynamic>;
+    //   },
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          addVerticalSpace(
-            50,
-          ),
-          const CustomHeader(
-            label: "Service Booking",
-          ),
-          const Divider(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 25,
-                            width: 25,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: selectedIndex == 0
-                                    ? kColorSecondary
-                                    : kColorGrey,
-                                width: 2,
-                              ),
-                            ),
-                            child: const Center(
-                              child: Text('1'),
-                            ),
-                          ),
-                          addHorizontalSpace(
-                            2,
-                          ),
-                          Container(
-                            height: 2,
-                            width: 40,
-                            color: selectedIndex == 0
-                                ? kColorSecondary
-                                : kColorGrey,
-                          ),
-                          Container(
-                            height: 2,
-                            width: 40,
-                            color: selectedIndex == 1
-                                ? kColorSecondary
-                                : kColorGrey,
-                          ),
-                          addHorizontalSpace(2),
-                          Container(
-                            height: 25,
-                            width: 25,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: selectedIndex == 1
-                                    ? kColorSecondary
-                                    : kColorGrey,
-                                width: 2,
-                              ),
-                            ),
-                            child: const Center(
-                              child: Text('2'),
-                            ),
-                          ),
-                        ],
-                      ),
-                      addVerticalSpace(
-                        20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Schedule',
-                            style: TextStyle(
-                              fontWeight: selectedIndex == 0
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                          addHorizontalSpace(50),
-                          Text(
-                            'Details',
-                            style: TextStyle(
-                              fontWeight: selectedIndex == 1
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    width: MediaQuery.of(context).size.width,
-                    child: IndexedStack(
-                      index: selectedIndex,
+      body: BlocBuilder<EventBloc, EventState>(
+        builder: (context, state) {
+          if (state.theStates == TheStates.initial) {
+            return const CircularProgressIndicator();
+          }
+          if (state.theStates == TheStates.success) {
+            return Column(
+              children: [
+                addVerticalSpace(
+                  50,
+                ),
+                const CustomHeader(
+                  label: "Service Booking",
+                ),
+                const Divider(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        ScheduleView(),
-                        DetailsView(),
+                        ServiceBookingHeaderSection(
+                          selectedIndex: selectedIndex,
+                        ),
+                        Expanded(
+                          child: PageView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            controller: _pageController,
+                            itemCount: widgetList.length,
+                            itemBuilder: (context, index) =>
+                                widgetList[index % widgetList.length],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              CustomElevatedButton(
-                callback: () {
-                  if (selectedIndex == 0) {
-                    setState(() {
-                      selectedIndex = 1;
-                    });
-                  }
-                },
-                label: selectedIndex == 0 ? "Next" : "Book",
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CustomElevatedButton(
-                  mainColor: Colors.white,
-                  textColor: kColorPrimary,
-                  callback: () {
-                    if (selectedIndex == 1) {
-                      setState(() {
-                        selectedIndex = 0;
-                      });
-                    }
-                  },
-                  label: "Cancel",
                 ),
-              ),
-            ],
-          ),
-        ],
+                Column(
+                  children: [
+                    BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+                      builder: (context, state2) {
+                        if (state2.theStates == TheStates.success) {
+                          return BlocListener<BookingsBloc, BookingsState>(
+                            listener: (context, bookingState) {
+                              if (bookingState.isBookingSuccess == true) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                    heading: 'Success',
+                                    content: 'Booking is successful',
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        Root.routeName,
+                                      );
+                                    },
+                                    isSuccess: true,
+                                  ),
+                                );
+                              }
+                            },
+                            child: CustomElevatedButton(
+                              callback: () async {
+                                if (_pageController.page == 0) {
+                                  setState(() {
+                                    selectedIndex = 1;
+                                  });
+                                  _pageController.jumpToPage(1);
+                                } else {
+                                  await CacheHelper.getCachedString(kBookedMap)
+                                      .then(
+                                    (value) {
+                                      final Map<String, dynamic> map1 =
+                                          jsonDecode(value!)
+                                              as Map<String, dynamic>;
+
+                                      try {
+                                        // print(map1);
+                                        final req = BookEntityServiceReq(
+                                          location: state2
+                                              .taskEntityService?.location,
+                                          entityService:
+                                              state2.taskEntityService?.id,
+                                          budgetTo:
+                                              map1["budget_to"] as double?,
+                                          requirements:
+                                              map1["requirements"] == null
+                                                  ? []
+                                                  : List<String>.from(
+                                                      map1["requirements"]
+                                                          as Iterable,
+                                                    ),
+                                          startDate: DateTime.parse(
+                                            map1["end_date"] as String,
+                                          ),
+                                          endDate: DateTime.parse(
+                                            map1["end_date"] as String,
+                                          ),
+                                          startTime:
+                                              map1["start_time"] as String?,
+                                          description:
+                                              map1["description"] as String?,
+                                          images: map1["images"] == null
+                                              ? []
+                                              : List<int>.from(
+                                                  map1["images"] as Iterable,
+                                                ),
+                                          videos: map1["videos"] == null
+                                              ? []
+                                              : List<int>.from(
+                                                  map1["videos"] as Iterable,
+                                                ),
+                                        );
+                                        print(jsonEncode(req.toJson()));
+                                        context.read<BookingsBloc>().add(
+                                              ServiceBookingInitiated(req),
+                                            );
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                    },
+                                  );
+                                }
+                              },
+                              label: selectedIndex == 0 ? "Next" : "Book",
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomElevatedButton(
+                        mainColor: Colors.white,
+                        textColor: kColorPrimary,
+                        callback: () {
+                          final map = {};
+                          map.update(
+                            "pilot",
+                            (value) => 123,
+                            ifAbsent: () => 321,
+                          );
+                          map.update(
+                            "pilot1",
+                            (value) => 1235,
+                            ifAbsent: () => 3210,
+                          );
+                          print(map);
+                          // if (_pageController.page == 1) {
+                          //   setState(() {
+                          //     selectedIndex = 0;
+                          //   });
+                          //   _pageController.jumpToPage(0);
+                          // } else {
+                          //   Navigator.pop(context);
+                          // }
+                          // // if (selectedIndex == 1) {
+                          // //   setState(() {
+                          // //     selectedIndex = 0;
+                          // //   });
+                          // // }
+                        },
+                        label: "Cancel",
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+          return const ErrorPage();
+        },
       ),
     );
   }

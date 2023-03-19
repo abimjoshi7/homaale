@@ -1,7 +1,7 @@
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/service_card.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class _TaskerServiceState extends State<TaskerService> {
                         );
                     Navigator.pushNamed(
                       context,
-                      ServiceProviderPage.routeName,
+                      TaskEntityServicePage.routeName,
                     );
                   },
                   child: ServiceCard(

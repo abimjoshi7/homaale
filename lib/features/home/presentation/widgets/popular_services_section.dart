@@ -4,7 +4,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +44,15 @@ class PopularServicesSection extends StatelessWidget {
                     ),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
-                        context
-                            .read<SingleEntityServiceCubit>()
-                            .getSingleService(
-                              state.service.result?[index].id ?? '',
+                        context.read<TaskEntityServiceBloc>().add(
+                              TaskEntityServiceRetrieveInitiated(
+                                id: state.service.result?[index].id ?? '',
+                              ),
                             );
+
                         Navigator.pushNamed(
                           context,
-                          ServiceProviderPage.routeName,
+                          TaskEntityServicePage.routeName,
                         );
                       },
                       child: ServiceCard(

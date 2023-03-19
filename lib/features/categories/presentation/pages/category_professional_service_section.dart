@@ -1,15 +1,15 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class EntityServicesPage extends StatelessWidget {
-  static const routeName = '/entity-services-page';
+class CategoryProfessionalServiceSection extends StatelessWidget {
+  static const routeName = '/category-professional-service-section';
 
-  const EntityServicesPage({super.key});
+  const CategoryProfessionalServiceSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class EntityServicesPage extends StatelessWidget {
                                         .then(
                                           (value) => Navigator.pushNamed(
                                             context,
-                                            ServiceProviderPage.routeName,
+                                            TaskEntityServicePage.routeName,
                                           ),
                                         );
                                   },
@@ -127,18 +127,6 @@ class EntityServicesPage extends StatelessWidget {
                                 itemCount: 5,
                                 separatorBuilder: (context, index) => kWidth10,
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Placeholder(
-                            fallbackHeight: 200,
-                            child: Image.asset(
-                              'assets/banners/banner.png',
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),

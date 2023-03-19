@@ -2,7 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
-import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
+import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +77,8 @@ class ServicesPage extends StatelessWidget {
                                         );
                                     await Navigator.pushNamed(
                                       context,
-                                      EntityServicesPage.routeName,
+                                      CategoryProfessionalServiceSection
+                                          .routeName,
                                     );
                                   },
                                   child: CustomImageTextBox(
@@ -91,15 +92,6 @@ class ServicesPage extends StatelessWidget {
                                 padding: EdgeInsets.zero,
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Image.asset(
-                            'assets/banners/notable.png',
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

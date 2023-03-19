@@ -5,6 +5,7 @@ const kUserPhone = 'user-phone';
 const kUsermail = 'user-mail';
 const kUserPass = 'user-pass';
 const kRememberCreds = 'user-creds';
+const kBookedMap = "booked_map";
 
 //links
 const kDefaultAvatarNImg =

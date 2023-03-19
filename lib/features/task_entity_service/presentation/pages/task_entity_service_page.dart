@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/service_booking.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -11,25 +13,25 @@ import 'package:cipher/features/services/presentation/widgets/additional_info_se
 import 'package:cipher/features/services/presentation/widgets/rating_review_section.dart';
 import 'package:cipher/widgets/widgets.dart';
 
-class ServiceProviderPage extends StatelessWidget {
-  static const String routeName = '/service_provider_page';
-  const ServiceProviderPage({super.key});
+class TaskEntityServicePage extends StatelessWidget {
+  static const String routeName = '/task_entity_service_page';
+  const TaskEntityServicePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
+      body: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
         builder: (context, state) {
-          if (state is SingleEntityServiceLoadSuccess) {
+          if (state.theStates == TheStates.success) {
             final documentDescription = Bidi.stripHtmlIfNeeded(
-              state.serviceModel.description ??
+              state.taskEntityService?.description ??
                   'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
             );
             return Column(
               children: [
                 addVerticalSpace(50),
                 CustomHeader(
-                  child: Text(state.serviceModel.title ?? ''),
+                  child: Text(state.taskEntityService?.title ?? ''),
                 ),
                 Expanded(
                   child: ListView(
@@ -38,9 +40,9 @@ class ServiceProviderPage extends StatelessWidget {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.2,
                         child: Image.network(
-                          state.serviceModel.images!.isEmpty
+                          state.taskEntityService!.images!.isEmpty
                               ? kServiceImageNImg
-                              : state.serviceModel.images?.first.media
+                              : state.taskEntityService?.images?.first.media
                                       .toString() ??
                                   kServiceImageNImg,
                           fit: BoxFit.cover,
@@ -63,7 +65,7 @@ class ServiceProviderPage extends StatelessWidget {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            state.serviceModel.createdBy
+                                            state.taskEntityService?.createdBy
                                                     ?.profileImage ??
                                                 kDefaultAvatarNImg,
                                           ),
@@ -83,14 +85,15 @@ class ServiceProviderPage extends StatelessWidget {
                                                   .width *
                                               0.7,
                                           child: Text(
-                                            state.serviceModel.title ?? '',
+                                            state.taskEntityService?.title ??
+                                                '',
                                             style: kPurpleText16,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                         Text(
-                                          "${state.serviceModel.createdBy?.firstName ?? ''}"
-                                          " ${state.serviceModel.createdBy?.lastName ?? ''}",
+                                          "${state.taskEntityService?.createdBy?.firstName ?? ''}"
+                                          " ${state.taskEntityService?.createdBy?.lastName ?? ''}",
                                           style: kLightBlueText14,
                                         ),
                                       ],
@@ -137,7 +140,8 @@ class ServiceProviderPage extends StatelessWidget {
                                     ),
                                     kWidth5,
                                     Text(
-                                      state.serviceModel.rating?.first.rating
+                                      state.taskEntityService?.rating?.first
+                                              .rating
                                               .toString() ??
                                           '4.5',
                                     ),
@@ -152,7 +156,7 @@ class ServiceProviderPage extends StatelessWidget {
                                     ),
                                     kWidth5,
                                     Text(
-                                      "${state.serviceModel.city?.name ?? ''}, ${state.serviceModel.city?.country?.name ?? ''}",
+                                      "${state.taskEntityService?.city?.name ?? ''}, ${state.taskEntityService?.city?.country?.name ?? ''}",
                                     ),
                                   ],
                                 )
@@ -160,7 +164,7 @@ class ServiceProviderPage extends StatelessWidget {
                             ),
                             addVerticalSpace(10),
                             HtmlRemover(
-                                text: state.serviceModel.description ??
+                                text: state.taskEntityService?.description ??
                                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
 
                             kHeight20,
@@ -328,22 +332,35 @@ class ServiceProviderPage extends StatelessWidget {
                                 children: [
                                   const Text('Total Price'),
                                   Text(
-                                    "Rs. ${state.serviceModel.budgetTo}",
+                                    "Rs. ${state.taskEntityService?.budgetTo}",
                                     style: kText20,
                                   ),
                                 ],
                               ),
                               SizedBox(
                                 width: 100,
-                                child: CustomElevatedButton(
-                                  callback: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      // BookingDetailsPage.routeName,
-                                      ServiceBookingPage.routeName,
-                                    );
+                                child: BlocListener<EventBloc, EventState>(
+                                  listener: (context, state) {
+                                    if (state.theStates == TheStates.success) {
+                                      Navigator.pushNamed(
+                                        context,
+                                        // BookingDetailsPage.routeName,
+                                        ServiceBookingPage.routeName,
+                                      );
+                                    }
                                   },
-                                  label: 'Book Now',
+                                  child: CustomElevatedButton(
+                                    callback: () {
+                                      context.read<EventBloc>().add(
+                                            EventRetrieveInitiated(
+                                              id: state.taskEntityService?.event
+                                                      ?.id ??
+                                                  'Null Case',
+                                            ),
+                                          );
+                                    },
+                                    label: 'Book Now',
+                                  ),
                                 ),
                               )
                             ],
@@ -361,7 +378,7 @@ class ServiceProviderPage extends StatelessWidget {
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LinearProgressIndicator(),
             );
           }
         },

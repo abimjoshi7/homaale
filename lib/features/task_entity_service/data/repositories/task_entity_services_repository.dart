@@ -20,4 +20,21 @@ class TaskEntityServiceRepository {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> retrieveSingleTaskEntityService({
+    required String serviceId,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'task/entity/service/$serviceId',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      // log(
+      //   e.toString(),
+      // );
+      rethrow;
+    }
+  }
 }
