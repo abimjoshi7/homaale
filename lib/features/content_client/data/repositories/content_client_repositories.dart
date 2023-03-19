@@ -28,7 +28,6 @@ class ContentClientRepositories {
     try {
       final x = await CacheHelper.getCachedString(storageKey);
 
-
       return x;
     } catch (e) {
       log(e.toString());

@@ -88,17 +88,10 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                             ],
                           );
                         }
-                        if (state.theStates == TheStates.failure &&
-                            state.contentClient != null) {
-                          HtmlRemover(
+                        if (state.theStates == TheStates.failure) {
+                          return HtmlRemover(
                             text: state.contentClient!.content.toString(),
                             textAlign: TextAlign.justify,
-                          );
-                        }
-                        if (state.theStates == TheStates.failure) {
-                          return Text(
-                            '${state.contentClient!.content}',
-                            style: kHeading3,
                           );
                         }
 

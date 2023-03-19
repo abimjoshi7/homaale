@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -21,7 +22,7 @@ class PrivacyPolicyCubit extends Cubit<PrivacyPolicyState> {
       final ContentClient x = ContentClient.fromJson(response);
 
       if (x.id != null) {
-        _storageKeyValue = x.toJson().toString();
+        _storageKeyValue = jsonEncode(x.toJson());
         await _repositories.storeCachedContentClientStatement(
           storageKey: _storageKey,
           storageKeyValue: _storageKeyValue,
@@ -34,24 +35,25 @@ class PrivacyPolicyCubit extends Cubit<PrivacyPolicyState> {
         );
       }
     } catch (e) {
-      final x = await _repositories.fetchCachedContentClientStatement(
+      final String? x = await _repositories.fetchCachedContentClientStatement(
         storageKey: _storageKey,
       );
-      log('hello sir: $x');
       if (x != null) {
         emit(
           state.copyWith(
             theStates: TheStates.failure,
-            contentClient: x as ContentClient,
+            contentClient:
+                ContentClient.fromJson(jsonDecode(x) as Map<String, dynamic>),
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            theStates: TheStates.failure,
+            contentClient: const ContentClient(content: 'Could not load data.'),
           ),
         );
       }
-      emit(
-        state.copyWith(
-          theStates: TheStates.failure,
-          contentClient: const ContentClient(content: 'Could not load data.'),
-        ),
-      );
     }
   }
 }
