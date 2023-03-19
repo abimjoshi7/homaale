@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -8,6 +10,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'widgets.dart';
 
 class SignInFormFields extends StatefulWidget {
   const SignInFormFields({super.key});
@@ -115,35 +119,47 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           if (state is SignInPhoneInitial) {
             return CustomFormField(
               label: 'Phone',
-              child: CustomTextFormField(
-                controller: phoneNumberController,
-                validator: validateNotEmpty,
-                onSaved: (p0) => setState(
-                  () {
-                    phoneNumberController.text = p0!;
-                  },
-                ),
-                textInputType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                hintText: 'Mobile Number',
-                prefixWidget: InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset('assets/nepalflag.png'),
-                        const Text(
-                          '+977',
-                          style: kBodyText1,
-                        ),
-                        const Icon(Icons.arrow_drop_down)
+              child: Container(
+                child: Row(
+                  children: <Widget>[
+                    CustomTextFormField(
+                      theWidth: MediaQuery.of(context).size.width * 0.7965,
+                      controller: phoneNumberController,
+                      validator: validateNotEmpty,
+                      onSaved: (p0) => setState(
+                        () {
+                          phoneNumberController.text = p0!;
+                        },
+                      ),
+                      textInputType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
                       ],
+                      hintText: 'Mobile Number',
+                      prefixWidget: InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/nepalflag.png'),
+                              const Text(
+                                '+977',
+                                style: kBodyText1,
+                              ),
+                              const Icon(Icons.arrow_drop_down)
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    addHorizontalSpace(
+                        MediaQuery.of(context).size.width * 0.020),
+                    GetDevicePhoneNumberButton(
+                      onTap: () {},
+                    ),
+                  ],
                 ),
               ),
             );
