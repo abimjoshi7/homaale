@@ -31,7 +31,7 @@ class ApprovedMyTask extends StatelessWidget {
                       child: BookingsServiceCard(
                         deleteTap: () {
                           context.read<BookingsBloc>().add(
-                                ServiceBookingDeleteInitiated(
+                                BookingDeleted(
                                   id: myBookingList.result![index].id!.toInt(),
                                 ),
                               );

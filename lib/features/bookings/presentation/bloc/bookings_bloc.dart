@@ -51,7 +51,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       },
     );
 
-    on<ServiceBookingInitiated>(
+    on<BookingCreated>(
       (event, emit) async {
         try {
           emit(
@@ -63,7 +63,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
-                    isBookingSuccess: true,
+                    isBooked: true,
                     // bookEntityServiceRes: BookEntityServiceRes.fromJson(
                     //   value,
                     // ),
@@ -73,7 +73,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               .whenComplete(
                 () => emit(
                   state.copyWith(
-                    isBookingSuccess: false,
+                    isBooked: false,
                   ),
                 ),
               );
@@ -85,7 +85,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       },
     );
 
-    on<ServiceBookingEditInitiated>(
+    on<BookingEdited>(
       (event, emit) async {
         try {
           await repositories.editBooking(event.id, event.req).then(
@@ -108,7 +108,28 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       },
     );
 
-    on<ServiceBookingDeleteInitiated>(
+    on<BookingApproved>(
+      (event, emit) async {
+        try {
+          await repositories.approveBooking(event.id).then(
+                (value) => emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    isApproved: true,
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+            ),
+          );
+        }
+      },
+    );
+
+    on<BookingDeleted>(
       (event, emit) async {
         try {
           await repositories
@@ -117,7 +138,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
-                    isDeleteSuccess: true,
+                    isDeleted: true,
                   ),
                 ),
               )

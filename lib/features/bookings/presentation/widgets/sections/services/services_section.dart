@@ -2,9 +2,15 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/todos/approved.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/sections.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
+import 'package:cipher/features/services/presentation/pages/service_booking.dart';
+import 'package:cipher/features/services/presentation/pages/services_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +55,15 @@ class _ServicesSectionState extends State<ServicesSection> {
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: BookingsServiceCard(
+                      callback: () {
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   BookedServicePage.routeName,
+                        // );
+                      },
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
-                              ServiceBookingDeleteInitiated(
+                              BookingDeleted(
                                 id: allList?[index].id ?? 0,
                               ),
                             );

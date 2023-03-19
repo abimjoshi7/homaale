@@ -41,7 +41,8 @@ class NotificationFromHome extends StatelessWidget {
       ),
       body: BlocBuilder<NotificationBloc, NotificationState>(
         builder: (context, state) {
-          DateTime today = DateTime.now().subtract(const Duration( days: 1,hours: 24));
+          DateTime today =
+              DateTime.now().subtract(const Duration(days: 1, hours: 24));
           // var now = DateTime.now();
           // var twoWeeksAgo = now.subtract(const Duration(hours: 12));
           // var today = state.allNotificationList?.result!.where((map) {
@@ -117,14 +118,15 @@ class NotificationFromHome extends StatelessWidget {
                           : const SizedBox();
                     },
                   ),
-                if (state.theStates==TheStates.success &&
-                    state.allNotificationList?.result![0].createdDate != today )
+                if (state.theStates == TheStates.success &&
+                    state.allNotificationList?.result![0].createdDate != today)
                   Container(
                     width: MediaQuery.of(context).size.width,
                     padding: kPadding20,
                     color: Colors.white,
                     child: const Center(
-                        child: Text("No today's notifications to show."),),
+                      child: Text("No today's notifications to show."),
+                    ),
                   ),
                 kHeight10,
                 const Padding(
@@ -147,6 +149,7 @@ class NotificationFromHome extends StatelessWidget {
                                   .createdDate !=
                               today
                           ? ListTileComponent(
+                              btnCallback: () {},
                               userName: state.allNotificationList
                                       ?.result![index].user ??
                                   "",

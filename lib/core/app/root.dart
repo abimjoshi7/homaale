@@ -194,7 +194,7 @@ class _RootState extends State<Root> {
                                   pageIndex: pageIndex,
                                   index: 1,
                                   label: 'Box',
-                                  iconData: Icons.add_box_outlined,
+                                  iconData: Icons.shopping_basket_outlined,
                                   isActive: boxActive,
                                 ),
 

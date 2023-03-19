@@ -602,7 +602,7 @@ class _BookingDetailsFormSectionState extends State<BookingDetailsFormSection> {
                       );
                       print(jsonEncode(req.toJson()));
                       context.read<BookingsBloc>().add(
-                            ServiceBookingInitiated(req),
+                            BookingCreated(req),
                           );
                     } else {
                       await showDialog(

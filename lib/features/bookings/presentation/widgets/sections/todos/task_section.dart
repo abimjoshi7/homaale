@@ -52,7 +52,7 @@ class _TaskSectionState extends State<TaskSection> {
                       },
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
-                              ServiceBookingDeleteInitiated(
+                              BookingDeleted(
                                 id: allList?[index].id ?? 0,
                               ),
                             );

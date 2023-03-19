@@ -20,18 +20,18 @@ class BookingLoaded extends BookingsEvent {
       ];
 }
 
-class ServiceBookingInitiated extends BookingsEvent {
+class BookingCreated extends BookingsEvent {
   final BookEntityServiceReq service;
 
-  const ServiceBookingInitiated(this.service);
+  const BookingCreated(this.service);
   @override
   List<Object?> get props => [service];
 }
 
-class ServiceBookingEditInitiated extends BookingsEvent {
+class BookingEdited extends BookingsEvent {
   final int id;
   final EditBookingReq req;
-  const ServiceBookingEditInitiated({
+  const BookingEdited({
     required this.id,
     required this.req,
   });
@@ -42,9 +42,9 @@ class ServiceBookingEditInitiated extends BookingsEvent {
       ];
 }
 
-class ServiceBookingDeleteInitiated extends BookingsEvent {
+class BookingApproved extends BookingsEvent {
   final int id;
-  const ServiceBookingDeleteInitiated({
+  const BookingApproved({
     required this.id,
   });
   @override
@@ -53,9 +53,20 @@ class ServiceBookingDeleteInitiated extends BookingsEvent {
       ];
 }
 
-class ServiceBookingCancelInitiated extends BookingsEvent {
+class BookingDeleted extends BookingsEvent {
   final int id;
-  const ServiceBookingCancelInitiated({
+  const BookingDeleted({
+    required this.id,
+  });
+  @override
+  List<Object?> get props => [
+        id,
+      ];
+}
+
+class BookingCancelled extends BookingsEvent {
+  final int id;
+  const BookingCancelled({
     required this.id,
   });
   @override

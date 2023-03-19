@@ -92,7 +92,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                         if (state2.theStates == TheStates.success) {
                           return BlocListener<BookingsBloc, BookingsState>(
                             listener: (context, bookingState) {
-                              if (bookingState.isBookingSuccess == true) {
+                              if (bookingState.isBooked == true) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
@@ -163,7 +163,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                                         );
                                         print(jsonEncode(req.toJson()));
                                         context.read<BookingsBloc>().add(
-                                              ServiceBookingInitiated(req),
+                                              BookingCreated(req),
                                             );
                                       } catch (e) {
                                         print(e);

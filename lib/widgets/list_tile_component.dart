@@ -1,5 +1,6 @@
-import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cipher/core/constants/date_time_representation.dart';
 
 class ListTileComponent extends StatelessWidget {
   final String userImage;
@@ -7,20 +8,25 @@ class ListTileComponent extends StatelessWidget {
   final String statusTitle;
   final String statusDetails;
   final DateTime? time;
+  final GestureTapCallback? callback;
+  final GestureTapCallback? btnCallback;
   const ListTileComponent({
-    super.key,
+    Key? key,
     required this.userImage,
+    required this.userName,
     required this.statusTitle,
     required this.statusDetails,
     this.time,
-    required this.userName,
-  });
+    this.callback,
+    this.btnCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: Colors.white,
       child: ListTile(
+        onTap: callback,
         leading: Container(
           padding: const EdgeInsets.all(8),
           height: 50,
@@ -51,8 +57,7 @@ class ListTileComponent extends StatelessWidget {
           children: [
             if (statusTitle == "status completed" || statusTitle == "rejected")
               TextButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 child: const Text(
                   "Browse New Task",
                   style: TextStyle(color: Colors.blue),
@@ -69,35 +74,38 @@ class ListTileComponent extends StatelessWidget {
               const SizedBox(),
           ],
         ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: statusTitle == "status completed" ||
-                    statusTitle == "payment completed"
-                ? Colors.green
-                : statusTitle == "approval" || statusTitle == "Approved"
-                    ? Colors.teal
-                    : statusTitle == "booking"
-                        ? Colors.blue
-                        : statusTitle == "waiting"
-                            ? Colors.orange
-                            : Colors.red,
-          ),
-          child: Text(
-            (statusTitle == "status completed" ||
-                    statusTitle == "payment completed")
-                ? "Completed"
-                : (statusTitle == "approval")
-                    ? "Approval"
-                    : (statusTitle == "waiting")
-                        ? "Waiting"
-                        : (statusTitle == "rejected")
-                            ? "Rejected"
-                            : (statusTitle == "booking")
-                                ? "Booking"
-                                : statusTitle,
-            style: const TextStyle(color: Colors.white),
+        trailing: InkWell(
+          onTap: btnCallback,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: statusTitle == "status completed" ||
+                      statusTitle == "payment completed"
+                  ? Colors.green
+                  : statusTitle == "approval" || statusTitle == "Approved"
+                      ? Colors.teal
+                      : statusTitle == "booking"
+                          ? Colors.blue
+                          : statusTitle == "waiting"
+                              ? Colors.orange
+                              : Colors.red,
+            ),
+            child: Text(
+              (statusTitle == "status completed" ||
+                      statusTitle == "payment completed")
+                  ? "Completed"
+                  : (statusTitle == "approval")
+                      ? "Approval"
+                      : (statusTitle == "waiting")
+                          ? "Waiting"
+                          : (statusTitle == "rejected")
+                              ? "Rejected"
+                              : (statusTitle == "booking")
+                                  ? "Booking"
+                                  : statusTitle,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ),

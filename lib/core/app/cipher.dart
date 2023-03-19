@@ -13,6 +13,8 @@ import 'package:cipher/features/categories/presentation/cubit/nested_categories_
 import 'package:cipher/features/content_client/presentation/cubit/privacy_policy/privacy_policy_cubit.dart';
 import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/terms_of_use_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
+import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
@@ -193,6 +195,12 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => SingleEntityTaskCubit(),
+          ),
+          BlocProvider(
+            create: (context) => NotificationBloc(),
+          ),
+          BlocProvider(
+            create: (context) => EventBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
