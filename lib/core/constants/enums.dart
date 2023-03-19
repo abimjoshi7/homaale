@@ -3,3 +3,14 @@ enum TheStates {
   success,
   failure,
 }
+
+
+enum RadioChangeValue {
+  eSewa,
+  khalti,
+  masterCard,
+  visaCard,
+  googlePay,
+  paypal,
+  applePay
+}
