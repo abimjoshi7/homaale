@@ -28,7 +28,7 @@ class TermsOfUseCubit extends Cubit<TermsOfUseState> {
         );
         emit(
           state.copyWith(
-            contentClient: x.copyWith(hasdata: true),
+            contentClient: x,
             theStates: TheStates.success,
           ),
         );
@@ -42,8 +42,7 @@ class TermsOfUseCubit extends Cubit<TermsOfUseState> {
           state.copyWith(
             theStates: TheStates.failure,
             contentClient:
-                (ContentClient.fromJson(jsonDecode(x) as Map<String, dynamic>))
-                    .copyWith(hasdata: true),
+                (ContentClient.fromJson(jsonDecode(x) as Map<String, dynamic>)),
           ),
         );
       } else {
@@ -51,7 +50,8 @@ class TermsOfUseCubit extends Cubit<TermsOfUseState> {
           state.copyWith(
             theStates: TheStates.failure,
             contentClient: const ContentClient(
-                content: 'Could not load data.', hasdata: false),
+              content: 'Could not load data.',
+            ),
           ),
         );
       }
