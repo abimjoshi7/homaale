@@ -134,29 +134,38 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     leading: child,
                     title: displayUserInfo(),
-                    trailing: TextButton.icon(
-                      onPressed: () {
-                        context
-                            .read<NotificationBloc>()
-                            .add(const MyNotificationListInitiated());
-                        Navigator.pushNamed(
-                            context, NotificationFromHome.routeName,);
+                    trailing: BlocBuilder<NotificationBloc, NotificationState>(
+                      builder: (context, state) {
+                        return TextButton.icon(
+                          onPressed: () {
+                            context
+                                .read<NotificationBloc>()
+                                .add(const MyNotificationListInitiated());
+                            Navigator.pushNamed(
+                              context,
+                              NotificationFromHome.routeName,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.notifications_none,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          label: Padding(
+                            padding: const EdgeInsets.only(bottom: 18.0),
+                            child: Text(
+                              state.allNotificationList?.unreadCount
+                                      .toString() ??
+                                  "",
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        );
                       },
-                      icon: const Icon(
-                        Icons.notifications_none,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                      label: const Padding(
-                        padding: EdgeInsets.only(bottom: 18.0),
-                        child: Text(
-                          "5",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,),
-                        ),
-                      ),
                     ),
                   );
                 },
