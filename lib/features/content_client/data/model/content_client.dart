@@ -1,6 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
-
 part 'content_client.freezed.dart';
 part 'content_client.g.dart';
 
@@ -12,6 +10,7 @@ class ContentClient with _$ContentClient {
     @JsonKey(name: 'created_at') DateTime? createdAt,
     String? content,
     String? slug,
+   
   }) = _ContentClient;
 
   factory ContentClient.fromJson(Map<String, dynamic> json) =>

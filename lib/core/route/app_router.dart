@@ -40,6 +40,7 @@ import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 
 class AppRouter {
@@ -76,7 +77,16 @@ class AppRouter {
           builder: (context) => const OtpSignUp(),
           settings: settings,
         );
-
+      case TermsOfUsePage.routeName:
+        return MaterialPageRoute(
+          builder: (content) => const TermsOfUsePage(),
+          settings: settings,
+        );
+		  case PrivacyPolicyPage.routeName:
+        return MaterialPageRoute(
+          builder: (content) => const PrivacyPolicyPage(),
+          settings: settings,
+        );
       case FacebookLogin.routeName:
         return MaterialPageRoute(
           builder: (context) => const FacebookLogin(),
@@ -307,7 +317,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const SandboxPage(),
         );
-        case NotificationFromHome.routeName:
+      case NotificationFromHome.routeName:
         return MaterialPageRoute(
           builder: (context) => const NotificationFromHome(),
           settings: settings,
