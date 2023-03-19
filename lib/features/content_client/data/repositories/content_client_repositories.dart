@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:dependencies/dependencies.dart';
 
 class ContentClientRepositories {
   final _dio = DioHelper();
@@ -13,7 +10,7 @@ class ContentClientRepositories {
   }) async {
     try {
       final x = await _dio.getData(
-        url: '/landingpage/contnt/$slug/',
+        url: '/landingpage/content/$slug/',
       );
       return x as Map<String, dynamic>;
     } catch (e) {
