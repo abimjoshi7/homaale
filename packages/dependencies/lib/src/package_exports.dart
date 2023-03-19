@@ -32,3 +32,4 @@ export 'package:video_player/video_player.dart';
 export 'package:chewie/chewie.dart';
 export 'package:get_it/get_it.dart';
 export 'package:table_calendar/table_calendar.dart';
+export 'package:permission_handler/permission_handler.dart' as p;
