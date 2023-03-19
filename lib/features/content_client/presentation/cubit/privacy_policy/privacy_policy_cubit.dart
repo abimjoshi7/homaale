@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/content_client/data/model/content_client.dart';
 import 'package:cipher/features/content_client/data/repositories/content_client_repositories.dart';

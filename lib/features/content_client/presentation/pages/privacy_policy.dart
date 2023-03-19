@@ -1,9 +1,6 @@
-import 'dart:developer';
-
-import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/content_client/presentation/cubit/privacy_policy/privacy_policy_cubit.dart';
-import 'package:cipher/features/content_client/presentation/widgets/faq_qn_box.dart';
+import 'package:cipher/features/content_client/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -20,6 +17,7 @@ class PrivacyPolicyPage extends StatefulWidget {
 }
 
 class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
+  final _contentClientTitle = 'Homaale Privacy & Policy';
   @override
   void initState() {
     super.initState();
@@ -63,36 +61,20 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       },
                       builder: (_, state) {
                         if (state.theStates == TheStates.success) {
-                          final date = DateFormat.yMMMEd()
+                          final String _date = DateFormat.yMMMEd()
                               .format(state.contentClient!.createdAt!);
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              AutoSizeText(
-                                'Homaale Privacy & Policy',
-                                style: kLabelPrimary.copyWith(
-                                  color: kColorPrimary,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              addVerticalSpace(4),
-                              AutoSizeText(
-                                "Updated $date",
-                                style: kSubHeading,
-                              ),
-                              addVerticalSpace(20.0),
-                              HtmlRemover(
-                                text: state.contentClient!.content.toString(),
-                                textAlign: TextAlign.justify,
-                              ),
-                            ],
-                          );
+                          return ContentClientWidget(
+                              state: state,
+                              date: _date,
+                              contentClientTitle: _contentClientTitle);
                         }
                         if (state.theStates == TheStates.failure) {
-                          return HtmlRemover(
-                            text: state.contentClient!.content.toString(),
-                            textAlign: TextAlign.justify,
-                          );
+                          final String _date = DateFormat.yMMMEd()
+                              .format(state.contentClient!.createdAt!);
+                          return ContentClientWidget(
+                              state: state,
+                              date: _date,
+                              contentClientTitle: _contentClientTitle);
                         }
 
                         if (state.theStates == TheStates.initial) {

@@ -26,6 +26,7 @@ mixin _$ContentClient {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
+  bool? get hasdata => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -44,7 +45,8 @@ abstract class $ContentClientCopyWith<$Res> {
       String? title,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       String? content,
-      String? slug});
+      String? slug,
+      bool? hasdata});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$ContentClientCopyWithImpl<$Res, $Val extends ContentClient>
     Object? createdAt = freezed,
     Object? content = freezed,
     Object? slug = freezed,
+    Object? hasdata = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -87,6 +90,10 @@ class _$ContentClientCopyWithImpl<$Res, $Val extends ContentClient>
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasdata: freezed == hasdata
+          ? _value.hasdata
+          : hasdata // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -104,7 +111,8 @@ abstract class _$$_ContentClientCopyWith<$Res>
       String? title,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       String? content,
-      String? slug});
+      String? slug,
+      bool? hasdata});
 }
 
 /// @nodoc
@@ -123,6 +131,7 @@ class __$$_ContentClientCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? content = freezed,
     Object? slug = freezed,
+    Object? hasdata = freezed,
   }) {
     return _then(_$_ContentClient(
       id: freezed == id
@@ -145,6 +154,10 @@ class __$$_ContentClientCopyWithImpl<$Res>
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasdata: freezed == hasdata
+          ? _value.hasdata
+          : hasdata // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -157,7 +170,8 @@ class _$_ContentClient implements _ContentClient {
       this.title,
       @JsonKey(name: 'created_at') this.createdAt,
       this.content,
-      this.slug});
+      this.slug,
+      this.hasdata});
 
   factory _$_ContentClient.fromJson(Map<String, dynamic> json) =>
       _$$_ContentClientFromJson(json);
@@ -173,10 +187,12 @@ class _$_ContentClient implements _ContentClient {
   final String? content;
   @override
   final String? slug;
+  @override
+  final bool? hasdata;
 
   @override
   String toString() {
-    return 'ContentClient(id: $id, title: $title, createdAt: $createdAt, content: $content, slug: $slug)';
+    return 'ContentClient(id: $id, title: $title, createdAt: $createdAt, content: $content, slug: $slug, hasdata: $hasdata)';
   }
 
   @override
@@ -189,13 +205,14 @@ class _$_ContentClient implements _ContentClient {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.content, content) || other.content == content) &&
-            (identical(other.slug, slug) || other.slug == slug));
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.hasdata, hasdata) || other.hasdata == hasdata));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, createdAt, content, slug);
+      Object.hash(runtimeType, id, title, createdAt, content, slug, hasdata);
 
   @JsonKey(ignore: true)
   @override
@@ -217,7 +234,8 @@ abstract class _ContentClient implements ContentClient {
       final String? title,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       final String? content,
-      final String? slug}) = _$_ContentClient;
+      final String? slug,
+      final bool? hasdata}) = _$_ContentClient;
 
   factory _ContentClient.fromJson(Map<String, dynamic> json) =
       _$_ContentClient.fromJson;
@@ -233,6 +251,8 @@ abstract class _ContentClient implements ContentClient {
   String? get content;
   @override
   String? get slug;
+  @override
+  bool? get hasdata;
   @override
   @JsonKey(ignore: true)
   _$$_ContentClientCopyWith<_$_ContentClient> get copyWith =>
