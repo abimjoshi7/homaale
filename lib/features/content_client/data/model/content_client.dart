@@ -10,7 +10,7 @@ class ContentClient with _$ContentClient {
     @JsonKey(name: 'created_at') DateTime? createdAt,
     String? content,
     String? slug,
-    bool? hasdata,
+   
   }) = _ContentClient;
 
   factory ContentClient.fromJson(Map<String, dynamic> json) =>

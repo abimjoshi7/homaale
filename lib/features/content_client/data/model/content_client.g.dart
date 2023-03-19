@@ -15,7 +15,6 @@ _$_ContentClient _$$_ContentClientFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['created_at'] as String),
       content: json['content'] as String?,
       slug: json['slug'] as String?,
-      hasdata: json['hasdata'] as bool?,
     );
 
 Map<String, dynamic> _$$_ContentClientToJson(_$_ContentClient instance) =>
@@ -25,5 +24,4 @@ Map<String, dynamic> _$$_ContentClientToJson(_$_ContentClient instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'content': instance.content,
       'slug': instance.slug,
-      'hasdata': instance.hasdata,
     };
