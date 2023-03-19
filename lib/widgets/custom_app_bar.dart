@@ -2,7 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appBarTitle;
   const CustomAppBar({
     super.key,
@@ -21,15 +21,16 @@ class CustomAppBar extends StatelessWidget {
         ),
       ),
       centerTitle: true,
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: const IconButton(
+      leading: IconButton(
         icon: Icon(
           Icons.arrow_back_rounded,
           size: 25.0,
           color: kColorDarkGrey2,
         ),
-        onPressed: null,
+        onPressed: () => Navigator.pop(context),
       ),
       actions: const [
         IconButton(
@@ -43,4 +44,7 @@ class CustomAppBar extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

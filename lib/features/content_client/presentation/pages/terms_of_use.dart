@@ -16,22 +16,19 @@ class TermsOfUsePage extends StatefulWidget {
 
 class _TermsOfUsePageState extends State<TermsOfUsePage> {
   final _contentClientTitle = 'Terms of Use';
-  String? _date;
   @override
   void initState() {
     super.initState();
-
     context.read<TermsOfUseCubit>().getTermsOfUseStatement();
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: 'Terms Of Use'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const CustomAppBar(appBarTitle: 'Terms Of Use'),
           const Divider(
             thickness: 0.5,
             color: Color(0xffCED4DA),
@@ -56,23 +53,21 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
                               isSuccess: false,
                             ),
                           );
-                          if (state.contentClient!.hasdata!) {
-                            _date = DateFormat.yMMMEd()
-                                .format(state.contentClient!.createdAt!);
-                          }
                         }
                       },
                       builder: (_, state) {
                         if (state.theStates == TheStates.success) {
                           return ContentClientWidget(
                               state: state,
-                              date: _date,
+                              date: DateFormat.yMMMEd()
+                                  .format(state.contentClient!.createdAt!),
                               contentClientTitle: _contentClientTitle);
                         }
                         if (state.theStates == TheStates.failure) {
                           return ContentClientWidget(
                               state: state,
-                              date: _date,
+                              date: DateFormat.yMMMEd()
+                                  .format(state.contentClient!.createdAt!),
                               contentClientTitle: _contentClientTitle);
                         }
 

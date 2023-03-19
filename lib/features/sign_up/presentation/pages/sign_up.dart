@@ -294,11 +294,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             letterSpacing: 0.3,
                                           ),
                                           recognizer: TapGestureRecognizer()
-                                            ..onTap = () => Navigator
-                                                    .pushNamedAndRemoveUntil(
+                                            ..onTap = () => Navigator.pushNamed(
                                                   context,
                                                   TermsOfUsePage.routeName,
-                                                  (route) => false,
                                                 ),
                                         ),
                                         const TextSpan(
@@ -311,11 +309,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                             letterSpacing: 0.3,
                                           ),
                                           recognizer: TapGestureRecognizer()
-                                            ..onTap = () => Navigator
-                                                    .pushNamedAndRemoveUntil(
+                                            ..onTap = () => Navigator.pushNamed(
                                                   context,
                                                   PrivacyPolicyPage.routeName,
-                                                  (route) => false,
                                                 ),
                                         ),
                                       ],

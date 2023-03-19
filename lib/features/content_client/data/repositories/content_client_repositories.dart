@@ -13,7 +13,7 @@ class ContentClientRepositories {
   }) async {
     try {
       final x = await _dio.getData(
-        url: '/landingpage/contnt/$slug/',
+        url: '/landingpage/content/$slug/',
       );
       return x as Map<String, dynamic>;
     } catch (e) {

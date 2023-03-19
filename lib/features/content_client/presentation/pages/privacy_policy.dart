@@ -21,18 +21,16 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   @override
   void initState() {
     super.initState();
-
     context.read<PrivacyPolicyCubit>().getPrivacyPolicyStatement();
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: 'Privacy Policy'),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const CustomAppBar(appBarTitle: 'Privacy Policy'),
           const Divider(
             thickness: 0.5,
             color: Color(0xffCED4DA),
@@ -61,19 +59,17 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                       },
                       builder: (_, state) {
                         if (state.theStates == TheStates.success) {
-                          final String _date = DateFormat.yMMMEd()
-                              .format(state.contentClient!.createdAt!);
                           return ContentClientWidget(
                               state: state,
-                              date: _date,
+                              date: DateFormat.yMMMEd()
+                                  .format(state.contentClient!.createdAt!),
                               contentClientTitle: _contentClientTitle);
                         }
                         if (state.theStates == TheStates.failure) {
-                          final String _date = DateFormat.yMMMEd()
-                              .format(state.contentClient!.createdAt!);
                           return ContentClientWidget(
                               state: state,
-                              date: _date,
+                              date: DateFormat.yMMMEd()
+                                  .format(state.contentClient!.createdAt!),
                               contentClientTitle: _contentClientTitle);
                         }
 
