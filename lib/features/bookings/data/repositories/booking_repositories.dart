@@ -2,7 +2,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 
 class BookingRepositories {
   final _dio = DioHelper();
@@ -22,31 +21,17 @@ class BookingRepositories {
     }
   }
 
-// ! incomplete parameters
-  Future<Map<String, dynamic>> fetchOthersBookingList() async {
-    try {
-      final x = await _dio.getDatawithCredential(
-        query: {},
-        url: kCreateBookings,
-        token: CacheHelper.accessToken,
-      );
-      return x as Map<String, dynamic>;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<Map<String, dynamic>> fetchMyServiceTaskBookingList({
-    required bool isTask,
+  Future<Map<String, dynamic>> fetchMyBookingsList({
+    bool? isTask,
     String? status,
   }) async {
     try {
       final x = await _dio.getDatawithCredential(
-        url: kMyBookingList,
         query: {
           "is_requested": isTask,
           "status": status,
         },
+        url: kMyBookingList,
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;

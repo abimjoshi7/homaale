@@ -1,7 +1,7 @@
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_profile.dart';
-import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/box.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
@@ -11,7 +11,6 @@ import 'package:cipher/widgets/add_pop_up_button.dart';
 import 'package:cipher/widgets/custom_bottom_nav_items.dart';
 import 'package:cipher/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
 
 class CommonNavigationBar extends StatefulWidget {
   const CommonNavigationBar({super.key});
@@ -31,13 +30,13 @@ class _CommonNavigationBarState extends State<CommonNavigationBar> {
   final pages = [
     const Home(),
     const BoxPage(),
-    const BookingPages(),
+    const MyBookingsPage(),
     const AccountProfile(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return  Stack(
+    return Stack(
       children: [
         pages[pageIndex],
         Align(
@@ -69,7 +68,7 @@ class _CommonNavigationBarState extends State<CommonNavigationBar> {
                             CustomBottomNavItems(
                               onPressed: () {
                                 setState(
-                                      () {
+                                  () {
                                     pageIndex = 0;
                                     homeActive = true;
                                     offerActive = false;

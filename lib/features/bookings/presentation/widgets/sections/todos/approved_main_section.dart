@@ -1,4 +1,4 @@
-import 'package:cipher/features/bookings/presentation/pages/sections/approved/approved.dart';
+import 'package:cipher/features/bookings/presentation/widgets/sections/todos/approved.dart';
 import 'package:flutter/material.dart';
 
 class ApprovedMainSection extends StatelessWidget {

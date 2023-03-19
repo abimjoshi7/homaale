@@ -8,7 +8,7 @@ import 'package:cipher/features/account_settings/presentation/pages/tax_calculat
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
-import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
@@ -196,9 +196,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const DeactivatePage(),
         );
-      case BookingPages.routeName:
+      case MyBookingsPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const BookingPages(),
+          builder: (context) => const MyBookingsPage(),
         );
       case TaskEntityServicePage.routeName:
         return MaterialPageRoute(

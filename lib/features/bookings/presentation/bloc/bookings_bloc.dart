@@ -3,7 +3,6 @@ import 'package:cipher/features/bookings/data/models/book_entity_service_req.dar
 import 'package:cipher/features/bookings/data/models/book_entity_service_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -14,6 +13,44 @@ part 'bookings_state.dart';
 class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
   final repositories = BookingRepositories();
   BookingsBloc() : super(const BookingsState()) {
+    on<BookingLoaded>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              states: TheStates.initial,
+            ),
+          );
+          await repositories
+              .fetchMyBookingsList(
+            isTask: event.isTask,
+            status: event.status,
+          )
+              .then(
+            (value) {
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  myBookingListModelService: MyBookingListModel.fromJson(
+                    value,
+                  ),
+                  myBookingListModelTask: MyBookingListModel.fromJson(
+                    value,
+                  ),
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+            ),
+          );
+        }
+      },
+    );
+
     on<ServiceBookingInitiated>(
       (event, emit) async {
         try {
@@ -40,47 +77,6 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                   ),
                 ),
               );
-        } catch (e) {
-          emit(
-            state.copyWith(states: TheStates.failure),
-          );
-        }
-      },
-    );
-
-    on<MyTaskServiceBookingListLoadInitiated>(
-      (event, emit) async {
-        try {
-          emit(
-            state.copyWith(
-              states: TheStates.initial,
-            ),
-          );
-          await repositories
-              .fetchMyServiceTaskBookingList(
-            isTask: event.isTask,
-            status: event.status,
-          )
-              .then(
-            (value) {
-              final data = MyBookingListModel.fromJson(value);
-              if (event.isTask == true) {
-                emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    myBookingListModelTask: data,
-                  ),
-                );
-              } else {
-                emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    myBookingListModelService: data,
-                  ),
-                );
-              }
-            },
-          );
         } catch (e) {
           emit(
             state.copyWith(states: TheStates.failure),
@@ -127,9 +123,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               )
               .whenComplete(
                 () => add(
-                  const MyTaskServiceBookingListLoadInitiated(
-                    isTask: true,
-                  ),
+                  const BookingLoaded(),
                 ),
               );
         } catch (e) {

@@ -5,25 +5,27 @@ abstract class BookingsEvent extends Equatable {
   const BookingsEvent();
 }
 
+class BookingLoaded extends BookingsEvent {
+  final bool? isTask;
+  final String? status;
+  const BookingLoaded({
+    this.isTask,
+    this.status,
+  });
+
+  @override
+  List<Object?> get props => [
+        isTask,
+        status,
+      ];
+}
+
 class ServiceBookingInitiated extends BookingsEvent {
   final BookEntityServiceReq service;
 
   const ServiceBookingInitiated(this.service);
   @override
   List<Object?> get props => [service];
-}
-
-class MyTaskServiceBookingListLoadInitiated extends BookingsEvent {
-  final bool isTask;
-  final String? status;
-  const MyTaskServiceBookingListLoadInitiated({
-    required this.isTask,
-    this.status,
-  });
-  @override
-  List<Object?> get props => [
-        isTask,
-      ];
 }
 
 class ServiceBookingEditInitiated extends BookingsEvent {

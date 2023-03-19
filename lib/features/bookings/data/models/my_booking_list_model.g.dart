@@ -73,7 +73,6 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       isActive: json['is_active'] as bool?,
       status: json['status'] as String?,
       isAccepted: json['is_accepted'] as bool?,
-      bookingMerchant: json['booking_merchant'],
       city: json['city'] as int?,
     );
 
@@ -98,7 +97,6 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'is_active': instance.isActive,
       'status': instance.status,
       'is_accepted': instance.isAccepted,
-      'booking_merchant': instance.bookingMerchant,
       'city': instance.city,
     };
 
@@ -171,7 +169,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       id: json['id'] as String?,
       username: json['username'] as String?,
       email: json['email'] as String?,
-      phone: json['phone'] as String?,
+      phone: json['phone'],
       fullName: json['full_name'] as String?,
       firstName: json['first_name'] as String?,
       middleName: json['middle_name'] as String?,
@@ -209,9 +207,7 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
-      videos: (json['videos'] as List<dynamic>?)
-          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      videos: json['videos'] as List<dynamic>?,
       service: json['service'] == null
           ? null
           : Service.fromJson(json['service'] as Map<String, dynamic>),
@@ -240,7 +236,6 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       shareLocation: json['share_location'] as bool?,
       isNegotiable: json['is_negotiable'] as bool?,
       revisions: json['revisions'] as int?,
-      recursionType: json['recursion_type'] as String?,
       viewsCount: json['view_count'] as int?,
       location: json['location'] as String?,
       isProfessional: json['is_professional'] as bool?,
@@ -253,9 +248,7 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       isActive: json['is_active'] as bool?,
       needsApproval: json['needs_approval'] as bool?,
       isEndorsed: json['is_endorsed'] as bool?,
-      merchant: json['merchant'],
       event: json['event'] as String?,
-      avatar: json['avatar'],
     );
 
 Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
@@ -282,7 +275,6 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'share_location': instance.shareLocation,
       'is_negotiable': instance.isNegotiable,
       'revisions': instance.revisions,
-      'recursion_type': instance.recursionType,
       'view_count': instance.viewsCount,
       'location': instance.location,
       'is_professional': instance.isProfessional,
@@ -295,9 +287,7 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'is_active': instance.isActive,
       'needs_approval': instance.needsApproval,
       'is_endorsed': instance.isEndorsed,
-      'merchant': instance.merchant,
       'event': instance.event,
-      'avatar': instance.avatar,
     };
 
 _$_City _$$_CityFromJson(Map<String, dynamic> json) => _$_City(

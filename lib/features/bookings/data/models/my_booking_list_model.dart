@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:dependencies/dependencies.dart';
 
 part 'my_booking_list_model.freezed.dart';
@@ -45,7 +43,7 @@ class Result with _$Result {
     String? status,
     // @JsonKey(name: "extra_data") List<String>? extraData,
     @JsonKey(name: "is_accepted") bool? isAccepted,
-    @JsonKey(name: "booking_merchant") dynamic bookingMerchant,
+    // @JsonKey(name: "booking_merchant") dynamic bookingMerchant,
     int? city,
   }) = _Result;
 
@@ -103,7 +101,7 @@ class User with _$User {
     String? id,
     String? username,
     String? email,
-    String? phone,
+    dynamic? phone,
     @JsonKey(name: "full_name") String? fullName,
     @JsonKey(name: "first_name") String? firstName,
     @JsonKey(name: "middle_name") String? middleName,
@@ -122,7 +120,7 @@ class EntityService with _$EntityService {
     Currency? currency,
     City? city,
     List<Image>? images,
-    List<Image>? videos,
+    List<dynamic>? videos,
     Service? service,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -139,7 +137,7 @@ class EntityService with _$EntityService {
     @JsonKey(name: "share_location") bool? shareLocation,
     @JsonKey(name: "is_negotiable") bool? isNegotiable,
     int? revisions,
-    @JsonKey(name: "recursion_type") String? recursionType,
+    // @JsonKey(name: "recursion_type") String? recursionType,
     @JsonKey(name: "view_count") int? viewsCount,
     String? location,
     @JsonKey(name: "is_professional") bool? isProfessional,
@@ -153,9 +151,9 @@ class EntityService with _$EntityService {
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "needs_approval") bool? needsApproval,
     @JsonKey(name: "is_endorsed") bool? isEndorsed,
-    dynamic merchant,
+    // dynamic? merchant,
     String? event,
-    dynamic avatar,
+    // dynamic? avatar,
   }) = _EntityService;
 
   factory EntityService.fromJson(Map<String, dynamic> json) =>

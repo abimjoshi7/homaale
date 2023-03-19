@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/pages/sections/history/history.dart';
+import 'package:cipher/features/bookings/presentation/widgets/sections/history/history.dart';
 import 'package:flutter/material.dart';
 
 class HistorySection extends StatefulWidget {

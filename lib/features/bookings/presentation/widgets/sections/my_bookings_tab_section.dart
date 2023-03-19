@@ -1,14 +1,15 @@
-import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
+import 'package:cipher/features/bookings/presentation/widgets/sections/sections.dart';
+import 'package:cipher/features/bookings/presentation/widgets/sections/todos/task_section.dart';
 import 'package:flutter/material.dart';
 
-class MyBookingsMainSection extends StatefulWidget {
-  const MyBookingsMainSection({super.key});
+class MyBookingsTabSection extends StatefulWidget {
+  const MyBookingsTabSection({super.key});
 
   @override
-  State<MyBookingsMainSection> createState() => _MyBookingsMainSectionState();
+  State<MyBookingsTabSection> createState() => _MyBookingsTabSectionState();
 }
 
-class _MyBookingsMainSectionState extends State<MyBookingsMainSection>
+class _MyBookingsTabSectionState extends State<MyBookingsTabSection>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int selectedIndex = 0;
@@ -33,9 +34,8 @@ class _MyBookingsMainSectionState extends State<MyBookingsMainSection>
             labelPadding: const EdgeInsets.all(10),
             controller: tabController,
             tabs: const [
-              Text("Unapproved"),
-              Text("Approved"),
-              // Text("Draft"),
+              Text("TODOs"),
+              Text("Services"),
               Text("History"),
             ],
             onTap: (value) => setState(
@@ -48,9 +48,13 @@ class _MyBookingsMainSectionState extends State<MyBookingsMainSection>
             child: TabBarView(
               controller: tabController,
               children: const [
-                UnapprovedSection(),
-                ApprovedSection(),
-                // DraftSection(),
+                TaskSection(),
+                // Text(
+                //   'data',
+                // ),
+
+                // UnapprovedSection(),
+                ServicesSection(),
                 HistorySection(),
               ],
             ),

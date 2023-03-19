@@ -1,19 +1,13 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/presentation/pages/my_bookings_main_section.dart';
-import 'package:cipher/features/bookings/presentation/pages/sections/sections.dart';
+import 'package:cipher/features/bookings/presentation/widgets/sections/sections.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class BookingPages extends StatefulWidget {
-  static const routeName = "/bookings-page";
-  const BookingPages({super.key});
+class MyBookingsPage extends StatelessWidget {
+  static const routeName = "/my-bookings-page";
+  const MyBookingsPage({super.key});
 
-  @override
-  State<BookingPages> createState() => _BookingPagesState();
-}
-
-class _BookingPagesState extends State<BookingPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +39,7 @@ class _BookingPagesState extends State<BookingPages> {
             const Divider(),
             const BookingsCalenderSection(),
             const Expanded(
-              child: MyBookingsMainSection(),
+              child: MyBookingsTabSection(),
             ),
           ],
         ),
