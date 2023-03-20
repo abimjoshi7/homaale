@@ -29,8 +29,7 @@ class SignUpRepositories {
     final res = await _dio.postData(
       url: 'user/signup/',
       data: {
-        // 'phone': '+977$phone',
-        'phone': '+447548032886',
+        'phone': '+977$phone',
         'password': password,
       },
     );
