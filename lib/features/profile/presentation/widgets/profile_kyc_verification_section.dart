@@ -19,9 +19,9 @@ class ProfileKycVerifySection extends StatelessWidget {
         if (state is KycLoadFailure) {
           return BlocBuilder<SignInBloc, SignInState>(
             builder: (context, state2) {
-              if (state2 is SignInSuccess) {
+              if (state2.theStates==TheStates.success) {
                 return Visibility(
-                  visible: state2.userLoginRes.hasProfile ?? false,
+                  visible: state2.userLoginRes?.hasProfile ?? false,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Container(

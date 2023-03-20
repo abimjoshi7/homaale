@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -11,7 +13,6 @@ class SignInScaffold extends StatelessWidget {
   });
 
   final Widget? child;
-  final bool hasValidationErrors = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class SignInScaffold extends StatelessWidget {
                       padding: addPadding(context, 0.020),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
+                        children: <Widget>[
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(
@@ -52,12 +53,13 @@ class SignInScaffold extends StatelessWidget {
                                 horizontal: 8,
                               ),
                               child: Visibility(
-                                visible: false,
+                                visible: true,
                                 child: Row(
-                                  children: const [
+                                  children: [
                                     Text(
                                       'Skip',
-                                      style: kSkipHelper,
+                                      style: kSkipHelper.copyWith(
+                                          color: Colors.white),
                                     ),
                                     kWidth10,
                                     Icon(
@@ -86,8 +88,9 @@ class SignInScaffold extends StatelessWidget {
                 ),
                 Positioned(
                   // top: MediaQuery.of(context).size.height * 0.158,
-                  top: (hasValidationErrors)
-                      ? MediaQuery.of(context).size.height * 0.158
+                  top: (state.theStates == TheStates.initial &&
+                          state.hasValidationErrors)
+                      ? MediaQuery.of(context).size.height * 0.23
                       : MediaQuery.of(context).size.height * 0.245,
 
                   child: SizedBox(

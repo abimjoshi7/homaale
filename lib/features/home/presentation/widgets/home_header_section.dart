@@ -27,12 +27,12 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
       listener: (context, state) async {},
       builder: (context, state) {
         Widget displayUserInfo() {
-          if (state is SignInSuccess) {
+          if (state.theStates==TheStates.success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hi, ${state.userLoginRes.username ?? 'New User'}',
+                  'Hi, ${state.userLoginRes?.username ?? 'New User'}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

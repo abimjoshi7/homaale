@@ -16,7 +16,9 @@ class SocialLoginSection extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         Widget buildLogo() {
-          if (state is SignInEmailInitial) {
+          if (state.theStates == TheStates.initial) ;
+
+          if (!state.isPhoneNumber) {
             return Image.asset(
               'assets/logos/phone_logo.png',
             );
@@ -53,14 +55,17 @@ class SocialLoginSection extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
-                    if (state is SignInPhoneInitial) {
-                      context.read<SignInBloc>().add(
-                            SignInWithEmailSelected(),
-                          );
-                    } else if (state is SignInEmailInitial) {
-                      context.read<SignInBloc>().add(
-                            SignInWithPhoneSelected(),
-                          );
+                    if (state.theStates == TheStates.initial) {
+                      if (state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithEmailSelected(),
+                            );
+                      }
+                      if (!state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithPhoneSelected(),
+                            );
+                      }
                     }
                   },
                   child: buildLogo(),
