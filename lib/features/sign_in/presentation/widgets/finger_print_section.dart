@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +16,7 @@ class FingerPrintSection extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         return TextButton(
-          onPressed: () async {
+          onPressed: () {
             // await showModalBottomSheet<Widget>(
             //   context: context,
             //   builder: (context) => Column(

@@ -25,11 +25,6 @@ class SocialLoginSection extends StatelessWidget {
               'assets/logos/mail_logo.png',
             );
           }
-          // else {
-          //   return Image.asset(
-          //     'assets/logos/phone_logo.png',
-          //   );
-          // }
         }
 
         return Column(
@@ -51,13 +46,13 @@ class SocialLoginSection extends StatelessWidget {
                 ),
               ],
             ),
-            kHeight20,
+            addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
                   onTap: () {
-										FocusScope.of(context).unfocus();
+                    FocusScope.of(context).unfocus();
                     if (state is SignInPhoneInitial) {
                       context.read<SignInBloc>().add(
                             SignInWithEmailSelected(),

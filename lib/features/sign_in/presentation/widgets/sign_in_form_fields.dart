@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -121,6 +119,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               label: 'Phone',
               child: Container(
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     CustomTextFormField(
                       theWidth: MediaQuery.of(context).size.width * 0.7965,
@@ -205,7 +204,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   Row(
                     children: [
                       CustomCheckBox(
@@ -233,11 +232,12 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   )
                 ],
               ),
-              addVerticalSpace(20),
+              addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
               CustomElevatedButton(
                 callback: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
+                    //setting validation error status
 
                     if (keepLogged) {
                       CacheHelper.setCachedString(
