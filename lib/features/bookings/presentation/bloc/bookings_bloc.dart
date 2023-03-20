@@ -3,7 +3,8 @@ import 'package:cipher/features/bookings/data/models/book_entity_service_req.dar
 import 'package:cipher/features/bookings/data/models/book_entity_service_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
+    as booking;
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -31,16 +32,46 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModelService: MyBookingListModel.fromJson(
+                  myBookingListModelService:
+                      booking.MyBookingListModel.fromJson(
                     value,
                   ),
-                  myBookingListModelTask: MyBookingListModel.fromJson(
+                  myBookingListModelTask: booking.MyBookingListModel.fromJson(
                     value,
                   ),
                 ),
               );
             },
           );
+        } catch (e) {
+          print(e);
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+            ),
+          );
+        }
+      },
+    );
+
+    on<BookingSingleLoaded>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              states: TheStates.initial,
+            ),
+          );
+          await repositories.fetchSingleBooking(id: event.id).then(
+                (value) => emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    result: booking.Result.fromJson(
+                      value,
+                    ),
+                  ),
+                ),
+              );
         } catch (e) {
           emit(
             state.copyWith(

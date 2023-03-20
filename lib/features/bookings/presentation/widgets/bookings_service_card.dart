@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 
 class BookingsServiceCard extends StatelessWidget {
   final String? serviceName;
@@ -19,9 +20,10 @@ class BookingsServiceCard extends StatelessWidget {
   final VoidCallback? editTap;
   final VoidCallback? cancelTap;
   final VoidCallback? deleteTap;
+  final double? theHeight;
 
   const BookingsServiceCard({
-    super.key,
+    Key? key,
     this.serviceName,
     this.providerName,
     this.firstWidget,
@@ -36,7 +38,8 @@ class BookingsServiceCard extends StatelessWidget {
     this.editTap,
     this.cancelTap,
     this.deleteTap,
-  });
+    this.theHeight,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class BookingsServiceCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: theHeight ?? MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -56,7 +59,7 @@ class BookingsServiceCard extends StatelessWidget {
             left: 5,
             right: 0,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: theHeight ?? MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
@@ -72,6 +75,7 @@ class BookingsServiceCard extends StatelessWidget {
                   8,
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
@@ -90,31 +94,31 @@ class BookingsServiceCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        PopupMenuButton(
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              onTap: editTap,
-                              child: const IconText(
-                                iconData: Icons.edit_note_outlined,
-                                label: 'Edit',
-                              ),
-                            ),
-                            PopupMenuItem(
-                              onTap: cancelTap,
-                              child: const IconText(
-                                iconData: Icons.clear_rounded,
-                                label: 'Cancel',
-                              ),
-                            ),
-                            PopupMenuItem(
-                              onTap: deleteTap,
-                              child: const IconText(
-                                iconData: Icons.delete_outline_rounded,
-                                label: 'Delete',
-                              ),
-                            ),
-                          ],
-                        ),
+                        // PopupMenuButton(
+                        //   itemBuilder: (context) => [
+                        //     PopupMenuItem(
+                        //       onTap: editTap,
+                        //       child: const IconText(
+                        //         iconData: Icons.edit_note_outlined,
+                        //         label: 'Edit',
+                        //       ),
+                        //     ),
+                        //     PopupMenuItem(
+                        //       onTap: cancelTap,
+                        //       child: const IconText(
+                        //         iconData: Icons.clear_rounded,
+                        //         label: 'Cancel',
+                        //       ),
+                        //     ),
+                        //     PopupMenuItem(
+                        //       onTap: deleteTap,
+                        //       child: const IconText(
+                        //         iconData: Icons.delete_outline_rounded,
+                        //         label: 'Delete',
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                     Row(
@@ -136,7 +140,12 @@ class BookingsServiceCard extends StatelessWidget {
                                 const Text("Status :"),
                                 kWidth5,
                                 Chip(
-                                  backgroundColor: Colors.teal.shade100,
+                                  backgroundColor:
+                                      (getStatus(status ?? '')["color"]
+                                              as Color)
+                                          .withOpacity(
+                                    0.6,
+                                  ),
                                   label: Text(status?.toTitleCase() ?? ''),
                                 )
                               ],

@@ -21,7 +21,7 @@ class PopularServicesSection extends StatelessWidget {
       builder: (context, state) {
         if (state is EntityServiceLoadSuccess) {
           return Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             child: Column(
               children: [
                 SectionHeading(
@@ -55,16 +55,22 @@ class PopularServicesSection extends StatelessWidget {
                           TaskEntityServicePage.routeName,
                         );
                       },
-                      child: ServiceCard(
-                        title: state.service.result?[index].title,
-                        imagePath:
-                            state.service.result?[index].images?.length == 0
-                                ? kServiceImageNImg
-                                : state
-                                    .service.result?[index].images?.first.media,
-                        rating: state
-                            .service.result?[index].rating?.first.rating
-                            .toString(),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: ServiceCard(
+                          location: state.service.result?[index].location,
+                          description:
+                              "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
+                          title: state.service.result?[index].title,
+                          imagePath:
+                              state.service.result?[index].images?.length == 0
+                                  ? kServiceImageNImg
+                                  : state.service.result?[index].images?.first
+                                      .media,
+                          rating: state
+                              .service.result?[index].rating?.first.rating
+                              .toString(),
+                        ),
                       ),
                     ),
                   ),

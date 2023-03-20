@@ -22,13 +22,16 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                   state.copyWith(
                     theStates: TheStates.success,
                     event: Event.fromJson(value),
+                    isEventLoaded: true,
                   ),
                 ),
               );
         } catch (e) {
+          print(e);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isEventLoaded: false,
             ),
           );
         }

@@ -20,6 +20,18 @@ class BookingLoaded extends BookingsEvent {
       ];
 }
 
+class BookingSingleLoaded extends BookingsEvent {
+  final int id;
+
+  const BookingSingleLoaded(
+    this.id,
+  );
+  @override
+  List<Object?> get props => [
+        id,
+      ];
+}
+
 class BookingCreated extends BookingsEvent {
   final BookEntityServiceReq service;
 

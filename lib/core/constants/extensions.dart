@@ -20,7 +20,7 @@ extension StringCasingExtension on String {
 }
 
 extension MyDateExtension on DateTime {
-  DateTime dateOnly() {
+  DateTime toDateOnly() {
     return DateTime(year, month, day);
   }
 }

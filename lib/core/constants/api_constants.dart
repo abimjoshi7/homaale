@@ -5,7 +5,7 @@ const careerPath = "/career/vacancy/";
 const localePath = "/locale/client/";
 
 // * bookings
-const kCreateBookings = "/task/entity/service-booking/";
+const kBooking = "/task/entity/service-booking/";
 const kCreateBookingsApproval = "/task/entity/service-booking/approval/";
 const kCreateBookingsDecline = "/task/entity/service-booking/reject/";
 const kCreateBookingsCancel = "/task/entity/service-booking/cancel/";

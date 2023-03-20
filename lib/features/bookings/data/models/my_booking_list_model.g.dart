@@ -169,7 +169,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       id: json['id'] as String?,
       username: json['username'] as String?,
       email: json['email'] as String?,
-      phone: json['phone'],
+      phone: json['phone'] as String?,
       fullName: json['full_name'] as String?,
       firstName: json['first_name'] as String?,
       middleName: json['middle_name'] as String?,
@@ -248,7 +248,9 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       isActive: json['is_active'] as bool?,
       needsApproval: json['needs_approval'] as bool?,
       isEndorsed: json['is_endorsed'] as bool?,
-      event: json['event'] as String?,
+      event: json['event'] == null
+          ? null
+          : Event.fromJson(json['event'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
@@ -288,6 +290,33 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'needs_approval': instance.needsApproval,
       'is_endorsed': instance.isEndorsed,
       'event': instance.event,
+    };
+
+_$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
+      id: json['id'] as String?,
+      title: json['title'] as String?,
+      start: json['start'] == null
+          ? null
+          : DateTime.parse(json['start'] as String),
+      end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
+      duration: json['duration'] as String?,
+      isFlexible: json['isFlexible'] as bool?,
+      isActive: json['isActive'] as bool?,
+      activeDates: (json['activeDates'] as List<dynamic>?)
+          ?.map((e) => DateTime.parse(e as String))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_EventToJson(_$_Event instance) => <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'start': instance.start?.toIso8601String(),
+      'end': instance.end?.toIso8601String(),
+      'duration': instance.duration,
+      'isFlexible': instance.isFlexible,
+      'isActive': instance.isActive,
+      'activeDates':
+          instance.activeDates?.map((e) => e.toIso8601String()).toList(),
     };
 
 _$_City _$$_CityFromJson(Map<String, dynamic> json) => _$_City(

@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -26,6 +25,33 @@ class DetailHeaderSection extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: const Text(
+                        "Title:",
+                      ),
+                    ),
+                    Text(
+                      // state.taskEntityService?.service?.title ??
+                      state.taskEntityService?.title ?? "Title goes here",
+                    )
+                  ],
+                ),
+                Wrap(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: const Text(
+                        "Service:",
+                      ),
+                    ),
+                    Text(
+                      state.taskEntityService?.service?.title ?? "Test",
+                    )
+                  ],
+                ),
+                Wrap(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: const Text(
                         "Category:",
                       ),
                     ),
@@ -35,20 +61,7 @@ class DetailHeaderSection extends StatelessWidget {
                     )
                   ],
                 ),
-                Wrap(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: const Text(
-                        "Title:",
-                      ),
-                    ),
-                    Text(
-                      state.taskEntityService?.service?.title ??
-                          "Need a garden cleaner",
-                    )
-                  ],
-                ),
+
                 Wrap(
                   children: [
                     SizedBox(

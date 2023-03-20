@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
@@ -121,3 +122,41 @@ List<String> bookingDropDownStrings = [
   "Tasks",
   "Services",
 ];
+
+Map<String, dynamic> getStatus(String status) {
+  switch (status) {
+    case "cancelled":
+      return {
+        "color": Colors.red.shade200,
+        "status": "Booking Cancelled",
+      };
+    case "closed":
+      return {
+        "color": kColorPurple,
+        "status": "Booking Closed",
+      };
+    case "approved":
+      return {
+        "color": kColorBlue,
+        "status": "Ask Payment",
+      };
+    case "pending":
+      return {
+        "color": kColorTeal,
+        "status": "Waiting for Approval",
+      };
+    case "rejected":
+      return {
+        "color": Colors.red.shade800,
+        "status": "Booking Rejected",
+      };
+    case "On Progess":
+      return {
+        "color": kColorGreen,
+        "status": "In Progress",
+      };
+
+    default:
+      return {};
+  }
+}

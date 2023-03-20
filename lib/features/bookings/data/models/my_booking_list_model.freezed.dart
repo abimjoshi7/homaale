@@ -1790,7 +1790,7 @@ mixin _$User {
   String? get id => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  dynamic? get phone => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
   @JsonKey(name: "full_name")
   String? get fullName => throw _privateConstructorUsedError;
   @JsonKey(name: "first_name")
@@ -1816,7 +1816,7 @@ abstract class $UserCopyWith<$Res> {
       {String? id,
       String? username,
       String? email,
-      dynamic? phone,
+      String? phone,
       @JsonKey(name: "full_name") String? fullName,
       @JsonKey(name: "first_name") String? firstName,
       @JsonKey(name: "middle_name") String? middleName,
@@ -1863,7 +1863,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -1898,7 +1898,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {String? id,
       String? username,
       String? email,
-      dynamic? phone,
+      String? phone,
       @JsonKey(name: "full_name") String? fullName,
       @JsonKey(name: "first_name") String? firstName,
       @JsonKey(name: "middle_name") String? middleName,
@@ -1941,7 +1941,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -1989,7 +1989,7 @@ class _$_User implements _User {
   @override
   final String? email;
   @override
-  final dynamic? phone;
+  final String? phone;
   @override
   @JsonKey(name: "full_name")
   final String? fullName;
@@ -2020,7 +2020,7 @@ class _$_User implements _User {
             (identical(other.username, username) ||
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
-            const DeepCollectionEquality().equals(other.phone, phone) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.firstName, firstName) ||
@@ -2035,17 +2035,8 @@ class _$_User implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      username,
-      email,
-      const DeepCollectionEquality().hash(phone),
-      fullName,
-      firstName,
-      middleName,
-      lastName,
-      createdAt);
+  int get hashCode => Object.hash(runtimeType, id, username, email, phone,
+      fullName, firstName, middleName, lastName, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -2066,7 +2057,7 @@ abstract class _User implements User {
       {final String? id,
       final String? username,
       final String? email,
-      final dynamic? phone,
+      final String? phone,
       @JsonKey(name: "full_name") final String? fullName,
       @JsonKey(name: "first_name") final String? firstName,
       @JsonKey(name: "middle_name") final String? middleName,
@@ -2082,7 +2073,7 @@ abstract class _User implements User {
   @override
   String? get email;
   @override
-  dynamic? get phone;
+  String? get phone;
   @override
   @JsonKey(name: "full_name")
   String? get fullName;
@@ -2168,7 +2159,7 @@ mixin _$EntityService {
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed =>
       throw _privateConstructorUsedError; // dynamic? merchant,
-  String? get event => throw _privateConstructorUsedError;
+  Event? get event => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2217,12 +2208,13 @@ abstract class $EntityServiceCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
-      String? event});
+      Event? event});
 
   $EntityServiceCreatedByCopyWith<$Res>? get createdBy;
   $CurrencyCopyWith<$Res>? get currency;
   $CityCopyWith<$Res>? get city;
   $ServiceCopyWith<$Res>? get service;
+  $EventCopyWith<$Res>? get event;
 }
 
 /// @nodoc
@@ -2414,7 +2406,7 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Event?,
     ) as $Val);
   }
 
@@ -2465,6 +2457,18 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       return _then(_value.copyWith(service: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $EventCopyWith<$Res>? get event {
+    if (_value.event == null) {
+      return null;
+    }
+
+    return $EventCopyWith<$Res>(_value.event!, (value) {
+      return _then(_value.copyWith(event: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -2510,7 +2514,7 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
-      String? event});
+      Event? event});
 
   @override
   $EntityServiceCreatedByCopyWith<$Res>? get createdBy;
@@ -2520,6 +2524,8 @@ abstract class _$$_EntityServiceCopyWith<$Res>
   $CityCopyWith<$Res>? get city;
   @override
   $ServiceCopyWith<$Res>? get service;
+  @override
+  $EventCopyWith<$Res>? get event;
 }
 
 /// @nodoc
@@ -2709,7 +2715,7 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Event?,
     ));
   }
 }
@@ -2878,7 +2884,7 @@ class _$_EntityService implements _EntityService {
   final bool? isEndorsed;
 // dynamic? merchant,
   @override
-  final String? event;
+  final Event? event;
 
   @override
   String toString() {
@@ -3043,7 +3049,7 @@ abstract class _EntityService implements EntityService {
       @JsonKey(name: "is_active") final bool? isActive,
       @JsonKey(name: "needs_approval") final bool? needsApproval,
       @JsonKey(name: "is_endorsed") final bool? isEndorsed,
-      final String? event}) = _$_EntityService;
+      final Event? event}) = _$_EntityService;
 
   factory _EntityService.fromJson(Map<String, dynamic> json) =
       _$_EntityService.fromJson;
@@ -3139,10 +3145,296 @@ abstract class _EntityService implements EntityService {
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed;
   @override // dynamic? merchant,
-  String? get event;
+  Event? get event;
   @override
   @JsonKey(ignore: true)
   _$$_EntityServiceCopyWith<_$_EntityService> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Event _$EventFromJson(Map<String, dynamic> json) {
+  return _Event.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Event {
+  String? get id => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  DateTime? get start => throw _privateConstructorUsedError;
+  DateTime? get end => throw _privateConstructorUsedError;
+  String? get duration => throw _privateConstructorUsedError;
+  bool? get isFlexible => throw _privateConstructorUsedError;
+  bool? get isActive => throw _privateConstructorUsedError;
+  List<DateTime>? get activeDates => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $EventCopyWith<Event> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $EventCopyWith<$Res> {
+  factory $EventCopyWith(Event value, $Res Function(Event) then) =
+      _$EventCopyWithImpl<$Res, Event>;
+  @useResult
+  $Res call(
+      {String? id,
+      String? title,
+      DateTime? start,
+      DateTime? end,
+      String? duration,
+      bool? isFlexible,
+      bool? isActive,
+      List<DateTime>? activeDates});
+}
+
+/// @nodoc
+class _$EventCopyWithImpl<$Res, $Val extends Event>
+    implements $EventCopyWith<$Res> {
+  _$EventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? start = freezed,
+    Object? end = freezed,
+    Object? duration = freezed,
+    Object? isFlexible = freezed,
+    Object? isActive = freezed,
+    Object? activeDates = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      start: freezed == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      end: freezed == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      duration: freezed == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFlexible: freezed == isFlexible
+          ? _value.isFlexible
+          : isFlexible // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isActive: freezed == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      activeDates: freezed == activeDates
+          ? _value.activeDates
+          : activeDates // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
+  factory _$$_EventCopyWith(_$_Event value, $Res Function(_$_Event) then) =
+      __$$_EventCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String? title,
+      DateTime? start,
+      DateTime? end,
+      String? duration,
+      bool? isFlexible,
+      bool? isActive,
+      List<DateTime>? activeDates});
+}
+
+/// @nodoc
+class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
+    implements _$$_EventCopyWith<$Res> {
+  __$$_EventCopyWithImpl(_$_Event _value, $Res Function(_$_Event) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? start = freezed,
+    Object? end = freezed,
+    Object? duration = freezed,
+    Object? isFlexible = freezed,
+    Object? isActive = freezed,
+    Object? activeDates = freezed,
+  }) {
+    return _then(_$_Event(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      start: freezed == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      end: freezed == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      duration: freezed == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFlexible: freezed == isFlexible
+          ? _value.isFlexible
+          : isFlexible // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isActive: freezed == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      activeDates: freezed == activeDates
+          ? _value._activeDates
+          : activeDates // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Event implements _Event {
+  const _$_Event(
+      {this.id,
+      this.title,
+      this.start,
+      this.end,
+      this.duration,
+      this.isFlexible,
+      this.isActive,
+      final List<DateTime>? activeDates})
+      : _activeDates = activeDates;
+
+  factory _$_Event.fromJson(Map<String, dynamic> json) =>
+      _$$_EventFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final String? title;
+  @override
+  final DateTime? start;
+  @override
+  final DateTime? end;
+  @override
+  final String? duration;
+  @override
+  final bool? isFlexible;
+  @override
+  final bool? isActive;
+  final List<DateTime>? _activeDates;
+  @override
+  List<DateTime>? get activeDates {
+    final value = _activeDates;
+    if (value == null) return null;
+    if (_activeDates is EqualUnmodifiableListView) return _activeDates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'Event(id: $id, title: $title, start: $start, end: $end, duration: $duration, isFlexible: $isFlexible, isActive: $isActive, activeDates: $activeDates)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Event &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.start, start) || other.start == start) &&
+            (identical(other.end, end) || other.end == end) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.isFlexible, isFlexible) ||
+                other.isFlexible == isFlexible) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            const DeepCollectionEquality()
+                .equals(other._activeDates, _activeDates));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, start, end, duration,
+      isFlexible, isActive, const DeepCollectionEquality().hash(_activeDates));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_EventCopyWith<_$_Event> get copyWith =>
+      __$$_EventCopyWithImpl<_$_Event>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_EventToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Event implements Event {
+  const factory _Event(
+      {final String? id,
+      final String? title,
+      final DateTime? start,
+      final DateTime? end,
+      final String? duration,
+      final bool? isFlexible,
+      final bool? isActive,
+      final List<DateTime>? activeDates}) = _$_Event;
+
+  factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
+
+  @override
+  String? get id;
+  @override
+  String? get title;
+  @override
+  DateTime? get start;
+  @override
+  DateTime? get end;
+  @override
+  String? get duration;
+  @override
+  bool? get isFlexible;
+  @override
+  bool? get isActive;
+  @override
+  List<DateTime>? get activeDates;
+  @override
+  @JsonKey(ignore: true)
+  _$$_EventCopyWith<_$_Event> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -27,7 +27,7 @@ import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
-import 'package:cipher/features/services/presentation/pages/service_booking.dart';
+import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';

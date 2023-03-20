@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -46,14 +47,36 @@ class PriceBookFooterSection extends StatelessWidget {
                     ),
                   ],
                 ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.2,
-              child: CustomElevatedButton(
-                callback: onPressed,
-                label: buttonLabel ?? 'Book Now',
-                mainColor: buttonColor ?? kColorPrimary,
+            Container(
+              padding: EdgeInsets.all(
+                8,
               ),
-            )
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  8,
+                ),
+                color: buttonColor,
+              ),
+              constraints: BoxConstraints(
+                minHeight: 30,
+                minWidth: 100,
+              ),
+              child: AutoSizeText(
+                buttonLabel ?? '',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width * 0.2,
+            //   child: Container
+            // 	CustomElevatedButton(
+            //     callback: onPressed,
+            //     label: buttonLabel ?? 'Book Now',
+            //     mainColor: buttonColor ?? kColorPrimary,
+            //   ),
+            // )
           ],
         ),
       ),

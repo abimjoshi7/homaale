@@ -101,7 +101,7 @@ class User with _$User {
     String? id,
     String? username,
     String? email,
-    dynamic? phone,
+    String? phone,
     @JsonKey(name: "full_name") String? fullName,
     @JsonKey(name: "first_name") String? firstName,
     @JsonKey(name: "middle_name") String? middleName,
@@ -152,12 +152,28 @@ class EntityService with _$EntityService {
     @JsonKey(name: "needs_approval") bool? needsApproval,
     @JsonKey(name: "is_endorsed") bool? isEndorsed,
     // dynamic? merchant,
-    String? event,
+    Event? event,
     // dynamic? avatar,
   }) = _EntityService;
 
   factory EntityService.fromJson(Map<String, dynamic> json) =>
       _$EntityServiceFromJson(json);
+}
+
+@freezed
+class Event with _$Event {
+  const factory Event({
+    String? id,
+    String? title,
+    DateTime? start,
+    DateTime? end,
+    String? duration,
+    bool? isFlexible,
+    bool? isActive,
+    List<DateTime>? activeDates,
+  }) = _Event;
+
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 }
 
 @freezed

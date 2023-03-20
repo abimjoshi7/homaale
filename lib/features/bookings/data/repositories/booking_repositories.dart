@@ -12,7 +12,21 @@ class BookingRepositories {
     try {
       final res = await _dio.postDataWithCredential(
         data: bookEntityService.toJson(),
-        url: kCreateBookings,
+        url: kBooking,
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchSingleBooking({
+    required int id,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: "$kBooking/$id",
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
@@ -47,7 +61,7 @@ class BookingRepositories {
     try {
       final x = await _dio.patchDataWithCredential(
         data: editBookingReq.toJson(),
-        url: '$kCreateBookings$id',
+        url: '$kBooking$id',
         token: CacheHelper.accessToken,
       );
 
@@ -61,7 +75,7 @@ class BookingRepositories {
     try {
       await _dio.deleteDataWithCredential(
         id: id,
-        url: kCreateBookings,
+        url: kBooking,
         token: CacheHelper.accessToken,
       );
     } catch (e) {

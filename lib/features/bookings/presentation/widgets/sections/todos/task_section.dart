@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -47,6 +48,17 @@ class _TaskSectionState extends State<TaskSection> {
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: BookingsServiceCard(
+                      callback: () {
+                        context.read<BookingsBloc>().add(
+                              BookingSingleLoaded(
+                                allList?[index].id ?? 0,
+                              ),
+                            );
+                        Navigator.pushNamed(
+                          context,
+                          BookedServicePage.routeName,
+                        );
+                      },
                       editTap: () async {
                         showEditForm(context);
                       },
