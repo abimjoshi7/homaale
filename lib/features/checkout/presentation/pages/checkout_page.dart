@@ -1,7 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_type_event.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
 
 class CheckoutPage extends StatelessWidget {
   static const routeName = '/checkout-page';
@@ -355,6 +359,9 @@ class CheckoutPage extends StatelessWidget {
                     width: 100,
                     child: CustomElevatedButton(
                       callback: () {
+                        context
+                            .read<PaymentTypeBloc>()
+                            .add(const PaymentTypeListInitiated());
                         Navigator.pushNamed(
                           context,
                           PaymentPage.routeName,

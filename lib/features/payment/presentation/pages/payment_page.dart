@@ -2,11 +2,14 @@ import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_type_list_state.dart';
 import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
 import 'package:cipher/features/payment/presentation/pages/widgets/common_wallet_card.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../bloc/payment_type_bloc.dart';
 
 class PaymentPage extends StatefulWidget {
   static const routeName = '/payment-page';
@@ -25,7 +28,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PaymentBloc, PaymentIntentState>(
+      body: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
         builder: (context, state) {
           return SingleChildScrollView(
             child: Column(
@@ -51,146 +54,47 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 const Divider(),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(10),
                   child: CustomFormField(
                     label: 'Payment Methods',
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.eSewa,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                },
-                              );
-                            },
+                        if (state.theState == TheStates.initial)
+                          const SizedBox(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           ),
-                          walletAssets:
-                              'https://esewa.com.np/common/images/esewa-icon-large.png',
-                          walletName: 'Esewa Mobile Wallet',
-                          walletCardNo: '*****09876',
-                          // radioValue: RadioChangeValue.eSewa,
-                        ),
+                        if (state.theState == TheStates.success &&
+                            state.paymentType!.result != null)
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.paymentType?.result!.length,
+                              itemBuilder: (context, index) {
+                                return CommonWalletDisplayCard(
+                                  radio: Radio(
+                                    groupValue:
+                                        state.paymentType?.result![index],
+                                    value: state.paymentType?.result![0],
+                                    onChanged: (newValue) => setState(() =>
+                                        state.paymentType?.result![index] =
+                                            newValue!),
+                                  ),
+                                  walletAssets:
+                                      state.paymentType?.result![index].logo ??
+                                          "",
+                                  walletName:
+                                      state.paymentType?.result![index].name ??
+                                          "",
+                                  walletCardNo: state
+                                          .paymentType?.result![index].id
+                                          .toString() ??
+                                      "",
+                                );
+                              }),
                         commonSize,
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.khalti,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                  log('$defaultValue');
-                                },
-                              );
-                            },
-                          ),
-                          walletAssets:
-                              'https://dao578ztqooau.cloudfront.net/static/img/logo1.png',
-                          walletName: 'Khalti Digital Wallet',
-                          walletCardNo: '*****09876',
-                          // radioValue: RadioChangeValue.khalti,
-                        ),
-                        commonSize,
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.masterCard,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                },
-                              );
-                            },
-                          ),
-                          walletAssets:
-                              'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/2560px-MasterCard_Logo.svg.png',
-                          walletName: 'Master Card',
-                          walletCardNo: '*****09876',
-                          // radioValue: RadioChangeValue.masterCard,
-                        ),
-                        commonSize,
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.visaCard,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                },
-                              );
-                            },
-                          ),
-                          walletAssets:
-                              'https://usa.visa.com/dam/VCOM/regional/ve/romania/blogs/hero-image/visa-logo-800x450.jpg',
-                          walletName: 'Visa Card',
-                          walletCardNo: '*****09876',
-                          // radioValue: RadioChangeValue.visaCard,
-                        ),
-                        commonSize,
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.googlePay,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                },
-                              );
-                            },
-                          ),
-                          walletAssets:
-                              'https://1000logos.net/wp-content/uploads/2020/04/Google-Pay-Logo.png',
-                          walletName: 'Google Pay',
-                          walletCardNo: '*****09876',
-                          // radioValue: RadioChangeValue.googlePay,
-                        ),
-                        commonSize,
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.paypal,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                },
-                              );
-                            },
-                          ),
-                          walletAssets:
-                              'https://1000logos.net/wp-content/uploads/2017/05/emblem-Paypal.jpg',
-                          walletName: 'Paypal',
-                          walletCardNo: '*****09876',
-                          // radioValue:RadioChangeValue.paypal,
-                        ),
-                        commonSize,
-                        CommonWalletDisplayCard(
-                          radio: Radio<RadioChangeValue>(
-                            value: RadioChangeValue.applePay,
-                            groupValue: defaultValue,
-                            onChanged: (RadioChangeValue? value) {
-                              setState(
-                                () {
-                                  defaultValue = value;
-                                },
-                              );
-                            },
-                          ),
-                          walletAssets:
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ0oB4mcJKRwvUTySReKWZX5l2kqAXzTxMmRMdBFxucWGX_449WCjGYLAa5SgvzGnesg4&usqp=CAU',
-                          walletName: 'Apple Pay',
-                          walletCardNo: '*****09876',
-                          // radioValue: RadioChangeValue.applePay,
-                        ),
-                        addVerticalSpace(20),
                         const Text(
                           'Other payment methods',
                           style: kBodyText1,
@@ -217,40 +121,30 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   ),
                 ),
-                CustomElevatedButton(
-                  callback: () async {
-                    final Uri url = Uri.parse(
-                      state.paymentIntent?.data?.paymentUrl ?? '',
-                      // 'https://test-pay.khalti.com/?pidx=oaYidQWSwrRo2HpeCVj6h4',
-                    );
-                    context.read<PaymentBloc>().add(
-                          PaymentIntentInitiated(
-                            provider: defaultValue == RadioChangeValue.khalti
-                                ? "khalti"
-                                : defaultValue == RadioChangeValue.eSewa
-                                    ? "esewa"
-                                    : defaultValue ==
-                                            RadioChangeValue.masterCard
-                                        ? "mastercard"
-                                        : defaultValue ==
-                                                RadioChangeValue.visaCard
-                                            ? 'visacard'
-                                            : defaultValue ==
-                                                    RadioChangeValue.googlePay
-                                                ? "googlepay"
-                                                : defaultValue ==
-                                                        RadioChangeValue.paypal
-                                                    ? 'paypal'
-                                                    : 'applepay',
-                            uuid: '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
-                          ),
+                BlocBuilder<PaymentBloc, PaymentIntentState>(
+                    builder: (context, paymentIntentStateOnly) {
+                  return CustomElevatedButton(
+                      callback: () async {
+                        final Uri url = Uri.parse(
+                          paymentIntentStateOnly
+                                  .paymentIntent?.data?.paymentUrl ??
+                              '',
                         );
-                    if (!await launchUrl(url)) {
-                      throw Exception('Could not launch $url');
-                    }
-                  },
-                  label: 'Proceed',
-                ),
+                        context.read<PaymentBloc>().add(
+                              PaymentIntentInitiated(
+                                provider: state.paymentType?.result![1].slug ??
+                                    "khalti",
+                                uuid: '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+                              ),
+                            );
+                        if (!await launchUrl(url)) {
+                          throw Exception('Could not launch $url');
+                        }
+                      },
+                      label: 'Proceed'
+                      // paymentIntentStateOnly.paymentIntent?.data !=null ? 'Proceed':'Processing',
+                      );
+                }),
               ],
             ),
           );
