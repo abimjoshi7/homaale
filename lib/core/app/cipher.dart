@@ -15,6 +15,7 @@ import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/t
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
@@ -201,6 +202,11 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => EventBloc(),
+          ),
+          BlocProvider(
+            create: (context) => PaymentBloc(),
+          ), BlocProvider(
+            create: (context) => PaymentTypeBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
