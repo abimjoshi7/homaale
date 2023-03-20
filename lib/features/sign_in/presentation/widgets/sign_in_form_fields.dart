@@ -28,8 +28,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
 
   @override
   void initState() {
-    initLoginDetails();
     super.initState();
+    initLoginDetails();
+    context.read<SignInBloc>().add(SignInWithPhoneSelected());
   }
 
   Future<void> initLoginDetails() async {
@@ -53,10 +54,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
 
-        if (state is SignInSuccess) {
-          CacheHelper.hasProfile = state.userLoginRes.hasProfile;
-          CacheHelper.accessToken = state.userLoginRes.access;
-          CacheHelper.refreshToken = state.userLoginRes.refresh;
+        if (state.theStates == TheStates.success) {
+          CacheHelper.hasProfile = state.userLoginRes?.hasProfile;
+          CacheHelper.accessToken = state.userLoginRes?.access;
+          CacheHelper.refreshToken = state.userLoginRes?.refresh;
           if (keepLogged == true) {
             // await CacheHelper.setCachedString(
             //   kIsPersistToken,
@@ -75,7 +76,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             (route) => false,
           );
         }
-        if (state is SignInFailure) {
+        if (state.theStates == TheStates.failure) {
           if (!mounted) return;
           await showDialog(
             context: context,
@@ -90,81 +91,87 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               isSuccess: false,
             ),
           ).then(
-            (value) => context.read<SignInBloc>().add(
-                  SignInWithPhoneSelected(),
-                ),
+            (value) => (state.isPhoneNumber)
+                ? context.read<SignInBloc>().add(
+                      SignInWithPhoneSelected(),
+                    )
+                : context.read<SignInBloc>().add(
+                      SignInWithEmailSelected(),
+                    ),
           );
         }
       },
       builder: (context, state) {
         Widget buildForm() {
-          if (state is SignInEmailInitial) {
-            return CustomFormField(
-              label: 'Email',
-              child: CustomTextFormField(
-                controller: usernameController,
-                onSaved: (p0) => setState(
-                  () {
-                    usernameController.text = p0!;
-                  },
+          if (state.theStates == TheStates.initial) {
+            if (!state.isPhoneNumber) {
+              return CustomFormField(
+                label: 'Email',
+                child: CustomTextFormField(
+                  controller: usernameController,
+                  onSaved: (p0) => setState(
+                    () {
+                      usernameController.text = p0!;
+                    },
+                  ),
+                  textInputType: TextInputType.emailAddress,
+                  hintText: 'sample@email.com',
+                  validator: validateNotEmpty,
                 ),
-                textInputType: TextInputType.emailAddress,
-                hintText: 'sample@email.com',
-                validator: validateNotEmpty,
-              ),
-            );
-          }
-          if (state is SignInPhoneInitial) {
-            return CustomFormField(
-              label: 'Phone',
-              child: Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    CustomTextFormField(
-                      theWidth: MediaQuery.of(context).size.width * 0.7965,
-                      controller: phoneNumberController,
-                      validator: validateNotEmpty,
-                      onSaved: (p0) => setState(
-                        () {
-                          phoneNumberController.text = p0!;
-                        },
-                      ),
-                      textInputType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                      hintText: 'Mobile Number',
-                      prefixWidget: InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset('assets/nepalflag.png'),
-                              const Text(
-                                '+977',
-                                style: kBodyText1,
-                              ),
-                              const Icon(Icons.arrow_drop_down)
-                            ],
+              );
+            }
+            if (state.isPhoneNumber) {
+              return CustomFormField(
+                label: 'Phone',
+                child: Container(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      CustomTextFormField(
+                        theWidth: MediaQuery.of(context).size.width * 0.7965,
+                        controller: phoneNumberController,
+                        validator: validateNotEmpty,
+                        onSaved: (p0) => setState(
+                          () {
+                            phoneNumberController.text = p0!;
+                          },
+                        ),
+                        textInputType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        hintText: 'Mobile Number',
+                        prefixWidget: InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset('assets/nepalflag.png'),
+                                const Text(
+                                  '+977',
+                                  style: kBodyText1,
+                                ),
+                                const Icon(Icons.arrow_drop_down)
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    addHorizontalSpace(
-                        MediaQuery.of(context).size.width * 0.020),
-                    GetDevicePhoneNumberButton(
-                      onTap: () {},
-                    ),
-                  ],
+                      addHorizontalSpace(
+                          MediaQuery.of(context).size.width * 0.020),
+                      GetDevicePhoneNumberButton(
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          } else {
-            return const CircularProgressIndicator();
+              );
+            }
           }
+
+          return const SizedBox();
         }
 
         return Form(
@@ -237,7 +244,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 callback: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
+
                     //setting validation error status
+                    // state.copyWith(hasValidationErrors: false);
 
                     if (keepLogged) {
                       CacheHelper.setCachedString(
@@ -263,25 +272,35 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                       CacheHelper.clearCachedData(kRememberCreds);
                     }
 
-                    if (state is SignInPhoneInitial) {
-                      context.read<SignInBloc>().add(
-                            SignInWithPhoneInitiated(
-                              userLoginReq: UserLoginReq(
-                                username: '+977${phoneNumberController.text}',
-                                password: passwordController.text,
+                    if (state.theStates == TheStates.initial) {
+                      if (state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithPhoneInitiated(
+                                userLoginReq: UserLoginReq(
+                                  username: '+977${phoneNumberController.text}',
+                                  password: passwordController.text,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                      }
+                      if (!state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithEmailInitiated(
+                                userLoginReq: UserLoginReq(
+                                  username: usernameController.text,
+                                  password: passwordController.text,
+                                ),
+                              ),
+                            );
+                      }
                     }
-                    if (state is SignInEmailInitial) {
-                      context.read<SignInBloc>().add(
-                            SignInWithEmailInitiated(
-                              userLoginReq: UserLoginReq(
-                                username: usernameController.text,
-                                password: passwordController.text,
-                              ),
-                            ),
-                          );
+                  }
+                  //setting validation error status to true
+                  else {
+                    if (state.theStates == TheStates.initial) {
+                      context
+                          .read<SignInBloc>()
+                          .add(SignInValErrorStatusChanged());
                     }
                   }
                 },

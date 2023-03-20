@@ -24,15 +24,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         Widget displayText() {
-          if (state is SignInEmailInitial) {
+          if (state.theStates == TheStates.initial) ;
+          if (!state.isPhoneNumber) {
             return const Text('Email', style: kLabelPrimary);
-          } else {
-            return const Text('Phone', style: kLabelPrimary);
           }
+
+          return const Text('Phone', style: kLabelPrimary);
         }
 
         Widget displayText2() {
-          if (state is SignInEmailInitial) {
+          if (state.theStates == TheStates.initial) ;
+          if (!state.isPhoneNumber) {
             return const Text(
               'A reset link will be sent to your email.',
               style: kBodyText1,
@@ -46,7 +48,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         }
 
         Widget displayTextField() {
-          if (state is SignInEmailInitial) {
+          if (state.theStates == TheStates.initial) ;
+          if (!state.isPhoneNumber) {
             return CustomTextFormField(
               onSaved: (p0) => setState(
                 () {
@@ -169,15 +172,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       callback: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-
-                          if (state is SignInEmailInitial) {
+                          if (state.theStates == TheStates.initial) return;
+                          if (!state.isPhoneNumber) {
                             context.read<ForgotPasswordBloc>().add(
                                   ForgotPasswordEmailInitiated(
                                     emailController.text,
                                   ),
                                 );
                           }
-                          if (state is SignInPhoneInitial) {
+                          if (state.isPhoneNumber) {
                             context.read<ForgotPasswordBloc>().add(
                                   ForgotPasswordPhoneInitiated(
                                     "+977${phoneController.text}",

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'sign_in_bloc.dart';
 
 abstract class SignInEvent extends Equatable {
@@ -26,3 +27,10 @@ class SignInWithEmailInitiated extends SignInEvent {
 }
 
 class SignOutInitiated extends SignInEvent {}
+
+class SignInValErrorStatusChanged extends SignInEvent {
+  // final bool hasValidationErrors;
+  // SignInValErrorStatusChanged({
+  //   required this.hasValidationErrors,
+  // });
+}
