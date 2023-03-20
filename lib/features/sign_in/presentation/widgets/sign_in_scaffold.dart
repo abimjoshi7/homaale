@@ -90,7 +90,7 @@ class SignInScaffold extends StatelessWidget {
                   top: (state.theStates == TheStates.initial &&
                           state.hasValidationErrors)
                       ? MediaQuery.of(context).size.height * 0.23
-                      : MediaQuery.of(context).size.height * 0.245,
+                      : MediaQuery.of(context).size.height * 0.265,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.8,
@@ -103,7 +103,7 @@ class SignInScaffold extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: kPadding20,
-                        child: SizedBox(child: child),
+                        child: child,
                       ),
                     ),
                   ),

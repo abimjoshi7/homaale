@@ -24,7 +24,7 @@ class SignInPage extends StatelessWidget {
             'Login to your account',
             style: kHelper13,
           ),
-          addVerticalSpace(MediaQuery.of(context).size.height * 0.0249),
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.025),
           SignInFormFields(),
           addVerticalSpace(MediaQuery.of(context).size.height * 0.026),
           const FingerPrintSection(),
