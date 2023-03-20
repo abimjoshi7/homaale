@@ -87,12 +87,10 @@ class SignInScaffold extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  // top: MediaQuery.of(context).size.height * 0.158,
                   top: (state.theStates == TheStates.initial &&
                           state.hasValidationErrors)
                       ? MediaQuery.of(context).size.height * 0.23
                       : MediaQuery.of(context).size.height * 0.245,
-
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.8,
