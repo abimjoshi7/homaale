@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
   static const routeName = '/sign-in-page';
+	
 
   @override
   Widget build(BuildContext context) {
     return SignInScaffold(
       child: Column(
         children: [
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.032),
           InkWell(
             onTap: () async {
               DioHelper().refreshToken();
@@ -23,14 +25,13 @@ class SignInPage extends StatelessWidget {
             'Login to your account',
             style: kHelper13,
           ),
-          const Expanded(
-            child: SignInFormFields(),
-          ),
-          kHeight20,
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.035),
+          SignInFormFields(),
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.026),
           const FingerPrintSection(),
-          kHeight50,
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.017),
           const SocialLoginSection(),
-          kHeight20,
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -48,7 +49,7 @@ class SignInPage extends StatelessWidget {
               ),
             ],
           ),
-          kHeight20,
+          addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
         ],
       ),
     );
