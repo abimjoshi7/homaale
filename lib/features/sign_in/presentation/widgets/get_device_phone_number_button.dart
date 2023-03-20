@@ -1,3 +1,4 @@
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -9,13 +10,25 @@ class GetDevicePhoneNumberButton extends StatelessWidget {
     required this.onTap,
   });
 
+  // void getPhoneNumber() async {
+  //   var telephony = Telephony.instance;
+  //   final bool? result = await telephony.requestPhonePermissions;
+  //   if (result != null && result) {
+  //     // Permission granted, proceed to get phone number
+  //     var simCards = await telephony.simOperator;
+  //     print('Phone number: $simCards');
+  //   } else {
+  //     // Permission denied, handle it gracefully
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
         splashColor: kColorPrimaryAccent,
         borderRadius: BorderRadius.circular(10.0),
-        onTap: () {},
+        onTap: () => null,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
           width: MediaQuery.of(context).size.width * 0.1,
