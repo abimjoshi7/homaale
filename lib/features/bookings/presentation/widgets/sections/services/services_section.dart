@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
+import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -57,6 +58,16 @@ class _ServicesSectionState extends State<ServicesSection> {
                           context,
                           BookedServicePage.routeName,
                         );
+                      },
+                      editTap: () async {
+                        showEditForm(context);
+                      },
+                      cancelTap: () {
+                        context.read<BookingsBloc>().add(
+                              BookingCancelled(
+                                id: allList?[index].id ?? 0,
+                              ),
+                            );
                       },
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
@@ -139,6 +150,27 @@ class _ServicesSectionState extends State<ServicesSection> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Future<dynamic> showEditForm(BuildContext context) {
+    return Future.delayed(
+      Duration.zero,
+      () async => showModalBottomSheet(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.7,
+        ),
+        isScrollControlled: true,
+        context: context,
+        builder: (context) => Column(
+          children: const [
+            CustomModalSheetDrawerIcon(),
+            Expanded(
+              child: EditMyOrdersForm(selectedIndex: 0),
+            ),
+          ],
+        ),
       ),
     );
   }

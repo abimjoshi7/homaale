@@ -37,7 +37,7 @@ class _TaskSectionState extends State<TaskSection> {
             child: CircularProgressIndicator(),
           );
         }
-        if (state.states == TheStates.success) {
+        if (state.states == TheStates.success && state.isLoaded == true) {
           final allList = state.myBookingListModelTask?.result;
 
           return Column(
@@ -65,6 +65,14 @@ class _TaskSectionState extends State<TaskSection> {
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
                               BookingDeleted(
+                                id: allList?[index].id ?? 0,
+                              ),
+                            );
+                        Navigator.pop(context);
+                      },
+                      cancelTap: () {
+                        context.read<BookingsBloc>().add(
+                              BookingCancelled(
                                 id: allList?[index].id ?? 0,
                               ),
                             );

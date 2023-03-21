@@ -7,11 +7,11 @@ class BookingsState extends Equatable {
   final booking.Result? result;
   final booking.MyBookingListModel? myBookingListModelTask;
   final booking.MyBookingListModel? myBookingListModelService;
-  final BookEntityServiceRes? bookEntityServiceRes;
   final BookingType? bookingType;
   final EditBookingRes? editBookingRes;
+  final bool? isLoaded;
   final bool? isBooked;
-  final bool? isBookingUpdated;
+  final bool? isUpdated;
   final bool? isApproved;
   final bool? isCancelled;
   final bool? isDeleted;
@@ -22,11 +22,11 @@ class BookingsState extends Equatable {
     this.result,
     this.myBookingListModelTask,
     this.myBookingListModelService,
-    this.bookEntityServiceRes,
     this.bookingType = BookingType.all,
     this.editBookingRes,
+    this.isLoaded,
     this.isBooked,
-    this.isBookingUpdated,
+    this.isUpdated,
     this.isApproved,
     this.isCancelled,
     this.isDeleted = false,
@@ -38,11 +38,11 @@ class BookingsState extends Equatable {
     booking.Result? result,
     booking.MyBookingListModel? myBookingListModelTask,
     booking.MyBookingListModel? myBookingListModelService,
-    BookEntityServiceRes? bookEntityServiceRes,
     BookingType? bookingType,
     EditBookingRes? editBookingRes,
+    bool? isLoaded,
     bool? isBooked,
-    bool? isBookingUpdated,
+    bool? isUpdated,
     bool? isApproved,
     bool? isCancelled,
     bool? isDeleted,
@@ -55,11 +55,11 @@ class BookingsState extends Equatable {
           myBookingListModelTask ?? this.myBookingListModelTask,
       myBookingListModelService:
           myBookingListModelService ?? this.myBookingListModelService,
-      bookEntityServiceRes: bookEntityServiceRes ?? this.bookEntityServiceRes,
       bookingType: bookingType ?? this.bookingType,
       editBookingRes: editBookingRes ?? this.editBookingRes,
+      isLoaded: isLoaded ?? this.isLoaded,
       isBooked: isBooked ?? this.isBooked,
-      isBookingUpdated: isBookingUpdated ?? this.isBookingUpdated,
+      isUpdated: isUpdated ?? this.isUpdated,
       isApproved: isApproved ?? this.isApproved,
       isCancelled: isCancelled ?? this.isCancelled,
       isDeleted: isDeleted ?? this.isDeleted,
@@ -74,11 +74,11 @@ class BookingsState extends Equatable {
       result,
       myBookingListModelTask,
       myBookingListModelService,
-      bookEntityServiceRes,
       bookingType,
       editBookingRes,
+      isLoaded,
       isBooked,
-      isBookingUpdated,
+      isUpdated,
       isApproved,
       isCancelled,
       isDeleted,

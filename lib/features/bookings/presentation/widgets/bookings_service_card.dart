@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
-import 'package:cipher/widgets/widgets.dart';
 
-class BookingsServiceCard extends StatelessWidget {
+class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final String? serviceName;
   final String? providerName;
   final Widget? firstWidget;
@@ -95,7 +95,78 @@ class BookingsServiceCard extends StatelessWidget {
                             ),
                           ],
                         ),
+                        IconButton(
+                          onPressed: () {
+                            showCustomBottomSheet(
+                              context: context,
+                              widget: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ListTile(
+                                    onTap: editTap,
+                                    leading: Icon(
+                                      Icons.edit_outlined,
+                                    ),
+                                    title: Text("Edit"),
+                                  ),
+                                  Divider(),
+                                  ListTile(
+                                    onTap: cancelTap,
+                                    leading: Icon(
+                                      Icons.cancel_outlined,
+                                    ),
+                                    title: Text("Cancel"),
+                                  ),
+                                  Divider(),
+
+                                  ListTile(
+                                    onTap: deleteTap,
+                                    leading: Icon(
+                                      Icons.delete_outline_rounded,
+                                    ),
+                                    title: Text("Remove"),
+                                  ),
+                                  // TextButton.icon(
+                                  //   style: TextButton.styleFrom(
+                                  //       foregroundColor: kColorBlue),
+                                  //   onPressed: editTap,
+                                  //   icon: ,
+                                  //   label: ,
+                                  // ),
+                                  // Divider(),
+                                  // TextButton.icon(
+                                  //   style: TextButton.styleFrom(
+                                  //       foregroundColor: kColorGrey),
+                                  //   onPressed: cancelTap,
+                                  //   icon: Icon(
+                                  //     Icons.cancel_outlined,
+                                  //   ),
+                                  //   label: Text("Cancel"),
+                                  // ),
+                                  // Divider(),
+                                  // TextButton.icon(
+                                  //   style: TextButton.styleFrom(
+                                  //       foregroundColor: Colors.red),
+                                  //   onPressed: deleteTap,
+                                  //   icon: Icon(
+                                  //     Icons.delete_outline_rounded,
+                                  //   ),
+                                  //   label: Text("Remove"),
+                                  // ),
+                                ],
+                              ),
+                            );
+                          },
+                          icon: Icon(
+                            Icons.more_vert_rounded,
+                          ),
+                        ),
                         // PopupMenuButton(
+                        //   offset: Offset(10, 10),
+                        //   constraints: BoxConstraints(
+                        //     maxHeight: 100,
+                        //     maxWidth: 100,
+                        //   ),
                         //   itemBuilder: (context) => [
                         //     PopupMenuItem(
                         //       onTap: editTap,
@@ -104,20 +175,20 @@ class BookingsServiceCard extends StatelessWidget {
                         //         label: 'Edit',
                         //       ),
                         //     ),
-                        //     PopupMenuItem(
-                        //       onTap: cancelTap,
-                        //       child: const IconText(
-                        //         iconData: Icons.clear_rounded,
-                        //         label: 'Cancel',
-                        //       ),
-                        //     ),
-                        //     PopupMenuItem(
-                        //       onTap: deleteTap,
-                        //       child: const IconText(
-                        //         iconData: Icons.delete_outline_rounded,
-                        //         label: 'Delete',
-                        //       ),
-                        //     ),
+                        //     // PopupMenuItem(
+                        //     //   onTap: cancelTap,
+                        //     //   child: const IconText(
+                        //     //     iconData: Icons.clear_rounded,
+                        //     //     label: 'Cancel',
+                        //     //   ),
+                        //     // ),
+                        //     // PopupMenuItem(
+                        //     //   onTap: deleteTap,
+                        //     //   child: const IconText(
+                        //     //     iconData: Icons.delete_outline_rounded,
+                        //     //     label: 'Delete',
+                        //     //   ),
+                        //     // ),
                         //   ],
                         // ),
                       ],

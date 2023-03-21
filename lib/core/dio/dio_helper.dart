@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cipher/core/app/api_end_points.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/extensions.dart';
 import 'package:dependencies/dependencies.dart';
 
 class DioHelper {
@@ -44,7 +45,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -75,7 +79,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST ERROR: ${e.response?.data}');
@@ -114,7 +121,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -153,7 +163,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -191,7 +204,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -228,7 +244,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -272,7 +291,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
@@ -313,7 +335,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST FORM DATA ERROR: ${e.response?.data}');
@@ -354,7 +379,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');
