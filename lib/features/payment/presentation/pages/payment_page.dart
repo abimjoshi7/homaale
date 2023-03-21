@@ -24,6 +24,7 @@ class _PaymentPageState extends State<PaymentPage> {
     height: 20,
   );
   RadioChangeValue? defaultValue = RadioChangeValue.khalti;
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +78,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                   radio: Radio(
                                     groupValue:
                                         state.paymentType?.result![index],
-                                    value: state.paymentType?.result![0],
-                                    onChanged: (newValue) => setState(() =>
+                                    value: state
+                                        .paymentType?.result![currentIndex],
+                                    onChanged: (newValue) {
+                                      currentIndex = index;
+                                      setState(() {
                                         state.paymentType?.result![index] =
-                                            newValue!),
+                                            newValue!;
+                                      });
+                                    },
                                   ),
                                   walletAssets:
                                       state.paymentType?.result![index].logo ??
@@ -123,27 +129,33 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 BlocBuilder<PaymentBloc, PaymentIntentState>(
                     builder: (context, paymentIntentStateOnly) {
-                  return CustomElevatedButton(
-                      callback: () async {
-                        final Uri url = Uri.parse(
-                          paymentIntentStateOnly
-                                  .paymentIntent?.data?.paymentUrl ??
-                              '',
-                        );
-                        context.read<PaymentBloc>().add(
-                              PaymentIntentInitiated(
-                                provider: state.paymentType?.result![1].slug ??
-                                    "khalti",
-                                uuid: '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
-                              ),
+                  return
+                    paymentIntentStateOnly.theState == TheStates.initial
+                      ? CircularProgressIndicator()
+                      :
+                    CustomElevatedButton(
+                          callback: () async {
+                            final Uri url = Uri.parse(
+                              paymentIntentStateOnly
+                                      .paymentIntent?.data?.paymentUrl ??
+                                  ' https://test-pay.khalti.com/?pidx=ZpEgm5wxH8WzP9bFctswo9',
                             );
-                        if (!await launchUrl(url)) {
-                          throw Exception('Could not launch $url');
-                        }
-                      },
-                      label: 'Proceed'
-                      // paymentIntentStateOnly.paymentIntent?.data !=null ? 'Proceed':'Processing',
-                      );
+                            context.read<PaymentBloc>().add(
+                                  PaymentIntentInitiated(
+                                    provider: state.paymentType
+                                            ?.result![currentIndex].slug ??
+                                        "khalti",
+                                    uuid:
+                                        '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+                                  ),
+                                );
+                            if (!await launchUrl(url)) {
+                              throw Exception('Could not launch $url');
+                            }
+                          },
+                          label: 'Proceed'
+                          // paymentIntentStateOnly.paymentIntent?.data !=null ? 'Proceed':'Processing',
+                          );
                 }),
               ],
             ),

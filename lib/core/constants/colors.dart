@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:cipher/core/constants/iterable.dart';
 import 'package:flutter/painting.dart';
+
+import 'iterable.dart';
 
 const kColorPrimary = Color(0xff211D4F);
 const kColorPrimaryAccent = Color(0xff5C6096);
