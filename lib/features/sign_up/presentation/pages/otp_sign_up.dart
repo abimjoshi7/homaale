@@ -21,12 +21,11 @@ class _OtpSignUpState extends State<OtpSignUp> {
 
   Widget _buildOTP() {
     return Pinput(
+      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsRetrieverApi,
       length: 6,
       onCompleted: (value) {
         setState(
-          () {
-            otpValue = value;
-          },
+          () => otpValue = value,
         );
       },
     );

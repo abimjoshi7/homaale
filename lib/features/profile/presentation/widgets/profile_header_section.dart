@@ -19,8 +19,8 @@ class ProfileHeaderSection extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         Widget displayVerify() {
-          if (state is SignInSuccess) {
-            if (state.userLoginRes.isVerified == true) {
+          if (state.theStates==TheStates.success) {
+            if (state.userLoginRes?.isVerified == true) {
               return const Icon(
                 Icons.verified,
                 color: Colors.lightBlue,
@@ -34,8 +34,8 @@ class ProfileHeaderSection extends StatelessWidget {
         }
 
         PopupMenuItem displayPopupMenu() {
-          if (state is SignInSuccess) {
-            if (state.userLoginRes.hasProfile == true) {
+          if (state.theStates==TheStates.success) {
+            if (state.userLoginRes?.hasProfile == true) {
               return PopupMenuItem(
                 onTap: () async {
                   await Future.delayed(const Duration(milliseconds: 10)).then(

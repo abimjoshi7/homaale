@@ -46,8 +46,8 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    if (state is SignInSuccess) {
-                      print(state.userLoginRes.toJson());
+                    if (state.theStates == TheStates.success) {
+                      print(state.userLoginRes?.toJson());
                       // log(
                       //   state.user.user!.toJson().toString(),
                       // );

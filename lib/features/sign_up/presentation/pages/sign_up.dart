@@ -283,13 +283,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                     text: TextSpan(
                                       text: 'By signing up, you agree to our ',
                                       style: kHeading3.copyWith(
-                                        wordSpacing: 1,
-                                        // letterSpacing: 0.1,
+                                        wordSpacing: 0.5,
+                                        letterSpacing: 0.1,
                                       ),
                                       children: [
                                         TextSpan(
                                           text: 'terms of use ',
-                                          style: kPurpleText14.copyWith(
+                                          style: kHeading3.copyWith(
                                             color: const Color(0xffFCA500),
                                             letterSpacing: 0.3,
                                           ),
@@ -304,7 +304,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         ),
                                         TextSpan(
                                           text: 'privacy policy.',
-                                          style: kPurpleText14.copyWith(
+                                          style: kHeading3.copyWith(
                                             color: const Color(0xffFCA500),
                                             letterSpacing: 0.3,
                                           ),
