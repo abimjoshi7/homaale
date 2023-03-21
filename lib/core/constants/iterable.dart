@@ -157,6 +157,9 @@ Map<String, dynamic> getStatus(String status) {
       };
 
     default:
-      return {};
+      return {
+        "color": kColorPrimary,
+        "status": "Book",
+      };
   }
 }

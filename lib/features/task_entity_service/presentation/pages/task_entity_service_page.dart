@@ -171,8 +171,11 @@ class TaskEntityServicePage extends StatelessWidget {
                       ),
                       SimilarEntityServiceSection(),
                       PriceBookFooterSection(
+                        buttonLabel: getStatus('')["status"] as String,
+                        buttonColor: getStatus('')["color"] as Color,
                         price: "Rs. ${state.taskEntityService?.budgetTo}",
                         onPressed: () {
+                          print(123);
                           context.read<EventBloc>().add(
                                 EventRetrieveInitiated(
                                   id: state.taskEntityService?.event?.id ??

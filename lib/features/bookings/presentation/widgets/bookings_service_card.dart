@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -84,11 +85,11 @@ class BookingsServiceCard extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            AutoSizeText(
                               serviceName ?? '',
                               style: kPurpleText16,
                             ),
-                            Text(
+                            AutoSizeText(
                               providerName ?? '',
                               style: kLightBlueText14,
                             ),

@@ -47,36 +47,31 @@ class PriceBookFooterSection extends StatelessWidget {
                     ),
                   ],
                 ),
-            Container(
-              padding: EdgeInsets.all(
-                8,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
+            GestureDetector(
+              onTap: onPressed,
+              child: Container(
+                padding: EdgeInsets.all(
                   8,
                 ),
-                color: buttonColor,
-              ),
-              constraints: BoxConstraints(
-                minHeight: 30,
-                minWidth: 100,
-              ),
-              child: AutoSizeText(
-                buttonLabel ?? '',
-                style: TextStyle(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                  color: buttonColor,
+                ),
+                constraints: BoxConstraints(
+                  minHeight: 30,
+                  minWidth: 100,
+                ),
+                child: AutoSizeText(
+                  textAlign: TextAlign.center,
+                  buttonLabel ?? '',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width * 0.2,
-            //   child: Container
-            // 	CustomElevatedButton(
-            //     callback: onPressed,
-            //     label: buttonLabel ?? 'Book Now',
-            //     mainColor: buttonColor ?? kColorPrimary,
-            //   ),
-            // )
           ],
         ),
       ),
