@@ -33,6 +33,8 @@ class _PaymentPageState extends State<PaymentPage> {
         builder: (context, state) {
           return SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 addVerticalSpace(50),
                 CustomHeader(
@@ -55,7 +57,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 const Divider(),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: CustomFormField(
                     label: 'Payment Methods',
                     child: Column(
@@ -75,17 +77,23 @@ class _PaymentPageState extends State<PaymentPage> {
                               itemCount: state.paymentType?.result!.length,
                               itemBuilder: (context, index) {
                                 return CommonWalletDisplayCard(
-                                  radio: Radio(
-                                    groupValue:
-                                        state.paymentType?.result![index],
-                                    value: state
-                                        .paymentType?.result![currentIndex],
-                                    onChanged: (newValue) {
-                                      currentIndex = index;
-                                      setState(() {
-                                        state.paymentType?.result![index] =
-                                            newValue!;
-                                      });
+                                  radio: Builder(
+                                    builder: (BuildContext context) {
+                                      return Radio(
+                                        groupValue:
+                                            state.paymentType?.result![index],
+                                        value: state
+                                            .paymentType?.result![currentIndex],
+                                        onChanged: (newValue) {
+                                          setState(
+                                            () {
+                                              currentIndex = index;
+                                              state.paymentType
+                                                  ?.result![index] = newValue!;
+                                            },
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
                                   walletAssets:
@@ -128,35 +136,34 @@ class _PaymentPageState extends State<PaymentPage> {
                   ),
                 ),
                 BlocBuilder<PaymentBloc, PaymentIntentState>(
-                    builder: (context, paymentIntentStateOnly) {
-                  return
-                    paymentIntentStateOnly.theState == TheStates.initial
-                      ? CircularProgressIndicator()
-                      :
-                    CustomElevatedButton(
-                          callback: () async {
-                            final Uri url = Uri.parse(
-                              paymentIntentStateOnly
-                                      .paymentIntent?.data?.paymentUrl ??
-                                  ' https://test-pay.khalti.com/?pidx=ZpEgm5wxH8WzP9bFctswo9',
-                            );
-                            context.read<PaymentBloc>().add(
-                                  PaymentIntentInitiated(
-                                    provider: state.paymentType
-                                            ?.result![currentIndex].slug ??
-                                        "khalti",
-                                    uuid:
-                                        '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
-                                  ),
-                                );
-                            if (!await launchUrl(url)) {
-                              throw Exception('Could not launch $url');
-                            }
-                          },
-                          label: 'Proceed'
-                          // paymentIntentStateOnly.paymentIntent?.data !=null ? 'Proceed':'Processing',
-                          );
-                }),
+                  builder: (context, paymentIntentStateOnly) {
+                    return
+                        // paymentIntentStateOnly.theState == TheStates.initial
+                        //   ? CircularProgressIndicator()
+                        //   :
+                        CustomElevatedButton(
+                            callback: () async {
+                              final Uri url = Uri.parse(paymentIntentStateOnly
+                                          .paymentIntent?.data?.paymentUrl ??
+                                      ''
+                                  // ' https://test-pay.khalti.com/?pidx=ZpEgm5wxH8WzP9bFctswo9',
+                                  );
+                              context.read<PaymentBloc>().add(
+                                    PaymentIntentInitiated(
+                                      provider: state.paymentType
+                                              ?.result![currentIndex].slug ??
+                                          "khalti",
+                                      uuid:
+                                          '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+                                    ),
+                                  );
+                              if (!await launchUrl(url)) {
+                                throw Exception('Could not launch $url');
+                              }
+                            },
+                            label: 'Proceed');
+                  },
+                ),
               ],
             ),
           );
