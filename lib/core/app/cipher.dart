@@ -204,7 +204,8 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => PaymentBloc(),
-          ), BlocProvider(
+          ),
+          BlocProvider(
             create: (context) => PaymentTypeBloc(),
           ),
         ],

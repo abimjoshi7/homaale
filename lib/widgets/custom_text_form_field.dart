@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
     this.node,
     this.inputFormatters,
     this.theWidth,
+    this.onTap,
   });
 
   final double theHeight;
@@ -34,6 +35,7 @@ class CustomTextFormField extends StatelessWidget {
   final void Function(String?)? onChanged;
   final void Function()? onEditingComplete;
   final void Function(String?)? onFieldSubmitted;
+  final void Function()? onTap;
   final TextInputType? textInputType;
   final String? Function(String?)? validator;
   final bool obscureText;
@@ -53,6 +55,7 @@ class CustomTextFormField extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
       onSaved: onSaved,
+      onTap: onTap,
       enableInteractiveSelection: true,
       obscureText: obscureText,
       validator: validator,

@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -27,7 +28,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
       listener: (context, state) async {},
       builder: (context, state) {
         Widget displayUserInfo() {
-          if (state.theStates==TheStates.success) {
+          if (state.theStates == TheStates.success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -179,9 +180,13 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       8,
                     ),
                   ),
-                  child: const CustomTextFormField(
+                  child: CustomTextFormField(
                     prefixWidget: Icon(Icons.search),
                     hintText: 'Search here',
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      SearchPage.routeName,
+                    ),
                   ),
                 ),
               ),

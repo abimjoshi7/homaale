@@ -24,6 +24,7 @@ import 'package:cipher/features/payment/presentation/pages/payment_summary_page.
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
@@ -132,6 +133,10 @@ class AppRouter {
       case Home.routeName:
         return MaterialPageRoute(
           builder: (context) => const Home(),
+        );
+      case SearchPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SearchPage(),
         );
       case AccountProfile.routeName:
         return MaterialPageRoute(
