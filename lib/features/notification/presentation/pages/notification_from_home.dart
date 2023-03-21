@@ -88,10 +88,15 @@ class NotificationFromHome extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.allNotificationList!.result!.length,
                     itemBuilder: (context, index) {
+                      String? statusTitle =
+                          state.allNotificationList?.result![index].title;
+
                       return state.allNotificationList?.result![index]
                                   .createdDate ==
                               today
                           ? ListTileComponent(
+                              bgColor: getNotificationStatus(
+                                  statusTitle ?? '', '', '')["color"] as Color,
                               userName: state.allNotificationList
                                       ?.result![index].user ??
                                   "",
@@ -103,9 +108,18 @@ class NotificationFromHome extends StatelessWidget {
                                       .title
                                       .toString() ??
                                   "",
-                              statusTitle: state.allNotificationList
-                                      ?.result![index].title ??
-                                  "",
+                              statusTitle: getNotificationStatus(
+                                  statusTitle ?? '',
+                                  state.allNotificationList?.result![index]
+                                          .createdFor?.fullName ??
+                                      "",
+                                  state
+                                          .allNotificationList
+                                          ?.result![index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["status"] as String,
                               time: state.allNotificationList?.result![index]
                                   .createdDate,
                               userImage: state
@@ -145,27 +159,45 @@ class NotificationFromHome extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.allNotificationList?.result!.length,
                     itemBuilder: (context, index) {
+                      String? statusTitle =
+                          state.allNotificationList?.result![index].title;
                       return state.allNotificationList?.result![index]
                                   .createdDate !=
                               today
                           ? ListTileComponent(
-                              btnCallback: () {},
+                              bgColor: getNotificationStatus(
+                                  statusTitle ?? '', '', '')["color"] as Color,
+                              statusTitle: getNotificationStatus(
+                                  statusTitle ?? '',
+                                  state.allNotificationList?.result![index]
+                                          .createdFor?.fullName ??
+                                      "",
+                                  state
+                                          .allNotificationList
+                                          ?.result![index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["status"] as String,
                               userName: state.allNotificationList
                                       ?.result![index].user ??
                                   "",
-                              statusDetails: state
-                                      .allNotificationList
-                                      ?.result![index]
-                                      .contentObject!
-                                      .entityService!
-                                      .title
-                                      .toString() ??
-                                  "",
-                              statusTitle: state.allNotificationList
-                                      ?.result![index].title ??
-                                  "",
+                              statusDetails: getNotificationStatus(
+                                  statusTitle ?? '',
+                                  state.allNotificationList?.result![index]
+                                          .createdFor?.fullName ??
+                                      "",
+                                  state
+                                          .allNotificationList
+                                          ?.result![index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["message"] as String,
                               time: state.allNotificationList?.result![index]
                                   .createdDate,
+                              // userImage: getNotificationStatus(statusTitle ?? '', "", state.allNotificationList?.result![index].contentObject?.entityService?.title ?? "")["assets"] as String
+
                               userImage: state.allNotificationList!
                                           .result![index].createdFor ==
                                       null

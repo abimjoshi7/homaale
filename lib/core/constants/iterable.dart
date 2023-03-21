@@ -122,7 +122,6 @@ List<String> bookingDropDownStrings = [
   "Tasks",
   "Services",
 ];
-
 Map<String, dynamic> getStatus(String status) {
   switch (status) {
     case "cancelled":
@@ -160,6 +159,80 @@ Map<String, dynamic> getStatus(String status) {
       return {
         "color": kColorPrimary,
         "status": "Book",
+      };
+  }
+}
+
+Map<String, dynamic> getNotificationStatus(
+    String status, String? userName, String? serviceName) {
+  switch (status) {
+    case "declined":
+      return {
+        "color": Colors.red.shade200,
+        "status": "Declined",
+        "message": "Your service $serviceName has been declined.",
+        'assets': 'assets/notification/declined.svg'
+      };
+    case "completed":
+      return {
+        "color": kColorPurple,
+        "status": "Completed",
+        "message": "Your service $serviceName has been completed successfully.",
+        'assets': 'assets/notification/completed_task.svg'
+      };
+    case "completed_task":
+      return {
+        "color": kColorPurple,
+        "status": "Completed",
+        "message": "You $serviceName has been completed successfully.",
+        'assets': 'assets/notification/completed_task.svg'
+      };
+    case "approved":
+      return {
+        "color": kColorBlue,
+        "status": "Approved",
+        "message": "$userName has approved your task Need a $serviceName .",
+      };
+    case "booking":
+      return {
+        "color": kColorTeal,
+        "status": "Booking",
+        "message": "$userName has booked your $serviceName .",
+      };
+    case "created":
+      return {
+        "color": Colors.red.shade800,
+        "status": "Create",
+        "message": "You have successfully created a service $serviceName .",
+        'assets': 'assets/notification/service_created.svg'
+      };
+    case "waiting":
+      return {
+        "color": kColorGreen,
+        "status": "Waiting",
+        "message": "You have successfully applied for task $serviceName .",
+        'assets': 'assets/notification/waiting.svg'
+      };
+    case "rejected":
+      return {
+        "color": kColorGreen,
+        "status": "Rejected",
+        "message": "$userName has rejected the task completion .",
+      };
+    case "payment_complete":
+      return {
+        "color": kColorGreen,
+        "status": "Payment Completed",
+        "message": "Your service $serviceName has been completed successfully .",
+        'assets': 'assets/notification/payment.svg'
+      };
+
+    default:
+      return {
+        "color": kColorPrimary,
+        "status": "Create",
+        "message": "",
+        "assets": "",
       };
   }
 }

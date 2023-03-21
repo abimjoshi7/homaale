@@ -8,8 +8,7 @@ class ListTileComponent extends StatelessWidget {
   final String statusTitle;
   final String statusDetails;
   final DateTime? time;
-  final GestureTapCallback? callback;
-  final GestureTapCallback? btnCallback;
+  final Color bgColor;
   const ListTileComponent({
     Key? key,
     required this.userImage,
@@ -17,8 +16,7 @@ class ListTileComponent extends StatelessWidget {
     required this.statusTitle,
     required this.statusDetails,
     this.time,
-    this.callback,
-    this.btnCallback,
+    required this.bgColor,
   }) : super(key: key);
 
   @override
@@ -26,14 +24,13 @@ class ListTileComponent extends StatelessWidget {
     return ColoredBox(
       color: Colors.white,
       child: ListTile(
-        onTap: callback,
         leading: Container(
           padding: const EdgeInsets.all(8),
           height: 50,
           width: 50,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Colors.red,
+            color: bgColor,
           ),
           child: Image.network(userImage),
         ),
@@ -74,38 +71,37 @@ class ListTileComponent extends StatelessWidget {
               const SizedBox(),
           ],
         ),
-        trailing: InkWell(
-          onTap: btnCallback,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: statusTitle == "status completed" ||
-                      statusTitle == "payment completed"
-                  ? Colors.green
-                  : statusTitle == "approval" || statusTitle == "Approved"
-                      ? Colors.teal
-                      : statusTitle == "booking"
-                          ? Colors.blue
-                          : statusTitle == "waiting"
-                              ? Colors.orange
-                              : Colors.red,
-            ),
-            child: Text(
-              (statusTitle == "status completed" ||
-                      statusTitle == "payment completed")
-                  ? "Completed"
-                  : (statusTitle == "approval")
-                      ? "Approval"
-                      : (statusTitle == "waiting")
-                          ? "Waiting"
-                          : (statusTitle == "rejected")
-                              ? "Rejected"
-                              : (statusTitle == "booking")
-                                  ? "Booking"
-                                  : statusTitle,
-              style: const TextStyle(color: Colors.white),
-            ),
+        trailing: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: bgColor,
+            // statusTitle == "status completed" ||
+            //         statusTitle == "payment completed"
+            //     ? Colors.green
+            //     : statusTitle == "approval" || statusTitle == "Approved"
+            //         ? Colors.teal
+            //         : statusTitle == "booking"
+            //             ? Colors.blue
+            //             : statusTitle == "waiting"
+            //                 ? Colors.orange
+            //                 : Colors.red,
+          ),
+          child: Text(
+            // (statusTitle == "status completed" ||
+            //     statusTitle == "payment completed")
+            //     ? "Completed"
+            //     : (statusTitle == "approval")
+            //     ? "Approval"
+            //     : (statusTitle == "waiting")
+            //     ? "Waiting"
+            //     : (statusTitle == "rejected")
+            //     ? "Rejected"
+            //     : (statusTitle == "booking")
+            //     ? "Booking"
+            //     :
+            statusTitle,
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),
