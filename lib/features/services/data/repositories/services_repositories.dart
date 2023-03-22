@@ -25,23 +25,23 @@ class ServicesRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchSingleService({
-    required String serviceId,
-  }) async {
-    try {
-      print(serviceId);
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/$serviceId',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
-    } catch (e) {
-      log(
-        e.toString(),
-      );
-      rethrow;
-    }
-  }
+  // Future<Map<String, dynamic>> fetchSingleService({
+  //   required String serviceId,
+  // }) async {
+  //   try {
+  //     print(serviceId);
+  //     final res = await _dio.getDatawithCredential(
+  //       url: 'task/entity/service/$serviceId',
+  //       token: CacheHelper.accessToken,
+  //     );
+  //     return res as Map<String, dynamic>;
+  //   } catch (e) {
+  //     log(
+  //       e.toString(),
+  //     );
+  //     rethrow;
+  //   }
+  // }
 
   Future<List<Map<String, dynamic>>> fetchServices([int? categoryId]) async {
     try {

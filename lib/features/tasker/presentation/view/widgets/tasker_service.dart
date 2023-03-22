@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
-import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/service_card.dart';
 import 'package:dependencies/dependencies.dart';
@@ -34,8 +34,10 @@ class _TaskerServiceState extends State<TaskerService> {
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: () {
-                    context.read<SingleEntityServiceCubit>().getSingleService(
-                          widget.service!.result?[index].id ?? '',
+                    context.read<TaskEntityServiceBloc>().add(
+                          TaskEntityServiceRetrieveInitiated(
+                            id: widget.service!.result?[index].id ?? '',
+                          ),
                         );
                     Navigator.pushNamed(
                       context,

@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -70,17 +70,17 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                                 ),
                                 itemBuilder: (context, index) => InkWell(
                                   onTap: () async {
-                                    await context
-                                        .read<SingleEntityServiceCubit>()
-                                        .getSingleService(
-                                          state.service.result?[index].id ?? '',
-                                        )
-                                        .then(
-                                          (value) => Navigator.pushNamed(
-                                            context,
-                                            TaskEntityServicePage.routeName,
+                                    context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceRetrieveInitiated(
+                                            id: state.service.result?[index]
+                                                    .id ??
+                                                '',
                                           ),
                                         );
+                                    Navigator.pushNamed(
+                                      context,
+                                      TaskEntityServicePage.routeName,
+                                    );
                                   },
                                   child: ServiceCard(
                                     imagePath: state.service.result![index]

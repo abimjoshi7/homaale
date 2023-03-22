@@ -21,7 +21,6 @@ import 'package:cipher/features/services/presentation/manager/add_service/add_se
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
@@ -175,9 +174,6 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<EntityServiceBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => SingleEntityServiceCubit(),
           ),
           BlocProvider(
             create: (context) => BookingsBloc(),
