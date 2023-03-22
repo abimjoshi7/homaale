@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 class RequirementSection extends StatelessWidget {
   const RequirementSection({
     super.key,
+    this.requirementList,
   });
+
+  final List<String>? requirementList;
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +16,9 @@ class RequirementSection extends StatelessWidget {
       label: "Requirements",
       child: Column(
         children: List.generate(
-          2,
+          requirementList?.length ?? 2,
           (index) => Row(
-            children: const [
+            children: [
               Icon(
                 Icons.circle,
                 size: 12,
@@ -23,7 +26,8 @@ class RequirementSection extends StatelessWidget {
               ),
               kWidth10,
               Text(
-                'Booking available for RCT in Kathmandu',
+                requirementList?[index] ??
+                    'Booking available for RCT in Kathmandu',
               )
             ],
           ),

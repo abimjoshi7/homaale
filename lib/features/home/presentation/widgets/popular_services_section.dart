@@ -2,7 +2,6 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';

@@ -207,7 +207,9 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
-      videos: json['videos'] as List<dynamic>?,
+      videos: (json['videos'] as List<dynamic>?)
+          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
       service: json['service'] == null
           ? null
           : Service.fromJson(json['service'] as Map<String, dynamic>),
