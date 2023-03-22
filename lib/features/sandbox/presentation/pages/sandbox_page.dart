@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
@@ -64,9 +65,7 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    await context
-                        .read<TaskerEducationCubit>()
-                        .getTaskerEducation();
+                    await context.read<TaskerEducationCubit>().getTaskerEducation();
                     if (state is TaskerGetEducationSuccess) {
                       log(state.taskerEducationRes.first.id.toString());
                     }
@@ -145,9 +144,7 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    final x = await CategoriesRepositories()
-                        .fetchNestedCategory()
-                        .then(
+                    final x = await CategoriesRepositories().fetchNestedCategory().then(
                           (value) => value.map(
                             (e) => NestedCategory.fromJson(e),
                           ),
@@ -164,14 +161,11 @@ class SandboxPage extends StatelessWidget {
           ),
           kHeight20,
           Center(
-            child:
-                BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
+            child: BlocBuilder<SingleEntityServiceCubit, SingleEntityServiceState>(
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    await context
-                        .read<SingleEntityServiceCubit>()
-                        .getSingleService(
+                    await context.read<SingleEntityServiceCubit>().getSingleService(
                           "582ffb2e-c9c9-44e9-af48-77e8bd19b12c",
                         );
                     if (state is SingleEntityServiceLoadSuccess) {
@@ -190,7 +184,7 @@ class SandboxPage extends StatelessWidget {
                 return CustomElevatedButton(
                   callback: () async {
                     // final x =
-                    await BookingRepositories().approveBooking(406);
+                    await BookingRepositories().approveBooking(ApproveReq(booking: 468));
                     // print(x['result'].toJson());
                     // print(123);
                   },

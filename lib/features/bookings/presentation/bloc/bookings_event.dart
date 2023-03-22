@@ -55,13 +55,13 @@ class BookingEdited extends BookingsEvent {
 }
 
 class BookingApproved extends BookingsEvent {
-  final int id;
+  final ApproveReq approveReq;
   const BookingApproved({
-    required this.id,
+    required this.approveReq,
   });
   @override
   List<Object?> get props => [
-        id,
+        approveReq,
       ];
 }
 

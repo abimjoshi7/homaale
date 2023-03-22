@@ -15,3 +15,26 @@ class TaskEntityServiceRetrieveInitiated extends TaskEntityServiceEvent {
         id,
       ];
 }
+
+class TaskEntityServiceApprovePeople extends TaskEntityServiceEvent {
+  final ApproveReq approveReq;
+
+  const TaskEntityServiceApprovePeople({required this.approveReq});
+
+  @override
+  List<Object?> get props => [approveReq];
+}
+
+class ResetApproveSuccessStatus extends TaskEntityServiceEvent {
+  const ResetApproveSuccessStatus();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetApproveFailureStatus extends TaskEntityServiceEvent {
+  const ResetApproveFailureStatus();
+
+  @override
+  List<Object?> get props => [];
+}

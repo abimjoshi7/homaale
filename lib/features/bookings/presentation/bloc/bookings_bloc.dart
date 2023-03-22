@@ -1,9 +1,9 @@
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
-    as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -31,8 +31,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModelService:
-                      booking.MyBookingListModel.fromJson(
+                  myBookingListModelService: booking.MyBookingListModel.fromJson(
                     value,
                   ),
                   myBookingListModelTask: booking.MyBookingListModel.fromJson(
@@ -141,7 +140,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingApproved>(
       (event, emit) async {
         try {
-          await repositories.approveBooking(event.id).then(
+          await repositories.approveBooking(event.approveReq).then(
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,

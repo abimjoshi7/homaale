@@ -1,6 +1,7 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 
 class BookingRepositories {
@@ -95,15 +96,14 @@ class BookingRepositories {
     }
   }
 
-  Future<void> approveBooking(int id) async {
+  Future<Map<String, dynamic>> approveBooking(ApproveReq approveReq) async {
     try {
-      await _dio.postDataWithCredential(
-        data: {
-          "booking": id,
-        },
-        url: kCreateBookingsApproval,
+      final res = await _dio.postDataWithCredential(
+        data: approveReq.toJson(),
+        url: '$kCreateBookingsApproval',
         token: CacheHelper.accessToken,
       );
+      return res as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }

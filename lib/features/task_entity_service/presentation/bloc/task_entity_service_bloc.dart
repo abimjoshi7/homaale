@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
+import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
@@ -11,6 +15,8 @@ part 'task_entity_service_state.dart';
 class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final repo = TaskEntityServiceRepository();
   final servicesRepo = ServicesRepositories();
+  final bookingRepo = BookingRepositories();
+
   TaskEntityServiceBloc() : super(const TaskEntityServiceState()) {
     on<TaskEntityServiceRetrieveInitiated>(
       (event, emit) async {
@@ -49,6 +55,48 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
             ),
           );
         }
+      },
+    );
+
+    on<TaskEntityServiceApprovePeople>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(theStates: TheStates.initial),
+          );
+          await bookingRepo.approveBooking(event.approveReq).then(
+            (value) {
+              log('$value');
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  approveSuccess: true,
+                  approveFail: false,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          print(e);
+          emit(state.copyWith(theStates: TheStates.success, approveFail: true));
+        }
+      },
+    );
+
+    on<ResetApproveSuccessStatus>(
+      (event, emit) {
+        emit(state.copyWith(
+          theStates: TheStates.success,
+          approveSuccess: false,
+        ));
+      },
+    );
+    on<ResetApproveFailureStatus>(
+      (event, emit) {
+        emit(state.copyWith(
+          theStates: TheStates.success,
+          approveFail: false,
+        ));
       },
     );
   }
