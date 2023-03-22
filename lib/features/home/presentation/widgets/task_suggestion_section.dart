@@ -8,14 +8,16 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class TasksSuggestionSection extends StatefulWidget {
-  const TasksSuggestionSection({super.key});
+class TasksRecommendationSection extends StatefulWidget {
+  const TasksRecommendationSection({super.key});
 
   @override
-  State<TasksSuggestionSection> createState() => _TasksSuggestionSectionState();
+  State<TasksRecommendationSection> createState() =>
+      _TasksRecommendationSectionState();
 }
 
-class _TasksSuggestionSectionState extends State<TasksSuggestionSection> {
+class _TasksRecommendationSectionState
+    extends State<TasksRecommendationSection> {
   void onTaskPressed({
     required TaskState state,
     required int index,
@@ -34,11 +36,11 @@ class _TasksSuggestionSectionState extends State<TasksSuggestionSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kPadding10,
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           SectionHeading(
-            labelName: 'Task recommendations for you',
+            labelName: 'Task recommendation for you',
             onTap: () {
               Navigator.pushNamed(
                 context,

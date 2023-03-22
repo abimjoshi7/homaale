@@ -345,9 +345,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             }
                           },
                           child: CustomDottedContainerStack(
-                            label: imageList == null
-                                ? 'Select Images'
-                                : 'Image Uploaded',
+                            theWidget: imageList == null
+                                ? Text('Select Images')
+                                : Text('Image Uploaded'),
                           ),
                         ),
                       ),
@@ -385,9 +385,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             }
                           },
                           child: CustomDottedContainerStack(
-                            label: fileList == null
-                                ? 'Select Videos'
-                                : 'File Uploaded',
+                            theWidget: fileList == null
+                                ? Text('Select Videos')
+                                : Text('File Uploaded'),
                           ),
                         ),
                       ),

@@ -5,6 +5,9 @@ import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
+import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
+import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
+
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
 import 'package:dependencies/dependencies.dart';
@@ -12,7 +15,8 @@ import 'package:dependencies/dependencies.dart';
 part 'task_entity_service_event.dart';
 part 'task_entity_service_state.dart';
 
-class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc
+    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final repo = TaskEntityServiceRepository();
   final servicesRepo = ServicesRepositories();
   final bookingRepo = BookingRepositories();
@@ -52,6 +56,37 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isLoaded: false,
+            ),
+          );
+        }
+      },
+    );
+
+    on<TaskEntityServiceCreated>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+            ),
+          );
+          await repo
+              .createTaskEntityService(taskEntityServiceReq: event.req)
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                      theStates: TheStates.success,
+                      isCreated: true,
+                      taskEntityServiceRes:
+                          TaskEntityServiceRes.fromJson(value)),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+              isCreated: false,
             ),
           );
         }

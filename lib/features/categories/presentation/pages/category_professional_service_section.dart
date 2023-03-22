@@ -71,7 +71,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                                 itemBuilder: (context, index) => InkWell(
                                   onTap: () async {
                                     context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceRetrieveInitiated(
+                                          TaskEntityServiceSingleLoaded(
                                             id: state.service.result?[index]
                                                     .id ??
                                                 '',

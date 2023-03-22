@@ -7,12 +7,18 @@ class TaskEntityServiceState extends Equatable {
   final bool? approveSuccess;
   final bool? approveFail;
 
+  final TaskEntityServiceRes? taskEntityServiceRes;
+  final bool? isLoaded;
+  final bool? isCreated;
   const TaskEntityServiceState({
     this.theStates,
     this.taskEntityService,
     this.applicantModel,
     this.approveSuccess = false,
     this.approveFail = false,
+    this.taskEntityServiceRes,
+    this.isLoaded,
+    this.isCreated,
   });
 
   TaskEntityServiceState copyWith({
@@ -21,6 +27,9 @@ class TaskEntityServiceState extends Equatable {
     ApplicantModel? applicantModel,
     bool? approveSuccess,
     bool? approveFail,
+    TaskEntityServiceRes? taskEntityServiceRes,
+    bool? isLoaded,
+    bool? isCreated,
   }) {
     return TaskEntityServiceState(
       theStates: theStates ?? this.theStates,
@@ -28,6 +37,9 @@ class TaskEntityServiceState extends Equatable {
       applicantModel: applicantModel ?? this.applicantModel,
       approveSuccess: approveSuccess ?? this.approveSuccess,
       approveFail: approveFail ?? this.approveFail,
+      taskEntityServiceRes: taskEntityServiceRes ?? this.taskEntityServiceRes,
+      isLoaded: isLoaded ?? this.isLoaded,
+      isCreated: isCreated ?? this.isCreated,
     );
   }
 
@@ -36,6 +48,9 @@ class TaskEntityServiceState extends Equatable {
     return [
       theStates,
       taskEntityService,
+      taskEntityServiceRes,
+      isLoaded,
+      isCreated,
       applicantModel,
       approveSuccess,
       approveFail,

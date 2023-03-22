@@ -6,7 +6,7 @@ import 'package:cipher/features/task_entity_service/data/models/req/task_entity_
 class TaskEntityServiceRepository {
   final _dio = DioHelper();
 
-  Future createTaskEntityService({
+  Future<Map<String, dynamic>> createTaskEntityService({
     required TaskEntityServiceReq taskEntityServiceReq,
   }) async {
     try {
@@ -26,7 +26,7 @@ class TaskEntityServiceRepository {
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/$serviceId',
+        url: '$kTaskEntityServicePath$serviceId',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

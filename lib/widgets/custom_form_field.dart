@@ -25,9 +25,6 @@ class CustomFormField extends StatelessWidget {
               label ?? '',
               style: kPurpleText16,
             ),
-            addHorizontalSpace(
-              4,
-            ),
             if (isRequired == true)
               const Text(
                 '*',

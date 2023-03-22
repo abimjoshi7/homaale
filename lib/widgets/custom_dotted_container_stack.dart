@@ -1,16 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:flutter/material.dart';
 
 class CustomDottedContainerStack extends StatelessWidget {
   const CustomDottedContainerStack({
-    super.key,
+    Key? key,
     this.theHeight = 48,
-    this.label = '',
-  });
+    this.theWidget,
+  }) : super(key: key);
 
-  final double theHeight;
-  final String label;
+  final double? theHeight;
+  final Widget? theWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +28,12 @@ class CustomDottedContainerStack extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                label,
-                style: kHelper13,
-                // iconData: Icons.add,
-              ),
+              theWidget ??
+                  Text(
+                    '+Select',
+                    style: kHelper13,
+                    // iconData: Icons.add,
+                  ),
             ],
           ),
         )

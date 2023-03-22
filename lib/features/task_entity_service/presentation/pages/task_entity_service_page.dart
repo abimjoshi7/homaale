@@ -8,9 +8,12 @@ import 'package:cipher/features/task_entity_service/presentation/pages/sections/
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
+import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class TaskEntityServicePage extends StatefulWidget {

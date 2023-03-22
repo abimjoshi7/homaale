@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
                     // DealsOfTheDaySection(),
                     CategoriesSection(),
                     PopularServicesSection(),
-                    TasksSuggestionSection(),
+                    TasksRecommendationSection(),
                     PopularTaskerSection(),
                     NotableBannerSection(),
                     // Padding(

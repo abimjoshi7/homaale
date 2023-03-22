@@ -17,12 +17,8 @@ _$_TaskEntityServiceReq _$$_TaskEntityServiceReqFromJson(
       budgetType: json['budget_type'] as String?,
       budgetFrom: json['budget_from'] as num?,
       budgetTo: json['budget_to'] as num?,
-      startDate: json['start_date'] == null
-          ? null
-          : DateTime.parse(json['start_date'] as String),
-      endDate: json['end_date'] == null
-          ? null
-          : DateTime.parse(json['end_date'] as String),
+      startDate: json['start_date'] as String?,
+      endDate: json['end_date'] as String?,
       startTime: json['start_time'] as String?,
       endTime: json['end_time'] as String?,
       shareLocation: json['share_location'] as bool?,
@@ -60,8 +56,8 @@ Map<String, dynamic> _$$_TaskEntityServiceReqToJson(
       'budget_type': instance.budgetType,
       'budget_from': instance.budgetFrom,
       'budget_to': instance.budgetTo,
-      'start_date': instance.startDate?.toIso8601String(),
-      'end_date': instance.endDate?.toIso8601String(),
+      'start_date': instance.startDate,
+      'end_date': instance.endDate,
       'start_time': instance.startTime,
       'end_time': instance.endTime,
       'share_location': instance.shareLocation,

@@ -35,7 +35,7 @@ class _TaskerServiceState extends State<TaskerService> {
                 child: InkWell(
                   onTap: () {
                     context.read<TaskEntityServiceBloc>().add(
-                          TaskEntityServiceRetrieveInitiated(
+                          TaskEntityServiceSingleLoaded(
                             id: widget.service!.result?[index].id ?? '',
                           ),
                         );

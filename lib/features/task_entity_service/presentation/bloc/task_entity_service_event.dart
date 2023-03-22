@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'task_entity_service_bloc.dart';
 
 abstract class TaskEntityServiceEvent extends Equatable {
@@ -37,4 +38,16 @@ class ResetApproveFailureStatus extends TaskEntityServiceEvent {
 
   @override
   List<Object?> get props => [];
+}
+
+class TaskEntityServiceCreated extends TaskEntityServiceEvent {
+  final TaskEntityServiceReq req;
+  TaskEntityServiceCreated({
+    required this.req,
+  });
+
+  @override
+  List<Object?> get props => [
+        req,
+      ];
 }

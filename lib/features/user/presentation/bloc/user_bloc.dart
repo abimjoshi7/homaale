@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
@@ -17,22 +19,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserLoaded>(
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.initial,
-            ),
-          );
+          // emit(
+          //   state.copyWith(
+          //     theStates: TheStates.initial,
+          //   ),
+          // );
           await respositories.fetchUser().then(
             (value) {
               emit(
                 state.copyWith(
                   theStates: TheStates.success,
-                  taskerProfile: value,
+                  taskerProfile: TaskerProfile.fromJson(
+                    value,
+                  ),
                 ),
               );
             },
           );
         } catch (e) {
+          log("CULPRIT: ${e.toString()}");
           emit(
             state.copyWith(
               theStates: TheStates.failure,

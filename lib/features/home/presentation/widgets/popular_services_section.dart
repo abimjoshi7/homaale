@@ -55,7 +55,7 @@ class PopularServicesSection extends StatelessWidget {
                         );
                       },
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
                           location: state.service.result?[index].location,
                           description:
