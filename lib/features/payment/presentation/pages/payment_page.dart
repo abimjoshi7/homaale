@@ -23,7 +23,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final SizedBox commonSize = const SizedBox(
     height: 20,
   );
-  RadioChangeValue? defaultValue = RadioChangeValue.khalti;
+
   int currentIndex = 0;
 
   @override
