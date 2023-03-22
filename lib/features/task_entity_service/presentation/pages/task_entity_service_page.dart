@@ -35,11 +35,9 @@ class TaskEntityServicePage extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.2,
                             child: Image.network(
-                              state.taskEntityService!.images!.isEmpty
+                              state.taskEntityService?.images?.length == 0
                                   ? kServiceImageNImg
-                                  : state.taskEntityService?.images?.first.media
-                                          .toString() ??
-                                      kServiceImageNImg,
+                                  : state.taskEntityService?.images?.first.media.toString() ?? kServiceImageNImg,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -49,8 +47,7 @@ class TaskEntityServicePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -61,11 +58,7 @@ class TaskEntityServicePage extends StatelessWidget {
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                               image: NetworkImage(
-                                                state
-                                                        .taskEntityService
-                                                        ?.createdBy
-                                                        ?.profileImage ??
-                                                    kDefaultAvatarNImg,
+                                                state.taskEntityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
                                               ),
                                             ),
                                           ),
@@ -74,18 +67,12 @@ class TaskEntityServicePage extends StatelessWidget {
                                           10,
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.7,
+                                              width: MediaQuery.of(context).size.width * 0.7,
                                               child: Text(
-                                                state.taskEntityService
-                                                        ?.title ??
-                                                    '',
+                                                state.taskEntityService?.title ?? '',
                                                 style: kPurpleText16,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -108,15 +95,10 @@ class TaskEntityServicePage extends StatelessWidget {
                                         kWidth10,
                                         GestureDetector(
                                           onTap: () {
-                                            final box =
-                                                context.findRenderObject()
-                                                    as RenderBox?;
+                                            final box = context.findRenderObject() as RenderBox?;
                                             Share.share(
                                               "Share this Hommale with friends.",
-                                              sharePositionOrigin: box!
-                                                      .localToGlobal(
-                                                          Offset.zero) &
-                                                  box.size,
+                                              sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                             );
                                           },
                                           child: const Icon(
@@ -130,14 +112,10 @@ class TaskEntityServicePage extends StatelessWidget {
                                 ),
                                 addVerticalSpace(10),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconText(
-                                      label: state.taskEntityService?.rating
-                                              ?.first.rating
-                                              .toString() ??
-                                          '4.5',
+                                      label: state.taskEntityService?.rating?.first.rating.toString() ?? '4.5',
                                       iconData: Icons.star_outlined,
                                       color: kColorAmber,
                                       size: 18,
@@ -153,8 +131,7 @@ class TaskEntityServicePage extends StatelessWidget {
                                 ),
                                 addVerticalSpace(10),
                                 HtmlRemover(
-                                    text: state
-                                            .taskEntityService?.description ??
+                                    text: state.taskEntityService?.description ??
                                         'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
                                 addHorizontalSpace(10),
                                 RequirementSection(),
@@ -170,6 +147,42 @@ class TaskEntityServicePage extends StatelessWidget {
                         ],
                       ),
                       SimilarEntityServiceSection(),
+                      addVerticalSpace(10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          'Taskers',
+                          style: kPurpleText16,
+                        ),
+                      ),
+                      addVerticalSpace(10),
+                      SizedBox(
+                        height: 500,
+                        child: GridView.count(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          crossAxisCount: 2,
+                          children: List.generate(
+                            state.applicantModel?.result?.length ?? 0,
+                            (index) => TaskerCard(
+                              callback: () {},
+                              networkImageUrl:
+                                  state.applicantModel?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
+                              happyClients:
+                                  '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                              rewardPercentage:
+                                  '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                              label:
+                                  '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
+                              designation: state.applicantModel?.result?[index].createdBy?.designation,
+                              rate:
+                                  'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                              ratings:
+                                  '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                            ),
+                          ),
+                        ),
+                      ),
                       PriceBookFooterSection(
                         buttonLabel: getStatus('')["status"] as String,
                         buttonColor: getStatus('')["color"] as Color,
@@ -178,8 +191,7 @@ class TaskEntityServicePage extends StatelessWidget {
                           print(123);
                           context.read<EventBloc>().add(
                                 EventRetrieveInitiated(
-                                  id: state.taskEntityService?.event?.id ??
-                                      'Null Case',
+                                  id: state.taskEntityService?.event?.id ?? 'Null Case',
                                 ),
                               );
                           Navigator.pushNamed(
