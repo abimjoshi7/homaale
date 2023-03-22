@@ -134,7 +134,9 @@ class TaskEntityServicePage extends StatelessWidget {
                                     text: state.taskEntityService?.description ??
                                         'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
                                 addHorizontalSpace(10),
-                                RequirementSection(),
+                                RequirementSection(
+                                  requirementList: state.taskEntityService?.highlights ?? [],
+                                ),
                                 const Visibility(
                                   visible: false,
                                   child: PackagesOffersSection(),
