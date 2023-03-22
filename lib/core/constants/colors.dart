@@ -19,6 +19,7 @@ const kColorSilver = Color(0xff9CA0C1);
 const kColorTeal = Color(0xff227196);
 const kColorLightSkyBlue = Color(0xffEDF4FF);
 const kColorPurple = Color(0xffB187F2);
+const kColorDarkPurple = Color(0xff3D3F7D);
 const kColorOrange = Color(0xffFF9700);
 const kColorPink = Color(0xfffe5050);
 

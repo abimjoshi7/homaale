@@ -26,11 +26,15 @@ const kTealText18 = TextStyle(
   fontSize: 18,
   color: kColorTeal,
 );
-
+const kPurpleText12 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: kColorDarkPurple,
+);
 const kPurpleText13 = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 13,
-  color: Color(0xff3d3f7d),
+  color: kColorDarkPurple,
 );
 
 const kPurpleText14 = TextStyle(
