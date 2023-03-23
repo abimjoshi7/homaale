@@ -111,7 +111,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                               Text(
                                 'Buddhanagar',
                               ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
+                              Icon(Icons.keyboard_arrow_down_outlined),
                             ],
                           ),
                           backgroundColor: Colors.white,
