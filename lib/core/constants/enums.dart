@@ -4,6 +4,10 @@ enum TheStates {
   failure,
 }
 
+// enum SearchResultType{
+// 	task.entityService,
+
+// }
 
 enum RadioChangeValue {
   eSewa,

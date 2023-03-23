@@ -57,7 +57,10 @@ class RecommendedCategoryList extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 2.0),
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.030,
+              bottom: MediaQuery.of(context).size.height * 0.016,
+            ),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(

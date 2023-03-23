@@ -9,50 +9,49 @@ class SavedSearchList extends StatelessWidget {
     required String title,
     required String imgSrc,
   }) {
-    return Padding(
-      padding: EdgeInsets.zero,
-      child: Wrap(
-        direction: Axis.vertical,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.11,
-            width: MediaQuery.of(context).size.height * 0.11,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.network(
-                imgSrc,
-                fit: BoxFit.cover,
-              ),
+    return Wrap(
+      direction: Axis.vertical,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height * 0.11,
+          width: MediaQuery.of(context).size.height * 0.11,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.network(
+              imgSrc,
+              fit: BoxFit.cover,
             ),
           ),
-          addVerticalSpace(MediaQuery.of(context).size.height * 0.008),
-          SizedBox(
-            height: MediaQuery.of(context).size.width * 0.094,
-            width: MediaQuery.of(context).size.height * 0.094,
-            child: Text(
-              title,
-              style: kPurpleText12,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
+        ),
+        addVerticalSpace(MediaQuery.of(context).size.height * 0.008),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.094,
+          width: MediaQuery.of(context).size.height * 0.094,
+          child: Text(
+            title,
+            style: kPurpleText12,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
+      flex: 1,
+      fit: FlexFit.loose,
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 17.0, top: 0.0),
+            padding: const EdgeInsets.only(left: 17.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(

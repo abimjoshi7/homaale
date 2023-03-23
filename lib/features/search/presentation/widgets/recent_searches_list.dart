@@ -9,7 +9,13 @@ class RecentSearchesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * 0.016,
+        left: MediaQuery.of(context).size.width * 0.025,
+        right: MediaQuery.of(context).size.width * 0.025,
+        bottom: MediaQuery.of(context).size.height * 0.032,
+      ),
       height: MediaQuery.of(context).size.height * 0.35,
       child: Column(
         children: <Widget>[
@@ -17,7 +23,6 @@ class RecentSearchesList extends StatelessWidget {
             padding: EdgeInsets.only(
               left: 2.0,
               right: 2.0,
-              top: MediaQuery.of(context).size.height * 0.016,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

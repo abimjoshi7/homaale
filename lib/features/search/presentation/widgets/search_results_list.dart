@@ -9,16 +9,21 @@ class SearchResultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return Container(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * 0.016,
+        left: MediaQuery.of(context).size.width * 0.025,
+        right: MediaQuery.of(context).size.width * 0.025,
+        bottom: MediaQuery.of(context).size.height * 0.032,
+      ),
       child: ListView.builder(
-        padding:
-            EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.017),
+        padding: EdgeInsets.zero,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: 7,
+        itemCount: 11,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
+            contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
             minLeadingWidth: MediaQuery.of(context).size.width,
             leading: Wrap(
               direction: Axis.horizontal,
