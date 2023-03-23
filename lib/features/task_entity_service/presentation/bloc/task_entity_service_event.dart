@@ -4,9 +4,9 @@ abstract class TaskEntityServiceEvent extends Equatable {
   const TaskEntityServiceEvent();
 }
 
-class TaskEntityServiceRetrieveInitiated extends TaskEntityServiceEvent {
+class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
   final String id;
-  const TaskEntityServiceRetrieveInitiated({
+  const TaskEntityServiceSingleLoaded({
     required this.id,
   });
 

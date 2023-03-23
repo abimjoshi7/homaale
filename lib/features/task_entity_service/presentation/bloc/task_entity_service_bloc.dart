@@ -18,7 +18,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
   final bookingRepo = BookingRepositories();
 
   TaskEntityServiceBloc() : super(const TaskEntityServiceState()) {
-    on<TaskEntityServiceRetrieveInitiated>(
+    on<TaskEntityServiceSingleLoaded>(
       (event, emit) async {
         try {
           emit(

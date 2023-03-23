@@ -44,7 +44,7 @@ class PopularServicesSection extends StatelessWidget {
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
-                              TaskEntityServiceRetrieveInitiated(
+                              TaskEntityServiceSingleLoaded(
                                 id: state.service.result?[index].id ?? '',
                               ),
                             );
@@ -61,14 +61,10 @@ class PopularServicesSection extends StatelessWidget {
                           description:
                               "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
                           title: state.service.result?[index].title,
-                          imagePath:
-                              state.service.result?[index].images?.length == 0
-                                  ? kServiceImageNImg
-                                  : state.service.result?[index].images?.first
-                                      .media,
-                          rating: state
-                              .service.result?[index].rating?.first.rating
-                              .toString(),
+                          imagePath: state.service.result?[index].images?.length == 0
+                              ? kServiceImageNImg
+                              : state.service.result?[index].images?.first.media,
+                          rating: state.service.result?[index].rating?.first.rating.toString(),
                         ),
                       ),
                     ),
