@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
 import 'package:cipher/widgets/show_more_text_widget.dart';
@@ -116,6 +117,16 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                 Row(
                                   children: [
                                     const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    Text('0.0 (0)')
+                                  ],
+                                ),
+                                addHorizontalSpace(16),
+                                Row(
+                                  children: [
+                                    const Icon(
                                       Icons.location_on_outlined,
                                       color: Colors.red,
                                     ),
@@ -129,14 +140,14 @@ class _BookedServicePageState extends State<BookedServicePage> {
                             ShowMoreTextWidget(
                                 text: booking.entityService?.description ??
                                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
-                            addVerticalSpace(10),
                             if (booking.entityService?.highlights?.isNotEmpty ?? false) ...[
+                              addVerticalSpace(10),
                               RequirementSection(
                                 requirementList: booking.entityService?.highlights,
                               ),
                             ],
-                            addVerticalSpace(10),
                             if (mediaList.isNotEmpty) ...[
+                              addVerticalSpace(10),
                               Text(
                                 'Images',
                                 style: kPurpleText16,
@@ -210,12 +221,37 @@ class _BookedServicePageState extends State<BookedServicePage> {
                           ],
                         ),
                       ),
-                      addVerticalSpace(32),
+                      addVerticalSpace(10),
                       Image.asset(
                         'assets/banners/2.png',
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.fill,
-                      )
+                      ),
+                      addVerticalSpace(10),
+                      const Visibility(
+                        visible: true,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: PackagesOffersSection(),
+                        ),
+                      ),
+                      addVerticalSpace(10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            AdditionalInfoSection(
+                              date: '${Jiffy(booking.startDate).yMMMd} . ${booking.startTime}',
+                              location: booking.entityService?.location,
+                              views: booking.entityService?.viewsCount?.toString() ?? '0',
+                              happyClients: booking.createdBy?.stats?.happyClients?.toString() ?? '0',
+                              successRate: booking.createdBy?.stats?.successRate?.toString() ?? '0',
+                            ),
+                            // RatingReviewSection(),
+                          ],
+                        ),
+                      ),
+                      SimilarEntityServiceSection(),
                     ],
                   ),
                 ),
