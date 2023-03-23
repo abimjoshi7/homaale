@@ -225,7 +225,7 @@ class Result with _$Result {
   const factory Result({
     String? id,
     String? title,
-    int? charge,
+    double? charge,
     @JsonKey(name: 'entity_service') EntityService? entityService,
     Assignee? assigner,
     Assignee? assignee,
@@ -306,8 +306,8 @@ class EntityService with _$EntityService {
     List<Rating>? rating,
     @JsonKey(name: 'budget_type')   String? budgetType,
     @JsonKey(name: 'is_requested')  bool? isRequested,
-    @JsonKey(name: 'budget_form') int? budgetFrom,
-    @JsonKey(name: 'budget_to')    int? budgetTo,
+    @JsonKey(name: 'budget_from') double? budgetFrom,
+    @JsonKey(name: 'budget_to')    double? budgetTo,
     String? location,
     int? count,
     @JsonKey(name: 'is_endorsed')  bool? isEndorsed,
@@ -359,7 +359,7 @@ class Image with _$Image {
 @freezed
 class Rating with _$Rating {
   const factory Rating({
-    int? rating,
+    double? rating,
     int? ratingCount,
   }) = _Rating;
 

@@ -306,7 +306,7 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
 mixin _$Result {
   String? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  int? get charge => throw _privateConstructorUsedError;
+  double? get charge => throw _privateConstructorUsedError;
   @JsonKey(name: 'entity_service')
   EntityService? get entityService => throw _privateConstructorUsedError;
   Assignee? get assigner => throw _privateConstructorUsedError;
@@ -336,7 +336,7 @@ abstract class $ResultCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      int? charge,
+      double? charge,
       @JsonKey(name: 'entity_service') EntityService? entityService,
       Assignee? assigner,
       Assignee? assignee,
@@ -393,7 +393,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       charge: freezed == charge
           ? _value.charge
           : charge // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       entityService: freezed == entityService
           ? _value.entityService
           : entityService // ignore: cast_nullable_to_non_nullable
@@ -495,7 +495,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      int? charge,
+      double? charge,
       @JsonKey(name: 'entity_service') EntityService? entityService,
       Assignee? assigner,
       Assignee? assignee,
@@ -553,7 +553,7 @@ class __$$_ResultCopyWithImpl<$Res>
       charge: freezed == charge
           ? _value.charge
           : charge // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       entityService: freezed == entityService
           ? _value.entityService
           : entityService // ignore: cast_nullable_to_non_nullable
@@ -626,7 +626,7 @@ class _$_Result implements _Result {
   @override
   final String? title;
   @override
-  final int? charge;
+  final double? charge;
   @override
   @JsonKey(name: 'entity_service')
   final EntityService? entityService;
@@ -736,7 +736,7 @@ abstract class _Result implements Result {
   const factory _Result(
       {final String? id,
       final String? title,
-      final int? charge,
+      final double? charge,
       @JsonKey(name: 'entity_service') final EntityService? entityService,
       final Assignee? assigner,
       final Assignee? assignee,
@@ -755,7 +755,7 @@ abstract class _Result implements Result {
   @override
   String? get title;
   @override
-  int? get charge;
+  double? get charge;
   @override
   @JsonKey(name: 'entity_service')
   EntityService? get entityService;
@@ -1675,10 +1675,10 @@ mixin _$EntityService {
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_requested')
   bool? get isRequested => throw _privateConstructorUsedError;
-  @JsonKey(name: 'budget_form')
-  int? get budgetFrom => throw _privateConstructorUsedError;
+  @JsonKey(name: 'budget_from')
+  double? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_to')
-  int? get budgetTo => throw _privateConstructorUsedError;
+  double? get budgetTo => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_endorsed')
@@ -1713,8 +1713,8 @@ abstract class $EntityServiceCopyWith<$Res> {
       List<Rating>? rating,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'is_requested') bool? isRequested,
-      @JsonKey(name: 'budget_form') int? budgetFrom,
-      @JsonKey(name: 'budget_to') int? budgetTo,
+      @JsonKey(name: 'budget_from') double? budgetFrom,
+      @JsonKey(name: 'budget_to') double? budgetTo,
       String? location,
       int? count,
       @JsonKey(name: 'is_endorsed') bool? isEndorsed,
@@ -1817,11 +1817,11 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -1916,8 +1916,8 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       List<Rating>? rating,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'is_requested') bool? isRequested,
-      @JsonKey(name: 'budget_form') int? budgetFrom,
-      @JsonKey(name: 'budget_to') int? budgetTo,
+      @JsonKey(name: 'budget_from') double? budgetFrom,
+      @JsonKey(name: 'budget_to') double? budgetTo,
       String? location,
       int? count,
       @JsonKey(name: 'is_endorsed') bool? isEndorsed,
@@ -2022,11 +2022,11 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -2068,7 +2068,7 @@ class _$_EntityService implements _EntityService {
       final List<Rating>? rating,
       @JsonKey(name: 'budget_type') this.budgetType,
       @JsonKey(name: 'is_requested') this.isRequested,
-      @JsonKey(name: 'budget_form') this.budgetFrom,
+      @JsonKey(name: 'budget_from') this.budgetFrom,
       @JsonKey(name: 'budget_to') this.budgetTo,
       this.location,
       this.count,
@@ -2130,11 +2130,11 @@ class _$_EntityService implements _EntityService {
   @JsonKey(name: 'is_requested')
   final bool? isRequested;
   @override
-  @JsonKey(name: 'budget_form')
-  final int? budgetFrom;
+  @JsonKey(name: 'budget_from')
+  final double? budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  final int? budgetTo;
+  final double? budgetTo;
   @override
   final String? location;
   @override
@@ -2252,8 +2252,8 @@ abstract class _EntityService implements EntityService {
       final List<Rating>? rating,
       @JsonKey(name: 'budget_type') final String? budgetType,
       @JsonKey(name: 'is_requested') final bool? isRequested,
-      @JsonKey(name: 'budget_form') final int? budgetFrom,
-      @JsonKey(name: 'budget_to') final int? budgetTo,
+      @JsonKey(name: 'budget_from') final double? budgetFrom,
+      @JsonKey(name: 'budget_to') final double? budgetTo,
       final String? location,
       final int? count,
       @JsonKey(name: 'is_endorsed') final bool? isEndorsed,
@@ -2295,11 +2295,11 @@ abstract class _EntityService implements EntityService {
   @JsonKey(name: 'is_requested')
   bool? get isRequested;
   @override
-  @JsonKey(name: 'budget_form')
-  int? get budgetFrom;
+  @JsonKey(name: 'budget_from')
+  double? get budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  int? get budgetTo;
+  double? get budgetTo;
   @override
   String? get location;
   @override
@@ -2900,7 +2900,7 @@ Rating _$RatingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Rating {
-  int? get rating => throw _privateConstructorUsedError;
+  double? get rating => throw _privateConstructorUsedError;
   int? get ratingCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2913,7 +2913,7 @@ abstract class $RatingCopyWith<$Res> {
   factory $RatingCopyWith(Rating value, $Res Function(Rating) then) =
       _$RatingCopyWithImpl<$Res, Rating>;
   @useResult
-  $Res call({int? rating, int? ratingCount});
+  $Res call({double? rating, int? ratingCount});
 }
 
 /// @nodoc
@@ -2936,7 +2936,7 @@ class _$RatingCopyWithImpl<$Res, $Val extends Rating>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       ratingCount: freezed == ratingCount
           ? _value.ratingCount
           : ratingCount // ignore: cast_nullable_to_non_nullable
@@ -2951,7 +2951,7 @@ abstract class _$$_RatingCopyWith<$Res> implements $RatingCopyWith<$Res> {
       __$$_RatingCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? rating, int? ratingCount});
+  $Res call({double? rating, int? ratingCount});
 }
 
 /// @nodoc
@@ -2971,7 +2971,7 @@ class __$$_RatingCopyWithImpl<$Res>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       ratingCount: freezed == ratingCount
           ? _value.ratingCount
           : ratingCount // ignore: cast_nullable_to_non_nullable
@@ -2989,7 +2989,7 @@ class _$_Rating implements _Rating {
       _$$_RatingFromJson(json);
 
   @override
-  final int? rating;
+  final double? rating;
   @override
   final int? ratingCount;
 
@@ -3027,13 +3027,13 @@ class _$_Rating implements _Rating {
 }
 
 abstract class _Rating implements Rating {
-  const factory _Rating({final int? rating, final int? ratingCount}) =
+  const factory _Rating({final double? rating, final int? ratingCount}) =
       _$_Rating;
 
   factory _Rating.fromJson(Map<String, dynamic> json) = _$_Rating.fromJson;
 
   @override
-  int? get rating;
+  double? get rating;
   @override
   int? get ratingCount;
   @override
