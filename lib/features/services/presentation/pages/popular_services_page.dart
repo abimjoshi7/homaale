@@ -147,7 +147,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                           child: InkWell(
                             onTap: () {
                               context.read<TaskEntityServiceBloc>().add(
-                                    TaskEntityServiceRetrieveInitiated(
+                                    TaskEntityServiceSingleLoaded(
                                       id: item.id!,
                                     ),
                                   );
