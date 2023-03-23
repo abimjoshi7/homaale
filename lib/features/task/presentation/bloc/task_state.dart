@@ -9,6 +9,7 @@ class TaskState extends Equatable {
   final SingleTaskEntityService? taskModel;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
   final TaskApplyCountModel? taskApplyCountModel;
+  final ApplicantModel? applicantModel;
   final bool applyTaskFail;
   final bool applyTaskSuccess;
 
@@ -21,6 +22,7 @@ class TaskState extends Equatable {
     this.taskModel,
     this.selfCreatedTaskServiceModel,
     this.taskApplyCountModel,
+    this.applicantModel,
     this.applyTaskFail = false,
     this.applyTaskSuccess = false,
   });
@@ -36,6 +38,7 @@ class TaskState extends Equatable {
       taskModel,
       selfCreatedTaskServiceModel,
       taskApplyCountModel,
+      applicantModel,
       applyTaskFail,
       applyTaskSuccess,
     ];
@@ -50,6 +53,7 @@ class TaskState extends Equatable {
     SingleTaskEntityService? taskModel,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
     TaskApplyCountModel? taskApplyCountModel,
+    ApplicantModel? applicantModel,
     bool? applyTaskFail,
     bool? applyTaskSuccess,
   }) {
@@ -60,9 +64,9 @@ class TaskState extends Equatable {
       allTaskList: allTaskList ?? this.allTaskList,
       tasksList: tasksList ?? this.tasksList,
       taskModel: taskModel ?? this.taskModel,
-      selfCreatedTaskServiceModel:
-          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      selfCreatedTaskServiceModel: selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
       taskApplyCountModel: taskApplyCountModel ?? this.taskApplyCountModel,
+      applicantModel: applicantModel ?? this.applicantModel,
       applyTaskFail: applyTaskFail ?? this.applyTaskFail,
       applyTaskSuccess: applyTaskSuccess ?? this.applyTaskSuccess,
     );

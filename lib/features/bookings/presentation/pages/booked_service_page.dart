@@ -120,7 +120,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    Text('0.0 (0)')
+                                    Text(booking.entityService?.viewsCount?.toString() ?? '0.0 (0)')
                                   ],
                                 ),
                                 addHorizontalSpace(16),
@@ -138,8 +138,8 @@ class _BookedServicePageState extends State<BookedServicePage> {
                             ),
                             addVerticalSpace(16),
                             ShowMoreTextWidget(
-                                text: booking.entityService?.description ??
-                                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
+                                text: Bidi.stripHtmlIfNeeded(booking.entityService?.description ??
+                                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
                             if (booking.entityService?.highlights?.isNotEmpty ?? false) ...[
                               addVerticalSpace(10),
                               RequirementSection(
@@ -229,7 +229,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                       ),
                       addVerticalSpace(10),
                       const Visibility(
-                        visible: true,
+                        visible: false,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: PackagesOffersSection(),
@@ -251,7 +251,10 @@ class _BookedServicePageState extends State<BookedServicePage> {
                           ],
                         ),
                       ),
-                      SimilarEntityServiceSection(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SimilarEntityServiceSection(),
+                      ),
                     ],
                   ),
                 ),

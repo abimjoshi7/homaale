@@ -1,8 +1,7 @@
 import 'dart:developer';
 
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart'
-    as es;
+import 'package:cipher/features/services/data/models/entity_service_model.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/apply_task_req.dart';
@@ -12,6 +11,7 @@ import 'package:cipher/features/task/data/models/post_task_res.dart';
 import 'package:cipher/features/task/data/models/single_task_entity_service.dart';
 import 'package:cipher/features/task/data/models/task_apply_count_model.dart';
 import 'package:cipher/features/task/data/repositories/task_repositories.dart';
+import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'task_event.dart';
@@ -62,9 +62,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               .then(
                 (value) => emit(
                   state.copyWith(
-                      theState: TheStates.success,
-                      selfCreatedTaskServiceModel:
-                          SelfCreatedTaskService.fromJson(value)
+                      theState: TheStates.success, selfCreatedTaskServiceModel: SelfCreatedTaskService.fromJson(value)
                       // myTaskRes: MyTaskRes.fromJson(
                       //   value,
                       // ),
@@ -112,16 +110,19 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         try {
           await repo.fetchSingleTask(id: event.id).then(
             (singleTask) async {
-              await repo.singleTaskAppliedCount(id: event.id).then((count) {
-                emit(
-                  state.copyWith(
-                    theState: TheStates.success,
-                    taskModel: SingleTaskEntityService.fromJson(
-                      singleTask,
+              await repo.singleTaskAppliedCount(id: event.id).then((count) async {
+                await repo.fetchApplicants(id: event.id).then((applicants) {
+                  emit(
+                    state.copyWith(
+                      theState: TheStates.success,
+                      taskModel: SingleTaskEntityService.fromJson(
+                        singleTask,
+                      ),
+                      taskApplyCountModel: TaskApplyCountModel.fromJson(count),
+                      applicantModel: ApplicantModel.fromJson(applicants),
                     ),
-                    taskApplyCountModel: TaskApplyCountModel.fromJson(count),
-                  ),
-                );
+                  );
+                });
               });
             },
           );

@@ -3,6 +3,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/data/models/single_task_entity_service.dart' as ses;
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                   ),
                 ),
                 Expanded(
-                  child: Column(
+                  child: ListView(
                     children: [
                       if (taskMedia.isNotEmpty)
                         CarouselSlider.builder(
@@ -283,8 +284,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                               ),
                             ),
                             kHeight10,
-                            Text(
-                              documentDescription,
+                            ShowMoreTextWidget(
+                              text: documentDescription,
                             ),
                             addVerticalSpace(24),
                             const Align(
@@ -321,24 +322,38 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                           ],
                         ),
                       ),
-                      TabBar(
-                        controller: tabController,
-                        tabs: const [
-                          Tab(
-                            text: 'Taskers',
-                          ),
-                          Tab(
-                            text: 'Collaboration',
-                          ),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          'Taskers',
+                          style: kPurpleText16,
+                        ),
                       ),
-                      Expanded(
-                        child: TabBarView(
-                          controller: tabController,
-                          children: [
-                            Container(),
-                            Container(),
-                          ],
+                      GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        childAspectRatio: 0.9,
+                        physics: NeverScrollableScrollPhysics(),
+                        children: List.generate(
+                          state.applicantModel?.result?.length ?? 0,
+                          (index) => TaskerCard(
+                            callback: () {},
+                            callbackLabel: 'View',
+                            networkImageUrl:
+                                state.applicantModel?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
+                            happyClients:
+                                '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                            rewardPercentage:
+                                '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                            label:
+                                '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
+                            designation: state.applicantModel?.result?[index].createdBy?.designation,
+                            rate:
+                                'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                            ratings:
+                                '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                          ),
                         ),
                       )
                     ],
