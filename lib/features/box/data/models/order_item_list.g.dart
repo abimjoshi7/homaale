@@ -33,7 +33,7 @@ Map<String, dynamic> _$$_OrderItemListToJson(_$_OrderItemList instance) =>
 _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       id: json['id'] as String?,
       title: json['title'] as String?,
-      charge: json['charge'] as int?,
+      charge: (json['charge'] as num?)?.toDouble(),
       entityService: json['entity_service'] == null
           ? null
           : EntityService.fromJson(
@@ -166,8 +166,8 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
           .toList(),
       budgetType: json['budget_type'] as String?,
       isRequested: json['is_requested'] as bool?,
-      budgetFrom: json['budget_form'] as int?,
-      budgetTo: json['budget_to'] as int?,
+      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
+      budgetTo: (json['budget_to'] as num?)?.toDouble(),
       location: json['location'] as String?,
       count: json['count'] as int?,
       isEndorsed: json['is_endorsed'] as bool?,
@@ -190,7 +190,7 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'rating': instance.rating,
       'budget_type': instance.budgetType,
       'is_requested': instance.isRequested,
-      'budget_form': instance.budgetFrom,
+      'budget_from': instance.budgetFrom,
       'budget_to': instance.budgetTo,
       'location': instance.location,
       'count': instance.count,
@@ -245,7 +245,7 @@ Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
     };
 
 _$_Rating _$$_RatingFromJson(Map<String, dynamic> json) => _$_Rating(
-      rating: json['rating'] as int?,
+      rating: (json['rating'] as num?)?.toDouble(),
       ratingCount: json['ratingCount'] as int?,
     );
 
