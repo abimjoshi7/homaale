@@ -5,6 +5,7 @@ import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
+import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -171,13 +172,15 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     ],
                                   ),
                                   addVerticalSpace(10),
-                                  HtmlRemover(
+                                  ShowMoreTextWidget(
                                       text: state.taskEntityService?.description ??
                                           'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
                                   addHorizontalSpace(10),
-                                  RequirementSection(
-                                    requirementList: state.taskEntityService?.highlights ?? [],
-                                  ),
+                                  if (state.taskEntityService?.highlights?.isNotEmpty ?? false) ...[
+                                    RequirementSection(
+                                      requirementList: state.taskEntityService?.highlights ?? [],
+                                    ),
+                                  ],
                                   const Visibility(
                                     visible: false,
                                     child: PackagesOffersSection(),
@@ -195,7 +198,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              'Taskers',
+                              'Applicants',
                               style: kPurpleText16,
                             ),
                           ),
@@ -213,51 +216,22 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return Dialog(
-                                          insetPadding: EdgeInsets.zero,
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.5,
-                                            padding: EdgeInsets.all(16.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                  'Hire ${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}?',
-                                                  style: kText20,
-                                                ),
-                                                addVerticalSpace(32),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text('Cancel'),
-                                                    ),
-                                                    addHorizontalSpace(16),
-                                                    CustomElevatedButton(
-                                                      theHeight: 30,
-                                                      theWidth: 100,
-                                                      callback: () {
-                                                        context.read<TaskEntityServiceBloc>().add(
-                                                            TaskEntityServiceApprovePeople(
-                                                                approveReq: ApproveReq(
-                                                                    booking:
-                                                                        state.applicantModel?.result?[index].id ?? 0)));
-                                                        Navigator.pop(context);
-                                                      },
-                                                      label: 'Accept',
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
+                                        return CustomToast(
+                                          heading: 'Are you sure you want to hire?',
+                                          content:
+                                              'Do you want to hire ${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''} for your task.',
+                                          onTap: () {
+                                            context.read<TaskEntityServiceBloc>().add(TaskEntityServiceApprovePeople(
+                                                approveReq:
+                                                    ApproveReq(booking: state.applicantModel?.result?[index].id ?? 0)));
+                                            Navigator.pop(context);
+                                          },
+                                          isSuccess: true,
                                         );
                                       },
                                     );
                                   },
+                                  callbackLabel: 'Approve',
                                   networkImageUrl:
                                       state.applicantModel?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
                                   happyClients:

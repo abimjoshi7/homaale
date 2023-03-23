@@ -60,14 +60,12 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            booking.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                                            booking.entityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
                                           ),
                                         ),
                                       ),
                                     ),
-                                    addHorizontalSpace(
-                                      10,
-                                    ),
+                                    addHorizontalSpace(10),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
@@ -80,8 +78,8 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                           ),
                                         ),
                                         Text(
-                                          "${booking.createdBy?.user?.firstName ?? ''} "
-                                          "${booking.createdBy?.user?.lastName ?? ''}",
+                                          "${booking.entityService?.createdBy?.firstName ?? ''} "
+                                          "${booking.entityService?.createdBy?.lastName ?? ''}",
                                           style: kLightBlueText14,
                                         ),
                                       ],
@@ -112,19 +110,9 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                 ),
                               ],
                             ),
-                            addVerticalSpace(10),
+                            addVerticalSpace(16),
                             Row(
                               children: [
-                                // Row(
-                                //   children: [
-                                //     const Icon(
-                                //       Icons.star_outlined,
-                                //       color: Colors.amber,
-                                //     ),
-                                //     Text('4.5 (300)')
-                                //   ],
-                                // ),
-                                // kWidth20,
                                 Row(
                                   children: [
                                     const Icon(
@@ -132,69 +120,73 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                       color: Colors.red,
                                     ),
                                     Text(
-                                        '${booking.entityService?.city?.name ?? ''}, ${booking.entityService?.city?.country?.name ?? ''}')
+                                        '${booking.entityService?.city?.name ?? 'Kathmandu'}, ${booking.entityService?.city?.country?.name ?? 'Nepal'}')
                                   ],
                                 ),
                               ],
                             ),
-                            addVerticalSpace(10),
+                            addVerticalSpace(16),
                             ShowMoreTextWidget(
                                 text: booking.entityService?.description ??
                                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
                             addVerticalSpace(10),
-                            RequirementSection(
-                              requirementList: booking.entityService?.highlights,
-                            ),
+                            if (booking.entityService?.highlights?.isNotEmpty ?? false) ...[
+                              RequirementSection(
+                                requirementList: booking.entityService?.highlights,
+                              ),
+                            ],
                             addVerticalSpace(10),
-                            Text(
-                              'Images',
-                              style: kPurpleText16,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.21,
-                              child: CarouselSlider.builder(
-                                itemCount: mediaList.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  return Container(
-                                    height: MediaQuery.of(context).size.height * 0.2,
-                                    margin: EdgeInsets.only(right: 32),
-                                    child: mediaList[index].mediaType == 'mp4'
-                                        ? VideoPlayerWidget(
-                                            videoURL: mediaList[index].media ??
-                                                'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                                          )
-                                        : Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(16.0),
-                                                child: Image.network(
-                                                  mediaList[index].media.toString(),
-                                                  errorBuilder: (context, error, stackTrace) =>
-                                                      Image.network(kServiceImageNImg),
-                                                  width: MediaQuery.of(context).size.width,
-                                                  height: MediaQuery.of(context).size.height * 0.2,
-                                                  fit: BoxFit.cover,
+                            if (mediaList.isNotEmpty) ...[
+                              Text(
+                                'Images',
+                                style: kPurpleText16,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height * 0.21,
+                                child: CarouselSlider.builder(
+                                  itemCount: mediaList.length,
+                                  itemBuilder: (context, index, realIndex) {
+                                    return Container(
+                                      height: MediaQuery.of(context).size.height * 0.2,
+                                      margin: EdgeInsets.only(right: 32),
+                                      child: mediaList[index].mediaType == 'mp4'
+                                          ? VideoPlayerWidget(
+                                              videoURL: mediaList[index].media ??
+                                                  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                            )
+                                          : Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  child: Image.network(
+                                                    mediaList[index].media.toString(),
+                                                    errorBuilder: (context, error, stackTrace) =>
+                                                        Image.network(kServiceImageNImg),
+                                                    width: MediaQuery.of(context).size.width,
+                                                    height: MediaQuery.of(context).size.height * 0.2,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                  );
-                                },
-                                options: CarouselOptions(
-                                  padEnds: mediaList.length == 1,
-                                  enlargeCenterPage: mediaList.length == 1,
-                                  viewportFraction: 0.8,
-                                  enableInfiniteScroll: false,
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      _imageIndex = index;
-                                    });
+                                              ],
+                                            ),
+                                    );
                                   },
+                                  options: CarouselOptions(
+                                    padEnds: mediaList.length == 1,
+                                    enlargeCenterPage: mediaList.length == 1,
+                                    viewportFraction: 0.8,
+                                    enableInfiniteScroll: false,
+                                    onPageChanged: (index, reason) {
+                                      setState(() {
+                                        _imageIndex = index;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: Center(
@@ -238,8 +230,18 @@ class _BookedServicePageState extends State<BookedServicePage> {
                     final status = getStatus(booking.status ?? '')["status"];
                     print(status);
                     switch (status) {
-                      case 'Waiting for Approval':
-                        break;
+                      case "cancelled":
+
+                      case "closed":
+
+                      case "approved":
+
+                      case "pending":
+
+                      case "rejected":
+
+                      case "On Progess":
+
                       default:
                     }
                   },

@@ -1,8 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/task/data/models/single_task_entity_service.dart'
-    as ses;
+import 'package:cipher/features/task/data/models/single_task_entity_service.dart' as ses;
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -16,8 +15,7 @@ class SingleTaskPage extends StatefulWidget {
   State<SingleTaskPage> createState() => _SingleTaskPageState();
 }
 
-class _SingleTaskPageState extends State<SingleTaskPage>
-    with SingleTickerProviderStateMixin {
+class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
 
@@ -25,6 +23,12 @@ class _SingleTaskPageState extends State<SingleTaskPage>
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -83,9 +87,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   else
                                     Image.network(
                                       taskMedia[index].media.toString(),
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Image.network(kServiceImageNImg),
+                                      errorBuilder: (context, error, stackTrace) => Image.network(kServiceImageNImg),
                                       width: MediaQuery.of(context).size.width,
                                       fit: BoxFit.cover,
                                     ),
@@ -95,8 +97,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                       width: MediaQuery.of(context).size.width,
                                       child: Center(
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: List.generate(
                                             taskMedia.length,
                                             (ind) => Container(
@@ -104,11 +105,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                               margin: const EdgeInsets.all(2),
                                               width: index == ind ? 20 : 10,
                                               decoration: BoxDecoration(
-                                                color: index == ind
-                                                    ? kColorGrey
-                                                    : Colors.grey,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                color: index == ind ? kColorGrey : Colors.grey,
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
                                             ),
                                           ),
@@ -151,9 +149,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            state.taskModel?.createdBy
-                                                    ?.profileImage ??
-                                                kDefaultAvatarNImg,
+                                            state.taskModel?.createdBy?.profileImage ?? kDefaultAvatarNImg,
                                           ),
                                           fit: BoxFit.cover,
                                         ),
@@ -163,14 +159,10 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                       10,
                                     ),
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.7,
+                                          width: MediaQuery.of(context).size.width * 0.7,
                                           child: Text(
                                             state.taskModel?.title ?? '',
                                             style: kPurpleText16,
@@ -216,8 +208,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                     kWidth5,
                                     Text(
                                       Jiffy(
-                                        state.taskModel?.startDate ??
-                                            DateTime.now().toString(),
+                                        state.taskModel?.startDate ?? DateTime.now().toString(),
                                       ).yMMMMd,
                                     ),
                                   ],
@@ -324,10 +315,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   )
                                 ],
                               ),
-                              separatorBuilder: (context, index) =>
-                                  addVerticalSpace(8.0),
-                              itemCount:
-                                  state.taskModel?.highlights?.length ?? 0,
+                              separatorBuilder: (context, index) => addVerticalSpace(8.0),
+                              itemCount: state.taskModel?.highlights?.length ?? 0,
                             ),
                           ],
                         ),

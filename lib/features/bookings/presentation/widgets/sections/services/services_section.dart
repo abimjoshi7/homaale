@@ -78,7 +78,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                       },
                       serviceName: allList?[index].entityService?.title,
                       providerName:
-                          "${allList?[index].createdBy?.user?.firstName} ${allList?[index].createdBy?.user?.lastName}",
+                          "${allList?[index].entityService?.createdBy?.firstName} ${allList?[index].entityService?.createdBy?.lastName}",
                       mainContentWidget: showBookingDetail(allList, index),
                       status: allList?[index].status,
                       bottomRightWidget: displayPrice(allList, index),
@@ -134,8 +134,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
+                  label: "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
                   color: kColorGreen,
                 ),
               ),

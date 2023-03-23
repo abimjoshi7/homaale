@@ -13,6 +13,7 @@ class TaskerCard extends StatelessWidget {
     this.ratings,
     this.rate,
     this.networkImageUrl,
+    this.callbackLabel,
     required this.callback,
   });
 
@@ -23,6 +24,7 @@ class TaskerCard extends StatelessWidget {
   final String? distance;
   final String? ratings;
   final String? rate;
+  final String? callbackLabel;
   final String? networkImageUrl;
   final VoidCallback callback;
 
@@ -134,7 +136,7 @@ class TaskerCard extends StatelessWidget {
                           width: 80,
                           child: CustomElevatedButton(
                             callback: callback,
-                            label: 'Hire Me',
+                            label: callbackLabel ?? 'Hire Me',
                           ),
                         ),
                       ],

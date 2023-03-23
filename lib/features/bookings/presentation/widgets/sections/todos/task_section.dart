@@ -118,8 +118,7 @@ class _TaskSectionState extends State<TaskSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
+                  label: "${allList?[index].startTime ?? '00:00'} - ${allList?[index].endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),

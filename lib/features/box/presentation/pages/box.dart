@@ -26,6 +26,12 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
     );
   }
 
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   final TextStyle style = TextStyle(color: Colors.black, fontSize: 14);
 
   @override
@@ -75,8 +81,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                         itemCount: 3,
                         //state.orderItemList?.result!.length,
                         itemBuilder: (context, index) {
-                          print(
-                              ' length : ${state.orderItemList?.result?.length.toInt()}');
+                          print(' length : ${state.orderItemList?.result?.length.toInt()}');
                           return Container(
                             height: 200,
                             margin: EdgeInsets.only(
@@ -87,36 +92,27 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                   child: ListView(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
                                     children: [
                                       Card(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
+                                          borderRadius: BorderRadius.circular(16.0),
                                         ),
                                         child: Column(
                                           children: [
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
+                                              padding: const EdgeInsets.all(16.0),
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
                                                     children: [
                                                       Container(
                                                         height: 72,
                                                         width: 72,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.0),
-                                                          image:
-                                                              const DecorationImage(
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(16.0),
+                                                          image: const DecorationImage(
                                                             image: NetworkImage(
                                                               'https://picsum.photos/1000/1000',
                                                             ),
@@ -126,17 +122,11 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                       ),
                                                       addHorizontalSpace(8),
                                                       SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.65,
+                                                        width: MediaQuery.of(context).size.width * 0.65,
                                                         child: Column(
                                                           children: [
                                                             Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: const [
                                                                 Text(
                                                                   'Trimming & Cutting',
@@ -151,57 +141,43 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                             ),
                                                             addVerticalSpace(8),
                                                             Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Row(
                                                                   children: const [
                                                                     Icon(
-                                                                      Icons
-                                                                          .location_on_outlined,
+                                                                      Icons.location_on_outlined,
                                                                       size: 16,
-                                                                      color: Colors
-                                                                          .red,
+                                                                      color: Colors.red,
                                                                     ),
                                                                     Text(
                                                                       'Buddhanagar, Kathmandu',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            11,
+                                                                      style: TextStyle(
+                                                                        fontSize: 11,
                                                                       ),
                                                                     ),
                                                                   ],
                                                                 ),
-                                                                const Text(
-                                                                    'Rs. 1200')
+                                                                const Text('Rs. 1200')
                                                               ],
                                                             ),
                                                             addVerticalSpace(8),
                                                             Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Row(
                                                                   children: [
                                                                     Row(
                                                                       children: const [
                                                                         Icon(
-                                                                          Icons
-                                                                              .calendar_month,
-                                                                          size:
-                                                                              16,
-                                                                          color:
-                                                                              Colors.red,
+                                                                          Icons.calendar_month,
+                                                                          size: 16,
+                                                                          color: Colors.red,
                                                                         ),
                                                                         Text(
                                                                           'June 02,2023',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                11,
+                                                                          style: TextStyle(
+                                                                            fontSize: 11,
                                                                           ),
                                                                         ),
                                                                       ],
@@ -212,19 +188,14 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                     Row(
                                                                       children: const [
                                                                         Icon(
-                                                                          Icons
-                                                                              .watch_later_outlined,
-                                                                          size:
-                                                                              16,
-                                                                          color:
-                                                                              Colors.blue,
+                                                                          Icons.watch_later_outlined,
+                                                                          size: 16,
+                                                                          color: Colors.blue,
                                                                         ),
                                                                         Text(
                                                                           '8:00 PM',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                11,
+                                                                          style: TextStyle(
+                                                                            fontSize: 11,
                                                                           ),
                                                                         ),
                                                                       ],
@@ -233,15 +204,10 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                 ),
                                                                 const Text(
                                                                   '/per project',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        11,
-                                                                    color:
-                                                                        kColorSilver,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic,
+                                                                  style: TextStyle(
+                                                                    fontSize: 11,
+                                                                    color: kColorSilver,
+                                                                    fontStyle: FontStyle.italic,
                                                                   ),
                                                                 )
                                                               ],
@@ -256,24 +222,19 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                             ),
                                             const Divider(),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
+                                              padding: const EdgeInsets.all(16.0),
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Row(
                                                     children: [
                                                       const Text('Booking:'),
                                                       addHorizontalSpace(4),
                                                       const Chip(
-                                                        backgroundColor:
-                                                            Colors.lightBlue,
+                                                        backgroundColor: Colors.lightBlue,
                                                         label: Text(
                                                           'Approved',
-                                                          style: TextStyle(
-                                                              fontSize: 10),
+                                                          style: TextStyle(fontSize: 10),
                                                         ),
                                                       )
                                                     ],
@@ -283,9 +244,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                       'Booking Details',
                                                       style: TextStyle(
                                                         color: kColorSilver,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                                        decoration: TextDecoration.underline,
                                                       ),
                                                     ),
                                                   )
