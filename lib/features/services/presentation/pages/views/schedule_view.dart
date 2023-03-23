@@ -44,7 +44,7 @@ class _ScheduleViewState extends State<ScheduleView> {
               if (state.theStates == TheStates.initial) {
                 return const CircularProgressIndicator();
               }
-              if (state.isEventLoaded == true) {
+              if (state.isLoaded == true) {
                 if (dateList.isEmpty) {
                   for (final element in state.event!.allShifts!) {
                     dateList.add(element.date!);

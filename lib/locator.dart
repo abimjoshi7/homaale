@@ -11,5 +11,5 @@ void init() {
   locator.registerFactory(() => TaskBloc());
   locator.registerFactory(() => EntityServiceBloc());
   locator.registerFactory(() => TaskerCubit());
-  // locator.registerFactory(() => UserBloc());
+  locator.registerFactory(() => UserBloc());
 }

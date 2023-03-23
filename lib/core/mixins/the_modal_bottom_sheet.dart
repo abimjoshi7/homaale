@@ -7,6 +7,7 @@ mixin TheModalBottomSheet {
     required Widget widget,
   }) async {
     await showModalBottomSheet(
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
@@ -14,18 +15,23 @@ mixin TheModalBottomSheet {
         ),
       ),
       context: context,
-      builder: (context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomModalSheetDrawerIcon(),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: widget,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomModalSheetDrawerIcon(),
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: widget,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

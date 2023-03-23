@@ -8,11 +8,11 @@ class ServicesState extends Equatable {
   final bool? isServiceListLoaded;
 
   const ServicesState({
-    this.theStates,
+    this.theStates = TheStates.initial,
     this.selfCreatedTaskServiceModel,
     this.addServiceRes,
     this.serviceList,
-    this.isServiceListLoaded,
+    this.isServiceListLoaded = false,
   });
 
   @override

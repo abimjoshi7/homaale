@@ -4,7 +4,7 @@ class UserState extends Equatable {
   final TheStates? theStates;
   final TaskerProfile? taskerProfile;
   const UserState({
-    this.theStates,
+    this.theStates = TheStates.initial,
     this.taskerProfile,
   });
 

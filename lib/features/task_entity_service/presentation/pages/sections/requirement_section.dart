@@ -14,22 +14,25 @@ class RequirementSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomFormField(
       label: "Requirements",
-      child: Column(
-        children: List.generate(
-          requirementList?.length ?? 2,
-          (index) => Row(
-            children: [
-              Icon(
-                Icons.circle,
-                size: 12,
-                color: Colors.orange,
-              ),
-              kWidth10,
-              Text(
-                requirementList?[index] ??
-                    'Booking available for RCT in Kathmandu',
-              )
-            ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: List.generate(
+            requirementList?.length ?? 2,
+            (index) => Row(
+              children: [
+                Icon(
+                  Icons.circle,
+                  size: 12,
+                  color: Colors.orange,
+                ),
+                kWidth10,
+                Text(
+                  requirementList?[index] ??
+                      'Booking available for RCT in Kathmandu',
+                )
+              ],
+            ),
           ),
         ),
       ),

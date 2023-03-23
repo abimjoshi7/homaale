@@ -19,11 +19,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserLoaded>(
       (event, emit) async {
         try {
-          // emit(
-          //   state.copyWith(
-          //     theStates: TheStates.initial,
-          //   ),
-          // );
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+            ),
+          );
           await respositories.fetchUser().then(
             (value) {
               emit(
@@ -37,7 +37,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             },
           );
         } catch (e) {
-          log("CULPRIT: ${e.toString()}");
           emit(
             state.copyWith(
               theStates: TheStates.failure,

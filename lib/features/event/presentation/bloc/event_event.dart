@@ -5,13 +5,24 @@ abstract class EventEvent extends Equatable {
   const EventEvent();
 }
 
-class EventRetrieveInitiated extends EventEvent {
+class EventLoaded extends EventEvent {
   final String id;
-  const EventRetrieveInitiated({
+  const EventLoaded({
     required this.id,
   });
   @override
   List<Object?> get props => [
         id,
+      ];
+}
+
+class EventCreated extends EventEvent {
+  final CreateEventReq req;
+
+  EventCreated(this.req);
+
+  @override
+  List<Object?> get props => [
+        req,
       ];
 }

@@ -11,14 +11,14 @@ class TaskEntityServiceState extends Equatable {
   final bool? isLoaded;
   final bool? isCreated;
   const TaskEntityServiceState({
-    this.theStates,
+    this.theStates = TheStates.initial,
     this.taskEntityService,
     this.applicantModel,
     this.approveSuccess = false,
     this.approveFail = false,
     this.taskEntityServiceRes,
-    this.isLoaded,
-    this.isCreated,
+    this.isLoaded = false,
+    this.isCreated = false,
   });
 
   TaskEntityServiceState copyWith({
