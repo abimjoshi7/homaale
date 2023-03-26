@@ -88,8 +88,6 @@ class _PaymentPageState extends State<PaymentPage> {
                                           setState(
                                             () {
                                               currentIndex = index;
-                                              state.paymentType
-                                                  ?.result![index] = newValue!;
                                             },
                                           );
                                         },
