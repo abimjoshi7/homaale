@@ -1,5 +1,6 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
+import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,36 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                 content: 'Successfully hired!',
                 onTap: () {
                   context.read<TaskBloc>().add(ResetApproveSuccessStatus());
+                  Navigator.pop(context);
+                },
+                isSuccess: true,
+              ),
+            );
+          }
+
+          if (state.rejectFail ?? false) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: 'Failed',
+                content: error ?? 'Something went wrong while trying to reject tasker. Please try again!',
+                onTap: () {
+                  context.read<TaskBloc>().add(ResetRejectFailureStatus());
+                  Navigator.pop(context);
+                },
+                isSuccess: true,
+              ),
+            );
+          }
+
+          if (state.rejectSuccess ?? false) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: 'Success',
+                content: 'The Applicant has been rejected!',
+                onTap: () {
+                  context.read<TaskBloc>().add(ResetRejectSuccessStatus());
                   Navigator.pop(context);
                 },
                 isSuccess: true,
@@ -393,7 +424,14 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   title: state.taskModel?.title ?? '',
                                   budget:
                                       'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
-                                  onRejectPressed: () {},
+                                  onRejectPressed: () {
+                                    context.read<TaskBloc>().add(
+                                          TaskRejectPeople(
+                                            rejectReq: RejectReq(booking: state.applicantModel?.result?[index].id ?? 0),
+                                          ),
+                                        );
+                                    Navigator.pop(context);
+                                  },
                                   onApprovePressed: () {
                                     context.read<TaskBloc>().add(
                                           TaskApprovePeople(

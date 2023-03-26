@@ -76,6 +76,29 @@ class TaskApprovePeople extends TaskEvent {
   List<Object?> get props => [approveReq];
 }
 
+class TaskRejectPeople extends TaskEvent {
+  final RejectReq rejectReq;
+
+  const TaskRejectPeople({required this.rejectReq});
+
+  @override
+  List<Object?> get props => [rejectReq];
+}
+
+class ResetRejectSuccessStatus extends TaskEvent {
+  const ResetRejectSuccessStatus();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetRejectFailureStatus extends TaskEvent {
+  const ResetRejectFailureStatus();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class ResetApproveSuccessStatus extends TaskEvent {
   const ResetApproveSuccessStatus();
 

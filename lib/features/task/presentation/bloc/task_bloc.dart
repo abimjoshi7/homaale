@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
+import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
@@ -189,6 +190,48 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           print(e);
           emit(state.copyWith(theState: TheStates.success, approveFail: true));
         }
+      },
+    );
+
+    on<TaskRejectPeople>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(theState: TheStates.initial),
+          );
+          await bookingRepo.rejectBooking(event.rejectReq).then(
+            (value) {
+              log('$value');
+              emit(
+                state.copyWith(
+                  theState: TheStates.success,
+                  rejectSuccess: true,
+                  rejectFail: false,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          print(e);
+          emit(state.copyWith(theState: TheStates.success, rejectFail: true));
+        }
+      },
+    );
+
+    on<ResetRejectSuccessStatus>(
+      (event, emit) {
+        emit(state.copyWith(
+          theState: TheStates.success,
+          rejectSuccess: false,
+        ));
+      },
+    );
+    on<ResetRejectFailureStatus>(
+      (event, emit) {
+        emit(state.copyWith(
+          theState: TheStates.success,
+          rejectFail: false,
+        ));
       },
     );
 

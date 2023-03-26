@@ -3,6 +3,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
+import 'package:cipher/features/bookings/data/models/reject_req.dart';
 
 class BookingRepositories {
   final _dio = DioHelper();
@@ -101,6 +102,19 @@ class BookingRepositories {
       final res = await _dio.postDataWithCredential(
         data: approveReq.toJson(),
         url: '$kCreateBookingsApproval',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> rejectBooking(RejectReq rejectReq) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: rejectReq.toJson(),
+        url: '$kCreateBookingsDecline',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

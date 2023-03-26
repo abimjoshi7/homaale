@@ -21,8 +21,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
   List<Tasker> taskerList = [];
 
   //initialize page controller
-  final PagingController<int, Tasker> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, Tasker> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -148,12 +147,13 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                               context.read<TaskerCubit>().loadSingleTasker(
                                     item.user?.id ?? '',
                                   );
-                              context.read<TaskerCubit>().loadSingleTasker(
+                              context.read<TaskerCubit>().loadSingleTaskerServices(
                                     item.user?.id ?? '',
                                   );
-                              context
-                                  .read<TaskerCubit>()
-                                  .loadSingleTaskerReviews(
+                              context.read<TaskerCubit>().loadSingleTaskerTask(
+                                    item.user?.id ?? '',
+                                  );
+                              context.read<TaskerCubit>().loadSingleTaskerReviews(
                                     item.user?.id ?? '',
                                   );
                               Navigator.pushNamed(
@@ -163,8 +163,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                             },
                             child: TaskerCard(
                               networkImageUrl: item.profileImage,
-                              label:
-                                  "${item.user?.firstName} ${item.user?.lastName}",
+                              label: "${item.user?.firstName} ${item.user?.lastName}",
                               designation: item.designation,
                               happyClients: item.stats?.happyClients.toString(),
                               ratings:
@@ -175,8 +174,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                           ),
                         ),
                       ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.9,
                       ),

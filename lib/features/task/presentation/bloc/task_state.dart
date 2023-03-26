@@ -14,6 +14,8 @@ class TaskState extends Equatable {
   final bool applyTaskSuccess;
   final bool? approveSuccess;
   final bool? approveFail;
+  final bool? rejectSuccess;
+  final bool? rejectFail;
 
   const TaskState({
     this.theState = TheStates.initial,
@@ -23,12 +25,14 @@ class TaskState extends Equatable {
     this.tasksList,
     this.taskModel,
     this.selfCreatedTaskServiceModel,
-    this.approveSuccess = false,
-    this.approveFail = false,
     this.taskApplyCountModel,
     this.applicantModel,
     this.applyTaskFail = false,
     this.applyTaskSuccess = false,
+    this.approveSuccess = false,
+    this.approveFail = false,
+    this.rejectSuccess = false,
+    this.rejectFail = false,
   });
 
   @override
@@ -46,7 +50,9 @@ class TaskState extends Equatable {
       applyTaskFail,
       applyTaskSuccess,
       approveSuccess,
-      approveFail
+      approveFail,
+      rejectSuccess,
+      rejectFail,
     ];
   }
 
@@ -57,13 +63,15 @@ class TaskState extends Equatable {
     AllTaskList? allTaskList,
     es.EntityServiceModel? tasksList,
     SingleTaskEntityService? taskModel,
-    bool? approveSuccess,
-    bool? approveFail,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
     TaskApplyCountModel? taskApplyCountModel,
     ApplicantModel? applicantModel,
     bool? applyTaskFail,
     bool? applyTaskSuccess,
+    bool? approveSuccess,
+    bool? approveFail,
+    bool? rejectSuccess,
+    bool? rejectFail,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
@@ -79,6 +87,8 @@ class TaskState extends Equatable {
       applyTaskSuccess: applyTaskSuccess ?? this.applyTaskSuccess,
       approveSuccess: approveSuccess ?? this.approveSuccess,
       approveFail: approveFail ?? this.approveFail,
+      rejectSuccess: rejectSuccess ?? this.rejectSuccess,
+      rejectFail: rejectFail ?? this.rejectFail,
     );
   }
 }
