@@ -37,6 +37,7 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/notification/presentation/cubit/all_notification_list_cubit.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
 
@@ -203,6 +204,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => OrderItemListBloc(),
+          ),
+          BlocProvider(
+            create: (context) => OrderIdCreateBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
