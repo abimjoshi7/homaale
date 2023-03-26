@@ -18,6 +18,7 @@ class _ShowMoreTextWidgetState extends State<ShowMoreTextWidget> {
         Text(
           widget.text,
           overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.justify,
           maxLines: showAll ? widget.text.length : 3,
         ),
         GestureDetector(

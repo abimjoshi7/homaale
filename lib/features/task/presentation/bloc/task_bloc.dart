@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
+import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
@@ -19,6 +21,7 @@ part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final repo = TaskRepositories();
+  final bookingRepo = BookingRepositories();
 
   TaskBloc() : super(const TaskState()) {
     on<TaskAddInitiated>(
@@ -154,10 +157,55 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             },
           );
         } catch (e) {
+          log(e.toString());
           emit(
-            state.copyWith(applyTaskFail: true),
+            state.copyWith(
+              applyTaskFail: true,
+            ),
           );
         }
+      },
+    );
+
+    on<TaskApprovePeople>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(theState: TheStates.initial),
+          );
+          await bookingRepo.approveBooking(event.approveReq).then(
+            (value) {
+              log('$value');
+              emit(
+                state.copyWith(
+                  theState: TheStates.success,
+                  approveSuccess: true,
+                  approveFail: false,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          print(e);
+          emit(state.copyWith(theState: TheStates.success, approveFail: true));
+        }
+      },
+    );
+
+    on<ResetApproveSuccessStatus>(
+      (event, emit) {
+        emit(state.copyWith(
+          theState: TheStates.success,
+          approveSuccess: false,
+        ));
+      },
+    );
+    on<ResetApproveFailureStatus>(
+      (event, emit) {
+        emit(state.copyWith(
+          theState: TheStates.success,
+          approveFail: false,
+        ));
       },
     );
   }

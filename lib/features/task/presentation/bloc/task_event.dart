@@ -67,6 +67,29 @@ class TaskBook extends TaskEvent {
       ];
 }
 
+class TaskApprovePeople extends TaskEvent {
+  final ApproveReq approveReq;
+
+  const TaskApprovePeople({required this.approveReq});
+
+  @override
+  List<Object?> get props => [approveReq];
+}
+
+class ResetApproveSuccessStatus extends TaskEvent {
+  const ResetApproveSuccessStatus();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetApproveFailureStatus extends TaskEvent {
+  const ResetApproveFailureStatus();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class TaskBookInitiated extends TaskEvent {
   const TaskBookInitiated();
   @override
