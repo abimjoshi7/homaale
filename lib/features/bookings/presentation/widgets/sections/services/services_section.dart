@@ -9,7 +9,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class ServicesSection extends StatefulWidget {
-  const ServicesSection({super.key});
+  final bool? isCheckPending;
+  const ServicesSection({super.key, this.isCheckPending});
 
   @override
   State<ServicesSection> createState() => _ServicesSectionState();
@@ -39,54 +40,108 @@ class _ServicesSectionState extends State<ServicesSection> {
         }
         if (state.states == TheStates.success) {
           final allList = state.myBookingListModelService?.result;
-
           return Column(
             children: [
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: BookingsServiceCard(
-                      callback: () {
-                        context.read<BookingsBloc>().add(
-                              BookingSingleLoaded(
-                                allList?[index].id ?? 0,
+              if (widget.isCheckPending != null)
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return allList?[index].status == 'pending'
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: BookingsServiceCard(
+                                callback: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingSingleLoaded(
+                                          allList?[index].id ?? 0,
+                                        ),
+                                      );
+                                  Navigator.pushNamed(
+                                    context,
+                                    BookedServicePage.routeName,
+                                  );
+                                },
+                                editTap: () async {
+                                  showEditForm(context);
+                                },
+                                cancelTap: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingCancelled(
+                                          id: allList?[index].id ?? 0,
+                                        ),
+                                      );
+                                },
+                                deleteTap: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingDeleted(
+                                          id: allList?[index].id ?? 0,
+                                        ),
+                                      );
+                                },
+                                serviceName:
+                                    allList?[index].entityService?.title,
+                                providerName:
+                                    "${allList?[index].entityService?.createdBy?.firstName} ${allList?[index].entityService?.createdBy?.lastName}",
+                                mainContentWidget:
+                                    showBookingDetail(allList, index),
+                                status: allList?[index].status,
+                                bottomRightWidget: displayPrice(allList, index),
                               ),
-                            );
-                        Navigator.pushNamed(
-                          context,
-                          BookedServicePage.routeName,
-                        );
-                      },
-                      editTap: () async {
-                        showEditForm(context);
-                      },
-                      cancelTap: () {
-                        context.read<BookingsBloc>().add(
-                              BookingCancelled(
-                                id: allList?[index].id ?? 0,
-                              ),
-                            );
-                      },
-                      deleteTap: () {
-                        context.read<BookingsBloc>().add(
-                              BookingDeleted(
-                                id: allList?[index].id ?? 0,
-                              ),
-                            );
-                      },
-                      serviceName: allList?[index].entityService?.title,
-                      providerName:
-                          "${allList?[index].entityService?.createdBy?.firstName} ${allList?[index].entityService?.createdBy?.lastName}",
-                      mainContentWidget: showBookingDetail(allList, index),
-                      status: allList?[index].status,
-                      bottomRightWidget: displayPrice(allList, index),
-                    ),
+                            )
+                          : SizedBox();
+                    },
+                    itemCount: allList?.length ?? 0,
                   ),
-                  itemCount: allList?.length ?? 0,
                 ),
-              )
+              if (widget.isCheckPending == null)
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: BookingsServiceCard(
+                          callback: () {
+                            context.read<BookingsBloc>().add(
+                                  BookingSingleLoaded(
+                                    allList?[index].id ?? 0,
+                                  ),
+                                );
+                            Navigator.pushNamed(
+                              context,
+                              BookedServicePage.routeName,
+                            );
+                          },
+                          editTap: () async {
+                            showEditForm(context);
+                          },
+                          cancelTap: () {
+                            context.read<BookingsBloc>().add(
+                                  BookingCancelled(
+                                    id: allList?[index].id ?? 0,
+                                  ),
+                                );
+                          },
+                          deleteTap: () {
+                            context.read<BookingsBloc>().add(
+                                  BookingDeleted(
+                                    id: allList?[index].id ?? 0,
+                                  ),
+                                );
+                          },
+                          serviceName: allList?[index].entityService?.title,
+                          providerName:
+                              "${allList?[index].entityService?.createdBy?.firstName} ${allList?[index].entityService?.createdBy?.lastName}",
+                          mainContentWidget: showBookingDetail(allList, index),
+                          status: allList?[index].status,
+                          bottomRightWidget: displayPrice(allList, index),
+                        ),
+                      );
+                    },
+                    itemCount: allList?.length ?? 0,
+                  ),
+                ),
             ],
           );
         }
@@ -134,7 +189,8 @@ class _ServicesSectionState extends State<ServicesSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
+                  label:
+                      "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
                   color: kColorGreen,
                 ),
               ),
