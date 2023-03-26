@@ -8,7 +8,6 @@ import 'package:cipher/features/task_entity_service/presentation/pages/sections/
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/locator.dart';
-import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
