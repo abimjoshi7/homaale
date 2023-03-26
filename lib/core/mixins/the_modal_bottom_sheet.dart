@@ -7,6 +7,12 @@ mixin TheModalBottomSheet {
     required Widget widget,
   }) async {
     await showModalBottomSheet(
+      constraints: BoxConstraints.loose(
+        Size(
+          double.infinity,
+          MediaQuery.of(context).size.height * 0.8,
+        ),
+      ),
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

@@ -6,7 +6,6 @@ class TaskEntityServiceState extends Equatable {
   final ApplicantModel? applicantModel;
   final bool? approveSuccess;
   final bool? approveFail;
-
   final TaskEntityServiceRes? taskEntityServiceRes;
   final bool? isLoaded;
   final bool? isCreated;

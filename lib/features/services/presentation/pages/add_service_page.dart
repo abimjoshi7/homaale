@@ -144,8 +144,9 @@ class _AddServicePageState extends State<AddServicePage> {
                             ),
                           ),
                           CustomFormField(
-                            label: 'Service Highlights',
+                            label: 'Requirements',
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,13 +191,16 @@ class _AddServicePageState extends State<AddServicePage> {
                                     ),
                                   ),
                                 ),
-                                addVerticalSpace(5),
                                 CustomTextFormField(
+                                  hintText: 'Add requirements',
                                   controller: requirementController,
-                                  hintText: 'Add Highlights',
                                   onFieldSubmitted: (p0) {
-                                    requirementList.add(p0!);
-                                    requirementController.clear();
+                                    if (p0 != "") {
+                                      setState(() {
+                                        requirementList.add(p0!);
+                                        requirementController.clear();
+                                      });
+                                    }
                                   },
                                 ),
                               ],
@@ -777,6 +781,14 @@ class _AddServicePageState extends State<AddServicePage> {
                           ),
                           BlocConsumer<TaskEntityServiceBloc,
                               TaskEntityServiceState>(
+                            listenWhen: (previous, current) {
+                              if (previous.isCreated == false &&
+                                  current.isCreated == true) {
+                                return true;
+                              } else {
+                                return false;
+                              }
+                            },
                             listener: (context, state) {
                               if (state.theStates == TheStates.success &&
                                   state.isCreated == true) {

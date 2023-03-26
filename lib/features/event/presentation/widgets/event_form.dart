@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/event/data/models/req/create_event_req.dart';
-import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -65,8 +65,9 @@ class _EventFormState extends State<EventForm> {
                           Icons.calendar_today_outlined,
                           color: kColorPrimary,
                         ),
-                        hintText: DateFormat.yMMMEd()
-                            .format(startDate ?? DateTime.now()),
+                        hintText: startDate != null
+                            ? DateFormat.yMMMEd().format(startDate!)
+                            : "",
                         callback: () => showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -92,8 +93,9 @@ class _EventFormState extends State<EventForm> {
                           Icons.calendar_today_outlined,
                           color: kColorPrimary,
                         ),
-                        hintText: DateFormat.yMMMEd()
-                            .format(endDate ?? DateTime.now()),
+                        hintText: endDate != null
+                            ? DateFormat.yMMMEd().format(endDate!)
+                            : "",
                         callback: () => showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -191,22 +193,35 @@ class _EventFormState extends State<EventForm> {
                 },
                 child: CustomElevatedButton(
                   callback: () {
-                    final req = CreateEventReq(
-                      title: titleController.text,
-                      start: startDate,
-                      end: endDate,
-                      guestLimit: int.parse(guestController.text),
-                      duration: durationController.text,
-                      isFlexible: isFlexible,
-                      entityService: service.id,
-                      isActive: true,
-                    );
-                    print(jsonEncode(req.toJson()));
-                    context.read<EventBloc>().add(
-                          EventCreated(
-                            req,
-                          ),
-                        );
+                    if (startDate != null && endDate != null) {
+                      final req = CreateEventReq(
+                        title: titleController.text,
+                        start: startDate,
+                        end: endDate,
+                        guestLimit: int.parse(guestController.text),
+                        duration: durationController.text,
+                        isFlexible: isFlexible,
+                        entityService: service.id,
+                        isActive: true,
+                      );
+                      context.read<EventBloc>().add(
+                            EventCreated(
+                              req,
+                            ),
+                          );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Error',
+                          content: "Please verify dates",
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          isSuccess: false,
+                        ),
+                      );
+                    }
                   },
                   label: "Save",
                 ),
@@ -224,7 +239,9 @@ class _EventFormState extends State<EventForm> {
             ],
           );
         }
-        return ErrorWidget(Exception());
+        return ErrorWidget(
+          Exception(),
+        );
       },
     );
   }

@@ -1,20 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
-import 'package:cipher/features/event/presentation/widgets/event_form.dart';
-import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/core/mixins/mixins.dart';
+import 'package:cipher/features/event/presentation/widgets/schedule_form.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class EventSection extends StatelessWidget with TheModalBottomSheet {
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+
+class ScheduleSection extends StatelessWidget with TheModalBottomSheet {
   final TaskEntityServiceState taskEntityServiceState;
   final UserState userState;
-  const EventSection({
-    super.key,
+  const ScheduleSection({
+    Key? key,
     required this.taskEntityServiceState,
     required this.userState,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class EventSection extends StatelessWidget with TheModalBottomSheet {
       visible: taskEntityServiceState.taskEntityService?.createdBy?.id ==
           userState.taskerProfile?.user?.id,
       child: CustomFormField(
-        label: "Events",
+        label: "Schedule",
         child: taskEntityServiceState.taskEntityService?.event == null
             ? Container(
                 padding: EdgeInsets.symmetric(
@@ -52,11 +54,11 @@ class EventSection extends StatelessWidget with TheModalBottomSheet {
                             AutoSizeText(
                               taskEntityServiceState
                                       .taskEntityService?.event?.title ??
-                                  "No event created yet",
+                                  "No Schedule Found",
                               style: kText15,
                             ),
                             AutoSizeText(
-                              "Let's create your first event",
+                              "Add New Schedule",
                             ),
                           ],
                         )
@@ -66,7 +68,7 @@ class EventSection extends StatelessWidget with TheModalBottomSheet {
                       onPressed: () {
                         showCustomBottomSheet(
                           context: context,
-                          widget: EventForm(),
+                          widget: ScheduleForm(),
                         );
                       },
                       icon: Icon(Icons.add),

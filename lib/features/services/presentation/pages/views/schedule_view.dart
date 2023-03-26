@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
-import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
 import 'package:cipher/features/services/presentation/widgets/the_time_slot.dart';
 import 'package:cipher/widgets/widgets.dart';
 
