@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/widgets.dart';
@@ -24,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    context.read<SearchBloc>().add(SearchQueryInitiated(searchQuery: 'preeti'));
+    // context.read<SearchBloc>().add(SearchQueryInitiated(searchQuery: 'preeti'));
   }
 
   @override
@@ -58,11 +60,21 @@ class _SearchPageState extends State<SearchPage> {
                       child: CustomTextFormField(
                         controller: _searchFieldController,
                         node: _focusNode,
+                        onChanged: (query) {
+                          log('ma search query hoo: ${_searchFieldController.text}');
+                          context.read<SearchBloc>().add(
+                                SearchQueryInitiated(
+                                  searchQuery: _searchFieldController.text
+                                      .toString()
+                                      .toLowerCase(),
+                                ),
+                              );
+                        },
                         hintText: 'Search...',
                         textInputType: TextInputType.text,
-                        onSaved: (value) {
-                          // log("search-test" + _searchFieldController.text);
-                        },
+                        // onSaved: (value) {
+                        //   // log("search-test" + _searchFieldController.text);
+                        // },
                         prefixWidget: (_focusNode.hasFocus)
                             ? Icon(
                                 Icons.arrow_back_rounded,
@@ -105,14 +117,26 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
 
-                  SearchResultsList(),
+                  //**Search Results**//
+                  BlocBuilder<SearchBloc, SearchState>(
+                    builder: (_, state) {
+                      if (state.theStates == TheStates.success) {
+                        return SearchResultsList(
+                          searchList: state.filteredList!,
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  ),
+
+                  //**Recent Searches List**//
                   // RecentSearchesList(),
-                  // //** */
                   // addVerticalSpace(
                   //     MediaQuery.of(context).size.height * 0.015),
-                  //** recommendations **/
+                  //** Recommendations Category Search Filter List**/
                   // RecommendedCategoryList(),
-                  SavedSearchList(),
+                  //**Saved Search List**//
+                  // SavedSearchList(),
                 ],
               ),
             ),

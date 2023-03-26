@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/search/data/search_result.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
 
@@ -25,21 +26,21 @@ class SearchRepository {
     }
   }
 
-  List<dynamic>? filterSearchResults(List unFilteredList) {
+  List<SearchResult>? filterSearchResults(List unFilteredList) {
     try {
-      List<dynamic> filteredList = [];
-      unFilteredList.forEach((result) {
+      List<SearchResult> filteredList = [];
+      unFilteredList.map((e) => e as Map<String, dynamic>).forEach((result) {
         if (result["c_type"] == "task.EntityService") {
-          log('service ho');
-          final TaskEntityService x = TaskEntityService.fromJson(
-              jsonDecode(result.toString()) as Map<String, dynamic>);
-          filteredList.add(x);
+          final TaskEntityService x = TaskEntityService.fromJson(result);
+          filteredList.add(
+            SearchResult.taskEntityServiceResult(x),
+          );
         }
         if (result["c_type"] == "tasker.Profile") {
-          log('service hoina');
-          final TaskerProfile x = TaskerProfile.fromJson(
-              jsonDecode(result.toString()) as Map<String, dynamic>);
-          filteredList.add(x);
+          final TaskerProfile x = TaskerProfile.fromJson(result);
+          filteredList.add(
+            SearchResult.taskerProfileResult(x),
+          );
         }
       });
       return filteredList;

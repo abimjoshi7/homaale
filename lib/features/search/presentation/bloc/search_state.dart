@@ -5,26 +5,23 @@ part of 'search_bloc.dart';
 @immutable
 class SearchState extends Equatable {
   final TheStates? theStates;
-  final TaskEntityService? taskEntityService;
-  final TaskerProfile? taskProfile;
+
+  final List<SearchResult>? filteredList;
   SearchState({
     this.theStates,
-    this.taskEntityService,
-    this.taskProfile,
+    this.filteredList,
   });
 
   SearchState copyWith({
     TheStates? theStates,
-    TaskEntityService? taskEntityService,
-    TaskerProfile? taskProfile,
+    List<SearchResult>? filteredList,
   }) {
     return SearchState(
       theStates: theStates ?? this.theStates,
-      taskEntityService: taskEntityService ?? this.taskEntityService,
-      taskProfile: taskProfile ?? this.taskProfile,
+      filteredList: filteredList ?? this.filteredList,
     );
   }
 
   @override
-  List<Object?> get props => [theStates, taskEntityService, taskProfile];
+  List<Object?> get props => [theStates, filteredList];
 }

@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class SavedSearchList extends StatelessWidget {
@@ -79,7 +81,7 @@ class SavedSearchList extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return savedEntityTile(
                   context,
-                  title: 'Shrek & Donkey Laundry Service',
+                  title: 'Skrek & Donkey Laundry services',
                   imgSrc:
                       'https://assets.epuzzle.info/puzzle/075/103/original.jpg',
                 );
