@@ -17,11 +17,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         try {
           final _unFilteredSearchList = await _searchRepository
               .fetchSearchQueryResults(searchQuery: event.searchQuery);
-          log("unfiltered List: " + _unFilteredSearchList.toString());
+
           if (_unFilteredSearchList != null) {
             final List<SearchResult>? filteredSearchList =
                 _searchRepository.filterSearchResults(_unFilteredSearchList);
-            log('Search API Test: ${filteredSearchList}');
+            // log('Search API Test: ${filteredSearchList}');
             emit(
               state.copyWith(
                 theStates: TheStates.success,

@@ -26,7 +26,6 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    // context.read<SearchBloc>().add(SearchQueryInitiated(searchQuery: 'preeti'));
   }
 
   @override

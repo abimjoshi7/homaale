@@ -31,13 +31,16 @@ class SearchRepository {
       List<SearchResult> filteredList = [];
       unFilteredList.map((e) => e as Map<String, dynamic>).forEach((result) {
         if (result["c_type"] == "task.EntityService") {
-          final TaskEntityService x = TaskEntityService.fromJson(result);
+          final x = TaskEntityService.fromJson(
+              result["result"] as Map<String, dynamic>);
+          log('filter test: ' + x.toString());
           filteredList.add(
             SearchResult.taskEntityServiceResult(x),
           );
         }
         if (result["c_type"] == "tasker.Profile") {
-          final TaskerProfile x = TaskerProfile.fromJson(result);
+          final TaskerProfile x =
+              TaskerProfile.fromJson(result["result"] as Map<String, dynamic>);
           filteredList.add(
             SearchResult.taskerProfileResult(x),
           );
@@ -45,7 +48,7 @@ class SearchRepository {
       });
       return filteredList;
     } catch (e) {
-      log("Search Filter Error" + e.toString());
+      log(e.toString());
     }
     return null;
   }
