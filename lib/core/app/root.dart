@@ -2,9 +2,8 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
-import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
-import 'package:cipher/features/box/box.dart';
+import 'package:cipher/features/box/presentation/pages/box.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -37,7 +36,6 @@ class _RootState extends State<Root> {
 
   final pages = [
     const Home(),
-    // const OffersPage(),
     const BoxPage(),
     const MyBookingsPage(),
     const AccountProfile(),

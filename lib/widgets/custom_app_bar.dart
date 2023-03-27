@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         minFontSize: 14,
         style: kText14.copyWith(
           fontSize: 16,
-          color: kColorDarkGrey,
+          color: kColorGreyDark,
         ),
       ),
       centerTitle: true,
@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           Icons.arrow_back_rounded,
           size: 25.0,
-          color: kColorDarkGrey2,
+          color: kColorGreyDark,
         ),
         onPressed: () => Navigator.pop(context),
       ),
@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: null,
           icon: Icon(
             Icons.search_rounded,
-            color: kColorDarkGrey,
+            color: kColorGreyDark,
             size: 25,
           ),
         )

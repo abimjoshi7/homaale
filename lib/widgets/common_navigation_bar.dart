@@ -2,7 +2,6 @@ import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
-import 'package:cipher/features/box/box.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
@@ -11,6 +10,8 @@ import 'package:cipher/widgets/add_pop_up_button.dart';
 import 'package:cipher/widgets/custom_bottom_nav_items.dart';
 import 'package:cipher/widgets/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../features/box/presentation/pages/box.dart';
 
 class CommonNavigationBar extends StatefulWidget {
   const CommonNavigationBar({super.key});

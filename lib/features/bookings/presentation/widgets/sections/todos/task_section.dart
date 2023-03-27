@@ -37,7 +37,7 @@ class _TaskSectionState extends State<TaskSection> {
             child: CircularProgressIndicator(),
           );
         }
-        if (state.states == TheStates.success) {
+        if (state.states == TheStates.success && state.isLoaded == true) {
           final allList = state.myBookingListModelTask?.result;
 
           return Column(
@@ -60,11 +60,35 @@ class _TaskSectionState extends State<TaskSection> {
                         );
                       },
                       editTap: () async {
-                        showEditForm(context);
+                        if (allList?[index].status?.toLowerCase() == 'pending') {
+                          Navigator.pop(context);
+                          showEditForm(context, index);
+                        } else {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomToast(
+                                heading: 'Warning',
+                                content:
+                                    'The task is already ${allList?[index].status?.toLowerCase()}. Cannot be edited!',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                isSuccess: true),
+                          );
+                        }
                       },
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
                               BookingDeleted(
+                                id: allList?[index].id ?? 0,
+                              ),
+                            );
+                        Navigator.pop(context);
+                      },
+                      cancelTap: () {
+                        context.read<BookingsBloc>().add(
+                              BookingCancelled(
                                 id: allList?[index].id ?? 0,
                               ),
                             );
@@ -110,8 +134,7 @@ class _TaskSectionState extends State<TaskSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
+                  label: "${allList?[index].startTime ?? '00:00'} - ${allList?[index].endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),
@@ -145,7 +168,7 @@ class _TaskSectionState extends State<TaskSection> {
     );
   }
 
-  Future<dynamic> showEditForm(BuildContext context) {
+  Future<dynamic> showEditForm(BuildContext context, int index) {
     return Future.delayed(
       Duration.zero,
       () async => showModalBottomSheet(
@@ -155,10 +178,13 @@ class _TaskSectionState extends State<TaskSection> {
         isScrollControlled: true,
         context: context,
         builder: (context) => Column(
-          children: const [
+          children: [
             CustomModalSheetDrawerIcon(),
             Expanded(
-              child: EditMyOrdersForm(selectedIndex: 0),
+              child: EditMyOrdersForm(
+                selectedIndex: index,
+                isTask: true,
+              ),
             ),
           ],
         ),

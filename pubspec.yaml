@@ -39,6 +39,7 @@ flutter:
   assets:
     - assets/
     - assets/logos/
+    - assets/notification/
     - assets/skills/
     - assets/banners/
     - assets/categories/

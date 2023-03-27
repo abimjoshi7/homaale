@@ -120,7 +120,7 @@ class EntityService with _$EntityService {
     Currency? currency,
     City? city,
     List<Image>? images,
-    List<dynamic>? videos,
+    List<Image>? videos,
     Service? service,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,

@@ -30,9 +30,9 @@ mixin _$TaskEntityServiceReq {
   @JsonKey(name: "budget_to")
   num? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
-  DateTime? get startDate => throw _privateConstructorUsedError;
+  String? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
-  DateTime? get endDate => throw _privateConstructorUsedError;
+  String? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "start_time")
   String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: "end_time")
@@ -92,8 +92,8 @@ abstract class $TaskEntityServiceReqCopyWith<$Res> {
       @JsonKey(name: "budget_type") String? budgetType,
       @JsonKey(name: "budget_from") num? budgetFrom,
       @JsonKey(name: "budget_to") num? budgetTo,
-      @JsonKey(name: "start_date") DateTime? startDate,
-      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_date") String? startDate,
+      @JsonKey(name: "end_date") String? endDate,
       @JsonKey(name: "start_time") String? startTime,
       @JsonKey(name: "end_time") String? endTime,
       @JsonKey(name: "share_location") bool? shareLocation,
@@ -195,11 +195,11 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -315,8 +315,8 @@ abstract class _$$_TaskEntityServiceReqCopyWith<$Res>
       @JsonKey(name: "budget_type") String? budgetType,
       @JsonKey(name: "budget_from") num? budgetFrom,
       @JsonKey(name: "budget_to") num? budgetTo,
-      @JsonKey(name: "start_date") DateTime? startDate,
-      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_date") String? startDate,
+      @JsonKey(name: "end_date") String? endDate,
       @JsonKey(name: "start_time") String? startTime,
       @JsonKey(name: "end_time") String? endTime,
       @JsonKey(name: "share_location") bool? shareLocation,
@@ -415,11 +415,11 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -589,10 +589,10 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   final num? budgetTo;
   @override
   @JsonKey(name: "start_date")
-  final DateTime? startDate;
+  final String? startDate;
   @override
   @JsonKey(name: "end_date")
-  final DateTime? endDate;
+  final String? endDate;
   @override
   @JsonKey(name: "start_time")
   final String? startTime;
@@ -808,8 +808,8 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
       @JsonKey(name: "budget_type") final String? budgetType,
       @JsonKey(name: "budget_from") final num? budgetFrom,
       @JsonKey(name: "budget_to") final num? budgetTo,
-      @JsonKey(name: "start_date") final DateTime? startDate,
-      @JsonKey(name: "end_date") final DateTime? endDate,
+      @JsonKey(name: "start_date") final String? startDate,
+      @JsonKey(name: "end_date") final String? endDate,
       @JsonKey(name: "start_time") final String? startTime,
       @JsonKey(name: "end_time") final String? endTime,
       @JsonKey(name: "share_location") final bool? shareLocation,
@@ -855,10 +855,10 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   num? get budgetTo;
   @override
   @JsonKey(name: "start_date")
-  DateTime? get startDate;
+  String? get startDate;
   @override
   @JsonKey(name: "end_date")
-  DateTime? get endDate;
+  String? get endDate;
   @override
   @JsonKey(name: "start_time")
   String? get startTime;

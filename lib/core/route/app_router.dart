@@ -229,11 +229,11 @@ class AppRouter {
           builder: (context) => const AddServicePage(),
           settings: settings,
         );
-      case BookingDetailsPage.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const BookingDetailsPage(),
-          settings: settings,
-        );
+      // case BookingDetailsPage.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const BookingDetailsPage(),
+      //     settings: settings,
+      //   );
       case BookingNextDetailPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingNextDetailPage(),

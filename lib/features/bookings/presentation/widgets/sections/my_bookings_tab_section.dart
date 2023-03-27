@@ -9,8 +9,7 @@ class MyBookingsTabSection extends StatefulWidget {
   State<MyBookingsTabSection> createState() => _MyBookingsTabSectionState();
 }
 
-class _MyBookingsTabSectionState extends State<MyBookingsTabSection>
-    with SingleTickerProviderStateMixin {
+class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with SingleTickerProviderStateMixin {
   late TabController tabController;
   int selectedIndex = 0;
 
@@ -22,6 +21,12 @@ class _MyBookingsTabSectionState extends State<MyBookingsTabSection>
       length: 3,
       vsync: this,
     );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override

@@ -3,7 +3,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/widgets.dart';
 
 class PriceBookFooterSection extends StatelessWidget {
   const PriceBookFooterSection({
@@ -25,29 +24,32 @@ class PriceBookFooterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.1,
+      padding: EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      height: MediaQuery.of(context).size.height * 0.07,
       width: double.infinity,
       decoration: BoxDecoration(
         color: bgColor ?? Color(0xffBCD4FA),
       ),
-      child: Padding(
-        padding: kPadding20,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            theLeftWidget ??
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Total Price'),
-                    Text(
-                      price ?? 'Rs. 1000',
-                      style: kText20,
-                    ),
-                  ],
-                ),
-            Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          theLeftWidget ??
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Total Price'),
+                  Text(
+                    price ?? 'Rs. 1000',
+                    style: kText20,
+                  ),
+                ],
+              ),
+          GestureDetector(
+            onTap: onPressed,
+            child: Container(
               padding: EdgeInsets.all(
                 8,
               ),
@@ -62,23 +64,15 @@ class PriceBookFooterSection extends StatelessWidget {
                 minWidth: 100,
               ),
               child: AutoSizeText(
+                textAlign: TextAlign.center,
                 buttonLabel ?? '',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
             ),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width * 0.2,
-            //   child: Container
-            // 	CustomElevatedButton(
-            //     callback: onPressed,
-            //     label: buttonLabel ?? 'Book Now',
-            //     mainColor: buttonColor ?? kColorPrimary,
-            //   ),
-            // )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

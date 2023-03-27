@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class TaskerCard extends StatelessWidget {
   const TaskerCard({
     super.key,
+    required this.callback,
     this.label,
     this.designation,
     this.happyClients,
@@ -13,7 +14,8 @@ class TaskerCard extends StatelessWidget {
     this.ratings,
     this.rate,
     this.networkImageUrl,
-    required this.callback,
+    this.callbackLabel,
+    this.buttonWidth,
   });
 
   final String? label;
@@ -23,7 +25,9 @@ class TaskerCard extends StatelessWidget {
   final String? distance;
   final String? ratings;
   final String? rate;
+  final String? callbackLabel;
   final String? networkImageUrl;
+  final double? buttonWidth;
   final VoidCallback callback;
 
   @override
@@ -131,10 +135,10 @@ class TaskerCard extends StatelessWidget {
                         ),
                         SizedBox(
                           height: 30,
-                          width: 80,
+                          width: buttonWidth ?? 80,
                           child: CustomElevatedButton(
                             callback: callback,
-                            label: 'Hire Me',
+                            label: callbackLabel ?? 'Hire Me',
                           ),
                         ),
                       ],

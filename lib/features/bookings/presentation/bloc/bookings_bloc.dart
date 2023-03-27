@@ -1,10 +1,13 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
-import 'package:cipher/features/bookings/data/models/book_entity_service_res.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
-    as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -32,22 +35,22 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModelService:
-                      booking.MyBookingListModel.fromJson(
+                  myBookingListModelService: booking.MyBookingListModel.fromJson(
                     value,
                   ),
                   myBookingListModelTask: booking.MyBookingListModel.fromJson(
                     value,
                   ),
+                  isLoaded: true,
                 ),
               );
             },
           );
         } catch (e) {
-          print(e);
           emit(
             state.copyWith(
               states: TheStates.failure,
+              isLoaded: false,
             ),
           );
         }
@@ -86,11 +89,12 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       (event, emit) async {
         try {
           emit(
-            state.copyWith(states: TheStates.initial),
+            state.copyWith(
+              states: TheStates.initial,
+              isBooked: false,
+            ),
           );
-          await repositories
-              .bookServiceOrTask(event.service)
-              .then(
+          await repositories.bookServiceOrTask(event.service).then(
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
@@ -100,17 +104,13 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                     // ),
                   ),
                 ),
-              )
-              .whenComplete(
-                () => emit(
-                  state.copyWith(
-                    isBooked: false,
-                  ),
-                ),
               );
         } catch (e) {
           emit(
-            state.copyWith(states: TheStates.failure),
+            state.copyWith(
+              states: TheStates.failure,
+              isBooked: false,
+            ),
           );
         }
       },
@@ -120,19 +120,23 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       (event, emit) async {
         try {
           await repositories.editBooking(event.id, event.req).then(
-                (value) => emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    editBookingRes: EditBookingRes.fromJson(
-                      value,
-                    ),
-                  ),
+            (value) {
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  editBookingRes: EditBookingRes.fromJson(value),
+                  isUpdated: true,
                 ),
               );
+              add(BookingLoaded(isTask: event.isTask));
+            },
+          );
         } catch (e) {
+          log(e.toString());
           emit(
             state.copyWith(
               states: TheStates.failure,
+              isUpdated: false,
             ),
           );
         }
@@ -142,7 +146,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingApproved>(
       (event, emit) async {
         try {
-          await repositories.approveBooking(event.id).then(
+          await repositories.approveBooking(event.approveReq).then(
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
@@ -154,6 +158,29 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(
             state.copyWith(
               states: TheStates.failure,
+              isApproved: false,
+            ),
+          );
+        }
+      },
+    );
+
+    on<BookingCancelled>(
+      (event, emit) async {
+        try {
+          await repositories.cancelBooking(event.id).then(
+                (value) => emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    isCancelled: true,
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+              isCancelled: false,
             ),
           );
         }
@@ -182,7 +209,29 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(
             state.copyWith(
               states: TheStates.failure,
+              isDeleted: false,
             ),
+          );
+        }
+      },
+    );
+
+    on<BookingHistory>(
+      (event, emit) async {
+        emit(state.copyWith(states: TheStates.initial));
+        try {
+          await repositories.bookingHistory(event.bookingHistoryReq).then(
+                (value) => emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    bookingHistoryRes: BookingHistoryRes.fromJson(value),
+                  ),
+                ),
+              );
+        } catch (e) {
+          log('history error' + e.toString());
+          emit(
+            state.copyWith(states: TheStates.failure),
           );
         }
       },

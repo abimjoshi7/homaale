@@ -1,10 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/features/categories/presentation/pages/categories_section.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../core/constants/payment_key.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -28,7 +25,7 @@ class Home extends StatelessWidget {
                     // DealsOfTheDaySection(),
                     CategoriesSection(),
                     PopularServicesSection(),
-                    TasksSuggestionSection(),
+                    TasksRecommendationSection(),
                     PopularTaskerSection(),
                     NotableBannerSection(),
                     // Padding(

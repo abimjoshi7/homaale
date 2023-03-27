@@ -20,9 +20,9 @@ class CategoriesSection extends StatelessWidget {
           );
         } else if (state is HeroCategoryLoadSuccess) {
           return Padding(
-            padding: kPadding10,
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.24,
+              height: MediaQuery.of(context).size.height * 0.1,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,6 +36,7 @@ class CategoriesSection extends StatelessWidget {
                       );
                     },
                   ),
+                  addVerticalSpace(5),
                   Expanded(
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
@@ -43,30 +44,26 @@ class CategoriesSection extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
+                        crossAxisCount: 5,
+                        crossAxisSpacing: 0,
+                        mainAxisSpacing: 0,
                       ),
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              CategoriesPage.routeName,
-                            );
-                          },
-                          child: CategoriesIcons(
-                            data:
-                                state.hero.result?[index]?.category?.name ?? '',
-                            color: randomColorGenerator(),
-                            child: SvgPicture.network(
-                              state.hero.result?[index]?.category?.icon.toString()
-                                      ??
-                                  "",
-                            ),
-                            // const Icon(Icons.add_circle),
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            CategoriesPage.routeName,
+                          );
+                        },
+                        child: CategoriesIcons(
+                          data: state.hero.result?[index]?.category?.name ?? '',
+                          color: randomColorGenerator(),
+                          child: SvgPicture.network(
+                            state.hero.result?[index]?.category?.icon
+                                    .toString() ??
+                                "",
                           ),
+                          // const Icon(Icons.add_circle),
                         ),
                       ),
                     ),

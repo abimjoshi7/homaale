@@ -2,7 +2,6 @@
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/single_entity_service_cubit.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -45,7 +44,7 @@ class PopularServicesSection extends StatelessWidget {
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
-                              TaskEntityServiceRetrieveInitiated(
+                              TaskEntityServiceSingleLoaded(
                                 id: state.service.result?[index].id ?? '',
                               ),
                             );
@@ -56,20 +55,16 @@ class PopularServicesSection extends StatelessWidget {
                         );
                       },
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
                           location: state.service.result?[index].location,
                           description:
                               "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
                           title: state.service.result?[index].title,
-                          imagePath:
-                              state.service.result?[index].images?.length == 0
-                                  ? kServiceImageNImg
-                                  : state.service.result?[index].images?.first
-                                      .media,
-                          rating: state
-                              .service.result?[index].rating?.first.rating
-                              .toString(),
+                          imagePath: state.service.result?[index].images?.length == 0
+                              ? kServiceImageNImg
+                              : state.service.result?[index].images?.first.media,
+                          rating: state.service.result?[index].rating?.first.rating.toString(),
                         ),
                       ),
                     ),

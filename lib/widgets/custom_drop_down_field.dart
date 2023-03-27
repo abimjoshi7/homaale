@@ -35,7 +35,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
       ),
       iconSize: 14,
       isExpanded: true,
-      focusColor: kColorSilver,
+      // focusColor: kColorGrey,
       value: widget.list[widget.selectedIndex ?? 0],
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(5),
@@ -44,13 +44,13 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
           color: Color(0xff9CA0C1),
           fontWeight: FontWeight.w400,
         ),
-        // enabledBorder: OutlineInputBorder(
-        //   borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-        //   borderRadius: BorderRadius.circular(8),
-        // ),
-        border: OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: kColorSilver,
+            color: kColorSecondary,
           ),
           borderRadius: BorderRadius.circular(
             widget.borderRadius ?? 8,

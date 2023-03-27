@@ -2106,7 +2106,7 @@ mixin _$EntityService {
   Currency? get currency => throw _privateConstructorUsedError;
   City? get city => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
-  List<dynamic>? get videos => throw _privateConstructorUsedError;
+  List<Image>? get videos => throw _privateConstructorUsedError;
   Service? get service => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -2179,7 +2179,7 @@ abstract class $EntityServiceCopyWith<$Res> {
       Currency? currency,
       City? city,
       List<Image>? images,
-      List<dynamic>? videos,
+      List<Image>? videos,
       Service? service,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -2290,7 +2290,7 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       videos: freezed == videos
           ? _value.videos
           : videos // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       service: freezed == service
           ? _value.service
           : service // ignore: cast_nullable_to_non_nullable
@@ -2485,7 +2485,7 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       Currency? currency,
       City? city,
       List<Image>? images,
-      List<dynamic>? videos,
+      List<Image>? videos,
       Service? service,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -2599,7 +2599,7 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       videos: freezed == videos
           ? _value._videos
           : videos // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       service: freezed == service
           ? _value.service
           : service // ignore: cast_nullable_to_non_nullable
@@ -2729,7 +2729,7 @@ class _$_EntityService implements _EntityService {
       this.currency,
       this.city,
       final List<Image>? images,
-      final List<dynamic>? videos,
+      final List<Image>? videos,
       this.service,
       @JsonKey(name: "created_at") this.createdAt,
       @JsonKey(name: "updated_at") this.updatedAt,
@@ -2785,9 +2785,9 @@ class _$_EntityService implements _EntityService {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<dynamic>? _videos;
+  final List<Image>? _videos;
   @override
-  List<dynamic>? get videos {
+  List<Image>? get videos {
     final value = _videos;
     if (value == null) return null;
     if (_videos is EqualUnmodifiableListView) return _videos;
@@ -3020,7 +3020,7 @@ abstract class _EntityService implements EntityService {
       final Currency? currency,
       final City? city,
       final List<Image>? images,
-      final List<dynamic>? videos,
+      final List<Image>? videos,
       final Service? service,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       @JsonKey(name: "updated_at") final DateTime? updatedAt,
@@ -3066,7 +3066,7 @@ abstract class _EntityService implements EntityService {
   @override
   List<Image>? get images;
   @override
-  List<dynamic>? get videos;
+  List<Image>? get videos;
   @override
   Service? get service;
   @override

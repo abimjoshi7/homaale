@@ -40,7 +40,6 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     color: Colors.white,
                   ),
                 ),
-                kHeight5,
                 InkWell(
                   onTap: () async {
                     await Geolocator.checkPermission().then(
@@ -172,7 +171,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(8.0),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.white,

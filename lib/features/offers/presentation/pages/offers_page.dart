@@ -23,6 +23,12 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(

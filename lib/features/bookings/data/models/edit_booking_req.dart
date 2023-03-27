@@ -22,7 +22,7 @@ class EditBookingReq {
 
   final String? status;
   final String? description;
-  final Map<String, dynamic>? requirements;
+  final List<String>? requirements;
   final num? budgetFrom;
   final num? budgetTo;
   final DateTime? startDate;
@@ -44,7 +44,9 @@ class EditBookingReq {
         description: json["description"] as String?,
         requirements: json["requirements"] == null
             ? null
-            : json["requirements"] as Map<String, dynamic>,
+            : List<String>.from(
+                json["requirements"]!.map((x) => x) as Iterable,
+              ),
         budgetFrom: json["budget_from"] as num?,
         budgetTo: json["budget_to"] as num?,
         startDate: json["start_date"] == null
@@ -61,9 +63,7 @@ class EditBookingReq {
         endTime: json["end_time"] as String?,
         location: json["location"] as String?,
         isActive: json["is_active"] as bool?,
-        extraData: json["extra_data"] == null
-            ? null
-            : json["extra_data"] as Map<String, dynamic>,
+        extraData: json["extra_data"] == null ? null : json["extra_data"] as Map<String, dynamic>,
         createdBy: json["created_by"] as String?,
         bookingMerchant: json["booking_merchant"] as String?,
         entityService: json["entity_service"] as String?,
@@ -99,9 +99,7 @@ class EditBookingReq {
         "booking_merchant": bookingMerchant,
         "entity_service": entityService,
         "city": city,
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "videos":
-            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "videos": videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
       };
 }

@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
-import 'package:cipher/features/event/presentation/bloc/event_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/service_detail_header_section.dart';
 import 'package:cipher/features/services/presentation/pages/views/details_view.dart';
 import 'package:cipher/features/services/presentation/pages/views/schedule_view.dart';
@@ -42,9 +41,11 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: BlocBuilder<EventBloc, EventState>(
-        builder: (context, state) {
-          if (state.theStates == TheStates.initial) {
-            return Center(child: const CircularProgressIndicator());
+        builder: (context, eventState) {
+          if (eventState.theStates == TheStates.initial) {
+            return Center(
+              child: const CircularProgressIndicator(),
+            );
           }
           return Column(
             children: [
@@ -83,8 +84,19 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                     builder: (context, state) {
                       if (state.theStates == TheStates.success) {
                         return BlocListener<BookingsBloc, BookingsState>(
-                          listener: (context, bookingState) {
-                            if (bookingState.isBooked == true) {
+                          listenWhen: (previous, current) {
+                            if (previous.isBooked == false) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          },
+                          listener: (context, bookingState) async {
+                            final error = await CacheHelper.getCachedString(
+                              kErrorLog,
+                            );
+                            if (bookingState.states == TheStates.success &&
+                                bookingState.isBooked == true) {
                               showDialog(
                                 context: context,
                                 builder: (context) => CustomToast(
@@ -104,100 +116,111 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                                 ),
                               );
                             }
+                            if (bookingState.states == TheStates.failure &&
+                                bookingState.isBooked == false) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                  heading: 'Failure',
+                                  content: error ??
+                                      'Something went wrong. Please try again later.',
+                                  onTap: () async {},
+                                  isSuccess: false,
+                                ),
+                              );
+                            }
                           },
-                          child: CustomElevatedButton(
-                            callback: () async {
-                              if (_pageController.page == 0) {
-                                setState(() {
-                                  selectedIndex = 1;
-                                });
-                                _pageController.jumpToPage(1);
-                              } else {
-                                await CacheHelper.getCachedString(kBookedMap)
-                                    .then(
-                                  (value) {
-                                    final Map<String, dynamic> map1 =
-                                        jsonDecode(value!)
-                                            as Map<String, dynamic>;
-
-                                    try {
-                                      // print(map1);
-                                      final req = BookEntityServiceReq(
-                                        location:
-                                            state.taskEntityService?.location,
-                                        entityService:
-                                            state.taskEntityService?.id,
-                                        budgetTo: map1["budget_to"] as double?,
-                                        requirements:
-                                            map1["requirements"] == null
-                                                ? []
-                                                : List<String>.from(
-                                                    map1["requirements"]
-                                                        as Iterable,
-                                                  ),
-                                        startDate: DateTime.parse(
-                                          map1["end_date"] as String,
-                                        ),
-                                        endDate: DateTime.parse(
-                                          map1["end_date"] as String,
-                                        ),
-                                        startTime:
-                                            map1["start_time"] as String?,
-                                        description:
-                                            map1["description"] as String?,
-                                        images: map1["images"] == null
-                                            ? []
-                                            : List<int>.from(
-                                                map1["images"] as Iterable,
-                                              ),
-                                        videos: map1["videos"] == null
-                                            ? []
-                                            : List<int>.from(
-                                                map1["videos"] as Iterable,
-                                              ),
-                                      );
-                                      print(jsonEncode(req.toJson()));
-                                      context.read<BookingsBloc>().add(
-                                            BookingCreated(req),
-                                          );
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  },
-                                );
-                              }
-                            },
-                            label: selectedIndex == 0 ? "Next" : "Book",
-                          ),
+                          child: showBookButton(state, context),
                         );
                       }
                       return const SizedBox.shrink();
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomElevatedButton(
-                      mainColor: Colors.white,
-                      textColor: kColorPrimary,
-                      callback: () {
-                        if (_pageController.page == 1) {
-                          setState(() {
-                            selectedIndex = 0;
-                          });
-                          _pageController.jumpToPage(0);
-                        } else {
-                          Navigator.pop(context);
-                        }
-                      },
-                      label: "Cancel",
-                    ),
-                  ),
+                  showCancelButton(context),
                 ],
               ),
             ],
           );
         },
       ),
+    );
+  }
+
+  Widget showCancelButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CustomElevatedButton(
+        mainColor: Colors.white,
+        textColor: kColorPrimary,
+        callback: () {
+          if (_pageController.page == 1) {
+            setState(() {
+              selectedIndex = 0;
+            });
+            _pageController.jumpToPage(0);
+          } else {
+            Navigator.pop(context);
+          }
+        },
+        label: "Cancel",
+      ),
+    );
+  }
+
+  Widget showBookButton(TaskEntityServiceState state, BuildContext context) {
+    return CustomElevatedButton(
+      callback: () async {
+        if (_pageController.page == 0) {
+          setState(() {
+            selectedIndex = 1;
+          });
+          _pageController.jumpToPage(1);
+        } else {
+          await CacheHelper.getCachedString(kBookedMap).then(
+            (value) {
+              final Map<String, dynamic> map1 =
+                  jsonDecode(value!) as Map<String, dynamic>;
+
+              try {
+                final req = BookEntityServiceReq(
+                  location: state.taskEntityService?.location,
+                  entityService: state.taskEntityService?.id,
+                  budgetTo: map1["budget_to"] as double?,
+                  requirements: map1["requirements"] == null
+                      ? []
+                      : List<String>.from(
+                          map1["requirements"] as Iterable,
+                        ),
+                  startDate: DateTime.parse(
+                    map1["end_date"] as String,
+                  ),
+                  endDate: DateTime.parse(
+                    map1["end_date"] as String,
+                  ),
+                  startTime: map1["start_time"] as String?,
+                  description: map1["description"] as String?,
+                  images: map1["images"] == null
+                      ? []
+                      : List<int>.from(
+                          map1["images"] as Iterable,
+                        ),
+                  videos: map1["videos"] == null
+                      ? []
+                      : List<int>.from(
+                          map1["videos"] as Iterable,
+                        ),
+                );
+                context.read<BookingsBloc>().add(
+                      BookingCreated(req),
+                    );
+              } catch (e) {
+                print(e);
+              }
+            },
+          );
+        }
+      },
+      label: selectedIndex == 0 ? "Next" : "Book",
     );
   }
 }

@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
-import 'package:cipher/features/task/data/models/post_task_req.dart';
-import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -114,14 +111,34 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             ),
                           ),
                           CustomFormField(
-                            label: 'Task Description',
+                            label: 'Category',
                             isRequired: true,
-                            child: CustomTextFormField(
-                              validator: validateNotEmpty,
-                              controller: descriptionController,
-                              hintText:
-                                  'Describe your requirements in few words',
-                              maxLines: 3,
+                            child: BlocBuilder<ServicesBloc, ServicesState>(
+                              builder: (context, state) {
+                                if (state.theStates == TheStates.success) {
+                                  return CustomDropDownField(
+                                    list: List.generate(
+                                      state.serviceList!.length,
+                                      (index) =>
+                                          state.serviceList![index].title,
+                                    ),
+                                    hintText: 'Trimming & Cutting',
+                                    onChanged: (value) {
+                                      for (final element
+                                          in state.serviceList!) {
+                                        if (value == element.title) {
+                                          setState(
+                                            () {
+                                              categoryId = element.id;
+                                            },
+                                          );
+                                        }
+                                      }
+                                    },
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
                             ),
                           ),
                           CustomFormField(
@@ -184,7 +201,82 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             ),
                           ),
                           CustomFormField(
-                            label: 'When do you need this done?',
+                            label: 'Select Task Type',
+                            isRequired: true,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: 'Remote',
+                                      groupValue: taskType,
+                                      onChanged: (value) => setState(
+                                        () {
+                                          taskType = value;
+                                          isAddressVisibile = false;
+                                        },
+                                      ),
+                                    ),
+                                    const Text('Remote'),
+                                    addHorizontalSpace(10),
+                                    Radio<String>(
+                                      value: 'On premise',
+                                      groupValue: taskType,
+                                      onChanged: (value) => setState(
+                                        () {
+                                          taskType = value;
+                                          isAddressVisibile = true;
+                                        },
+                                      ),
+                                    ),
+                                    const Text('On premise'),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          CustomFormField(
+                            label: 'Description',
+                            isRequired: true,
+                            child: CustomTextFormField(
+                              validator: validateNotEmpty,
+                              controller: descriptionController,
+                              hintText:
+                                  'Describe your requirements in few words',
+                              maxLines: 3,
+                            ),
+                          ),
+                          CustomFormField(
+                            isRequired: true,
+                            label: 'City',
+                            child: BlocBuilder<CityBloc, CityState>(
+                              builder: (context, state) {
+                                if (state is CityLoadSuccess) {
+                                  return CustomDropDownField(
+                                    list: List.generate(
+                                      state.list.length,
+                                      (index) => state.list[index].name,
+                                    ),
+                                    hintText: 'Enter your city',
+                                    onChanged: (p0) => setState(
+                                      () async {
+                                        final x = state.list.firstWhere(
+                                          (element) => p0 == element.name,
+                                        );
+                                        cityCode = x.id;
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
+                            ),
+                          ),
+
+                          CustomFormField(
+                            label: 'When do you want the task to be completed?',
                             isRequired: true,
                             child: Column(
                               children: [
@@ -263,200 +355,95 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    CustomCheckBox(
-                                      isChecked: isSpecified,
-                                      onTap: () {
-                                        setState(
-                                          () {
-                                            isSpecified = !isSpecified;
+                                // Row(
+                                //   children: [
+                                //     CustomCheckBox(
+                                //       isChecked: isSpecified,
+                                //       onTap: () {
+                                //         setState(
+                                //           () {
+                                //             isSpecified = !isSpecified;
+                                //           },
+                                //         );
+                                //       },
+                                //     ),
+                                //     addHorizontalSpace(5),
+                                //     const Text('Set specific time'),
+                                //   ],
+                                // ),
+                                CustomFormField(
+                                  label: "Select Time",
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now(),
+                                            ).then(
+                                              (value) => setState(
+                                                () {
+                                                  startTime = value;
+                                                },
+                                              ),
+                                            );
                                           },
-                                        );
-                                      },
-                                    ),
-                                    addHorizontalSpace(5),
-                                    const Text('Set specific time'),
-                                  ],
-                                ),
-                                Visibility(
-                                  visible: isSpecified,
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                    width: double.infinity,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        addVerticalSpace(10),
-                                        Row(
-                                          children: [
-                                            Flexible(
-                                              child: InkWell(
-                                                onTap: () async {
-                                                  await showTimePicker(
-                                                    context: context,
-                                                    initialTime:
-                                                        TimeOfDay.now(),
-                                                  ).then(
-                                                    (value) => setState(
-                                                      () {
-                                                        startTime = value;
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                                child: CustomFormContainer(
-                                                  hintText: startTime
-                                                          ?.format(context) ??
-                                                      'hh:mm A.M',
-                                                ),
-                                              ),
-                                            ),
-                                            const Text(' - '),
-                                            Flexible(
-                                              child: InkWell(
-                                                onTap: () async {
-                                                  await showTimePicker(
-                                                    context: context,
-                                                    initialTime:
-                                                        TimeOfDay.now(),
-                                                  ).then(
-                                                    (value) => setState(
-                                                      () {
-                                                        endTime = value;
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                                child: CustomFormContainer(
-                                                  hintText: endTime
-                                                          ?.format(context) ??
-                                                      'hh:mm A.M',
-                                                ),
-                                              ),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  startTime = null;
-                                                  endTime = null;
-                                                });
-                                              },
-                                              icon: const Icon(
-                                                Icons.delete_outline_rounded,
-                                                color: kColorSecondary,
-                                              ),
-                                            ),
-                                          ],
+                                          child: CustomFormContainer(
+                                            hintText:
+                                                startTime?.format(context) ??
+                                                    'hh:mm',
+                                          ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      const Text(' - '),
+                                      Flexible(
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now(),
+                                            ).then(
+                                              (value) => setState(
+                                                () {
+                                                  endTime = value;
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          child: CustomFormContainer(
+                                            hintText:
+                                                endTime?.format(context) ??
+                                                    'hh:mm',
+                                          ),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            startTime = null;
+                                            endTime = null;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete_outline_rounded,
+                                          color: kColorSecondary,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           // buildDate(),
-                          CustomFormField(
-                            isRequired: true,
-                            label: 'City',
-                            child: BlocBuilder<CityBloc, CityState>(
-                              builder: (context, state) {
-                                if (state is CityLoadSuccess) {
-                                  return CustomDropDownField(
-                                    list: List.generate(
-                                      state.list.length,
-                                      (index) => state.list[index].name,
-                                    ),
-                                    hintText: 'Enter your city',
-                                    onChanged: (p0) => setState(
-                                      () async {
-                                        final x = state.list.firstWhere(
-                                          (element) => p0 == element.name,
-                                        );
-                                        cityCode = x.id;
-                                      },
-                                    ),
-                                  );
-                                } else {
-                                  return const SizedBox.shrink();
-                                }
-                              },
-                            ),
-                          ),
-                          CustomFormField(
-                            label: 'Category',
-                            isRequired: true,
-                            child: BlocBuilder<ServicesBloc, ServicesState>(
-                              builder: (context, state) {
-                                if (state.theStates == TheStates.success) {
-                                  return CustomDropDownField(
-                                    list: List.generate(
-                                      state.list!.length,
-                                      (index) => state.list![index].title,
-                                    ),
-                                    hintText: 'Trimming & Cutting',
-                                    onChanged: (value) {
-                                      for (final element in state.list!) {
-                                        if (value == element.title) {
-                                          setState(
-                                            () {
-                                              categoryId = element.id;
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
-                          CustomFormField(
-                            label: 'Select Task Type',
-                            isRequired: true,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  children: [
-                                    Radio<String>(
-                                      value: 'Remote',
-                                      groupValue: taskType,
-                                      onChanged: (value) => setState(
-                                        () {
-                                          taskType = value;
-                                          isAddressVisibile = false;
-                                        },
-                                      ),
-                                    ),
-                                    const Text('Remote'),
-                                    addHorizontalSpace(10),
-                                    Radio<String>(
-                                      value: 'On premise',
-                                      groupValue: taskType,
-                                      onChanged: (value) => setState(
-                                        () {
-                                          taskType = value;
-                                          isAddressVisibile = true;
-                                        },
-                                      ),
-                                    ),
-                                    const Text('On premise'),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          Visibility(
-                            visible: isAddressVisibile,
-                            child: CustomTextFormField(
-                              controller: addressController,
-                              hintText: 'Default Address (Home)',
-                            ),
-                          ),
+                          // Visibility(
+                          //   visible: isAddressVisibile,
+                          //   child: CustomTextFormField(
+                          //     controller: addressController,
+                          //     hintText: 'Default Address (Home)',
+                          //   ),
+                          // ),
                           CustomFormField(
                             label: 'Currency',
                             isRequired: true,
@@ -619,9 +606,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       }
                                     },
                                     child: CustomDottedContainerStack(
-                                      label: imageList == null
-                                          ? 'Select Images'
-                                          : 'Image Uploaded',
+                                      theWidget: imageList == null
+                                          ? Text('Select Images')
+                                          : Text('Image Uploaded'),
                                     ),
                                   ),
                                 ),
@@ -662,9 +649,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       }
                                     },
                                     child: CustomDottedContainerStack(
-                                      label: fileList == null
-                                          ? 'Select Videos'
-                                          : 'File Uploaded',
+                                      theWidget: fileList == null
+                                          ? Text('Select Videos')
+                                          : Text('File Uploaded'),
                                     ),
                                   ),
                                 ),
@@ -707,9 +694,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             ],
                           ),
                           addVerticalSpace(20),
-                          BlocConsumer<TaskBloc, TaskState>(
+                          BlocConsumer<TaskEntityServiceBloc,
+                              TaskEntityServiceState>(
                             listener: (context, state) {
-                              if (state.theState == TheStates.success) {
+                              if (state.theStates == TheStates.success &&
+                                  state.isCreated == true) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
@@ -726,13 +715,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   ),
                                 );
                               }
-                              if (state.theState == TheStates.failure) {
+                              if (state.theStates == TheStates.failure &&
+                                  state.isCreated == false) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Failure',
                                     content:
-                                        'Task cannot be posted. Please try again.',
+                                        'Post cannot be posted. Please try again.',
                                     onTap: () {},
                                     isSuccess: false,
                                   ),
@@ -759,16 +749,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         ),
                                       );
                                     } else {
-                                      final req = PostTaskReq(
+                                      final req = TaskEntityServiceReq(
                                         title: titleController.text,
                                         description: descriptionController.text,
                                         highlights: requirementList,
-                                        // requirementList.asMap().map(
-                                        //       (key, value) => MapEntry(
-                                        //         key.toString(),
-                                        //         value as dynamic,
-                                        //       ),
-                                        //     ),
                                         budgetType: budgetType,
                                         budgetFrom: int.parse(
                                           startPriceController.text,
@@ -778,8 +762,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                               ? startPriceController.text
                                               : endPriceController.text,
                                         ),
-                                        startDate: startDate ?? DateTime.now(),
-                                        endDate: endDate,
+                                        startDate: DateFormat("yyyy-MM-dd")
+                                            .format(
+                                                startDate ?? DateTime.now()),
+                                        endDate: DateFormat("yyyy-MM-dd")
+                                            .format(endDate ?? DateTime.now()),
                                         startTime: startTime?.format(context),
                                         endTime: endTime?.format(context),
                                         shareLocation: true,
@@ -801,17 +788,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         event: "",
                                         city: cityCode,
                                         currency: currencyCode,
-                                        images: imageList,
-                                        videos: fileList,
+                                        images: imageList ?? [],
+                                        videos: fileList ?? [],
                                       );
 
-                                      print(jsonEncode(req.toJson()));
+                                      // print(jsonEncode(req.toJson()));
 
-                                      context.read<TaskBloc>().add(
-                                            TaskAddInitiated(
-                                              req: req,
-                                            ),
-                                          );
+                                      context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceCreated(req: req));
                                     }
                                   } else {
                                     showDialog(

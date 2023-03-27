@@ -9,8 +9,13 @@ class TaskState extends Equatable {
   final SingleTaskEntityService? taskModel;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
   final TaskApplyCountModel? taskApplyCountModel;
+  final ApplicantModel? applicantModel;
   final bool applyTaskFail;
   final bool applyTaskSuccess;
+  final bool? approveSuccess;
+  final bool? approveFail;
+  final bool? rejectSuccess;
+  final bool? rejectFail;
 
   const TaskState({
     this.theState = TheStates.initial,
@@ -21,8 +26,13 @@ class TaskState extends Equatable {
     this.taskModel,
     this.selfCreatedTaskServiceModel,
     this.taskApplyCountModel,
+    this.applicantModel,
     this.applyTaskFail = false,
     this.applyTaskSuccess = false,
+    this.approveSuccess = false,
+    this.approveFail = false,
+    this.rejectSuccess = false,
+    this.rejectFail = false,
   });
 
   @override
@@ -36,8 +46,13 @@ class TaskState extends Equatable {
       taskModel,
       selfCreatedTaskServiceModel,
       taskApplyCountModel,
+      applicantModel,
       applyTaskFail,
       applyTaskSuccess,
+      approveSuccess,
+      approveFail,
+      rejectSuccess,
+      rejectFail,
     ];
   }
 
@@ -50,8 +65,13 @@ class TaskState extends Equatable {
     SingleTaskEntityService? taskModel,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
     TaskApplyCountModel? taskApplyCountModel,
+    ApplicantModel? applicantModel,
     bool? applyTaskFail,
     bool? applyTaskSuccess,
+    bool? approveSuccess,
+    bool? approveFail,
+    bool? rejectSuccess,
+    bool? rejectFail,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
@@ -60,11 +80,15 @@ class TaskState extends Equatable {
       allTaskList: allTaskList ?? this.allTaskList,
       tasksList: tasksList ?? this.tasksList,
       taskModel: taskModel ?? this.taskModel,
-      selfCreatedTaskServiceModel:
-          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      selfCreatedTaskServiceModel: selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
       taskApplyCountModel: taskApplyCountModel ?? this.taskApplyCountModel,
+      applicantModel: applicantModel ?? this.applicantModel,
       applyTaskFail: applyTaskFail ?? this.applyTaskFail,
       applyTaskSuccess: applyTaskSuccess ?? this.applyTaskSuccess,
+      approveSuccess: approveSuccess ?? this.approveSuccess,
+      approveFail: approveFail ?? this.approveFail,
+      rejectSuccess: rejectSuccess ?? this.rejectSuccess,
+      rejectFail: rejectFail ?? this.rejectFail,
     );
   }
 }

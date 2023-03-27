@@ -85,10 +85,10 @@ class ServicesPage extends StatelessWidget {
                                     image: Image.asset(
                                       'assets/services/Rectangle 3823.png',
                                     ),
-                                    text: state.list?[index].title,
+                                    text: state.serviceList?[index].title,
                                   ),
                                 ),
-                                itemCount: state.list?.length,
+                                itemCount: state.serviceList?.length,
                                 padding: EdgeInsets.zero,
                               ),
                             ),

@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/services/data/models/add_service_req.dart';
 import 'package:cipher/features/services/data/models/add_service_res.dart';
-import 'package:cipher/features/services/data/models/my_created_services_res.dart';
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
@@ -24,16 +23,18 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
               theStates: TheStates.initial,
             ),
           );
-          await repositories.fetchServices(event.categoryId).then(
+          await repositories.fetchServiceCategoryList(event.categoryId).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    list: value.map((e) => ServiceList.fromJson(e)).toList()
-                      ..sort(
-                        (a, b) => a.title!.compareTo(
-                          b.title!,
-                        ),
-                      ),
+                    isServiceListLoaded: true,
+                    serviceList:
+                        value.map((e) => ServiceList.fromJson(e)).toList()
+                          ..sort(
+                            (a, b) => a.title!.compareTo(
+                              b.title!,
+                            ),
+                          ),
                   ),
                 ),
               );
@@ -42,6 +43,7 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isServiceListLoaded: false,
             ),
           );
         }

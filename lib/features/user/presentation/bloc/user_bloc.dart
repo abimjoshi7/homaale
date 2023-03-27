@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
@@ -27,7 +29,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               emit(
                 state.copyWith(
                   theStates: TheStates.success,
-                  taskerProfile: value,
+                  taskerProfile: TaskerProfile.fromJson(
+                    value,
+                  ),
                 ),
               );
             },

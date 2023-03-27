@@ -302,22 +302,23 @@ class AccountProfile extends StatelessWidget {
                       // BlocBuilder<PaymentBloc, PaymentIntentState>(
                       //   builder: (context, state) {
                       //     return
-                      AccountListTileSection(
-                        onTap: () async {
-                          await Navigator.pushNamed(
-                            context,
-                            CheckoutPage.routeName,
-                          );
-                        },
-                        icon: const Icon(Icons.check_box),
-                        label: 'Checkout',
-                        trailingWidget: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        ),
-                        //   );
-                        // },
-                      ),
+
+                      // AccountListTileSection(
+                      //   onTap: () async {
+                      //     await Navigator.pushNamed(
+                      //       context,
+                      //       CheckoutPage.routeName,
+                      //     );
+                      //   },
+                      //   icon: const Icon(Icons.check_box),
+                      //   label: 'Checkout',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      //   //   );
+                      //   // },
+                      // ),
                     ],
                   ),
                 );
