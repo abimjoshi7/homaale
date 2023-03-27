@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/painting.dart';
 
+import 'constants.dart';
 import 'iterable.dart';
 
 const kColorPrimary = Color(0xff211D4F);
@@ -11,11 +12,16 @@ const kColorBlue = Color(0xff3EAEFF);
 const kColorAmber = Color(0xffFF9700);
 const kColorGreen = Color(0xff38C675);
 const kColorGrey = Color(0xffCED4DA);
+const kColorLightGrey = Color(0xff8F8F8F);
+const kColorDarkGrey = Color(0xff212529);
+const kColorDarkGrey2 = Color(0xff495057);
+const kColorDark = Color(0xff343A40);
 const kColorGreyDark = Color(0xff495057);
 const kColorSilver = Color(0xff9CA0C1);
 const kColorTeal = Color(0xff227196);
 const kColorLightSkyBlue = Color(0xffEDF4FF);
 const kColorPurple = Color(0xffB187F2);
+const kColorDarkPurple = Color(0xff3D3F7D);
 const kColorOrange = Color(0xffFF9700);
 const kColorPink = Color(0xfffe5050);
 

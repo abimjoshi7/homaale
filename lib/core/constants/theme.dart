@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 final kDarkTheme = ThemeData(
   textTheme: GoogleFonts.poppinsTextTheme(),
@@ -49,5 +50,4 @@ final kLightTheme = ThemeData(
     space: 0,
     thickness: 1.2,
   ),
-
 );

@@ -17,6 +17,8 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/add_service/add_service_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -168,6 +170,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<TaskEntityServiceBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => SearchBloc(),
           ),
           BlocProvider(
             create: (context) => locator<TaskBloc>(),
