@@ -16,7 +16,7 @@ class RecentSearchesList extends StatelessWidget {
         right: MediaQuery.of(context).size.width * 0.025,
         bottom: MediaQuery.of(context).size.height * 0.032,
       ),
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.36,
       child: Column(
         children: <Widget>[
           Padding(
@@ -54,9 +54,19 @@ class RecentSearchesList extends StatelessWidget {
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
                   minLeadingWidth: MediaQuery.of(context).size.width,
-                  leading: Text(
-                    'Gardening',
-                    style: kText13,
+                  leading: SizedBox(
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.history),
+                        addHorizontalSpace(5.0),
+                        Text(
+                          'Gardening',
+                          style: kText13,
+                        ),
+                      ],
+                    ),
                   ),
                   trailing: Icon(
                     CupertinoIcons.multiply,

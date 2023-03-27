@@ -56,7 +56,7 @@ class CustomTextFormField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
-      onSaved: onSaved,
+      onSaved: onSaved, 
       onTap: onTap,
       onTapOutside: onTapOutside,
       enableInteractiveSelection: true,

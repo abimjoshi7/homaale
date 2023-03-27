@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/search/data/search_result.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
@@ -8,7 +9,6 @@ import 'package:cipher/features/user/data/models/tasker_profile.dart';
 
 class SearchRepository {
   final _dio = DioHelper();
-
   Future<List<dynamic>?> fetchSearchQueryResults(
       {required String searchQuery}) async {
     try {
@@ -51,5 +51,24 @@ class SearchRepository {
       log(e.toString());
     }
     return null;
+  }
+
+  Future<void> cacheRecentSearchQueries(
+      String key, List<String> searchQueriesList) async {
+    await CacheHelper.setCachedString(
+      key,
+      searchQueriesList.toString(),
+    );
+    return null;
+  }
+
+  Future<String?> getCachedRecentSearchQueries({required String key}) async {
+    try {
+      final String? x = await CacheHelper.getCachedString(key);
+      return x;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 }

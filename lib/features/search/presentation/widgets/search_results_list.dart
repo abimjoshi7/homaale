@@ -3,6 +3,8 @@ import 'package:cipher/features/search/data/search_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets.dart';
+
 class SearchResultsList extends StatelessWidget {
   final List<SearchResult> searchList;
   const SearchResultsList({
@@ -12,6 +14,11 @@ class SearchResultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (searchList.length < 1) {
+      return Text(
+        'No Results Found.',
+      );
+    }
     return Container(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).size.height * 0.016,
@@ -19,41 +26,27 @@ class SearchResultsList extends StatelessWidget {
         right: MediaQuery.of(context).size.width * 0.025,
         bottom: MediaQuery.of(context).size.height * 0.032,
       ),
-      child: ListView.builder(
+      child: ListView.separated(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: searchList.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
-            minLeadingWidth: MediaQuery.of(context).size.width,
-            leading: Wrap(
-              direction: Axis.horizontal,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Icon(
-                  CupertinoIcons.search,
-                  color: kColorDarkGrey,
-                  size: 24,
-                ),
-                addHorizontalSpace(8.0),
-                Text(
-                  searchList[index].when(
-                      taskerProfileResult: (value) => value.id.toString(),
-                      taskEntityServiceResult: (value) => value.id.toString()),
-                  style: kText14.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            trailing: Icon(
-              CupertinoIcons.arrow_up_left,
-              size: 24,
-              color: kColorDarkGrey,
-            ),
+          return searchList[index].when(
+            taskEntityServiceResult: (_taskEntityService) {
+              return TaskEntityServiceSearchTile(
+                taskEntityService: _taskEntityService,
+              );
+            },
+            taskerProfileResult: (_taskerProfile) {
+              return TaskerProfileSearchTile(
+                taskerProfile: _taskerProfile,
+              );
+            },
           );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return addVerticalSpace(10.0);
         },
       ),
     );
