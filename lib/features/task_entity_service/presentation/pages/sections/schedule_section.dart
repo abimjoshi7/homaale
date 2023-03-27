@@ -21,7 +21,8 @@ class ScheduleSection extends StatelessWidget with TheModalBottomSheet {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: taskEntityServiceState.taskEntityService?.event == null,
+      visible: taskEntityServiceState.taskEntityService?.createdBy?.id ==
+          userState.taskerProfile?.user?.id,
       child: CustomFormField(
         label: taskEntityServiceState.taskEntityService?.event == null
             ? "Schedule"

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +7,7 @@ import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class ScheduleForm extends StatefulWidget {
@@ -113,6 +109,7 @@ class _ScheduleFormState extends State<ScheduleForm> {
                   children: List.generate(
                     1,
                     (index) => TheSlotMaker(
+                      startTime: "qwe",
                       selectedIndex: index,
                       startCallback: () async {
                         await showTimePicker(
@@ -235,19 +232,27 @@ class TheSlotMaker extends StatelessWidget {
       ),
       child: CustomFormContainer(
         leadingWidget: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Icon(
               Icons.access_time_rounded,
             ),
-            TextButton(
-              onPressed: startCallback,
-              child: Text(startTime ?? "--"),
+            addHorizontalSpace(8),
+            InkWell(
+              onTap: startCallback,
+              child: AutoSizeText(
+                startTime ?? "--",
+                style: kLightBlueText14,
+              ),
             ),
+            addHorizontalSpace(8),
             Text('-'),
-            TextButton(
-              onPressed: endCallback,
-              child: Text(endTime ?? "--"),
+            addHorizontalSpace(8),
+            InkWell(
+              onTap: endCallback,
+              child: AutoSizeText(
+                endTime ?? "--",
+                style: kLightBlueText14,
+              ),
             ),
           ],
         ),
