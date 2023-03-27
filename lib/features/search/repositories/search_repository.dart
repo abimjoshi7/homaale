@@ -53,22 +53,22 @@ class SearchRepository {
     return null;
   }
 
-  Future<void> cacheRecentSearchQueries(
-      String key, List<String> searchQueriesList) async {
-    await CacheHelper.setCachedString(
-      key,
-      searchQueriesList.toString(),
-    );
-    return null;
-  }
-
-  Future<String?> getCachedRecentSearchQueries({required String key}) async {
-    try {
-      final String? x = await CacheHelper.getCachedString(key);
-      return x;
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
-  }
+  // Future<void> cacheRecentSearchQueries(
+  //     String key, List<String> searchQueriesList) async {
+  //   await CacheHelper.setCachedString(
+  //     key,
+  //     searchQueriesList.toString(),
+  //   );
+  //   return null;
+  // }
+  //
+  // Future<String?> getCachedRecentSearchQueries({required String key}) async {
+  //   try {
+  //     final String? x = await CacheHelper.getCachedString(key);
+  //     return x;
+  //   } catch (e) {
+  //     log(e.toString());
+  //     rethrow;
+  //   }
+  // }
 }

@@ -24,8 +24,9 @@ class CustomTextFormField extends StatelessWidget {
     this.theWidth,
     this.onTap,
     this.onTapOutside,
+    this.readOnly = false,
   });
-
+  final bool? readOnly;
   final double theHeight;
   final double? theWidth;
   final String hintText;
@@ -49,6 +50,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       initialValue: value,
       focusNode: node,
       controller: controller,
@@ -56,7 +58,7 @@ class CustomTextFormField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
-      onSaved: onSaved, 
+      onSaved: onSaved,
       onTap: onTap,
       onTapOutside: onTapOutside,
       enableInteractiveSelection: true,

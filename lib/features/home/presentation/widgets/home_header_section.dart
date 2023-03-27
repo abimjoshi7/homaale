@@ -180,6 +180,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     ),
                   ),
                   child: CustomTextFormField(
+                    readOnly: true,
                     prefixWidget: Icon(Icons.search),
                     hintText: 'Search here',
                     onTap: () => Navigator.pushNamed(

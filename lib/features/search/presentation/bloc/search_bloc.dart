@@ -42,11 +42,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           if (_unFilteredSearchList != null) {
             final List<SearchResult>? filteredSearchList =
                 _searchRepository.filterSearchResults(_unFilteredSearchList);
-            String? x = _searchRepository.getCachedRecentSearchQueries(
-                key: _key) as String?;
-            if (x != null) {
-              List<String> list = jsonDecode(x) as List<String>;
-            }
+            // String? x = _searchRepository.getCachedRecentSearchQueries(
+            //     key: _key) as String?;
+            // if (x != null) {
+            //   List<String> list = jsonDecode(x) as List<String>;
+            // }
             emit(
               state.copyWith(
                 theStates: TheStates.success,
