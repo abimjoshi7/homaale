@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.9,
+        height: MediaQuery.of(context).size.height * 0.87,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

@@ -150,7 +150,7 @@ class _RootState extends State<Root> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.11,
+                        height: MediaQuery.of(context).size.height * 0.133,
                         width: MediaQuery.of(context).size.width,
                         child: CustomPaint(
                           painter: BottomNavCustomPainter(),

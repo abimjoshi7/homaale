@@ -37,125 +37,125 @@ class TaskCard extends StatelessWidget {
       child: Padding(
         padding: kPadding10,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  imageUrl ?? kServiceImageNImg,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                              shape: BoxShape.circle,
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              imageUrl ?? kServiceImageNImg,
                             ),
+                            fit: BoxFit.cover,
                           ),
-                          addHorizontalSpace(10),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: Text(
-                              StringUtils.capitalize(
-                                taskName ?? 'Need Gardening',
-                              ),
-                              style: kPurpleText16,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                      InkWell(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.favorite_border,
-                          color: Color(0xffFE5050),
+                      addHorizontalSpace(10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          StringUtils.capitalize(
+                            taskName ?? 'Need Gardening',
+                          ),
+                          style: kPurpleText16,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                ),
-                addVerticalSpace(8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    WidgetText(
-                      label: StringUtils.capitalize(
-                        location ?? 'Buddhanagar',
+                  InkWell(
+                    onTap: () {},
+                    child: const Icon(
+                      Icons.favorite_border,
+                      color: Color(0xffFE5050),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            addVerticalSpace(8),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  WidgetText(
+                    label: StringUtils.capitalize(
+                      location ?? 'Buddhanagar',
+                    ),
+                    widget: const Icon(
+                      Icons.location_on_outlined,
+                      size: 14,
+                      color: Color(0xffFE5050),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      WidgetText(
+                        label: endDate ?? 'yy/mm/dd',
+                        widget: const Icon(
+                          Icons.calendar_today,
+                          size: 14,
+                          color: Color(0xffF06700),
+                        ),
                       ),
-                      widget: const Icon(
-                        Icons.location_on_outlined,
-                        size: 14,
-                        color: Color(0xffFE5050),
+                      addHorizontalSpace(10),
+                      WidgetText(
+                        label: endHour ?? 'hh:mm:ss',
+                        widget: const Icon(
+                          Icons.access_time_rounded,
+                          size: 14,
+                          color: Color(0xff3eaeff),
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        WidgetText(
-                          label: endDate ?? 'yy/mm/dd',
-                          widget: const Icon(
-                            Icons.calendar_today,
-                            size: 14,
-                            color: Color(0xffF06700),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "Rs. ${startRate ?? '0'} - ",
+                            style: kPurpleText16,
                           ),
-                        ),
-                        addHorizontalSpace(10),
-                        WidgetText(
-                          label: endHour ?? 'hh:mm:ss',
-                          widget: const Icon(
-                            Icons.access_time_rounded,
-                            size: 14,
-                            color: Color(0xff3eaeff),
+                          Row(
+                            children: [
+                              Text(
+                                endRate ?? '0',
+                                style: kPurpleText16,
+                              ),
+                              Text(
+                                '/ ${budgetType?.toLowerCase()}',
+                              )
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    // addVerticalSpace(8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Rs. ${startRate ?? '0'} - ",
-                              style: kPurpleText16,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  endRate ?? '0',
-                                  style: kPurpleText16,
-                                ),
-                                Text(
-                                  '/ ${budgetType?.toLowerCase()}',
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        IconText(
-                          label: count ?? '80',
-                          iconData: Icons.visibility_outlined,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4.0),
-                  child: Divider(),
-                ),
-              ],
+                        ],
+                      ),
+                      IconText(
+                        label: count ?? '80',
+                        iconData: Icons.visibility_outlined,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 8,
+              ),
+              child: Divider(),
             ),
             CustomElevatedButton(
               theWidth: double.infinity,

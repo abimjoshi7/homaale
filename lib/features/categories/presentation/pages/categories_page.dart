@@ -140,17 +140,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   title: Text(
                                     list[index].name ?? '',
                                   ),
-                                  // onExpansionChanged: (value) async {
-                                  //   // context.read<ServicesBloc>().add(
-                                  //   //       ServicesLoadInitiated(
-                                  //   //         list[index].id ?? 0,
-                                  //   //       ),
-                                  //   //     );
-                                  //   // await Navigator.pushNamed(
-                                  //   //   context,
-                                  //   //   ServiceProviderPage.routeName,
-                                  //   // );
-                                  // },
                                   children: list[index].child!.isNotEmpty
                                       ? List.generate(
                                           1,

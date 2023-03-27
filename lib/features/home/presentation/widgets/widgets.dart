@@ -1,5 +1,4 @@
 export './categories_icons.dart';
-export './categories_section.dart';
 export './deal_of_the_day_section.dart';
 export './featured_services_section.dart';
 export './header_offer_section.dart';

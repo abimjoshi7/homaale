@@ -26,7 +26,7 @@ class RecentlyLaunchedServicesSection extends StatelessWidget {
               itemBuilder: (context, index) => Column(
                 children: [
                   Container(
-                    height: 120,
+                    height: MediaQuery.of(context).size.height * 0.11,
                     width: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),

@@ -33,7 +33,7 @@ class PopularServicesSection extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.23,
+                  height: MediaQuery.of(context).size.height * 0.26,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -61,10 +61,14 @@ class PopularServicesSection extends StatelessWidget {
                           description:
                               "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
                           title: state.service.result?[index].title,
-                          imagePath: state.service.result?[index].images?.length == 0
-                              ? kServiceImageNImg
-                              : state.service.result?[index].images?.first.media,
-                          rating: state.service.result?[index].rating?.first.rating.toString(),
+                          imagePath:
+                              state.service.result?[index].images?.length == 0
+                                  ? kServiceImageNImg
+                                  : state.service.result?[index].images?.first
+                                      .media,
+                          rating: state
+                              .service.result?[index].rating?.first.rating
+                              .toString(),
                         ),
                       ),
                     ),

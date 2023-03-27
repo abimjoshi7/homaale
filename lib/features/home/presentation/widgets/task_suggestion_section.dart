@@ -11,10 +11,12 @@ class TasksRecommendationSection extends StatefulWidget {
   const TasksRecommendationSection({super.key});
 
   @override
-  State<TasksRecommendationSection> createState() => _TasksRecommendationSectionState();
+  State<TasksRecommendationSection> createState() =>
+      _TasksRecommendationSectionState();
 }
 
-class _TasksRecommendationSectionState extends State<TasksRecommendationSection> {
+class _TasksRecommendationSectionState
+    extends State<TasksRecommendationSection> {
   void onTaskPressed({
     required TaskState state,
     required int index,
@@ -50,7 +52,7 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
               if (state.theState == TheStates.success) {
                 if (state.tasksList != null) {
                   return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.26,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,
@@ -63,17 +65,25 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
-                            startRate: '${state.tasksList?.result?[index].budgetFrom ?? 0}',
-                            endRate: '${state.tasksList?.result?[index].budgetTo ?? 0}',
-                            budgetType: '${state.tasksList?.result?[index].budgetType}',
-                            count: state.tasksList?.result?[index].count.toString(),
-                            imageUrl: state.tasksList?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
+                            startRate:
+                                '${state.tasksList?.result?[index].budgetFrom ?? 0}',
+                            endRate:
+                                '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                            budgetType:
+                                '${state.tasksList?.result?[index].budgetType}',
+                            count: state.tasksList?.result?[index].count
+                                .toString(),
+                            imageUrl: state.tasksList?.result?[index].createdBy
+                                    ?.profileImage ??
+                                kServiceImageNImg,
                             location: state.tasksList?.result?[index].location,
                             endHour: Jiffy(
-                              state.tasksList?.result?[index].createdAt.toString(),
+                              state.tasksList?.result?[index].createdAt
+                                  .toString(),
                             ).jm,
                             endDate: Jiffy(
-                              state.tasksList?.result?[index].endDate.toString(),
+                              state.tasksList?.result?[index].endDate
+                                  .toString(),
                             ).yMMMMd,
                             taskName: state.tasksList?.result?[index].title,
                             callback: () => onTaskPressed(

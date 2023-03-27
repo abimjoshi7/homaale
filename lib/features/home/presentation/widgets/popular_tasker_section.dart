@@ -39,7 +39,7 @@ class PopularTaskerSection extends StatelessWidget {
               if (state.states == TheStates.success) {
                 final data = state.taskerListRes?.result;
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.27,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
