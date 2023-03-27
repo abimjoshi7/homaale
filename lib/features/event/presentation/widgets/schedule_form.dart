@@ -1,11 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/constants/colors.dart';
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
+import 'dart:convert';
+
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/colors.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class ScheduleForm extends StatefulWidget {
@@ -17,9 +23,8 @@ class ScheduleForm extends StatefulWidget {
 
 class _ScheduleFormState extends State<ScheduleForm> {
   String? repeatType;
-  List<TimeOfDay> startTime = [];
-  List<TimeOfDay> endTime = [];
-  List<Widget> widgetList = [];
+  Map<String, dynamic> slots = {};
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -28,6 +33,14 @@ class _ScheduleFormState extends State<ScheduleForm> {
         builder: (context, state) {
           return Column(
             children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "New Schedule",
+                  style: kPurpleText17,
+                ),
+              ),
+              addVerticalSpace(8),
               Row(
                 children: [
                   Flexible(
@@ -97,119 +110,180 @@ class _ScheduleFormState extends State<ScheduleForm> {
                 label: "Shifts",
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // context
-                    //             .watch<ScheduleBloc>()
-                    //             .state
-                    //             .startTimeList
-                    //             ?.isNotEmpty ??
-                    //         false
-                    //     ? Text(
-                    //         'asd',
-                    //         style: kPurpleText13,
-                    //       )
-                    //     : Column(
-                    //         children: List.generate(
-                    //           state.startTimeList?.length ?? 2,
-                    //           (index) => CustomFormContainer(
-                    //             // hintText: state.startTimeList!.isEmpty
-                    //             //     ? ""
-                    //             //     : state.startTimeList!.first.format(context),
-                    //             leadingWidget: Icon(
-                    //               Icons.access_time_outlined,
-                    //               // color: kColorPrimary,
-                    //             ),
-                    //             callback: () => showTimePicker(
-                    //               context: context,
-                    //               initialTime: TimeOfDay.now(),
-                    //             ).then(
-                    //               (value) {
-                    //                 startTime.add(value!);
-                    //                 context.read<ScheduleBloc>().add(
-                    //                       ScheduleEventPosted(
-                    //                         startTimeList: startTime,
-                    //                       ),
-                    //                     );
-                    //               },
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: CustomFormField(
-                            label: "Start Time",
-                            child: Column(
-                              children: [
-                                context
-                                            .watch<ScheduleBloc>()
-                                            .state
-                                            .startTimeList
-                                            ?.length ==
-                                        0
-                                    ? SizedBox.shrink()
-                                    : Column(
-                                        children: List.generate(
-                                          state.startTimeList?.length ?? 0,
-                                          (index) => CustomFormContainer(
-                                            leadingWidget: Icon(
-                                              Icons.access_time_outlined,
-                                              // color: kColorPrimary,
-                                            ),
-                                            hintText: state
-                                                    .startTimeList?[index]
-                                                    .format(context) ??
-                                                "",
-                                          ),
-                                        ),
-                                      ),
-                                CustomFormContainer(
-                                  leadingWidget: Icon(
-                                    Icons.access_time_outlined,
+                  children: List.generate(
+                    1,
+                    (index) => TheSlotMaker(
+                      selectedIndex: index,
+                      startCallback: () async {
+                        await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        ).then(
+                          (value) {
+                            if (slots["start"] == null) {
+                              slots.addAll(
+                                {
+                                  "start": value?.format(
+                                    context,
                                   ),
-                                  callback: () => showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay.now(),
-                                  ).then(
-                                    (value) {
-                                      startTime.add(value!);
-                                      context.read<ScheduleBloc>().add(
-                                            ScheduleEventPosted(
-                                              startTimeList: startTime,
-                                            ),
-                                          );
-                                    },
-                                  ).whenComplete(() => setState(
-                                        () {},
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        addHorizontalSpace(16),
-                        Flexible(
-                          child: CustomFormField(
-                            label: "End Time",
-                            child: StatefulBuilder(
-                              builder: (context, setState) =>
-                                  CustomFormContainer(
-                                hintText: "",
-                                callback: () => showTimePicker(
-                                  context: context,
-                                  initialTime: TimeOfDay.now(),
-                                ),
-                                leadingWidget: Icon(
-                                  Icons.access_time_outlined,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                                },
+                              );
+                            } else {
+                              slots.update(
+                                "start",
+                                (value1) => value?.format(context),
+                              );
+                            }
+                          },
+                        );
+                      },
+                      endCallback: () async {
+                        await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        ).then(
+                          (value) {
+                            if (slots["end"] == null) {
+                              slots.addAll(
+                                {
+                                  "end": value?.format(
+                                    context,
+                                  ),
+                                },
+                              );
+                            } else {
+                              slots.update(
+                                "end",
+                                (value1) => value?.format(context),
+                              );
+                            }
+                          },
+                        );
+                      },
                     ),
-                  ],
+                  ),
+                  // children: [
+                  //   // Row(
+                  //   //   children: [
+                  //   //     Flexible(
+                  //   //       child: CustomFormField(
+                  //   //         label: "Start Time",
+                  //   //         child: Column(
+                  //   //           children: [
+                  //   //             context
+                  //   //                         .watch<ScheduleBloc>()
+                  //   //                         .state
+                  //   //                         .startTimeList
+                  //   //                         ?.length ==
+                  //   //                     0
+                  //   //                 ? SizedBox.shrink()
+                  //   //                 : Column(
+                  //   //                     children: List.generate(
+                  //   //                       state.startTimeList?.length ?? 0,
+                  //   //                       (index) => Padding(
+                  //   //                         padding: const EdgeInsets.only(
+                  //   //                             bottom: 4.0),
+                  //   //                         child: CustomFormContainer(
+                  //   //                           leadingWidget: Icon(
+                  //   //                             Icons.access_time_outlined,
+                  //   //                           ),
+                  //   //                           hintText: state
+                  //   //                                   .startTimeList?[index]
+                  //   //                                   .format(context) ??
+                  //   //                               "",
+                  //   //                         ),
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                   ),
+                  //   //             CustomFormContainer(
+                  //   //               leadingWidget: Icon(
+                  //   //                 Icons.access_time_outlined,
+                  //   //               ),
+                  //   //               callback: () => showTimePicker(
+                  //   //                 context: context,
+                  //   //                 initialTime: TimeOfDay.now(),
+                  //   //               ).then(
+                  //   //                 (value) {
+                  //   //                   startTime.add(value!);
+                  //   //                   context.read<ScheduleBloc>().add(
+                  //   //                         ScheduleEventPosted(
+                  //   //                           startTimeList: startTime,
+                  //   //                         ),
+                  //   //                       );
+                  //   //                 },
+                  //   //               ).whenComplete(
+                  //   //                 () => setState(
+                  //   //                   () {},
+                  //   //                 ),
+                  //   //               ),
+                  //   //             ),
+                  //   //           ],
+                  //   //         ),
+                  //   //       ),
+                  //   //     ),
+                  //   //     addHorizontalSpace(16),
+                  //   //     Flexible(
+                  //   //       child: CustomFormField(
+                  //   //         label: "End Time",
+                  //   //         child: Column(
+                  //   //           children: [
+                  //   //             context
+                  //   //                         .watch<ScheduleBloc>()
+                  //   //                         .state
+                  //   //                         .endTimeList
+                  //   //                         ?.length ==
+                  //   //                     0
+                  //   //                 ? SizedBox.shrink()
+                  //   //                 : Column(
+                  //   //                     crossAxisAlignment:
+                  //   //                         CrossAxisAlignment.end,
+                  //   //                     children: List.generate(
+                  //   //                       state.endTimeList?.length ?? 0,
+                  //   //                       (index) => Padding(
+                  //   //                         padding: const EdgeInsets.only(
+                  //   //                           bottom: 4.0,
+                  //   //                         ),
+                  //   //                         child: CustomFormContainer(
+                  //   //                           leadingWidget: Icon(
+                  //   //                             Icons.access_time_outlined,
+                  //   //                           ),
+                  //   //                           hintText: state
+                  //   //                                   .endTimeList?[index]
+                  //   //                                   .format(context) ??
+                  //   //                               "",
+                  //   //                         ),
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                   ),
+                  //   //             CustomFormContainer(
+                  //   //               callback: () => showTimePicker(
+                  //   //                 context: context,
+                  //   //                 initialTime: TimeOfDay.now(),
+                  //   //               ).then(
+                  //   //                 (value) {
+                  //   //                   endTime.add(value!);
+                  //   //                   context.read<ScheduleBloc>().add(
+                  //   //                         ScheduleEventPosted(
+                  //   //                           endTimeList: endTime,
+                  //   //                         ),
+                  //   //                       );
+                  //   //                 },
+                  //   //               ).whenComplete(
+                  //   //                 () => setState(
+                  //   //                   () {},
+                  //   //                 ),
+                  //   //               ),
+                  //   //               leadingWidget: Icon(
+                  //   //                 Icons.access_time_outlined,
+                  //   //               ),
+                  //   //             ),
+                  //   //           ],
+                  //   //         ),
+                  //   //       ),
+                  //   //     ),
+                  //   //   ],
+                  //   // ),
+                  // ],
                 ),
               ),
               CustomFormField(
@@ -227,9 +301,17 @@ class _ScheduleFormState extends State<ScheduleForm> {
                   ),
                 ),
               ),
-              CustomElevatedButton(
-                label: "Save",
-                callback: () {},
+              BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+                builder: (context, serviceState) {
+                  return CustomElevatedButton(
+                    label: "Save",
+                    callback: () {
+                      slots.clear();
+                      // print(serviceState.taskEntityService?.id);
+                      // print(serviceState.taskEntityService?.event?.id);
+                    },
+                  );
+                },
               ),
               addVerticalSpace(8),
               CustomElevatedButton(
@@ -237,11 +319,67 @@ class _ScheduleFormState extends State<ScheduleForm> {
                 mainColor: Colors.white,
                 textColor: kColorPrimary,
                 borderColor: kColorPrimary,
-                callback: () {},
+                callback: () {
+                  print(slots);
+                  print(slots["start"]);
+                },
               ),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class TheSlotMaker extends StatelessWidget {
+  final int selectedIndex;
+  final VoidCallback? startCallback;
+  final VoidCallback? endCallback;
+  final VoidCallback? clearCallback;
+  final String? startTime;
+  final String? endTime;
+  const TheSlotMaker({
+    Key? key,
+    required this.selectedIndex,
+    this.startCallback,
+    this.endCallback,
+    this.clearCallback,
+    this.startTime,
+    this.endTime,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 4,
+      ),
+      child: CustomFormContainer(
+        leadingWidget: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.access_time_rounded,
+            ),
+            TextButton(
+              onPressed: startCallback,
+              child: Text(startTime ?? "--"),
+            ),
+            Text('-'),
+            TextButton(
+              onPressed: endCallback,
+              child: Text(endTime ?? "--"),
+            ),
+          ],
+        ),
+        trailingWidget: IconButton(
+          icon: Icon(
+            Icons.clear,
+            size: 15,
+          ),
+          onPressed: clearCallback,
+        ),
       ),
     );
   }

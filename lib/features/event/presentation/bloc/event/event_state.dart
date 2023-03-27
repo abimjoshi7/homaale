@@ -6,6 +6,8 @@ class EventState extends Equatable {
   final CreateEventRes? createdEventRes;
   final bool? isLoaded;
   final bool? isCreated;
+  // final CreateScheduleRes? createScheduleRes;
+  // final bool? isScheduleCreated;
   const EventState({
     this.theStates = TheStates.initial,
     this.event,

@@ -23,6 +23,13 @@ class EventSection extends StatelessWidget with TheModalBottomSheet {
           userState.taskerProfile?.user?.id,
       child: CustomFormField(
         label: "Events",
+        rightSection: InkWell(
+          onTap: () {},
+          child: Text(
+            "View Details",
+            style: kLightBlueText14,
+          ),
+        ),
         child: taskEntityServiceState.taskEntityService?.event == null
             ? Container(
                 padding: EdgeInsets.symmetric(

@@ -35,6 +35,12 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
   }
 
   @override
+  void dispose() {
+    user.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ScheduleBloc(),

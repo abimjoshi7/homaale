@@ -21,10 +21,11 @@ class ScheduleSection extends StatelessWidget with TheModalBottomSheet {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: taskEntityServiceState.taskEntityService?.createdBy?.id ==
-          userState.taskerProfile?.user?.id,
+      visible: taskEntityServiceState.taskEntityService?.event == null,
       child: CustomFormField(
-        label: "Schedule",
+        label: taskEntityServiceState.taskEntityService?.event == null
+            ? "Schedule"
+            : "",
         child: taskEntityServiceState.taskEntityService?.event == null
             ? Container(
                 padding: EdgeInsets.symmetric(
@@ -77,35 +78,36 @@ class ScheduleSection extends StatelessWidget with TheModalBottomSheet {
                   ],
                 ),
               )
-            : Wrap(
-                direction: Axis.vertical,
-                spacing: 4,
-                children: [
-                  IconText(
-                    label: "${DateFormat.yMMMEd().format(
-                      taskEntityServiceState.taskEntityService?.startDate ??
-                          DateTime.now(),
-                    )} - ${DateFormat.yMMMEd().format(
-                      taskEntityServiceState.taskEntityService?.endDate ??
-                          DateTime.now(),
-                    )}",
-                    iconData: Icons.calendar_today,
-                  ),
-                  IconText(
-                    // label: taskEntityServiceState.taskEntityService.event,
-                    label: "0 Guest",
-                    iconData: Icons.people_alt_outlined,
-                  ),
-                  IconText(
-                    label: taskEntityServiceState
-                                .taskEntityService?.event?.isFlexible ==
-                            true
-                        ? "Is Flexible"
-                        : "Not Flexible",
-                    iconData: Icons.verified_user_outlined,
-                  ),
-                ],
-              ),
+            : SizedBox.shrink(),
+        // Wrap(
+        //     direction: Axis.vertical,
+        //     spacing: 4,
+        //     children: [
+        //       IconText(
+        //         label: "${DateFormat.yMMMEd().format(
+        //           taskEntityServiceState.taskEntityService?.startDate ??
+        //               DateTime.now(),
+        //         )} - ${DateFormat.yMMMEd().format(
+        //           taskEntityServiceState.taskEntityService?.endDate ??
+        //               DateTime.now(),
+        //         )}",
+        //         iconData: Icons.calendar_today,
+        //       ),
+        //       IconText(
+        //         // label: taskEntityServiceState.taskEntityService.event,
+        //         label: "0 Guest",
+        //         iconData: Icons.people_alt_outlined,
+        //       ),
+        //       IconText(
+        //         label: taskEntityServiceState
+        //                     .taskEntityService?.event?.isFlexible ==
+        //                 true
+        //             ? "Is Flexible"
+        //             : "Not Flexible",
+        //         iconData: Icons.verified_user_outlined,
+        //       ),
+        //     ],
+        //   ),
       ),
     );
   }
