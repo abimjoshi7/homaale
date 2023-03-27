@@ -27,6 +27,7 @@ class CategoriesSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  addVerticalSpace(8),
                   SectionHeading(
                     labelName: 'Categories',
                     onTap: () {
@@ -36,7 +37,7 @@ class CategoriesSection extends StatelessWidget {
                       );
                     },
                   ),
-                  addVerticalSpace(5),
+                  addVerticalSpace(8),
                   Expanded(
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),

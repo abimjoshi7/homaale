@@ -76,7 +76,10 @@ class _TasksRecommendationSectionState
                             imageUrl: state.tasksList?.result?[index].createdBy
                                     ?.profileImage ??
                                 kServiceImageNImg,
-                            location: state.tasksList?.result?[index].location,
+                            location:
+                                state.tasksList?.result?[index].location == ''
+                                    ? 'Remote'
+                                    : state.tasksList?.result?[index].location,
                             endHour: Jiffy(
                               state.tasksList?.result?[index].createdAt
                                   .toString(),

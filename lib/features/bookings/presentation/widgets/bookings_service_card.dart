@@ -85,9 +85,13 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AutoSizeText(
-                              serviceName ?? '',
-                              style: kPurpleText16,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              child: AutoSizeText(
+                                serviceName ?? '',
+                                style: kPurpleText16,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             AutoSizeText(
                               providerName ?? '',
