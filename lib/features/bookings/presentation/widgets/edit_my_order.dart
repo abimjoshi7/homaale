@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -131,10 +130,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       addVerticalSpace(5),
                       CustomTextFormField(
                         controller: requirementController,
-                        hintText: myBookingList?[selectedIndex]
-                                .requirements!
-                                .join(', ') ??
-                            'Add requirements',
+                        hintText: myBookingList?[selectedIndex].requirements!.join(', ') ?? 'Add requirements',
                         onFieldSubmitted: (p0) {
                           setState(() {
                             requirementList.add(p0!);
@@ -152,8 +148,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       String? x;
                       if (cityState is CityLoadSuccess) {
                         for (final element in cityState.list) {
-                          if (element.id ==
-                              myBookingList?[selectedIndex].city) {
+                          if (element.id == myBookingList?[selectedIndex].city) {
                             x = element.name;
                           }
                         }
@@ -164,7 +159,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                           ),
                           hintText: x ?? 'Enter your city',
                           onChanged: (p0) => setState(
-                            () async {
+                            () {
                               final x = cityState.list.firstWhere(
                                 (element) => p0 == element.name,
                               );
@@ -199,9 +194,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             ),
                             CustomTextFormField(
                               controller: startBudgetController,
-                              hintText: myBookingList?[selectedIndex]
-                                          .budgetFrom !=
-                                      null
+                              hintText: myBookingList?[selectedIndex].budgetFrom != null
                                   ? "${myBookingList?[selectedIndex].budgetFrom}"
                                   : 'Add starting Price',
                             ),
@@ -219,9 +212,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             ),
                             CustomTextFormField(
                               controller: endBudgetController,
-                              hintText: myBookingList?[selectedIndex]
-                                          .budgetTo !=
-                                      null
+                              hintText: myBookingList?[selectedIndex].budgetTo != null
                                   ? "${myBookingList?[selectedIndex].budgetTo}"
                                   : 'Add end Price',
                             ),
@@ -262,8 +253,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   },
                                   child: CustomFormContainer(
                                     hintText: DateFormat.yMMMMEEEEd().format(
-                                      myBookingList?[selectedIndex].startDate ??
-                                          DateTime.now(),
+                                      startDate ?? myBookingList?[selectedIndex].startDate ?? DateTime.now(),
                                     ),
                                   ),
                                 ),
@@ -300,8 +290,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   },
                                   child: CustomFormContainer(
                                     hintText: DateFormat.yMMMMEEEEd().format(
-                                      myBookingList?[selectedIndex].endDate ??
-                                          DateTime.now(),
+                                      endDate ?? myBookingList?[selectedIndex].endDate ?? DateTime.now(),
                                     ),
                                   ),
                                 ),
@@ -345,9 +334,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             }
                           },
                           child: CustomDottedContainerStack(
-                            theWidget: imageList == null
-                                ? Text('Select Images')
-                                : Text('Image Uploaded'),
+                            theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
                           ),
                         ),
                       ),
@@ -385,9 +372,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             }
                           },
                           child: CustomDottedContainerStack(
-                            theWidget: fileList == null
-                                ? Text('Select Videos')
-                                : Text('File Uploaded'),
+                            theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
                           ),
                         ),
                       ),
@@ -420,9 +405,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             label: 'Start Time',
                             child: CustomFormContainer(
                               hintText: startTime?.format(context) ??
-                                  myBookingList?[selectedIndex]
-                                      .startTime
-                                      .toString() ??
+                                  myBookingList?[selectedIndex].startTime.toString() ??
                                   '',
                               callback: () async {
                                 await showTimePicker(
@@ -442,11 +425,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                           child: CustomFormField(
                             label: 'End Time',
                             child: CustomFormContainer(
-                              hintText: endTime?.format(context) ??
-                                  myBookingList?[selectedIndex]
-                                      .endTime
-                                      .toString() ??
-                                  '',
+                              hintText:
+                                  endTime?.format(context) ?? myBookingList?[selectedIndex].endTime.toString() ?? '',
                               callback: () async {
                                 await showTimePicker(
                                   context: context,
@@ -473,61 +453,46 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                     callback: () {
                       final req = EditBookingReq(
                         // bookingMerchant:
-                        //     data?[selectedIndex].bookingMerchant.toString(),
+                        //     myBookingList?[selectedIndex]..toString(),
                         description: problemDescController.text.isNotEmpty
                             ? problemDescController.text
                             : myBookingList?[selectedIndex].description,
-                        requirements: requirementList.asMap().map(
-                              (key, value) => MapEntry(
-                                key.toString(),
-                                value as dynamic,
-                              ),
-                            ),
-                        city: cityCode ??
-                            myBookingList?[selectedIndex].city?.toInt(),
+                        requirements:
+                            requirementList.isNotEmpty ? requirementList : myBookingList?[selectedIndex].requirements,
+                        city: cityCode ?? myBookingList?[selectedIndex].city?.toInt(),
                         location: locationController.text.isNotEmpty
                             ? locationController.text
                             : myBookingList?[selectedIndex].location,
-                        budgetTo: startBudgetController.text.isNotEmpty
-                            ? double.parse(startBudgetController.text)
-                            : myBookingList?[selectedIndex].budgetTo,
-                        budgetFrom: endBudgetController.text.isNotEmpty
+                        budgetTo: endBudgetController.text.isNotEmpty
                             ? double.parse(endBudgetController.text)
+                            : myBookingList?[selectedIndex].budgetTo,
+                        budgetFrom: startBudgetController.text.isNotEmpty
+                            ? double.parse(startBudgetController.text)
                             : myBookingList?[selectedIndex].budgetFrom,
-                        // images: imageList ?? data?[selectedIndex].images,
-                        videos:
-                            fileList ?? myBookingList?[selectedIndex].videos,
-                        startDate: startDate ??
-                            myBookingList?[selectedIndex].startDate,
-                        endDate:
-                            endDate ?? myBookingList?[selectedIndex].endDate,
-                        // startTime: startTime?.format(context) ??
-                        //     data?[selectedIndex].startTime.toString(),
-                        // endTime: endTime?.format(context) ??
-                        //     data?[selectedIndex].endTime.toString(),
-                        createdBy:
-                            myBookingList?[selectedIndex].createdBy?.user?.id ??
-                                '',
-                        entityService:
-                            myBookingList?[selectedIndex].entityService?.id ??
-                                '',
-                        // extraData: myBookingList?[selectedIndex].extraData
-                        //         as Map<String, dynamic>? ??
-                        //     {},
+                        images: imageList ??
+                            List.generate(myBookingList?[selectedIndex].images?.length ?? 0,
+                                (index) => myBookingList?[selectedIndex].images?[index].id),
+                        videos: fileList ??
+                            List.generate(myBookingList?[selectedIndex].videos?.length ?? 0,
+                                (index) => myBookingList?[selectedIndex].videos?[index].id),
+                        startDate: startDate ?? myBookingList?[selectedIndex].startDate,
+                        endDate: endDate ?? myBookingList?[selectedIndex].endDate,
+                        startTime: startTime?.format(context) ?? myBookingList?[selectedIndex].startTime,
+                        endTime: endTime?.format(context) ?? myBookingList?[selectedIndex].endTime,
+                        createdBy: myBookingList?[selectedIndex].createdBy?.user?.id ?? '',
+                        entityService: myBookingList?[selectedIndex].entityService?.id ?? '',
                         isActive: myBookingList?[selectedIndex].isActive,
                         status: "pending",
                       );
 
-                      print(myBookingList?[selectedIndex].id);
-                      print(
-                        jsonEncode(req.toJson()),
-                      );
-                      // context.read<BookingsBloc>().add(
-                      //       ServiceBookingEditInitiated(
-                      //         id: data?[selectedIndex].id?.toInt() ?? 0,
-                      //         req: req,
-                      //       ),
-                      //     );
+                      context.read<BookingsBloc>().add(
+                            BookingEdited(
+                              id: myBookingList?[selectedIndex].id?.toInt() ?? 0,
+                              req: req,
+                            ),
+                          );
+
+                      Navigator.pop(context);
                     },
                     label: 'Save',
                   ),

@@ -30,7 +30,7 @@ mixin _$CreateScheduleReq {
   DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "guest_limit")
   int? get guestLimit => throw _privateConstructorUsedError;
-  @JsonKey(name: "")
+  @JsonKey(name: "is_active")
   bool? get isActive => throw _privateConstructorUsedError;
   List<Slot>? get slots => throw _privateConstructorUsedError;
 
@@ -53,7 +53,7 @@ abstract class $CreateScheduleReqCopyWith<$Res> {
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "guest_limit") int? guestLimit,
-      @JsonKey(name: "") bool? isActive,
+      @JsonKey(name: "is_active") bool? isActive,
       List<Slot>? slots});
 }
 
@@ -131,7 +131,7 @@ abstract class _$$_CreateScheduleReqCopyWith<$Res>
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "guest_limit") int? guestLimit,
-      @JsonKey(name: "") bool? isActive,
+      @JsonKey(name: "is_active") bool? isActive,
       List<Slot>? slots});
 }
 
@@ -202,7 +202,7 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
       @JsonKey(name: "start_date") this.startDate,
       @JsonKey(name: "end_date") this.endDate,
       @JsonKey(name: "guest_limit") this.guestLimit,
-      @JsonKey(name: "") this.isActive,
+      @JsonKey(name: "is_active") this.isActive,
       final List<Slot>? slots})
       : _slots = slots;
 
@@ -226,7 +226,7 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
   @JsonKey(name: "guest_limit")
   final int? guestLimit;
   @override
-  @JsonKey(name: "")
+  @JsonKey(name: "is_active")
   final bool? isActive;
   final List<Slot>? _slots;
   @override
@@ -298,7 +298,7 @@ abstract class _CreateScheduleReq implements CreateScheduleReq {
       @JsonKey(name: "start_date") final DateTime? startDate,
       @JsonKey(name: "end_date") final DateTime? endDate,
       @JsonKey(name: "guest_limit") final int? guestLimit,
-      @JsonKey(name: "") final bool? isActive,
+      @JsonKey(name: "is_active") final bool? isActive,
       final List<Slot>? slots}) = _$_CreateScheduleReq;
 
   factory _CreateScheduleReq.fromJson(Map<String, dynamic> json) =
@@ -321,7 +321,7 @@ abstract class _CreateScheduleReq implements CreateScheduleReq {
   @JsonKey(name: "guest_limit")
   int? get guestLimit;
   @override
-  @JsonKey(name: "")
+  @JsonKey(name: "is_active")
   bool? get isActive;
   @override
   List<Slot>? get slots;

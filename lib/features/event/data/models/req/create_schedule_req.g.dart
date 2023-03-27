@@ -18,7 +18,7 @@ _$_CreateScheduleReq _$$_CreateScheduleReqFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['end_date'] as String),
       guestLimit: json['guest_limit'] as int?,
-      isActive: json[''] as bool?,
+      isActive: json['is_active'] as bool?,
       slots: (json['slots'] as List<dynamic>?)
           ?.map((e) => Slot.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -33,7 +33,7 @@ Map<String, dynamic> _$$_CreateScheduleReqToJson(
       'start_date': instance.startDate?.toIso8601String(),
       'end_date': instance.endDate?.toIso8601String(),
       'guest_limit': instance.guestLimit,
-      '': instance.isActive,
+      'is_active': instance.isActive,
       'slots': instance.slots,
     };
 

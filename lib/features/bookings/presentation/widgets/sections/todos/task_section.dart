@@ -60,7 +60,23 @@ class _TaskSectionState extends State<TaskSection> {
                         );
                       },
                       editTap: () async {
-                        showEditForm(context);
+                        if (allList?[index].status?.toLowerCase() == 'pending') {
+                          Navigator.pop(context);
+                          showEditForm(context, index);
+                        } else {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomToast(
+                                heading: 'Warning',
+                                content:
+                                    'The task is already ${allList?[index].status?.toLowerCase()}. Cannot be edited!',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                isSuccess: true),
+                          );
+                        }
                       },
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
@@ -152,7 +168,7 @@ class _TaskSectionState extends State<TaskSection> {
     );
   }
 
-  Future<dynamic> showEditForm(BuildContext context) {
+  Future<dynamic> showEditForm(BuildContext context, int index) {
     return Future.delayed(
       Duration.zero,
       () async => showModalBottomSheet(
@@ -162,10 +178,10 @@ class _TaskSectionState extends State<TaskSection> {
         isScrollControlled: true,
         context: context,
         builder: (context) => Column(
-          children: const [
+          children: [
             CustomModalSheetDrawerIcon(),
             Expanded(
-              child: EditMyOrdersForm(selectedIndex: 0),
+              child: EditMyOrdersForm(selectedIndex: index),
             ),
           ],
         ),

@@ -63,7 +63,23 @@ class _ServicesSectionState extends State<ServicesSection> {
                                   );
                                 },
                                 editTap: () async {
-                                  showEditForm(context);
+                                  if (allList?[index].status?.toLowerCase() == 'pending') {
+                                    Navigator.pop(context);
+                                    showEditForm(context, index);
+                                  } else {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomToast(
+                                          heading: 'Warning',
+                                          content:
+                                              'The service is already ${allList?[index].status?.toLowerCase()}. Cannot be edited!',
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          isSuccess: true),
+                                    );
+                                  }
                                 },
                                 cancelTap: () {
                                   context.read<BookingsBloc>().add(
@@ -79,12 +95,10 @@ class _ServicesSectionState extends State<ServicesSection> {
                                         ),
                                       );
                                 },
-                                serviceName:
-                                    allList?[index].entityService?.title,
+                                serviceName: allList?[index].entityService?.title,
                                 providerName:
                                     "${allList?[index].entityService?.createdBy?.firstName} ${allList?[index].entityService?.createdBy?.lastName}",
-                                mainContentWidget:
-                                    showBookingDetail(allList, index),
+                                mainContentWidget: showBookingDetail(allList, index),
                                 status: allList?[index].status,
                                 bottomRightWidget: displayPrice(allList, index),
                               ),
@@ -114,7 +128,23 @@ class _ServicesSectionState extends State<ServicesSection> {
                             );
                           },
                           editTap: () async {
-                            showEditForm(context);
+                            if (allList?[index].status?.toLowerCase() == 'pending') {
+                              Navigator.pop(context);
+                              showEditForm(context, index);
+                            } else {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                    heading: 'Warning',
+                                    content:
+                                        'The service is already ${allList?[index].status?.toLowerCase()}. Cannot be edited!',
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    isSuccess: true),
+                              );
+                            }
                           },
                           cancelTap: () {
                             context.read<BookingsBloc>().add(
@@ -189,8 +219,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
+                  label: "${allList?[index].startTime ?? '00:00'} ${allList?[index].endTime ?? ''}",
                   color: kColorGreen,
                 ),
               ),
@@ -209,7 +238,7 @@ class _ServicesSectionState extends State<ServicesSection> {
     );
   }
 
-  Future<dynamic> showEditForm(BuildContext context) {
+  Future<dynamic> showEditForm(BuildContext context, int index) {
     return Future.delayed(
       Duration.zero,
       () async => showModalBottomSheet(
@@ -219,10 +248,10 @@ class _ServicesSectionState extends State<ServicesSection> {
         isScrollControlled: true,
         context: context,
         builder: (context) => Column(
-          children: const [
+          children: [
             CustomModalSheetDrawerIcon(),
             Expanded(
-              child: EditMyOrdersForm(selectedIndex: 0),
+              child: EditMyOrdersForm(selectedIndex: index),
             ),
           ],
         ),

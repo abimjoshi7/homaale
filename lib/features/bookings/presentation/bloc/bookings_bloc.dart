@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
@@ -116,17 +118,19 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       (event, emit) async {
         try {
           await repositories.editBooking(event.id, event.req).then(
-                (value) => emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    editBookingRes: EditBookingRes.fromJson(
-                      value,
-                    ),
-                    isUpdated: true,
-                  ),
+            (value) {
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  editBookingRes: EditBookingRes.fromJson(value),
+                  isUpdated: true,
                 ),
               );
+              add(BookingLoaded(isTask: true));
+            },
+          );
         } catch (e) {
+          log(e.toString());
           emit(
             state.copyWith(
               states: TheStates.failure,

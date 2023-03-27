@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
@@ -61,13 +63,12 @@ class BookingRepositories {
     EditBookingReq editBookingReq,
   ) async {
     try {
-      final x = await _dio.patchDataWithCredential(
+      final res = await _dio.patchDataWithCredential(
         data: editBookingReq.toJson(),
-        url: '$kBooking$id',
+        url: '$kBooking$id/',
         token: CacheHelper.accessToken,
       );
-
-      return x as Map<String, dynamic>;
+      return res as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }
