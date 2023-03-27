@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/order/presentation/pages/order_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +10,7 @@ class PaymentSummaryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           addVerticalSpace(50),
           CustomHeader(
@@ -31,162 +31,147 @@ class PaymentSummaryPage extends StatelessWidget {
             ),
             child: const Text('Payment Summary'),
           ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                CustomFormField(
-                  label: 'Booking Details',
-                  child: SizedBox(
-                    height: 200,
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
-                                  'Name',
-                                  style: kText15,
-                                ),
-                                Text(
-                                  'Price',
-                                  style: kText15,
-                                ),
-                                Text(
-                                  'Total',
-                                  style: kText15,
-                                ),
-                              ],
-                            ),
-                            const Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: const Text('Trimming & Cutting'),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: const Text('Rs 1200'),
-                                ),
-                                const SizedBox(
-                                  child: Text('Rs 1180'),
-                                  // width: MediaQuery.of(context).size.width / 3,
-                                ),
-                              ],
-                            ),
-                            addVerticalSpace(10),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: const Text(
-                                    'Planting + Watering + Trimming trees and shrubs + Landscape plans + Fertilizing & Mowing Lawns',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
+          Divider(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: const Text(
+                        'Booking Details',
+                        style: kPurpleText16,
                       ),
                     ),
-                  ),
-                ),
-                CustomFormField(
-                  label: 'Payment Details',
-                  child: Column(
-                    children: [
-                      Card(
-                        child: ListTile(
-                          leading:
-                              Image.asset('assets/logos/Group 48099169.png'),
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text('Master Card'),
-                              Text(
-                                '****7892456',
-                                style: kHelper13,
-                              ),
-                            ],
-                          ),
-                          trailing: const Icon(Icons.edit),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Card(
-                  child: ListTile(
-                    title: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Billing Location',
-                              style: kPurpleText16,
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 30,top: 20),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Name'),
+                                Text('Price'),
+                                Text('Total'),
+                              ],
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.edit,
-                                size: 18,
-                              ),
+                            subtitle: Column(
+                              children: [
+                                Text(
+                                    '.........................................................................................................................'),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Name ',
+                                      style: TextStyle(
+                                        textBaseline: TextBaseline.alphabetic,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      maxLines: 1,
+                                    ),
+                                    Text('Rs 200'),
+                                    Text('Rs 250'),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        const IconText(
-                          label: 'Bagbazaar, Kathmandu',
-                          iconData: Icons.location_on_outlined,
-                          color: Colors.pink,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              CustomCheckBox(
-                                onTap: () {},
-                              ),
-                              addHorizontalSpace(10),
-                              const Text(
-                                'Same as task location',
-                                style: kBodyText1,
-                              ),
-                            ],
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    CommonBillingAddressContainer(),
+                    SizedBox(
+                      height: 200,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-          addVerticalSpace(20),
-          CustomElevatedButton(
-            callback: () {
-              Navigator.pushNamed(
-                context,
-                OrderPage.routeName,
-              );
-            },
-            label: 'Confirm',
+          Center(
+            child: CustomElevatedButton(
+              callback: () {},
+              label: 'Confirm',
+            ),
           ),
-          addVerticalSpace(10),
-          CustomElevatedButton(
-            callback: () {},
-            label: 'Cancel',
-            textColor: kColorPrimary,
-            mainColor: Colors.white,
+          SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: CustomElevatedButton(
+              borderColor: kColorPrimary,
+              mainColor: Colors.white,
+              callback: () {},
+              label: 'Cancel',
+              textColor: kColorPrimary,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
+
+
+
+  }
+}
+
+class CommonBillingAddressContainer extends StatelessWidget {
+  const CommonBillingAddressContainer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            'Billing Details',
+            style: kPurpleText16,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          const IconText(
+            label: 'Bagbazaar, Kathmandu',
+            iconData: Icons.location_on_outlined,
+            color: Colors.pink,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.check_circle,
+                color: Colors.orangeAccent,
+              ),
+              addHorizontalSpace(10),
+              const Text(
+                'Same as task location',
+                style: kBodyText1,
+              ),
+            ],
           ),
         ],
       ),
