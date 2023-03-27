@@ -12,9 +12,11 @@ import 'package:flutter/material.dart';
 
 class EditMyOrdersForm extends StatefulWidget {
   final int selectedIndex;
+  final bool isTask;
   const EditMyOrdersForm({
     super.key,
     required this.selectedIndex,
+    required this.isTask,
   });
 
   @override
@@ -39,11 +41,13 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   List<Widget> widgetList = [];
   List<String> requirementList = [];
   late int selectedIndex;
+  late bool isTask;
   int? cityCode;
 
   @override
   void initState() {
     selectedIndex = widget.selectedIndex;
+    isTask = widget.isTask;
     super.initState();
   }
 
@@ -489,6 +493,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             BookingEdited(
                               id: myBookingList?[selectedIndex].id?.toInt() ?? 0,
                               req: req,
+                              isTask: isTask,
                             ),
                           );
 

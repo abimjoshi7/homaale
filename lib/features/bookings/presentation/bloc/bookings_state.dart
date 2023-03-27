@@ -7,6 +7,7 @@ class BookingsState extends Equatable {
   final booking.Result? result;
   final booking.MyBookingListModel? myBookingListModelTask;
   final booking.MyBookingListModel? myBookingListModelService;
+  final BookingHistoryRes? bookingHistoryRes;
   final BookingType? bookingType;
   final EditBookingRes? editBookingRes;
   final bool? isLoaded;
@@ -27,6 +28,7 @@ class BookingsState extends Equatable {
     this.isLoaded,
     this.isBooked,
     this.isUpdated,
+    this.bookingHistoryRes,
     this.isApproved,
     this.isCancelled,
     this.isDeleted = false,
@@ -39,6 +41,7 @@ class BookingsState extends Equatable {
     booking.MyBookingListModel? myBookingListModelTask,
     booking.MyBookingListModel? myBookingListModelService,
     BookingType? bookingType,
+    BookingHistoryRes? bookingHistoryRes,
     EditBookingRes? editBookingRes,
     bool? isLoaded,
     bool? isBooked,
@@ -51,10 +54,9 @@ class BookingsState extends Equatable {
     return BookingsState(
       states: states ?? this.states,
       result: result ?? this.result,
-      myBookingListModelTask:
-          myBookingListModelTask ?? this.myBookingListModelTask,
-      myBookingListModelService:
-          myBookingListModelService ?? this.myBookingListModelService,
+      myBookingListModelTask: myBookingListModelTask ?? this.myBookingListModelTask,
+      myBookingListModelService: myBookingListModelService ?? this.myBookingListModelService,
+      bookingHistoryRes: bookingHistoryRes ?? this.bookingHistoryRes,
       bookingType: bookingType ?? this.bookingType,
       editBookingRes: editBookingRes ?? this.editBookingRes,
       isLoaded: isLoaded ?? this.isLoaded,
@@ -74,6 +76,7 @@ class BookingsState extends Equatable {
       result,
       myBookingListModelTask,
       myBookingListModelService,
+      bookingHistoryRes,
       bookingType,
       editBookingRes,
       isLoaded,

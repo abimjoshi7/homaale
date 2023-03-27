@@ -251,7 +251,10 @@ class _ServicesSectionState extends State<ServicesSection> {
           children: [
             CustomModalSheetDrawerIcon(),
             Expanded(
-              child: EditMyOrdersForm(selectedIndex: index),
+              child: EditMyOrdersForm(
+                selectedIndex: index,
+                isTask: false,
+              ),
             ),
           ],
         ),

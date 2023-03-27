@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
@@ -126,7 +128,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                   isUpdated: true,
                 ),
               );
-              add(BookingLoaded(isTask: true));
+              add(BookingLoaded(isTask: event.isTask));
             },
           );
         } catch (e) {
@@ -209,6 +211,27 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               states: TheStates.failure,
               isDeleted: false,
             ),
+          );
+        }
+      },
+    );
+
+    on<BookingHistory>(
+      (event, emit) async {
+        emit(state.copyWith(states: TheStates.initial));
+        try {
+          await repositories.bookingHistory(event.bookingHistoryReq).then(
+                (value) => emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    bookingHistoryRes: BookingHistoryRes.fromJson(value),
+                  ),
+                ),
+              );
+        } catch (e) {
+          log('history error' + e.toString());
+          emit(
+            state.copyWith(states: TheStates.failure),
           );
         }
       },

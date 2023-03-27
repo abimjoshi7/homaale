@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 
@@ -116,6 +116,19 @@ class BookingRepositories {
       final res = await _dio.postDataWithCredential(
         data: rejectReq.toJson(),
         url: '$kCreateBookingsDecline',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        query: bookingHistoryReq.toJson(),
+        url: '/task/entity/service/task/list/',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

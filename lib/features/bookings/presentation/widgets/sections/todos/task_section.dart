@@ -181,7 +181,10 @@ class _TaskSectionState extends State<TaskSection> {
           children: [
             CustomModalSheetDrawerIcon(),
             Expanded(
-              child: EditMyOrdersForm(selectedIndex: index),
+              child: EditMyOrdersForm(
+                selectedIndex: index,
+                isTask: true,
+              ),
             ),
           ],
         ),
