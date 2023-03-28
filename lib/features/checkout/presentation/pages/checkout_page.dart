@@ -69,6 +69,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 setState(
                   () {
                     _isShowVoucher = !_isShowVoucher;
+                    _isShowOffer =false ;
+
                   },
                 );
               },
@@ -108,6 +110,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 setState(
                   () {
                     _isShowOffer = !_isShowOffer;
+                    _isShowVoucher =false;
                   },
                 );
               },
