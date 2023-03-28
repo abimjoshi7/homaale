@@ -75,124 +75,116 @@ class _ServicesSectionState extends State<ServicesSection> {
                   separatorBuilder: (context, index) => addVerticalSpace(16),
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   builderDelegate: PagedChildBuilderDelegate(itemBuilder: (context, Result item, index) {
-                    return BookingsServiceCard(
-                      callback: () {
-                        context.read<BookingsBloc>().add(
-                              BookingSingleLoaded(
-                                item.id ?? 0,
-                              ),
-                            );
-                        Navigator.pushNamed(
-                          context,
-                          BookedServicePage.routeName,
-                        );
-                      },
-                      editTap: () async {
-                        if (item.status?.toLowerCase() == 'pending') {
-                          Navigator.pop(context);
-                          showEditForm(context, index);
-                        } else {
-                          Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomToast(
-                                heading: 'Warning',
-                                content: 'The service is already ${item.status?.toLowerCase()}. Cannot be edited!',
-                                onTap: () {
-                                  Navigator.pop(context);
+                    return widget.isCheckPending ?? false
+                        ? item.status?.toLowerCase() == "pending"
+                            ? BookingsServiceCard(
+                                callback: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingSingleLoaded(
+                                          item.id ?? 0,
+                                        ),
+                                      );
+                                  Navigator.pushNamed(
+                                    context,
+                                    BookedServicePage.routeName,
+                                  );
                                 },
-                                isSuccess: true),
+                                editTap: () async {
+                                  if (item.status?.toLowerCase() == 'pending') {
+                                    Navigator.pop(context);
+                                    showEditForm(context, index);
+                                  } else {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomToast(
+                                          heading: 'Warning',
+                                          content:
+                                              'The service is already ${item.status?.toLowerCase()}. Cannot be edited!',
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          isSuccess: true),
+                                    );
+                                  }
+                                },
+                                cancelTap: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingCancelled(
+                                          id: item.id ?? 0,
+                                        ),
+                                      );
+                                },
+                                deleteTap: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingDeleted(
+                                          id: item.id ?? 0,
+                                        ),
+                                      );
+                                },
+                                serviceName: item.entityService?.title,
+                                providerName:
+                                    "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
+                                mainContentWidget: showBookingDetail(item),
+                                status: item.status,
+                                bottomRightWidget: displayPrice(item),
+                              )
+                            : SizedBox()
+                        : BookingsServiceCard(
+                            callback: () {
+                              context.read<BookingsBloc>().add(
+                                    BookingSingleLoaded(
+                                      item.id ?? 0,
+                                    ),
+                                  );
+                              Navigator.pushNamed(
+                                context,
+                                BookedServicePage.routeName,
+                              );
+                            },
+                            editTap: () async {
+                              if (item.status?.toLowerCase() == 'pending') {
+                                Navigator.pop(context);
+                                showEditForm(context, index);
+                              } else {
+                                Navigator.pop(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                      heading: 'Warning',
+                                      content:
+                                          'The service is already ${item.status?.toLowerCase()}. Cannot be edited!',
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      isSuccess: true),
+                                );
+                              }
+                            },
+                            cancelTap: () {
+                              context.read<BookingsBloc>().add(
+                                    BookingCancelled(
+                                      id: item.id ?? 0,
+                                    ),
+                                  );
+                            },
+                            deleteTap: () {
+                              context.read<BookingsBloc>().add(
+                                    BookingDeleted(
+                                      id: item.id ?? 0,
+                                    ),
+                                  );
+                            },
+                            serviceName: item.entityService?.title,
+                            providerName:
+                                "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
+                            mainContentWidget: showBookingDetail(item),
+                            status: item.status,
+                            bottomRightWidget: displayPrice(item),
                           );
-                        }
-                      },
-                      cancelTap: () {
-                        context.read<BookingsBloc>().add(
-                              BookingCancelled(
-                                id: item.id ?? 0,
-                              ),
-                            );
-                      },
-                      deleteTap: () {
-                        context.read<BookingsBloc>().add(
-                              BookingDeleted(
-                                id: item.id ?? 0,
-                              ),
-                            );
-                      },
-                      serviceName: item.entityService?.title,
-                      providerName:
-                          "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
-                      mainContentWidget: showBookingDetail(item),
-                      status: item.status,
-                      bottomRightWidget: displayPrice(item),
-                    );
                   }),
                 ),
               ),
-              // if (widget.isCheckPending == null)
-              //   Expanded(
-              //     child: ListView.builder(
-              //       padding: EdgeInsets.zero,
-              //       itemBuilder: (context, index) {
-              //         return Padding(
-              //           padding: const EdgeInsets.all(8.0),
-              //           child: BookingsServiceCard(
-              //             callback: () {
-              //               context.read<BookingsBloc>().add(
-              //                     BookingSingleLoaded(
-              //                       allList?[index].id ?? 0,
-              //                     ),
-              //                   );
-              //               Navigator.pushNamed(
-              //                 context,
-              //                 BookedServicePage.routeName,
-              //               );
-              //             },
-              //             editTap: () async {
-              //               if (allList?[index].status?.toLowerCase() == 'pending') {
-              //                 Navigator.pop(context);
-              //                 showEditForm(context, index);
-              //               } else {
-              //                 Navigator.pop(context);
-              //                 showDialog(
-              //                   context: context,
-              //                   builder: (context) => CustomToast(
-              //                       heading: 'Warning',
-              //                       content:
-              //                           'The service is already ${allList?[index].status?.toLowerCase()}. Cannot be edited!',
-              //                       onTap: () {
-              //                         Navigator.pop(context);
-              //                       },
-              //                       isSuccess: true),
-              //                 );
-              //               }
-              //             },
-              //             cancelTap: () {
-              //               context.read<BookingsBloc>().add(
-              //                     BookingCancelled(
-              //                       id: allList?[index].id ?? 0,
-              //                     ),
-              //                   );
-              //             },
-              //             deleteTap: () {
-              //               context.read<BookingsBloc>().add(
-              //                     BookingDeleted(
-              //                       id: allList?[index].id ?? 0,
-              //                     ),
-              //                   );
-              //             },
-              //             serviceName: allList?[index].entityService?.title,
-              //             providerName:
-              //                 "${allList?[index].entityService?.createdBy?.firstName} ${allList?[index].entityService?.createdBy?.lastName}",
-              //             mainContentWidget: showBookingDetail(allList, index),
-              //             status: allList?[index].status,
-              //             bottomRightWidget: displayPrice(allList, index),
-              //           ),
-              //         );
-              //       },
-              //       itemCount: allList?.length ?? 0,
-              //     ),
-              //   ),
             ],
           );
         },
