@@ -1,10 +1,17 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/order/presentation/pages/order_page.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../bloc/payment_type_bloc.dart';
+import '../bloc/payment_type_list_state.dart';
 
 class PaymentSummaryPage extends StatelessWidget {
   static const routeName = '/payment-summary-page';
-  const PaymentSummaryPage({super.key});
+  const PaymentSummaryPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +55,7 @@ class PaymentSummaryPage extends StatelessWidget {
                     ),
                     Container(
                       padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.only(right: 30,top: 20),
+                      margin: EdgeInsets.only(right: 30, top: 20),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15)),
@@ -71,7 +78,7 @@ class PaymentSummaryPage extends StatelessWidget {
                                     '.........................................................................................................................'),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Name ',
@@ -91,6 +98,38 @@ class PaymentSummaryPage extends StatelessWidget {
                         ],
                       ),
                     ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0,top: 10),
+                      child: const Text(
+                        'Payment Details',
+                        style: kPurpleText16,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
+                        builder: (context, state) {
+                          return ListTile(
+                            leading: Image.network(
+                              state.paymentType?.result![0].logo ?? "",
+                              height: 100,
+                              width: 100,
+                              scale: 1,
+                            ),
+                            title:
+                                Text(state.paymentType?.result![0].name ?? ""),
+                            subtitle: Text(
+                                state.paymentType?.result![0].id.toString() ??
+                                    ''),
+                          );
+                        },
+                      ),
+                    ),
                     CommonBillingAddressContainer(),
                     SizedBox(
                       height: 200,
@@ -102,7 +141,9 @@ class PaymentSummaryPage extends StatelessWidget {
           ),
           Center(
             child: CustomElevatedButton(
-              callback: () {},
+              callback: () {
+                Navigator.pushNamed(context, OrderInvoicePage.routeName);
+              },
               label: 'Confirm',
             ),
           ),
@@ -113,7 +154,9 @@ class PaymentSummaryPage extends StatelessWidget {
             child: CustomElevatedButton(
               borderColor: kColorPrimary,
               mainColor: Colors.white,
-              callback: () {},
+              callback: () {
+                Navigator.pop(context);
+              },
               label: 'Cancel',
               textColor: kColorPrimary,
             ),
@@ -124,9 +167,6 @@ class PaymentSummaryPage extends StatelessWidget {
         ],
       ),
     );
-
-
-
   }
 }
 
@@ -135,12 +175,11 @@ class CommonBillingAddressContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20)),
+          color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

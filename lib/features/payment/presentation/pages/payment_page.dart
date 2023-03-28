@@ -1,9 +1,8 @@
-import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_list_state.dart';
 import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
+import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/features/payment/presentation/pages/widgets/common_wallet_card.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -135,35 +134,44 @@ class _PaymentPageState extends State<PaymentPage> {
                     ],
                   ),
                 ),
-                BlocBuilder<PaymentBloc, PaymentIntentState>(
-                  builder: (context, paymentIntentStateOnly) {
-                    return
-                        // paymentIntentStateOnly.theState == TheStates.initial
-                        //   ? CircularProgressIndicator()
-                        //   :
-                        CustomElevatedButton(
-                            callback: () async {
-                              final Uri url = Uri.parse(paymentIntentStateOnly
-                                          .paymentIntent?.data?.paymentUrl ??
-                                      ''
-                                  // ' https://test-pay.khalti.com/?pidx=ZpEgm5wxH8WzP9bFctswo9',
-                                  );
-                              context.read<PaymentBloc>().add(
-                                    PaymentIntentInitiated(
-                                      provider: state.paymentType
-                                              ?.result![currentIndex].slug ??
-                                          "khalti",
-                                      uuid:
-                                          '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
-                                    ),
-                                  );
-                              if (!await launchUrl(url)) {
-                                throw Exception('Could not launch $url');
-                              }
-                            },
-                            label: 'Proceed');
-                  },
-                ),
+                // BlocBuilder<PaymentBloc, PaymentIntentState>(
+                //   builder: (context, paymentIntentStateOnly) {
+                //     return
+                //         // paymentIntentStateOnly.theState == TheStates.initial
+                //         //   ? CircularProgressIndicator()
+                //         //   :
+                //         CustomElevatedButton(
+                //             callback: () async {
+                //               final Uri url = Uri.parse(paymentIntentStateOnly
+                //                           .paymentIntent?.data?.paymentUrl ??
+                //                       ''
+                //                   // ' https://test-pay.khalti.com/?pidx=ZpEgm5wxH8WzP9bFctswo9',
+                //                   );
+                //               context.read<PaymentBloc>().add(
+                //                     PaymentIntentInitiated(
+                //                       provider: state.paymentType
+                //                               ?.result![currentIndex].slug ??
+                //                           "khalti",
+                //                       uuid:
+                //                           '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+                //                     ),
+                //                   );
+                //               if (!await launchUrl(url)) {
+                //                 throw Exception('Could not launch $url');
+                //               }
+                //             },
+                //             label: 'Proceed');
+                //   },
+                // ),
+                CustomElevatedButton(
+                    callback: () {
+                      Navigator.pushNamed(
+                        context,
+                        PaymentSummaryPage.routeName,
+                      );
+                      print(currentIndex);
+                      },
+                    label: 'Proceed'),
               ],
             ),
           );
