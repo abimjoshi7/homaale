@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/search/data/search_result.dart';
@@ -53,22 +52,45 @@ class SearchRepository {
     return null;
   }
 
-  // Future<void> cacheRecentSearchQueries(
-  //     String key, List<String> searchQueriesList) async {
-  //   await CacheHelper.setCachedString(
-  //     key,
-  //     searchQueriesList.toString(),
-  //   );
-  //   return null;
-  // }
-  //
-  // Future<String?> getCachedRecentSearchQueries({required String key}) async {
-  //   try {
-  //     final String? x = await CacheHelper.getCachedString(key);
-  //     return x;
-  //   } catch (e) {
-  //     log(e.toString());
-  //     rethrow;
-  //   }
-  // }
+  Future<dynamic> getCachedRecentSearchQueries({required String key}) async {
+    try {
+      final x = await CacheHelper.getCachedString(key);
+      if (x != null) {
+        log('x ko val' + x);
+        final list = jsonDecode(x).cast<String>().toList();
+        return list;
+      }
+      return null;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> cacheRecentSearchQueries(
+      {required String key,
+      List? searchQueriesList,
+      required String searchQuery}) async {
+    try {
+      if (searchQueriesList == null) {
+        searchQueriesList = <String>[];
+      }
+
+      if (searchQueriesList.length >= 5) {
+        searchQueriesList.removeLast();
+      }
+      if (!searchQueriesList.contains(searchQuery)) {
+        searchQueriesList.add(searchQuery);
+      }
+      await CacheHelper.setCachedString(
+        key,
+        jsonEncode(searchQueriesList),
+      );
+      log('cache stored successfully!');
+
+      return null;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

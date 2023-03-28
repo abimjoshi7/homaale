@@ -85,17 +85,18 @@ class _SearchPageState extends State<SearchPage> {
                             controller: _searchFieldController,
                             node: _focusNode,
                             onChanged: (query) {
-                              if (_searchFieldController.text.trim().isEmpty ||
-                                  _searchFieldController.text.isEmpty) {
-                                // _searchFieldController.clear();
+                              if (query!.trim().isEmpty && query.isEmpty) {
+                                setState(() => _searchFieldController.clear());
                                 context.read<SearchBloc>().add(
                                       SearchQueryCleared(),
                                     );
                               }
+
+                              if (query.length < 3) return;
+
                               context.read<SearchBloc>().add(
                                     SearchQueryInitiated(
-                                      searchQuery:
-                                          query.toString().toLowerCase(),
+                                      searchQuery: query.toString(),
                                     ),
                                   );
                             },
@@ -153,17 +154,31 @@ class _SearchPageState extends State<SearchPage> {
                   ),
 
                   //**Search Results**//
-                  BlocBuilder<SearchBloc, SearchState>(
+                  BlocConsumer<SearchBloc, SearchState>(
+                    listener: (context, state) {},
                     builder: (_, state) {
                       if (state.theStates == TheStates.initial) {
                         return RecentSearchesList();
                       }
                       if (state.theStates == TheStates.success) {
+                        if (state.filteredList!.length < 1) {
+                          return Align(
+                            alignment: Alignment.center,
+                            child: Text('No results Found.'),
+                          );
+                        }
                         return SearchResultsList(
                           searchList: state.filteredList!,
                         );
                       }
 
+                      if (state.theStates == TheStates.failure) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child:
+                              Text('An Error Occured. Please Try Again Later.'),
+                        );
+                      }
                       return CircularProgressIndicator();
                     },
                   ),

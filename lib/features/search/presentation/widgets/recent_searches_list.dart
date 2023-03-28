@@ -16,7 +16,7 @@ class RecentSearchesList extends StatelessWidget {
         right: MediaQuery.of(context).size.width * 0.025,
         bottom: MediaQuery.of(context).size.height * 0.032,
       ),
-      height: MediaQuery.of(context).size.height * 0.36,
+      height: MediaQuery.of(context).size.height * 0.50,
       child: Column(
         children: <Widget>[
           Padding(

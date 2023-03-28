@@ -12,15 +12,15 @@ class SearchFieldInitialEvent extends SearchEvent {
   List<Object> get props => [];
 }
 
-class SearchFieldFocused extends SearchEvent {
-  @override
-  List<Object> get props => [];
-}
+// class SearchFieldFocused extends SearchEvent {
+//   @override
+//   List<Object> get props => [];
+// }
 
-class SearchFieldUnFocused extends SearchEvent {
-  @override
-  List<Object> get props => [];
-}
+// class SearchFieldUnFocused extends SearchEvent {
+//   @override
+//   List<Object> get props => [];
+// }
 
 class SearchQueryInitiated extends SearchEvent {
   final String searchQuery;

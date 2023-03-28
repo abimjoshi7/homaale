@@ -14,11 +14,7 @@ class SearchResultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (searchList.length < 1) {
-      return Text(
-        'No Results Found.',
-      );
-    }
+ 
     return Container(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).size.height * 0.016,
