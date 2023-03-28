@@ -259,9 +259,9 @@ class AppRouter {
           builder: (context) => const PaymentSummaryPage(),
           settings: settings,
         );
-      case OrderPage.routeName:
+      case OrderInvoicePage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const OrderPage(),
+          builder: (context) => const OrderInvoicePage(),
           settings: settings,
         );
       case InvoicePage.routeName:
