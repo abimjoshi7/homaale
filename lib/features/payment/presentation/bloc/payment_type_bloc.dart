@@ -9,7 +9,6 @@ import '../../data/repositories/payment_repositories.dart';
 
 class PaymentTypeBloc extends Bloc<PaymentTypeListEvent, PaymentTypeListState> {
   final repositories = PaymentRepositories();
-
   PaymentTypeBloc() : super(PaymentTypeListState()) {
     on<PaymentTypeListInitiated>((event, emit) async {
       try {
