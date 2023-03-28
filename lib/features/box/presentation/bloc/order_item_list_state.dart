@@ -24,6 +24,6 @@ class OrderItemListState extends Equatable {
   @override
   List<Object?> get props => [
         theStates,
-        OrderItemList,
+        orderItemList,
       ];
 }
