@@ -7,7 +7,6 @@ import 'package:cipher/features/account_settings/presentation/pages/tax_calculat
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
-import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';

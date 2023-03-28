@@ -21,8 +21,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   List<EntityService> taskList = [];
 
   //initialize page controller
-  final PagingController<int, EntityService> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -59,143 +58,138 @@ class _AllTaskPageState extends State<AllTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => taskBloc,
-        child: BlocListener<TaskBloc, TaskState>(
-          listener: (context, state) {
-            if (state.theState == TheStates.success) {
-              taskList = state.tasksList!.result!;
+      body: BlocListener<TaskBloc, TaskState>(
+        bloc: taskBloc,
+        listener: (context, state) {
+          if (state.theState == TheStates.success) {
+            taskList = state.tasksList!.result!;
 
-              final lastPage = state.tasksList!.totalPages!;
-              final next = 1 + state.tasksList!.current!;
+            final lastPage = state.tasksList!.totalPages!;
+            final next = 1 + state.tasksList!.current!;
 
-              if (next > lastPage) {
-                _pagingController.appendLastPage(taskList);
-              } else {
-                _pagingController.appendPage(taskList, next);
-              }
+            if (next > lastPage) {
+              _pagingController.appendLastPage(taskList);
+            } else {
+              _pagingController.appendPage(taskList, next);
             }
-            if (state.theState == TheStates.failure) {
-              _pagingController.error = 'Error';
-            }
-          },
-          child: BlocBuilder<TaskBloc, TaskState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  addVerticalSpace(50),
-                  const CustomHeader(
-                    label: 'All Task Page',
-                  ),
-                  SizedBox(
-                    height: 35,
-                    width: double.infinity,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      children: [
-                        const Icon(
-                          Icons.filter_alt_outlined,
-                          color: kColorSilver,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Category',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Buddhanagar',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Any Price',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                      ],
+          }
+          if (state.theState == TheStates.failure) {
+            _pagingController.error = 'Error';
+          }
+        },
+        child: BlocBuilder<TaskBloc, TaskState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                addVerticalSpace(50),
+                const CustomHeader(
+                  label: 'All Task Page',
+                ),
+                SizedBox(
+                  height: 35,
+                  width: double.infinity,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: kPadding15,
-                      child: PagedListView.separated(
-                        pagingController: _pagingController,
-                        separatorBuilder: (context, index) =>
-                            addVerticalSpace(8),
-                        padding: EdgeInsets.zero,
-                        builderDelegate: PagedChildBuilderDelegate(
-                          itemBuilder: (context, EntityService item, index) =>
-                              InkWell(
-                            onTap: () => onTaskPressed(
-                              state: state,
-                              index: index,
-                              isApply: false,
+                    children: [
+                      const Icon(
+                        Icons.filter_alt_outlined,
+                        color: kColorSilver,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Category',
                             ),
-                            child: TaskCard(
-                              startRate: '${item.budgetFrom ?? 0}',
-                              endRate: '${item.budgetTo ?? 0}',
-                              budgetType: '${item.budgetType}',
-                              count: item.count.toString(),
-                              imageUrl: item.createdBy?.profileImage ??
-                                  kServiceImageNImg,
-                              location: item.location,
-                              endHour: Jiffy(
-                                item.createdAt.toString(),
-                              ).jm,
-                              endDate: Jiffy(
-                                item.endDate?.toString() ??
-                                    DateTime.now().toString(),
-                              ).yMMMMd,
-                              taskName: item.title,
-                              callback: () => onTaskPressed(
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Buddhanagar',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Any Price',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: PagedListView.separated(
+                    pagingController: _pagingController,
+                    separatorBuilder: (context, index) => addVerticalSpace(8),
+                    padding: EdgeInsets.zero,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      itemBuilder: (context, EntityService item, index) => InkWell(
+                          onTap: () => onTaskPressed(
                                 state: state,
                                 index: index,
-                                isApply: true,
+                                isApply: false,
                               ),
-                            ),
+                          child: Container(
+                            color: Colors.amber,
+                            height: 100,
+                          )
+                          //   TaskCard(
+                          //   startRate: '${item.budgetFrom ?? 0}',
+                          //   endRate: '${item.budgetTo ?? 0}',
+                          //   budgetType: '${item.budgetType}',
+                          //   count: item.count.toString(),
+                          //   imageUrl: item.createdBy?.profileImage ?? kServiceImageNImg,
+                          //   location: item.location,
+                          //   endHour: Jiffy(
+                          //     item.createdAt.toString(),
+                          //   ).jm,
+                          //   endDate: Jiffy(
+                          //     item.endDate?.toString() ?? DateTime.now().toString(),
+                          //   ).yMMMMd,
+                          //   taskName: item.title,
+                          //   callback: () => onTaskPressed(
+                          //     state: state,
+                          //     index: index,
+                          //     isApply: true,
+                          //   ),
+                          // ),
                           ),
-                        ),
-                      ),
                     ),
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

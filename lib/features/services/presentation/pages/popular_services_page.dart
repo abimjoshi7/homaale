@@ -45,137 +45,135 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => entityServiceBloc,
-        child: BlocListener<EntityServiceBloc, EntityServiceState>(
-          listener: (context, state) {
-            if (state is EntityServiceLoadSuccess) {
-              serviceList = state.service.result!;
+      body: BlocListener<EntityServiceBloc, EntityServiceState>(
+        bloc: entityServiceBloc,
+        listener: (context, state) {
+          if (state is EntityServiceLoadSuccess) {
+            serviceList = state.service.result!;
 
-              final lastPage = state.service.totalPages!;
-              final next = 1 + state.service.current!;
+            final lastPage = state.service.totalPages!;
+            final next = 1 + state.service.current!;
 
-              if (next > lastPage) {
-                _pagingController.appendLastPage(serviceList);
-              } else {
-                _pagingController.appendPage(serviceList, next);
-              }
+            if (next > lastPage) {
+              _pagingController.appendLastPage(serviceList);
+            } else {
+              _pagingController.appendPage(serviceList, next);
             }
-            if (state is EntityServiceLoadFailure) {
-              _pagingController.error = 'Error';
-            }
-          },
-          child: BlocBuilder<EntityServiceBloc, EntityServiceState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  addVerticalSpace(
-                    50,
-                  ),
-                  const CustomHeader(
-                    label: 'Popular Services',
-                  ),
-                  const Divider(),
-                  SizedBox(
-                    height: 35,
-                    width: double.infinity,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      children: [
-                        const Icon(
-                          Icons.filter_alt_outlined,
-                          color: kColorSilver,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Category',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Buddhanagar',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined),
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Any Price',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                      ],
+          }
+          if (state is EntityServiceLoadFailure) {
+            _pagingController.error = 'Error';
+          }
+        },
+        child: BlocBuilder<EntityServiceBloc, EntityServiceState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                addVerticalSpace(
+                  50,
+                ),
+                const CustomHeader(
+                  label: 'Popular Services',
+                ),
+                const Divider(),
+                SizedBox(
+                  height: 35,
+                  width: double.infinity,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
                     ),
-                  ),
-                  Expanded(
-                    child: PagedGridView(
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, EntityService item, index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              context.read<TaskEntityServiceBloc>().add(
-                                    TaskEntityServiceSingleLoaded(
-                                      id: item.id!,
-                                    ),
-                                  );
-
-                              Navigator.pushNamed(
-                                context,
-                                TaskEntityServicePage.routeName,
-                              );
-                            },
-                            child: ServiceCard(
-                              title: item.title,
-                              imagePath: item.images?.length == 0 ? kServiceImageNImg : item.images?.first.media,
-                              rating: item.rating?.first.rating.toString(),
+                    children: [
+                      const Icon(
+                        Icons.filter_alt_outlined,
+                        color: kColorSilver,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Category',
                             ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Buddhanagar',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined),
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Any Price',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: PagedGridView(
+                    pagingController: _pagingController,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      itemBuilder: (context, EntityService item, index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            context.read<TaskEntityServiceBloc>().add(
+                                  TaskEntityServiceSingleLoaded(
+                                    id: item.id!,
+                                  ),
+                                );
+
+                            Navigator.pushNamed(
+                              context,
+                              TaskEntityServicePage.routeName,
+                            );
+                          },
+                          child: ServiceCard(
+                            title: item.title,
+                            imagePath: item.images?.length == 0 ? kServiceImageNImg : item.images?.first.media,
+                            rating: item.rating?.first.rating.toString(),
                           ),
                         ),
                       ),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.9,
-                      ),
-                      padding: EdgeInsets.zero,
                     ),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.9,
+                    ),
+                    padding: EdgeInsets.zero,
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

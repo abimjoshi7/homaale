@@ -4,6 +4,7 @@ import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -16,49 +17,75 @@ class TaskSection extends StatefulWidget {
 }
 
 class _TaskSectionState extends State<TaskSection> {
+  late final bookingsBloc = locator<BookingsBloc>();
+  List<Result> todoList = [];
+
+  //initialize page controller
+  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
+
   @override
   void initState() {
     super.initState();
-    context.read<BookingsBloc>().add(
-          const BookingLoaded(
-            isTask: true,
-          ),
-        );
+
+    //so at event add list of records
+    _pagingController.addPageRequestListener(
+      (pageKey) => bookingsBloc.add(BookingLoaded(isTask: true, page: pageKey)),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bookingsBloc.close();
+    _pagingController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingsBloc, BookingsState>(
-      builder: (context, state) {
+    return BlocListener<BookingsBloc, BookingsState>(
+      bloc: bookingsBloc,
+      listener: (context, state) {
         if (state.states == TheStates.initial) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          _pagingController.refresh();
         }
-        if (state.states == TheStates.success && state.isLoaded == true) {
-          final allList = state.myBookingListModelTask?.result;
+        if (state.states == TheStates.success) {
+          todoList = state.myBookingListModelTask!.result!;
 
+          final lastPage = state.myBookingListModelTask!.totalPages!;
+          final next = 1 + state.myBookingListModelTask!.current!;
+
+          if (next > lastPage) {
+            _pagingController.appendLastPage(todoList);
+          } else {
+            _pagingController.appendPage(todoList, next);
+          }
+        }
+        if (state.states == TheStates.failure) {
+          _pagingController.error = 'Error';
+        }
+      },
+      child: BlocBuilder<BookingsBloc, BookingsState>(
+        builder: (context, state) {
           return Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: BookingsServiceCard(
+                child: PagedListView.separated(
+                  pagingController: _pagingController,
+                  separatorBuilder: (context, index) => addVerticalSpace(16),
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, Result item, index) => BookingsServiceCard(
                       callback: () {
-                        context.read<BookingsBloc>().add(
-                              BookingSingleLoaded(
-                                allList?[index].id ?? 0,
-                              ),
-                            );
+                        BlocProvider.of<BookingsBloc>(context).add(
+                          BookingSingleLoaded(item.id ?? 0),
+                        );
                         Navigator.pushNamed(
                           context,
                           BookedServicePage.routeName,
                         );
                       },
                       editTap: () async {
-                        if (allList?[index].status?.toLowerCase() == 'pending') {
+                        if (item.status?.toLowerCase() == 'pending') {
                           Navigator.pop(context);
                           showEditForm(context, index);
                         } else {
@@ -67,8 +94,7 @@ class _TaskSectionState extends State<TaskSection> {
                             context: context,
                             builder: (context) => CustomToast(
                                 heading: 'Warning',
-                                content:
-                                    'The task is already ${allList?[index].status?.toLowerCase()}. Cannot be edited!',
+                                content: 'The task is already ${item.status?.toLowerCase()}. Cannot be edited!',
                                 onTap: () {
                                   Navigator.pop(context);
                                 },
@@ -79,7 +105,7 @@ class _TaskSectionState extends State<TaskSection> {
                       deleteTap: () {
                         context.read<BookingsBloc>().add(
                               BookingDeleted(
-                                id: allList?[index].id ?? 0,
+                                id: item.id ?? 0,
                               ),
                             );
                         Navigator.pop(context);
@@ -87,30 +113,27 @@ class _TaskSectionState extends State<TaskSection> {
                       cancelTap: () {
                         context.read<BookingsBloc>().add(
                               BookingCancelled(
-                                id: allList?[index].id ?? 0,
+                                id: item.id ?? 0,
                               ),
                             );
                       },
-                      serviceName: allList?[index].entityService?.title,
-                      providerName:
-                          "${allList?[index].createdBy?.user?.firstName} ${allList?[index].createdBy?.user?.lastName}",
-                      mainContentWidget: showBookingDetails(allList, index),
-                      status: allList?[index].status,
-                      bottomRightWidget: displayPrice(allList, index),
+                      serviceName: item.entityService?.title,
+                      providerName: "${item.createdBy?.user?.firstName} ${item.createdBy?.user?.lastName}",
+                      mainContentWidget: showBookingDetails(item),
+                      status: item.status,
+                      bottomRightWidget: displayPrice(item),
                     ),
                   ),
-                  itemCount: allList?.length ?? 0,
                 ),
               )
             ],
           );
-        }
-        return ErrorWidget(Exception());
-      },
+        },
+      ),
     );
   }
 
-  Expanded showBookingDetails(List<Result>? allList, int index) {
+  Expanded showBookingDetails(Result result) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +146,7 @@ class _TaskSectionState extends State<TaskSection> {
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
                   label: DateFormat.yMMMEd().format(
-                    allList?[index].createdAt ?? DateTime.now(),
+                    result.createdAt ?? DateTime.now(),
                   ),
                   color: kColorBlue,
                 ),
@@ -132,7 +155,7 @@ class _TaskSectionState extends State<TaskSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${allList?[index].startTime ?? '00:00'} - ${allList?[index].endTime ?? '00:00'}",
+                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),
@@ -142,7 +165,7 @@ class _TaskSectionState extends State<TaskSection> {
             padding: const EdgeInsets.all(3),
             child: IconText(
               iconData: Icons.location_on_outlined,
-              label: allList?[index].location ?? 'No address found',
+              label: result.location ?? 'No address found',
               color: Colors.red,
             ),
           ),
@@ -151,11 +174,11 @@ class _TaskSectionState extends State<TaskSection> {
     );
   }
 
-  Column displayPrice(List<Result>? allList, int index) {
+  Column displayPrice(Result result) {
     return Column(
       children: [
         Text(
-          "Rs. ${allList?[index].budgetFrom ?? '0'} - Rs. ${allList?[index].budgetTo ?? '0'}",
+          "Rs. ${result.budgetFrom ?? '0'} - Rs. ${result.budgetTo ?? '0'}",
           style: kText17,
         ),
         const Text(
@@ -182,6 +205,7 @@ class _TaskSectionState extends State<TaskSection> {
               child: EditMyOrdersForm(
                 selectedIndex: index,
                 isTask: true,
+                bookingsBloc: bookingsBloc,
               ),
             ),
           ],

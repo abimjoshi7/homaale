@@ -54,11 +54,6 @@ class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with Single
               controller: tabController,
               children: const [
                 TaskSection(),
-                // Text(
-                //   'data',
-                // ),
-
-                // UnapprovedSection(),
                 ServicesSection(),
                 HistorySection(),
               ],

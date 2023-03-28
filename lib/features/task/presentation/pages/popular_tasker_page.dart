@@ -45,146 +45,144 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => taskerCubit,
-        child: BlocListener<TaskerCubit, TaskerState>(
-          listener: (context, state) {
-            if (state.states == TheStates.success) {
-              taskerList = state.taskerListRes!.result!;
+      body: BlocListener<TaskerCubit, TaskerState>(
+        bloc: taskerCubit,
+        listener: (context, state) {
+          if (state.states == TheStates.success) {
+            taskerList = state.taskerListRes!.result!;
 
-              final lastPage = state.taskerListRes!.totalPages!;
-              final next = 1 + state.taskerListRes!.current!;
+            final lastPage = state.taskerListRes!.totalPages!;
+            final next = 1 + state.taskerListRes!.current!;
 
-              if (next > lastPage) {
-                _pagingController.appendLastPage(taskerList);
-              } else {
-                _pagingController.appendPage(taskerList, next);
-              }
+            if (next > lastPage) {
+              _pagingController.appendLastPage(taskerList);
+            } else {
+              _pagingController.appendPage(taskerList, next);
             }
-            if (state.states == TheStates.failure) {
-              _pagingController.error = 'Error';
-            }
-          },
-          child: BlocBuilder<TaskerCubit, TaskerState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  addVerticalSpace(50),
-                  const CustomHeader(label: 'Popular Taskers'),
-                  const Divider(),
-                  addVerticalSpace(16),
-                  SizedBox(
-                    height: 35,
-                    width: double.infinity,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      children: [
-                        const Icon(
-                          Icons.filter_alt_outlined,
-                          color: kColorSilver,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Category',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Buddhanagar',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                        ChoiceChip(
-                          label: Row(
-                            children: const [
-                              Text(
-                                'Any Price',
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined)
-                            ],
-                          ),
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: kColorGrey),
-                          selected: false,
-                          disabledColor: Colors.white,
-                        ),
-                        addHorizontalSpace(5),
-                      ],
+          }
+          if (state.states == TheStates.failure) {
+            _pagingController.error = 'Error';
+          }
+        },
+        child: BlocBuilder<TaskerCubit, TaskerState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                addVerticalSpace(50),
+                const CustomHeader(label: 'Popular Taskers'),
+                const Divider(),
+                addVerticalSpace(16),
+                SizedBox(
+                  height: 35,
+                  width: double.infinity,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
                     ),
-                  ),
-                  addVerticalSpace(8),
-                  Expanded(
-                    child: PagedGridView(
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate(
-                        itemBuilder: (context, Tasker item, index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              context.read<TaskerCubit>().loadSingleTasker(
-                                    item.user?.id ?? '',
-                                  );
-                              context.read<TaskerCubit>().loadSingleTaskerServices(
-                                    item.user?.id ?? '',
-                                  );
-                              context.read<TaskerCubit>().loadSingleTaskerTask(
-                                    item.user?.id ?? '',
-                                  );
-                              context.read<TaskerCubit>().loadSingleTaskerReviews(
-                                    item.user?.id ?? '',
-                                  );
-                              Navigator.pushNamed(
-                                context,
-                                TaskerProfileView.routeName,
-                              );
-                            },
-                            child: TaskerCard(
-                              networkImageUrl: item.profileImage,
-                              label: "${item.user?.firstName} ${item.user?.lastName}",
-                              designation: item.designation,
-                              happyClients: item.stats?.happyClients.toString(),
-                              ratings:
-                                  "${item.rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${item.rating?.userRatingCount ?? '0'})",
-                              rate: "Rs. ${item.hourlyRate}",
-                              callback: () {},
+                    children: [
+                      const Icon(
+                        Icons.filter_alt_outlined,
+                        color: kColorSilver,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Category',
                             ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Buddhanagar',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      ChoiceChip(
+                        label: Row(
+                          children: const [
+                            Text(
+                              'Any Price',
+                            ),
+                            Icon(Icons.keyboard_arrow_down_outlined)
+                          ],
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: kColorGrey),
+                        selected: false,
+                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                    ],
+                  ),
+                ),
+                addVerticalSpace(8),
+                Expanded(
+                  child: PagedGridView(
+                    pagingController: _pagingController,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      itemBuilder: (context, Tasker item, index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            context.read<TaskerCubit>().loadSingleTasker(
+                                  item.user?.id ?? '',
+                                );
+                            context.read<TaskerCubit>().loadSingleTaskerServices(
+                                  item.user?.id ?? '',
+                                );
+                            context.read<TaskerCubit>().loadSingleTaskerTask(
+                                  item.user?.id ?? '',
+                                );
+                            context.read<TaskerCubit>().loadSingleTaskerReviews(
+                                  item.user?.id ?? '',
+                                );
+                            Navigator.pushNamed(
+                              context,
+                              TaskerProfileView.routeName,
+                            );
+                          },
+                          child: TaskerCard(
+                            networkImageUrl: item.profileImage,
+                            label: "${item.user?.firstName} ${item.user?.lastName}",
+                            designation: item.designation,
+                            happyClients: item.stats?.happyClients.toString(),
+                            ratings:
+                                "${item.rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${item.rating?.userRatingCount ?? '0'})",
+                            rate: "Rs. ${item.hourlyRate}",
+                            callback: () {},
                           ),
                         ),
                       ),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.9,
-                      ),
-                      padding: EdgeInsets.zero,
                     ),
-                  )
-                ],
-              );
-            },
-          ),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.9,
+                    ),
+                    padding: EdgeInsets.zero,
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );

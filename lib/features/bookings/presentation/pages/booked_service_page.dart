@@ -4,6 +4,7 @@ import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -19,6 +20,7 @@ class BookedServicePage extends StatefulWidget {
 
 class _BookedServicePageState extends State<BookedServicePage> {
   int _imageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +28,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
         builder: (context, state) {
           if (state.states == TheStates.initial) {
             return Center(child: CircularProgressIndicator());
-          }
-          if (state.states == TheStates.success) {
+          } else if (state.states == TheStates.success) {
             final booking = state.result!;
             final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
 

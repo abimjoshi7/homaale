@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
@@ -13,10 +10,13 @@ import 'package:flutter/material.dart';
 class EditMyOrdersForm extends StatefulWidget {
   final int selectedIndex;
   final bool isTask;
+  final BookingsBloc bookingsBloc;
+
   const EditMyOrdersForm({
     super.key,
     required this.selectedIndex,
     required this.isTask,
+    required this.bookingsBloc,
   });
 
   @override
@@ -30,6 +30,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   final requirementController = TextEditingController();
   final startBudgetController = TextEditingController();
   final endBudgetController = TextEditingController();
+
   DateTime? startDate;
   DateTime? endDate;
   TimeOfDay? startTime;
@@ -40,14 +41,17 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
+  int? cityCode;
+
   late int selectedIndex;
   late bool isTask;
-  int? cityCode;
+  late BookingsBloc bookingsBloc;
 
   @override
   void initState() {
     selectedIndex = widget.selectedIndex;
     isTask = widget.isTask;
+    bookingsBloc = widget.bookingsBloc;
     super.initState();
   }
 
@@ -65,9 +69,10 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingsBloc, BookingsState>(
+      bloc: bookingsBloc,
       builder: (context, state) {
         if (state.states == TheStates.success) {
-          final myBookingList = state.myBookingListModelTask?.result;
+          final myBookingList = isTask ? state.myBookingListModelTask?.result : state.myBookingListModelService?.result;
           return Padding(
             padding: kPadding10,
             child: ListView(
@@ -489,13 +494,13 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         status: "pending",
                       );
 
-                      context.read<BookingsBloc>().add(
-                            BookingEdited(
-                              id: myBookingList?[selectedIndex].id?.toInt() ?? 0,
-                              req: req,
-                              isTask: isTask,
-                            ),
-                          );
+                      bookingsBloc.add(
+                        BookingEdited(
+                          id: myBookingList?[selectedIndex].id?.toInt() ?? 0,
+                          req: req,
+                          isTask: isTask,
+                        ),
+                      );
 
                       Navigator.pop(context);
                     },

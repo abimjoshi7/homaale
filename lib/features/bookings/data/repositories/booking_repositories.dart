@@ -8,6 +8,7 @@ import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:flutter/widgets.dart';
 
 class BookingRepositories {
   final _dio = DioHelper();
@@ -41,13 +42,11 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchMyBookingsList({
-    bool? isTask,
-    String? status,
-  }) async {
+  Future<Map<String, dynamic>> fetchMyBookingsList({bool? isTask, String? status, int? page}) async {
     try {
       final x = await _dio.getDatawithCredential(
         query: {
+          "page": page,
           "is_requested": isTask,
           "status": status,
         },

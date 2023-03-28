@@ -20,15 +20,12 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingLoaded>(
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              states: TheStates.initial,
-            ),
-          );
+          emit(state.copyWith(states: TheStates.initial));
           await repositories
               .fetchMyBookingsList(
             isTask: event.isTask,
             status: event.status,
+            page: event.page,
           )
               .then(
             (value) {
@@ -60,27 +57,17 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingSingleLoaded>(
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              states: TheStates.initial,
-            ),
-          );
+          emit(state.copyWith(states: TheStates.initial));
           await repositories.fetchSingleBooking(id: event.id).then(
                 (value) => emit(
                   state.copyWith(
                     states: TheStates.success,
-                    result: booking.Result.fromJson(
-                      value,
-                    ),
+                    result: booking.Result.fromJson(value),
                   ),
                 ),
               );
         } catch (e) {
-          emit(
-            state.copyWith(
-              states: TheStates.failure,
-            ),
-          );
+          emit(state.copyWith(states: TheStates.failure));
         }
       },
     );
@@ -128,9 +115,8 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                   isUpdated: true,
                 ),
               );
-              add(BookingLoaded(isTask: event.isTask));
             },
-          );
+          ).whenComplete(() => add(BookingLoaded(isTask: event.isTask, page: 1)));
         } catch (e) {
           log(e.toString());
           emit(
