@@ -31,15 +31,15 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             (value) {
               emit(
                 state.copyWith(
-                  states: TheStates.success,
-                  myBookingListModelService: booking.MyBookingListModel.fromJson(
-                    value,
-                  ),
-                  myBookingListModelTask: booking.MyBookingListModel.fromJson(
-                    value,
-                  ),
-                  isLoaded: true,
-                ),
+                    states: TheStates.success,
+                    myBookingListModelService: booking.MyBookingListModel.fromJson(
+                      value,
+                    ),
+                    myBookingListModelTask: booking.MyBookingListModel.fromJson(
+                      value,
+                    ),
+                    isLoaded: true,
+                    isUpdated: false),
               );
             },
           );

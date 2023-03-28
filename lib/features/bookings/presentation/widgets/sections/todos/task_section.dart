@@ -45,7 +45,7 @@ class _TaskSectionState extends State<TaskSection> {
     return BlocListener<BookingsBloc, BookingsState>(
       bloc: bookingsBloc,
       listener: (context, state) {
-        if (state.states == TheStates.initial) {
+        if (state.isUpdated ?? false) {
           _pagingController.refresh();
         }
         if (state.states == TheStates.success) {
