@@ -151,39 +151,38 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   child: PagedListView.separated(
                     pagingController: _pagingController,
                     separatorBuilder: (context, index) => addVerticalSpace(8),
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     builderDelegate: PagedChildBuilderDelegate(
                       itemBuilder: (context, EntityService item, index) => InkWell(
-                          onTap: () => onTaskPressed(
-                                state: state,
-                                index: index,
-                                isApply: false,
-                              ),
-                          child: Container(
-                            color: Colors.amber,
-                            height: 100,
-                          )
-                          //   TaskCard(
-                          //   startRate: '${item.budgetFrom ?? 0}',
-                          //   endRate: '${item.budgetTo ?? 0}',
-                          //   budgetType: '${item.budgetType}',
-                          //   count: item.count.toString(),
-                          //   imageUrl: item.createdBy?.profileImage ?? kServiceImageNImg,
-                          //   location: item.location,
-                          //   endHour: Jiffy(
-                          //     item.createdAt.toString(),
-                          //   ).jm,
-                          //   endDate: Jiffy(
-                          //     item.endDate?.toString() ?? DateTime.now().toString(),
-                          //   ).yMMMMd,
-                          //   taskName: item.title,
-                          //   callback: () => onTaskPressed(
-                          //     state: state,
-                          //     index: index,
-                          //     isApply: true,
-                          //   ),
-                          // ),
+                        onTap: () => onTaskPressed(
+                          state: state,
+                          index: index,
+                          isApply: false,
+                        ),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.21,
+                          child: TaskCard(
+                            startRate: '${item.budgetFrom ?? 0}',
+                            endRate: '${item.budgetTo ?? 0}',
+                            budgetType: '${item.budgetType ?? 'budegetType'}',
+                            count: item.count?.toString() ?? '0',
+                            imageUrl: item.createdBy?.profileImage ?? kServiceImageNImg,
+                            location: item.location ?? 'remote',
+                            endHour: Jiffy(
+                              item.createdAt?.toString() ?? DateTime.now().toString(),
+                            ).jm,
+                            endDate: Jiffy(
+                              item.endDate?.toString() ?? DateTime.now().toString(),
+                            ).yMMMMd,
+                            taskName: item.title ?? 'task title',
+                            callback: () => onTaskPressed(
+                              state: state,
+                              index: index,
+                              isApply: true,
+                            ),
                           ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
