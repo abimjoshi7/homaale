@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import '../../../bookings/presentation/widgets/sections/services/services_section.dart';
 import '../../../checkout/presentation/pages/checkout_page.dart';
 import '../bloc/order_id_create_bloc.dart';
+import '../bloc/order_retrive_bloc.dart';
+import '../bloc/order_retrive_event.dart';
 
 class BoxPage extends StatefulWidget {
   const BoxPage({super.key});
@@ -348,6 +350,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                               ?.result![current].id ??
                                           ""),
                                 );
+                            context.read<OrderItemRetriveBloc>().add(OrderItemRetriveInitiated(
+                                uuid: '7b8eabe2-82ad-4dc3-ac43-82bbdca64783'));
                             Navigator.pushNamed(
                               context,
                               CheckoutPage.routeName,

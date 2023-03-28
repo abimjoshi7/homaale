@@ -8,6 +8,7 @@ import 'package:cipher/features/account_settings/presentation/pages/password_and
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
+import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -86,7 +87,8 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => KycBloc()
@@ -199,16 +201,19 @@ class Cipher extends StatelessWidget {
             create: (context) => EventBloc(),
           ),
           BlocProvider(
-            create: (context) => PaymentBloc(),
+            create: (context) => locator<PaymentBloc>(),
           ),
           BlocProvider(
-            create: (context) => PaymentTypeBloc(),
+            create: (context) => locator<PaymentTypeBloc>(),
           ),
           BlocProvider(
             create: (context) => OrderItemListBloc(),
           ),
           BlocProvider(
             create: (context) => OrderIdCreateBloc(),
+          ),
+          BlocProvider(
+            create: (context) => OrderItemRetriveBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
