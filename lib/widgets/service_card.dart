@@ -25,8 +25,7 @@ class ServiceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-            flex: 2,
+          Expanded(
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -40,45 +39,42 @@ class ServiceCard extends StatelessWidget {
               ),
             ),
           ),
-          Flexible(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    title ?? 'Root Canal Treatment',
-                    style: kPurpleText16,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  AutoSizeText(
-                    description ?? 'Carry Clinic',
-                    style: kLightBlueText14,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconText(
-                        label: rating ?? '3.5 (300)',
-                        iconData: Icons.star_rate_rounded,
-                        color: kColorAmber,
-                        size: 13,
-                      ),
-                      IconText(
-                        label: location ?? 'Remote',
-                        iconData: Icons.location_on_outlined,
-                        color: kColorPink,
-                        size: 13,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.all(
+              8.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AutoSizeText(
+                  title ?? 'Root Canal Treatment',
+                  style: kPurpleText16,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                AutoSizeText(
+                  description ?? 'Carry Clinic',
+                  style: kLightBlueText14,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconText(
+                      label: rating ?? '3.5 (300)',
+                      iconData: Icons.star_rate_rounded,
+                      color: kColorAmber,
+                      size: 13,
+                    ),
+                    IconText(
+                      label: location ?? 'Remote',
+                      iconData: Icons.location_on_outlined,
+                      color: kColorPink,
+                      size: 13,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

@@ -17,21 +17,20 @@ class AddPopupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: callback,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            CircleAvatar(
-              backgroundColor: kColorPrimaryAccent,
-              child: Icon(icon),
-            ),
-            addVerticalSpace(5),
-            Text(
-              label,
-              style: const TextStyle(color: kColorSilver),
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundColor: kColorPrimaryAccent,
+            child: Icon(icon),
+          ),
+          Text(
+            label,
+            style: const TextStyle(color: kColorSilver),
+          ),
+          addVerticalSpace(16),
+        ],
       ),
     );
   }

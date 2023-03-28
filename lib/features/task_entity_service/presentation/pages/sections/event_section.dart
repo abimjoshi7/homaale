@@ -82,33 +82,44 @@ class EventSection extends StatelessWidget with TheModalBottomSheet {
                   ],
                 ),
               )
-            : Wrap(
-                direction: Axis.vertical,
-                spacing: 4,
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconText(
-                    label: "${DateFormat.yMMMEd().format(
-                      taskEntityServiceState.taskEntityService?.event?.start ??
-                          DateTime.now(),
-                    )} - ${DateFormat.yMMMEd().format(
-                      taskEntityServiceState.taskEntityService?.event?.end ??
-                          DateTime.now(),
-                    )}",
-                    iconData: Icons.calendar_today,
+                  Wrap(
+                    direction: Axis.vertical,
+                    spacing: 4,
+                    children: [
+                      IconText(
+                        label: "${DateFormat.yMMMEd().format(
+                          taskEntityServiceState
+                                  .taskEntityService?.event?.start ??
+                              DateTime.now(),
+                        )} - ${DateFormat.yMMMEd().format(
+                          taskEntityServiceState
+                                  .taskEntityService?.event?.end ??
+                              DateTime.now(),
+                        )}",
+                        iconData: Icons.calendar_today,
+                      ),
+                      IconText(
+                        // label: taskEntityServiceState.taskEntityService.event,
+                        label: "0 Guest",
+                        iconData: Icons.people_alt_outlined,
+                      ),
+                      IconText(
+                        label: taskEntityServiceState
+                                    .taskEntityService?.event?.isFlexible ==
+                                true
+                            ? "Is Flexible"
+                            : "Not Flexible",
+                        iconData: Icons.verified_user_outlined,
+                      ),
+                    ],
                   ),
-                  IconText(
-                    // label: taskEntityServiceState.taskEntityService.event,
-                    label: "0 Guest",
-                    iconData: Icons.people_alt_outlined,
+                  addVerticalSpace(
+                    8,
                   ),
-                  IconText(
-                    label: taskEntityServiceState
-                                .taskEntityService?.event?.isFlexible ==
-                            true
-                        ? "Is Flexible"
-                        : "Not Flexible",
-                    iconData: Icons.verified_user_outlined,
-                  ),
+                  Divider()
                 ],
               ),
       ),

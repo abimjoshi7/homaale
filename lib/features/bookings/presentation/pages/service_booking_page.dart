@@ -152,6 +152,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
       child: CustomElevatedButton(
         mainColor: Colors.white,
         textColor: kColorPrimary,
+        borderColor: kColorPrimary,
         callback: () {
           if (_pageController.page == 1) {
             setState(() {

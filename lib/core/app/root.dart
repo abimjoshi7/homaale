@@ -144,18 +144,22 @@ class _RootState extends State<Root> {
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 50),
                           alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.11,
+                          height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width,
                           color: kColorPrimary,
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.11,
+                        height: 102,
                         width: MediaQuery.of(context).size.width,
                         child: CustomPaint(
                           painter: BottomNavCustomPainter(),
                           child: Padding(
-                            padding: kPadding20,
+                            padding: const EdgeInsets.only(
+                              left: 8.0,
+                              right: 8.0,
+                              top: 20,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -271,54 +275,49 @@ class _RootState extends State<Root> {
             Visibility(
               visible: addActive,
               child: Positioned(
-                bottom: MediaQuery.of(context).size.height * 0.09,
+                bottom: 85,
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.11,
+                  height: 100,
                   width: MediaQuery.of(context).size.width,
                   child: CustomPaint(
                     painter: FloatingOptionsCustomPainter(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 40),
-                          child: AddPopupButton(
-                            label: 'Post a Task',
-                            icon: Icons.comment_bank_rounded,
-                            callback: () {
-                              setState(() {
-                                homeActive = pageIndex == 0;
-                                boxActive = pageIndex == 1;
-                                addActive = false;
-                                bookingsActive = pageIndex == 2;
-                                profileActive = pageIndex == 3;
-                              });
-                              Navigator.pushNamed(
-                                context,
-                                PostTaskPage.routeName,
-                              );
-                            },
-                          ),
+                        AddPopupButton(
+                          label: 'Post a Task',
+                          icon: Icons.comment_bank_rounded,
+                          callback: () {
+                            setState(() {
+                              homeActive = pageIndex == 0;
+                              boxActive = pageIndex == 1;
+                              addActive = false;
+                              bookingsActive = pageIndex == 2;
+                              profileActive = pageIndex == 3;
+                            });
+                            Navigator.pushNamed(
+                              context,
+                              PostTaskPage.routeName,
+                            );
+                          },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: AddPopupButton(
-                            label: 'Add a Service',
-                            icon: Icons.home_repair_service_rounded,
-                            callback: () {
-                              setState(() {
-                                homeActive = pageIndex == 0;
-                                boxActive = pageIndex == 1;
-                                addActive = false;
-                                bookingsActive = pageIndex == 2;
-                                profileActive = pageIndex == 3;
-                              });
-                              Navigator.pushNamed(
-                                context,
-                                AddServicePage.routeName,
-                              );
-                            },
-                          ),
+                        addHorizontalSpace(100),
+                        AddPopupButton(
+                          label: 'Add a Service',
+                          icon: Icons.home_repair_service_rounded,
+                          callback: () {
+                            setState(() {
+                              homeActive = pageIndex == 0;
+                              boxActive = pageIndex == 1;
+                              addActive = false;
+                              bookingsActive = pageIndex == 2;
+                              profileActive = pageIndex == 3;
+                            });
+                            Navigator.pushNamed(
+                              context,
+                              AddServicePage.routeName,
+                            );
+                          },
                         )
                       ],
                     ),
