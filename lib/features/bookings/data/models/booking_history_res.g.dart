@@ -55,7 +55,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       requirements: (json['requirements'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      charge: json['charge'] as int?,
+      charge: (json['charge'] as num?)?.toDouble(),
       location: json['location'] as String?,
       estimatedTime: json['estimated_time'] as int?,
       slug: json['slug'] as String?,
@@ -182,8 +182,8 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
     _$_EntityService(
       id: json['id'] as String?,
       budgetType: json['budget_type'] as String?,
-      budgetFrom: json['budget_from'] as int?,
-      budgetTo: json['budget_to'] as int?,
+      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
+      budgetTo: (json['budget_to'] as num?)?.toDouble(),
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),

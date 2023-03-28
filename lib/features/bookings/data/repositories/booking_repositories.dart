@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
@@ -126,6 +128,8 @@ class BookingRepositories {
 
   Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
     try {
+      final query = bookingHistoryReq.toJson();
+      log('booking api $query');
       final res = await _dio.getDatawithCredential(
         query: bookingHistoryReq.toJson(),
         url: '/task/entity/service/task/list/',
@@ -133,6 +137,7 @@ class BookingRepositories {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
+      log('booking api error : ${e.toString()}');
       rethrow;
     }
   }

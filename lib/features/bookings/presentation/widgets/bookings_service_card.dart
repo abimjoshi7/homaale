@@ -22,6 +22,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final VoidCallback? cancelTap;
   final VoidCallback? deleteTap;
   final double? theHeight;
+  final bool? hidePopupButton;
 
   const BookingsServiceCard({
     Key? key,
@@ -39,6 +40,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
     this.editTap,
     this.cancelTap,
     this.deleteTap,
+    this.hidePopupButton = false,
     this.theHeight,
   }) : super(key: key);
 
@@ -99,72 +101,74 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                             ),
                           ],
                         ),
-                        IconButton(
-                          onPressed: () {
-                            showCustomBottomSheet(
-                              context: context,
-                              widget: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ListTile(
-                                    onTap: editTap,
-                                    leading: Icon(
-                                      Icons.edit_outlined,
-                                    ),
-                                    title: Text("Edit"),
-                                  ),
-                                  Divider(),
-                                  ListTile(
-                                    onTap: cancelTap,
-                                    leading: Icon(
-                                      Icons.cancel_outlined,
-                                    ),
-                                    title: Text("Cancel"),
-                                  ),
-                                  Divider(),
+                        hidePopupButton ?? false
+                            ? SizedBox()
+                            : IconButton(
+                                onPressed: () {
+                                  showCustomBottomSheet(
+                                    context: context,
+                                    widget: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        ListTile(
+                                          onTap: editTap,
+                                          leading: Icon(
+                                            Icons.edit_outlined,
+                                          ),
+                                          title: Text("Edit"),
+                                        ),
+                                        Divider(),
+                                        ListTile(
+                                          onTap: cancelTap,
+                                          leading: Icon(
+                                            Icons.cancel_outlined,
+                                          ),
+                                          title: Text("Cancel"),
+                                        ),
+                                        Divider(),
 
-                                  ListTile(
-                                    onTap: deleteTap,
-                                    leading: Icon(
-                                      Icons.delete_outline_rounded,
+                                        ListTile(
+                                          onTap: deleteTap,
+                                          leading: Icon(
+                                            Icons.delete_outline_rounded,
+                                          ),
+                                          title: Text("Remove"),
+                                        ),
+                                        // TextButton.icon(
+                                        //   style: TextButton.styleFrom(
+                                        //       foregroundColor: kColorBlue),
+                                        //   onPressed: editTap,
+                                        //   icon: ,
+                                        //   label: ,
+                                        // ),
+                                        // Divider(),
+                                        // TextButton.icon(
+                                        //   style: TextButton.styleFrom(
+                                        //       foregroundColor: kColorGrey),
+                                        //   onPressed: cancelTap,
+                                        //   icon: Icon(
+                                        //     Icons.cancel_outlined,
+                                        //   ),
+                                        //   label: Text("Cancel"),
+                                        // ),
+                                        // Divider(),
+                                        // TextButton.icon(
+                                        //   style: TextButton.styleFrom(
+                                        //       foregroundColor: Colors.red),
+                                        //   onPressed: deleteTap,
+                                        //   icon: Icon(
+                                        //     Icons.delete_outline_rounded,
+                                        //   ),
+                                        //   label: Text("Remove"),
+                                        // ),
+                                      ],
                                     ),
-                                    title: Text("Remove"),
-                                  ),
-                                  // TextButton.icon(
-                                  //   style: TextButton.styleFrom(
-                                  //       foregroundColor: kColorBlue),
-                                  //   onPressed: editTap,
-                                  //   icon: ,
-                                  //   label: ,
-                                  // ),
-                                  // Divider(),
-                                  // TextButton.icon(
-                                  //   style: TextButton.styleFrom(
-                                  //       foregroundColor: kColorGrey),
-                                  //   onPressed: cancelTap,
-                                  //   icon: Icon(
-                                  //     Icons.cancel_outlined,
-                                  //   ),
-                                  //   label: Text("Cancel"),
-                                  // ),
-                                  // Divider(),
-                                  // TextButton.icon(
-                                  //   style: TextButton.styleFrom(
-                                  //       foregroundColor: Colors.red),
-                                  //   onPressed: deleteTap,
-                                  //   icon: Icon(
-                                  //     Icons.delete_outline_rounded,
-                                  //   ),
-                                  //   label: Text("Remove"),
-                                  // ),
-                                ],
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.more_vert_rounded,
+                                ),
                               ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.more_vert_rounded,
-                          ),
-                        ),
                         // PopupMenuButton(
                         //   offset: Offset(10, 10),
                         //   constraints: BoxConstraints(
@@ -216,10 +220,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                 const Text("Status :"),
                                 kWidth5,
                                 Chip(
-                                  backgroundColor:
-                                      (getStatus(status ?? '')["color"]
-                                              as Color)
-                                          .withOpacity(
+                                  backgroundColor: (getStatus(status ?? '')["color"] as Color).withOpacity(
                                     0.6,
                                   ),
                                   label: Text(status?.toTitleCase() ?? ''),

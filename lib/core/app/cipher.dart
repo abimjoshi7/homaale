@@ -87,8 +87,7 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) =>
-                TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => KycBloc()
@@ -180,7 +179,7 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<EntityServiceBloc>(),
           ),
           BlocProvider(
-            create: (context) => BookingsBloc(),
+            create: (context) => locator<BookingsBloc>(),
           ),
           BlocProvider(
             create: (context) => ProfessionalServiceCategoryBloc(),

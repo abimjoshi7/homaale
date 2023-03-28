@@ -16,8 +16,6 @@ class TaskSection extends StatefulWidget {
 }
 
 class _TaskSectionState extends State<TaskSection> {
-  int selectedIndex = 0;
-
   @override
   void initState() {
     super.initState();

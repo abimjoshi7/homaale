@@ -221,13 +221,16 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         emit(state.copyWith(states: TheStates.initial));
         try {
           await repositories.bookingHistory(event.bookingHistoryReq).then(
-                (value) => emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    bookingHistoryRes: BookingHistoryRes.fromJson(value),
-                  ),
+            (value) {
+              log('booking history from bloc: $value');
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  bookingHistoryRes: BookingHistoryRes.fromJson(value),
                 ),
               );
+            },
+          );
         } catch (e) {
           log('history error' + e.toString());
           emit(
