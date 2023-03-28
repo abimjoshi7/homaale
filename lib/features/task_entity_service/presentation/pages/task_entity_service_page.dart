@@ -88,8 +88,13 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
               return Column(
                 children: [
                   addVerticalSpace(50),
-                  CustomHeader(
-                    child: Text(state.taskEntityService?.title ?? ''),
+                  InkWell(
+                    onTap: () {
+                      print(state.taskEntityService?.event?.toJson());
+                    },
+                    child: CustomHeader(
+                      child: Text(state.taskEntityService?.title ?? ''),
+                    ),
                   ),
                   Expanded(
                     child: ListView(
@@ -192,23 +197,26 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       ],
                     ),
                   ),
-                  PriceBookFooterSection(
-                    buttonLabel: getStatus('')["status"] as String,
-                    buttonColor: getStatus('')["color"] as Color,
-                    price: "Rs. ${state.taskEntityService?.budgetTo}",
-                    onPressed: () {
-                      print(123);
-                      context.read<EventBloc>().add(
-                            EventLoaded(
-                              id: state.taskEntityService?.event?.id ??
-                                  'Null Case',
-                            ),
-                          );
-                      Navigator.pushNamed(
-                        context,
-                        ServiceBookingPage.routeName,
-                      );
-                    },
+                  Visibility(
+                    visible: state.taskEntityService?.createdBy?.id !=
+                        user.state.taskerProfile?.user?.id,
+                    child: PriceBookFooterSection(
+                      buttonLabel: getStatus('')["status"] as String,
+                      buttonColor: getStatus('')["color"] as Color,
+                      price: "Rs. ${state.taskEntityService?.budgetTo}",
+                      onPressed: () {
+                        context.read<EventBloc>().add(
+                              EventLoaded(
+                                id: state.taskEntityService?.event?.id ??
+                                    'Null Case',
+                              ),
+                            );
+                        Navigator.pushNamed(
+                          context,
+                          ServiceBookingPage.routeName,
+                        );
+                      },
+                    ),
                   ),
                 ],
               );

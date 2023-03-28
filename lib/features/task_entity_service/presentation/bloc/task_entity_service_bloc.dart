@@ -52,7 +52,6 @@ class TaskEntityServiceBloc
             },
           );
         } catch (e) {
-          print(e);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
@@ -80,6 +79,13 @@ class TaskEntityServiceBloc
                       isCreated: true,
                       taskEntityServiceRes:
                           TaskEntityServiceRes.fromJson(value)),
+                ),
+              )
+              .whenComplete(
+                () => emit(
+                  state.copyWith(
+                    isCreated: false,
+                  ),
                 ),
               );
         } catch (e) {

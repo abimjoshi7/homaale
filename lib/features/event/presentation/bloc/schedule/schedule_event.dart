@@ -4,13 +4,13 @@ part of 'schedule_bloc.dart';
 @immutable
 abstract class ScheduleEvent extends Equatable {}
 
-class ScheduleEventPosted extends ScheduleEvent {
+class ScheduleEventCreated extends ScheduleEvent {
   final DateTime? startDate;
   final DateTime? endDate;
   final List<TimeOfDay>? startTimeList;
   final List<TimeOfDay>? endTimeList;
   final String? repeatType;
-  ScheduleEventPosted({
+  ScheduleEventCreated({
     this.startDate,
     this.endDate,
     this.startTimeList,
@@ -24,5 +24,17 @@ class ScheduleEventPosted extends ScheduleEvent {
         startTimeList,
         endTimeList,
         repeatType,
+      ];
+}
+
+class ScheduleEventPosted extends ScheduleEvent {
+  final CreateScheduleReq createScheduleReq;
+  ScheduleEventPosted({
+    required this.createScheduleReq,
+  });
+
+  @override
+  List<Object?> get props => [
+        createScheduleReq,
       ];
 }

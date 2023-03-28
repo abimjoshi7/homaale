@@ -88,10 +88,10 @@ class EventSection extends StatelessWidget with TheModalBottomSheet {
                 children: [
                   IconText(
                     label: "${DateFormat.yMMMEd().format(
-                      taskEntityServiceState.taskEntityService?.startDate ??
+                      taskEntityServiceState.taskEntityService?.event?.start ??
                           DateTime.now(),
                     )} - ${DateFormat.yMMMEd().format(
-                      taskEntityServiceState.taskEntityService?.endDate ??
+                      taskEntityServiceState.taskEntityService?.event?.end ??
                           DateTime.now(),
                     )}",
                     iconData: Icons.calendar_today,

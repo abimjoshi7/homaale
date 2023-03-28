@@ -70,7 +70,7 @@ class ServiceCard extends StatelessWidget {
                         size: 13,
                       ),
                       IconText(
-                        label: location ?? '3.5 (300)',
+                        label: location ?? 'Remote',
                         iconData: Icons.location_on_outlined,
                         color: kColorPink,
                         size: 13,

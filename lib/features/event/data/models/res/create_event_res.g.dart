@@ -16,10 +16,8 @@ _$_CreateEventRes _$$_CreateEventResFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       description: json['description'] as String?,
       isFlexible: json['is_flexible'] as bool?,
-      start: json['start'] == null
-          ? null
-          : DateTime.parse(json['start'] as String),
-      end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
+      start: json['start'] as String?,
+      end: json['end'] as String?,
       guestLimit: json['guest_limit'] as int?,
       isActive: json['is_active'] as bool?,
       merchant: json['merchant'] as String?,
@@ -33,8 +31,8 @@ Map<String, dynamic> _$$_CreateEventResToJson(_$_CreateEventRes instance) =>
       'title': instance.title,
       'description': instance.description,
       'is_flexible': instance.isFlexible,
-      'start': instance.start?.toIso8601String(),
-      'end': instance.end?.toIso8601String(),
+      'start': instance.start,
+      'end': instance.end,
       'guest_limit': instance.guestLimit,
       'is_active': instance.isActive,
       'merchant': instance.merchant,

@@ -57,7 +57,9 @@ class PopularServicesSection extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
-                          location: state.service.result?[index].location,
+                          location: state.service.result?[index].location == ""
+                              ? "Remote"
+                              : state.service.result?[index].location,
                           description:
                               "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
                           title: state.service.result?[index].title,

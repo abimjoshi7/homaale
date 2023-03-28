@@ -24,6 +24,7 @@ class _AddServicePageState extends State<AddServicePage> {
   final descriptionController = TextEditingController();
   final requirementController = TextEditingController();
   final addressController = TextEditingController();
+  final discountController = TextEditingController();
   String? categoryId;
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
@@ -65,6 +66,7 @@ class _AddServicePageState extends State<AddServicePage> {
     descriptionController.dispose();
     requirementController.dispose();
     addressController.dispose();
+    discountController.dispose();
     super.dispose();
   }
 
@@ -293,7 +295,6 @@ class _AddServicePageState extends State<AddServicePage> {
                               validator: validateNotEmpty,
                             ),
                           ),
-
                           CustomFormField(
                             label: 'Budget',
                             child: Column(
@@ -409,21 +410,6 @@ class _AddServicePageState extends State<AddServicePage> {
                                     ),
                                   ],
                                 ),
-                                // addVerticalSpace(10),
-                                // Row(
-                                //   children: [
-                                //     CustomCheckBox(
-                                //       isChecked: isNegotiable,
-                                //       onTap: () => setState(
-                                //         () {
-                                //           isNegotiable = !isNegotiable;
-                                //         },
-                                //       ),
-                                //     ),
-                                //     addHorizontalSpace(10),
-                                //     const Text('Yes, it is negotiable.'),
-                                //   ],
-                                // ),
                                 addVerticalSpace(10),
                                 Row(
                                   children: [
@@ -441,25 +427,30 @@ class _AddServicePageState extends State<AddServicePage> {
                                 ),
                                 Visibility(
                                   visible: isDiscounted,
-                                  child: Row(
+                                  child: Column(
                                     children: [
-                                      Flexible(
-                                        child: NumberIncDecField(
-                                          controller: endPriceController,
-                                        ),
-                                      ),
-                                      addHorizontalSpace(10),
-                                      Flexible(
-                                        child: CustomDropDownField(
-                                          list: const [
-                                            'Project',
-                                            'Hourly',
-                                            'Daily',
-                                            'Monthly',
-                                          ],
-                                          hintText: 'Specify',
-                                          onChanged: (value) {},
-                                        ),
+                                      addVerticalSpace(8),
+                                      Row(
+                                        children: [
+                                          Flexible(
+                                            child: NumberIncDecField(
+                                              controller: discountController,
+                                            ),
+                                          ),
+                                          addHorizontalSpace(10),
+                                          Flexible(
+                                            child: CustomDropDownField(
+                                              list: const [
+                                                'Project',
+                                                'Hourly',
+                                                'Daily',
+                                                'Monthly',
+                                              ],
+                                              hintText: 'Specify',
+                                              onChanged: (value) {},
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -482,181 +473,9 @@ class _AddServicePageState extends State<AddServicePage> {
                                     ),
                                   ],
                                 ),
-                                // Row(
-                                //   children: [
-                                //     Flexible(
-                                //       child: CustomFormField(
-                                //         label: 'Start Date',
-                                //         child: InkWell(
-                                //           onTap: () async {
-                                //             await showDatePicker(
-                                //               context: context,
-                                //               initialDate: DateTime.now(),
-                                //               firstDate: DateTime(2022),
-                                //               lastDate: DateTime(
-                                //                 2050,
-                                //               ),
-                                //             ).then(
-                                //               (value) => setState(
-                                //                 () {
-                                //                   startDate = value;
-                                //                 },
-                                //               ),
-                                //             );
-                                //           },
-                                //           child: CustomFormContainer(
-                                //             leadingWidget: const Icon(
-                                //               Icons.calendar_today_rounded,
-                                //             ),
-                                //             hintText: startDate
-                                //                     ?.toIso8601String()
-                                //                     .substring(
-                                //                       0,
-                                //                       10,
-                                //                     ) ??
-                                //                 'dd/mm/yy',
-                                //           ),
-                                //         ),
-                                //       ),
-                                //     ),
-                                //     addHorizontalSpace(10),
-                                //     Flexible(
-                                //       child: CustomFormField(
-                                //         label: 'End Date',
-                                //         child: InkWell(
-                                //           onTap: () async {
-                                //             await showDatePicker(
-                                //               context: context,
-                                //               initialDate: DateTime.now(),
-                                //               firstDate: DateTime(2022),
-                                //               lastDate: DateTime(
-                                //                 2050,
-                                //               ),
-                                //             ).then(
-                                //               (value) => setState(
-                                //                 () {
-                                //                   endDate = value;
-                                //                 },
-                                //               ),
-                                //             );
-                                //           },
-                                //           child: CustomFormContainer(
-                                //             leadingWidget: const Icon(
-                                //               Icons.calendar_today_rounded,
-                                //             ),
-                                //             hintText: endDate
-                                //                     ?.toIso8601String()
-                                //                     .substring(
-                                //                       0,
-                                //                       10,
-                                //                     ) ??
-                                //                 'dd/mm/yy',
-                                //           ),
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                                // Row(
-                                //   children: [
-                                //     CustomCheckBox(
-                                //       isChecked: isSpecified,
-                                //       onTap: () {
-                                //         setState(
-                                //           () {
-                                //             isSpecified = !isSpecified;
-                                //           },
-                                //         );
-                                //       },
-                                //     ),
-                                //     addHorizontalSpace(5),
-                                //     const Text('Set specific time'),
-                                //   ],
-                                // ),
-                                // Visibility(
-                                //   visible: isSpecified,
-                                //   child: SizedBox(
-                                //     height: MediaQuery.of(context).size.height *
-                                //         0.06,
-                                //     width: double.infinity,
-                                //     child: Column(
-                                //       mainAxisSize: MainAxisSize.min,
-                                //       children: [
-                                //         addVerticalSpace(10),
-                                //         Row(
-                                //           children: [
-                                //             Flexible(
-                                //               child: InkWell(
-                                //                 onTap: () async {
-                                //                   await showTimePicker(
-                                //                     context: context,
-                                //                     initialTime:
-                                //                         TimeOfDay.now(),
-                                //                   ).then(
-                                //                     (value) => setState(
-                                //                       () {
-                                //                         startTime = value;
-                                //                       },
-                                //                     ),
-                                //                   );
-                                //                 },
-                                //                 child: CustomFormContainer(
-                                //                   hintText: startTime
-                                //                           ?.format(context) ??
-                                //                       'hh:mm A.M',
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //             const Text(' - '),
-                                //             Flexible(
-                                //               child: InkWell(
-                                //                 onTap: () async {
-                                //                   await showTimePicker(
-                                //                     context: context,
-                                //                     initialTime:
-                                //                         TimeOfDay.now(),
-                                //                   ).then(
-                                //                     (value) => setState(
-                                //                       () {
-                                //                         endTime = value;
-                                //                       },
-                                //                     ),
-                                //                   );
-                                //                 },
-                                //                 child: CustomFormContainer(
-                                //                   hintText: endTime
-                                //                           ?.format(context) ??
-                                //                       'hh:mm A.M',
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //             IconButton(
-                                //               onPressed: () {
-                                //                 setState(() {
-                                //                   startTime = null;
-                                //                   endTime = null;
-                                //                 });
-                                //               },
-                                //               icon: const Icon(
-                                //                 Icons.delete_outline_rounded,
-                                //                 color: kColorSecondary,
-                                //               ),
-                                //             ),
-                                //           ],
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
-
-                          // CustomFormField(
-                          //   label: 'Number of Revision',
-                          //   isRequired: false,
-                          //   child: CustomTextFormField(),
-                          // ),
                           CustomFormField(
                             label: 'Images',
                             child: Column(
@@ -781,14 +600,6 @@ class _AddServicePageState extends State<AddServicePage> {
                           ),
                           BlocConsumer<TaskEntityServiceBloc,
                               TaskEntityServiceState>(
-                            listenWhen: (previous, current) {
-                              if (previous.isCreated == false &&
-                                  current.isCreated == true) {
-                                return true;
-                              } else {
-                                return false;
-                              }
-                            },
                             listener: (context, state) {
                               if (state.theStates == TheStates.success &&
                                   state.isCreated == true) {
@@ -825,78 +636,85 @@ class _AddServicePageState extends State<AddServicePage> {
                             builder: (context, state) {
                               return CustomElevatedButton(
                                 callback: () async {
-                                  if (_key.currentState!.validate() &&
-                                      endPriceController.text.isNotEmpty) {
-                                    if (cityCode == null &&
-                                        currencyCode == null) {
+                                  if (isTermsAccepted) {
+                                    if (_key.currentState!.validate() &&
+                                        endPriceController.text.isNotEmpty) {
+                                      if (cityCode == null &&
+                                          currencyCode == null) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => CustomToast(
+                                            heading: 'Error',
+                                            content: 'Select city or currency',
+                                            onTap: () {},
+                                            isSuccess: false,
+                                          ),
+                                        );
+                                      }
+                                      final req = TaskEntityServiceReq(
+                                        title: titleController.text,
+                                        description: descriptionController.text,
+                                        highlights: requirementList,
+                                        budgetType: budgetType,
+                                        budgetFrom: double.parse(
+                                          startPriceController.text.isEmpty
+                                              ? '0'
+                                              : startPriceController.text,
+                                        ),
+                                        budgetTo: double.parse(
+                                          endPriceController.text,
+                                        ),
+                                        startDate: null,
+                                        endDate: null,
+                                        startTime: null,
+                                        endTime: null,
+                                        shareLocation: true,
+                                        isNegotiable: isDiscounted,
+                                        location: addressController.text,
+                                        revisions: 0,
+                                        avatar: 2,
+                                        isProfessional: true,
+                                        isOnline: true,
+                                        isRequested: false,
+                                        discountType: "Percentage",
+                                        discountValue: discountController
+                                                .text.isNotEmpty
+                                            ? num.parse(discountController.text)
+                                            : 0,
+                                        extraData: [],
+                                        noOfReservation: 0,
+                                        isActive: true,
+                                        needsApproval: true,
+                                        isEndorsed: true,
+                                        service: categoryId,
+                                        event: "",
+                                        city: cityCode,
+                                        currency: currencyCode ?? "NPR",
+                                        images: imageList ?? [],
+                                        videos: fileList ?? [],
+                                      );
+
+                                      context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceCreated(req: req));
+                                    } else {
                                       showDialog(
                                         context: context,
                                         builder: (context) => CustomToast(
                                           heading: 'Error',
-                                          content: 'Select city or currency',
+                                          content:
+                                              'Please provide necessary details.',
                                           onTap: () {},
                                           isSuccess: false,
                                         ),
                                       );
                                     }
-                                    final req = TaskEntityServiceReq(
-                                      title: titleController.text,
-                                      description: descriptionController.text,
-                                      highlights: requirementList,
-                                      budgetType: budgetType,
-                                      budgetFrom: double.parse(
-                                        startPriceController.text.isEmpty
-                                            ? '0'
-                                            : startPriceController.text,
-                                      ),
-                                      budgetTo: double.parse(
-                                        endPriceController.text,
-                                      ),
-                                      startDate: null,
-                                      endDate: null,
-                                      // startDate:
-                                      //     DateFormat("yyyy-MM-dd").format(
-                                      //   startDate ?? DateTime.now(),
-                                      // ),
-                                      // endDate: DateFormat("yyyy-MM-dd").format(
-                                      //   endDate ?? DateTime.now(),
-                                      // ),
-                                      startTime: null,
-                                      endTime: null,
-                                      // startTime: startTime?.format(context),
-                                      // endTime: endTime?.format(context),
-                                      shareLocation: true,
-                                      isNegotiable: true,
-                                      location: addressController.text,
-                                      revisions: 0,
-                                      avatar: 2,
-                                      isProfessional: true,
-                                      isOnline: true,
-                                      isRequested: false,
-                                      discountType: "Percentage",
-                                      discountValue: 0,
-                                      extraData: [],
-                                      noOfReservation: 0,
-                                      isActive: true,
-                                      needsApproval: true,
-                                      isEndorsed: true,
-                                      service: categoryId,
-                                      event: "",
-                                      city: cityCode,
-                                      currency: currencyCode ?? "NPR",
-                                      images: imageList ?? [],
-                                      videos: fileList ?? [],
-                                    );
-
-                                    context.read<TaskEntityServiceBloc>().add(
-                                        TaskEntityServiceCreated(req: req));
                                   } else {
                                     showDialog(
                                       context: context,
                                       builder: (context) => CustomToast(
-                                        heading: 'Error',
+                                        heading: "Failure",
                                         content:
-                                            'Please provide necessary details.',
+                                            "Please accept the terms and condititons",
                                         onTap: () {},
                                         isSuccess: false,
                                       ),
@@ -920,387 +738,387 @@ class _AddServicePageState extends State<AddServicePage> {
     );
   }
 
-  Widget buildDate() {
-    if (isCustomDate == false) {
-      return Column(
-        children: [
-          CustomFormField(
-            label: 'Date',
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
-              child: InkWell(
-                onTap: () async {
-                  await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2022),
-                    lastDate: DateTime(
-                      2050,
-                    ),
-                  ).then(
-                    (value) => setState(
-                      () {
-                        endDate = value;
-                      },
-                    ),
-                  );
-                },
-                child: CustomFormContainer(
-                  leadingWidget: const Icon(
-                    Icons.calendar_today_rounded,
-                  ),
-                  hintText: endDate?.toIso8601String().substring(
-                            0,
-                            10,
-                          ) ??
-                      'dd/mm/yy',
-                ),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              CustomCheckBox(
-                isChecked: isSpecified,
-                onTap: () {
-                  setState(
-                    () {
-                      isSpecified = !isSpecified;
-                    },
-                  );
-                },
-              ),
-              addHorizontalSpace(5),
-              const Text('Set specific time'),
-            ],
-          ),
-          Visibility(
-            visible: isSpecified,
-            child: SizedBox(
-              height: 130,
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: InkWell(
-                            onTap: () async {
-                              await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    startTime = value;
-                                  },
-                                ),
-                              );
-                            },
-                            child: CustomFormContainer(
-                              hintText:
-                                  startTime?.format(context) ?? 'hh:mm A.M',
-                            ),
-                          ),
-                        ),
-                        const Text(' - '),
-                        Flexible(
-                          child: InkWell(
-                            onTap: () async {
-                              await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    endTime = value;
-                                  },
-                                ),
-                              );
-                            },
-                            child: CustomFormContainer(
-                              hintText: endTime?.format(context) ?? 'hh:mm A.M',
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete_outline_rounded,
-                            color: kColorSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 8.0,
-                        right: MediaQuery.of(context).size.width * 0.6,
-                      ),
-                      child: CustomElevatedButton(
-                        callback: () {},
-                        label: 'Add',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-    return Column(
-      children: [
-        Row(
-          children: [
-            Flexible(
-              child: CustomFormField(
-                label: 'Start Date',
-                child: SizedBox(
-                  child: InkWell(
-                    onTap: () async {
-                      await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(
-                          2050,
-                        ),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            startDate = value;
-                          },
-                        ),
-                      );
-                    },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: startDate != null
-                          ? DateFormat('yy/MM/dd').format(startDate!)
-                          : 'dd/mm/yy',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            addHorizontalSpace(10),
-            Flexible(
-              child: CustomFormField(
-                label: 'End Date',
-                child: SizedBox(
-                  child: InkWell(
-                    onTap: () async {
-                      await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(
-                          2050,
-                        ),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            endDate = value;
-                          },
-                        ),
-                      );
-                    },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: endDate != null
-                          ? DateFormat('yy/MM/dd').format(endDate!)
-                          : 'dd/mm/yy',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            CustomCheckBox(
-              isChecked: isSpecified,
-              onTap: () {
-                setState(() {
-                  isSpecified = !isSpecified;
-                });
-              },
-            ),
-            addHorizontalSpace(5),
-            const Text('Set specific time'),
-          ],
-        ),
-        Visibility(
-          visible: isSpecified,
-          child: SizedBox(
-            height: 50,
-            width: double.infinity,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    if (selectedWeekDay.contains(index) == false) {
-                      setState(
-                        () {
-                          selectedWeekDay.add(index);
-                          switch (index) {
-                            case 0:
-                              widgetList.add(
-                                WeekTimeSpecifier(
-                                  weekName: 'Sunday',
-                                  onTap1: () async {
-                                    await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now(),
-                                    ).then(
-                                      (value) => setState(
-                                        () {
-                                          startTime = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  onTap2: () async {
-                                    await showTimePicker(
-                                      context: context,
-                                      initialTime: TimeOfDay.now(),
-                                    ).then(
-                                      (value) => setState(
-                                        () {
-                                          endTime = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                              break;
-                            case 1:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Monday',
-                                ),
-                              );
-                              break;
-                            case 2:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Tuesday',
-                                ),
-                              );
-                              break;
-                            case 3:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Wednesday',
-                                ),
-                              );
-                              break;
-                            case 4:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Thursday',
-                                ),
-                              );
-                              break;
-                            case 5:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Friday',
-                                ),
-                              );
-                              break;
-                            case 6:
-                              widgetList.add(
-                                const WeekTimeSpecifier(
-                                  weekName: 'Saturday',
-                                ),
-                              );
-                              break;
-                            default:
-                              widgetList.clear();
-                              break;
-                          }
-                        },
-                      );
-                    } else {
-                      setState(
-                        () {
-                          selectedWeekDay.remove(index);
-                          switch (index) {
-                            case 0:
-                              widgetList.removeAt(0);
-                              break;
-                            case 1:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 2:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 3:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 4:
-                              widgetList.remove(widgetList[index]);
-                              break;
-                            case 5:
-                              // widgetList.removeAt(widgetList[5]);
-                              break;
-                            case 6:
-                              widgetList.removeLast();
-                              break;
-                            default:
-                              widgetList.clear();
-                              break;
-                          }
-                        },
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                        5,
-                      ),
-                      child: Container(
-                        width: 40,
-                        color: selectedWeekDay.contains(index)
-                            ? kColorPrimary
-                            : kColorGrey,
-                        child: Center(
-                          child: Text(
-                            weekNames[index],
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => kWidth10,
-              itemCount: weekNames.length,
-            ),
-          ),
-        ),
-        Column(
-          children: isSpecified == true ? widgetList : [],
-        ),
-      ],
-    );
-  }
+  // Widget buildDate() {
+  //   if (isCustomDate == false) {
+  //     return Column(
+  //       children: [
+  //         CustomFormField(
+  //           label: 'Date',
+  //           child: SizedBox(
+  //             width: MediaQuery.of(context).size.width * 0.4,
+  //             child: InkWell(
+  //               onTap: () async {
+  //                 await showDatePicker(
+  //                   context: context,
+  //                   initialDate: DateTime.now(),
+  //                   firstDate: DateTime(2022),
+  //                   lastDate: DateTime(
+  //                     2050,
+  //                   ),
+  //                 ).then(
+  //                   (value) => setState(
+  //                     () {
+  //                       endDate = value;
+  //                     },
+  //                   ),
+  //                 );
+  //               },
+  //               child: CustomFormContainer(
+  //                 leadingWidget: const Icon(
+  //                   Icons.calendar_today_rounded,
+  //                 ),
+  //                 hintText: endDate?.toIso8601String().substring(
+  //                           0,
+  //                           10,
+  //                         ) ??
+  //                     'dd/mm/yy',
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         Row(
+  //           children: [
+  //             CustomCheckBox(
+  //               isChecked: isSpecified,
+  //               onTap: () {
+  //                 setState(
+  //                   () {
+  //                     isSpecified = !isSpecified;
+  //                   },
+  //                 );
+  //               },
+  //             ),
+  //             addHorizontalSpace(5),
+  //             const Text('Set specific time'),
+  //           ],
+  //         ),
+  //         Visibility(
+  //           visible: isSpecified,
+  //           child: SizedBox(
+  //             height: 130,
+  //             width: double.infinity,
+  //             child: Padding(
+  //               padding: const EdgeInsets.all(10),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: [
+  //                   Row(
+  //                     children: [
+  //                       Flexible(
+  //                         child: InkWell(
+  //                           onTap: () async {
+  //                             await showTimePicker(
+  //                               context: context,
+  //                               initialTime: TimeOfDay.now(),
+  //                             ).then(
+  //                               (value) => setState(
+  //                                 () {
+  //                                   startTime = value;
+  //                                 },
+  //                               ),
+  //                             );
+  //                           },
+  //                           child: CustomFormContainer(
+  //                             hintText:
+  //                                 startTime?.format(context) ?? 'hh:mm A.M',
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       const Text(' - '),
+  //                       Flexible(
+  //                         child: InkWell(
+  //                           onTap: () async {
+  //                             await showTimePicker(
+  //                               context: context,
+  //                               initialTime: TimeOfDay.now(),
+  //                             ).then(
+  //                               (value) => setState(
+  //                                 () {
+  //                                   endTime = value;
+  //                                 },
+  //                               ),
+  //                             );
+  //                           },
+  //                           child: CustomFormContainer(
+  //                             hintText: endTime?.format(context) ?? 'hh:mm A.M',
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       IconButton(
+  //                         onPressed: () {},
+  //                         icon: const Icon(
+  //                           Icons.delete_outline_rounded,
+  //                           color: kColorSecondary,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   Padding(
+  //                     padding: EdgeInsets.only(
+  //                       top: 8.0,
+  //                       right: MediaQuery.of(context).size.width * 0.6,
+  //                     ),
+  //                     child: CustomElevatedButton(
+  //                       callback: () {},
+  //                       label: 'Add',
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   }
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         children: [
+  //           Flexible(
+  //             child: CustomFormField(
+  //               label: 'Start Date',
+  //               child: SizedBox(
+  //                 child: InkWell(
+  //                   onTap: () async {
+  //                     await showDatePicker(
+  //                       context: context,
+  //                       initialDate: DateTime.now(),
+  //                       firstDate: DateTime(2020),
+  //                       lastDate: DateTime(
+  //                         2050,
+  //                       ),
+  //                     ).then(
+  //                       (value) => setState(
+  //                         () {
+  //                           startDate = value;
+  //                         },
+  //                       ),
+  //                     );
+  //                   },
+  //                   child: CustomFormContainer(
+  //                     leadingWidget: const Icon(
+  //                       Icons.calendar_today_rounded,
+  //                     ),
+  //                     hintText: startDate != null
+  //                         ? DateFormat('yy/MM/dd').format(startDate!)
+  //                         : 'dd/mm/yy',
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           addHorizontalSpace(10),
+  //           Flexible(
+  //             child: CustomFormField(
+  //               label: 'End Date',
+  //               child: SizedBox(
+  //                 child: InkWell(
+  //                   onTap: () async {
+  //                     await showDatePicker(
+  //                       context: context,
+  //                       initialDate: DateTime.now(),
+  //                       firstDate: DateTime(2020),
+  //                       lastDate: DateTime(
+  //                         2050,
+  //                       ),
+  //                     ).then(
+  //                       (value) => setState(
+  //                         () {
+  //                           endDate = value;
+  //                         },
+  //                       ),
+  //                     );
+  //                   },
+  //                   child: CustomFormContainer(
+  //                     leadingWidget: const Icon(
+  //                       Icons.calendar_today_rounded,
+  //                     ),
+  //                     hintText: endDate != null
+  //                         ? DateFormat('yy/MM/dd').format(endDate!)
+  //                         : 'dd/mm/yy',
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //       Row(
+  //         children: [
+  //           CustomCheckBox(
+  //             isChecked: isSpecified,
+  //             onTap: () {
+  //               setState(() {
+  //                 isSpecified = !isSpecified;
+  //               });
+  //             },
+  //           ),
+  //           addHorizontalSpace(5),
+  //           const Text('Set specific time'),
+  //         ],
+  //       ),
+  //       Visibility(
+  //         visible: isSpecified,
+  //         child: SizedBox(
+  //           height: 50,
+  //           width: double.infinity,
+  //           child: ListView.separated(
+  //             scrollDirection: Axis.horizontal,
+  //             itemBuilder: (context, index) {
+  //               return InkWell(
+  //                 onTap: () {
+  //                   if (selectedWeekDay.contains(index) == false) {
+  //                     setState(
+  //                       () {
+  //                         selectedWeekDay.add(index);
+  //                         switch (index) {
+  //                           case 0:
+  //                             widgetList.add(
+  //                               WeekTimeSpecifier(
+  //                                 weekName: 'Sunday',
+  //                                 onTap1: () async {
+  //                                   await showTimePicker(
+  //                                     context: context,
+  //                                     initialTime: TimeOfDay.now(),
+  //                                   ).then(
+  //                                     (value) => setState(
+  //                                       () {
+  //                                         startTime = value;
+  //                                       },
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                                 onTap2: () async {
+  //                                   await showTimePicker(
+  //                                     context: context,
+  //                                     initialTime: TimeOfDay.now(),
+  //                                   ).then(
+  //                                     (value) => setState(
+  //                                       () {
+  //                                         endTime = value;
+  //                                       },
+  //                                     ),
+  //                                   );
+  //                                 },
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 1:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Monday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 2:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Tuesday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 3:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Wednesday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 4:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Thursday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 5:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Friday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           case 6:
+  //                             widgetList.add(
+  //                               const WeekTimeSpecifier(
+  //                                 weekName: 'Saturday',
+  //                               ),
+  //                             );
+  //                             break;
+  //                           default:
+  //                             widgetList.clear();
+  //                             break;
+  //                         }
+  //                       },
+  //                     );
+  //                   } else {
+  //                     setState(
+  //                       () {
+  //                         selectedWeekDay.remove(index);
+  //                         switch (index) {
+  //                           case 0:
+  //                             widgetList.removeAt(0);
+  //                             break;
+  //                           case 1:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 2:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 3:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 4:
+  //                             widgetList.remove(widgetList[index]);
+  //                             break;
+  //                           case 5:
+  //                             // widgetList.removeAt(widgetList[5]);
+  //                             break;
+  //                           case 6:
+  //                             widgetList.removeLast();
+  //                             break;
+  //                           default:
+  //                             widgetList.clear();
+  //                             break;
+  //                         }
+  //                       },
+  //                     );
+  //                   }
+  //                 },
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.all(8),
+  //                   child: ClipRRect(
+  //                     borderRadius: BorderRadius.circular(
+  //                       5,
+  //                     ),
+  //                     child: Container(
+  //                       width: 40,
+  //                       color: selectedWeekDay.contains(index)
+  //                           ? kColorPrimary
+  //                           : kColorGrey,
+  //                       child: Center(
+  //                         child: Text(
+  //                           weekNames[index],
+  //                           style: const TextStyle(
+  //                             color: Colors.white,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //             separatorBuilder: (context, index) => kWidth10,
+  //             itemCount: weekNames.length,
+  //           ),
+  //         ),
+  //       ),
+  //       Column(
+  //         children: isSpecified == true ? widgetList : [],
+  //       ),
+  //     ],
+  //   );
+  // }
 }

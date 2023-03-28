@@ -28,8 +28,8 @@ mixin _$CreateEventRes {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "is_flexible")
   bool? get isFlexible => throw _privateConstructorUsedError;
-  DateTime? get start => throw _privateConstructorUsedError;
-  DateTime? get end => throw _privateConstructorUsedError;
+  String? get start => throw _privateConstructorUsedError;
+  String? get end => throw _privateConstructorUsedError;
   @JsonKey(name: "guest_limit")
   int? get guestLimit => throw _privateConstructorUsedError;
   @JsonKey(name: "is_active")
@@ -55,8 +55,8 @@ abstract class $CreateEventResCopyWith<$Res> {
       String? title,
       String? description,
       @JsonKey(name: "is_flexible") bool? isFlexible,
-      DateTime? start,
-      DateTime? end,
+      String? start,
+      String? end,
       @JsonKey(name: "guest_limit") int? guestLimit,
       @JsonKey(name: "is_active") bool? isActive,
       String? merchant});
@@ -115,11 +115,11 @@ class _$CreateEventResCopyWithImpl<$Res, $Val extends CreateEventRes>
       start: freezed == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       end: freezed == end
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       guestLimit: freezed == guestLimit
           ? _value.guestLimit
           : guestLimit // ignore: cast_nullable_to_non_nullable
@@ -151,8 +151,8 @@ abstract class _$$_CreateEventResCopyWith<$Res>
       String? title,
       String? description,
       @JsonKey(name: "is_flexible") bool? isFlexible,
-      DateTime? start,
-      DateTime? end,
+      String? start,
+      String? end,
       @JsonKey(name: "guest_limit") int? guestLimit,
       @JsonKey(name: "is_active") bool? isActive,
       String? merchant});
@@ -209,11 +209,11 @@ class __$$_CreateEventResCopyWithImpl<$Res>
       start: freezed == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       end: freezed == end
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       guestLimit: freezed == guestLimit
           ? _value.guestLimit
           : guestLimit // ignore: cast_nullable_to_non_nullable
@@ -264,9 +264,9 @@ class _$_CreateEventRes implements _CreateEventRes {
   @JsonKey(name: "is_flexible")
   final bool? isFlexible;
   @override
-  final DateTime? start;
+  final String? start;
   @override
-  final DateTime? end;
+  final String? end;
   @override
   @JsonKey(name: "guest_limit")
   final int? guestLimit;
@@ -333,8 +333,8 @@ abstract class _CreateEventRes implements CreateEventRes {
       final String? title,
       final String? description,
       @JsonKey(name: "is_flexible") final bool? isFlexible,
-      final DateTime? start,
-      final DateTime? end,
+      final String? start,
+      final String? end,
       @JsonKey(name: "guest_limit") final int? guestLimit,
       @JsonKey(name: "is_active") final bool? isActive,
       final String? merchant}) = _$_CreateEventRes;
@@ -357,9 +357,9 @@ abstract class _CreateEventRes implements CreateEventRes {
   @JsonKey(name: "is_flexible")
   bool? get isFlexible;
   @override
-  DateTime? get start;
+  String? get start;
   @override
-  DateTime? get end;
+  String? get end;
   @override
   @JsonKey(name: "guest_limit")
   int? get guestLimit;
