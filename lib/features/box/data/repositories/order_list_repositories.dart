@@ -19,9 +19,24 @@ class OrderListRepositories {
     }
   }
 
+  Future<Map<String, dynamic>> getAllOrderRetrive(
+    String uuid,
+  ) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'payment/order/$uuid/', //7b8eabe2-82ad-4dc3-ac43-82bbdca64783
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Created Service/Task Fetch Error: $e");
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> postCreateOrderId(
-      String uuid,
-      ) async {
+    String uuid,
+  ) async {
     try {
       final res = await _dio.postDataWithCredential(
         data: {'order': uuid},
