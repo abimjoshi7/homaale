@@ -265,8 +265,12 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          kHeight8,
+                        children: [
+                          // Text(
+                          //   'Rs. ${state.tasker?.hourlyRate!}/hr',
+                          //   style: kPurpleText16,
+                          // ),
+                          // kHeight8,
                           CustomElevatedButton(
                             theWidth: 91,
                             label: 'Hire me',
