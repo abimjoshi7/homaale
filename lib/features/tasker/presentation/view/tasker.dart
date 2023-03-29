@@ -256,11 +256,11 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            'Rs. ${state.tasker?.hourlyRate!}/hr',
-                            style: kPurpleText16,
-                          ),
-                          kHeight8,
+                          // Text(
+                          //   'Rs. ${state.tasker?.hourlyRate!}/hr',
+                          //   style: kPurpleText16,
+                          // ),
+                          // kHeight8,
                           CustomElevatedButton(
                             theWidth: 91,
                             label: 'Hire me',
