@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/widgets.dart';
@@ -26,6 +24,7 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
     _focusNode = FocusNode();
     context.read<SearchBloc>().add(SearchFieldInitialEvent());
+    //TODO: FIX BUG that retrieves list after clearing search prompt via backspace
   }
 
   @override
@@ -133,6 +132,7 @@ class _SearchPageState extends State<SearchPage> {
                                           .read<SearchBloc>()
                                           .add(SearchQueryCleared());
                                     }),
+                                //TODO:voice search implementation
                                 // (_focusNode.hasFocus)
                                 //     ? IconButton(
                                 //         iconSize: 22.0,
@@ -157,13 +157,10 @@ class _SearchPageState extends State<SearchPage> {
                     listener: (context, state) {},
                     builder: (_, state) {
                       if (state.theStates == TheStates.initial) {
-                        
-                          return RecentSearchesList(
-                            recentSearchesList:
-                                state.recentSearchQueriesList as List,
-                          );
-
-
+                        return RecentSearchesList(
+                          recentSearchesList:
+                              state.recentSearchQueriesList as List,
+                        );
                       }
                       if (state.theStates == TheStates.success) {
                         if (state.filteredList!.length < 1) {
@@ -187,14 +184,14 @@ class _SearchPageState extends State<SearchPage> {
                       return CircularProgressIndicator();
                     },
                   ),
-
                   //**Recent Searches List**//
-
                   // addVerticalSpace(
                   //     MediaQuery.of(context).size.height * 0.015),
                   //** Recommendations Category Search Filter List**/
+                  //TODO:recommended category search implementation
                   // RecommendedCategoryList(),
                   //**Saved Search List**//
+                  //TODO:saved search list search implementation
                   // SavedSearchList(),
                 ],
               ),
