@@ -43,18 +43,9 @@ class ListTileComponent extends StatelessWidget {
         ),
         title: Padding(
           padding: const EdgeInsets.only(top: 16.0, left: 8),
-          child: RichText(
-            text: TextSpan(
-              text:
-                  statusTitle.toLowerCase() == 'waiting' || statusTitle.toLowerCase() == 'approved' ? '' : "$userName ",
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  text: "$statusDetails",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
+          child: Text(
+            "$statusDetails",
+            style: const TextStyle(fontSize: 14),
           ),
         ),
         subtitle: Column(

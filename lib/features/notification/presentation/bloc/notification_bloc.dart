@@ -34,7 +34,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (event, emit) async {
         try {
           emit(state.copyWith(theStates: TheStates.initial));
-          await repo.markNotificationAllRead().then((value) {
+          await repo.markNotificationAllRead(event.id).then((value) {
             emit(
               state.copyWith(theStates: TheStates.success),
             );

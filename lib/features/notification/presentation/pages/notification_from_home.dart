@@ -71,7 +71,8 @@ class NotificationFromHome extends StatelessWidget {
                         itemCount: state.allNotificationList!.result!.length,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          String? statusTitle = state.allNotificationList?.result![index].contentObject?.status;
+                          String? statusTitle = state.allNotificationList?.result![index].contentObject?.status ??
+                              state.allNotificationList?.result![index].title;
 
                           return DateTime.now()
                                       .difference(DateTime(
@@ -80,39 +81,46 @@ class NotificationFromHome extends StatelessWidget {
                                           state.allNotificationList?.result?[index].createdDate?.day ?? 0))
                                       .inDays ==
                                   0
-                              ? ListTileComponent(
-                                  readDate: state.allNotificationList?.result![index].readDate,
-                                  bgColor: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.isRequested ??
-                                          false,
-                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                      serviceName: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.title ??
-                                          "")["color"] as Color,
-                                  userName: state.allNotificationList?.result![index].user ?? "",
-                                  statusDetails: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.isRequested ??
-                                          false,
-                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                      serviceName: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.title ??
-                                          "")["message"] as String,
-                                  statusTitle: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.isRequested ??
-                                          false,
-                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                      serviceName: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.title ??
-                                          "")["status"] as String,
-                                  time: state.allNotificationList?.result![index].createdDate,
-                                  userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
-                                      kServiceImageNImg,
+                              ? GestureDetector(
+                                  onTap: () {
+                                    // context
+                                    //     .read<NotificationBloc>()
+                                    //     .add(NotificationAllRead(id: state.allNotificationList?.result![index].id));
+                                  },
+                                  child: ListTileComponent(
+                                    readDate: state.allNotificationList?.result![index].readDate,
+                                    bgColor: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.isRequested ??
+                                            false,
+                                        userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                        serviceName: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.title ??
+                                            "")["color"] as Color,
+                                    userName: state.allNotificationList?.result![index].user ?? "",
+                                    statusDetails: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.isRequested ??
+                                            false,
+                                        userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                        serviceName: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.title ??
+                                            "")["message"] as String,
+                                    statusTitle: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.isRequested ??
+                                            false,
+                                        userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                        serviceName: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.title ??
+                                            "")["status"] as String,
+                                    time: state.allNotificationList?.result![index].createdDate,
+                                    userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
+                                        kServiceImageNImg,
+                                  ),
                                 )
                               : const SizedBox();
                         },
@@ -156,7 +164,8 @@ class NotificationFromHome extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: state.allNotificationList?.result!.length,
                         itemBuilder: (context, index) {
-                          String? statusTitle = state.allNotificationList?.result![index].contentObject?.status;
+                          String? statusTitle = state.allNotificationList?.result![index].contentObject?.status ??
+                              state.allNotificationList?.result![index].title;
                           return DateTime.now()
                                       .difference(DateTime(
                                           state.allNotificationList?.result?[index].createdDate?.year ?? 0,
@@ -164,39 +173,46 @@ class NotificationFromHome extends StatelessWidget {
                                           state.allNotificationList?.result?[index].createdDate?.day ?? 0))
                                       .inDays >
                                   0
-                              ? ListTileComponent(
-                                  readDate: state.allNotificationList?.result![index].readDate,
-                                  bgColor: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.isRequested ??
-                                          false,
-                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                      serviceName: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.title ??
-                                          "")["color"] as Color,
-                                  userName: state.allNotificationList?.result![index].user ?? "",
-                                  statusDetails: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.isRequested ??
-                                          false,
-                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                      serviceName: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.title ??
-                                          "")["message"] as String,
-                                  statusTitle: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.isRequested ??
-                                          false,
-                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                      serviceName: state.allNotificationList?.result![index].contentObject
-                                              ?.entityService?.title ??
-                                          "")["status"] as String,
-                                  time: state.allNotificationList?.result![index].createdDate,
-                                  userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
-                                      kServiceImageNImg,
+                              ? GestureDetector(
+                                  onTap: () {
+                                    // context
+                                    //     .read<NotificationBloc>()
+                                    //     .add(NotificationAllRead(id: state.allNotificationList?.result![index].id));
+                                  },
+                                  child: ListTileComponent(
+                                    readDate: state.allNotificationList?.result![index].readDate,
+                                    bgColor: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.isRequested ??
+                                            false,
+                                        userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                        serviceName: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.title ??
+                                            "")["color"] as Color,
+                                    userName: state.allNotificationList?.result![index].user ?? "",
+                                    statusDetails: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.isRequested ??
+                                            false,
+                                        userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                        serviceName: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.title ??
+                                            "")["message"] as String,
+                                    statusTitle: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.isRequested ??
+                                            false,
+                                        userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                        serviceName: state.allNotificationList?.result![index].contentObject
+                                                ?.entityService?.title ??
+                                            "")["status"] as String,
+                                    time: state.allNotificationList?.result![index].createdDate,
+                                    userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
+                                        kServiceImageNImg,
+                                  ),
                                 )
                               : const SizedBox();
                         },
