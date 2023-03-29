@@ -16,16 +16,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchState()) {
     on<SearchFieldInitialEvent>(
       ((event, emit) async {
-        // List<String>? cachedSearchQueriesList =
-        //     await _searchRepository.getCachedRecentSearchQueries(
-        //   key: _key,
-        // );
-        emit(
-          state.copyWith(
-            theStates: TheStates.initial,
-            // recentSearchQueriesList: cachedSearchQueriesList,
-          ),
-        );
+        //get cached recent search queries
+        var _recentSearchQueriesList = await _searchRepository
+            .getCachedRecentSearchQueries(key: _key) as List?;
+        if (_recentSearchQueriesList == null) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+              recentSearchQueriesList: [],
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+              recentSearchQueriesList: _recentSearchQueriesList,
+            ),
+          );
+        }
       }),
     );
     on<SearchQueryCleared>(
@@ -34,10 +42,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           //get cached recent search queries
           var _recentSearchQueriesList =
               await _searchRepository.getCachedRecentSearchQueries(key: _key);
-          emit(state.copyWith(
-            theStates: TheStates.initial,
-            recentSearchQueriesList: _recentSearchQueriesList,
-          ));
+          if (_recentSearchQueriesList == null) {
+            emit(
+              state.copyWith(
+                theStates: TheStates.initial,
+                recentSearchQueriesList: [],
+              ),
+            );
+          } else {
+            emit(
+              state.copyWith(
+                theStates: TheStates.initial,
+                recentSearchQueriesList: _recentSearchQueriesList as List,
+              ),
+            );
+          }
         } catch (e) {
           log(e.toString());
         }
@@ -54,13 +73,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             final List<SearchResult>? filteredSearchList =
                 _searchRepository.filterSearchResults(_unFilteredSearchList);
 //get cached recent search queries
-            var _searchQueriesList =
-                await _searchRepository.getCachedRecentSearchQueries(key: _key);
+            var _recentSearchQueriesList = await _searchRepository
+                .getCachedRecentSearchQueries(key: _key) as List?;
+            // if (_recentSearchQueriesList == null) {
+            //   _recentSearchQueriesList = [];
+            // }
 //cache recent search queries
             await _searchRepository.cacheRecentSearchQueries(
               key: _key,
               searchQuery: event.searchQuery,
-              searchQueriesList: _searchQueriesList as List,
+              recentSearchQueriesList: _recentSearchQueriesList,
             );
             emit(
               state.copyWith(
@@ -77,5 +99,54 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         }
       },
     );
+    on<RecentSearchQueryCleared>((event, emit) async {
+      try {
+        //cache recent search queries
+        await _searchRepository.cacheNewRecentSearchQueriesList(
+          key: _key,
+          recentSearchQueriesList: List.empty(),
+        );
+        var _recentSearchQueriesList = await _searchRepository
+            .getCachedRecentSearchQueries(key: _key) as List?;
+        emit(state.copyWith(
+          theStates: TheStates.initial,
+          recentSearchQueriesList: _recentSearchQueriesList,
+        ));
+      } catch (e) {
+        log(e.toString());
+        emit(
+          state.copyWith(
+            theStates: TheStates.failure,
+          ),
+        );
+      }
+    });
+    on<RecentSearchQueryIndexCleared>((event, emit) async {
+      try {
+        //get cached recent search queries
+        var _recentSearchQueriesList = await _searchRepository
+            .getCachedRecentSearchQueries(key: _key) as List;
+
+        _recentSearchQueriesList.removeAt(event.index);
+        //cache recent search queries
+        await _searchRepository.cacheNewRecentSearchQueriesList(
+          key: _key,
+          recentSearchQueriesList: _recentSearchQueriesList,
+        );
+        emit(
+          state.copyWith(
+            theStates: TheStates.initial,
+            recentSearchQueriesList: _recentSearchQueriesList,
+          ),
+        );
+      } catch (e) {
+        log(e.toString());
+        emit(
+          state.copyWith(
+            theStates: TheStates.failure,
+          ),
+        );
+      }
+    });
   }
 }

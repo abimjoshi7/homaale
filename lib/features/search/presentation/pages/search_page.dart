@@ -21,7 +21,6 @@ class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
   final _searchFieldController = TextEditingController();
   late FocusNode _focusNode;
-  List x = [];
   @override
   void initState() {
     super.initState();
@@ -158,7 +157,13 @@ class _SearchPageState extends State<SearchPage> {
                     listener: (context, state) {},
                     builder: (_, state) {
                       if (state.theStates == TheStates.initial) {
-                        return RecentSearchesList();
+                        
+                          return RecentSearchesList(
+                            recentSearchesList:
+                                state.recentSearchQueriesList as List,
+                          );
+
+
                       }
                       if (state.theStates == TheStates.success) {
                         if (state.filteredList!.length < 1) {

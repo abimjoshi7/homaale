@@ -69,26 +69,42 @@ class SearchRepository {
 
   Future<void> cacheRecentSearchQueries(
       {required String key,
-      List? searchQueriesList,
+      List? recentSearchQueriesList,
       required String searchQuery}) async {
     try {
-      if (searchQueriesList == null) {
-        searchQueriesList = <String>[];
+      if (recentSearchQueriesList == null) {
+        recentSearchQueriesList = <String>[];
       }
 
-      if (searchQueriesList.length >= 5) {
-        searchQueriesList.removeLast();
+      if (recentSearchQueriesList.length >= 5) {
+        recentSearchQueriesList.removeLast();
       }
-      if (!searchQueriesList.contains(searchQuery)) {
-        searchQueriesList.add(searchQuery);
+
+      if (!recentSearchQueriesList.contains(searchQuery)) {
+        recentSearchQueriesList.add(searchQuery);
       }
+
       await CacheHelper.setCachedString(
         key,
-        jsonEncode(searchQueriesList),
+        jsonEncode(recentSearchQueriesList),
       );
       log('cache stored successfully!');
 
       return null;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> cacheNewRecentSearchQueriesList({
+    required String key,
+    required List recentSearchQueriesList,
+  }) async {
+    try {
+      await CacheHelper.setCachedString(
+        key,
+        jsonEncode(recentSearchQueriesList),
+      );
     } catch (e) {
       log(e.toString());
     }

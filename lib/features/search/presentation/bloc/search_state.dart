@@ -15,7 +15,7 @@ class SearchState extends Equatable {
 
   SearchState copyWith({
     TheStates? theStates,
-    List<String>? recentSearchQueriesList,
+    List? recentSearchQueriesList,
     List<SearchResult>? filteredList,
   }) {
     return SearchState(
