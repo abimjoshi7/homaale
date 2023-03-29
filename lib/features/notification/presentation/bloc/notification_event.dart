@@ -10,7 +10,13 @@ class MyNotificationListInitiated extends NotificationEvent {
   List<Object?> get props => [];
 }
 
-class MyNotificationListLoadInitiated extends NotificationEvent{
+class NotificationAllRead extends NotificationEvent {
+  const NotificationAllRead();
+  @override
+  List<Object?> get props => [];
+}
+
+class MyNotificationListLoadInitiated extends NotificationEvent {
   @override
   List<Object?> get props => [];
 }

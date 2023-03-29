@@ -163,8 +163,7 @@ Map<String, dynamic> getStatus(String status) {
   }
 }
 
-Map<String, dynamic> getNotificationStatus(
-    String status, String? userName, String? serviceName) {
+Map<String, dynamic> getNotificationStatus(String status, String? userName, String? serviceName) {
   switch (status) {
     case "declined":
       return {
@@ -175,27 +174,33 @@ Map<String, dynamic> getNotificationStatus(
       };
     case "completed":
       return {
-        "color": kColorPurple,
+        "color": kColorGreen,
         "status": "Completed",
         "message": "Your service $serviceName has been completed successfully.",
         'assets': 'assets/notification/completed_task.svg'
       };
     case "completed_task":
       return {
-        "color": kColorPurple,
+        "color": kColorGreen,
         "status": "Completed",
         "message": "You $serviceName has been completed successfully.",
         'assets': 'assets/notification/completed_task.svg'
       };
     case "approved":
       return {
-        "color": kColorBlue,
+        "color": Color(0xff1EB2A6),
+        "status": "Approved",
+        "message": "$userName has approved your task Need a $serviceName .",
+      };
+    case "approval":
+      return {
+        "color": Color(0xff1EB2A6),
         "status": "Approved",
         "message": "$userName has approved your task Need a $serviceName .",
       };
     case "booking":
       return {
-        "color": kColorTeal,
+        "color": kColorBlue,
         "status": "Booking",
         "message": "$userName has booked your $serviceName .",
       };
@@ -208,14 +213,14 @@ Map<String, dynamic> getNotificationStatus(
       };
     case "waiting":
       return {
-        "color": kColorGreen,
+        "color": kColorAmber,
         "status": "Waiting",
         "message": "You have successfully applied for task $serviceName .",
         'assets': 'assets/notification/waiting.svg'
       };
     case "rejected":
       return {
-        "color": kColorGreen,
+        "color": Colors.red.shade800,
         "status": "Rejected",
         "message": "$userName has rejected the task completion .",
       };
@@ -230,7 +235,7 @@ Map<String, dynamic> getNotificationStatus(
     default:
       return {
         "color": kColorPrimary,
-        "status": "Create",
+        "status": "$status",
         "message": "",
         "assets": "",
       };
