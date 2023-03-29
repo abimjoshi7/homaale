@@ -1,5 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
+import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +13,25 @@ class TaskerProfileSearchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        context.read<TaskerCubit>().loadSingleTasker(
+              taskerProfile.user!.id ?? "",
+            );
+        context.read<TaskerCubit>().loadSingleTaskerServices(
+              taskerProfile.user!.id ?? "",
+            );
+        context.read<TaskerCubit>().loadSingleTaskerTask(
+              taskerProfile.user!.id ?? "",
+            );
+        context.read<TaskerCubit>().loadSingleTaskerReviews(
+              taskerProfile.user!.id ?? "",
+            );
+
+        Navigator.pushNamed(
+          context,
+          TaskerProfileView.routeName,
+        );
+      },
       contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
       minLeadingWidth: MediaQuery.of(context).size.width,
       leading: Wrap(

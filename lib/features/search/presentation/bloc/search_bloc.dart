@@ -5,6 +5,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/data/search_result.dart';
 import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/widgets.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
@@ -72,13 +73,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           if (_unFilteredSearchList != null) {
             final List<SearchResult>? filteredSearchList =
                 _searchRepository.filterSearchResults(_unFilteredSearchList);
-//get cached recent search queries
+            //get cached recent search queries
             var _recentSearchQueriesList = await _searchRepository
                 .getCachedRecentSearchQueries(key: _key) as List?;
             // if (_recentSearchQueriesList == null) {
             //   _recentSearchQueriesList = [];
             // }
-//cache recent search queries
+            //cache recent search queries
             await _searchRepository.cacheRecentSearchQueries(
               key: _key,
               searchQuery: event.searchQuery,
@@ -147,6 +148,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           ),
         );
       }
+    });
+    on<RecentSearchQueryIndexSelected>((event, emit) {
+      event.searchFieldController.value.copyWith(
+        text: event.cachedSearchQuery,
+      );
+			
+      emit(
+        state.copyWith(
+          theStates: TheStates.success,
+        ),
+      );
     });
   }
 }

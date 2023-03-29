@@ -16,8 +16,8 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _searchFieldController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _searchFieldController = TextEditingController();
   late FocusNode _focusNode;
   @override
   void initState() {
