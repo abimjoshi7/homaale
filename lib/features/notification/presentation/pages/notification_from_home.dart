@@ -29,182 +29,216 @@ class NotificationFromHome extends StatelessWidget {
       body: BlocBuilder<NotificationBloc, NotificationState>(
         builder: (context, state) {
           if (state.theStates == TheStates.success) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Today',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            context.read<NotificationBloc>().add(NotificationAllRead());
-                          },
-                          child: Text(
-                            'Mark all as read',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<NotificationBloc>().add(MyNotificationListInitiated());
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Today',
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              context.read<NotificationBloc>().add(NotificationAllRead());
+                            },
+                            child: Text(
+                              'Mark all as read',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  kHeight10,
-                  if (state.theStates == TheStates.success &&
-                      state.allNotificationList!.result != null &&
-                      state.allNotificationList!.result?.length != 0)
-                    ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      itemCount: state.allNotificationList!.result!.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        String? statusTitle = state.allNotificationList?.result![index].title;
-
-                        return DateTime.now()
-                                    .difference(DateTime(
-                                        state.allNotificationList?.result?[index].createdDate?.year ?? 0,
-                                        state.allNotificationList?.result?[index].createdDate?.month ?? 0,
-                                        state.allNotificationList?.result?[index].createdDate?.day ?? 0))
-                                    .inDays ==
-                                0
-                            ? ListTileComponent(
-                                readDate: state.allNotificationList?.result![index].readDate,
-                                bgColor:
-                                    getNotificationStatus(statusTitle?.toLowerCase() ?? '', '', '')["color"] as Color,
-                                userName: state.allNotificationList?.result![index].user ?? "",
-                                statusDetails:
-                                    getNotificationStatus(statusTitle?.toLowerCase() ?? '', '', '')["message"]
-                                        as String,
-                                statusTitle: getNotificationStatus(
-                                    statusTitle?.toLowerCase() ?? '',
-                                    state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                    state.allNotificationList?.result![index].contentObject?.entityService?.title ??
-                                        "")["status"] as String,
-                                time: state.allNotificationList?.result![index].createdDate,
-                                userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
-                                    kServiceImageNImg,
-                              )
-                            : const SizedBox();
-                      },
-                    ),
-                  if (state.theStates == TheStates.success)
-                    state.allNotificationList?.result?.isEmpty ?? false
-                        ? Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: kPadding20,
-                            color: Colors.white,
-                            child: const Center(
-                              child: Text("No today's notifications to show."),
-                            ),
-                          )
-                        : DateTime.now()
-                                    .difference(DateTime(
-                                        state.allNotificationList?.result?[0].createdDate?.year ?? 0,
-                                        state.allNotificationList?.result?[0].createdDate?.month ?? 0,
-                                        state.allNotificationList?.result?[0].createdDate?.day ?? 0))
-                                    .inDays !=
-                                0
-                            ? Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: kPadding20,
-                                color: Colors.white,
-                                child: const Center(
-                                  child: Text("No today's notifications to show."),
-                                ),
-                              )
-                            : SizedBox(),
-                  kHeight10,
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    child: Text("Earlier"),
-                  ),
-                  if (state.theStates == TheStates.success &&
-                      state.allNotificationList!.result != null &&
-                      state.allNotificationList!.result?.length != 0)
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: state.allNotificationList?.result!.length,
-                      itemBuilder: (context, index) {
-                        String? statusTitle = state.allNotificationList?.result![index].title;
-                        return DateTime.now()
-                                    .difference(DateTime(
-                                        state.allNotificationList?.result?[index].createdDate?.year ?? 0,
-                                        state.allNotificationList?.result?[index].createdDate?.month ?? 0,
-                                        state.allNotificationList?.result?[index].createdDate?.day ?? 0))
-                                    .inDays >
-                                0
-                            ? ListTileComponent(
-                                bgColor:
-                                    getNotificationStatus(statusTitle?.toLowerCase() ?? '', '', '')["color"] as Color,
-                                readDate: state.allNotificationList?.result![index].readDate,
-                                statusTitle: getNotificationStatus(
-                                    statusTitle?.toLowerCase() ?? '',
-                                    state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                    state.allNotificationList?.result![index].contentObject?.entityService?.title ??
-                                        "")["status"] as String,
-                                userName: state.allNotificationList?.result![index].user ?? "",
-                                statusDetails: getNotificationStatus(
-                                    statusTitle ?? '',
-                                    state.allNotificationList?.result![index].createdFor?.fullName ?? "",
-                                    state.allNotificationList?.result![index].contentObject?.entityService?.title ??
-                                        "")["message"] as String,
-                                time: state.allNotificationList?.result![index].createdDate,
-                                // userImage: getNotificationStatus(statusTitle ?? '', "", state.allNotificationList?.result![index].contentObject?.entityService?.title ?? "")["assets"] as String
-
-                                userImage: state.allNotificationList!.result![index].createdFor == null
-                                    ? kServiceImageNImg
-                                    : state.allNotificationList!.result![index].createdFor!.profileImage ?? "",
-                              )
-                            : const SizedBox();
-                      },
-                    ),
-                  if (state.theStates == TheStates.success)
-                    state.allNotificationList?.result?.isEmpty ?? false
-                        ? Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: kPadding20,
-                            color: Colors.white,
-                            child: const Center(
-                              child: Text("No earlier notifications to show."),
-                            ),
-                          )
-                        : DateTime.now()
-                                    .difference(DateTime(
-                                        state.allNotificationList?.result?[0].createdDate?.year ?? 0,
-                                        state.allNotificationList?.result?[0].createdDate?.month ?? 0,
-                                        state.allNotificationList?.result?[0].createdDate?.day ?? 0))
-                                    .inDays >
-                                1
-                            ? Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: kPadding20,
-                                color: Colors.white,
-                                child: const Center(
-                                  child: Text("No earlier notifications to show."),
-                                ),
-                              )
-                            : SizedBox(),
-                  if (state.allNotificationList?.result == null)
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: kPadding20,
-                      color: Colors.white,
-                      child: const Center(
-                        child: Text("No notifications to show."),
+                        ],
                       ),
                     ),
-                  kHeight10,
-                ],
+                    kHeight10,
+                    if (state.theStates == TheStates.success &&
+                        state.allNotificationList!.result != null &&
+                        state.allNotificationList!.result?.length != 0)
+                      ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: state.allNotificationList!.result!.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          String? statusTitle = state.allNotificationList?.result![index].contentObject?.status;
+
+                          return DateTime.now()
+                                      .difference(DateTime(
+                                          state.allNotificationList?.result?[index].createdDate?.year ?? 0,
+                                          state.allNotificationList?.result?[index].createdDate?.month ?? 0,
+                                          state.allNotificationList?.result?[index].createdDate?.day ?? 0))
+                                      .inDays ==
+                                  0
+                              ? ListTileComponent(
+                                  readDate: state.allNotificationList?.result![index].readDate,
+                                  bgColor: getNotificationStatus(
+                                      status: statusTitle?.toLowerCase() ?? '',
+                                      isRequested: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.isRequested ??
+                                          false,
+                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                      serviceName: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.title ??
+                                          "")["color"] as Color,
+                                  userName: state.allNotificationList?.result![index].user ?? "",
+                                  statusDetails: getNotificationStatus(
+                                      status: statusTitle?.toLowerCase() ?? '',
+                                      isRequested: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.isRequested ??
+                                          false,
+                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                      serviceName: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.title ??
+                                          "")["message"] as String,
+                                  statusTitle: getNotificationStatus(
+                                      status: statusTitle?.toLowerCase() ?? '',
+                                      isRequested: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.isRequested ??
+                                          false,
+                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                      serviceName: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.title ??
+                                          "")["status"] as String,
+                                  time: state.allNotificationList?.result![index].createdDate,
+                                  userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
+                                      kServiceImageNImg,
+                                )
+                              : const SizedBox();
+                        },
+                      ),
+                    if (state.theStates == TheStates.success)
+                      state.allNotificationList?.result?.isEmpty ?? false
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: kPadding20,
+                              color: Colors.white,
+                              child: const Center(
+                                child: Text("No today's notifications to show."),
+                              ),
+                            )
+                          : DateTime.now()
+                                      .difference(DateTime(
+                                          state.allNotificationList?.result?[0].createdDate?.year ?? 0,
+                                          state.allNotificationList?.result?[0].createdDate?.month ?? 0,
+                                          state.allNotificationList?.result?[0].createdDate?.day ?? 0))
+                                      .inDays !=
+                                  0
+                              ? Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: kPadding20,
+                                  color: Colors.white,
+                                  child: const Center(
+                                    child: Text("No today's notifications to show."),
+                                  ),
+                                )
+                              : SizedBox(),
+                    kHeight10,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      child: Text("Earlier"),
+                    ),
+                    if (state.theStates == TheStates.success &&
+                        state.allNotificationList!.result != null &&
+                        state.allNotificationList!.result?.length != 0)
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: state.allNotificationList?.result!.length,
+                        itemBuilder: (context, index) {
+                          String? statusTitle = state.allNotificationList?.result![index].contentObject?.status;
+                          return DateTime.now()
+                                      .difference(DateTime(
+                                          state.allNotificationList?.result?[index].createdDate?.year ?? 0,
+                                          state.allNotificationList?.result?[index].createdDate?.month ?? 0,
+                                          state.allNotificationList?.result?[index].createdDate?.day ?? 0))
+                                      .inDays >
+                                  0
+                              ? ListTileComponent(
+                                  readDate: state.allNotificationList?.result![index].readDate,
+                                  bgColor: getNotificationStatus(
+                                      status: statusTitle?.toLowerCase() ?? '',
+                                      isRequested: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.isRequested ??
+                                          false,
+                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                      serviceName: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.title ??
+                                          "")["color"] as Color,
+                                  userName: state.allNotificationList?.result![index].user ?? "",
+                                  statusDetails: getNotificationStatus(
+                                      status: statusTitle?.toLowerCase() ?? '',
+                                      isRequested: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.isRequested ??
+                                          false,
+                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                      serviceName: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.title ??
+                                          "")["message"] as String,
+                                  statusTitle: getNotificationStatus(
+                                      status: statusTitle?.toLowerCase() ?? '',
+                                      isRequested: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.isRequested ??
+                                          false,
+                                      userName: state.allNotificationList?.result![index].createdFor?.fullName ?? "",
+                                      serviceName: state.allNotificationList?.result![index].contentObject
+                                              ?.entityService?.title ??
+                                          "")["status"] as String,
+                                  time: state.allNotificationList?.result![index].createdDate,
+                                  userImage: state.allNotificationList!.result![index].createdFor?.profileImage ??
+                                      kServiceImageNImg,
+                                )
+                              : const SizedBox();
+                        },
+                      ),
+                    if (state.theStates == TheStates.success)
+                      state.allNotificationList?.result?.isEmpty ?? false
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: kPadding20,
+                              color: Colors.white,
+                              child: const Center(
+                                child: Text("No earlier notifications to show."),
+                              ),
+                            )
+                          : DateTime.now()
+                                      .difference(DateTime(
+                                          state.allNotificationList?.result?[0].createdDate?.year ?? 0,
+                                          state.allNotificationList?.result?[0].createdDate?.month ?? 0,
+                                          state.allNotificationList?.result?[0].createdDate?.day ?? 0))
+                                      .inDays >
+                                  1
+                              ? Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: kPadding20,
+                                  color: Colors.white,
+                                  child: const Center(
+                                    child: Text("No earlier notifications to show."),
+                                  ),
+                                )
+                              : SizedBox(),
+                    if (state.allNotificationList?.result == null)
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: kPadding20,
+                        color: Colors.white,
+                        child: const Center(
+                          child: Text("No notifications to show."),
+                        ),
+                      ),
+                    kHeight10,
+                  ],
+                ),
               ),
             );
           }

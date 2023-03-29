@@ -163,7 +163,8 @@ Map<String, dynamic> getStatus(String status) {
   }
 }
 
-Map<String, dynamic> getNotificationStatus(String status, String? userName, String? serviceName) {
+Map<String, dynamic> getNotificationStatus(
+    {required String status, required bool isRequested, String? userName, String? serviceName}) {
   switch (status) {
     case "declined":
       return {
@@ -179,6 +180,13 @@ Map<String, dynamic> getNotificationStatus(String status, String? userName, Stri
         "message": "Your service $serviceName has been completed successfully.",
         'assets': 'assets/notification/completed_task.svg'
       };
+    case "pending":
+      return {
+        "color": kColorAmber,
+        "status": "Waiting",
+        "message": "Your ${isRequested ? 'task' : 'service'} $serviceName has been booked.",
+        'assets': 'assets/notification/completed_task.svg'
+      };
     case "completed_task":
       return {
         "color": kColorGreen,
@@ -190,39 +198,45 @@ Map<String, dynamic> getNotificationStatus(String status, String? userName, Stri
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
-        "message": "$userName has approved your task Need a $serviceName .",
+        "message": "$userName has approved your task Need a $serviceName.",
       };
     case "approval":
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
-        "message": "$userName has approved your task Need a $serviceName .",
+        "message": "$userName has approved your task Need a $serviceName.",
       };
     case "booking":
       return {
         "color": kColorBlue,
         "status": "Booking",
-        "message": "$userName has booked your $serviceName .",
+        "message": "$userName has booked your $serviceName.",
       };
     case "created":
       return {
         "color": Colors.red.shade800,
         "status": "Create",
-        "message": "You have successfully created a service $serviceName .",
+        "message": "You have successfully created a service $serviceName.",
         'assets': 'assets/notification/service_created.svg'
       };
     case "waiting":
       return {
         "color": kColorAmber,
         "status": "Waiting",
-        "message": "You have successfully applied for task $serviceName .",
+        "message": "You have successfully applied for task $serviceName.",
         'assets': 'assets/notification/waiting.svg'
       };
     case "rejected":
       return {
         "color": Colors.red.shade800,
         "status": "Rejected",
-        "message": "$userName has rejected the task completion .",
+        "message": " has rejected the task completion.",
+      };
+    case "cancelled":
+      return {
+        "color": Colors.red.shade800,
+        "status": "Cancelled",
+        "message": " has cancelled the task completion.",
       };
     case "payment_complete":
       return {

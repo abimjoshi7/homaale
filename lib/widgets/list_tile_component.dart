@@ -45,11 +45,12 @@ class ListTileComponent extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0, left: 8),
           child: RichText(
             text: TextSpan(
-              text: userName,
+              text:
+                  statusTitle.toLowerCase() == 'waiting' || statusTitle.toLowerCase() == 'approved' ? '' : "$userName ",
               style: DefaultTextStyle.of(context).style,
               children: <TextSpan>[
                 TextSpan(
-                  text: " $statusDetails",
+                  text: "$statusDetails",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
