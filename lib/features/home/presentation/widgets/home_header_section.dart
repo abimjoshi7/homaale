@@ -154,7 +154,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                               ),
-                              state.allNotificationList?.unreadCount != null
+                              state.allNotificationList?.unreadCount != null &&
+                                      state.allNotificationList?.unreadCount != 0
                                   ? Positioned(
                                       right: 13,
                                       child: Container(

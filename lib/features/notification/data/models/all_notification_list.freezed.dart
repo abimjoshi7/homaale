@@ -334,7 +334,7 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
 mixin _$Result {
   int? get id => throw _privateConstructorUsedError;
   String? get user => throw _privateConstructorUsedError;
-  @JsonKey(name: "create_for")
+  @JsonKey(name: "created_for")
   CreatedFor? get createdFor => throw _privateConstructorUsedError;
   @JsonKey(name: "content_object")
   ContentObject? get contentObject => throw _privateConstructorUsedError;
@@ -359,7 +359,7 @@ abstract class $ResultCopyWith<$Res> {
   $Res call(
       {int? id,
       String? user,
-      @JsonKey(name: "create_for") CreatedFor? createdFor,
+      @JsonKey(name: "created_for") CreatedFor? createdFor,
       @JsonKey(name: "content_object") ContentObject? contentObject,
       String? title,
       @JsonKey(name: "created_date") DateTime? createdDate,
@@ -462,7 +462,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $Res call(
       {int? id,
       String? user,
-      @JsonKey(name: "create_for") CreatedFor? createdFor,
+      @JsonKey(name: "created_for") CreatedFor? createdFor,
       @JsonKey(name: "content_object") ContentObject? contentObject,
       String? title,
       @JsonKey(name: "created_date") DateTime? createdDate,
@@ -537,7 +537,7 @@ class _$_Result implements _Result {
   const _$_Result(
       {this.id,
       this.user,
-      @JsonKey(name: "create_for") this.createdFor,
+      @JsonKey(name: "created_for") this.createdFor,
       @JsonKey(name: "content_object") this.contentObject,
       this.title,
       @JsonKey(name: "created_date") this.createdDate,
@@ -552,7 +552,7 @@ class _$_Result implements _Result {
   @override
   final String? user;
   @override
-  @JsonKey(name: "create_for")
+  @JsonKey(name: "created_for")
   final CreatedFor? createdFor;
   @override
   @JsonKey(name: "content_object")
@@ -617,7 +617,7 @@ abstract class _Result implements Result {
   const factory _Result(
       {final int? id,
       final String? user,
-      @JsonKey(name: "create_for") final CreatedFor? createdFor,
+      @JsonKey(name: "created_for") final CreatedFor? createdFor,
       @JsonKey(name: "content_object") final ContentObject? contentObject,
       final String? title,
       @JsonKey(name: "created_date") final DateTime? createdDate,
@@ -631,7 +631,7 @@ abstract class _Result implements Result {
   @override
   String? get user;
   @override
-  @JsonKey(name: "create_for")
+  @JsonKey(name: "created_for")
   CreatedFor? get createdFor;
   @override
   @JsonKey(name: "content_object")

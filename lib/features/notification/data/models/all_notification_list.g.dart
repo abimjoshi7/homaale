@@ -37,9 +37,9 @@ Map<String, dynamic> _$$_AllNotificationListToJson(
 _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       id: json['id'] as int?,
       user: json['user'] as String?,
-      createdFor: json['create_for'] == null
+      createdFor: json['created_for'] == null
           ? null
-          : CreatedFor.fromJson(json['create_for'] as Map<String, dynamic>),
+          : CreatedFor.fromJson(json['created_for'] as Map<String, dynamic>),
       contentObject: json['content_object'] == null
           ? null
           : ContentObject.fromJson(
@@ -57,7 +57,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
 Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'id': instance.id,
       'user': instance.user,
-      'create_for': instance.createdFor,
+      'created_for': instance.createdFor,
       'content_object': instance.contentObject,
       'title': instance.title,
       'created_date': instance.createdDate?.toIso8601String(),

@@ -26,7 +26,7 @@ class Result with _$Result {
   const factory Result({
     int? id,
     String? user,
-    @JsonKey(name: "create_for")  CreatedFor? createdFor,
+    @JsonKey(name: "created_for")  CreatedFor? createdFor,
     @JsonKey(name: "content_object")  ContentObject? contentObject,
     String? title,
     @JsonKey(name:"created_date") DateTime? createdDate,
