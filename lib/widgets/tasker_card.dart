@@ -122,10 +122,10 @@ class TaskerCard extends StatelessWidget {
                           size: 15,
                           color: kColorAmber,
                         ),
-                        Text(
-                          rate ?? 'Rs 2,000/hr',
-                          style: kPurpleText16,
-                        )
+                        // Text(
+                        //   rate ?? 'Rs 2,000/hr',
+                        //   style: kPurpleText16,
+                        // )
                       ],
                     ),
                     Row(

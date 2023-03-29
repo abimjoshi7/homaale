@@ -65,14 +65,11 @@ class PopularTaskerSection extends StatelessWidget {
                       },
                       child: TaskerCard(
                         networkImageUrl: data?[index].profileImage,
-                        label:
-                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        label: "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
                         designation: data?[index].designation,
-                        happyClients:
-                            data?[index].stats?.happyClients.toString(),
+                        happyClients: data?[index].stats?.happyClients.toString(),
                         ratings:
                             "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
-                        rate: "Rs. ${data?[index].hourlyRate}",
                         callback: () {},
                       ),
                     ),
