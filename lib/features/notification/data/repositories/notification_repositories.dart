@@ -6,9 +6,10 @@ import 'package:cipher/core/dio/dio_helper.dart';
 class NotificationRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> getAllNotification() async {
+  Future<Map<String, dynamic>> getAllNotification(int? page) async {
     try {
       final res = await _dio.getDatawithCredential(
+        query: {'page': page},
         url: 'notification/',
         token: CacheHelper.accessToken,
       );

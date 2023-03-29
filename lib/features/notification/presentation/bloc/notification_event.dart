@@ -5,9 +5,10 @@ abstract class NotificationEvent extends Equatable {
 }
 
 class MyNotificationListInitiated extends NotificationEvent {
-  const MyNotificationListInitiated();
+  final int? page;
+  const MyNotificationListInitiated({this.page});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [page];
 }
 
 class NotificationAllRead extends NotificationEvent {

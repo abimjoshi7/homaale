@@ -230,7 +230,7 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": Colors.red.shade800,
         "status": "Rejected",
-        "message": " has rejected the ${isRequested ? 'task' : 'service'} completion.",
+        "message": "The ${isRequested ? 'task' : 'service'} $serviceName has been rejected.",
       };
     case "cancelled":
       return {
