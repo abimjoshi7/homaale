@@ -5,10 +5,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
-import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
-import 'package:flutter/widgets.dart';
 
 class BookingRepositories {
   final _dio = DioHelper();
@@ -75,25 +73,28 @@ class BookingRepositories {
     }
   }
 
-  Future<void> deleteBooking(int id) async {
+  Future<Map<String, dynamic>> deleteBooking(int id) async {
     try {
-      await _dio.deleteDataWithCredential(
+      final res = await _dio.deleteDataWithCredential(
         id: id,
         url: kBooking,
         token: CacheHelper.accessToken,
       );
+      return res as Map<String, dynamic>;
     } catch (e) {
+      log('delete error: ' + e.toString());
       rethrow;
     }
   }
 
-  Future<void> cancelBooking(int id) async {
+  Future<Map<String, dynamic>> cancelBooking(int id) async {
     try {
-      await _dio.postDataWithCredential(
+      final res = await _dio.postDataWithCredential(
         data: {},
-        url: '$kCreateBookingsCancel$id',
+        url: '$kCreateBookingsCancel$id/',
         token: CacheHelper.accessToken,
       );
+      return res as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }

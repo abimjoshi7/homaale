@@ -69,12 +69,29 @@ class BookingApproved extends BookingsEvent {
 
 class BookingDeleted extends BookingsEvent {
   final int id;
+  final bool isTask;
   const BookingDeleted({
     required this.id,
+    required this.isTask,
   });
   @override
   List<Object?> get props => [
         id,
+        isTask,
+      ];
+}
+
+class BookingRejected extends BookingsEvent {
+  final RejectReq rejectReq;
+  final bool isTask;
+  const BookingRejected({
+    required this.rejectReq,
+    required this.isTask,
+  });
+  @override
+  List<Object?> get props => [
+        rejectReq,
+        isTask,
       ];
 }
 
@@ -91,11 +108,14 @@ class BookingHistory extends BookingsEvent {
 
 class BookingCancelled extends BookingsEvent {
   final int id;
+  final bool isTask;
   const BookingCancelled({
     required this.id,
+    required this.isTask,
   });
   @override
   List<Object?> get props => [
         id,
+        isTask,
       ];
 }

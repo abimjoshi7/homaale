@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
+import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
@@ -46,9 +47,10 @@ class _ServicesSectionState extends State<ServicesSection> {
     return BlocListener<BookingsBloc, BookingsState>(
       bloc: bookingsBloc,
       listener: (context, state) {
-        if (state.isUpdated ?? false) {
+        if ((state.isUpdated ?? false) || (state.isCancelled ?? false) || (state.isRejected ?? false)) {
           _pagingController.refresh();
         }
+
         if (state.states == TheStates.success) {
           serviceList = state.myBookingListModelService!.result!;
 
@@ -89,39 +91,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                                     BookedServicePage.routeName,
                                   );
                                 },
-                                editTap: () async {
-                                  if (item.status?.toLowerCase() == 'pending') {
-                                    Navigator.pop(context);
-                                    showEditForm(context, index);
-                                  } else {
-                                    Navigator.pop(context);
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => CustomToast(
-                                          heading: 'Warning',
-                                          content:
-                                              'The service is already ${item.status?.toLowerCase()}. Cannot be edited!',
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                          },
-                                          isSuccess: true),
-                                    );
-                                  }
-                                },
-                                cancelTap: () {
-                                  context.read<BookingsBloc>().add(
-                                        BookingCancelled(
-                                          id: item.id ?? 0,
-                                        ),
-                                      );
-                                },
-                                deleteTap: () {
-                                  context.read<BookingsBloc>().add(
-                                        BookingDeleted(
-                                          id: item.id ?? 0,
-                                        ),
-                                      );
-                                },
+                                hidePopupButton: true,
                                 serviceName: item.entityService?.title,
                                 providerName:
                                     "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
@@ -162,18 +132,46 @@ class _ServicesSectionState extends State<ServicesSection> {
                               }
                             },
                             cancelTap: () {
-                              context.read<BookingsBloc>().add(
-                                    BookingCancelled(
-                                      id: item.id ?? 0,
-                                    ),
-                                  );
+                              if (item.status?.toLowerCase() == 'pending') {
+                                bookingsBloc.add(
+                                  BookingCancelled(id: item.id ?? 0, isTask: false),
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                Navigator.pop(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                      heading: 'Warning',
+                                      content:
+                                          'The service is already ${item.status?.toLowerCase()}. Cannot be cancelled!',
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      isSuccess: true),
+                                );
+                              }
                             },
                             deleteTap: () {
-                              context.read<BookingsBloc>().add(
-                                    BookingDeleted(
-                                      id: item.id ?? 0,
-                                    ),
-                                  );
+                              if (item.status?.toLowerCase() == 'pending') {
+                                bookingsBloc.add(
+                                  BookingRejected(rejectReq: RejectReq(booking: item.id ?? 0), isTask: false),
+                                );
+                                Navigator.pop(context);
+                              } else {
+                                Navigator.pop(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomToast(
+                                      heading: 'Warning',
+                                      content:
+                                          'The service is already ${item.status?.toLowerCase()}. Cannot be removed!',
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      isSuccess: true),
+                                );
+                              }
                             },
                             serviceName: item.entityService?.title,
                             providerName:

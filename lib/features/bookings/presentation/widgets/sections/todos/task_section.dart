@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
+import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
@@ -45,9 +46,10 @@ class _TaskSectionState extends State<TaskSection> {
     return BlocListener<BookingsBloc, BookingsState>(
       bloc: bookingsBloc,
       listener: (context, state) {
-        if (state.isUpdated ?? false) {
+        if ((state.isUpdated ?? false) || (state.isCancelled ?? false) || (state.isRejected ?? false)) {
           _pagingController.refresh();
         }
+
         if (state.states == TheStates.success) {
           todoList = state.myBookingListModelTask!.result!;
 
@@ -103,19 +105,44 @@ class _TaskSectionState extends State<TaskSection> {
                         }
                       },
                       deleteTap: () {
-                        context.read<BookingsBloc>().add(
-                              BookingDeleted(
-                                id: item.id ?? 0,
-                              ),
-                            );
-                        Navigator.pop(context);
+                        if (item.status?.toLowerCase() == 'pending') {
+                          bookingsBloc.add(
+                            BookingRejected(rejectReq: RejectReq(booking: item.id ?? 0), isTask: true),
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomToast(
+                                heading: 'Warning',
+                                content: 'The task is already ${item.status?.toLowerCase()}. Cannot be removed!',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                isSuccess: true),
+                          );
+                        }
                       },
                       cancelTap: () {
-                        context.read<BookingsBloc>().add(
-                              BookingCancelled(
-                                id: item.id ?? 0,
-                              ),
-                            );
+                        if (item.status?.toLowerCase() == 'pending') {
+                          bookingsBloc.add(
+                            BookingCancelled(id: item.id ?? 0, isTask: true),
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomToast(
+                                heading: 'Warning',
+                                content: 'The task is already ${item.status?.toLowerCase()}. Cannot be cancelled!',
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                isSuccess: true),
+                          );
+                        }
                       },
                       serviceName: item.entityService?.title,
                       providerName: "${item.createdBy?.user?.firstName} ${item.createdBy?.user?.lastName}",
