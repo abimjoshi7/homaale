@@ -15,14 +15,40 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (event, emit) async {
         try {
           emit(state.copyWith(theStates: TheStates.initial));
-          await repo.getAllNotification().then((value) {
-            emit(state.copyWith(
+          await repo.getAllNotification(event.page ?? 1).then((value) {
+            emit(
+              state.copyWith(
                 theStates: TheStates.success,
-                allNotificationList: AllNotificationList.fromJson(value),),);
+                allNotificationList: AllNotificationList.fromJson(value),
+                markAllRead: false,
+              ),
+            );
           });
         } catch (e) {
           log("notification parse error$e");
           emit(state.copyWith(theStates: TheStates.failure));
+        }
+      },
+    );
+
+    on<NotificationAllRead>(
+      (event, emit) async {
+        try {
+          emit(state.copyWith(theStates: TheStates.initial));
+          await repo.markNotificationAllRead(event.id).then((value) {
+            emit(
+              state.copyWith(
+                theStates: TheStates.success,
+                markAllRead: true,
+              ),
+            );
+          }).whenComplete(() => add(MyNotificationListInitiated()));
+        } catch (e) {
+          log("notification parse error$e");
+          emit(state.copyWith(
+            theStates: TheStates.failure,
+            markAllRead: false,
+          ));
         }
       },
     );

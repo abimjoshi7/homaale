@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
@@ -67,8 +66,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       ).then(
                         (value) => setState(
                           () {
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
@@ -119,8 +117,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            state.taskerProfile?.profileImage ??
-                                kServiceImageNImg,
+                            state.taskerProfile?.profileImage ?? kServiceImageNImg,
                           ),
                         ),
                       ),
@@ -136,33 +133,48 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        return TextButton.icon(
-                          onPressed: () {
-                            context
-                                .read<NotificationBloc>()
-                                .add(const MyNotificationListInitiated());
-                            Navigator.pushNamed(
-                              context,
-                              NotificationFromHome.routeName,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.notifications_none,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          label: Padding(
-                            padding: const EdgeInsets.only(bottom: 18.0),
-                            child: Text(
-                              state.allNotificationList?.unreadCount
-                                      .toString() ??
-                                  "",
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                        return SizedBox(
+                          width: 50,
+                          height: 40,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 5,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      NotificationFromHome.routeName,
+                                    );
+                                  },
+                                  child: const Icon(
+                                    Icons.notifications_none,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ),
                               ),
-                            ),
+                              state.allNotificationList?.unreadCount != null &&
+                                      state.allNotificationList?.unreadCount != 0
+                                  ? Positioned(
+                                      right: 13,
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                        child: Center(
+                                          child: Text(
+                                            state.allNotificationList?.unreadCount.toString() ?? "0",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox()
+                            ],
                           ),
                         );
                       },

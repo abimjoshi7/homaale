@@ -7,6 +7,7 @@ import 'package:cipher/features/box/presentation/pages/box.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
+import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -49,26 +50,19 @@ class _RootState extends State<Root> {
             .read<HeroCategoryCubit>()
             .getHeroCategory()
             .then(
-              (value) async =>
-                  context.read<TaskerPortfolioCubit>().getPortfolio(),
+              (value) async => context.read<TaskerPortfolioCubit>().getPortfolio(),
             )
             .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context
-                  .read<TaskerCertificationCubit>()
-                  .getTaskerCertification(),
+              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
             )
             .then(
               (value) async => context.read<UserBloc>().add(
@@ -81,12 +75,13 @@ class _RootState extends State<Root> {
                   ),
             )
             .then(
-              (value) async => context
-                  .read<EntityServiceBloc>()
-                  .add(const EntityServiceInitiated()),
+              (value) async => context.read<EntityServiceBloc>().add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
+            )
+            .then(
+              (value) async => context.read<NotificationBloc>().add(MyNotificationListInitiated()),
             );
       },
     );

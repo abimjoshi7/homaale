@@ -1,4 +1,5 @@
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -20,4 +21,5 @@ void init() {
   locator.registerFactory(() => BookingsBloc());
   locator.registerFactory(() => PaymentBloc());
   locator.registerFactory(() => PaymentTypeBloc());
+  locator.registerFactory(() => NotificationBloc());
 }

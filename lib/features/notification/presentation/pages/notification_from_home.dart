@@ -1,17 +1,43 @@
-import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/notification/data/models/all_notification_list.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
-import 'package:cipher/features/notification/presentation/cubit/all_notification_list_cubit.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/list_tile_component.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class NotificationFromHome extends StatelessWidget {
+class NotificationFromHome extends StatefulWidget {
   static const routeName = '/notification-home';
 
   const NotificationFromHome({super.key});
+
+  @override
+  State<NotificationFromHome> createState() => _NotificationFromHomeState();
+}
+
+class _NotificationFromHomeState extends State<NotificationFromHome> {
+  late final notificationBloc = locator<NotificationBloc>();
+  List<Result> todoList = [];
+
+  //initialize page controller
+  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
+
+  @override
+  void initState() {
+    super.initState();
+
+    //so at event add list of records
+    _pagingController.addPageRequestListener(
+      (pageKey) => notificationBloc.add(MyNotificationListInitiated(page: pageKey)),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    notificationBloc.close();
+    _pagingController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,187 +54,220 @@ class NotificationFromHome extends StatelessWidget {
           "Notifications",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              size: 35,
-              color: kColorSilver,
-            ),
-          ),
-        ],
+        actions: [],
       ),
-      body: BlocBuilder<NotificationBloc, NotificationState>(
-        builder: (context, state) {
-          DateTime today =
-              DateTime.now().subtract(const Duration(days: 1, hours: 24));
-          // var now = DateTime.now();
-          // var twoWeeksAgo = now.subtract(const Duration(hours: 12));
-          // var today = state.allNotificationList?.result!.where((map) {
-          //   var date = DateTime.tryParse(state.allNotificationList!.result![2].createdDate!.toString() );
-          //   return date != null &&
-          //       date.compareTo(twoWeeksAgo) >= 0 &&
-          //       date.compareTo(now) <= 0;
-          // }).toList();
-          return SingleChildScrollView(
-            child: Column(
+      body: BlocListener<NotificationBloc, NotificationState>(
+        bloc: notificationBloc,
+        listener: (context, state) {
+          if (state.markAllRead ?? false) {
+            _pagingController.refresh();
+          }
+          if (state.theStates == TheStates.success) {
+            todoList = state.allNotificationList!.result!;
+
+            final lastPage = state.allNotificationList!.totalPages!;
+            final next = 1 + state.allNotificationList!.current!;
+
+            if (next > lastPage) {
+              _pagingController.appendLastPage(todoList);
+            } else {
+              _pagingController.appendPage(todoList, next);
+            }
+          }
+          if (state.theStates == TheStates.failure) {
+            _pagingController.error = 'Error';
+          }
+        },
+        child: BlocBuilder<NotificationBloc, NotificationState>(
+          builder: (context, state) {
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         'Today',
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
-                      Text(
-                        'Mark as all read',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
+                      GestureDetector(
+                        onTap: () {
+                          notificationBloc.add(NotificationAllRead());
+                        },
+                        child: Text(
+                          'Mark all as read',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
                 kHeight10,
-                if (state.theStates == TheStates.initial)
-                  const SizedBox(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
                 if (state.theStates == TheStates.success &&
-                    state.allNotificationList!.result != null)
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.allNotificationList!.result!.length,
-                    itemBuilder: (context, index) {
-                      String? statusTitle =
-                          state.allNotificationList?.result![index].title;
+                    state.allNotificationList!.result != null &&
+                    state.allNotificationList!.result?.length != 0)
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: PagedListView(
+                      pagingController: _pagingController,
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, Result item, index) {
+                          String? statusTitle = item.contentObject?.status ?? item.title;
 
-                      return state.allNotificationList?.result![index]
-                                  .createdDate ==
-                              today
-                          ? ListTileComponent(
-                              bgColor: getNotificationStatus(
-                                  statusTitle ?? '', '', '')["color"] as Color,
-                              userName: state.allNotificationList
-                                      ?.result![index].user ??
-                                  "",
-                              statusDetails: state
-                                      .allNotificationList
-                                      ?.result![index]
-                                      .contentObject!
-                                      .entityService!
-                                      .title
-                                      .toString() ??
-                                  "",
-                              statusTitle: getNotificationStatus(
-                                  statusTitle ?? '',
-                                  state.allNotificationList?.result![index]
-                                          .createdFor?.fullName ??
-                                      "",
-                                  state
-                                          .allNotificationList
-                                          ?.result![index]
-                                          .contentObject
-                                          ?.entityService
-                                          ?.title ??
-                                      "")["status"] as String,
-                              time: state.allNotificationList?.result![index]
-                                  .createdDate,
-                              userImage: state
-                                      .allNotificationList!
-                                      .result![index]
-                                      .createdFor!
-                                      .profileImage ??
-                                  kServiceImageNImg,
-                            )
-                          : const SizedBox();
-                    },
-                  ),
-                if (state.theStates == TheStates.success &&
-                    state.allNotificationList?.result![0].createdDate != today)
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: kPadding20,
-                    color: Colors.white,
-                    child: const Center(
-                      child: Text("No today's notifications to show."),
+                          return DateTime.now()
+                                      .difference(DateTime(item.createdDate?.year ?? 0, item.createdDate?.month ?? 0,
+                                          item.createdDate?.day ?? 0))
+                                      .inDays ==
+                                  0
+                              ? GestureDetector(
+                                  onTap: () {
+                                    // context
+                                    //     .read<NotificationBloc>()
+                                    //     .add(NotificationAllRead(id: item.id));
+                                  },
+                                  child: ListTileComponent(
+                                    readDate: item.readDate,
+                                    bgColor: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: item.contentObject?.entityService?.isRequested ?? false,
+                                        userName: item.createdFor?.fullName ?? "",
+                                        serviceName: item.contentObject?.entityService?.title ?? "")["color"] as Color,
+                                    userName: item.user ?? "",
+                                    statusDetails: getNotificationStatus(
+                                            status: statusTitle?.toLowerCase() ?? '',
+                                            isRequested: item.contentObject?.entityService?.isRequested ?? false,
+                                            userName: item.createdFor?.fullName ?? "",
+                                            serviceName: item.contentObject?.entityService?.title ?? "")["message"]
+                                        as String,
+                                    statusTitle: getNotificationStatus(
+                                            status: statusTitle?.toLowerCase() ?? '',
+                                            isRequested: item.contentObject?.entityService?.isRequested ?? false,
+                                            userName: item.createdFor?.fullName ?? "",
+                                            serviceName: item.contentObject?.entityService?.title ?? "")["status"]
+                                        as String,
+                                    time: item.createdDate,
+                                    userImage: item.createdFor?.profileImage ?? kServiceImageNImg,
+                                  ),
+                                )
+                              : const SizedBox();
+                        },
+                      ),
                     ),
                   ),
+                if (state.theStates == TheStates.success)
+                  state.allNotificationList?.result?.isEmpty ?? false
+                      ? Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: kPadding20,
+                          color: Colors.white,
+                          child: const Center(
+                            child: Text("No today's notifications to show."),
+                          ),
+                        )
+                      : DateTime.now()
+                                  .difference(DateTime(
+                                      state.allNotificationList?.result?[0].createdDate?.year ?? 0,
+                                      state.allNotificationList?.result?[0].createdDate?.month ?? 0,
+                                      state.allNotificationList?.result?[0].createdDate?.day ?? 0))
+                                  .inDays !=
+                              0
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: kPadding20,
+                              color: Colors.white,
+                              child: const Center(
+                                child: Text("No today's notifications to show."),
+                              ),
+                            )
+                          : SizedBox(),
                 kHeight10,
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Text("Earlier"),
                 ),
-                if (state.theStates == TheStates.initial)
-                  const SizedBox(
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                if (state.theStates == TheStates.success &&
+                    state.allNotificationList!.result != null &&
+                    state.allNotificationList!.result?.length != 0)
+                  Expanded(
+                    child: PagedListView(
+                      pagingController: _pagingController,
+                      shrinkWrap: true,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, Result item, index) {
+                          String? statusTitle = item.contentObject?.status ?? item.title;
+                          return DateTime.now()
+                                      .difference(DateTime(item.createdDate?.year ?? 0, item.createdDate?.month ?? 0,
+                                          item.createdDate?.day ?? 0))
+                                      .inDays >
+                                  0
+                              ? GestureDetector(
+                                  onTap: () {
+                                    // context
+                                    //     .read<NotificationBloc>()
+                                    //     .add(NotificationAllRead(id: state.allNotificationList?.result![index].id));
+                                  },
+                                  child: ListTileComponent(
+                                    readDate: item.readDate,
+                                    bgColor: getNotificationStatus(
+                                        status: statusTitle?.toLowerCase() ?? '',
+                                        isRequested: item.contentObject?.entityService?.isRequested ?? false,
+                                        userName: item.createdFor?.fullName ?? "",
+                                        serviceName: item.contentObject?.entityService?.title ?? "")["color"] as Color,
+                                    userName: item.user ?? "",
+                                    statusDetails: getNotificationStatus(
+                                            status: statusTitle?.toLowerCase() ?? '',
+                                            isRequested: item.contentObject?.entityService?.isRequested ?? false,
+                                            userName: item.createdFor?.fullName ?? "",
+                                            serviceName: item.contentObject?.entityService?.title ?? "")["message"]
+                                        as String,
+                                    statusTitle: getNotificationStatus(
+                                            status: statusTitle?.toLowerCase() ?? '',
+                                            isRequested: item.contentObject?.entityService?.isRequested ?? false,
+                                            userName: item.createdFor?.fullName ?? "",
+                                            serviceName: item.contentObject?.entityService?.title ?? "")["status"]
+                                        as String,
+                                    time: item.createdDate,
+                                    userImage: item.createdFor?.profileImage ?? kServiceImageNImg,
+                                  ),
+                                )
+                              : const SizedBox();
+                        },
+                      ),
                     ),
                   ),
-                if (state.theStates == TheStates.success &&
-                    state.allNotificationList!.result != null)
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.allNotificationList?.result!.length,
-                    itemBuilder: (context, index) {
-                      String? statusTitle =
-                          state.allNotificationList?.result![index].title;
-                      return state.allNotificationList?.result![index]
-                                  .createdDate !=
-                              today
-                          ? ListTileComponent(
-                              bgColor: getNotificationStatus(
-                                  statusTitle ?? '', '', '')["color"] as Color,
-                              statusTitle: getNotificationStatus(
-                                  statusTitle ?? '',
-                                  state.allNotificationList?.result![index]
-                                          .createdFor?.fullName ??
-                                      "",
-                                  state
-                                          .allNotificationList
-                                          ?.result![index]
-                                          .contentObject
-                                          ?.entityService
-                                          ?.title ??
-                                      "")["status"] as String,
-                              userName: state.allNotificationList
-                                      ?.result![index].user ??
-                                  "",
-                              statusDetails: getNotificationStatus(
-                                  statusTitle ?? '',
-                                  state.allNotificationList?.result![index]
-                                          .createdFor?.fullName ??
-                                      "",
-                                  state
-                                          .allNotificationList
-                                          ?.result![index]
-                                          .contentObject
-                                          ?.entityService
-                                          ?.title ??
-                                      "")["message"] as String,
-                              time: state.allNotificationList?.result![index]
-                                  .createdDate,
-                              // userImage: getNotificationStatus(statusTitle ?? '', "", state.allNotificationList?.result![index].contentObject?.entityService?.title ?? "")["assets"] as String
-
-                              userImage: state.allNotificationList!
-                                          .result![index].createdFor ==
-                                      null
-                                  ? kServiceImageNImg
-                                  : state.allNotificationList!.result![index]
-                                          .createdFor!.profileImage ??
-                                      "",
+                if (state.theStates == TheStates.success)
+                  state.allNotificationList?.result?.isEmpty ?? false
+                      ? Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: kPadding20,
+                          color: Colors.white,
+                          child: const Center(
+                            child: Text("No earlier notifications to show."),
+                          ),
+                        )
+                      : DateTime.now()
+                                  .difference(DateTime(
+                                      state.allNotificationList?.result?[0].createdDate?.year ?? 0,
+                                      state.allNotificationList?.result?[0].createdDate?.month ?? 0,
+                                      state.allNotificationList?.result?[0].createdDate?.day ?? 0))
+                                  .inDays >
+                              1
+                          ? Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: kPadding20,
+                              color: Colors.white,
+                              child: const Center(
+                                child: Text("No earlier notifications to show."),
+                              ),
                             )
-                          : const CircularProgressIndicator();
-                    },
-                  ),
+                          : SizedBox(),
                 if (state.allNotificationList?.result == null)
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -220,9 +279,9 @@ class NotificationFromHome extends StatelessWidget {
                   ),
                 kHeight10,
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
