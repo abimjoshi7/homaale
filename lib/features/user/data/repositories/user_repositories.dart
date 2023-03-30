@@ -22,11 +22,11 @@ class UserRepositories {
   }
 
   Future<Map<String, dynamic>> addUser(
-    TaskerProfileCreateReq taskerProfileCreateReq,
+    Map<String, dynamic> taskerProfileCreateReq,
   ) async {
     try {
       final x = await _dio.postFormData(
-        map: taskerProfileCreateReq.toJson(),
+        map: taskerProfileCreateReq,
         url: 'tasker/my-profile/',
         token: CacheHelper.accessToken,
       );
