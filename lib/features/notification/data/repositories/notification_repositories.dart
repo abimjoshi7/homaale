@@ -20,7 +20,7 @@ class NotificationRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> markNotificationAllRead(int? id) async {
+  Future<Map<String, dynamic>> markNotificationAllRead() async {
     try {
       final res = await _dio.postDataWithCredential(
         data: {},

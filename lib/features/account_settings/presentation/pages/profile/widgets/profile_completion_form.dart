@@ -277,41 +277,41 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Divider(),
                 ),
-                CustomFormField(
-                  label: 'Select User Type',
-                  isRequired: true,
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isClient,
-                            onChanged: (value) => setState(
-                              () {
-                                isClient = value!;
-                              },
-                            ),
-                          ),
-                          const Text('Client')
-                        ],
-                      ),
-                      kWidth10,
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isTasker,
-                            onChanged: (value) => setState(
-                              () {
-                                isTasker = value!;
-                              },
-                            ),
-                          ),
-                          const Text('Tasker')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                // CustomFormField(
+                //   label: 'Select User Type',
+                //   isRequired: true,
+                //   child: Row(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Checkbox(
+                //             value: isClient,
+                //             onChanged: (value) => setState(
+                //               () {
+                //                 isClient = value!;
+                //               },
+                //             ),
+                //           ),
+                //           const Text('Client')
+                //         ],
+                //       ),
+                //       kWidth10,
+                //       Row(
+                //         children: [
+                //           Checkbox(
+                //             value: isTasker,
+                //             onChanged: (value) => setState(
+                //               () {
+                //                 isTasker = value!;
+                //               },
+                //             ),
+                //           ),
+                //           const Text('Tasker')
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 CustomFormField(
                   label: 'Skills',
                   isRequired: true,
@@ -333,8 +333,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           onConfirm: (p0) {
                             setState(
                               () {
-                                interestCodes =
-                                    p0.map((e) => int.parse(e)).toList();
+                                interestCodes = p0.map((e) => int.parse(e)).toList();
                               },
                             );
                           },
@@ -421,8 +420,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText:
-                                    startTime?.format(context) ?? '--:-- A.M',
+                                hintText: startTime?.format(context) ?? '--:-- A.M',
                               ),
                             )
                           ],
@@ -453,8 +451,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText:
-                                    endTime?.format(context) ?? '--:-- P.M',
+                                hintText: endTime?.format(context) ?? '--:-- P.M',
                               ),
                             )
                           ],
@@ -463,20 +460,20 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     ],
                   ),
                 ),
-                CustomFormField(
-                  label: 'Base Rate Per Hour',
-                  isRequired: true,
-                  child: CustomTextFormField(
-                    textInputType: TextInputType.number,
-                    hintText: 'Base Rate Per Hour',
-                    onSaved: (p0) => setState(
-                      () {
-                        baseRateController.text = p0!;
-                      },
-                    ),
-                    validator: validateNotEmpty,
-                  ),
-                ),
+                // CustomFormField(
+                //   label: 'Base Rate Per Hour',
+                //   isRequired: true,
+                //   child: CustomTextFormField(
+                //     textInputType: TextInputType.number,
+                //     hintText: 'Base Rate Per Hour',
+                //     onSaved: (p0) => setState(
+                //       () {
+                //         baseRateController.text = p0!;
+                //       },
+                //     ),
+                //     validator: validateNotEmpty,
+                //   ),
+                // ),
                 CustomFormField(
                   isRequired: true,
                   label: 'Country',
@@ -690,8 +687,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           builder: (context) => CustomToast(
                             isSuccess: false,
                             heading: 'Failure',
-                            content: error ??
-                                'Your profile cannot be completed. Please try again.',
+                            content: error ?? 'Your profile cannot be completed. Please try again.',
                             onTap: () {},
                           ),
                         );
@@ -718,20 +714,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
-                              userType = ["Client", "Tasker"]
-                                  .map((e) => '"$e"')
-                                  .toList()
-                                  .toString();
+                              userType = ["Client", "Tasker"].map((e) => '"$e"').toList().toString();
                             } else if (isClient) {
-                              userType = ["Client"]
-                                  .map((e) => '"$e"')
-                                  .toList()
-                                  .toString();
+                              userType = ["Client"].map((e) => '"$e"').toList().toString();
                             } else if (isTasker) {
-                              userType = ["Tasker"]
-                                  .map((e) => '"$e"')
-                                  .toList()
-                                  .toString();
+                              userType = ["Tasker"].map((e) => '"$e"').toList().toString();
                             } else {
                               userType = "";
                             }
@@ -747,10 +734,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               designation: jobProfileController.text,
                               gender: genderGroup,
                               skill: tagController.getTags != null
-                                  ? tagController.getTags!
-                                      .map((e) => '"$e"')
-                                      .toList()
-                                      .toString()
+                                  ? tagController.getTags!.map((e) => '"$e"').toList().toString()
                                   : '',
                               dateOfBirth: dateOfBirth ??
                                   DateTime(
@@ -759,16 +743,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               activeHourStart: startTime!.format(context),
                               activeHourEnd: endTime!.format(context),
                               experienceLevel: experienceLevel,
-                              userType: userType,
-                              hourlyRate: int.parse(baseRateController.text),
                               profileVisibility:
-                                  visibilityController.text.isNotEmpty
-                                      ? visibilityController.text
-                                      : 'Public',
-                              taskPreferences:
-                                  taskPreferencesController.text.isNotEmpty
-                                      ? taskPreferencesController.text
-                                      : 'Short-Term tasks',
+                                  visibilityController.text.isNotEmpty ? visibilityController.text : 'Public',
+                              taskPreferences: taskPreferencesController.text.isNotEmpty
+                                  ? taskPreferencesController.text
+                                  : 'Short-Term tasks',
                               addressLine1: address1Controller.text,
                               addressLine2: address2Controller.text,
                               chargeCurrency: currencyCode ?? 'NPR',

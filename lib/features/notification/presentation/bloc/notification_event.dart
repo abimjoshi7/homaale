@@ -6,16 +6,21 @@ abstract class NotificationEvent extends Equatable {
 
 class MyNotificationListInitiated extends NotificationEvent {
   final int? page;
-  const MyNotificationListInitiated({this.page});
+  final bool? isMarkAllRead;
+  final bool? isRefetch;
+  const MyNotificationListInitiated({
+    this.page,
+    this.isRefetch,
+    this.isMarkAllRead,
+  });
   @override
-  List<Object?> get props => [page];
+  List<Object?> get props => [page, isRefetch, isMarkAllRead];
 }
 
 class NotificationAllRead extends NotificationEvent {
-  final int? id;
-  const NotificationAllRead({this.id});
+  const NotificationAllRead();
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [];
 }
 
 class MyNotificationListLoadInitiated extends NotificationEvent {
