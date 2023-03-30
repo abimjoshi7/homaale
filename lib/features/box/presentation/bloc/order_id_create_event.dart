@@ -6,7 +6,7 @@ abstract class OrderIdCreateEvent extends Equatable {
 }
 
 class OrderIdCreateInitiated extends OrderIdCreateEvent {
-  final String uuid;
+  final List <String> uuid;
 
   const OrderIdCreateInitiated({ required this.uuid});
   @override

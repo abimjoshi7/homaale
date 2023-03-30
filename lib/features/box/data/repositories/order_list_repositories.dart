@@ -35,7 +35,7 @@ class OrderListRepositories {
   }
 
   Future<Map<String, dynamic>> postCreateOrderId(
-    String uuid,
+   List <String> uuid,
   ) async {
     try {
       final res = await _dio.postDataWithCredential(
