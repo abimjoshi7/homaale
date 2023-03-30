@@ -11,7 +11,7 @@ class UserLoaded extends UserEvent {
 }
 
 class UserAdded extends UserEvent {
-  final TaskerProfileCreateReq req;
+  final Map<String, dynamic> req;
   const UserAdded({
     required this.req,
   });
