@@ -36,14 +36,14 @@ class CustomHeader extends StatelessWidget {
               label ?? '',
               style: kText15,
             ),
-        trailingWidget ??
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: kColorSilver,
-              ),
-            ),
+        trailingWidget ?? SizedBox.shrink(),
+        // IconButton(
+        //   onPressed: () {},
+        //   icon: const Icon(
+        //     Icons.search,
+        //     color: kColorSilver,
+        //   ),
+        // ),
       ],
     );
   }

@@ -74,6 +74,19 @@ class TheCalender extends StatelessWidget {
       },
       onDaySelected: onSelect,
       eventLoader: onEvent,
+      enabledDayPredicate: (day) {
+        if (day.isBefore(
+          DateTime.now().subtract(
+            Duration(
+              days: 1,
+            ),
+          ),
+        )) {
+          return false;
+        } else {
+          return true;
+        }
+      },
     );
   }
 }

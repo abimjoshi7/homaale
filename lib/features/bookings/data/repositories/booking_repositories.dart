@@ -40,7 +40,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchMyBookingsList({bool? isTask, String? status, int? page}) async {
+  Future<Map<String, dynamic>> fetchMyBookingsList(
+      {bool? isTask, String? status, int? page}) async {
     try {
       final x = await _dio.getDatawithCredential(
         query: {
@@ -126,7 +127,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
+  Future<Map<String, dynamic>> bookingHistory(
+      BookingHistoryReq bookingHistoryReq) async {
     try {
       final query = bookingHistoryReq.toJson();
       log('booking api $query');

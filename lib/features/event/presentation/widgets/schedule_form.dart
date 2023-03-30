@@ -1,9 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'dart:convert';
-
 import 'package:cipher/features/event/data/models/req/create_schedule_req.dart';
-import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -192,22 +188,31 @@ class _ScheduleFormState extends State<ScheduleForm> {
                 ),
               ),
               BlocListener<ScheduleBloc, ScheduleState>(
-                listener: (context, state) {
-                  if (state.isCreated == true &&
-                      state.createScheduleRes != null) {
+                listener: (context, scheduleState) {
+                  if (scheduleState.isCreated == true &&
+                      scheduleState.createScheduleRes != null) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
-                          heading: "Success",
-                          content: "Schedule created successfully",
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          isSuccess: true),
+                        heading: "Success",
+                        content: "Schedule created successfully",
+                        onTap: () {
+                          // context.read<EventBloc>().add(
+                          //       EventLoaded(
+                          //         id: state.taskEntityService?.event?.id ?? "",
+                          //       ),
+                          //     );
+                          // Navigator.popAndPushNamed(
+                          //   context,
+                          //   TaskEntityServicePage.routeName,
+                          // );
+                        },
+                        isSuccess: true,
+                      ),
                     );
                   }
-                  if (state.theState == TheStates.failure &&
-                      state.isCreated == false) {
+                  if (scheduleState.theState == TheStates.failure &&
+                      scheduleState.isCreated == false) {
                     showDialog(
                       context: context,
                       builder: (context) => CustomToast(
@@ -266,11 +271,4 @@ class _ScheduleFormState extends State<ScheduleForm> {
       ),
     );
   }
-}
-
-class TimeSlot {
-  final TimeOfDay? startTime;
-  final TimeOfDay? endTime;
-
-  TimeSlot({this.startTime, this.endTime});
 }

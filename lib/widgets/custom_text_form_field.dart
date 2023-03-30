@@ -1,11 +1,14 @@
-import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
-    super.key,
+    Key? key,
+    this.readOnly = false,
     this.theHeight = 50,
+    this.theWidth,
     this.hintText = '',
     this.prefixWidget,
     this.suffixWidget,
@@ -14,6 +17,8 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.onEditingComplete,
     this.onFieldSubmitted,
+    this.onTap,
+    this.onTapOutside,
     this.textInputType,
     this.validator,
     this.obscureText = false,
@@ -21,11 +26,8 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.node,
     this.inputFormatters,
-    this.theWidth,
-    this.onTap,
-    this.onTapOutside,
-    this.readOnly = false,
-  });
+    this.inputAction,
+  }) : super(key: key);
   final bool? readOnly;
   final double theHeight;
   final double? theWidth;
@@ -46,6 +48,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? node;
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputAction? inputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +67,7 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       keyboardType: textInputType,
+      textInputAction: inputAction,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(10),

@@ -7,12 +7,14 @@ class NumberIncDecField extends StatefulWidget {
   final TextEditingController controller;
   final double? width;
   final ValueChanged? onChanged;
+  final ValueChanged? onSubmit;
   const NumberIncDecField({
-    super.key,
+    Key? key,
     required this.controller,
     this.width = 100,
     this.onChanged,
-  });
+    this.onSubmit,
+  }) : super(key: key);
 
   @override
   State<NumberIncDecField> createState() => _NumberIncDecFieldState();
@@ -45,6 +47,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
                 signed: true,
               ),
               onChanged: widget.onChanged,
+              onFieldSubmitted: widget.onSubmit,
             ),
           ),
           SizedBox(

@@ -51,7 +51,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
       child: Stack(
         children: [
           Container(
-            height: theHeight ?? MediaQuery.of(context).size.height * 0.2,
+            height: 200,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -62,7 +62,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
             left: 5,
             right: 0,
             child: Container(
-              height: theHeight ?? MediaQuery.of(context).size.height * 0.2,
+              height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
@@ -108,7 +108,8 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                   showCustomBottomSheet(
                                     context: context,
                                     widget: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         ListTile(
                                           onTap: editTap,
@@ -220,7 +221,10 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                 const Text("Status :"),
                                 kWidth5,
                                 Chip(
-                                  backgroundColor: (getStatus(status ?? '')["color"] as Color).withOpacity(
+                                  backgroundColor:
+                                      (getStatus(status ?? '')["color"]
+                                              as Color)
+                                          .withOpacity(
                                     0.6,
                                   ),
                                   label: Text(status?.toTitleCase() ?? ''),

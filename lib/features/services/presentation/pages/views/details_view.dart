@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
+import 'package:cipher/features/bookings/data/models/models.dart';
+import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -70,8 +72,8 @@ class _DetailsViewState extends State<DetailsView> {
                 CustomFormField(
                   label: "Your Budget (Non negotiable)",
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: 40,
+                    width: 160,
                     child: NumberIncDecField(
                       controller: budgetController,
                       onChanged: (value) async {
@@ -87,6 +89,16 @@ class _DetailsViewState extends State<DetailsView> {
                           ),
                         );
                       },
+                      onSubmit: (value) =>
+                          context.read<BookEventHandlerBloc>().add(
+                                BookEventPicked(
+                                  req: BookEntityServiceReq(
+                                    budgetTo: double.parse(
+                                      budgetController.text,
+                                    ),
+                                  ),
+                                ),
+                              ),
                     ),
                   ),
                 ),
@@ -141,23 +153,35 @@ class _DetailsViewState extends State<DetailsView> {
                       CustomTextFormField(
                         controller: requirementController,
                         hintText: 'Add requirements',
+                        onEditingComplete: () {
+                          setState(() {});
+                        },
                         onFieldSubmitted: (p0) async {
-                          setState(() async {
-                            requirementList.add(p0!);
-                            map!.update(
-                              "requirements",
-                              (value) => requirementList,
-                              ifAbsent: () => requirementList,
-                            );
-                            await CacheHelper.setCachedString(
-                              kBookedMap,
-                              jsonEncode(
-                                map,
-                              ),
-                            );
-
-                            requirementController.clear();
-                          });
+                          requirementList.add(p0!);
+                          context.read<BookEventHandlerBloc>().add(
+                                BookEventPicked(
+                                    req: BookEntityServiceReq(
+                                  requirements: requirementList,
+                                )),
+                              );
+                          requirementController.clear();
+                          // setState(
+                          //   () async {
+                          //     requirementList.add(p0!);
+                          //     map!.update(
+                          //       "requirements",
+                          //       (value) => requirementList,
+                          //       ifAbsent: () => requirementList,
+                          //     );
+                          //     await CacheHelper.setCachedString(
+                          //       kBookedMap,
+                          //       jsonEncode(
+                          //         map,
+                          //       ),
+                          //     );
+                          //     requirementController.clear();
+                          //   },
+                          // );
                         },
                       ),
                     ],
@@ -171,6 +195,7 @@ class _DetailsViewState extends State<DetailsView> {
                     hintText: "Service Desciption Here",
                     controller: problemDescController,
                     validator: validateNotEmpty,
+                    inputAction: TextInputAction.done,
                     onChanged: (p0) async {
                       map!.update(
                         "description",
@@ -184,6 +209,14 @@ class _DetailsViewState extends State<DetailsView> {
                         ),
                       );
                     },
+                    onFieldSubmitted: (p0) =>
+                        context.read<BookEventHandlerBloc>().add(
+                              BookEventPicked(
+                                req: BookEntityServiceReq(
+                                  description: problemDescController.text,
+                                ),
+                              ),
+                            ),
                   ),
                 ),
                 CustomFormField(
@@ -207,25 +240,38 @@ class _DetailsViewState extends State<DetailsView> {
                       addVerticalSpace(5),
                       InkWell(
                         onTap: () async {
-                          await context.read<ImageUploadCubit>().uploadImage();
+                          await context
+                              .read<ImageUploadCubit>()
+                              .uploadImage()
+                              .whenComplete(
+                                () => context.read<BookEventHandlerBloc>().add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          images: imageList,
+                                        ),
+                                      ),
+                                    ),
+                              );
                         },
                         child: BlocListener<ImageUploadCubit, ImageUploadState>(
                           listener: (context, state) async {
                             if (state is ImageUploadSuccess) {
-                              setState(() async {
-                                imageList = List<int>.from(state.list);
-                                map!.update(
-                                  "images",
-                                  (value) => imageList,
-                                  ifAbsent: () => imageList,
-                                );
-                                await CacheHelper.setCachedString(
-                                  kBookedMap,
-                                  jsonEncode(
-                                    map,
-                                  ),
-                                );
-                              });
+                              setState(
+                                () async {
+                                  imageList = List<int>.from(state.list);
+                                  map!.update(
+                                    "images",
+                                    (value) => imageList,
+                                    ifAbsent: () => imageList,
+                                  );
+                                  await CacheHelper.setCachedString(
+                                    kBookedMap,
+                                    jsonEncode(
+                                      map,
+                                    ),
+                                  );
+                                },
+                              );
                             }
                           },
                           child: CustomDottedContainerStack(
@@ -258,7 +304,18 @@ class _DetailsViewState extends State<DetailsView> {
                       addVerticalSpace(5),
                       InkWell(
                         onTap: () async {
-                          await context.read<ImageUploadCubit>().uploadVideo();
+                          await context
+                              .read<ImageUploadCubit>()
+                              .uploadVideo()
+                              .whenComplete(
+                                () => context.read<BookEventHandlerBloc>().add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          videos: fileList,
+                                        ),
+                                      ),
+                                    ),
+                              );
                         },
                         child: BlocListener<ImageUploadCubit, ImageUploadState>(
                           listener: (context, state) async {

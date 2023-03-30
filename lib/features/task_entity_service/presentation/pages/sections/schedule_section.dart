@@ -29,8 +29,9 @@ class _ScheduleSectionState extends State<ScheduleSection> {
     super.initState();
     context.read<EventBloc>().add(
           EventLoaded(
-              id: widget.taskEntityServiceState.taskEntityService?.event?.id ??
-                  ''),
+            id: widget.taskEntityServiceState.taskEntityService?.event?.id ??
+                '',
+          ),
         );
   }
 

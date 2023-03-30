@@ -14,10 +14,10 @@ class DioHelper {
     final options = BaseOptions(
       baseUrl: sandbox,
       connectTimeout: const Duration(
-        seconds: 10,
+        seconds: 20,
       ),
       receiveTimeout: const Duration(
-        seconds: 10,
+        seconds: 20,
       ),
       receiveDataWhenStatusError: true,
     );
@@ -127,9 +127,11 @@ class DioHelper {
     required dynamic data,
     required String url,
     required String? token,
+    Map<String, dynamic>? queryParams,
   }) async {
     try {
       final response = await dio.post<dynamic>(
+        queryParameters: queryParams,
         url,
         data: jsonEncode(data),
         options: Options(

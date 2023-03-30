@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -23,196 +25,283 @@ class ScheduleView extends StatefulWidget {
 class _ScheduleViewState extends State<ScheduleView> {
   int? selectedIndex;
   bool isVisible = false;
+  bool hasSlots = false;
   CalendarFormat? calendarFormat;
   DateTime focusedDate = DateTime.now();
   List<DateTime> dateList = [];
   final map = {};
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const CustomFormField(
-            label: 'When do you need this done?',
-            child: Text(
-              'Select task date from the calender to complete booking.',
-              style: kText15,
-            ),
+    return Column(
+      children: [
+        const CustomFormField(
+          label: 'When do you need this done?',
+          child: Text(
+            'Select task date from the calender to complete booking.',
+            style: kHelper13,
           ),
-          BlocBuilder<EventBloc, EventState>(
-            builder: (context, state) {
-              if (state.theStates == TheStates.initial) {
-                return const CircularProgressIndicator();
-              }
-              if (state.isLoaded == true) {
-                if (dateList.isEmpty) {
-                  for (final element in state.event!.allShifts!) {
-                    dateList.add(element.date!);
-                  }
+        ),
+        BlocBuilder<EventBloc, EventState>(
+          builder: (context, state) {
+            if (state.theStates == TheStates.initial) {
+              return const CircularProgressIndicator();
+            }
+            if (state.isLoaded == true) {
+              if (dateList.isEmpty) {
+                for (final element in state.event!.allShifts!) {
+                  dateList.add(element.date!);
                 }
               }
-              return Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 0.5,
-                        color: kColorGrey,
-                      ),
-                      borderRadius: BorderRadius.circular(
-                        5,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomFormField(
-                        label: 'Select Date',
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            TheCalender(
-                              calendarFormat: calendarFormat,
-                              onFormatChange: (p0) => setState(
-                                () {
-                                  calendarFormat = p0;
-                                },
-                              ),
-                              dateList: dateList,
-                              focusedDate: focusedDate,
-                              onSelect: (selectedDay, focusedDay) {
-                                setState(
-                                  () {
-                                    focusedDate = selectedDay;
-                                  },
-                                );
-                              },
-                              onEvent: (day) {
-                                for (final element in dateList) {
-                                  if (element.toDateOnly().isAtSameMomentAs(
-                                        day.toDateOnly(),
-                                      )) {
-                                    return [
-                                      const SizedBox.shrink(),
-                                    ];
-                                  }
-                                }
-                                return [];
-                              },
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              child: Wrap(
-                                spacing: 20,
-                                children: [
-                                  IconText(
-                                    label: 'Selected',
-                                    iconData: Icons.circle,
-                                    size: 13,
-                                    color: kColorAmber,
-                                  ),
-                                  IconText(
-                                    label: 'Available',
-                                    iconData: Icons.circle,
-                                    size: 13,
-                                    color: Colors.black,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: dateList.contains(
-                      focusedDate.toDateOnly(),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomFormField(
-                        label: "Select Shift:",
-                        child: Wrap(
-                          runSpacing: 10,
-                          children: state.event == null
-                              ? []
-                              : [
-                                  for (final element in state.event!.allShifts!)
-                                    element.date!.toDateOnly().isAtSameMomentAs(
-                                              focusedDate.toDateOnly(),
-                                            )
-                                        ? SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.06,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: element.slots!.length,
-                                              itemBuilder: (context, index) =>
-                                                  Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    setState(() {
-                                                      selectedIndex = index;
-                                                    });
-                                                    map.update(
-                                                      "end_date",
-                                                      (value) => focusedDate
-                                                          .toString(),
-                                                      ifAbsent: () =>
-                                                          focusedDate
-                                                              .toString(),
-                                                    );
-                                                    map.update(
-                                                      "start_time",
-                                                      (value) => element
-                                                          .slots?[index].start,
-                                                      ifAbsent: () => element
-                                                          .slots?[index].start,
-                                                    );
-                                                    map.update(
-                                                      "end_time",
-                                                      (value) => element
-                                                          .slots?[index].end,
-                                                      ifAbsent: () => element
-                                                          .slots?[index].end,
-                                                    );
+            }
+            for (final element in state.event?.allShifts ?? []) {
+              if (element.slots?.length == 0) {
+                hasSlots = false;
+              } else {
+                hasSlots = true;
+              }
+            }
+            return Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    print(state.event);
+                  },
+                  child: Text('asd'),
+                ),
+                _buildCalender(context),
+                _buildTimeSlots(state, context),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
 
-                                                    await CacheHelper
-                                                        .setCachedString(
-                                                      kBookedMap,
-                                                      jsonEncode(map),
-                                                    );
-                                                  },
-                                                  child: TheTimeSlot(
-                                                    index: index,
-                                                    selectedIndex:
-                                                        selectedIndex ?? 0,
-                                                    element: element,
-                                                  ),
-                                                ),
+  Widget _buildTimeSlots(EventState state, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 8,
+      ),
+      child: CustomFormField(
+        label: "Select Shifts:",
+        child: Wrap(
+            runSpacing: 10,
+            children: state.event?.id == null || hasSlots == false
+                ? [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CustomFormContainer(
+                            leadingWidget: Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now())
+                                        .then(
+                                      (value) {
+                                        setState(
+                                          () {
+                                            startTime = value;
+                                          },
+                                        );
+                                      },
+                                    ).whenComplete(
+                                      () => context
+                                          .read<BookEventHandlerBloc>()
+                                          .add(
+                                            BookEventPicked(
+                                              req: BookEntityServiceReq(
+                                                startTime:
+                                                    startTime?.format(context),
                                               ),
                                             ),
-                                          )
-                                        : const SizedBox.shrink()
-                                ],
+                                          ),
+                                    );
+                                  },
+                                  child: Text(
+                                    startTime?.format(context) ?? '--',
+                                  ),
+                                ),
+                                Text('-'),
+                                TextButton(
+                                  onPressed: () {
+                                    showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now())
+                                        .then(
+                                      (value) {
+                                        setState(
+                                          () {
+                                            endTime = value;
+                                          },
+                                        );
+                                      },
+                                    ).whenComplete(
+                                      () => context
+                                          .read<BookEventHandlerBloc>()
+                                          .add(
+                                            BookEventPicked(
+                                              req: BookEntityServiceReq(
+                                                endTime:
+                                                    endTime?.format(context),
+                                              ),
+                                            ),
+                                          ),
+                                    );
+                                  },
+                                  child: Text(
+                                    endTime?.format(context) ?? '--',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ]
+                : [
+                    for (final element in state.event!.allShifts!)
+                      element.date!.toDateOnly().isAtSameMomentAs(
+                                focusedDate.toDateOnly(),
+                              )
+                          ? SizedBox(
+                              height: 60,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: element.slots!.length,
+                                itemBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(
+                                        () {
+                                          selectedIndex = index;
+                                        },
+                                      );
+                                      map.update(
+                                        "end_date",
+                                        (value) => focusedDate.toString(),
+                                        ifAbsent: () => focusedDate.toString(),
+                                      );
+                                      map.update(
+                                        "start_time",
+                                        (value) => element.slots?[index].start,
+                                        ifAbsent: () =>
+                                            element.slots?[index].start,
+                                      );
+                                      map.update(
+                                        "end_time",
+                                        (value) => element.slots?[index].end,
+                                        ifAbsent: () =>
+                                            element.slots?[index].end,
+                                      );
+
+                                      await CacheHelper.setCachedString(
+                                        kBookedMap,
+                                        jsonEncode(map),
+                                      );
+                                    },
+                                    child: TheTimeSlot(
+                                      index: index,
+                                      selectedIndex: selectedIndex ?? 0,
+                                      element: element,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                  ]),
+      ),
+    );
+  }
+
+  Widget _buildCalender(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 0.5,
+          color: kColorGrey,
+        ),
+        borderRadius: BorderRadius.circular(
+          5,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TheCalender(
+              calendarFormat: calendarFormat,
+              onFormatChange: (p0) => setState(
+                () {
+                  calendarFormat = p0;
+                },
+              ),
+              dateList: dateList,
+              focusedDate: focusedDate,
+              onSelect: (selectedDay, focusedDay) {
+                setState(
+                  () {
+                    focusedDate = selectedDay;
+                  },
+                );
+                context.read<BookEventHandlerBloc>().add(
+                      BookEventPicked(
+                        req: BookEntityServiceReq(
+                          endDate: focusedDate,
                         ),
                       ),
-                    ),
+                    );
+              },
+              onEvent: (day) {
+                for (final element in dateList) {
+                  if (element.toDateOnly().isAtSameMomentAs(
+                        day.toDateOnly(),
+                      )) {
+                    return [
+                      const SizedBox.shrink(),
+                    ];
+                  }
+                }
+                return [];
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Wrap(
+                spacing: 20,
+                children: [
+                  IconText(
+                    label: 'Selected',
+                    iconData: Icons.circle,
+                    size: 13,
+                    color: kColorAmber,
+                  ),
+                  IconText(
+                    label: 'Available',
+                    iconData: Icons.circle,
+                    size: 13,
+                    color: Colors.black,
                   ),
                 ],
-              );
-            },
-          ),
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

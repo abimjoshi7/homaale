@@ -6,22 +6,25 @@ class EventState extends Equatable {
   final CreateEventRes? createdEventRes;
   final bool? isLoaded;
   final bool? isCreated;
+  final bool? isAvailable;
   // final CreateScheduleRes? createScheduleRes;
   // final bool? isScheduleCreated;
   const EventState({
     this.theStates = TheStates.initial,
-    this.event,
-    this.createdEventRes,
+    this.event = null,
+    this.createdEventRes = null,
     this.isLoaded = false,
     this.isCreated = false,
+    this.isAvailable = false,
   });
 
   EventState copyWith({
     TheStates? theStates,
     Event? event,
-    CreateEventRes? createEventRes,
+    CreateEventRes? createdEventRes,
     bool? isLoaded,
     bool? isCreated,
+    bool? isAvailable,
   }) {
     return EventState(
       theStates: theStates ?? this.theStates,
@@ -29,15 +32,19 @@ class EventState extends Equatable {
       createdEventRes: createdEventRes ?? this.createdEventRes,
       isLoaded: isLoaded ?? this.isLoaded,
       isCreated: isCreated ?? this.isCreated,
+      isAvailable: isAvailable ?? this.isAvailable,
     );
   }
 
   @override
-  List<Object?> get props => [
-        theStates,
-        event,
-        createdEventRes,
-        isLoaded,
-        isCreated,
-      ];
+  List<Object?> get props {
+    return [
+      theStates,
+      event,
+      createdEventRes,
+      isLoaded,
+      isCreated,
+      isAvailable,
+    ];
+  }
 }

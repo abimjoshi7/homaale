@@ -26,3 +26,18 @@ class EventCreated extends EventEvent {
         req,
       ];
 }
+
+class EventAvailabilityChecked extends EventEvent {
+  final EventAvailability eventAvailability;
+  final String id;
+  EventAvailabilityChecked({
+    required this.eventAvailability,
+    required this.id,
+  });
+
+  @override
+  List<Object?> get props => [
+        eventAvailability,
+        id,
+      ];
+}

@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/event/data/models/req/create_event_req.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -174,12 +176,23 @@ class _EventFormState extends State<EventForm> {
                       builder: (context) => CustomToast(
                         heading: 'Success',
                         content: "Event created successfully",
-                        onTap: () => Navigator.pop(context),
+                        onTap: () {
+                          context.read<EventBloc>().add(
+                                EventLoaded(
+                                  id: eventState.event?.id ?? "",
+                                ),
+                              );
+                          Navigator.pushReplacementNamed(
+                            context,
+                            TaskEntityServicePage.routeName,
+                          );
+                        },
                         isSuccess: true,
                       ),
                     );
                   }
-                  if (eventState.theStates == TheStates.failure) {
+                  if (eventState.theStates == TheStates.failure &&
+                      eventState.isCreated == false) {
                     await showDialog(
                       context: context,
                       builder: (context) => CustomToast(

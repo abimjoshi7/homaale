@@ -61,7 +61,7 @@ class ServiceBookingHeaderSection extends StatelessWidget {
           ],
         ),
         addVerticalSpace(
-          20,
+          10,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

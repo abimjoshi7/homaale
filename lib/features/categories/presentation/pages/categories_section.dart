@@ -22,7 +22,7 @@ class CategoriesSection extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.11,
+              height: 100,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
