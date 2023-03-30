@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/data/search_result.dart';
 import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:dependencies/dependencies.dart';
-import 'package:flutter/widgets.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
@@ -17,23 +14,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchState()) {
     on<SearchFieldInitialEvent>(
       ((event, emit) async {
-        //get cached recent search queries
-        var _recentSearchQueriesList = await _searchRepository
-            .getCachedRecentSearchQueries(key: _key) as List?;
-        if (_recentSearchQueriesList == null) {
+        try {
+          //get cached recent search queries
+          var _recentSearchQueriesList = await _searchRepository
+              .getCachedRecentSearchQueries(key: _key) as List?;
+
           emit(
             state.copyWith(
               theStates: TheStates.initial,
-              recentSearchQueriesList: [],
+              recentSearchQueriesList: _recentSearchQueriesList ?? [],
             ),
           );
-        } else {
-          emit(
-            state.copyWith(
-              theStates: TheStates.initial,
-              recentSearchQueriesList: _recentSearchQueriesList,
-            ),
-          );
+        } catch (e) {
+          log(e.toString());
         }
       }),
     );
@@ -147,6 +140,5 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         );
       }
     });
-
   }
 }
