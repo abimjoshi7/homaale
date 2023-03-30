@@ -167,7 +167,7 @@ class TaskDisplayList extends StatelessWidget {
                                       left: 12, bottom: 5),
                                   child: Text(
                                     state?.orderItemRetriveList
-                                            ?.orderItem![index].task?.title ??
+                                            ?.orderItem?[index].task?.title ??
                                         "",
                                     // 'Need a garden Cleaner',
                                     style: kPurpleText16,
@@ -185,7 +185,7 @@ class TaskDisplayList extends StatelessWidget {
                                       ),
                                       Text(state
                                                   ?.orderItemRetriveList
-                                                  ?.orderItem![index]
+                                                  ?.orderItem?[index]
                                                   .task
                                                   ?.location ??
                                               ""
@@ -195,7 +195,7 @@ class TaskDisplayList extends StatelessWidget {
                                         padding:
                                             const EdgeInsets.only(left: 170.0),
                                         child: Text('Rs  '
-                                            '${state?.orderItemRetriveList?.orderItem![index].amount.toString() ?? ""}'
+                                            '${state?.orderItemRetriveList?.orderItem?[index].amount.toString() ?? ""}'
                                             // 'Rs 1,200',
                                             ),
                                       ),
@@ -217,7 +217,7 @@ class TaskDisplayList extends StatelessWidget {
                                     ),
                                     Text(state
                                             ?.orderItemRetriveList
-                                            ?.orderItem![index]
+                                            ?.orderItem?[index]
                                             .task
                                             ?.assigner
                                             ?.createdAt ??
@@ -297,13 +297,13 @@ class PaymentDetailsContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        state.orderItemRetriveList?.orderItem![index].task
+                        state.orderItemRetriveList?.orderItem?[index].task
                                 ?.title ??
                             'Service Charge',
                       ),
                       Text(
                         'Rs '
-                        '${state.orderItemRetriveList?.orderItem![index].amount.toString()}',
+                        '${state.orderItemRetriveList?.orderItem?[index].amount.toString()}',
                         style: kPurpleText16,
                       ),
                     ],
@@ -316,7 +316,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                       ),
                       Text(
                         'Rs '
-                        '${state.orderItemRetriveList?.orderItem![index].tax.toString()}',
+                        '${state.orderItemRetriveList?.orderItem?[index].tax.toString()}',
                         style: kPurpleText16,
                       ),
                     ],
@@ -329,7 +329,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                       ),
                       Text(
                         'Rs '
-                        '${state.orderItemRetriveList?.orderItem![index].platformCharge.toString()}',
+                        '${state.orderItemRetriveList?.orderItem?[index].platformCharge.toString()}',
                         style: kPurpleText16,
                       ),
                     ],
@@ -342,7 +342,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                       ),
                       Text(
                         'Rs '
-                        '${state.orderItemRetriveList?.orderItem![index].discount.toString()}',
+                        '${state.orderItemRetriveList?.orderItem?[index].discount.toString()}',
                         style: kPurpleText16,
                       ),
                     ],
