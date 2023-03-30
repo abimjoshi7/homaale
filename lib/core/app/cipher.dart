@@ -40,6 +40,7 @@ import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
+import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
 
 class Cipher extends StatelessWidget {
@@ -87,7 +88,8 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => KycBloc()
@@ -194,7 +196,8 @@ class Cipher extends StatelessWidget {
             create: (context) => SingleEntityTaskCubit(),
           ),
           BlocProvider(
-            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) =>
+                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -213,6 +216,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => OrderItemRetriveBloc(),
+          ),
+          BlocProvider(
+            create: (context) => PromoCodeApplyBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
