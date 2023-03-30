@@ -14,9 +14,12 @@ class RecentSearchesList extends StatelessWidget {
     required this.recentSearchesList,
     required this.setSearchControllerValue,
   });
-
+  static bool _isTilePressed = false;
   @override
   Widget build(BuildContext context) {
+    if (_isTilePressed) {
+      return CircularProgressIndicator();
+    }
     if (recentSearchesList.isEmpty) {
       return Text('No recent searches yet.');
     }
@@ -68,10 +71,10 @@ class RecentSearchesList extends StatelessWidget {
                   onTap: () {
                     setSearchControllerValue(
                         recentSearchesList[index].toString());
+                    _isTilePressed = true;
                     context.read<SearchBloc>().add(
                           SearchQueryInitiated(
-                            searchQuery: recentSearchesList[index]
-														.toString(),
+                            searchQuery: recentSearchesList[index].toString(),
                           ),
                         );
                   },
