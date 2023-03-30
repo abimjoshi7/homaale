@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/data/search_result.dart';
 import 'package:cipher/features/search/repositories/search_repository.dart';
@@ -16,23 +14,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchState()) {
     on<SearchFieldInitialEvent>(
       ((event, emit) async {
-        //get cached recent search queries
-        var _recentSearchQueriesList = await _searchRepository
-            .getCachedRecentSearchQueries(key: _key) as List?;
-        if (_recentSearchQueriesList == null) {
+        try {
+          //get cached recent search queries
+          var _recentSearchQueriesList = await _searchRepository
+              .getCachedRecentSearchQueries(key: _key) as List?;
+
           emit(
             state.copyWith(
               theStates: TheStates.initial,
-              recentSearchQueriesList: [],
+              recentSearchQueriesList: _recentSearchQueriesList ?? [],
             ),
           );
-        } else {
-          emit(
-            state.copyWith(
-              theStates: TheStates.initial,
-              recentSearchQueriesList: _recentSearchQueriesList,
-            ),
-          );
+        } catch (e) {
+          log(e.toString());
         }
       }),
     );
@@ -72,13 +66,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           if (_unFilteredSearchList != null) {
             final List<SearchResult>? filteredSearchList =
                 _searchRepository.filterSearchResults(_unFilteredSearchList);
-//get cached recent search queries
+            //get cached recent search queries
             var _recentSearchQueriesList = await _searchRepository
                 .getCachedRecentSearchQueries(key: _key) as List?;
-            // if (_recentSearchQueriesList == null) {
-            //   _recentSearchQueriesList = [];
-            // }
-//cache recent search queries
+
+            //cache recent search queries
             await _searchRepository.cacheRecentSearchQueries(
               key: _key,
               searchQuery: event.searchQuery,

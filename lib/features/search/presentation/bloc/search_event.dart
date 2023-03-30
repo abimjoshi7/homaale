@@ -47,3 +47,5 @@ class RecentSearchQueryIndexCleared extends SearchEvent {
   @override
   List<Object> get props => [index];
 }
+
+

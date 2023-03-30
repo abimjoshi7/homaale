@@ -1,6 +1,9 @@
-
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +16,18 @@ class TaskEntityServiceSearchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        context.read<TaskEntityServiceBloc>().add(
+              TaskEntityServiceSingleLoaded(
+                id: taskEntityService.id ?? '',
+              ),
+            );
+
+        Navigator.pushNamed(
+          context,
+          TaskEntityServicePage.routeName,
+        );
+      },
       contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
       minLeadingWidth: MediaQuery.of(context).size.width,
       leading: Wrap(

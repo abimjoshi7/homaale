@@ -51,7 +51,6 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: readOnly ?? false,
-      initialValue: value,
       focusNode: node,
       controller: controller,
       maxLines: maxLines,
@@ -60,7 +59,7 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onChanged,
       onSaved: onSaved,
       onTap: onTap,
-      onTapOutside: onTapOutside,
+      // onTapOutside: onTapOutside,
       enableInteractiveSelection: true,
       obscureText: obscureText,
       validator: validator,

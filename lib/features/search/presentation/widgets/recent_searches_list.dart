@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:dependencies/dependencies.dart';
@@ -5,14 +7,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RecentSearchesList extends StatelessWidget {
+  final Function setSearchControllerValue;
   final List recentSearchesList;
   const RecentSearchesList({
     super.key,
     required this.recentSearchesList,
+    required this.setSearchControllerValue,
   });
-
+  static bool _isTilePressed = false;
   @override
   Widget build(BuildContext context) {
+    if (_isTilePressed) {
+      Future.delayed(
+        Duration(
+          milliseconds: 500,
+        ),
+        () => _isTilePressed = false,
+      );
+      return CircularProgressIndicator();
+    }
     if (recentSearchesList.isEmpty) {
       return Text('No recent searches yet.');
     }
@@ -61,6 +74,16 @@ class RecentSearchesList extends StatelessWidget {
               itemCount: recentSearchesList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
+                  onTap: () {
+                    setSearchControllerValue(
+                        recentSearchesList[index].toString());
+                    _isTilePressed = true;
+                    context.read<SearchBloc>().add(
+                          SearchQueryInitiated(
+                            searchQuery: recentSearchesList[index].toString(),
+                          ),
+                        );
+                  },
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
                   minLeadingWidth: MediaQuery.of(context).size.width,

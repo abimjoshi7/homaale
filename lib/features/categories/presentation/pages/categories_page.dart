@@ -238,7 +238,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 }
 
                 return Row(
-                  children: [
+                  children: <Widget>[
                     Container(
                       height: MediaQuery.of(context).size.height - 98,
                       color: kColorLightSkyBlue,
