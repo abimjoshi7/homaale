@@ -16,7 +16,7 @@ import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
-import 'package:cipher/features/order/presentation/pages/order_page.dart';
+import 'package:cipher/features/order/presentation/pages/order_invoice_page.dart';
 import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
