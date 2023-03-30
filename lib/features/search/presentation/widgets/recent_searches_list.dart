@@ -18,6 +18,12 @@ class RecentSearchesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_isTilePressed) {
+      Future.delayed(
+        Duration(
+          milliseconds: 500,
+        ),
+        () => _isTilePressed = false,
+      );
       return CircularProgressIndicator();
     }
     if (recentSearchesList.isEmpty) {
