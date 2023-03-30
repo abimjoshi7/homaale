@@ -14,7 +14,7 @@ class SocialLoginSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) {
+      builder: (_, state) {
         Widget buildLogo() {
           if (state.theStates == TheStates.initial) ;
 

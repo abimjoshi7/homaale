@@ -178,7 +178,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               buildForm(),
               CustomFormField(
                 label: 'Password',

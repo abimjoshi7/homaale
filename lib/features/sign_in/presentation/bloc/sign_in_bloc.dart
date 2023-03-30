@@ -61,7 +61,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           emit(state.copyWith(
             theStates: TheStates.failure,
             isPhoneNumber: true,
-            hasValidationErrors: true,
+            hasValidationErrors: false,
           ));
         }
       },
@@ -87,7 +87,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           emit(state.copyWith(
             theStates: TheStates.failure,
             isPhoneNumber: false,
-            hasValidationErrors: true,
+            hasValidationErrors: false,
           ));
         }
       },

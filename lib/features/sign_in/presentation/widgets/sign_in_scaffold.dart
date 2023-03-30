@@ -22,7 +22,7 @@ class SignInScaffold extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Stack(
-              children: [
+              children: <Widget>[
                 SizedBox(
                   width: double.infinity,
                   child: Image.asset(
@@ -31,7 +31,7 @@ class SignInScaffold extends StatelessWidget {
                   ),
                 ),
                 Column(
-                  children: [
+                  children: <Widget>[
                     addVerticalSpace(
                         MediaQuery.of(context).size.height * 0.050),
                     Padding(
@@ -89,9 +89,10 @@ class SignInScaffold extends StatelessWidget {
                           state.hasValidationErrors)
                       ? MediaQuery.of(context).size.height * 0.23
                       : MediaQuery.of(context).size.height * 0.265,
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.8,
+                    // height: MediaQuery.of(context).size.height * 0.8,
                     child: DecoratedBox(
                       decoration: const BoxDecoration(
                         color: Colors.white,
