@@ -6,8 +6,16 @@ abstract class PaymentTypeListEvent extends Equatable {
  }
 
  class PaymentTypeListInitiated extends PaymentTypeListEvent {
-  // final int? currentIndex;
    const PaymentTypeListInitiated();
    @override
    List<Object?> get props => [];
+ }
+
+ class PaymentTypeCurrentIndex extends PaymentTypeListEvent {
+  final int? currentIndex;
+   const PaymentTypeCurrentIndex({this.currentIndex});
+   @override
+   List<Object?> get props => [
+     currentIndex
+   ];
  }

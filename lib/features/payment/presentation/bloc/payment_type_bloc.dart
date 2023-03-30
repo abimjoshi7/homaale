@@ -32,5 +32,11 @@ class PaymentTypeBloc extends Bloc<PaymentTypeListEvent, PaymentTypeListState> {
         );
       }
     });
+    on<PaymentTypeCurrentIndex>((event, emit)  {
+      emit(
+        state.copyWith(currentIndex: event.currentIndex),
+      );
+
+    });
   }
 }
