@@ -1,271 +1,70 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
-import 'package:cipher/features/box/presentation/bloc/order_retrive_event.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_state.dart';
-import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../order/presentation/pages/order_page.dart';
+import '../../../box/promo_code/presentation/pages/apply_promo_and_offer.dart';
 import '../../../payment/presentation/bloc/payment_type_event.dart';
 import '../../../payment/presentation/pages/payment_summary_page.dart';
 
-class CheckoutPage extends StatefulWidget {
+class CheckoutPage extends StatelessWidget {
   static const routeName = '/checkout-page';
-  const CheckoutPage({super.key});
 
-  @override
-  State<CheckoutPage> createState() => _CheckoutPageState();
-}
-
-class _CheckoutPageState extends State<CheckoutPage> {
-  bool _isShowVoucher = false;
-  bool _isShowOffer = false;
-
-  final TextEditingController textEditingVoucherController =
-      TextEditingController();
-  final TextEditingController textEditingOfferController =
-      TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  const CheckoutPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade50,
+        centerTitle: true,
+        title: const Text(
+          'Checkout',
+          style: TextStyle(color: Colors.black),
+        ),
+        elevation: 1,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
         builder: (context, state) {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                addVerticalSpace(50),
-                CustomHeader(
-                  leadingWidget: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  trailingWidget: IconButton(
-                    onPressed: () {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   CompleteProfilePage.routeName,
-                      // );
-                    },
-                    icon: const Icon(Icons.search),
-                  ),
-                  child: const Text('Checkout'),
-                ),
-                const Divider(),
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonBillingAddressContainer(),
+                      TaskDisplayList(
+                        state: state,
+                      ),
                     ],
                   ),
                 ),
                 // addVerticalSpace(20),
-                GestureDetector(
-                  onTap: () {
-                    setState(
-                      () {
-                        _isShowVoucher = !_isShowVoucher;
-                        _isShowOffer = false;
-                      },
-                    );
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    width: MediaQuery.of(context).size.width,
-                    color: _isShowVoucher
-                        ? Colors.blue.shade50
-                        : Colors.grey.shade50,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        'Add voucher or promo code ',
-                        style: _isShowVoucher
-                            ? kPurpleText16
-                            : TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                ),
-                _isShowVoucher
-                    ? Visibility(
-                        visible: _isShowVoucher,
-                        child: AddVoucherAndOffersContainer(
-                          labelText: 'Apply',
-                          controller: textEditingVoucherController,
-                        ),
-                      )
-                    : SizedBox(),
-                _isShowOffer && _isShowVoucher
-                    ? SizedBox(
-                        height: 20,
-                      )
-                    : SizedBox(),
-                GestureDetector(
-                  onTap: () {
-                    setState(
-                      () {
-                        _isShowOffer = !_isShowOffer;
-                        _isShowVoucher = false;
-                      },
-                    );
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: _isShowOffer
-                        ? Colors.blue.shade50
-                        : Colors.grey.shade50,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25.0, top: 10),
-                      child: Text(
-                        'Select Offer ',
-                        style: _isShowOffer
-                            ? kPurpleText16
-                            : TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                      ),
-                    ),
-                  ),
-                ),
-                _isShowOffer
-                    ? Visibility(
-                        visible: _isShowOffer,
-                        child: AddVoucherAndOffersContainer(
-                            labelText: 'Redeem',
-                            controller: textEditingOfferController),
-                      )
-                    : SizedBox(),
-                addVerticalSpace(10),
-                SizedBox(
-                  height: 500,
-                  // MediaQuery.of(context).size.height,
-                  child: ListView.builder(
-                      itemCount: state.orderItemRetriveList?.orderItem?.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.all(20),
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                'Payment Details',
-                                style: kPurpleText16,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    state.orderItemRetriveList
-                                            ?.orderItem![index].task?.title ??
-                                        'Service Charge',
-                                  ),
-                                  Text(
-                                    'Rs ' '${state.orderItemRetriveList?.orderItem![index].amount.toString()}' ??
-                                        'Rs 1,200',
-                                    style: kPurpleText16,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Platform Tax',
-                                  ),
-                                  Text(
-                                    'Rs '
-                                            '${state.orderItemRetriveList?.orderItem![index].tax.toString()}' ??
-                                        '',
-                                    // 'Rs 80',
-                                    style: kPurpleText16,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Platform Charge',
-                                  ),
-                                  Text(
-                                    'Rs '
-                                            '${state.orderItemRetriveList?.orderItem![index].platformCharge.toString()}' ??
-                                        '',
-                                    // 'Rs 80',
-                                    style: kPurpleText16,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Discount',
-                                  ),
-                                  Text(
-                                    'Rs '
-                                            '${state.orderItemRetriveList?.orderItem![index].discount.toString()}' ??
-                                        '',
-                                    // 'Rs 100',
-                                    style: kPurpleText16,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Divider(),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Total',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  Text(
-                                    'Rs '
-                                            '${state.orderItemRetriveList?.grandTotal.toString()}' ??
-                                        "",
-                                    style: kPurpleText16,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
+                PromoCodeAddSection(),
+                // addVerticalSpace(10),
+
+                PaymentDetailsContainer(
+                  state: state,
                 ),
 
                 Center(
@@ -282,7 +81,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     label: 'Confirm',
                   ),
                 ),
-                addVerticalSpace(10),
+                // addVerticalSpace(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -309,66 +108,270 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 }
 
-class AddVoucherAndOffersContainer extends StatelessWidget {
-  final TextEditingController? controller;
-  final GestureTapCallback? applyTap;
-  final String? labelText;
-  const AddVoucherAndOffersContainer({
-    Key? key,
-    this.controller,
-    this.applyTap,
-    this.labelText,
-  }) : super(key: key);
+class TaskDisplayList extends StatelessWidget {
+  final OrderItemRetriveState? state;
+
+  const TaskDisplayList({Key? key, this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 20),
-      decoration: BoxDecoration(
-        color: Colors.blue.shade50,
-      ),
+    return SizedBox(
+      height: 200,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              SizedBox(
-                width: 300,
-                height: 80,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextField(
-                    controller: controller,
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      hintText: 'Enter code',
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 10, bottom: 10),
+            child: Text(
+              'Task List',
+              style: kPurpleText16,
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: state?.orderItemRetriveList?.orderItem?.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              height: 70,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.deepOrange,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                              child: Image.network(
+                                kServiceImageNImg,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 12, bottom: 5),
+                                  child: Text(
+                                    state?.orderItemRetriveList
+                                            ?.orderItem![index].task?.title ??
+                                        "",
+                                    // 'Need a garden Cleaner',
+                                    style: kPurpleText16,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(
+                                        Icons.location_on_outlined,
+                                        color: Colors.redAccent,
+                                        size: 15,
+                                      ),
+                                      Text(state
+                                                  ?.orderItemRetriveList
+                                                  ?.orderItem![index]
+                                                  .task
+                                                  ?.location ??
+                                              ""
+                                          // 'Location',
+                                          ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 170.0),
+                                        child: Text('Rs  '
+                                            '${state?.orderItemRetriveList?.orderItem![index].amount.toString() ?? ""}'
+                                            // 'Rs 1,200',
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  // crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, right: 8),
+                                      child: Icon(
+                                        Icons.calendar_today,
+                                        color: Colors.redAccent,
+                                        size: 15,
+                                      ),
+                                    ),
+                                    Text(state
+                                            ?.orderItemRetriveList
+                                            ?.orderItem![index]
+                                            .task
+                                            ?.assigner
+                                            ?.createdAt ??
+                                        ""),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    // Icon(
+                                    //   Icons.watch_later_outlined,
+                                    //   color: Colors.blue,
+                                    //   size: 15,
+                                    // ),
+                                    // Text(
+                                    //   state
+                                    //           ?.orderItemRetriveList
+                                    //           ?.orderItem![index]
+                                    //           .task
+                                    //           ?.assigner
+                                    //           ?.createdAt ??
+                                    //       ""
+                                    //   // '   time pm'
+                                    //   ,
+                                    // ),
+                                    // SizedBox(
+                                    //   width: 50,
+                                    // ),
+                                    Text('/per project'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 50,
-                width: 150,
-                child: CustomElevatedButton(
-                  label: labelText ?? "",
-                  callback: () => applyTap,
-                ),
-              ),
-            ],
+                  );
+                }),
           ),
         ],
       ),
+    );
+  }
+}
+
+class PaymentDetailsContainer extends StatelessWidget {
+  final OrderItemRetriveState state;
+
+  const PaymentDetailsContainer({Key? key, required this.state})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 250,
+      child: ListView.builder(
+          itemCount: state.orderItemRetriveList?.orderItem?.length,
+          itemBuilder: (context, index) {
+            return Container(
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Payment Details',
+                    style: kPurpleText16,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        state.orderItemRetriveList?.orderItem![index].task
+                                ?.title ??
+                            'Service Charge',
+                      ),
+                      Text(
+                        'Rs '
+                        '${state.orderItemRetriveList?.orderItem![index].amount.toString()}',
+                        style: kPurpleText16,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Platform Tax',
+                      ),
+                      Text(
+                        'Rs '
+                        '${state.orderItemRetriveList?.orderItem![index].tax.toString()}',
+                        style: kPurpleText16,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Platform Charge',
+                      ),
+                      Text(
+                        'Rs '
+                        '${state.orderItemRetriveList?.orderItem![index].platformCharge.toString()}',
+                        style: kPurpleText16,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Discount',
+                      ),
+                      Text(
+                        'Rs '
+                        '${state.orderItemRetriveList?.orderItem![index].discount.toString()}',
+                        style: kPurpleText16,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Total',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Rs '
+                        '${state.orderItemRetriveList?.grandTotal.toString()}',
+                        style: kPurpleText16,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }),
     );
   }
 }
