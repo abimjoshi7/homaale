@@ -101,7 +101,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                               Text(
                                                 state
                                                         .orderItemRetriveList
-                                                        ?.orderItem![index]
+                                                        ?.orderItem?[index]
                                                         .task
                                                         ?.title ??
                                                     "",
@@ -114,7 +114,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                                 maxLines: 1,
                                               ),
                                               Text('Rs '
-                                                  '${state.orderItemRetriveList?.orderItem![index].amount}'),
+                                                  '${state.orderItemRetriveList?.orderItem?[index].amount}'),
                                               Text('Rs '
                                                   '${state.orderItemRetriveList?.grandTotal}'),
                                             ],
