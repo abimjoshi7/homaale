@@ -350,8 +350,10 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                               ?.result![current].id ??
                                           ""),
                                 );
-                            context.read<OrderItemRetriveBloc>().add(OrderItemRetriveInitiated(
-                                uuid: '7b8eabe2-82ad-4dc3-ac43-82bbdca64783'));
+                            context.read<OrderItemRetriveBloc>().add(
+                                OrderItemRetriveInitiated(
+                                    uuid:
+                                        '7b8eabe2-82ad-4dc3-ac43-82bbdca64783'));
                             Navigator.pushNamed(
                               context,
                               CheckoutPage.routeName,
@@ -388,7 +390,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                 margin: EdgeInsets.all(20),
                                 padding: EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color:  Color(0Xff00D084),
+                                  color: Color(0Xff00D084),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(

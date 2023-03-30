@@ -23,7 +23,8 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   List<EntityService> serviceList = [];
 
   //initialize page controller
-  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, EntityService> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -141,7 +142,8 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                   child: PagedGridView(
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, EntityService item, index) => Padding(
+                      itemBuilder: (context, EntityService item, index) =>
+                          Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: () {
@@ -158,13 +160,18 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                           },
                           child: ServiceCard(
                             title: item.title,
-                            imagePath: item.images?.length == 0 ? kServiceImageNImg : item.images?.first.media,
+                            imagePath: item.images?.length == 0
+                                ? kServiceImageNImg
+                                : item.images?.first.media,
                             rating: item.rating?.first.rating.toString(),
+                            description:
+                                "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
                           ),
                         ),
                       ),
                     ),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.9,
                     ),

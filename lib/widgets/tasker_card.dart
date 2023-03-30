@@ -65,19 +65,12 @@ class TaskerCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-<<<<<<< Updated upstream
-                            AutoSizeText(
-                              label ?? 'Harry Smith',
-                              style: kPurpleText16,
-                              maxFontSize: 12,
-=======
                             Flexible(
                               child: AutoSizeText(
                                 label ?? 'Harry Smith',
                                 style: kPurpleText16,
                                 overflow: TextOverflow.ellipsis,
                               ),
->>>>>>> Stashed changes
                             ),
                             kWidth5,
                             const Icon(
