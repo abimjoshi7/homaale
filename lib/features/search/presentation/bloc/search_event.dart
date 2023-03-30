@@ -12,15 +12,15 @@ class SearchFieldInitialEvent extends SearchEvent {
   List<Object> get props => [];
 }
 
-class SearchFieldFocused extends SearchEvent {
-  @override
-  List<Object> get props => [];
-}
+// class SearchFieldFocused extends SearchEvent {
+//   @override
+//   List<Object> get props => [];
+// }
 
-class SearchFieldUnFocused extends SearchEvent {
-  @override
-  List<Object> get props => [];
-}
+// class SearchFieldUnFocused extends SearchEvent {
+//   @override
+//   List<Object> get props => [];
+// }
 
 class SearchQueryInitiated extends SearchEvent {
   final String searchQuery;
@@ -33,4 +33,17 @@ class SearchQueryInitiated extends SearchEvent {
 class SearchQueryCleared extends SearchEvent {
   @override
   List<Object> get props => [];
+}
+
+class RecentSearchQueryCleared extends SearchEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class RecentSearchQueryIndexCleared extends SearchEvent {
+  final int index;
+
+  RecentSearchQueryIndexCleared({required this.index});
+  @override
+  List<Object> get props => [index];
 }

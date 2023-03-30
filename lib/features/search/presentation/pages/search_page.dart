@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/widgets.dart';
@@ -21,12 +19,12 @@ class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
   final _searchFieldController = TextEditingController();
   late FocusNode _focusNode;
-  List x = [];
   @override
   void initState() {
     super.initState();
     _focusNode = FocusNode();
     context.read<SearchBloc>().add(SearchFieldInitialEvent());
+    //TODO: FIX BUG that retrieves list after clearing search prompt via backspace
   }
 
   @override
@@ -85,17 +83,18 @@ class _SearchPageState extends State<SearchPage> {
                             controller: _searchFieldController,
                             node: _focusNode,
                             onChanged: (query) {
-                              if (_searchFieldController.text.trim().isEmpty ||
-                                  _searchFieldController.text.isEmpty) {
-                                // _searchFieldController.clear();
+                              if (query!.trim().isEmpty && query.isEmpty) {
+                                setState(() => _searchFieldController.clear());
                                 context.read<SearchBloc>().add(
                                       SearchQueryCleared(),
                                     );
                               }
+
+                              if (query.length < 3) return;
+
                               context.read<SearchBloc>().add(
                                     SearchQueryInitiated(
-                                      searchQuery:
-                                          query.toString().toLowerCase(),
+                                      searchQuery: query.toString(),
                                     ),
                                   );
                             },
@@ -133,6 +132,7 @@ class _SearchPageState extends State<SearchPage> {
                                           .read<SearchBloc>()
                                           .add(SearchQueryCleared());
                                     }),
+                                //TODO:voice search implementation
                                 // (_focusNode.hasFocus)
                                 //     ? IconButton(
                                 //         iconSize: 22.0,
@@ -153,28 +153,45 @@ class _SearchPageState extends State<SearchPage> {
                   ),
 
                   //**Search Results**//
-                  BlocBuilder<SearchBloc, SearchState>(
+                  BlocConsumer<SearchBloc, SearchState>(
+                    listener: (context, state) {},
                     builder: (_, state) {
                       if (state.theStates == TheStates.initial) {
-                        return RecentSearchesList();
+                        return RecentSearchesList(
+                          recentSearchesList:
+                              state.recentSearchQueriesList as List,
+                        );
                       }
                       if (state.theStates == TheStates.success) {
+                        if (state.filteredList!.length < 1) {
+                          return Align(
+                            alignment: Alignment.center,
+                            child: Text('No results Found.'),
+                          );
+                        }
                         return SearchResultsList(
                           searchList: state.filteredList!,
                         );
                       }
 
+                      if (state.theStates == TheStates.failure) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child:
+                              Text('An Error Occured. Please Try Again Later.'),
+                        );
+                      }
                       return CircularProgressIndicator();
                     },
                   ),
-
                   //**Recent Searches List**//
-
                   // addVerticalSpace(
                   //     MediaQuery.of(context).size.height * 0.015),
                   //** Recommendations Category Search Filter List**/
+                  //TODO:recommended category search implementation
                   // RecommendedCategoryList(),
                   //**Saved Search List**//
+                  //TODO:saved search list search implementation
                   // SavedSearchList(),
                 ],
               ),

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/search/data/search_result.dart';
@@ -53,22 +52,61 @@ class SearchRepository {
     return null;
   }
 
-  // Future<void> cacheRecentSearchQueries(
-  //     String key, List<String> searchQueriesList) async {
-  //   await CacheHelper.setCachedString(
-  //     key,
-  //     searchQueriesList.toString(),
-  //   );
-  //   return null;
-  // }
-  //
-  // Future<String?> getCachedRecentSearchQueries({required String key}) async {
-  //   try {
-  //     final String? x = await CacheHelper.getCachedString(key);
-  //     return x;
-  //   } catch (e) {
-  //     log(e.toString());
-  //     rethrow;
-  //   }
-  // }
+  Future<dynamic> getCachedRecentSearchQueries({required String key}) async {
+    try {
+      final x = await CacheHelper.getCachedString(key);
+      if (x != null) {
+        log('x ko val' + x);
+        final list = jsonDecode(x).cast<String>().toList();
+        return list;
+      }
+      return null;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> cacheRecentSearchQueries(
+      {required String key,
+      List? recentSearchQueriesList,
+      required String searchQuery}) async {
+    try {
+      if (recentSearchQueriesList == null) {
+        recentSearchQueriesList = <String>[];
+      }
+
+      if (recentSearchQueriesList.length >= 5) {
+        recentSearchQueriesList.removeLast();
+      }
+
+      if (!recentSearchQueriesList.contains(searchQuery)) {
+        recentSearchQueriesList.add(searchQuery);
+      }
+
+      await CacheHelper.setCachedString(
+        key,
+        jsonEncode(recentSearchQueriesList),
+      );
+      log('cache stored successfully!');
+
+      return null;
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> cacheNewRecentSearchQueriesList({
+    required String key,
+    required List recentSearchQueriesList,
+  }) async {
+    try {
+      await CacheHelper.setCachedString(
+        key,
+        jsonEncode(recentSearchQueriesList),
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
