@@ -32,7 +32,6 @@ class SearchRepository {
         if (result["c_type"] == "task.EntityService") {
           final x = TaskEntityService.fromJson(
               result["result"] as Map<String, dynamic>);
-          log('filter test: ' + x.toString());
           filteredList.add(
             SearchResult.taskEntityServiceResult(x),
           );
@@ -56,7 +55,6 @@ class SearchRepository {
     try {
       final x = await CacheHelper.getCachedString(key);
       if (x != null) {
-        log('x ko val' + x);
         final list = jsonDecode(x).cast<String>().toList();
         return list;
       }
@@ -88,7 +86,6 @@ class SearchRepository {
         key,
         jsonEncode(recentSearchQueriesList),
       );
-      log('cache stored successfully!');
 
       return null;
     } catch (e) {

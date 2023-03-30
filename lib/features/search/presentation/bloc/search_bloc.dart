@@ -76,9 +76,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             //get cached recent search queries
             var _recentSearchQueriesList = await _searchRepository
                 .getCachedRecentSearchQueries(key: _key) as List?;
-            // if (_recentSearchQueriesList == null) {
-            //   _recentSearchQueriesList = [];
-            // }
+
             //cache recent search queries
             await _searchRepository.cacheRecentSearchQueries(
               key: _key,
@@ -149,16 +147,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         );
       }
     });
-    on<RecentSearchQueryIndexSelected>((event, emit) {
-      event.searchFieldController.value.copyWith(
-        text: event.cachedSearchQuery,
-      );
-			
-      emit(
-        state.copyWith(
-          theStates: TheStates.success,
-        ),
-      );
-    });
+    
   }
 }

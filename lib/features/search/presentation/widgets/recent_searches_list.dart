@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
@@ -7,10 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RecentSearchesList extends StatelessWidget {
+  final Function setSearchControllerValue;
   final List recentSearchesList;
   const RecentSearchesList({
     super.key,
     required this.recentSearchesList,
+    required this.setSearchControllerValue,
   });
 
   @override
@@ -64,7 +66,14 @@ class RecentSearchesList extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   onTap: () {
-                  
+                    setSearchControllerValue(
+                        recentSearchesList[index].toString());
+                    context.read<SearchBloc>().add(
+                          SearchQueryInitiated(
+                            searchQuery: recentSearchesList[index]
+														.toString(),
+                          ),
+                        );
                   },
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),

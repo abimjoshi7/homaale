@@ -7,30 +7,31 @@ class SearchState extends Equatable {
   final TheStates? theStates;
   final List? recentSearchQueriesList;
   final List<SearchResult>? filteredList;
-  // final TextEditingController? searchFieldController;
+  final String? cachedSearchQuery;
+
   SearchState({
     this.theStates,
     this.recentSearchQueriesList,
     this.filteredList,
-    // this.searchFieldController,
+    this.cachedSearchQuery,
   });
 
   SearchState copyWith({
     TheStates? theStates,
     List? recentSearchQueriesList,
     List<SearchResult>? filteredList,
-    TextEditingController? searchFieldController,
+    String? cachedSearchQuery,
   }) {
     return SearchState(
       theStates: theStates ?? this.theStates,
       recentSearchQueriesList:
           recentSearchQueriesList ?? this.recentSearchQueriesList,
       filteredList: filteredList ?? this.filteredList,
-      // searchFieldController:
-      // searchFieldController ?? this.searchFieldController,
+      cachedSearchQuery: cachedSearchQuery ?? this.cachedSearchQuery,
     );
   }
 
   @override
-  List<Object?> get props => [theStates, recentSearchQueriesList, filteredList];
+  List<Object?> get props =>
+      [theStates, recentSearchQueriesList, filteredList, cachedSearchQuery];
 }

@@ -48,18 +48,4 @@ class RecentSearchQueryIndexCleared extends SearchEvent {
   List<Object> get props => [index];
 }
 
-class RecentSearchQueryIndexSelected extends SearchEvent {
-  final String cachedSearchQuery;
-  final TextEditingController searchFieldController;
 
-  RecentSearchQueryIndexSelected({
-    required this.searchFieldController,
-    required this.cachedSearchQuery,
-  });
-  @override
-  List<Object> get props => [
-        searchFieldController,
-        cachedSearchQuery,
-				
-      ];
-}

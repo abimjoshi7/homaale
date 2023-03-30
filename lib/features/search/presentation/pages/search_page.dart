@@ -34,6 +34,9 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
+  void _setSearchControllerValue(String value) =>
+      setState(() => _searchFieldController.setText(value));
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -91,7 +94,6 @@ class _SearchPageState extends State<SearchPage> {
                               }
 
                               if (query.length < 3) return;
-
                               context.read<SearchBloc>().add(
                                     SearchQueryInitiated(
                                       searchQuery: query.toString(),
@@ -141,7 +143,9 @@ class _SearchPageState extends State<SearchPage> {
                                 //           CupertinoIcons.mic,
                                 //           weight: 400,
                                 //         ),
-                                //         onPressed: () {},
+                                //         onPressed: () {
+
+                                //         },
                                 //       )
                                 //     : SizedBox(),
                               ],
@@ -153,13 +157,13 @@ class _SearchPageState extends State<SearchPage> {
                   ),
 
                   //**Search Results**//
-                  BlocConsumer<SearchBloc, SearchState>(
-                    listener: (context, state) {},
+                  BlocBuilder<SearchBloc, SearchState>(
                     builder: (_, state) {
                       if (state.theStates == TheStates.initial) {
                         return RecentSearchesList(
                           recentSearchesList:
                               state.recentSearchQueriesList as List,
+                          setSearchControllerValue: _setSearchControllerValue,
                         );
                       }
                       if (state.theStates == TheStates.success) {
