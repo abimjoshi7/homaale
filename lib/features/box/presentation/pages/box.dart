@@ -1,11 +1,14 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/box/presentation/bloc/order_id_create_event.dart';
+import 'package:cipher/features/box/presentation/bloc/order_id_create_state.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_event.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_state.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../bookings/presentation/bloc/bookings_bloc.dart';
+import '../../../bookings/presentation/pages/booked_service_page.dart';
 import '../../../bookings/presentation/widgets/sections/services/services_section.dart';
 import '../../../checkout/presentation/pages/checkout_page.dart';
 import '../bloc/order_id_create_bloc.dart';
@@ -21,6 +24,12 @@ class BoxPage extends StatefulWidget {
 
 class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   late TabController _tabController;
+  final TextStyle style = TextStyle(color: Colors.black, fontSize: 14);
+  List<int> selectedItems = [];
+  List<String> selectedUuid = [];
+
+  double sum = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -37,10 +46,29 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  final TextStyle style = TextStyle(color: Colors.black, fontSize: 14);
-  List<int> selectedItems = [];
-  int current = 0;
-  int sum = 0;
+  String getTotalPrice(OrderItemListState state) {
+    if (selectedItems.isNotEmpty) {
+      sum = 0.0;
+      for (var items in selectedItems) {
+        sum = sum +
+            double.parse(state
+                    .orderItemList?.result?[items].entityService?.budgetTo
+                    .toString() ??
+                "0.0");
+      }
+      return 'Rs. $sum';
+    }
+    return "Rs. 0.0";
+  }
+
+  List<String> passListOfUuid(OrderItemListState state) {
+    selectedUuid = [];
+    for (var items in selectedItems) {
+      selectedUuid = [state.orderItemList?.result?[items].id ?? ""] ;
+    }
+    return selectedUuid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +123,6 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                 selectedItems.add(index);
                               }
                             });
-                            current = index;
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -304,6 +331,14 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                         ],
                                       ),
                                       GestureDetector(
+                                        onTap: (){
+                                          context.read<BookingsBloc>().add(
+                                            BookingSingleLoaded(
+                                              state.orderItemList?.result?[0].entityService?.service?.category?.id ?? 0,
+                                            ),
+                                          );
+                                          Navigator.pushNamed(context, BookedServicePage.routeName);
+                                        },
                                         child: const Text(
                                           'Booking Details',
                                           style: TextStyle(
@@ -342,68 +377,73 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                           thickness: 2,
                           color: Color(0Xff00D084),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            context.read<OrderIdCreateBloc>().add(
-                                  OrderIdCreateInitiated(
-                                      uuid: state.orderItemList
-                                              ?.result![current].id ??
-                                          ""),
-                                );
-                            context.read<OrderItemRetriveBloc>().add(
-                                OrderItemRetriveInitiated(
-                                    uuid:
-                                        '7b8eabe2-82ad-4dc3-ac43-82bbdca64783'));
-                            Navigator.pushNamed(
-                              context,
-                              CheckoutPage.routeName,
-                            );
-                            // print('${state.orderItemList?.result![current].id}');
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Total Price',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                        BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
+                            builder: (context, orderState) {
+                          return GestureDetector(
+                            onTap: () {
+                              context.read<OrderIdCreateBloc>().add(
+                                    OrderIdCreateInitiated(
+                                      uuid: passListOfUuid(state),
                                     ),
-                                    Text(
-                                      'Rs  '
-                                      '${state.orderItemList?.result![current].entityService?.budgetTo.toString()}',
-                                      // '${sum.toString()}',
-                                      style: TextStyle(
+                                  );
+                              context.read<OrderItemRetriveBloc>().add(
+                                    OrderItemRetriveInitiated(
+                                        uuid: orderState.orderIdCreate?.order ??
+                                            ""
+                                        // 'de6f74e1-2074-4fb7-af6a-c816a7e6cda4'
+                                        ),
+                                  );
+                              print(orderState.orderIdCreate?.order);
+                              Navigator.pushNamed(
+                                context,
+                                CheckoutPage.routeName,
+                              );
+                              // print('${state.orderItemList?.result![current].id}');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Total Price',
+                                        style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ],
+                                        ),
+                                      ),
+                                      Text(
+                                        getTotalPrice(state),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(20),
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: Color(0Xff00D084),
-                                  borderRadius: BorderRadius.circular(10),
+                                Container(
+                                  margin: EdgeInsets.all(20),
+                                  padding: EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Color(0Xff00D084),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    'Proceed to Payment ',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1),
+                                  ),
                                 ),
-                                child: Text(
-                                  'Proceed to Payment ',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   ),
