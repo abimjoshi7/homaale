@@ -34,3 +34,4 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:video_player/video_player.dart';
 export 'package:permission_handler/permission_handler.dart' hide ServiceStatus;
 export 'package:telephony/telephony.dart';
+export 'package:firebase_core/firebase_core.dart';

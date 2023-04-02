@@ -1,4 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/locator.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class BookingsCalenderSection extends StatefulWidget {
@@ -7,101 +11,87 @@ class BookingsCalenderSection extends StatefulWidget {
   });
 
   @override
-  State<BookingsCalenderSection> createState() =>
-      _BookingsCalenderSectionState();
+  State<BookingsCalenderSection> createState() => _BookingsCalenderSectionState();
 }
 
 class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
-  List<bool> isSelected = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.2,
-      width: double.infinity,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Dec-2022'),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.calendar_month_rounded,
-                  ),
+    return BlocBuilder<BookingsBloc, BookingsState>(
+      builder: (context, state) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.17,
+          width: double.infinity,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isSelected[index] = !isSelected[index];
-                  });
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${DateFormat('MMMM').format(DateTime.now())}, ${DateTime.now().year}'),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.calendar_month_rounded,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              TableCalendar(
+                firstDay: DateTime.utc(2010, 10, 16),
+                lastDay: DateTime.utc(2030, 3, 14),
+                focusedDay: DateTime.now(),
+                calendarFormat: CalendarFormat.week,
+                weekendDays: [DateTime.saturday],
+                headerVisible: false,
+                eventLoader: (day) {
+                  var list = [];
+                  var res = <Result>[
+                    ...?state.myBookingListModelTask?.result,
+                    ...?state.myBookingListModelService?.result
+                  ];
+                  for (var item in res) {
+                    if (day.isAtSameMomentAs(item.createdAt!)) {
+                      list.add(day);
+                    }
+                  }
+                  return list;
                 },
-                child: Container(
-                  width: 45,
-                  decoration: BoxDecoration(
-                    color: isSelected[index] == true
-                        ? kColorPrimary
-                        : const Color(0xffF1F3F5),
-                    borderRadius: BorderRadius.circular(
-                      30,
+                calendarBuilders: CalendarBuilders(
+                  selectedBuilder: (context, date, events) => Container(
+                    margin: const EdgeInsets.all(4.0),
+                    alignment: Alignment.center,
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(10.0)),
+                    child: Text(
+                      date.day.toString(),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        weekNames[index],
-                        style: kBodyText1,
-                      ),
-                      kHeight5,
-                      Text(
-                        '0${index + 1}',
-                        style: kBodyText1,
-                      ),
-                    ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  color: kColorPrimary,
+                  height: 40,
+                  width: double.infinity,
+                  child: const Center(
+                    child: Text(
+                      '\.90 from 10 Bookings',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
-              separatorBuilder: (context, index) => addHorizontalSpace(20),
-              itemCount: isSelected.length,
-            ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Container(
-              color: kColorPrimary,
-              height: 40,
-              width: double.infinity,
-              child: const Center(
-                child: Text(
-                  '\$765.90 from 10 Bookings',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
