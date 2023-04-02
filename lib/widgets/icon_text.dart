@@ -29,9 +29,7 @@ class IconText extends StatelessWidget {
         kWidth10,
         AutoSizeText(
           label,
-          style: const TextStyle(
-            fontSize: 14,
-          ),
+          maxFontSize: 12,
           overflow: TextOverflow.ellipsis,
         ),
       ],

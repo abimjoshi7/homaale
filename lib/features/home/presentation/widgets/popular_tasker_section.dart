@@ -69,7 +69,7 @@ class PopularTaskerSection extends StatelessWidget {
                         designation: data?[index].designation,
                         happyClients: data?[index].stats?.happyClients.toString(),
                         ratings:
-                            "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                            "${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
                         callback: () {},
                       ),
                     ),

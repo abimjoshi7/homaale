@@ -30,9 +30,7 @@ class ServiceCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                    imagePath == null
-                        ? kServiceImageNImg
-                        : imagePath ?? kServiceImageNImg,
+                    imagePath == null ? kServiceImageNImg : imagePath ?? kServiceImageNImg,
                   ),
                   fit: BoxFit.cover,
                 ),
