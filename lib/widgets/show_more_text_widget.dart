@@ -23,9 +23,11 @@ class _ShowMoreTextWidgetState extends State<ShowMoreTextWidget> {
         ),
         GestureDetector(
           onTap: () {
-            setState(() {
-              showAll = !showAll;
-            });
+            if (widget.text.isNotEmpty) {
+              setState(() {
+                showAll = !showAll;
+              });
+            }
           },
           child: Text(
             showAll ? 'See less' : 'See more',
