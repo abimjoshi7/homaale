@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +38,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: <Widget>[
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

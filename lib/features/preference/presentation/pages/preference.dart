@@ -1,9 +1,12 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_add_skills.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_join_as.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_service_category.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_sign_up.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class Preference extends StatefulWidget {
@@ -16,7 +19,7 @@ class Preference extends StatefulWidget {
 
 class _PreferenceState extends State<Preference> {
   int selectedIndex = 0;
-  final widgets = [
+  final widgets = <Widget>[
     const PreferencesSignUp(),
     const PreferencesJoinAs(),
     const PreferencesServiceCategory(),
@@ -27,10 +30,10 @@ class _PreferenceState extends State<Preference> {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Row(
                   children: [
                     IconButton(
@@ -113,6 +116,14 @@ class _PreferenceState extends State<Preference> {
                     }
                   },
                 );
+                if (selectedIndex >= 3) {
+                  context.read<SignInBloc>().add(SignInWithoutCredentials());
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  );
+                }
               },
               label: 'Next',
             ),

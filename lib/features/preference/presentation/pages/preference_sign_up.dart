@@ -19,16 +19,16 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         const Text(
           'How would you like to sign up?',
           style: kPurpleText16,
         ),
         kHeight20,
-        Expanded(
+        Flexible(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -100,7 +100,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                   ),
                 ),
               ),
-              kHeight50,
+              addVerticalSpace(30.0),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -172,7 +172,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                   ),
                 ),
               ),
-              kHeight50,
+              addVerticalSpace(30.0),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -244,7 +244,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                   ),
                 ),
               ),
-              kHeight20,
+              // kHeight50,
             ],
           ),
         ),

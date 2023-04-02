@@ -15,12 +15,12 @@ class Home extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.87,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+          children: <Widget>[
             const HomeHeaderSection(),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: const [
+                  children: const <Widget>[
                     HeaderOfferSection(),
                     // DealsOfTheDaySection(),
                     CategoriesSection(),

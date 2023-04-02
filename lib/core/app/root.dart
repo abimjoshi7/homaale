@@ -35,7 +35,7 @@ class _RootState extends State<Root> {
   bool bookingsActive = false;
   bool profileActive = false;
 
-  final pages = [
+  final pages = <Widget>[
     const Home(),
     const BoxPage(),
     const MyBookingsPage(),
@@ -50,19 +50,26 @@ class _RootState extends State<Root> {
             .read<HeroCategoryCubit>()
             .getHeroCategory()
             .then(
-              (value) async => context.read<TaskerPortfolioCubit>().getPortfolio(),
+              (value) async =>
+                  context.read<TaskerPortfolioCubit>().getPortfolio(),
             )
             .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context
+                  .read<TaskBloc>()
+                  .add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
             )
             .then(
               (value) async => context.read<UserBloc>().add(
@@ -75,13 +82,17 @@ class _RootState extends State<Root> {
                   ),
             )
             .then(
-              (value) async => context.read<EntityServiceBloc>().add(const EntityServiceInitiated()),
+              (value) async => context
+                  .read<EntityServiceBloc>()
+                  .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
-              (value) async => context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+              (value) async => context
+                  .read<NotificationBloc>()
+                  .add(MyNotificationListInitiated()),
             );
       },
     );
@@ -126,14 +137,14 @@ class _RootState extends State<Root> {
       },
       child: Scaffold(
         body: Stack(
-          children: [
+          children: <Widget>[
             pages[pageIndex],
             Align(
               alignment: Alignment.bottomCenter,
               child: Builder(
                 builder: (context) {
                   return Stack(
-                    children: [
+                    children: <Widget>[
                       Visibility(
                         visible: !addActive,
                         child: Container(
@@ -157,7 +168,7 @@ class _RootState extends State<Root> {
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: <Widget>[
                                 CustomBottomNavItems(
                                   onPressed: () {
                                     setState(
@@ -278,7 +289,7 @@ class _RootState extends State<Root> {
                     painter: FloatingOptionsCustomPainter(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         AddPopupButton(
                           label: 'Post a Task',
                           icon: Icons.comment_bank_rounded,

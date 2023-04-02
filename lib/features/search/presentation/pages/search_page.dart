@@ -1,6 +1,12 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/widgets.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
+import 'package:cipher/features/task/data/models/all_task_list.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,9 +25,14 @@ class _SearchPageState extends State<SearchPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _searchFieldController = TextEditingController();
   late FocusNode _focusNode;
+  // var _taskBloc = locator<TaskBloc>();
+  // EntityServiceBloc _entityServiceBloc = locator<EntityServiceBloc>();
+  // List? collection = List.empty();
+
   @override
   void initState() {
     super.initState();
+    
     _focusNode = FocusNode();
     context.read<SearchBloc>().add(SearchFieldInitialEvent());
     //TODO: FIX BUG that retrieves list after clearing search prompt via backspace

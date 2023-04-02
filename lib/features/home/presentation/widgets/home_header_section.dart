@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
@@ -22,6 +23,14 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   late Widget? child;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {},
@@ -30,9 +39,9 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
           if (state.theStates == TheStates.success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
-                  'Hi, ${state.userLoginRes?.username ?? 'New User'}',
+                  'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -68,13 +77,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           () {
                             location =
                                 '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location =
+                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
                     });
                   },
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       const Icon(
                         Icons.location_on_outlined,
                         color: Colors.white,
@@ -105,7 +116,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
         return ColoredBox(
           color: kColorPrimary,
           child: Column(
-            children: [
+            children: <Widget>[
               kHeight50,
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
@@ -118,8 +129,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            state.taskerProfile?.profileImage ??
-                                kServiceImageNImg,
+                            state.taskerProfile?.profileImage ?? kServiceImageNImg,
                           ),
                         ),
                       ),
@@ -139,18 +149,22 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           width: 50,
                           height: 40,
                           child: Stack(
-                            children: [
+                            children: <Widget>[
                               Positioned(
                                 top: 5,
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      NotificationFromHome.routeName,
-                                    );
+                                    (CacheHelper.isLoggedIn)
+                                        ? Navigator.pushNamed(
+                                            context,
+                                            NotificationFromHome.routeName,
+                                          )
+                                        : null;
                                   },
-                                  child: const Icon(
-                                    Icons.notifications_none,
+                                  child: Icon(
+                                    (CacheHelper.isLoggedIn)
+                                        ? Icons.notifications_none
+                                        : Icons.notifications_off_outlined,
                                     color: Colors.white,
                                     size: 30,
                                   ),

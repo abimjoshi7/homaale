@@ -34,3 +34,7 @@ class SignInValErrorStatusChanged extends SignInEvent {
   //   required this.hasValidationErrors,
   // });
 }
+
+class SignInWithoutCredentials extends SignInEvent {
+	
+}

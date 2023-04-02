@@ -46,18 +46,22 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         try {
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
             (value) {
+              CacheHelper.isLoggedIn = true;
+
               emit(
                 state.copyWith(
-                    userLoginRes: value,
-                    theStates: TheStates.success,
-                    isPhoneNumber: true,
-                    hasValidationErrors: false),
+                  userLoginRes: value,
+                  theStates: TheStates.success,
+                  isPhoneNumber: true,
+                  hasValidationErrors: false,
+                ),
               );
               CacheHelper.accessToken = value.access;
               CacheHelper.refreshToken = value.refresh;
             },
           );
         } catch (e) {
+          CacheHelper.isLoggedIn = false;
           emit(state.copyWith(
             theStates: TheStates.failure,
             isPhoneNumber: true,
@@ -72,6 +76,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         try {
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
             (value) {
+              CacheHelper.isLoggedIn = true;
               emit(state.copyWith(
                 userLoginRes: value,
                 theStates: TheStates.success,
@@ -84,6 +89,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             },
           );
         } catch (e) {
+          CacheHelper.isLoggedIn = false;
           emit(state.copyWith(
             theStates: TheStates.failure,
             isPhoneNumber: false,
@@ -92,13 +98,23 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         }
       },
     );
-    on<SignInValErrorStatusChanged>(((event, emit) async {
+    on<SignInValErrorStatusChanged>(
+      ((event, emit) {
+        emit(
+          state.copyWith(
+            theStates: TheStates.initial,
+            hasValidationErrors: true,
+          ),
+        );
+      }),
+    );
+    on<SignInWithoutCredentials>((event, emit) {
+      CacheHelper.isLoggedIn = false;
       emit(
         state.copyWith(
-          theStates: TheStates.initial,
-          hasValidationErrors: true,
+          theStates: TheStates.success,
         ),
       );
-    }));
+    });
   }
 }

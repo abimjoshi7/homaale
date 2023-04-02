@@ -32,6 +32,7 @@ const kWidth20 = SizedBox(
   width: 20,
 );
 
+
 Widget addVerticalSpace(double size) {
   return SizedBox(
     height: size,
