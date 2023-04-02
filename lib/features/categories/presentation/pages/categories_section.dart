@@ -43,8 +43,7 @@ class CategoriesSection extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.hero.result?.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5,
                         crossAxisSpacing: 0,
                         mainAxisSpacing: 0,
@@ -59,12 +58,14 @@ class CategoriesSection extends StatelessWidget {
                         child: CategoriesIcons(
                           data: state.hero.result?[index]?.category?.name ?? '',
                           color: randomColorGenerator(),
-                          child: SvgPicture.network(
-                            state.hero.result?[index]?.category?.icon
-                                    .toString() ??
-                                "",
+                          child: SizedBox(
+                            height: 18,
+                            width: 18,
+                            child: SvgPicture.string(
+                              state.hero.result?[index]?.category?.icon?.toString() ?? kErrorSvg,
+                              color: Colors.white,
+                            ),
                           ),
-                          // const Icon(Icons.add_circle),
                         ),
                       ),
                     ),

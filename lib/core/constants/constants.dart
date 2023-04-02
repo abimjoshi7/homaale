@@ -7,3 +7,4 @@ export './paddings.dart';
 export './strings.dart';
 export './text.dart';
 export './validations.dart';
+export './custom_svg.dart';

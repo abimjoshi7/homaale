@@ -13,11 +13,7 @@ class CategoriesRepositories {
         url: 'task/cms/task-category/list/',
         token: CacheHelper.accessToken,
       );
-      return (x as List<dynamic>)
-          .map(
-            (e) => Category.fromMap(e as Map<String, dynamic>),
-          )
-          .toList();
+      return (x as List<dynamic>).map((e) => Category.fromMap(e as Map<String, dynamic>)).toList();
     } catch (e) {
       log(
         e.toString(),
@@ -48,7 +44,6 @@ class CategoriesRepositories {
         token: CacheHelper.accessToken,
       );
       return List<Map<String, dynamic>>.from(res as Iterable);
-
     } catch (e) {
       log(
         e.toString(),

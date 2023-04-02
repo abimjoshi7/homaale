@@ -18,23 +18,14 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
     on<ServicesLoadInitiated>(
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.initial,
-            ),
-          );
+          emit(state.copyWith(theStates: TheStates.initial));
           await repositories.fetchServiceCategoryList(event.categoryId).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
                     isServiceListLoaded: true,
-                    serviceList:
-                        value.map((e) => ServiceList.fromJson(e)).toList()
-                          ..sort(
-                            (a, b) => a.title!.compareTo(
-                              b.title!,
-                            ),
-                          ),
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );

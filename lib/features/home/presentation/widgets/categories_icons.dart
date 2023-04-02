@@ -29,7 +29,7 @@ class CategoriesIcons extends StatelessWidget {
               shape: BoxShape.circle,
               color: color,
             ),
-            child: child,
+            child: Center(child: child),
           ),
           kHeight5,
           AutoSizeText(

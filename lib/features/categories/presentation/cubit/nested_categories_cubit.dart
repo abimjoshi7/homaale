@@ -15,13 +15,7 @@ class NestedCategoriesCubit extends Cubit<NestedCategoriesState> {
     try {
       await CategoriesRepositories().fetchNestedCategory().then(
             (value) => emit(
-              NestedCategoriesLoadSuccess(
-                value
-                    .map(
-                      (e) => NestedCategory.fromJson(e),
-                    )
-                    .toList(),
-              ),
+              NestedCategoriesLoadSuccess(value.map((e) => NestedCategory.fromJson(e)).toList()),
             ),
           );
     } catch (e) {
