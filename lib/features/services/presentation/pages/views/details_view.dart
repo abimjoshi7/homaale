@@ -1,13 +1,9 @@
-import 'dart:convert';
-
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
-import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -27,21 +23,8 @@ class _DetailsViewState extends State<DetailsView> {
   List<String> requirementList = [];
   List<int>? imageList;
   List<int>? fileList;
-  Map<String, dynamic>? map;
 
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(
-      Duration.zero,
-      () async {
-        final savedMap = await CacheHelper.getCachedString(kBookedMap);
-        setState(() {
-          map = jsonDecode(savedMap ?? '') as Map<String, dynamic>;
-        });
-      },
-    );
-  }
+  late final eventCache = locator<BookEventHandlerBloc>();
 
   @override
   void dispose() {
@@ -53,305 +36,242 @@ class _DetailsViewState extends State<DetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
-      builder: (context, state) {
-        if (state.theStates == TheStates.initial) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state.theStates == TheStates.success) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                const DetailHeaderSection(),
-                const Divider(),
-                addVerticalSpace(
-                  8,
-                ),
-                CustomFormField(
-                  label: "Your Budget (Non negotiable)",
-                  child: SizedBox(
-                    height: 40,
-                    width: 160,
-                    child: NumberIncDecField(
-                      controller: budgetController,
-                      onChanged: (value) async {
-                        map!.update(
-                          "budget_to",
-                          (value) => double.parse(budgetController.text),
-                          ifAbsent: () => double.parse(budgetController.text),
-                        );
-                        await CacheHelper.setCachedString(
-                          kBookedMap,
-                          jsonEncode(
-                            map,
-                          ),
-                        );
-                      },
-                      onSubmit: (value) =>
-                          context.read<BookEventHandlerBloc>().add(
-                                BookEventPicked(
-                                  req: BookEntityServiceReq(
-                                    budgetTo: double.parse(
-                                      budgetController.text,
-                                    ),
-                                  ),
-                                ),
-                              ),
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: const DetailHeaderSection(),
+        ),
+        SliverToBoxAdapter(
+          child: CustomFormField(
+            label: "Your Budget (Non negotiable)",
+            child: SizedBox(
+              height: 40,
+              width: 160,
+              child: NumberIncDecField(
+                controller: budgetController,
+                onSubmit: (value) => eventCache.add(
+                  BookEventPicked(
+                    req: BookEntityServiceReq(
+                      budgetTo: double.parse(
+                        budgetController.text,
+                      ),
+                      endDate: DateTime.parse(eventCache.state.endDate!),
                     ),
                   ),
                 ),
-                CustomFormField(
-                  label: 'Requirements',
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: List.generate(
-                          requirementList.length,
-                          (index) => Padding(
-                            padding: const EdgeInsets.all(2),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 12,
-                                      color: kColorSecondary,
-                                    ),
-                                    addHorizontalSpace(20),
-                                    Text(
-                                      requirementList[index],
-                                    ),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(
-                                      () {
-                                        requirementList.remove(
-                                          requirementList[index],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: const Icon(
-                                    Icons.clear,
-                                    size: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      addVerticalSpace(5),
-                      CustomTextFormField(
-                        controller: requirementController,
-                        hintText: 'Add requirements',
-                        onEditingComplete: () {
-                          setState(() {});
-                        },
-                        onFieldSubmitted: (p0) async {
-                          requirementList.add(p0!);
-                          context.read<BookEventHandlerBloc>().add(
-                                BookEventPicked(
-                                    req: BookEntityServiceReq(
-                                  requirements: requirementList,
-                                )),
-                              );
-                          requirementController.clear();
-                          // setState(
-                          //   () async {
-                          //     requirementList.add(p0!);
-                          //     map!.update(
-                          //       "requirements",
-                          //       (value) => requirementList,
-                          //       ifAbsent: () => requirementList,
-                          //     );
-                          //     await CacheHelper.setCachedString(
-                          //       kBookedMap,
-                          //       jsonEncode(
-                          //         map,
-                          //       ),
-                          //     );
-                          //     requirementController.clear();
-                          //   },
-                          // );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                CustomFormField(
-                  label: 'Description',
-                  isRequired: true,
-                  child: CustomTextFormField(
-                    maxLines: 3,
-                    hintText: "Service Desciption Here",
-                    controller: problemDescController,
-                    validator: validateNotEmpty,
-                    inputAction: TextInputAction.done,
-                    onChanged: (p0) async {
-                      map!.update(
-                        "description",
-                        (value) => problemDescController.text,
-                        ifAbsent: () => problemDescController.text,
-                      );
-                      await CacheHelper.setCachedString(
-                        kBookedMap,
-                        jsonEncode(
-                          map,
-                        ),
-                      );
-                    },
-                    onFieldSubmitted: (p0) =>
-                        context.read<BookEventHandlerBloc>().add(
-                              BookEventPicked(
-                                req: BookEntityServiceReq(
-                                  description: problemDescController.text,
-                                ),
-                              ),
-                            ),
-                  ),
-                ),
-                CustomFormField(
-                  label: 'Images',
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+              ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CustomFormField(
+            label: 'Requirements',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                    requirementList.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Maximum Image Size 20 MB',
-                            style: kHelper13,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                size: 12,
+                                color: kColorSecondary,
+                              ),
+                              addHorizontalSpace(20),
+                              Text(
+                                requirementList[index],
+                              ),
+                            ],
                           ),
-                          addHorizontalSpace(5),
-                          const Icon(
-                            Icons.info_outline,
-                            color: Colors.orange,
-                          ),
-                        ],
-                      ),
-                      addVerticalSpace(5),
-                      InkWell(
-                        onTap: () async {
-                          await context
-                              .read<ImageUploadCubit>()
-                              .uploadImage()
-                              .whenComplete(
-                                () => context.read<BookEventHandlerBloc>().add(
-                                      BookEventPicked(
-                                        req: BookEntityServiceReq(
-                                          images: imageList,
-                                        ),
-                                      ),
-                                    ),
-                              );
-                        },
-                        child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                          listener: (context, state) async {
-                            if (state is ImageUploadSuccess) {
+                          InkWell(
+                            onTap: () {
                               setState(
-                                () async {
-                                  imageList = List<int>.from(state.list);
-                                  map!.update(
-                                    "images",
-                                    (value) => imageList,
-                                    ifAbsent: () => imageList,
-                                  );
-                                  await CacheHelper.setCachedString(
-                                    kBookedMap,
-                                    jsonEncode(
-                                      map,
-                                    ),
+                                () {
+                                  requirementList.remove(
+                                    requirementList[index],
                                   );
                                 },
                               );
-                            }
-                          },
-                          child: CustomDottedContainerStack(
-                            theWidget: imageList == null
-                                ? Text('Select Images')
-                                : Text('Image Uploaded'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                CustomFormField(
-                  label: 'Videos',
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Maximum Video Size 20 MB',
-                            style: kHelper13,
-                          ),
-                          addHorizontalSpace(5),
-                          const Icon(
-                            Icons.info_outline,
-                            color: Colors.orange,
+                            },
+                            child: const Icon(
+                              Icons.clear,
+                              size: 14,
+                            ),
                           ),
                         ],
                       ),
-                      addVerticalSpace(5),
-                      InkWell(
-                        onTap: () async {
-                          await context
-                              .read<ImageUploadCubit>()
-                              .uploadVideo()
-                              .whenComplete(
-                                () => context.read<BookEventHandlerBloc>().add(
-                                      BookEventPicked(
-                                        req: BookEntityServiceReq(
-                                          videos: fileList,
-                                        ),
-                                      ),
-                                    ),
-                              );
-                        },
-                        child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                          listener: (context, state) async {
-                            if (state is VideoUploadSuccess) {
-                              setState(() {
-                                fileList = List<int>.from(state.list);
-                              });
-                              map!.update(
-                                "videos",
-                                (value) => fileList,
-                                ifAbsent: () => fileList,
-                              );
-                              await CacheHelper.setCachedString(
-                                kBookedMap,
-                                jsonEncode(
-                                  map,
-                                ),
-                              );
-                            }
-                          },
-                          child: CustomDottedContainerStack(
-                            theWidget: fileList == null
-                                ? Text('Select Videos')
-                                : Text('File Uploaded'),
-                          ),
+                    ),
+                  ),
+                ),
+                addVerticalSpace(5),
+                CustomTextFormField(
+                  controller: requirementController,
+                  hintText: 'Add requirements',
+                  onEditingComplete: () {
+                    setState(() {});
+                  },
+                  onFieldSubmitted: (p0) async {
+                    requirementList.add(p0!);
+                    eventCache.add(
+                      BookEventPicked(
+                        req: BookEntityServiceReq(
+                          requirements: requirementList,
+                          endDate: DateTime.parse(eventCache.state.endDate!),
                         ),
                       ),
-                    ],
+                    );
+                    requirementController.clear();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CustomFormField(
+            label: 'Description',
+            isRequired: true,
+            child: CustomTextFormField(
+              maxLines: 3,
+              hintText: "Service Desciption Here",
+              controller: problemDescController,
+              validator: validateNotEmpty,
+              inputAction: TextInputAction.done,
+              onFieldSubmitted: (p0) => eventCache.add(
+                BookEventPicked(
+                  req: BookEntityServiceReq(
+                    description: problemDescController.text,
+                    endDate: DateTime.parse(eventCache.state.endDate!),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CustomFormField(
+            label: 'Images',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'Maximum Image Size 20 MB',
+                      style: kHelper13,
+                    ),
+                    addHorizontalSpace(5),
+                    const Icon(
+                      Icons.info_outline,
+                      color: Colors.orange,
+                    ),
+                  ],
+                ),
+                addVerticalSpace(5),
+                InkWell(
+                  onTap: () async {
+                    await context
+                        .read<ImageUploadCubit>()
+                        .uploadImage()
+                        .whenComplete(
+                          () => eventCache.add(
+                            BookEventPicked(
+                              req: BookEntityServiceReq(
+                                images: imageList,
+                                endDate:
+                                    DateTime.parse(eventCache.state.endDate!),
+                              ),
+                            ),
+                          ),
+                        );
+                  },
+                  child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                    listener: (context, state) async {
+                      if (state is ImageUploadSuccess) {
+                        setState(
+                          () async {
+                            imageList = List<int>.from(state.list);
+                          },
+                        );
+                      }
+                    },
+                    child: CustomDottedContainerStack(
+                      theWidget: imageList == null
+                          ? Text('Select Images')
+                          : Text('Image Uploaded'),
+                    ),
                   ),
                 ),
               ],
             ),
-          );
-        }
-        return const ErrorPage();
-      },
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CustomFormField(
+            label: 'Videos',
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'Maximum Video Size 20 MB',
+                      style: kHelper13,
+                    ),
+                    addHorizontalSpace(5),
+                    const Icon(
+                      Icons.info_outline,
+                      color: Colors.orange,
+                    ),
+                  ],
+                ),
+                addVerticalSpace(5),
+                InkWell(
+                  onTap: () async {
+                    await context
+                        .read<ImageUploadCubit>()
+                        .uploadVideo()
+                        .whenComplete(
+                          () => eventCache.add(
+                            BookEventPicked(
+                              req: BookEntityServiceReq(
+                                videos: fileList,
+                                endDate:
+                                    DateTime.parse(eventCache.state.endDate!),
+                              ),
+                            ),
+                          ),
+                        );
+                  },
+                  child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                    listener: (context, state) async {
+                      if (state is VideoUploadSuccess) {
+                        setState(
+                          () {
+                            fileList = List<int>.from(state.list);
+                          },
+                        );
+                      }
+                    },
+                    child: CustomDottedContainerStack(
+                      theWidget: fileList == null
+                          ? Text('Select Videos')
+                          : Text('File Uploaded'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

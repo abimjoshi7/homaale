@@ -17,7 +17,8 @@ class BookingHistoryRes with _$BookingHistoryRes {
     List<Result>? result,
   }) = _BookingHistoryRes;
 
-  factory BookingHistoryRes.fromJson(Map<String, dynamic> json) => _$BookingHistoryResFromJson(json);
+  factory BookingHistoryRes.fromJson(Map<String, dynamic> json) =>
+      _$BookingHistoryResFromJson(json);
 }
 
 @freezed
@@ -41,7 +42,7 @@ class Result with _$Result {
     String? slug,
     @JsonKey(name: 'start_date') DateTime? startDate,
     @JsonKey(name: 'end_date') DateTime? endDate,
-    dynamic? completedOn,
+    dynamic completedOn,
     @JsonKey(name: 'start_time') String? startTime,
     @JsonKey(name: 'end_time') String? endTime,
     @JsonKey(name: 'extra_data') List<dynamic>? extraData,
@@ -77,7 +78,8 @@ class Assignee with _$Assignee {
     Badge? badge,
   }) = _Assignee;
 
-  factory Assignee.fromJson(Map<String, dynamic> json) => _$AssigneeFromJson(json);
+  factory Assignee.fromJson(Map<String, dynamic> json) =>
+      _$AssigneeFromJson(json);
 }
 
 @freezed
@@ -99,7 +101,8 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -114,7 +117,8 @@ class EntityService with _$EntityService {
     @JsonKey(name: 'created_by') Assignee? createdBy,
   }) = _EntityService;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
+  factory EntityService.fromJson(Map<String, dynamic> json) =>
+      _$EntityServiceFromJson(json);
 }
 
 @freezed

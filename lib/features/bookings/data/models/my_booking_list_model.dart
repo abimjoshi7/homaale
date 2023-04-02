@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'my_booking_list_model.freezed.dart';

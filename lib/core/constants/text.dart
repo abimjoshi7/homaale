@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 const kTabBarTitle = TextStyle(
   fontWeight: FontWeight.w600,
@@ -154,6 +153,7 @@ const kBoldText = TextStyle(
   color: Colors.black,
 );
 
-const kBodyText1 = TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
+const kBodyText1 =
+    TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
 
 const kHighlightedText = TextStyle(color: Color(0xff3EAEFF), fontSize: 10);

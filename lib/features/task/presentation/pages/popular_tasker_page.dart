@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
@@ -21,7 +20,8 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
   List<Tasker> taskerList = [];
 
   //initialize page controller
-  final PagingController<int, Tasker> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, Tasker> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -146,7 +146,9 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                             context.read<TaskerCubit>().loadSingleTasker(
                                   item.user?.id ?? '',
                                 );
-                            context.read<TaskerCubit>().loadSingleTaskerServices(
+                            context
+                                .read<TaskerCubit>()
+                                .loadSingleTaskerServices(
                                   item.user?.id ?? '',
                                 );
                             context.read<TaskerCubit>().loadSingleTaskerTask(
@@ -162,7 +164,8 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                           },
                           child: TaskerCard(
                             networkImageUrl: item.profileImage,
-                            label: "${item.user?.firstName} ${item.user?.lastName}",
+                            label:
+                                "${item.user?.firstName} ${item.user?.lastName}",
                             designation: item.designation,
                             happyClients: item.stats?.happyClients.toString(),
                             ratings:
@@ -173,7 +176,8 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                         ),
                       ),
                     ),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.9,
                     ),

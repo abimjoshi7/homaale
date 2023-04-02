@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:dependencies/dependencies.dart';

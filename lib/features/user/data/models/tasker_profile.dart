@@ -2,6 +2,8 @@
 //
 //     final taskerProfile = taskerProfileFromJson(jsonString);
 
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'tasker_profile.freezed.dart';

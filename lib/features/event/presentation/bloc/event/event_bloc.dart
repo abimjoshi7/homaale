@@ -30,8 +30,6 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                     event: Event.fromJson(value),
                     isLoaded: true,
                     isCreated: false,
-                    createdEventRes: null,
-                    isAvailable: null,
                   ),
                 ),
               );
@@ -92,11 +90,6 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<EventAvailabilityChecked>(
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.initial,
-            ),
-          );
           await repo
               .checkAvailability(
             eventAvailability: event.eventAvailability,

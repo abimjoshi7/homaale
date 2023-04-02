@@ -17,14 +17,15 @@ class EditBookingRes with _$EditBookingRes {
     String? endTime,
     String? location,
     bool? isActive,
-    dynamic? extraData,
+    dynamic extraData,
     String? createdBy,
-    dynamic? bookingMerchant,
+    dynamic bookingMerchant,
     String? entityService,
     int? city,
     List<int>? images,
     List<int>? videos,
   }) = _EditBookingRes;
 
-  factory EditBookingRes.fromJson(Map<String, dynamic> json) => _$EditBookingResFromJson(json);
+  factory EditBookingRes.fromJson(Map<String, dynamic> json) =>
+      _$EditBookingResFromJson(json);
 }

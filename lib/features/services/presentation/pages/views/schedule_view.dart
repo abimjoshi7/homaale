@@ -1,13 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/features/services/presentation/widgets/the_time_slot.dart';
@@ -29,9 +26,9 @@ class _ScheduleViewState extends State<ScheduleView> {
   CalendarFormat? calendarFormat;
   DateTime focusedDate = DateTime.now();
   List<DateTime> dateList = [];
-  final map = {};
   TimeOfDay? startTime;
   TimeOfDay? endTime;
+  late final eventCache = locator<BookEventHandlerBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +62,6 @@ class _ScheduleViewState extends State<ScheduleView> {
             }
             return Column(
               children: [
-                TextButton(
-                  onPressed: () {
-                    print(state.event);
-                  },
-                  child: Text('asd'),
-                ),
                 _buildCalender(context),
                 _buildTimeSlots(state, context),
               ],
@@ -89,127 +80,144 @@ class _ScheduleViewState extends State<ScheduleView> {
       child: CustomFormField(
         label: "Select Shifts:",
         child: Wrap(
-            runSpacing: 10,
-            children: state.event?.id == null || hasSlots == false
-                ? [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: CustomFormContainer(
-                            leadingWidget: Row(
-                              children: [
-                                Icon(
-                                  Icons.calendar_today,
+          runSpacing: 10,
+          children: state.event?.id == null || hasSlots == false
+              ? [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: CustomFormContainer(
+                          leadingWidget: Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_today,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now())
+                                      .then(
+                                    (value) {
+                                      setState(
+                                        () {
+                                          startTime = value;
+                                        },
+                                      );
+                                    },
+                                  ).whenComplete(
+                                    () => eventCache.add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          startTime: startTime?.format(context),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  startTime?.format(context) ?? '--',
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now())
-                                        .then(
-                                      (value) {
-                                        setState(
-                                          () {
-                                            startTime = value;
-                                          },
-                                        );
-                                      },
-                                    ).whenComplete(
-                                      () => context
-                                          .read<BookEventHandlerBloc>()
-                                          .add(
-                                            BookEventPicked(
-                                              req: BookEntityServiceReq(
-                                                startTime:
-                                                    startTime?.format(context),
-                                              ),
-                                            ),
-                                          ),
-                                    );
-                                  },
-                                  child: Text(
-                                    startTime?.format(context) ?? '--',
-                                  ),
+                              ),
+                              Text('-'),
+                              TextButton(
+                                onPressed: () {
+                                  showTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now())
+                                      .then(
+                                    (value) {
+                                      setState(
+                                        () {
+                                          endTime = value;
+                                        },
+                                      );
+                                    },
+                                  ).whenComplete(
+                                    () => eventCache.add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          endTime: endTime?.format(context),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  endTime?.format(context) ?? '--',
                                 ),
-                                Text('-'),
-                                TextButton(
-                                  onPressed: () {
-                                    showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now())
-                                        .then(
-                                      (value) {
-                                        setState(
-                                          () {
-                                            endTime = value;
-                                          },
-                                        );
-                                      },
-                                    ).whenComplete(
-                                      () => context
-                                          .read<BookEventHandlerBloc>()
-                                          .add(
-                                            BookEventPicked(
-                                              req: BookEntityServiceReq(
-                                                endTime:
-                                                    endTime?.format(context),
-                                              ),
-                                            ),
-                                          ),
-                                    );
-                                  },
-                                  child: Text(
-                                    endTime?.format(context) ?? '--',
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    )
-                  ]
-                : [
-                    for (final element in state.event!.allShifts!)
-                      element.date!.toDateOnly().isAtSameMomentAs(
-                                focusedDate.toDateOnly(),
-                              )
-                          ? SizedBox(
-                              height: 60,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: element.slots!.length,
-                                itemBuilder: (context, index) => Padding(
+                      ),
+                    ],
+                  )
+                ]
+              : [
+                  for (final element in state.event!.allShifts!)
+                    element.date!.toDateOnly().isAtSameMomentAs(
+                              focusedDate.toDateOnly(),
+                            )
+                        ? SizedBox(
+                            height: 60,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: element.slots!.length,
+                              itemBuilder: (context, index) {
+                                eventCache.add(
+                                  BookEventPicked(
+                                    req: BookEntityServiceReq(
+                                      endDate: focusedDate,
+                                      startTime: element.slots?.first.start,
+                                      endTime: element.slots?.first.end,
+                                    ),
+                                  ),
+                                );
+                                return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: InkWell(
                                     onTap: () async {
+                                      print(focusedDate);
+                                      print(element.slots?.first.start);
+                                      eventCache.add(
+                                        BookEventPicked(
+                                          req: BookEntityServiceReq(
+                                            endDate: focusedDate,
+                                            startTime:
+                                                element.slots?[index].start,
+                                            endTime: element.slots?[index].end,
+                                          ),
+                                        ),
+                                      );
                                       setState(
                                         () {
                                           selectedIndex = index;
                                         },
                                       );
-                                      map.update(
-                                        "end_date",
-                                        (value) => focusedDate.toString(),
-                                        ifAbsent: () => focusedDate.toString(),
-                                      );
-                                      map.update(
-                                        "start_time",
-                                        (value) => element.slots?[index].start,
-                                        ifAbsent: () =>
-                                            element.slots?[index].start,
-                                      );
-                                      map.update(
-                                        "end_time",
-                                        (value) => element.slots?[index].end,
-                                        ifAbsent: () =>
-                                            element.slots?[index].end,
-                                      );
 
-                                      await CacheHelper.setCachedString(
-                                        kBookedMap,
-                                        jsonEncode(map),
-                                      );
+                                      // map.update(
+                                      //   "end_date",
+                                      //   (value) => focusedDate.toString(),
+                                      //   ifAbsent: () => focusedDate.toString(),
+                                      // );
+                                      // map.update(
+                                      //   "start_time",
+                                      //   (value) => element.slots?[index].start,
+                                      //   ifAbsent: () =>
+                                      //       element.slots?[index].start,
+                                      // );
+                                      // map.update(
+                                      //   "end_time",
+                                      //   (value) => element.slots?[index].end,
+                                      //   ifAbsent: () =>
+                                      //       element.slots?[index].end,
+                                      // );
+
+                                      // await CacheHelper.setCachedString(
+                                      //   kBookedMap,
+                                      //   jsonEncode(map),
+                                      // );
                                     },
                                     child: TheTimeSlot(
                                       index: index,
@@ -217,11 +225,13 @@ class _ScheduleViewState extends State<ScheduleView> {
                                       element: element,
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
-                          : SizedBox.shrink(),
-                  ]),
+                                );
+                              },
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                ],
+        ),
       ),
     );
   }
@@ -238,7 +248,9 @@ class _ScheduleViewState extends State<ScheduleView> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(
+          8.0,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -254,16 +266,16 @@ class _ScheduleViewState extends State<ScheduleView> {
               onSelect: (selectedDay, focusedDay) {
                 setState(
                   () {
-                    focusedDate = selectedDay;
+                    focusedDate = focusedDay;
                   },
                 );
-                context.read<BookEventHandlerBloc>().add(
-                      BookEventPicked(
-                        req: BookEntityServiceReq(
-                          endDate: focusedDate,
-                        ),
-                      ),
-                    );
+                eventCache.add(
+                  BookEventPicked(
+                    req: BookEntityServiceReq(
+                      endDate: focusedDate,
+                    ),
+                  ),
+                );
               },
               onEvent: (day) {
                 for (final element in dateList) {

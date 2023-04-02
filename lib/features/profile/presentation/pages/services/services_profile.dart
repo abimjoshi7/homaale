@@ -1,7 +1,5 @@
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/profile/presentation/pages/services/widgets/services_text_card.dart';
-import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

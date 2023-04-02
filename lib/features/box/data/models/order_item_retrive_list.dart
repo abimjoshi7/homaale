@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'order_item_retrive_list.freezed.dart';
 part 'order_item_retrive_list.g.dart';
@@ -69,7 +71,6 @@ class Task with _$Task {
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
-
 }
 
 @freezed

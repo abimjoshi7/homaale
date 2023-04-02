@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -19,7 +16,7 @@ class ProfileHeaderSection extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         Widget displayVerify() {
-          if (state.theStates==TheStates.success) {
+          if (state.theStates == TheStates.success) {
             if (state.userLoginRes?.isVerified == true) {
               return const Icon(
                 Icons.verified,
@@ -34,7 +31,7 @@ class ProfileHeaderSection extends StatelessWidget {
         }
 
         PopupMenuItem displayPopupMenu() {
-          if (state.theStates==TheStates.success) {
+          if (state.theStates == TheStates.success) {
             if (state.userLoginRes?.hasProfile == true) {
               return PopupMenuItem(
                 onTap: () async {

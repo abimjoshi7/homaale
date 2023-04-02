@@ -2,6 +2,8 @@
 //
 //     final createScheduleReq = createScheduleReqFromJson(jsonString);
 
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'create_schedule_req.freezed.dart';

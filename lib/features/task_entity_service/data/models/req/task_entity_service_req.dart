@@ -2,6 +2,8 @@
 //
 //     final taskEntityServiceReq = taskEntityServiceReqFromJson(jsonString);
 
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'task_entity_service_req.freezed.dart';

@@ -197,12 +197,12 @@
 //
 //     final orderItemList = orderItemListFromJson(jsonString);
 
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'order_item_list.freezed.dart';
 part 'order_item_list.g.dart';
-
 
 @freezed
 class OrderItemList with _$OrderItemList {
@@ -249,7 +249,7 @@ class Assignee with _$Assignee {
     String? email,
     String? phone,
     @JsonKey(name: 'full_name') String? fullName,
-    @JsonKey(name: 'first_name')   String? firstName,
+    @JsonKey(name: 'first_name') String? firstName,
     @JsonKey(name: 'middle_name') String? middleName,
     @JsonKey(name: 'last_name') String? lastName,
     @JsonKey(name: 'profile_image') String? profileImage,
@@ -257,7 +257,7 @@ class Assignee with _$Assignee {
     @JsonKey(name: 'created_at') String? createdAt,
     String? designation,
     @JsonKey(name: 'user_type') String? userType,
-    @JsonKey(name: 'is_profile_verified')   bool? isProfileVerified,
+    @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
     @JsonKey(name: 'is_followed') bool? isFollowed,
     @JsonKey(name: 'is_following') bool? isFollowing,
     Badge? badge,
@@ -296,21 +296,21 @@ class EntityService with _$EntityService {
     String? id,
     String? slug,
     @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'created_by')   Assignee? createdBy,
+    @JsonKey(name: 'created_by') Assignee? createdBy,
     String? title,
     Currency? currency,
     City? city,
-    @JsonKey(name: 'is_online')  bool? isOnline,
+    @JsonKey(name: 'is_online') bool? isOnline,
     Service? service,
     List<Image>? images,
     List<Rating>? rating,
-    @JsonKey(name: 'budget_type')   String? budgetType,
-    @JsonKey(name: 'is_requested')  bool? isRequested,
+    @JsonKey(name: 'budget_type') String? budgetType,
+    @JsonKey(name: 'is_requested') bool? isRequested,
     @JsonKey(name: 'budget_from') double? budgetFrom,
-    @JsonKey(name: 'budget_to')    double? budgetTo,
+    @JsonKey(name: 'budget_to') double? budgetTo,
     String? location,
     int? count,
-    @JsonKey(name: 'is_endorsed')  bool? isEndorsed,
+    @JsonKey(name: 'is_endorsed') bool? isEndorsed,
     @JsonKey(name: 'end_date') String? endDate,
     List<dynamic>? videos,
   }) = _EntityService;

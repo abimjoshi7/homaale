@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -67,7 +66,8 @@ class PostedTaskViewPage extends StatelessWidget {
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
-                                        taskModel?.createdBy?.profileImage ?? kServiceImageNImg,
+                                        taskModel?.createdBy?.profileImage ??
+                                            kServiceImageNImg,
                                       ),
                                     ),
                                   ),
@@ -113,11 +113,14 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: Jiffy(taskModel?.createdAt ?? DateTime.now().toString()).yMMMEd,
+                              label: Jiffy(taskModel?.createdAt ??
+                                      DateTime.now().toString())
+                                  .yMMMEd,
                               iconData: Icons.calendar_today_rounded,
                             ),
                             IconText(
-                              label: taskModel?.location ?? 'Buddhanagar, Kathmandu',
+                              label: taskModel?.location ??
+                                  'Buddhanagar, Kathmandu',
                               iconData: Icons.location_on_outlined,
                               color: Colors.red,
                             ),
@@ -128,7 +131,8 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: "${taskModel?.startTime} ${taskModel?.endTime}",
+                              label:
+                                  "${taskModel?.startTime} ${taskModel?.endTime}",
                               iconData: Icons.watch_later_outlined,
                               color: kColorBlue,
                             ),
@@ -246,10 +250,12 @@ class ClientTaskViewTabSection extends StatefulWidget {
   });
 
   @override
-  State<ClientTaskViewTabSection> createState() => _ClientTaskViewTabSectionState();
+  State<ClientTaskViewTabSection> createState() =>
+      _ClientTaskViewTabSectionState();
 }
 
-class _ClientTaskViewTabSectionState extends State<ClientTaskViewTabSection> with TickerProviderStateMixin {
+class _ClientTaskViewTabSectionState extends State<ClientTaskViewTabSection>
+    with TickerProviderStateMixin {
   late TabController _tabController;
   int selectedIndex = 0;
 

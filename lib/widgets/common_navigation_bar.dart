@@ -3,7 +3,6 @@ import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
-import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/widgets/add_pop_up_button.dart';

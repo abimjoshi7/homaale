@@ -7,7 +7,8 @@ import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
+    as booking;
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -33,7 +34,8 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModelService: booking.MyBookingListModel.fromJson(
+                  myBookingListModelService:
+                      booking.MyBookingListModel.fromJson(
                     value,
                   ),
                   myBookingListModelTask: booking.MyBookingListModel.fromJson(
@@ -71,7 +73,11 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 ),
               );
         } catch (e) {
-          emit(state.copyWith(states: TheStates.failure));
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+            ),
+          );
         }
       },
     );
@@ -90,9 +96,6 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                   state.copyWith(
                     states: TheStates.success,
                     isBooked: true,
-                    // bookEntityServiceRes: BookEntityServiceRes.fromJson(
-                    //   value,
-                    // ),
                   ),
                 ),
               );
@@ -120,9 +123,15 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 ),
               );
             },
-          ).whenComplete(() => add(BookingLoaded(isTask: event.isTask, page: 1)));
+          ).whenComplete(
+            () => add(
+              BookingLoaded(
+                isTask: event.isTask,
+                page: 1,
+              ),
+            ),
+          );
         } catch (e) {
-          log(e.toString());
           emit(
             state.copyWith(
               states: TheStates.failure,
@@ -168,7 +177,14 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 ),
               );
             },
-          ).whenComplete(() => add(BookingLoaded(isTask: event.isTask, page: 1)));
+          ).whenComplete(
+            () => add(
+              BookingLoaded(
+                isTask: event.isTask,
+                page: 1,
+              ),
+            ),
+          );
           ;
         } catch (e) {
           emit(
@@ -194,7 +210,14 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                   ),
                 ),
               )
-              .whenComplete(() => add(BookingLoaded(isTask: event.isTask, page: 1)));
+              .whenComplete(
+                () => add(
+                  BookingLoaded(
+                    isTask: event.isTask,
+                    page: 1,
+                  ),
+                ),
+              );
         } catch (e) {
           emit(
             state.copyWith(
@@ -219,7 +242,14 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                   ),
                 ),
               )
-              .whenComplete(() => add(BookingLoaded(isTask: event.isTask, page: 1)));
+              .whenComplete(
+                () => add(
+                  BookingLoaded(
+                    isTask: event.isTask,
+                    page: 1,
+                  ),
+                ),
+              );
         } catch (e) {
           emit(
             state.copyWith(

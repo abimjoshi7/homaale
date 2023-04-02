@@ -3,7 +3,6 @@ import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/event/presentation/widgets/event_detail_card.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/locator.dart';

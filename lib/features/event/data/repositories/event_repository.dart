@@ -48,17 +48,22 @@ class EventRepository {
     }
   }
 
-  Future<Map<String, dynamic>> checkAvailability({
+  Future<void> checkAvailability({
     required EventAvailability eventAvailability,
     required String id,
   }) async {
     try {
-      final res = await _dio.postDataWithCredential(
-        data: eventAvailability,
-        url: "event/$id/availability/",
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      await _dio
+          .postDataWithCredential(
+            data: eventAvailability,
+            url: "event/$id/availability/",
+            token: CacheHelper.accessToken,
+          )
+          .then(
+            (value) => print(
+              value,
+            ),
+          );
     } catch (e) {
       rethrow;
     }
