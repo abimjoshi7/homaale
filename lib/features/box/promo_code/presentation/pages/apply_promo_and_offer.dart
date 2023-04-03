@@ -52,7 +52,9 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
           builder: (context) => CustomToast(
             heading: 'Success',
             content: state.applyPromoCode?.message ?? "Applied promo code.",
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
             isSuccess: true,
           ),
         );
