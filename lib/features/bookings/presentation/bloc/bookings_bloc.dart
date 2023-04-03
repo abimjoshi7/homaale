@@ -7,8 +7,7 @@ import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
-    as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -31,22 +30,29 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           )
               .then(
             (value) {
-              emit(
-                state.copyWith(
-                  states: TheStates.success,
-                  myBookingListModelService:
-                      booking.MyBookingListModel.fromJson(
-                    value,
+              if (event.isTask!) {
+                emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    myBookingListModelTask: booking.MyBookingListModel.fromJson(value),
+                    isLoaded: true,
+                    isUpdated: false,
+                    isCancelled: false,
+                    isRejected: false,
                   ),
-                  myBookingListModelTask: booking.MyBookingListModel.fromJson(
-                    value,
+                );
+              } else {
+                emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    myBookingListModelService: booking.MyBookingListModel.fromJson(value),
+                    isLoaded: true,
+                    isUpdated: false,
+                    isCancelled: false,
+                    isRejected: false,
                   ),
-                  isLoaded: true,
-                  isUpdated: false,
-                  isCancelled: false,
-                  isRejected: false,
-                ),
-              );
+                );
+              }
             },
           );
         } catch (e) {
@@ -124,12 +130,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
             },
           ).whenComplete(
-            () => add(
-              BookingLoaded(
-                isTask: event.isTask,
-                page: 1,
-              ),
-            ),
+            () => add(BookingLoaded(isTask: event.isTask, page: 1)),
           );
         } catch (e) {
           emit(
@@ -267,11 +268,14 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         try {
           await repositories.bookingHistory(event.bookingHistoryReq).then(
             (value) {
-              log('booking history from bloc: $value');
               emit(
                 state.copyWith(
                   states: TheStates.success,
                   bookingHistoryRes: BookingHistoryRes.fromJson(value),
+                  isLoaded: true,
+                  isUpdated: false,
+                  isCancelled: false,
+                  isRejected: false,
                 ),
               );
             },
@@ -279,7 +283,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         } catch (e) {
           log('history error' + e.toString());
           emit(
-            state.copyWith(states: TheStates.failure),
+            state.copyWith(states: TheStates.failure, isLoaded: false),
           );
         }
       },

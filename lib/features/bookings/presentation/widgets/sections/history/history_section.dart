@@ -4,20 +4,20 @@ import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class HistorySection extends StatefulWidget {
-  const HistorySection({super.key});
+  final BookingsBloc bloc;
+  const HistorySection({super.key, required this.bloc});
 
   @override
   State<HistorySection> createState() => _HistorySectionState();
 }
 
 class _HistorySectionState extends State<HistorySection> {
-  late final bookingsBloc = locator<BookingsBloc>();
+  late final bookingsBloc = widget.bloc;
   List<Result> historyList = [];
 
   //initialize page controller
@@ -25,75 +25,71 @@ class _HistorySectionState extends State<HistorySection> {
 
   @override
   void initState() {
-    super.initState();
-
     //so at event add list of records
     _pagingController.addPageRequestListener(
       (pageKey) => bookingsBloc.add(BookingHistory(bookingHistoryReq: BookingHistoryReq(page: pageKey))),
     );
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-    bookingsBloc.close();
     _pagingController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => bookingsBloc,
-      child: BlocListener<BookingsBloc, BookingsState>(
-        listener: (context, state) {
-          if (state.states == TheStates.success) {
-            historyList = state.bookingHistoryRes!.result!;
+    return BlocListener<BookingsBloc, BookingsState>(
+      bloc: bookingsBloc,
+      listener: (context, state) {
+        if (state.states == TheStates.success) {
+          historyList = state.bookingHistoryRes!.result!;
 
-            final lastPage = state.bookingHistoryRes!.totalPages!;
-            final next = 1 + state.bookingHistoryRes!.current!;
+          final lastPage = state.bookingHistoryRes!.totalPages!;
+          final next = 1 + state.bookingHistoryRes!.current!;
 
-            if (next > lastPage) {
-              _pagingController.appendLastPage(historyList);
-            } else {
-              _pagingController.appendPage(historyList, next);
-            }
+          if (next > lastPage) {
+            _pagingController.appendLastPage(historyList);
+          } else {
+            _pagingController.appendPage(historyList, next);
           }
-          if (state.states == TheStates.failure) {
-            _pagingController.error = 'Error';
-          }
+        }
+        if (state.states == TheStates.failure) {
+          _pagingController.error = 'Error';
+        }
+      },
+      child: BlocBuilder<BookingsBloc, BookingsState>(
+        builder: (context, state) {
+          return PagedListView.separated(
+              pagingController: _pagingController,
+              separatorBuilder: (context, index) => addVerticalSpace(16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, Result item, index) {
+                  return BookingsServiceCard(
+                    callback: () {
+                      context.read<BookingsBloc>().add(
+                            BookingSingleLoaded(
+                              int.parse(item.id ?? '0'),
+                            ),
+                          );
+                      Navigator.pushNamed(
+                        context,
+                        BookedServicePage.routeName,
+                      );
+                    },
+                    hidePopupButton: true,
+                    serviceName: item.title,
+                    providerName:
+                        "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
+                    mainContentWidget: showBookingDetail(item),
+                    status: item.status,
+                    bottomRightWidget: displayPrice(item),
+                  );
+                },
+              ));
         },
-        child: BlocBuilder<BookingsBloc, BookingsState>(
-          builder: (context, state) {
-            return PagedListView.separated(
-                pagingController: _pagingController,
-                separatorBuilder: (context, index) => addVerticalSpace(16),
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, Result item, index) {
-                    return BookingsServiceCard(
-                      callback: () {
-                        context.read<BookingsBloc>().add(
-                              BookingSingleLoaded(
-                                int.parse(item.id ?? '0'),
-                              ),
-                            );
-                        Navigator.pushNamed(
-                          context,
-                          BookedServicePage.routeName,
-                        );
-                      },
-                      hidePopupButton: true,
-                      serviceName: item.title,
-                      providerName:
-                          "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
-                      mainContentWidget: showBookingDetail(item),
-                      status: item.status,
-                      bottomRightWidget: displayPrice(item),
-                    );
-                  },
-                ));
-          },
-        ),
       ),
     );
   }

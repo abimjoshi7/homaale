@@ -1,13 +1,15 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class BookingsCalenderSection extends StatefulWidget {
+  final BookingsBloc bloc;
+
   const BookingsCalenderSection({
     super.key,
+    required this.bloc,
   });
 
   @override
@@ -15,9 +17,12 @@ class BookingsCalenderSection extends StatefulWidget {
 }
 
 class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
+  late final bookingsBloc = widget.bloc;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingsBloc, BookingsState>(
+      bloc: bookingsBloc,
       builder: (context, state) {
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.17,
@@ -25,15 +30,13 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('${DateFormat('MMMM').format(DateTime.now())}, ${DateTime.now().year}'),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: null,
                       icon: const Icon(
                         Icons.calendar_month_rounded,
                       ),
@@ -48,15 +51,15 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                 calendarFormat: CalendarFormat.week,
                 weekendDays: [DateTime.saturday],
                 headerVisible: false,
-                eventLoader: (day) {
+                eventLoader: (date) {
                   var list = [];
                   var res = <Result>[
                     ...?state.myBookingListModelTask?.result,
                     ...?state.myBookingListModelService?.result
                   ];
                   for (var item in res) {
-                    if (day.isAtSameMomentAs(item.createdAt!)) {
-                      list.add(day);
+                    if (date.day == item.createdAt?.day) {
+                      list.add(date);
                     }
                   }
                   return list;

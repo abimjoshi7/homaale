@@ -1,26 +1,30 @@
+import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/sections.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/todos/task_section.dart';
 import 'package:flutter/material.dart';
 
 class MyBookingsTabSection extends StatefulWidget {
-  const MyBookingsTabSection({super.key});
+  final BookingsBloc bloc;
+  const MyBookingsTabSection({super.key, required this.bloc});
 
   @override
   State<MyBookingsTabSection> createState() => _MyBookingsTabSectionState();
 }
 
 class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with SingleTickerProviderStateMixin {
+  late final bookingsBloc = widget.bloc;
   late TabController tabController;
   int selectedIndex = 0;
 
   @override
   void initState() {
-    super.initState();
     tabController = TabController(
       initialIndex: selectedIndex,
       length: 3,
       vsync: this,
     );
+    super.initState();
   }
 
   @override
@@ -39,23 +43,23 @@ class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with Single
             labelPadding: const EdgeInsets.all(10),
             controller: tabController,
             tabs: const [
-              Text("TODOs"),
+              Text("ToDo's"),
               Text("Services"),
               Text("History"),
             ],
-            onTap: (value) => setState(
-              () {
+            onTap: (value) {
+              setState(() {
                 selectedIndex = value;
-              },
-            ),
+              });
+            },
           ),
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: const [
-                TaskSection(),
-                ServicesSection(),
-                HistorySection(),
+              children: [
+                TaskSection(bloc: bookingsBloc),
+                ServicesSection(bloc: bookingsBloc),
+                HistorySection(bloc: bookingsBloc),
               ],
             ),
           ),

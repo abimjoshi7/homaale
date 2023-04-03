@@ -1,3 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
@@ -5,21 +9,20 @@ import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class ServicesSection extends StatefulWidget {
   final bool? isCheckPending;
-  const ServicesSection({super.key, this.isCheckPending});
+  final BookingsBloc bloc;
+
+  const ServicesSection({super.key, this.isCheckPending, required this.bloc});
 
   @override
   State<ServicesSection> createState() => _ServicesSectionState();
 }
 
 class _ServicesSectionState extends State<ServicesSection> {
-  late final bookingsBloc = locator<BookingsBloc>();
+  late final bookingsBloc = widget.bloc;
   List<Result> serviceList = [];
 
   //initialize page controller
@@ -27,19 +30,17 @@ class _ServicesSectionState extends State<ServicesSection> {
 
   @override
   void initState() {
-    super.initState();
-
     //so at event add list of records
     _pagingController.addPageRequestListener(
       (pageKey) => bookingsBloc.add(BookingLoaded(isTask: false, page: pageKey)),
     );
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-    bookingsBloc.close();
     _pagingController.dispose();
+    super.dispose();
   }
 
   @override

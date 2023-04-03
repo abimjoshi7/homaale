@@ -5,20 +5,20 @@ import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TaskSection extends StatefulWidget {
-  const TaskSection({super.key});
+  final BookingsBloc bloc;
+  const TaskSection({super.key, required this.bloc});
 
   @override
   State<TaskSection> createState() => _TaskSectionState();
 }
 
 class _TaskSectionState extends State<TaskSection> {
-  late final bookingsBloc = locator<BookingsBloc>();
+  late final bookingsBloc = widget.bloc;
   List<Result> todoList = [];
 
   //initialize page controller
@@ -26,19 +26,17 @@ class _TaskSectionState extends State<TaskSection> {
 
   @override
   void initState() {
-    super.initState();
-
     //so at event add list of records
     _pagingController.addPageRequestListener(
       (pageKey) => bookingsBloc.add(BookingLoaded(isTask: true, page: pageKey)),
     );
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-    bookingsBloc.close();
     _pagingController.dispose();
+    super.dispose();
   }
 
   @override
