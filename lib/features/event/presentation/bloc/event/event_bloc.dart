@@ -53,7 +53,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
         try {
           emit(
             state.copyWith(
-              theStates: TheStates.initial,
+              isCreated: false,
             ),
           );
           await repo
@@ -70,9 +70,9 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                 ),
               )
               .whenComplete(
-                () => emit(
-                  state.copyWith(
-                    isCreated: false,
+                () => add(
+                  EventLoaded(
+                    id: state.event?.id ?? "",
                   ),
                 ),
               );
@@ -90,6 +90,11 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<EventAvailabilityChecked>(
       (event, emit) async {
         try {
+          emit(
+            state.copyWith(
+              isAvailable: false,
+            ),
+          );
           await repo
               .checkAvailability(
             eventAvailability: event.eventAvailability,
@@ -110,6 +115,42 @@ class EventBloc extends Bloc<EventEvent, EventState> {
             state.copyWith(
               theStates: TheStates.failure,
               isAvailable: false,
+            ),
+          );
+        }
+      },
+    );
+
+    on<EventDeleted>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              isDeleted: false,
+            ),
+          );
+          await repo
+              .deleteEvent(event.id)
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    isDeleted: true,
+                  ),
+                ),
+              )
+              .whenComplete(
+                () => add(
+                  EventLoaded(
+                    id: event.id,
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+              isDeleted: false,
             ),
           );
         }

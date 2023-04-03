@@ -48,6 +48,7 @@ dependencies:
   permission_handler: ^10.2.0
   telephony: ^0.2.0
   firebase_core: ^2.9.0
+  card_loading: ^0.3.0
 
 dev_dependencies:
   flutter_test:

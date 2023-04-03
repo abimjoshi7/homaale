@@ -124,11 +124,16 @@ class AccountProfile extends StatelessWidget {
                         ],
                       ),
                       kHeight20,
-                      CustomElevatedButton(
-                        callback: () {
-                          Navigator.pushNamed(context, Profile.routeName);
-                        },
-                        label: 'View Profile',
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: CustomElevatedButton(
+                          callback: () {
+                            Navigator.pushNamed(context, Profile.routeName);
+                          },
+                          label: 'View Profile',
+                        ),
                       ),
                       kHeight20,
                       InkWell(

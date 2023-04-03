@@ -2,6 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
@@ -96,8 +97,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                     children: [
                       ProfileDetailSection(state: state),
                       EventSection(
-                        taskEntityServiceState: state,
-                        userState: user.state,
+                        taskEntityService:
+                            state.taskEntityService ?? TaskEntityService(),
+                        user: user,
                       ),
                       // ScheduleSection(
                       //   taskEntityServiceState: state,
@@ -121,7 +123,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       if (state.applicantModel?.result?.isNotEmpty ??
                           false) ...[
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
                           child: Text(
                             'Applicants',
                             style: kPurpleText16,

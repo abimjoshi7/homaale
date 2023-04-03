@@ -33,6 +33,18 @@ class EventRepository {
     }
   }
 
+  Future<void> deleteEvent(String id) async {
+    try {
+      await _dio.deleteDataWithCredential(
+        sid: id,
+        url: "event/",
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> createSchedule({
     required CreateScheduleReq req,
   }) async {

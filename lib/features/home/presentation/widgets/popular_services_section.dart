@@ -33,7 +33,7 @@ class PopularServicesSection extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.26,
+                  height: 250,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -80,7 +80,15 @@ class PopularServicesSection extends StatelessWidget {
             ),
           );
         }
-        return const SizedBox.shrink();
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomFormField(
+            label: "Popular Services",
+            child: CardLoading(
+              height: 230,
+            ),
+          ),
+        );
       },
     );
   }

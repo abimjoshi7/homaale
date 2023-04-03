@@ -221,10 +221,11 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
-                heading: "Error",
-                content: "Scehdule not available for given time",
-                onTap: () {},
-                isSuccess: false),
+              heading: "Error",
+              content: "Scehdule not available for given time",
+              onTap: () {},
+              isSuccess: false,
+            ),
           );
         }
       },

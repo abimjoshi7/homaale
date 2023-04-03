@@ -110,6 +110,9 @@ class _ScheduleViewState extends State<ScheduleView> {
                                       BookEventPicked(
                                         req: BookEntityServiceReq(
                                           startTime: startTime?.format(context),
+                                          endDate: DateTime.parse(
+                                            eventCache.state.endDate!,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -138,6 +141,9 @@ class _ScheduleViewState extends State<ScheduleView> {
                                       BookEventPicked(
                                         req: BookEntityServiceReq(
                                           endTime: endTime?.format(context),
+                                          endDate: DateTime.parse(
+                                            eventCache.state.endDate!,
+                                          ),
                                         ),
                                       ),
                                     ),
