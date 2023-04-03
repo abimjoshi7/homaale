@@ -24,11 +24,18 @@ class CategoriesRepositories {
 
   Future<Map<String, dynamic>> fetchHeroCategory() async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/hero-category/',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final res = await _dio.getData(
+          url: 'task/hero-category/',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/hero-category/',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),

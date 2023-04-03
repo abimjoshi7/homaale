@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ class RatingReviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         ExpansionTile(
           tilePadding: EdgeInsets.zero,
           title: Row(
@@ -23,21 +25,21 @@ class RatingReviewSection extends StatelessWidget {
               Text('Ratings & Reviews'),
             ],
           ),
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 // vertical: 8,
               ),
               child: Column(
-                children: [
+                children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Flexible(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const [
+                          children: const <Widget>[
                             Text(
                               'Reviews ',
                               style: kPurpleText16,
@@ -71,61 +73,65 @@ class RatingReviewSection extends StatelessWidget {
             ),
           ],
         ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: TextButton(
-            onPressed: () async {
-              await showModalBottomSheet(
-                context: context,
-                builder: (context) => Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const CustomModalSheetDrawerIcon(),
-                    kHeight10,
-                    const Text(
-                      'Rating & Review',
-                      style: kText17,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: const [
-                          CustomFormField(
-                            label: 'Name',
-                            isRequired: true,
-                            child: CustomTextFormField(),
-                          ),
-                          CustomFormField(
-                            label: 'Email',
-                            isRequired: true,
-                            child: CustomTextFormField(),
-                          ),
-                          CustomFormField(
-                            label: 'Task Description',
-                            isRequired: true,
-                            child: CustomTextFormField(),
-                          ),
-                          CustomFormField(
-                            label: 'Ratings',
-                            isRequired: true,
-                            child: CustomTextFormField(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomElevatedButton(
-                      callback: () {},
-                      label: 'Submit Now',
-                    ),
-                    kHeight20,
-                  ],
-                ),
-              );
-            },
-            child: const Text('Write a Review'),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.centerLeft,
+        //   child: TextButton(
+        //     onPressed: () async {
+        //       if (!CacheHelper.isLoggedIn) {
+        //         notLoggedInPopUp(context);
+        //       }
+        //       if (!CacheHelper.isLoggedIn) return;
+        //       await showModalBottomSheet(
+        //         context: context,
+        //         builder: (context) => Column(
+        //           mainAxisSize: MainAxisSize.min,
+        //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //           children: [
+        //             const CustomModalSheetDrawerIcon(),
+        //             kHeight10,
+        //             const Text(
+        //               'Rating & Review',
+        //               style: kText17,
+        //             ),
+        //             Padding(
+        //               padding: const EdgeInsets.all(10),
+        //               child: Column(
+        //                 children: const [
+        //                   CustomFormField(
+        //                     label: 'Name',
+        //                     isRequired: true,
+        //                     child: CustomTextFormField(),
+        //                   ),
+        //                   CustomFormField(
+        //                     label: 'Email',
+        //                     isRequired: true,
+        //                     child: CustomTextFormField(),
+        //                   ),
+        //                   CustomFormField(
+        //                     label: 'Task Description',
+        //                     isRequired: true,
+        //                     child: CustomTextFormField(),
+        //                   ),
+        //                   CustomFormField(
+        //                     label: 'Ratings',
+        //                     isRequired: true,
+        //                     child: CustomTextFormField(),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //             CustomElevatedButton(
+        //               callback: () {},
+        //               label: 'Submit Now',
+        //             ),
+        //             kHeight20,
+        //           ],
+        //         ),
+        //       );
+        //     },
+        //     child: const Text('Write a Review'),
+        //   ),
+        // ),
       ],
     );
   }

@@ -22,10 +22,16 @@ class PopularServicesSection extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
-              children: [
+              children: <Widget>[
                 SectionHeading(
                   labelName: 'Popular services',
-                  onTap: () {
+                  onTap: () async {
+                    // try {
+                    //   await ServicesRepositories().fetchApplicants(
+                    //       id: "b9834867-327e-4bbd-b0f9-aa3f158f8307");
+                    // } catch (e) {
+                    //   log("Test repo" + e.toString());
+                    // }
                     Navigator.pushNamed(
                       context,
                       PopularServicesPage.routeName,

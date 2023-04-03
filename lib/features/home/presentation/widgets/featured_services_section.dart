@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +12,15 @@ class RecentlyLaunchedServicesSection extends StatelessWidget {
     return Padding(
       padding: kPadding10,
       child: Column(
-        children: [
+        children: <Widget>[
           SectionHeading(
             labelName: 'Recently Launched',
-            onTap: () {},
+            onTap: () {
+              if (CacheHelper.isLoggedIn == false) {
+                notLoggedInPopUp(context);
+              }
+              if (CacheHelper.isLoggedIn) {}
+            },
           ),
           kHeight10,
           SizedBox(
@@ -24,7 +31,7 @@ class RecentlyLaunchedServicesSection extends StatelessWidget {
               itemCount: 5,
               separatorBuilder: (context, index) => kWidth5,
               itemBuilder: (context, index) => Column(
-                children: [
+                children: <Widget>[
                   Container(
                     height: MediaQuery.of(context).size.height * 0.11,
                     width: 120,

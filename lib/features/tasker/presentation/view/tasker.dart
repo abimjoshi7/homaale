@@ -1,4 +1,5 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/enums.dart';
@@ -6,6 +7,7 @@ import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
 import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_review_section.dart';
@@ -31,6 +33,23 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
   void initState() {
     tabController = TabController(length: 4, vsync: this);
     super.initState();
+  }
+
+  Future notLoggedInPopUp(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => CustomToast(
+        heading: 'Attention',
+        content: 'But first log in or register.',
+        isSuccess: true,
+        buttonLabel: 'Log in',
+        onTap: () => Navigator.pushNamedAndRemoveUntil(
+          context,
+          SignInPage.routeName,
+          (route) => false,
+        ),
+      ),
+    );
   }
 
   @override
@@ -83,15 +102,23 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                             context: context,
                             builder: (context) => Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
                                     Navigator.pop(context);
-                                    final box = context.findRenderObject() as RenderBox?;
-                                    Share.share(
-                                      "Share this Hommale with friends.",
-                                      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
-                                    );
+                                    if (CacheHelper.isLoggedIn == false) {
+                                      await notLoggedInPopUp(context);
+                                    }
+                                    if (CacheHelper.isLoggedIn == true) {
+                                      final box = context.findRenderObject()
+                                          as RenderBox?;
+                                      Share.share(
+                                        "Share this Hommale with friends.",
+                                        sharePositionOrigin:
+                                            box!.localToGlobal(Offset.zero) &
+                                                box.size,
+                                      );
+                                    }
                                   },
                                   child: const ListTile(
                                     leading: Icon(Icons.share),
@@ -259,7 +286,12 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                           CustomElevatedButton(
                             theWidth: 91,
                             label: 'Hire me',
-                            callback: () {},
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn) {}
+                            },
                           ),
                         ],
                       )

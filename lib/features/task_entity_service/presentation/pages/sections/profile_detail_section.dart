@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -15,12 +17,12 @@ class ProfileDetailSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 Container(
                   height: 50,
                   width: 50,
@@ -39,7 +41,7 @@ class ProfileDetailSection extends StatelessWidget {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.7,
                       child: Text(
@@ -58,14 +60,25 @@ class ProfileDetailSection extends StatelessWidget {
               ],
             ),
             Row(
-              children: [
-                const Icon(
-                  Icons.favorite_border_outlined,
-                  color: Colors.red,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    if (!CacheHelper.isLoggedIn) {
+                      notLoggedInPopUp(context);
+                    }
+                  },
+                  child: const Icon(
+                    Icons.favorite_border_outlined,
+                    color: Colors.red,
+                  ),
                 ),
                 kWidth10,
                 GestureDetector(
                   onTap: () {
+                    if (!CacheHelper.isLoggedIn) {
+                      notLoggedInPopUp(context);
+                    }
+                    if (!CacheHelper.isLoggedIn) return;
                     final box = context.findRenderObject() as RenderBox?;
                     Share.share(
                       "Share this Hommale with friends.",
@@ -85,7 +98,7 @@ class ProfileDetailSection extends StatelessWidget {
         addVerticalSpace(10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             IconText(
               label: state.taskEntityService?.rating?.first.rating.toString() ??
                   '4.5',

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
@@ -36,19 +37,28 @@ class TaskEntityServiceBloc
           )
               .then(
             (value) async {
-              await servicesRepo
-                  .fetchApplicants(
-                    id: event.id,
-                  )
-                  .then(
-                    (applicants) => emit(
-                      state.copyWith(
-                        theStates: TheStates.success,
-                        taskEntityService: TaskEntityService.fromJson(value),
-                        applicantModel: ApplicantModel.fromJson(applicants),
+              if (CacheHelper.isLoggedIn) {
+                await servicesRepo
+                    .fetchApplicants(
+                      id: event.id,
+                    )
+                    .then(
+                      (applicants) => emit(
+                        state.copyWith(
+                          theStates: TheStates.success,
+                          taskEntityService: TaskEntityService.fromJson(value),
+                          applicantModel: ApplicantModel.fromJson(applicants),
+                        ),
                       ),
-                    ),
-                  );
+                    );
+              } else {
+                emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    taskEntityService: TaskEntityService.fromJson(value),
+                  ),
+                );
+              }
             },
           );
         } catch (e) {

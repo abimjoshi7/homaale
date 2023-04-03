@@ -29,16 +29,28 @@ class TaskRepositories {
 // * List tasks or services by entity service ID
   Future<Map<String, dynamic>> fetchAllTaskList({int? page}) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/',
-        query: {
-          "is_requested": true,
-          "page": page,
-          "page_size": 10,
-        },
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final res = await _dio.getData(
+          url: 'task/entity/service/',
+          query: {
+            "is_requested": true,
+            "page": page,
+            "page_size": 10,
+          },
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/entity/service/',
+          query: {
+            "is_requested": true,
+            "page": page,
+            "page_size": 10,
+          },
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log("All Task List Fetch Error: $e");
       rethrow;
@@ -49,11 +61,18 @@ class TaskRepositories {
     required String id,
   }) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/$id',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: 'task/entity/service/$id',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/entity/service/$id',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -100,13 +119,21 @@ class TaskRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> singleTaskAppliedCount({required String id}) async {
+  Future<Map<String, dynamic>> singleTaskAppliedCount(
+      {required String id}) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/tasker-count/$id',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: 'task/entity/service/tasker-count/$id',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/entity/service/tasker-count/$id',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -119,11 +146,18 @@ class TaskRepositories {
     required String? id,
   }) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/applicants/$id/',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: 'task/entity/service/applicants/$id/',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/entity/service/applicants/$id/',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),

@@ -41,7 +41,7 @@ class TaskerCard extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+            children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.08,
                 width: MediaQuery.of(context).size.width * 0.2,
@@ -59,12 +59,12 @@ class TaskerCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Column(
-                      children: [
+                      children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Flexible(
                               child: AutoSizeText(
                                 label ?? 'Harry Smith',
@@ -87,7 +87,7 @@ class TaskerCard extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         WidgetText(
                           label: happyClients ?? '200',
                           widget: const Icon(
@@ -117,7 +117,7 @@ class TaskerCard extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         IconText(
                           label: ratings ?? '3.5 (100)',
                           iconData: Icons.star_rate_rounded,
@@ -132,7 +132,7 @@ class TaskerCard extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         const Icon(
                           Icons.favorite_outline,
                           color: Color(0xffFE5050),

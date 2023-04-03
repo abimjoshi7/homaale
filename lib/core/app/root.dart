@@ -10,6 +10,7 @@ import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -26,6 +27,23 @@ class Root extends StatefulWidget {
   _RootState createState() => _RootState();
 }
 
+Future notLoggedInPopUp(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (_) => CustomToast(
+      heading: 'Attention',
+      content: 'But first log in or register.',
+      isSuccess: true,
+      buttonLabel: 'Log in',
+      onTap: () => Navigator.pushNamedAndRemoveUntil(
+        context,
+        SignInPage.routeName,
+        (route) => false,
+      ),
+    ),
+  );
+}
+
 class _RootState extends State<Root> {
   int pageIndex = 0;
 
@@ -35,7 +53,7 @@ class _RootState extends State<Root> {
   bool bookingsActive = false;
   bool profileActive = false;
 
-  final pages = <Widget>[
+  final pages = const <Widget>[
     const Home(),
     const BoxPage(),
     const MyBookingsPage(),
@@ -190,14 +208,19 @@ class _RootState extends State<Root> {
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
-                                    setState(() {
-                                      pageIndex = 1;
-                                      homeActive = false;
-                                      boxActive = true;
-                                      addActive = false;
-                                      bookingsActive = false;
-                                      profileActive = false;
-                                    });
+                                    if (CacheHelper.isLoggedIn == false) {
+                                      notLoggedInPopUp(context);
+                                    }
+                                    if (CacheHelper.isLoggedIn) {
+                                      setState(() {
+                                        pageIndex = 1;
+                                        homeActive = false;
+                                        boxActive = true;
+                                        addActive = false;
+                                        bookingsActive = false;
+                                        profileActive = false;
+                                      });
+                                    }
                                   },
                                   pageIndex: pageIndex,
                                   index: 1,
@@ -209,6 +232,10 @@ class _RootState extends State<Root> {
                                 // commented this lines cause of changes this functionality by applying floating acton button
                                 CustomBottomNavItems(
                                   onPressed: () {
+                                    if (CacheHelper.isLoggedIn == false) {
+                                      notLoggedInPopUp(context);
+                                    }
+                                    if (CacheHelper.isLoggedIn == false) return;
                                     if (addActive) {
                                       setState(() {
                                         homeActive = pageIndex == 0;
@@ -236,14 +263,19 @@ class _RootState extends State<Root> {
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
-                                    setState(() {
-                                      pageIndex = 2;
-                                      homeActive = false;
-                                      boxActive = false;
-                                      addActive = false;
-                                      bookingsActive = true;
-                                      profileActive = false;
-                                    });
+                                    if (CacheHelper.isLoggedIn == false) {
+                                      notLoggedInPopUp(context);
+                                    }
+                                    if (CacheHelper.isLoggedIn) {
+                                      setState(() {
+                                        pageIndex = 2;
+                                        homeActive = false;
+                                        boxActive = false;
+                                        addActive = false;
+                                        bookingsActive = true;
+                                        profileActive = false;
+                                      });
+                                    }
                                   },
                                   pageIndex: pageIndex,
                                   index: 2,
@@ -253,14 +285,19 @@ class _RootState extends State<Root> {
                                 ),
                                 CustomBottomNavItems(
                                   onPressed: () {
-                                    setState(() {
-                                      pageIndex = 3;
-                                      homeActive = false;
-                                      boxActive = false;
-                                      addActive = false;
-                                      bookingsActive = false;
-                                      profileActive = true;
-                                    });
+                                    if (CacheHelper.isLoggedIn == false) {
+                                      notLoggedInPopUp(context);
+                                    }
+                                    if (CacheHelper.isLoggedIn) {
+                                      setState(() {
+                                        pageIndex = 3;
+                                        homeActive = false;
+                                        boxActive = false;
+                                        addActive = false;
+                                        bookingsActive = false;
+                                        profileActive = true;
+                                      });
+                                    }
                                   },
                                   pageIndex: pageIndex,
                                   index: 3,

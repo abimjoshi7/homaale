@@ -35,7 +35,7 @@ class _PreferenceState extends State<Preference> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     IconButton(
                       onPressed: () {
                         Navigator.pop(context);
@@ -51,7 +51,7 @@ class _PreferenceState extends State<Preference> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
-                    children: const [
+                    children: const <Widget>[
                       Text(
                         'Skip',
                         style: kSkipHelper,
@@ -70,7 +70,7 @@ class _PreferenceState extends State<Preference> {
             Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
-                children: [
+                children: <Widget>[
                   Container(
                     width: selectedIndex == 0
                         ? 100

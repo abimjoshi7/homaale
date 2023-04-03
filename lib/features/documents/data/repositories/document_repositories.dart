@@ -27,14 +27,24 @@ class DocumentRepositories {
 
   Future<Map<String, dynamic>> fetchPortfolio({int pageNumber = 1}) async {
     try {
-      final x = await _dio.getDatawithCredential(
-        url: 'tasker/portfolio/',
-        token: CacheHelper.accessToken,
-        query: {
-          'page': pageNumber,
-        },
-      );
-      return x as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final x = await _dio.getData(
+          url: 'tasker/portfolio/',
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      } else {
+        final x = await _dio.getDatawithCredential(
+          url: 'tasker/portfolio/',
+          token: CacheHelper.accessToken,
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -114,14 +124,24 @@ class DocumentRepositories {
 
   Future<Map<String, dynamic>> fetchExperience({int pageNumber = 1}) async {
     try {
-      final x = await _dio.getDatawithCredential(
-        url: 'tasker/experience/',
-        token: CacheHelper.accessToken,
-        query: {
-          'page': pageNumber,
-        },
-      );
-      return x as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final x = await _dio.getData(
+          url: 'tasker/experience/',
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      } else {
+        final x = await _dio.getDatawithCredential(
+          url: 'tasker/experience/',
+          token: CacheHelper.accessToken,
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -186,14 +206,24 @@ class DocumentRepositories {
 
   Future<Map<String, dynamic>> fetchEducation({int pageNumber = 1}) async {
     try {
-      final x = await _dio.getDatawithCredential(
-        url: 'tasker/education/',
-        token: CacheHelper.accessToken,
-        query: {
-          'page': pageNumber,
-        },
-      );
-      return x as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final x = await _dio.getData(
+          url: 'tasker/education/',
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      } else {
+        final x = await _dio.getDatawithCredential(
+          url: 'tasker/education/',
+          token: CacheHelper.accessToken,
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -288,14 +318,24 @@ class DocumentRepositories {
 
   Future<Map<String, dynamic>> fetchCertification({int pageNumber = 1}) async {
     try {
-      final x = await _dio.getDatawithCredential(
-        url: 'tasker/certification/',
-        token: CacheHelper.accessToken,
-        query: {
-          'page': pageNumber,
-        },
-      );
-      return x as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final x = await _dio.getData(
+          url: 'tasker/certification/',
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      } else {
+        final x = await _dio.getDatawithCredential(
+          url: 'tasker/certification/',
+          token: CacheHelper.accessToken,
+          query: {
+            'page': pageNumber,
+          },
+        );
+        return x as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),

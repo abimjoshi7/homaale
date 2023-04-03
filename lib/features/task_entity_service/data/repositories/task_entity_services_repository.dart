@@ -25,11 +25,18 @@ class TaskEntityServiceRepository {
     required String serviceId,
   }) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: '$kTaskEntityServicePath$serviceId',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: '$kTaskEntityServicePath$serviceId',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: '$kTaskEntityServicePath$serviceId',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       // log(
       //   e.toString(),

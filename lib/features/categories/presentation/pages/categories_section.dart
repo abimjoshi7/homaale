@@ -26,7 +26,7 @@ class CategoriesSection extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   addVerticalSpace(8),
                   SectionHeading(
                     labelName: 'Categories',

@@ -50,15 +50,26 @@ class ServicesRepositories {
     int? page,
   }) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/',
-        query: {
-          'is_requested': false,
-          'page': page,
-        },
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (!CacheHelper.isLoggedIn) {
+        final res = await _dio.getData(
+          url: 'task/entity/service/',
+          query: {
+            'is_requested': false,
+            'page': page,
+          },
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/entity/service/',
+          query: {
+            'is_requested': false,
+            'page': page,
+          },
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -111,11 +122,18 @@ class ServicesRepositories {
     required String? id,
   }) async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/entity/service/applicants/$id/',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: 'task/entity/service/applicants/$id/',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/entity/service/applicants/$id/',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),

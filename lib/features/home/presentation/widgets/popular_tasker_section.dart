@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -19,7 +21,7 @@ class PopularTaskerSection extends StatelessWidget {
         horizontal: 10,
       ),
       child: Column(
-        children: [
+        children: <Widget>[
           SectionHeading(
             labelName: 'Popular Taskers',
             onTap: () {
@@ -65,12 +67,18 @@ class PopularTaskerSection extends StatelessWidget {
                       },
                       child: TaskerCard(
                         networkImageUrl: data?[index].profileImage,
-                        label: "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        label:
+                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
                         designation: data?[index].designation,
-                        happyClients: data?[index].stats?.happyClients.toString(),
+                        happyClients:
+                            data?[index].stats?.happyClients.toString(),
                         ratings:
-                            "${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
-                        callback: () {},
+                            "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                        callback: () {
+                          if (CacheHelper.isLoggedIn == false) {
+                            notLoggedInPopUp(context);
+                          }
+                        },
                       ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,

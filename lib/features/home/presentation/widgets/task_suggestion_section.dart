@@ -1,4 +1,7 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
@@ -27,9 +30,17 @@ class _TasksRecommendationSectionState
             id: state.tasksList!.result![index].id!,
           ),
         );
-    isApply
-        ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
-        : Navigator.pushNamed(context, SingleTaskPage.routeName);
+    if (isApply) {
+      if (CacheHelper.isLoggedIn == false) {
+        notLoggedInPopUp(context);
+      }
+      if (CacheHelper.isLoggedIn) {
+        Navigator.pushNamed(context, ApplyTaskPage.routeName);
+      }
+    }
+    if (!isApply) {
+      Navigator.pushNamed(context, SingleTaskPage.routeName);
+    }
   }
 
   @override
@@ -37,7 +48,7 @@ class _TasksRecommendationSectionState
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        children: [
+        children: <Widget>[
           SectionHeading(
             labelName: 'Task recommendation for you',
             onTap: () {
