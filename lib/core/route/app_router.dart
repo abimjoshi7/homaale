@@ -209,6 +209,7 @@ class AppRouter {
       case TaskEntityServicePage.routeName:
         return MaterialPageRoute(
           builder: (context) => const TaskEntityServicePage(),
+          settings: settings,
         );
       case CategoriesPage.routeName:
         return MaterialPageRoute(

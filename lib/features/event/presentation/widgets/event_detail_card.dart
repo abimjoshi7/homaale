@@ -1,20 +1,23 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/event/presentation/widgets/widgets.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/widgets/widgets.dart';
+
 class EventDetailCard extends StatelessWidget {
+  final TaskEntityService taskEntityService;
   const EventDetailCard({
-    super.key,
-  });
+    Key? key,
+    required this.taskEntityService,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventBloc, EventState>(
       builder: (context, state) {
-        if (state.theStates == TheStates.success) {
+        if (taskEntityService.event != null || state.event != null) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -24,14 +27,18 @@ class EventDetailCard extends StatelessWidget {
                 children: [
                   IconText(
                     label: "${DateFormat.yMMMEd().format(
-                      state.event?.start ?? DateTime.now(),
+                      taskEntityService.event?.start ??
+                          state.event?.start ??
+                          DateTime.now(),
                     )} - ${DateFormat.yMMMEd().format(
-                      state.event?.end ?? DateTime.now(),
+                      taskEntityService.event?.end ??
+                          state.event?.end ??
+                          DateTime.now(),
                     )}",
                     iconData: Icons.calendar_today,
                   ),
                   IconText(
-                    label: "${state.event?.guestLimit ?? 0} Guests",
+                    label: "${state.event?.guestLimit ?? 1} Guests",
                     iconData: Icons.people_alt_outlined,
                   ),
                   IconText(
@@ -49,7 +56,7 @@ class EventDetailCard extends StatelessWidget {
             ],
           );
         }
-        return SizedBox.shrink();
+        return Text("data");
       },
     );
   }

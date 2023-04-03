@@ -10,7 +10,7 @@ mixin TheModalBottomSheet {
       constraints: BoxConstraints.loose(
         Size(
           double.infinity,
-          MediaQuery.of(context).size.height * 0.8,
+          double.infinity,
         ),
       ),
       isScrollControlled: true,

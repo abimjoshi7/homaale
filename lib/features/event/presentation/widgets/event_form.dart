@@ -3,7 +3,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/event/data/models/req/create_event_req.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
-import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -168,35 +167,36 @@ class _EventFormState extends State<EventForm> {
               BlocListener<EventBloc, EventState>(
                 listener: (context, eventState) async {
                   if (eventState.theStates == TheStates.success &&
-                      eventState.isCreated == true) {
+                      eventState.isCreated == true &&
+                      eventState.createdEventRes?.id != null) {
                     await showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Success',
                         content: "Event created successfully",
                         onTap: () {
-                          // context.read<EventBloc>().add(
-                          //       EventLoaded(
-                          //         id: eventState.event?.id ?? "",
-                          //       ),
-                          //     );
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Root.routeName,
+                            (route) => false,
+                          );
                         },
                         isSuccess: true,
                       ),
                     );
                   }
-                  // if (eventState.theStates == TheStates.failure &&
-                  //     eventState.isCreated == false) {
-                  //   await showDialog(
-                  //     context: context,
-                  //     builder: (context) => CustomToast(
-                  //       heading: 'Error',
-                  //       content: "Event cannot be created.",
-                  //       onTap: () => Navigator.pop(context),
-                  //       isSuccess: false,
-                  //     ),
-                  //   );
-                  // }
+                  if (eventState.theStates == TheStates.failure &&
+                      eventState.isCreated == false) {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Error',
+                        content: "Event cannot be created.",
+                        onTap: () => Navigator.pop(context),
+                        isSuccess: false,
+                      ),
+                    );
+                  }
                 },
                 child: CustomElevatedButton(
                   callback: () {

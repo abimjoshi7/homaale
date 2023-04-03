@@ -23,7 +23,9 @@ class EventSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<EventBloc, EventState>(
       listener: (context, state) {
-        if (state.theStates == TheStates.success && state.event != null) {
+        if (state.theStates == TheStates.success &&
+            state.event?.id != null &&
+            state.isCreated == false) {
           Navigator.pushNamed(
             context,
             EventDetailsPage.routeName,
@@ -38,8 +40,6 @@ class EventSection extends StatelessWidget {
             label: "Events",
             rightSection: InkWell(
               onTap: () {
-                print(taskEntityService.event?.id);
-                print(taskEntityService.event?.toJson());
                 context.read<EventBloc>().add(
                       EventLoaded(
                         id: taskEntityService.event?.id ?? "",
@@ -53,7 +53,9 @@ class EventSection extends StatelessWidget {
             ),
             child: taskEntityService.event?.id == null
                 ? EventAttachCard()
-                : EventDetailCard(),
+                : EventDetailCard(
+                    taskEntityService: taskEntityService,
+                  ),
           ),
         );
       },

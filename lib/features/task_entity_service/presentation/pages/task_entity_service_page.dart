@@ -83,13 +83,8 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             return Column(
               children: [
                 addVerticalSpace(50),
-                InkWell(
-                  onTap: () {
-                    print(state.taskEntityService?.event?.toJson());
-                  },
-                  child: CustomHeader(
-                    child: Text(state.taskEntityService?.title ?? ''),
-                  ),
+                CustomHeader(
+                  child: Text(state.taskEntityService?.title ?? ''),
                 ),
                 Expanded(
                   child: ListView(
@@ -219,7 +214,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             );
           } else {
             return const Center(
-              child: LinearProgressIndicator(),
+              child: CircularProgressIndicator(),
             );
           }
         },

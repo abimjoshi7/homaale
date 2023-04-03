@@ -1,15 +1,9 @@
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/core/mixins/mixins.dart';
-import 'package:cipher/features/event/data/repositories/event_repository.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/event/presentation/widgets/event_detail_card.dart';
-import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
-import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
-import 'package:cipher/locator.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -20,20 +14,20 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
 
   @override
   Widget build(BuildContext context) {
-    // final taskEntityService = locator<TaskEntityServiceBloc>();
     return Scaffold(
       body: BlocConsumer<EventBloc, EventState>(
         listener: (context, state) {
-          if (state.theStates == TheStates.success && state.isDeleted == true) {
+          if (state.isDeleted == true) {
             showDialog(
               context: context,
               builder: (context) => CustomToast(
                 heading: "Success",
                 content: "Event deleted successfully",
                 onTap: () {
-                  Navigator.popAndPushNamed(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
                     Root.routeName,
+                    (route) => false,
                   );
                 },
                 isSuccess: true,
@@ -86,10 +80,7 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                 ),
                                 Divider(),
                                 ListTile(
-                                  onTap: () {
-                                    print(state);
-                                    print(state.event?.id);
-                                  },
+                                  onTap: () {},
                                   leading: Icon(
                                     Icons.filter_none_rounded,
                                   ),
@@ -118,7 +109,9 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                           style: kLightBlueText14,
                         ),
                       ),
-                      child: EventDetailCard(),
+                      child: EventDetailCard(
+                        taskEntityService: TaskEntityService(),
+                      ),
                     ),
                     CustomFormField(
                       label: "Schedule",

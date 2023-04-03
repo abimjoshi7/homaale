@@ -21,6 +21,11 @@ class EventBloc extends Bloc<EventEvent, EventState> {
           emit(
             state.copyWith(
               theStates: TheStates.initial,
+              isLoaded: false,
+              isCreated: false,
+              isDeleted: false,
+              isEdited: false,
+              isAvailable: false,
             ),
           );
           await repo.retrieveEvent(id: event.id).then(
@@ -54,11 +59,10 @@ class EventBloc extends Bloc<EventEvent, EventState> {
           emit(
             state.copyWith(
               isCreated: false,
+              theStates: TheStates.initial,
             ),
           );
-          await repo
-              .createEvent(req: event.req)
-              .then(
+          await repo.createEvent(req: event.req).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
@@ -66,13 +70,6 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                     createdEventRes: CreateEventRes.fromJson(
                       value,
                     ),
-                  ),
-                ),
-              )
-              .whenComplete(
-                () => add(
-                  EventLoaded(
-                    id: state.event?.id ?? "",
                   ),
                 ),
               );
@@ -129,20 +126,13 @@ class EventBloc extends Bloc<EventEvent, EventState> {
               isDeleted: false,
             ),
           );
-          await repo
-              .deleteEvent(event.id)
-              .then(
+          await repo.deleteEvent(event.id).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
                     isDeleted: true,
-                  ),
-                ),
-              )
-              .whenComplete(
-                () => add(
-                  EventLoaded(
-                    id: event.id,
+                    event: Event(),
+                    createdEventRes: CreateEventRes(),
                   ),
                 ),
               );
