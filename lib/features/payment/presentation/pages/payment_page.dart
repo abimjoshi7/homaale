@@ -62,7 +62,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     children: [
                       Text(
                         'Payment Methods',
-                        style: TextStyle(color: Colors.blue),
+                        style: kPurpleText16,
                       ),
                       if (state.theState == TheStates.initial)
                         const SizedBox(
@@ -73,48 +73,39 @@ class _PaymentPageState extends State<PaymentPage> {
                       if (state.theState == TheStates.success &&
                           state.paymentType!.result != null)
                         ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: state.paymentType?.result!.length,
-                            itemBuilder: (context, index) {
-                              return CommonWalletDisplayCard(
-                                radio: Builder(
-                                  builder: (BuildContext context) {
-                                    print(state.paymentType?.result!.length);
-                                    return Radio(
-                                      groupValue:
-                                          state.paymentType?.result![index],
-                                      value: state
-                                          .paymentType?.result![currentIndex],
-                                      onChanged: (newValue) {
-                                        paymentTypeBloc.add(
-                                          PaymentTypeCurrentIndex(
-                                              currentIndex: currentIndex),
-                                        );
-                                        print(
-                                          PaymentTypeCurrentIndex(
-                                              currentIndex: currentIndex),
-                                        );
-                                        setState(
-                                          () {
-                                            currentIndex = index;
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                                walletAssets:
-                                    state.paymentType?.result![index].logo ??
-                                        "",
-                                walletName:
-                                    state.paymentType?.result![index].name ??
-                                        "",
-                                walletCardNo: state
-                                        .paymentType?.result![index].id
-                                        .toString() ??
-                                    "",
-                              );
-                            }),
+                          shrinkWrap: true,
+                          itemCount: state.paymentType?.result!.length,
+                          itemBuilder: (context, index) {
+                            return CommonWalletDisplayCard(
+                              radio: Builder(
+                                builder: (BuildContext context) {
+                                  return Radio(
+                                    groupValue:
+                                        state.paymentType?.result![index],
+                                    value: state
+                                        .paymentType?.result![currentIndex],
+                                    onChanged: (newValue) {
+                                      setState(
+                                        () {
+                                          currentIndex = index;
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                              walletAssets:
+                                  state.paymentType?.result![index].logo ?? "",
+                              walletName:
+                                  state.paymentType?.result![index].name ?? "",
+                              walletCardNo:
+                                  // state
+                                  //         .paymentType?.result![index].id
+                                  //         .toString() ??
+                                  "",
+                            );
+                          },
+                        ),
                       commonSize,
                       // const Text(
                       //   'Other payment methods',
@@ -143,11 +134,13 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 CustomElevatedButton(
                   callback: () {
+                    paymentTypeBloc.add(
+                      PaymentTypeCurrentIndex(currentIndex: currentIndex),
+                    );
                     Navigator.pushNamed(
                       context,
                       PaymentSummaryPage.routeName,
                     );
-                    // print(currentIndex);
                   },
                   label: 'Proceed',
                 ),

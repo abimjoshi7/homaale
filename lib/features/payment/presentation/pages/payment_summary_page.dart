@@ -45,163 +45,182 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
         ),
       ),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
-
           builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SingleChildScrollView(
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: const Text(
-                          'Booking Details',
-                          style: kPurpleText16,
-                        ),
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: const Text(
+                        'Booking Details',
+                        style: kPurpleText16,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.only(right: 30, top: 20),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ListTile(
-                              title: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Name'),
-                                  Text('Price'),
-                                  Text('Total'),
-                                ],
-                              ),
-                              subtitle: Column(
-                                children: [
-                                  Text(
-                                      '.........................................................................................................................'),
-                                  SizedBox(
-                                    height: 50,
-                                    child: ListView.builder(
-                                        itemCount: state.orderItemRetriveList
-                                            ?.orderItem?.length,
-                                        itemBuilder: (context, index) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                state
-                                                        .orderItemRetriveList
-                                                        ?.orderItem?[index]
-                                                        .task
-                                                        ?.title ??
-                                                    "",
-                                                style: TextStyle(
-                                                  textBaseline:
-                                                      TextBaseline.alphabetic,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                maxLines: 1,
-                                              ),
-                                              Text('Rs '
-                                                  '${state.orderItemRetriveList?.orderItem?[index].amount}'),
-                                              Text('Rs '
-                                                  '${state.orderItemRetriveList?.grandTotal}'),
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                ],
-                              ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 30, top: 20),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Name'),
+                                Text('Price'),
+                              ],
                             ),
-                          ],
-                        ),
+                            subtitle: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                    '.........................................................................................................................'),
+                                Flexible(
+                                  fit: FlexFit.loose,
+                                  child: ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: state.orderItemRetriveList
+                                          ?.orderItem?.length,
+                                      itemBuilder: (context, index) {
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              state
+                                                      .orderItemRetriveList
+                                                      ?.orderItem?[index]
+                                                      .task
+                                                      ?.title ??
+                                                  "",
+                                              style: TextStyle(
+                                                textBaseline:
+                                                    TextBaseline.alphabetic,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              maxLines: 1,
+                                            ),
+                                            Text('Rs '
+                                                '${state.orderItemRetriveList?.orderItem?[index].amount}'),
+                                          ],
+                                        );
+                                      }),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Divider(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Total',
+                                      style: kPurpleText16,
+                                    ),
+                                    Text(
+                                      'Rs '
+                                      '${state.orderItemRetriveList?.grandTotal}',
+                                      style: kPurpleText16,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, top: 10),
-                        child: const Text(
-                          'Payment Details',
-                          style: kPurpleText16,
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 10),
+                      child: const Text(
+                        'Payment Details',
+                        style: kPurpleText16,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child:
-                            BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
-                              bloc: paymentTypeBloc,
-                          builder: (context, state) {
-                                print(paymentTypeBloc.state.currentIndex);
-                                print(state.paymentType?.result![0]);
-                            return ListTile(
-                              leading: Image.network(
-                                // paymentTypeBloc.state.paymentType?.result![paymentTypeBloc.state.currentIndex!].logo ?? "",
-                                state.paymentType?.result![0].logo ?? "",
-                                height: 100,
-                                width: 100,
-                                scale: 1,
-                              ),
-                              title: Text(
-                                  state.paymentType?.result![0].name
-                                  // paymentTypeBloc.state.paymentType?.result![paymentTypeBloc.state.currentIndex!].name
-                                      ?? ""),
-                              subtitle: Text(
-                                  state.paymentType?.result![0].id.toString()
-                                  // paymentTypeBloc.state.paymentType?.result![paymentTypeBloc.state.currentIndex!].id.toString()
-                                      ??
-                                      ''),
-                            );
-                          },
-                        ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(15),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
+                        bloc: paymentTypeBloc,
+                        builder: (context, state) {
+                          print(
+                              'currentIndex : ${paymentTypeBloc.state.currentIndex}');
+                          return ListTile(
+                            leading: Image.network(
+                              state
+                                      .paymentType
+                                      ?.result![
+                                          paymentTypeBloc.state.currentIndex ??
+                                              0]
+                                      .logo ??
+                                  "",
+                              height: 20,
+                              width: 20,
+                              scale: 1,
+                            ),
+                            title: Text(paymentTypeBloc
+                                    .state
+                                    .paymentType
+                                    ?.result![
+                                        paymentTypeBloc.state.currentIndex ?? 0]
+                                    .name ??
+                                ""),
+                          );
+                        },
                       ),
-                      CommonBillingAddressContainer(),
-                      SizedBox(
-                        height: 200,
-                      ),
-                    ],
-                  ),
+                    ),
+                    CommonBillingAddressContainer(),
+                    SizedBox(
+                      height: 200,
+                    ),
+                  ],
                 ),
               ),
-            ),
-            Center(
-              child: CustomElevatedButton(
-                callback: () {
-                  Navigator.pushNamed(context, OrderInvoicePage.routeName);
-                },
-                label: 'Confirm',
+              Center(
+                child: CustomElevatedButton(
+                  callback: () {
+                    Navigator.pushNamed(context, OrderInvoicePage.routeName);
+                  },
+                  label: 'Confirm',
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: CustomElevatedButton(
-                borderColor: kColorPrimary,
-                mainColor: Colors.white,
-                callback: () {
-                  Navigator.pop(context);
-                },
-                label: 'Cancel',
-                textColor: kColorPrimary,
+              SizedBox(
+                height: 20,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+              Center(
+                child: CustomElevatedButton(
+                  borderColor: kColorPrimary,
+                  mainColor: Colors.white,
+                  callback: () {
+                    Navigator.pop(context);
+                  },
+                  label: 'Cancel',
+                  textColor: kColorPrimary,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         );
       }),
     );

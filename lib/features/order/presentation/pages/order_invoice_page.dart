@@ -3,6 +3,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../box/presentation/bloc/order_id_create_bloc.dart';
+import '../../../box/presentation/bloc/order_id_create_state.dart';
 import '../../../box/presentation/bloc/order_retrive_bloc.dart';
 import '../../../box/presentation/bloc/order_retrive_state.dart';
 import '../../../checkout/presentation/pages/checkout_page.dart';
@@ -38,11 +40,14 @@ class OrderInvoicePage extends StatelessWidget {
       ),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
         builder: (context, retriveState) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: ListView.builder(
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount:
                         retriveState.orderItemRetriveList?.orderItem?.length,
                     itemBuilder: (context, index) {
@@ -62,9 +67,9 @@ class OrderInvoicePage extends StatelessWidget {
                             .orderItemRetriveList?.orderItem![index].createdAt,
                       );
                     }),
-              ),
-              Expanded(
-                child: ListView.builder(
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount:
                       retriveState.orderItemRetriveList?.orderItem?.length,
                   itemBuilder: (context, index) {
@@ -119,7 +124,6 @@ class OrderInvoicePage extends StatelessWidget {
                                 child: Text('Rs'
                                     '   ${retriveState.orderItemRetriveList?.grandTotal ?? ""}'),
                               ),
-                              // width: MediaQuery.of(context).size.width / 3,
                             ],
                           ),
                           addVerticalSpace(10),
@@ -148,127 +152,36 @@ class OrderInvoicePage extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-              PaymentDetailsContainer(
-                state: retriveState,
-              ),
-              // OrderCard(
-              //   leadinglabel: 'Payment Details',
-              //   trailingLabel: retriveState
-              //       .orderItemRetriveList?.orderItem![0].task?.id!
-              //       .substring(
-              //       0,
-              //       min(
-              //           retriveState.orderItemRetriveList!.orderItem![0]
-              //               .task!.id!.length,
-              //           3)),
-              //   child: Column(
-              //     children: [
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: const [
-              //           Text(
-              //             'Service Charge:',
-              //             style: TextStyle(
-              //               fontSize: 15,
-              //             ),
-              //           ),
-              //           Text(
-              //             'Rs 1,200',
-              //             style: kPurpleText16,
-              //           ),
-              //         ],
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: const [
-              //           Text(
-              //             'Service Charge:',
-              //             style: TextStyle(
-              //               fontSize: 15,
-              //             ),
-              //           ),
-              //           Text(
-              //             'Rs 1,200',
-              //             style: kPurpleText16,
-              //           ),
-              //         ],
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: const [
-              //           Text(
-              //             'Service Charge:',
-              //             style: TextStyle(
-              //               fontSize: 15,
-              //             ),
-              //           ),
-              //           Text(
-              //             'Rs 1,200',
-              //             style: kPurpleText16,
-              //           ),
-              //         ],
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: const [
-              //           Text(
-              //             'Service Charge:',
-              //             style: TextStyle(
-              //               fontSize: 15,
-              //             ),
-              //           ),
-              //           Text(
-              //             'Rs 1,200',
-              //             style: kPurpleText16,
-              //           ),
-              //         ],
-              //       ),
-              //       addVerticalSpace(5),
-              //       const MySeparator(),
-              //       addVerticalSpace(5),
-              //       Expanded(
-              //         child: Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: const [
-              //             Text(
-              //               'Service Charge:',
-              //               style: TextStyle(
-              //                 fontSize: 15,
-              //               ),
-              //             ),
-              //             Text(
-              //               'Rs 1,200',
-              //               style: kPurpleText16,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              addVerticalSpace(20),
-              BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
-                  builder: (context, paymentTypeState) {
-                return BlocBuilder<PaymentBloc, PaymentIntentState>(
-                  builder: (context, state) {
-                    return
-                        // paymentIntentStateOnly.theState == TheStates.initial
-                        //   ? CircularProgressIndicator()
-                        //   :
-                        CustomElevatedButton(
+                PaymentDetailsContainer(
+                  state: retriveState,
+                ),
+                addVerticalSpace(20),
+                BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
+                    builder: (context, paymentTypeState) {
+                  return BlocBuilder<PaymentBloc, PaymentIntentState>(
+                    builder: (context, state) {
+                      return
+                          // paymentIntentStateOnly.theState == TheStates.initial
+                          //   ? CircularProgressIndicator()
+                          //   :
+                          BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
+                              builder: (context, orderState) {
+                        return CustomElevatedButton(
                             callback: () async {
                               final Uri url = Uri.parse(
-                                  state.paymentIntent?.data?.paymentUrl ?? ''
-                                  // ' https://test-pay.khalti.com/?pidx=ZpEgm5wxH8WzP9bFctswo9',
-                                  );
+                                  state.paymentIntent?.data?.paymentUrl ?? '');
                               context.read<PaymentBloc>().add(
                                     PaymentIntentInitiated(
                                       provider: paymentTypeState
-                                              .paymentType?.result![0].slug ??
+                                              .paymentType
+                                              ?.result![paymentTypeState
+                                                      .currentIndex ??
+                                                  0]
+                                              .slug ??
                                           "khalti",
                                       uuid:
-                                          '5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+                                          orderState.orderIdCreate?.order ?? "",
+                                      //'5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
                                     ),
                                   );
                               if (!await launchUrl(url)) {
@@ -276,10 +189,12 @@ class OrderInvoicePage extends StatelessWidget {
                               }
                             },
                             label: 'Confirm Payment');
-                  },
-                );
-              })
-            ],
+                      });
+                    },
+                  );
+                })
+              ],
+            ),
           );
         },
       ),
@@ -316,7 +231,7 @@ class OrderCard extends StatelessWidget {
               ),
               color: const Color(0xffECECF2),
             ),
-            height: 200,
+            height: 180,
             child: Column(
               children: [
                 Padding(
@@ -361,22 +276,6 @@ class OrderCard extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: const [
-                              //     Text(
-                              //       'Customer ID:',
-                              //       style: TextStyle(
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //     Text(
-                              //       '72633',
-                              //       style: kPurpleText16,
-                              //     )
-                              //   ],
-                              // ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -394,22 +293,6 @@ class OrderCard extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              // Row(
-                              //   mainAxisAlignment:
-                              //       MainAxisAlignment.spaceBetween,
-                              //   children: const [
-                              //     Text(
-                              //       'Billing Address:',
-                              //       style: TextStyle(
-                              //         fontSize: 15,
-                              //       ),
-                              //     ),
-                              //     Text(
-                              //       'Bagbazaar, Kathmandu',
-                              //       style: kPurpleText16,
-                              //     )
-                              //   ],
-                              // ),
                             ],
                           ),
                     ),
