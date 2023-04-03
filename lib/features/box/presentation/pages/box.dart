@@ -7,7 +7,6 @@ import 'package:cipher/features/box/presentation/bloc/order_item_list_state.dart
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
 import '../../../bookings/presentation/bloc/bookings_bloc.dart';
 import '../../../bookings/presentation/pages/booked_service_page.dart';
 import '../../../bookings/presentation/widgets/sections/services/services_section.dart';
@@ -51,7 +50,11 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
     if (selectedItems.isNotEmpty) {
       sum = 0.0;
       for (var items in selectedItems) {
-        sum = sum + double.parse(state.orderItemList?.result?[items].entityService?.budgetTo.toString() ?? "0.0");
+        sum = sum +
+            double.parse(state
+                    .orderItemList?.result?[items].entityService?.budgetTo
+                    .toString() ??
+                "0.0");
       }
       return 'Rs. $sum';
     }
@@ -61,7 +64,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   List<String> passListOfUuid(OrderItemListState state) {
     selectedUuid = [];
     for (var items in selectedItems) {
-      selectedUuid = [state.orderItemList?.result?[items].id ?? ""];
+      selectedUuid.add(state.orderItemList?.result?[items].id ?? "");
     }
     return selectedUuid;
   }
@@ -104,13 +107,13 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    ListView.builder(
+                    if (state.theStates == TheStates.failure)
+                        Text("Opps! Try Again."),
+                    (state.theStates == TheStates.initial)
+                        ? Center(child: CircularProgressIndicator())
+                        :   ListView.builder(
                       itemCount: state.orderItemList?.result!.length,
                       itemBuilder: (context, index) {
-                        // state.orderItemList?.result!.forEach((element) {
-                        //   selectedItems=state.orderItemList?.result![index];
-                        //   sum = (sum + element.entityService!.budgetTo!.toInt());
-                        // });
                         return GestureDetector(
                           onTap: () async {
                             setState(() {
@@ -124,19 +127,23 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: selectedItems.contains(index) ? Color(0xffDEB988) : Colors.grey.shade300,
+                                color: selectedItems.contains(index)
+                                    ? Color(0xffDEB988)
+                                    : Colors.grey.shade300,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             height: 200,
-                            margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+                            margin:
+                                EdgeInsets.only(top: 20, left: 20, right: 20),
                             child: Column(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -144,12 +151,17 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                             height: 72,
                                             width: 72,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(16.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(16.0),
                                               image: DecorationImage(
                                                 image: NetworkImage(
                                                     //TODO: display media image from entity/service
-                                                    state.orderItemList?.result![index].assigner!.profileImage ?? ""
-                                                    // 'https://picsum.photos/1000/1000',
+                                                    state
+                                                            .orderItemList
+                                                            ?.result![index]
+                                                            .assigner!
+                                                            .profileImage ??
+                                                        ""
                                                     ),
                                                 fit: BoxFit.cover,
                                               ),
@@ -157,13 +169,23 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                           ),
                                           addHorizontalSpace(8),
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.65,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.65,
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Text(state.orderItemList?.result![index].entityService!.title ?? ""
+                                                    Text(state
+                                                                .orderItemList
+                                                                ?.result![index]
+                                                                .entityService!
+                                                                .title ??
+                                                            ""
                                                         // 'Trimming & Cutting',
                                                         ),
                                                     // Icon(
@@ -176,17 +198,25 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                 ),
                                                 addVerticalSpace(8),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Row(
                                                       children: [
                                                         Icon(
-                                                          Icons.location_on_outlined,
+                                                          Icons
+                                                              .location_on_outlined,
                                                           size: 16,
                                                           color: Colors.red,
                                                         ),
                                                         Text(
-                                                          state.orderItemList?.result![index].entityService!.city!
+                                                          state
+                                                                  .orderItemList
+                                                                  ?.result![
+                                                                      index]
+                                                                  .entityService!
+                                                                  .city!
                                                                   .name ??
                                                               "",
                                                           // 'Buddhanagar, Kathmandu',
@@ -205,14 +235,17 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                 ),
                                                 addVerticalSpace(8),
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
                                                     Row(
                                                       children: [
                                                         Row(
                                                           children: [
                                                             const Icon(
-                                                              Icons.calendar_month,
+                                                              Icons
+                                                                  .calendar_month,
                                                               size: 20,
                                                               color: Colors.red,
                                                             ),
@@ -231,9 +264,11 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                         Row(
                                                           children: [
                                                             const Icon(
-                                                              Icons.watch_later_outlined,
+                                                              Icons
+                                                                  .watch_later_outlined,
                                                               size: 20,
-                                                              color: Colors.blue,
+                                                              color:
+                                                                  Colors.blue,
                                                             ),
                                                             Text(
                                                               '${state.orderItemList?.result![index].startTime ?? ""}',
@@ -251,7 +286,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                       style: TextStyle(
                                                         fontSize: 12,
                                                         color: kColorSilver,
-                                                        fontStyle: FontStyle.italic,
+                                                        fontStyle:
+                                                            FontStyle.italic,
                                                       ),
                                                     ),
                                                   ],
@@ -268,7 +304,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                 Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         children: [
@@ -280,7 +317,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                           ),
                                           addHorizontalSpace(4),
                                           Chip(
-                                            backgroundColor: Colors.lightBlue.shade50,
+                                            backgroundColor:
+                                                Colors.lightBlue.shade50,
                                             label: Text(
                                               'Approved',
                                               style: TextStyle(
@@ -292,21 +330,21 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                         ],
                                       ),
                                       GestureDetector(
-                                        onTap: () {
+                                        onTap: (){
                                           context.read<BookingsBloc>().add(
                                                 BookingSingleLoaded(
-                                                  state.orderItemList?.result?[0].entityService?.service?.category
-                                                          ?.id ??
-                                                      0,
+                                                int.parse(state.orderItemList?.result?[index].id ?? '0') ,
                                                 ),
                                               );
-                                          Navigator.pushNamed(context, BookedServicePage.routeName);
+                                          Navigator.pushNamed(context,
+                                              BookedServicePage.routeName);
                                         },
                                         child: const Text(
                                           'Booking Details',
                                           style: TextStyle(
                                             color: kColorSilver,
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ),
@@ -342,25 +380,24 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                           thickness: 2,
                           color: Color(0Xff00D084),
                         ),
-                        BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(builder: (context, orderState) {
+                        BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
+                            builder: (context, orderState) {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               context.read<OrderIdCreateBloc>().add(
                                     OrderIdCreateInitiated(
                                       uuid: passListOfUuid(state),
                                     ),
                                   );
                               context.read<OrderItemRetriveBloc>().add(
-                                    OrderItemRetriveInitiated(uuid: orderState.orderIdCreate?.order ?? ""
-                                        // 'de6f74e1-2074-4fb7-af6a-c816a7e6cda4'
-                                        ),
+                                    OrderItemRetriveInitiated(
+                                        uuid: orderState.orderIdCreate?.order ??
+                                            ""),
                                   );
-                              print(orderState.orderIdCreate?.order);
-                              Navigator.pushNamed(
+                              await Navigator.pushNamed(
                                 context,
                                 CheckoutPage.routeName,
                               );
-                              // print('${state.orderItemList?.result![current].id}');
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -369,7 +406,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(left: 20.0),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Total Price',
@@ -379,7 +417,9 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                       ),
                                       Text(
                                         getTotalPrice(state),
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -393,8 +433,10 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                   ),
                                   child: Text(
                                     'Proceed to Payment ',
-                                    style:
-                                        TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1),
                                   ),
                                 ),
                               ],
