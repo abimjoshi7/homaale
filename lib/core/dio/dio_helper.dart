@@ -79,10 +79,12 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
+          (e.response?.statusCode == 400)
+              ? e.response!.data.toString()
+              : e.response!.data
+                  .toString()
+                  .toTitleCase()
+                  .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST ERROR: ${e.response?.data}');

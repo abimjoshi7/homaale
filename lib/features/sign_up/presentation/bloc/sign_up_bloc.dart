@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
@@ -52,10 +55,12 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
           }
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
+          final errRes = jsonDecode(err!) as Map<String, dynamic>;
+          log("erro test" + errRes.toString());
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              errorMsg: err.toString(),
+              errorMsg: '',
               isPhoneNumber: false,
             ),
           );
@@ -70,7 +75,6 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
             phone: event.phone,
             password: event.password,
           );
-
           emit(
             state.copyWith(
               userSignUpRes: x,
@@ -80,10 +84,12 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
           );
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
+          log("error test log:" + err.toString());
+          // final error = jsonDecode(err!).toString();
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              errorMsg: err.toString(),
+              errorMsg: err,
               isPhoneNumber: true,
             ),
           );

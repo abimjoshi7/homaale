@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
+import 'package:dependencies/dependencies.dart';
 
 class SignUpRepositories {
   final _dio = DioHelper();
