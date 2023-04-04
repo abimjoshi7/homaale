@@ -9,13 +9,17 @@ part 'image_upload_state.dart';
 class ImageUploadCubit extends Cubit<ImageUploadState> {
   ImageUploadCubit() : super(ImageUploadInitial());
 
-  Future<void> uploadImage() async {
+  Future<void> uploadImage({
+    bool isCamera = false,
+  }) async {
     try {
       emit(
         ImageUploadInitial(),
       );
 
-      final imagePath = await ImagePickHelper().pickImagePath();
+      final imagePath = await ImagePickHelper().pickImagePath(
+        isCamera: isCamera,
+      );
       final response = await DioHelper().postMultiFormData(
         path: imagePath!.path,
         url: 'task/filestore/',
@@ -35,13 +39,17 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
     }
   }
 
-  Future<void> uploadVideo() async {
+  Future<void> uploadVideo({
+    bool isCamera = false,
+  }) async {
     try {
       emit(
         ImageUploadInitial(),
       );
 
-      final imagePath = await ImagePickHelper().pickVideoPath();
+      final imagePath = await ImagePickHelper().pickVideoPath(
+        isCamera: isCamera,
+      );
       final response = await DioHelper().postMultiFormData(
         path: imagePath!.path,
         url: 'task/filestore/',

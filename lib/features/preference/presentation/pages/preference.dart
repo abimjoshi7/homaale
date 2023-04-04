@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_add_skills.dart';

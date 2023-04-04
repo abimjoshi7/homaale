@@ -53,6 +53,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   List<Map<String, dynamic>> map = [];
   List<int?>? interestCodes = [];
   final _key = GlobalKey<FormState>();
+  bool isCamera = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +68,54 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
               children: [
                 InkWell(
                   onTap: () async {
-                    await ImagePickHelper().pickImagePath().then(
-                          (value) => setState(
-                            () {
-                              selectedImage = value;
-                            },
-                          ),
-                        );
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetText(
+                                callback: () {
+                                  setState(
+                                    () {
+                                      isCamera = true;
+                                    },
+                                  );
+                                  Navigator.pop(context);
+                                },
+                                widget: Icon(Icons.camera_alt_outlined),
+                                label: "Camera"),
+                            WidgetText(
+                                callback: () {
+                                  setState(
+                                    () {
+                                      isCamera = false;
+                                    },
+                                  );
+                                  Navigator.pop(context);
+                                },
+                                widget: Icon(Icons.camera_alt_outlined),
+                                label: "Gallery"),
+                          ],
+                        ),
+                      ),
+                    ).then(
+                      (value) async => await ImagePickHelper()
+                          .pickImagePath(
+                        isCamera: isCamera,
+                      )
+                          .then(
+                        (value) {
+                          if (value != null) {
+                            setState(
+                              () {
+                                selectedImage = value;
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    );
                   },
                   child: Column(
                     children: [
@@ -321,7 +363,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           onConfirm: (p0) {
                             setState(
                               () {
-                                interestCodes = p0.map((e) => int.parse(e)).toList();
+                                interestCodes =
+                                    p0.map((e) => int.parse(e)).toList();
                               },
                             );
                           },
@@ -408,7 +451,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText: startTime?.format(context) ?? '--:-- A.M',
+                                hintText:
+                                    startTime?.format(context) ?? '--:-- A.M',
                               ),
                             )
                           ],
@@ -439,7 +483,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText: endTime?.format(context) ?? '--:-- P.M',
+                                hintText:
+                                    endTime?.format(context) ?? '--:-- P.M',
                               ),
                             )
                           ],
@@ -675,7 +720,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           builder: (context) => CustomToast(
                             isSuccess: false,
                             heading: 'Failure',
-                            content: error ?? 'Your profile cannot be completed. Please try again.',
+                            content: error ??
+                                'Your profile cannot be completed. Please try again.',
                             onTap: () {},
                           ),
                         );
@@ -684,7 +730,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
-                          final image = await getImageFileFromAssets('avatar-ga3c7ddeec_640.png');
+                          final image = await getImageFileFromAssets(
+                              'avatar-ga3c7ddeec_640.png');
                           if (startTime == null && endTime == null) {
                             if (!mounted) return;
                             showDialog(
@@ -700,11 +747,20 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           if (_key.currentState!.validate()) {
                             _key.currentState!.save();
                             if (isClient && isTasker) {
-                              userType = ["Client", "Tasker"].map((e) => '"$e"').toList().toString();
+                              userType = ["Client", "Tasker"]
+                                  .map((e) => '"$e"')
+                                  .toList()
+                                  .toString();
                             } else if (isClient) {
-                              userType = ["Client"].map((e) => '"$e"').toList().toString();
+                              userType = ["Client"]
+                                  .map((e) => '"$e"')
+                                  .toList()
+                                  .toString();
                             } else if (isTasker) {
-                              userType = ["Tasker"].map((e) => '"$e"').toList().toString();
+                              userType = ["Tasker"]
+                                  .map((e) => '"$e"')
+                                  .toList()
+                                  .toString();
                             } else {
                               userType = "";
                             }
@@ -720,24 +776,32 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "designation": jobProfileController.text,
                               "gender": genderGroup,
                               "skill": tagController.getTags != null
-                                  ? tagController.getTags!.map((e) => '"$e"').toList().toString()
+                                  ? tagController.getTags!
+                                      .map((e) => '"$e"')
+                                      .toList()
+                                      .toString()
                                   : '',
-                              "date_of_birth": "${dateOfBirth?.year}-${dateOfBirth?.month}-${dateOfBirth?.day}",
+                              "date_of_birth":
+                                  "${dateOfBirth?.year}-${dateOfBirth?.month}-${dateOfBirth?.day}",
                               "active_hour_start": startTime!.format(context),
                               "active_hour_end": endTime!.format(context),
                               "experience_level": experienceLevel,
                               "profile_visibility":
-                                  visibilityController.text.isNotEmpty ? visibilityController.text : 'Public',
-                              "task_preferences": taskPreferencesController.text.isNotEmpty
-                                  ? taskPreferencesController.text
-                                  : 'Short-Term tasks',
+                                  visibilityController.text.isNotEmpty
+                                      ? visibilityController.text
+                                      : 'Public',
+                              "task_preferences":
+                                  taskPreferencesController.text.isNotEmpty
+                                      ? taskPreferencesController.text
+                                      : 'Short-Term tasks',
                               "address_line1": address1Controller.text,
                               "address_line2": address2Controller.text,
                               "charge_currency": currencyCode ?? 'NPR',
                               "remaining_points": 0,
                               "points": 0,
                               "following_count": 0,
-                              "profile_image": await MultipartFile.fromFile(selectedImage?.path ?? image.path),
+                              "profile_image": await MultipartFile.fromFile(
+                                  selectedImage?.path ?? image.path),
                               "language": languageController.text,
                             };
                             if (!mounted) return;

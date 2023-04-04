@@ -58,10 +58,19 @@ class ServicesPage extends StatelessWidget {
                           padding: kPadding20,
                           child: CustomFormField(
                             label: 'Select Services',
+                            rightSection: TextButton(
+                              onPressed: () {
+                                print(
+                                  state,
+                                );
+                              },
+                              child: Text(
+                                "See all",
+                              ),
+                            ),
                             child: SizedBox(
-                              height: 200,
+                              height: 100,
                               child: GridView.builder(
-                                shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,

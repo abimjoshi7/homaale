@@ -1,13 +1,16 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
+import 'package:cipher/core/image_picker/image_picker_dialog.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class AddPortfolio extends StatefulWidget {
+class AddPortfolio extends StatefulWidget with TheModalBottomSheet {
   const AddPortfolio({super.key});
   static const routeName = '/add-portfolio';
 
@@ -215,9 +218,10 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           isRequired: true,
                           child: InkWell(
                             onTap: () async {
-                              await context
-                                  .read<ImageUploadCubit>()
-                                  .uploadImage();
+                              showDialog(
+                                context: context,
+                                builder: (context) => ImagePickerDialog(),
+                              );
                             },
                             child: SizedBox(
                               height: 150,
