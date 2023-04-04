@@ -78,7 +78,7 @@ class ServicesRepositories {
           query: {
             'is_requested': false,
             'page': page,
-          'ordering': order,
+            'ordering': order,
           },
           token: CacheHelper.accessToken,
         );

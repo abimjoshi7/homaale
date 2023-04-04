@@ -8,6 +8,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+enum SortType { budget, date }
+
 class PopularServicesPage extends StatefulWidget {
   static const routeName = '/popular-services-page';
   const PopularServicesPage({super.key});
@@ -18,20 +20,27 @@ class PopularServicesPage extends StatefulWidget {
 
 class _PopularServicesPageState extends State<PopularServicesPage> {
   late final entityServiceBloc = locator<EntityServiceBloc>();
+  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
 
   List<EntityService> serviceList = [];
-  bool sortDateIsAscending = true;
-  String? orderDate = '-created_date';
 
-  //initialize page controller
-  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
+  bool sortDateIsAscending = true;
+  bool sortBudgetIsAscending = true;
+  SortType sortType = SortType.date;
+  String? order = '-created_at';
 
   @override
   void initState() {
     //so at event add list of records
     _pagingController.addPageRequestListener(
-      (pageKey) => entityServiceBloc
-          .add(EntityServiceInitiated(page: pageKey, order: orderDate, isBudgetSort: false, isDateSort: false)),
+      (pageKey) => entityServiceBloc.add(
+        EntityServiceInitiated(
+          page: pageKey,
+          order: order,
+          isBudgetSort: false,
+          isDateSort: false,
+        ),
+      ),
     );
     super.initState();
   }
@@ -41,6 +50,21 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     entityServiceBloc.close();
     _pagingController.dispose();
     super.dispose();
+  }
+
+  void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
+    setState(() {
+      order = sortType == SortType.date
+          ? isAscending
+              ? '-created_at'
+              : 'created_at'
+          : isAscending
+              ? '-budget_to'
+              : 'budget_to';
+    });
+
+    entityServiceBloc.add(EntityServiceInitiated(
+        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
   }
 
   @override
@@ -124,29 +148,36 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                         disabledColor: Colors.white,
                       ),
                       addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const [
-                            Text(
-                              'Budget',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            sortBudgetIsAscending = !sortBudgetIsAscending;
+                          });
+                          onBudgetDateSort(sortType: SortType.budget, isAscending: sortBudgetIsAscending);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.0),
+                              border: Border.all(color: kColorGrey)),
+                          child: Row(
+                            children: [
+                              Text('Budget'),
+                              Icon(sortBudgetIsAscending
+                                  ? Icons.keyboard_arrow_up_outlined
+                                  : Icons.keyboard_arrow_down_outlined)
+                            ],
+                          ),
                         ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
                       ),
                       addHorizontalSpace(5),
                       InkWell(
                         onTap: () {
                           setState(() {
                             sortDateIsAscending = !sortDateIsAscending;
-                            orderDate = sortDateIsAscending ? '-created_at' : 'created_at';
                           });
-                          entityServiceBloc.add(EntityServiceInitiated(
-                              page: 1, order: orderDate, isDateSort: true, isBudgetSort: state.isBudgetSort));
+                          onBudgetDateSort(sortType: SortType.date, isAscending: sortDateIsAscending);
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -158,8 +189,8 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                             children: [
                               Text('Date'),
                               Icon(sortDateIsAscending
-                                  ? Icons.keyboard_arrow_down_outlined
-                                  : Icons.keyboard_arrow_up_outlined)
+                                  ? Icons.keyboard_arrow_up_outlined
+                                  : Icons.keyboard_arrow_down_outlined)
                             ],
                           ),
                         ),
