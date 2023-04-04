@@ -138,7 +138,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             children: List.generate(
                               state.applicantModel?.result?.length ?? 0,
                               (index) => TaskerCard(
-                                  onFavouriteTapped: () => {},
+                                onFavouriteTapped: () => {},
                                 callback: () {
                                   showDialog(
                                     context: context,
@@ -200,6 +200,10 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                     buttonColor: getStatus('')["color"] as Color,
                     price: "Rs. ${state.taskEntityService?.budgetTo}",
                     onPressed: () {
+                      if (!CacheHelper.isLoggedIn) {
+                        notLoggedInPopUp(context);
+                      }
+                      if (!CacheHelper.isLoggedIn) return;
                       context.read<EventBloc>().add(
                             EventLoaded(
                               id: state.taskEntityService?.event?.id ??

@@ -154,7 +154,13 @@ class TaskerCard extends StatelessWidget {
                           height: 30,
                           width: buttonWidth ?? 80,
                           child: CustomElevatedButton(
-                            callback: callback,
+                            callback: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                              callback();
+                            },
                             label: callbackLabel ?? 'Hire Me',
                           ),
                         ),
