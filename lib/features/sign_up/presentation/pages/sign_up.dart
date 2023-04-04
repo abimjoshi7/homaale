@@ -226,7 +226,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: BlocBuilder<SignupBloc, SignUpState>(
           builder: (_, state) {
             return Column(
-              children: [
+              children: <Widget>[
                 SignUpHeaderSection(mounted: mounted),
                 Flexible(
                   flex: 3,
@@ -235,13 +235,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           buildFormField(state),
                           passwordFormField(),
                           confirmPasswordFormField(),
                           addVerticalSpace(16),
                           Column(
-                            children: [
+                            children: <Widget>[
                               Row(
                                 children: [
                                   const Flexible(
@@ -265,7 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
+                              children: <Widget>[
                                 CustomCheckBox(
                                   isChecked: isChecked,
                                   onTap: () => setState(() {
@@ -321,47 +321,52 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           addVerticalSpace(32),
-                          Flexible(
-                            child: CustomElevatedButton(
-                              callback: () {
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState!.save();
-                                  if (isChecked == false) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Please agree to the terms and policy.',
+                          if (state.theStates != TheStates.initial)
+                            CircularProgressIndicator(),
+                          if (state.theStates == TheStates.initial)
+                            Flexible(
+                              child: CustomElevatedButton(
+                                callback: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    if (isChecked == false) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Please agree to the terms and policy.',
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  } else {
-                                    if (state.theStates == TheStates.initial) {
-                                      if (state.isPhoneNumber) {
-                                        context.read<SignupBloc>().add(
-                                              SignUpWithPhoneInitiated(
-                                                phone:
-                                                    phoneNumberController.text,
-                                                password:
-                                                    passwordController.text,
-                                              ),
-                                            );
-                                      }
-                                      if (!state.isPhoneNumber) {
-                                        context.read<SignupBloc>().add(
-                                              SignUpWithEmailInitiated(
-                                                email: emailController.text,
-                                                password:
-                                                    passwordController.text,
-                                              ),
-                                            );
+                                      );
+                                    } else {
+                                      if (state.theStates ==
+                                          TheStates.initial) {
+                                        if (state.isPhoneNumber) {
+                                          context.read<SignupBloc>().add(
+                                                SignUpWithPhoneInitiated(
+                                                  phone: phoneNumberController
+                                                      .text,
+                                                  password:
+                                                      passwordController.text,
+                                                ),
+                                              );
+                                        }
+                                        if (!state.isPhoneNumber) {
+                                          context.read<SignupBloc>().add(
+                                                SignUpWithEmailInitiated(
+                                                  email: emailController.text,
+                                                  password:
+                                                      passwordController.text,
+                                                ),
+                                              );
+                                        }
                                       }
                                     }
                                   }
-                                }
-                              },
-                              label: 'Sign Up',
+                                },
+                                label: 'Sign Up',
+                              ),
                             ),
-                          ),
                           const SignUpFooterSection(),
                         ],
                       ),
