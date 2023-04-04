@@ -86,10 +86,12 @@ class EditBookingReq {
         "requirements": requirements,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
-        "start_date":
-            "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
-        "end_date":
-            "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
+        "start_date": startDate != null
+            ? "${startDate?.year.toString().padLeft(4, '0')}-${startDate?.month.toString().padLeft(2, '0')}-${startDate?.day.toString().padLeft(2, '0')}"
+            : startDate,
+        "end_date": endDate != null
+            ? "${endDate?.year.toString().padLeft(4, '0')}-${endDate?.month.toString().padLeft(2, '0')}-${endDate?.day.toString().padLeft(2, '0')}"
+            : endDate,
         "start_time": startTime,
         "end_time": endTime,
         "location": location,

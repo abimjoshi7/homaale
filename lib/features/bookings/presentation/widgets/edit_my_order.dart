@@ -480,10 +480,10 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                 : myBookingList?[selectedIndex].location,
                             budgetTo: endBudgetController.text.isNotEmpty
                                 ? double.parse(endBudgetController.text)
-                                : myBookingList?[selectedIndex].budgetTo,
+                                : myBookingList?[selectedIndex].budgetTo ?? 0.0,
                             budgetFrom: startBudgetController.text.isNotEmpty
                                 ? double.parse(startBudgetController.text)
-                                : myBookingList?[selectedIndex].budgetFrom,
+                                : myBookingList?[selectedIndex].budgetFrom ?? 0.0,
                             images: imageList ??
                                 List.generate(myBookingList?[selectedIndex].images?.length ?? 0,
                                     (index) => myBookingList?[selectedIndex].images?[index].id),
