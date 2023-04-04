@@ -59,14 +59,10 @@ class CheckoutPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                // addVerticalSpace(20),
                 PromoCodeAddSection(),
-                // addVerticalSpace(10),
-
                 PaymentDetailsContainer(
                   state: state,
                 ),
-
                 Center(
                   child: CustomElevatedButton(
                     callback: () {
