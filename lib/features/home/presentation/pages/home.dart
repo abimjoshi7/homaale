@@ -37,8 +37,8 @@ class Home extends StatelessWidget {
                     //     fit: BoxFit.fitWidth,
                     //   ),
                     // ),
-                    RecentlyLaunchedServicesSection(),
-                    TasksAndServicesNearbySection(),
+                    // RecentlyLaunchedServicesSection(),
+                    // TasksAndServicesNearbySection(),
                     // const PopularTaskerNearbySection(),
                     // const TaskRecommendationSection(),
                     // PopularTaskNearbySection()
