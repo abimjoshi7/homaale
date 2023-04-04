@@ -156,48 +156,57 @@ class OrderInvoicePage extends StatelessWidget {
                   state: retriveState,
                 ),
                 addVerticalSpace(20),
-                BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
-                    builder: (context, paymentTypeState) {
-                  return BlocBuilder<PaymentBloc, PaymentIntentState>(
-                    builder: (context, state) {
-                      return
-                          // paymentIntentStateOnly.theState == TheStates.initial
-                          //   ? CircularProgressIndicator()
-                          //   :
-                          BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
-                              builder: (context, orderState) {
-                        return CustomElevatedButton(
-                            callback: () async {
-                              final Uri url = Uri.parse(
-                                  state.paymentIntent?.data?.paymentUrl ?? '');
-                              context.read<PaymentBloc>().add(
-                                    PaymentIntentInitiated(
-                                      provider: paymentTypeState
-                                              .paymentType
-                                              ?.result![paymentTypeState
-                                                      .currentIndex ??
-                                                  0]
-                                              .slug ??
-                                          "khalti",
-                                      uuid:
-                                          orderState.orderIdCreate?.order ?? "",
-                                      //'5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
-                                    ),
-                                  );
-                              if (!await launchUrl(url)) {
-                                throw Exception('Could not launch $url');
-                              }
-                            },
-                            label: 'Confirm Payment');
-                      });
-                    },
-                  );
-                })
               ],
             ),
           );
         },
       ),
+      bottomNavigationBar: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
+          builder: (context, paymentTypeState) {
+        return BlocBuilder<PaymentBloc, PaymentIntentState>(
+          builder: (context, state) {
+            // return
+            //   // state.theState == TheStates.initial
+            //   //   ? CircularProgressIndicator()
+            //   //   :
+            return BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
+                builder: (context, orderState) {
+              return CustomElevatedButton(
+                  callback: () async {
+                    if (state.theState == TheStates.failure) {
+                      await showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Failure',
+                          content: "Please try again.",
+                          onTap: () {},
+                          isSuccess: false,
+                        ),
+                      );
+                    }
+                    context.read<PaymentBloc>().add(
+                          PaymentIntentInitiated(
+                            provider: paymentTypeState
+                                    .paymentType
+                                    ?.result![
+                                        paymentTypeState.currentIndex ?? 0]
+                                    .slug ??
+                                "khalti",
+                            uuid: orderState.orderIdCreate?.order ?? "",
+                            //'5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+                          ),
+                        );
+                    final Uri url =
+                        Uri.parse(state.paymentIntent?.data?.paymentUrl ?? '');
+                    if (!await launchUrl(url)) {
+                      throw Exception('Could not launch $url');
+                    }
+                  },
+                  label: 'Confirm Payment');
+            });
+          },
+        );
+      }),
     );
   }
 }
