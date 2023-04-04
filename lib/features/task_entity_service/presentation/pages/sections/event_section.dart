@@ -23,14 +23,14 @@ class EventSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<EventBloc, EventState>(
       listener: (context, state) {
-        if (state.theStates == TheStates.success &&
-            state.event?.id != null &&
-            state.isCreated == false) {
-          Navigator.pushNamed(
-            context,
-            EventDetailsPage.routeName,
-          );
-        }
+        // if (state.theStates == TheStates.success &&
+        //     state.event?.id != null &&
+        //     state.isCreated == false) {
+        //   Navigator.pushNamed(
+        //     context,
+        //     EventDetailsPage.routeName,
+        //   );
+        // }
       },
       builder: (context, state) {
         return Visibility(
@@ -45,6 +45,10 @@ class EventSection extends StatelessWidget {
                         id: taskEntityService.event?.id ?? "",
                       ),
                     );
+                Navigator.pushNamed(
+                  context,
+                  EventDetailsPage.routeName,
+                );
               },
               child: Text(
                 "View Details",

@@ -239,18 +239,51 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
             );
             _pageController.jumpToPage(1);
           } else {
-            final availableReq = EventAvailability(
-              date: eventCache.state.endDate,
-              start: eventCache.state.startTime,
-              end: eventCache.state.endTime,
-            );
+            if (state.taskEntityService?.event == null) {
+              final req = BookEntityServiceReq(
+                location: state.taskEntityService!.location!.isEmpty
+                    ? "Remote"
+                    : state.taskEntityService?.location,
+                entityService: state.taskEntityService?.id,
+                budgetTo: eventCache.state.budget,
+                requirements: eventCache.state.requirements == null
+                    ? []
+                    : List<String>.from(
+                        state.taskEntityService?.highlights as Iterable,
+                      ),
+                startDate: DateTime.parse(eventCache.state.endDate!),
+                endDate: DateTime.parse(eventCache.state.endDate!),
+                startTime: eventCache.state.startTime,
+                endTime: eventCache.state.endTime,
+                description: eventCache.state.description,
+                images: eventCache.state.images == null
+                    ? []
+                    : List<int>.from(
+                        eventCache.state.images as Iterable,
+                      ),
+                videos: eventCache.state.videos == null
+                    ? []
+                    : List<int>.from(
+                        eventCache.state.videos as Iterable,
+                      ),
+              );
+              context.read<BookingsBloc>().add(
+                    BookingCreated(req),
+                  );
+            } else {
+              final availableReq = EventAvailability(
+                date: eventCache.state.endDate,
+                start: eventCache.state.startTime,
+                end: eventCache.state.endTime,
+              );
 
-            context.read<EventBloc>().add(
-                  EventAvailabilityChecked(
-                    eventAvailability: availableReq,
-                    id: state.taskEntityService?.event?.id ?? "",
-                  ),
-                );
+              context.read<EventBloc>().add(
+                    EventAvailabilityChecked(
+                      eventAvailability: availableReq,
+                      id: state.taskEntityService?.event?.id ?? "",
+                    ),
+                  );
+            }
           }
         },
         label: selectedIndex == 0 ? "Next" : "Book",

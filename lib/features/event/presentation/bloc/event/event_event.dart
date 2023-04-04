@@ -53,3 +53,15 @@ class EventDeleted extends EventEvent {
         id,
       ];
 }
+
+class ScheduleDeleted extends EventEvent {
+  final String id;
+  ScheduleDeleted({
+    required this.id,
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+      ];
+}

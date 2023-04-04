@@ -60,6 +60,20 @@ class EventRepository {
     }
   }
 
+  Future<void> deleteSchedule({
+    required String id,
+  }) async {
+    try {
+      await _dio.deleteDataWithCredential(
+        sid: id,
+        url: 'event/schedule/',
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> checkAvailability({
     required EventAvailability eventAvailability,
     required String id,

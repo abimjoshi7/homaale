@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/event/data/models/req/create_schedule_req.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:dependencies/dependencies.dart';
@@ -197,15 +198,11 @@ class _ScheduleFormState extends State<ScheduleForm> {
                         heading: "Success",
                         content: "Schedule created successfully",
                         onTap: () {
-                          // context.read<EventBloc>().add(
-                          //       EventLoaded(
-                          //         id: state.taskEntityService?.event?.id ?? "",
-                          //       ),
-                          //     );
-                          // Navigator.popAndPushNamed(
-                          //   context,
-                          //   TaskEntityServicePage.routeName,
-                          // );
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            Root.routeName,
+                            (route) => false,
+                          );
                         },
                         isSuccess: true,
                       ),

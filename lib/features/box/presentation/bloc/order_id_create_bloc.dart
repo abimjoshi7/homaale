@@ -1,6 +1,3 @@
-
-import 'dart:math';
-
 import 'package:cipher/features/box/data/models/order_id_create.dart';
 import 'package:cipher/features/box/data/repositories/order_list_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -18,25 +15,22 @@ class OrderIdCreateBloc extends Bloc<OrderIdCreateEvent, OrderIdCreateState> {
         emit(
           state.copyWith(theState: TheStates.initial),
         );
-        await repositories
-            .postCreateOrderId(event.uuid)
-            .then(
-              (value) {
-                // log(value.toString() as num);
-                emit(
-                state.copyWith(
-                  theState: TheStates.success,
-                  orderIdCreate: OrderIdCreate.fromJson(value),
-                ),
-              );
-              },
+        await repositories.postCreateOrderId(event.uuid).then(
+          (value) {
+            // log(value.toString() as num);
+            emit(
+              state.copyWith(
+                theState: TheStates.success,
+                orderIdCreate: OrderIdCreate.fromJson(value),
+              ),
+            );
+          },
         );
       } catch (e) {
         emit(
           state.copyWith(theState: TheStates.failure),
         );
         // log(e.toString() as num);
-
       }
     });
   }

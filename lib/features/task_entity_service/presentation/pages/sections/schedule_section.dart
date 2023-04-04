@@ -25,17 +25,6 @@ class ScheduleSection extends StatefulWidget with TheModalBottomSheet {
 
 class _ScheduleSectionState extends State<ScheduleSection> {
   @override
-  void initState() {
-    super.initState();
-    context.read<EventBloc>().add(
-          EventLoaded(
-            id: widget.taskEntityServiceState.taskEntityService?.event?.id ??
-                '',
-          ),
-        );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventBloc, EventState>(
       builder: (context, state) {

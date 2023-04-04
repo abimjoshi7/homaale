@@ -11,6 +11,7 @@ class EventState extends Equatable {
   final bool? isEdited;
   // final CreateScheduleRes? createScheduleRes;
   // final bool? isScheduleCreated;
+  final bool? isScheduleDeleted;
   const EventState({
     this.theStates = TheStates.initial,
     this.event = null,
@@ -18,8 +19,9 @@ class EventState extends Equatable {
     this.isLoaded = false,
     this.isCreated = false,
     this.isAvailable = false,
-    this.isDeleted,
-    this.isEdited,
+    this.isDeleted = false,
+    this.isEdited = false,
+    this.isScheduleDeleted = false,
   });
 
   EventState copyWith({
@@ -31,6 +33,7 @@ class EventState extends Equatable {
     bool? isAvailable,
     bool? isDeleted,
     bool? isEdited,
+    bool? isScheduleDeleted,
   }) {
     return EventState(
       theStates: theStates ?? this.theStates,
@@ -41,6 +44,7 @@ class EventState extends Equatable {
       isAvailable: isAvailable ?? this.isAvailable,
       isDeleted: isDeleted ?? this.isDeleted,
       isEdited: isEdited ?? this.isEdited,
+      isScheduleDeleted: isScheduleDeleted ?? this.isScheduleDeleted,
     );
   }
 
@@ -55,6 +59,7 @@ class EventState extends Equatable {
       isAvailable,
       isDeleted,
       isEdited,
+      isScheduleDeleted,
     ];
   }
 }

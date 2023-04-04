@@ -1,4 +1,3 @@
-import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/sections.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/todos/task_section.dart';
@@ -12,7 +11,8 @@ class MyBookingsTabSection extends StatefulWidget {
   State<MyBookingsTabSection> createState() => _MyBookingsTabSectionState();
 }
 
-class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with SingleTickerProviderStateMixin {
+class _MyBookingsTabSectionState extends State<MyBookingsTabSection>
+    with SingleTickerProviderStateMixin {
   late final bookingsBloc = widget.bloc;
   late TabController tabController;
   int selectedIndex = 0;

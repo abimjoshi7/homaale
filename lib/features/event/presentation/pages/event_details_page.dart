@@ -1,12 +1,13 @@
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/event/presentation/widgets/event_detail_card.dart';
+import 'package:cipher/features/event/presentation/widgets/widgets.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
   static const routeName = "/event-details-page";
@@ -16,6 +17,13 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<EventBloc, EventState>(
+        listenWhen: (previous, current) {
+          if (previous.isScheduleDeleted == true &&
+              current.isScheduleDeleted == true) return false;
+          if (previous.isScheduleDeleted == false &&
+              current.isScheduleDeleted == false) return false;
+          return true;
+        },
         listener: (context, state) {
           if (state.isDeleted == true) {
             showDialog(
@@ -41,6 +49,34 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
               builder: (context) => CustomToast(
                 heading: "Failure",
                 content: "Event cannot be deleted",
+                onTap: () {},
+                isSuccess: false,
+              ),
+            );
+          }
+          if (state.isScheduleDeleted == true) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: "Success",
+                content: "Schedule deleted successfully",
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  );
+                },
+                isSuccess: true,
+              ),
+            );
+          }
+          if (state.isScheduleDeleted == false) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: "Success",
+                content: "Schedule cannot be deleted.",
                 onTap: () {},
                 isSuccess: false,
               ),
@@ -72,28 +108,34 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    showCustomBottomSheet(
+                                      context: context,
+                                      widget: EventForm(),
+                                    );
+                                  },
                                   leading: Icon(
                                     Icons.update_outlined,
                                   ),
                                   title: Text("Update"),
                                 ),
                                 Divider(),
-                                ListTile(
-                                  onTap: () {},
-                                  leading: Icon(
-                                    Icons.filter_none_rounded,
-                                  ),
-                                  title: Text("Duplicate"),
-                                ),
-                                Divider(),
+                                // ListTile(
+                                //   onTap: () {},
+                                //   leading: Icon(
+                                //     Icons.filter_none_rounded,
+                                //   ),
+                                //   title: Text("Duplicate"),
+                                // ),
+                                // Divider(),
                                 ListTile(
                                   onTap: () async {
-                                    context.read<EventBloc>().add(
-                                          EventDeleted(
-                                            id: state.event?.id ?? "",
-                                          ),
-                                        );
+                                    print(123);
+                                    // context.read<EventBloc>().add(
+                                    //       EventDeleted(
+                                    //         id: state.event?.id ?? "",
+                                    //       ),
+                                    //     );
                                   },
                                   leading: Icon(
                                     Icons.delete_outline_rounded,
@@ -116,7 +158,12 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                     CustomFormField(
                       label: "Schedule",
                       rightSection: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          showCustomBottomSheet(
+                            context: context,
+                            widget: ScheduleForm(),
+                          );
+                        },
                         child: Text(
                           "New",
                           style: kLightBlueText14,
@@ -126,7 +173,7 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                         height: 500,
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
-                          itemCount: state.event?.schedules?.length,
+                          itemCount: state.event?.schedules?.length ?? 0,
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -147,21 +194,38 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                     Icons.calendar_today_outlined,
                                   ),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'data',
-                                          style: kPurpleText16,
-                                        ),
-                                        Text(
-                                          'data',
-                                          style: kHelper13,
-                                        ),
-                                      ],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            state.event?.schedules?[index]
+                                                    .title ??
+                                                "",
+                                            style: kPurpleText16,
+                                          ),
+                                          Flexible(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${state.event?.allShifts?.first.slots?[index].start?.substring(0, 5) ?? ""} - ${state.event?.allShifts?.first.slots?[index].end?.substring(0, 5) ?? ""}",
+                                                  style: kHelper13,
+                                                ),
+                                                AutoSizeText(
+                                                  '${state.event?.allShifts?[index].date?.year}-${state.event?.allShifts?[index].date?.month}-${state.event?.allShifts?[index].date?.day}',
+                                                  style: kHelper13,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Flexible(
@@ -194,7 +258,20 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                                   ),
                                                   Divider(),
                                                   ListTile(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      context
+                                                          .read<EventBloc>()
+                                                          .add(
+                                                            ScheduleDeleted(
+                                                              id: state
+                                                                      .event
+                                                                      ?.schedules?[
+                                                                          index]
+                                                                      .id ??
+                                                                  "",
+                                                            ),
+                                                          );
+                                                    },
                                                     leading: Icon(
                                                       Icons
                                                           .delete_outline_rounded,
