@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../network_info/network_info.dart';
 
 class Root extends StatefulWidget {
   const Root({super.key});
@@ -59,8 +61,16 @@ class _RootState extends State<Root> {
     const MyBookingsPage(),
     const AccountProfile(),
   ];
-
+  Dio dio = Dio();
   void initBlocs() {
+    dio.interceptors.add(
+      RetryOnConnectionChangeInterceptor(
+        requestRetrier: DioConnectivityRequestRetrier(
+          dio: dio,
+          connectivity: Connectivity(),
+        ),
+      ),
+    );
     Future.delayed(
       const Duration(microseconds: 10),
       () async {
@@ -113,11 +123,9 @@ class _RootState extends State<Root> {
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
-            .then((value) async => {
-                  context
-                      .read<NotificationBloc>()
-                      .add(MyNotificationListInitiated()),
-                });
+            .then(
+              (value) async => context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+            );
       },
     );
   }
