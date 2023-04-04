@@ -16,6 +16,8 @@ class TaskState extends Equatable {
   final bool? approveFail;
   final bool? rejectSuccess;
   final bool? rejectFail;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
 
   const TaskState({
     this.theState = TheStates.initial,
@@ -33,6 +35,8 @@ class TaskState extends Equatable {
     this.approveFail = false,
     this.rejectSuccess = false,
     this.rejectFail = false,
+    this.isDateSort = false,
+    this.isBudgetSort = false,
   });
 
   @override
@@ -53,6 +57,8 @@ class TaskState extends Equatable {
       approveFail,
       rejectSuccess,
       rejectFail,
+      isDateSort,
+      isBudgetSort,
     ];
   }
 
@@ -72,6 +78,8 @@ class TaskState extends Equatable {
     bool? approveFail,
     bool? rejectSuccess,
     bool? rejectFail,
+    bool? isDateSort,
+    bool? isBudgetSort,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
@@ -89,6 +97,8 @@ class TaskState extends Equatable {
       approveFail: approveFail ?? this.approveFail,
       rejectSuccess: rejectSuccess ?? this.rejectSuccess,
       rejectFail: rejectFail ?? this.rejectFail,
+      isDateSort: isDateSort ?? this.isDateSort,
+      isBudgetSort: isBudgetSort ?? this.isBudgetSort,
     );
   }
 }

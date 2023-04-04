@@ -5,8 +5,7 @@ import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart'
-    as es;
+import 'package:cipher/features/services/data/models/entity_service_model.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/apply_task_req.dart';
@@ -68,9 +67,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               .then(
                 (value) => emit(
                   state.copyWith(
-                      theState: TheStates.success,
-                      selfCreatedTaskServiceModel:
-                          SelfCreatedTaskService.fromJson(value)
+                      theState: TheStates.success, selfCreatedTaskServiceModel: SelfCreatedTaskService.fromJson(value)
                       // myTaskRes: MyTaskRes.fromJson(
                       //   value,
                       // ),
@@ -91,7 +88,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             state.copyWith(theState: TheStates.initial),
           );
-          await repo.fetchAllTaskList(page: event.page ?? 1).then(
+          await repo.fetchAllTaskList(page: event.page ?? 1, order: event.order).then(
             (value) {
               final allTaskList = es.EntityServiceModel.fromJson(value);
 
@@ -99,6 +96,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 state.copyWith(
                   theState: TheStates.success,
                   tasksList: allTaskList,
+                  isBudgetSort: event.isBudgetSort,
+                  isDateSort: event.isDateSort,
                 ),
               );
             },
@@ -118,9 +117,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         try {
           await repo.fetchSingleTask(id: event.id).then(
             (singleTask) async {
-              await repo
-                  .singleTaskAppliedCount(id: event.id)
-                  .then((count) async {
+              await repo.singleTaskAppliedCount(id: event.id).then((count) async {
                 if (CacheHelper.isLoggedIn) {
                   await repo.fetchApplicants(id: event.id).then((applicants) {
                     emit(
@@ -129,8 +126,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                         taskModel: SingleTaskEntityService.fromJson(
                           singleTask,
                         ),
-                        taskApplyCountModel:
-                            TaskApplyCountModel.fromJson(count),
+                        taskApplyCountModel: TaskApplyCountModel.fromJson(count),
                         applicantModel: ApplicantModel.fromJson(applicants),
                       ),
                     );

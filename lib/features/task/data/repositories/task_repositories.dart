@@ -27,7 +27,7 @@ class TaskRepositories {
   }
 
 // * List tasks or services by entity service ID
-  Future<Map<String, dynamic>> fetchAllTaskList({int? page}) async {
+  Future<Map<String, dynamic>> fetchAllTaskList({int? page, String? order}) async {
     try {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
@@ -35,6 +35,7 @@ class TaskRepositories {
           query: {
             "is_requested": true,
             "page": page,
+            "ordering": order,
             "page_size": 10,
           },
         );
@@ -45,6 +46,7 @@ class TaskRepositories {
           query: {
             "is_requested": true,
             "page": page,
+            "ordering": order,
             "page_size": 10,
           },
           token: CacheHelper.accessToken,
@@ -119,8 +121,7 @@ class TaskRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> singleTaskAppliedCount(
-      {required String id}) async {
+  Future<Map<String, dynamic>> singleTaskAppliedCount({required String id}) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(

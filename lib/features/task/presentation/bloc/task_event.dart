@@ -29,9 +29,23 @@ class SingleEntityTaskLoadInitiated extends TaskEvent {
 
 class AllTaskLoadInitiated extends TaskEvent {
   final int? page;
-  const AllTaskLoadInitiated({this.page});
+  final String? order;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
+
+  const AllTaskLoadInitiated({
+    this.page,
+    this.order,
+    this.isDateSort,
+    this.isBudgetSort,
+  });
   @override
-  List<Object?> get props => [page];
+  List<Object?> get props => [
+        page,
+        order,
+        isDateSort,
+        isBudgetSort,
+      ];
 }
 
 class TaskAddInitiated extends TaskEvent {

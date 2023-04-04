@@ -10,6 +10,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+enum SortType { budget, date }
+
 class AllTaskPage extends StatefulWidget {
   static const routeName = '/all-task-page';
   const AllTaskPage({super.key});
@@ -22,9 +24,14 @@ class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
   List<EntityService> taskList = [];
 
+  bool sortDateIsAscending = true;
+  bool sortBudgetIsAscending = true;
+
+  SortType sortType = SortType.date;
+  String? order = '-created_at';
+
   //initialize page controller
-  final PagingController<int, EntityService> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -32,7 +39,14 @@ class _AllTaskPageState extends State<AllTaskPage> {
 
     //so at event add list of records
     _pagingController.addPageRequestListener(
-      (pageKey) => taskBloc.add(AllTaskLoadInitiated(page: pageKey)),
+      (pageKey) => taskBloc.add(
+        AllTaskLoadInitiated(
+          page: pageKey,
+          order: order,
+          isBudgetSort: false,
+          isDateSort: false,
+        ),
+      ),
     );
   }
 
@@ -41,6 +55,21 @@ class _AllTaskPageState extends State<AllTaskPage> {
     super.dispose();
     taskBloc.close();
     _pagingController.dispose();
+  }
+
+  void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
+    setState(() {
+      order = sortType == SortType.date
+          ? isAscending
+              ? '-created_at'
+              : 'created_at'
+          : isAscending
+              ? '-budget_to'
+              : 'budget_to';
+    });
+
+    taskBloc.add(AllTaskLoadInitiated(
+        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
   }
 
   void onTaskPressed({
@@ -75,6 +104,9 @@ class _AllTaskPageState extends State<AllTaskPage> {
       body: BlocListener<TaskBloc, TaskState>(
         bloc: taskBloc,
         listener: (context, state) {
+          if ((state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
+            _pagingController.refresh();
+          }
           if (state.theState == TheStates.success) {
             taskList = state.tasksList!.result!;
 
@@ -108,10 +140,10 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       horizontal: 10,
                     ),
                     children: <Widget>[
-                      const Icon(
-                        Icons.filter_alt_outlined,
-                        color: kColorSilver,
-                      ),
+                      // const Icon(
+                      //   Icons.filter_alt_outlined,
+                      //   color: kColorSilver,
+                      // ),
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
@@ -143,19 +175,52 @@ class _AllTaskPageState extends State<AllTaskPage> {
                         disabledColor: Colors.white,
                       ),
                       addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const [
-                            Text(
-                              'Any Price',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            sortBudgetIsAscending = !sortBudgetIsAscending;
+                          });
+                          onBudgetDateSort(sortType: SortType.budget, isAscending: sortBudgetIsAscending);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.0),
+                              border: Border.all(color: kColorGrey)),
+                          child: Row(
+                            children: [
+                              Text('Budget'),
+                              Icon(sortBudgetIsAscending
+                                  ? Icons.keyboard_arrow_up_outlined
+                                  : Icons.keyboard_arrow_down_outlined)
+                            ],
+                          ),
                         ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
+                      ),
+                      addHorizontalSpace(5),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            sortDateIsAscending = !sortDateIsAscending;
+                          });
+                          onBudgetDateSort(sortType: SortType.date, isAscending: sortDateIsAscending);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.0),
+                              border: Border.all(color: kColorGrey)),
+                          child: Row(
+                            children: [
+                              Text('Date'),
+                              Icon(sortDateIsAscending
+                                  ? Icons.keyboard_arrow_up_outlined
+                                  : Icons.keyboard_arrow_down_outlined)
+                            ],
+                          ),
+                        ),
                       ),
                       addHorizontalSpace(5),
                     ],
@@ -167,8 +232,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     separatorBuilder: (context, index) => addVerticalSpace(8),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, EntityService item, index) =>
-                          InkWell(
+                      itemBuilder: (context, EntityService item, index) => InkWell(
                         onTap: () => onTaskPressed(
                           state: state,
                           index: index,
@@ -181,16 +245,13 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             endRate: '${item.budgetTo ?? 0}',
                             budgetType: '${item.budgetType ?? 'budegetType'}',
                             count: item.count?.toString() ?? '0',
-                            imageUrl: item.createdBy?.profileImage ??
-                                kServiceImageNImg,
+                            imageUrl: item.createdBy?.profileImage ?? kServiceImageNImg,
                             location: item.location ?? 'remote',
                             endHour: Jiffy(
-                              item.createdAt?.toString() ??
-                                  DateTime.now().toString(),
+                              item.createdAt?.toString() ?? DateTime.now().toString(),
                             ).jm,
                             endDate: Jiffy(
-                              item.endDate?.toString() ??
-                                  DateTime.now().toString(),
+                              item.endDate?.toString() ?? DateTime.now().toString(),
                             ).yMMMMd,
                             taskName: item.title ?? 'task title',
                             callback: () => onTaskPressed(

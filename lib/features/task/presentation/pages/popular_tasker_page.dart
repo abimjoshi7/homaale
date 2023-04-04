@@ -22,8 +22,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
   List<Tasker> taskerList = [];
 
   //initialize page controller
-  final PagingController<int, Tasker> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, Tasker> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -74,69 +73,69 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                 const CustomHeader(label: 'Popular Taskers'),
                 const Divider(),
                 addVerticalSpace(16),
-                SizedBox(
-                  height: 35,
-                  width: double.infinity,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    children: [
-                      const Icon(
-                        Icons.filter_alt_outlined,
-                        color: kColorSilver,
-                      ),
-                      addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const [
-                            Text(
-                              'Category',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
-                      ),
-                      addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const <Widget>[
-                            Text(
-                              'Buddhanagar',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
-                      ),
-                      addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const <Widget>[
-                            Text(
-                              'Any Price',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
-                      ),
-                      addHorizontalSpace(5),
-                    ],
-                  ),
-                ),
-                addVerticalSpace(8),
+                // SizedBox(
+                //   height: 35,
+                //   width: double.infinity,
+                //   child: ListView(
+                //     scrollDirection: Axis.horizontal,
+                //     padding: const EdgeInsets.symmetric(
+                //       horizontal: 10,
+                //     ),
+                //     children: [
+                //       const Icon(
+                //         Icons.filter_alt_outlined,
+                //         color: kColorSilver,
+                //       ),
+                //       addHorizontalSpace(5),
+                //       ChoiceChip(
+                //         label: Row(
+                //           children: const [
+                //             Text(
+                //               'Category',
+                //             ),
+                //             Icon(Icons.keyboard_arrow_down_outlined)
+                //           ],
+                //         ),
+                //         backgroundColor: Colors.white,
+                //         side: const BorderSide(color: kColorGrey),
+                //         selected: false,
+                //         disabledColor: Colors.white,
+                //       ),
+                //       addHorizontalSpace(5),
+                //       ChoiceChip(
+                //         label: Row(
+                //           children: const <Widget>[
+                //             Text(
+                //               'Buddhanagar',
+                //             ),
+                //             Icon(Icons.keyboard_arrow_down_outlined)
+                //           ],
+                //         ),
+                //         backgroundColor: Colors.white,
+                //         side: const BorderSide(color: kColorGrey),
+                //         selected: false,
+                //         disabledColor: Colors.white,
+                //       ),
+                //       addHorizontalSpace(5),
+                //       ChoiceChip(
+                //         label: Row(
+                //           children: const <Widget>[
+                //             Text(
+                //               'Any Price',
+                //             ),
+                //             Icon(Icons.keyboard_arrow_down_outlined)
+                //           ],
+                //         ),
+                //         backgroundColor: Colors.white,
+                //         side: const BorderSide(color: kColorGrey),
+                //         selected: false,
+                //         disabledColor: Colors.white,
+                //       ),
+                //       addHorizontalSpace(5),
+                //     ],
+                //   ),
+                // ),
+                // addVerticalSpace(8),
                 Expanded(
                   child: PagedGridView(
                     pagingController: _pagingController,
@@ -148,9 +147,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                             context.read<TaskerCubit>().loadSingleTasker(
                                   item.user?.id ?? '',
                                 );
-                            context
-                                .read<TaskerCubit>()
-                                .loadSingleTaskerServices(
+                            context.read<TaskerCubit>().loadSingleTaskerServices(
                                   item.user?.id ?? '',
                                 );
                             context.read<TaskerCubit>().loadSingleTaskerTask(
@@ -166,8 +163,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                           },
                           child: TaskerCard(
                             networkImageUrl: item.profileImage,
-                            label:
-                                "${item.user?.firstName} ${item.user?.lastName}",
+                            label: "${item.user?.firstName} ${item.user?.lastName}",
                             designation: item.designation,
                             happyClients: item.stats?.happyClients.toString(),
                             ratings:
@@ -184,8 +180,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                         ),
                       ),
                     ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.9,
                     ),
