@@ -24,8 +24,7 @@ class ServicesRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchServiceCategoryList(
-      [int? categoryId]) async {
+  Future<List<Map<String, dynamic>>> fetchServiceCategoryList([int? categoryId]) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
@@ -60,6 +59,7 @@ class ServicesRepositories {
   Future<Map<String, dynamic>> fetchEntityServices({
     String? serviceId,
     int? page,
+    String? order,
   }) async {
     try {
       if (!CacheHelper.isLoggedIn) {
@@ -68,6 +68,7 @@ class ServicesRepositories {
           query: {
             'is_requested': false,
             'page': page,
+            'ordering': order,
           },
         );
         return res as Map<String, dynamic>;
@@ -77,6 +78,7 @@ class ServicesRepositories {
           query: {
             'is_requested': false,
             'page': page,
+          'ordering': order,
           },
           token: CacheHelper.accessToken,
         );

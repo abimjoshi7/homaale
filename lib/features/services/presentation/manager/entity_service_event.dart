@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'entity_service_bloc.dart';
 
 abstract class EntityServiceEvent extends Equatable {
@@ -6,9 +7,18 @@ abstract class EntityServiceEvent extends Equatable {
 
 class EntityServiceInitiated extends EntityServiceEvent {
   final int? page;
-  const EntityServiceInitiated({this.page});
+  final String? order;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
+
+  const EntityServiceInitiated({
+    this.page,
+    this.order,
+    this.isDateSort,
+    this.isBudgetSort,
+  });
   @override
-  List<Object?> get props => [page];
+  List<Object?> get props => [page, order, isDateSort, isBudgetSort];
 }
 
 class SingleEntityServiceInitiated extends EntityServiceEvent {

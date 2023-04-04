@@ -18,7 +18,7 @@ class PopularServicesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EntityServiceBloc, EntityServiceState>(
       builder: (context, state) {
-        if (state is EntityServiceLoadSuccess) {
+        if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Column(
@@ -43,7 +43,7 @@ class PopularServicesSection extends StatelessWidget {
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.service.result?.length ?? 0,
+                    itemCount: state.service?.result?.length ?? 0,
                     separatorBuilder: (context, index) => addHorizontalSpace(
                       10,
                     ),
@@ -51,7 +51,7 @@ class PopularServicesSection extends StatelessWidget {
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
                               TaskEntityServiceSingleLoaded(
-                                id: state.service.result?[index].id ?? '',
+                                id: state.service?.result?[index].id ?? '',
                               ),
                             );
 
@@ -63,20 +63,16 @@ class PopularServicesSection extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
-                          location: state.service.result?[index].location == ""
+                          location: state.service?.result?[index].location == ""
                               ? "Remote"
-                              : state.service.result?[index].location,
+                              : state.service?.result?[index].location,
                           description:
-                              "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
-                          title: state.service.result?[index].title,
-                          imagePath:
-                              state.service.result?[index].images?.length == 0
-                                  ? kServiceImageNImg
-                                  : state.service.result?[index].images?.first
-                                      .media,
-                          rating: state
-                              .service.result?[index].rating?.first.rating
-                              .toString(),
+                              "${state.service?.result?[index].createdBy?.firstName} ${state.service?.result?[index].createdBy?.lastName}",
+                          title: state.service?.result?[index].title,
+                          imagePath: state.service?.result?[index].images?.length == 0
+                              ? kServiceImageNImg
+                              : state.service?.result?[index].images?.first.media,
+                          rating: state.service?.result?[index].rating?.first.rating.toString(),
                         ),
                       ),
                     ),

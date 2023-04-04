@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_is_empty
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -20,27 +18,29 @@ class PopularServicesPage extends StatefulWidget {
 
 class _PopularServicesPageState extends State<PopularServicesPage> {
   late final entityServiceBloc = locator<EntityServiceBloc>();
+
   List<EntityService> serviceList = [];
+  bool sortDateIsAscending = true;
+  String? orderDate = '-created_date';
 
   //initialize page controller
-  final PagingController<int, EntityService> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
-    super.initState();
-
     //so at event add list of records
     _pagingController.addPageRequestListener(
-      (pageKey) => entityServiceBloc.add(EntityServiceInitiated(page: pageKey)),
+      (pageKey) => entityServiceBloc
+          .add(EntityServiceInitiated(page: pageKey, order: orderDate, isBudgetSort: false, isDateSort: false)),
     );
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     entityServiceBloc.close();
     _pagingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,11 +49,14 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       body: BlocListener<EntityServiceBloc, EntityServiceState>(
         bloc: entityServiceBloc,
         listener: (context, state) {
-          if (state is EntityServiceLoadSuccess) {
-            serviceList = state.service.result!;
+          if ((state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
+            _pagingController.refresh();
+          }
 
-            final lastPage = state.service.totalPages!;
-            final next = 1 + state.service.current!;
+          if (state.theStates == TheStates.success) {
+            serviceList = state.service!.result!;
+            final lastPage = state.service!.totalPages!;
+            final next = 1 + state.service!.current!;
 
             if (next > lastPage) {
               _pagingController.appendLastPage(serviceList);
@@ -61,7 +64,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
               _pagingController.appendPage(serviceList, next);
             }
           }
-          if (state is EntityServiceLoadFailure) {
+          if (state.theStates == TheStates.failure) {
             _pagingController.error = 'Error';
           }
         },
@@ -76,6 +79,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                   label: 'Popular Services',
                 ),
                 const Divider(),
+                addVerticalSpace(8),
                 SizedBox(
                   height: 35,
                   width: double.infinity,
@@ -85,11 +89,11 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                       horizontal: 10,
                     ),
                     children: [
-                      const Icon(
-                        Icons.filter_alt_outlined,
-                        color: kColorSilver,
-                      ),
-                      addHorizontalSpace(5),
+                      // const Icon(
+                      //   Icons.filter_alt_outlined,
+                      //   color: kColorSilver,
+                      // ),
+                      // addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
                           children: const [
@@ -109,7 +113,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                         label: Row(
                           children: const [
                             Text(
-                              'Buddhanagar',
+                              'Location',
                             ),
                             Icon(Icons.keyboard_arrow_down_outlined),
                           ],
@@ -124,7 +128,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                         label: Row(
                           children: const [
                             Text(
-                              'Any Price',
+                              'Budget',
                             ),
                             Icon(Icons.keyboard_arrow_down_outlined)
                           ],
@@ -135,6 +139,32 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                         disabledColor: Colors.white,
                       ),
                       addHorizontalSpace(5),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            sortDateIsAscending = !sortDateIsAscending;
+                            orderDate = sortDateIsAscending ? '-created_at' : 'created_at';
+                          });
+                          entityServiceBloc.add(EntityServiceInitiated(
+                              page: 1, order: orderDate, isDateSort: true, isBudgetSort: state.isBudgetSort));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.0),
+                              border: Border.all(color: kColorGrey)),
+                          child: Row(
+                            children: [
+                              Text('Date'),
+                              Icon(sortDateIsAscending
+                                  ? Icons.keyboard_arrow_down_outlined
+                                  : Icons.keyboard_arrow_up_outlined)
+                            ],
+                          ),
+                        ),
+                      ),
+                      addHorizontalSpace(5),
                     ],
                   ),
                 ),
@@ -142,8 +172,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                   child: PagedGridView(
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, EntityService item, index) =>
-                          Padding(
+                      itemBuilder: (context, EntityService item, index) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: () {
@@ -160,18 +189,14 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                           },
                           child: ServiceCard(
                             title: item.title,
-                            imagePath: item.images?.length == 0
-                                ? kServiceImageNImg
-                                : item.images?.first.media,
+                            imagePath: item.images?.length == 0 ? kServiceImageNImg : item.images?.first.media,
                             rating: item.rating?.first.rating.toString(),
-                            description:
-                                "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
+                            description: "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
                           ),
                         ),
                       ),
                     ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.9,
                     ),

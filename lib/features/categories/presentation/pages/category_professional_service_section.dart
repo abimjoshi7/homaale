@@ -19,13 +19,13 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
           // TODO: implement listener
         },
         builder: (context, state) {
-          if (state is EntityServiceInitial) {
+          if (state.theStates == TheStates.initial) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is EntityServiceLoadSuccess) {
-            if (state.service.result == null || state.service.result!.isEmpty) {
+          if (state.theStates == TheStates.success) {
+            if (state.service?.result == null || state.service?.result != []) {
               return const Center(
                 child: Text('No Services to load'),
               );
@@ -49,7 +49,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    state.service.result?.first.service?.title ?? '',
+                    state.service?.result?.first.service?.title ?? '',
                   ),
                 ),
                 Expanded(
@@ -63,8 +63,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                             child: SizedBox(
                               height: 250,
                               child: GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10,
                                 ),
@@ -72,9 +71,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                                   onTap: () async {
                                     context.read<TaskEntityServiceBloc>().add(
                                           TaskEntityServiceSingleLoaded(
-                                            id: state.service.result?[index]
-                                                    .id ??
-                                                '',
+                                            id: state.service?.result?[index].id ?? '',
                                           ),
                                         );
                                     Navigator.pushNamed(
@@ -83,25 +80,18 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                                     );
                                   },
                                   child: ServiceCard(
-                                    imagePath: state.service.result![index]
-                                            .images!.isEmpty
+                                    imagePath: state.service?.result![index].images == []
                                         ? kServiceImageNImg
-                                        : state.service.result?[index].images!
-                                                .first.media ??
-                                            kServiceImageNImg,
-                                    title: state.service.result?[index].title ??
-                                        '',
+                                        : state.service?.result?[index].images!.first.media ?? kServiceImageNImg,
+                                    title: state.service?.result?[index].title ?? '',
                                     description:
-                                        '${state.service.result?[index].createdBy?.firstName ?? ''} ${state.service.result?[index].createdBy?.lastName ?? ''}',
+                                        '${state.service?.result?[index].createdBy?.firstName ?? ''} ${state.service?.result?[index].createdBy?.lastName ?? ''}',
                                     location:
-                                        '${state.service.result?[index].city?.name ?? ''}, ${state.service.result?[index].city?.country?.name ?? ''}',
-                                    rating: state.service.result?[index].rating
-                                            ?.first.rating
-                                            .toString() ??
-                                        '5',
+                                        '${state.service?.result?[index].city?.name ?? ''}, ${state.service?.result?[index].city?.country?.name ?? ''}',
+                                    rating: state.service?.result?[index].rating?.first.rating.toString() ?? '5',
                                   ),
                                 ),
-                                itemCount: state.service.result?.length ?? 0,
+                                itemCount: state.service?.result?.length ?? 0,
                                 padding: EdgeInsets.zero,
                               ),
                             ),
@@ -119,8 +109,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                               child: ListView.separated(
                                 padding: EdgeInsets.zero,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) =>
-                                    CustomImageTextBox(
+                                itemBuilder: (context, index) => CustomImageTextBox(
                                   image: Image.asset('assets/services/111.png'),
                                   text: 'Machine Repair',
                                 ),
@@ -139,26 +128,17 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                             child: SizedBox(
                               height: 250,
                               child: GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10,
                                 ),
                                 itemBuilder: (context, index) => ServiceCard(
-                                  title:
-                                      state.service.result?[index].title ?? '',
-                                  description: state.service.result?[index]
-                                          .service?.title ??
-                                      '',
-                                  location:
-                                      state.service.result?[index].location ??
-                                          '',
-                                  rating: state.service.result?[index].rating
-                                          ?.first.rating
-                                          .toString() ??
-                                      '5',
+                                  title: state.service?.result?[index].title ?? '',
+                                  description: state.service?.result?[index].service?.title ?? '',
+                                  location: state.service?.result?[index].location ?? '',
+                                  rating: state.service?.result?[index].rating?.first.rating.toString() ?? '5',
                                 ),
-                                itemCount: state.service.result?.length ?? 0,
+                                itemCount: state.service?.result?.length ?? 0,
                                 padding: EdgeInsets.zero,
                               ),
                             ),
