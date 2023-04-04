@@ -29,7 +29,7 @@ class SingleEntityTaskLoadInitiated extends TaskEvent {
 
 class AllTaskLoadInitiated extends TaskEvent {
   final int? page;
-  final String? order;
+  final List<String>? order;
   final bool? isDateSort;
   final bool? isBudgetSort;
 

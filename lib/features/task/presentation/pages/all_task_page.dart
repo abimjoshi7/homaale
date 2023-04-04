@@ -24,11 +24,14 @@ class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
   List<EntityService> taskList = [];
 
+  bool dateSelected = true;
+  bool budgetSelected = false;
+
   bool sortDateIsAscending = true;
   bool sortBudgetIsAscending = true;
 
   SortType sortType = SortType.date;
-  String? order = '-created_at';
+  List<String>? order = ['-created_at'];
 
   //initialize page controller
   final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
@@ -57,16 +60,65 @@ class _AllTaskPageState extends State<AllTaskPage> {
     _pagingController.dispose();
   }
 
+  void onBudgetDateClear({required SortType sortType}) {
+    if (sortType == SortType.date) {
+      if (order?.contains('-created_at') ?? false) {
+        setState(() {
+          order?.remove('-created_at');
+        });
+      }
+      if (order?.contains('created_at') ?? false) {
+        setState(() {
+          order?.remove('created_at');
+        });
+      }
+    }
+
+    if (sortType == SortType.budget) {
+      if (order?.contains('-budget_to') ?? false) {
+        setState(() {
+          order?.remove('-budget_to');
+        });
+      }
+      if (order?.contains('budget_to') ?? false) {
+        setState(() {
+          order?.remove('budget_to');
+        });
+      }
+    }
+
+    taskBloc.add(AllTaskLoadInitiated(
+        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
+  }
+
   void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
-    setState(() {
-      order = sortType == SortType.date
-          ? isAscending
-              ? '-created_at'
-              : 'created_at'
-          : isAscending
-              ? '-budget_to'
-              : 'budget_to';
-    });
+    if (sortType == SortType.date) {
+      if (isAscending) {
+        setState(() {
+          order?.remove('created_at');
+          order?.add('-created_at');
+        });
+      } else {
+        setState(() {
+          order?.remove('-created_at');
+          order?.add('created_at');
+        });
+      }
+    }
+
+    if (sortType == SortType.budget) {
+      if (isAscending) {
+        setState(() {
+          order?.remove('budget_to');
+          order?.add('-budget_to');
+        });
+      } else {
+        setState(() {
+          order?.remove('-budget_to');
+          order?.add('budget_to');
+        });
+      }
+    }
 
     taskBloc.add(AllTaskLoadInitiated(
         page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
@@ -178,22 +230,48 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       InkWell(
                         onTap: () {
                           setState(() {
+                            budgetSelected = true;
                             sortBudgetIsAscending = !sortBudgetIsAscending;
                           });
                           onBudgetDateSort(sortType: SortType.budget, isAscending: sortBudgetIsAscending);
                         },
                         child: Container(
+                          width: budgetSelected ? 110 : 95,
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: budgetSelected ? kColorAmber : Colors.white,
                               borderRadius: BorderRadius.circular(16.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
                             children: [
-                              Text('Budget'),
-                              Icon(sortBudgetIsAscending
-                                  ? Icons.keyboard_arrow_up_outlined
-                                  : Icons.keyboard_arrow_down_outlined)
+                              Text(
+                                'Budget',
+                                style: TextStyle(
+                                  color: budgetSelected ? Colors.white : Colors.black,
+                                ),
+                              ),
+                              Icon(
+                                sortBudgetIsAscending
+                                    ? Icons.keyboard_arrow_up_outlined
+                                    : Icons.keyboard_arrow_down_outlined,
+                                color: budgetSelected ? Colors.white : Colors.black,
+                              ),
+                              if (budgetSelected) ...[
+                                Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      budgetSelected = false;
+                                    });
+                                    onBudgetDateClear(sortType: SortType.budget);
+                                  },
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: budgetSelected ? Colors.white : Colors.black,
+                                  ),
+                                )
+                              ]
                             ],
                           ),
                         ),
@@ -202,22 +280,48 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       InkWell(
                         onTap: () {
                           setState(() {
+                            dateSelected = true;
                             sortDateIsAscending = !sortDateIsAscending;
                           });
                           onBudgetDateSort(sortType: SortType.date, isAscending: sortDateIsAscending);
                         },
                         child: Container(
+                          width: dateSelected ? 95 : 77,
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: dateSelected ? kColorAmber : Colors.white,
                               borderRadius: BorderRadius.circular(16.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
                             children: [
-                              Text('Date'),
-                              Icon(sortDateIsAscending
-                                  ? Icons.keyboard_arrow_up_outlined
-                                  : Icons.keyboard_arrow_down_outlined)
+                              Text(
+                                'Date',
+                                style: TextStyle(
+                                  color: dateSelected ? Colors.white : Colors.black,
+                                ),
+                              ),
+                              Icon(
+                                sortDateIsAscending
+                                    ? Icons.keyboard_arrow_up_outlined
+                                    : Icons.keyboard_arrow_down_outlined,
+                                color: dateSelected ? Colors.white : Colors.black,
+                              ),
+                              if (dateSelected) ...[
+                                Spacer(),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      dateSelected = false;
+                                    });
+                                    onBudgetDateClear(sortType: SortType.date);
+                                  },
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: dateSelected ? Colors.white : Colors.black,
+                                  ),
+                                )
+                              ]
                             ],
                           ),
                         ),
