@@ -78,7 +78,9 @@ class PopularTaskerSection extends StatelessWidget {
                           if (CacheHelper.isLoggedIn == false) {
                             notLoggedInPopUp(context);
                           }
+                          if (CacheHelper.isLoggedIn == false) return;
                         },
+                        onFavouriteTapped: () {},
                       ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,

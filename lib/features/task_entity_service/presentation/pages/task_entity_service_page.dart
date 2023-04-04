@@ -138,6 +138,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             children: List.generate(
                               state.applicantModel?.result?.length ?? 0,
                               (index) => TaskerCard(
+                                  onFavouriteTapped: () => {},
                                 callback: () {
                                   showDialog(
                                     context: context,

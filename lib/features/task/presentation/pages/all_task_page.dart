@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -21,7 +23,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
   List<EntityService> taskList = [];
 
   //initialize page controller
-  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, EntityService> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -50,9 +53,20 @@ class _AllTaskPageState extends State<AllTaskPage> {
             id: state.tasksList!.result![index].id!,
           ),
         );
-    isApply
-        ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
-        : Navigator.pushNamed(context, SingleTaskPage.routeName);
+    if (isApply) {
+      if (CacheHelper.isLoggedIn == false) {
+        notLoggedInPopUp(context);
+      }
+      if (CacheHelper.isLoggedIn) {
+        Navigator.pushNamed(context, ApplyTaskPage.routeName);
+      }
+    }
+    if (!isApply) {
+      Navigator.pushNamed(context, SingleTaskPage.routeName);
+    }
+    // isApply
+    //     ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
+    //     : Navigator.pushNamed(context, SingleTaskPage.routeName);
   }
 
   @override
@@ -80,7 +94,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
             return Column(
-              children: [
+              children: <Widget>[
                 addVerticalSpace(50),
                 const CustomHeader(
                   label: 'All Task Page',
@@ -93,7 +107,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                     ),
-                    children: [
+                    children: <Widget>[
                       const Icon(
                         Icons.filter_alt_outlined,
                         color: kColorSilver,
@@ -101,7 +115,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
-                          children: const [
+                          children: const <Widget>[
                             Text(
                               'Category',
                             ),
@@ -153,7 +167,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     separatorBuilder: (context, index) => addVerticalSpace(8),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, EntityService item, index) => InkWell(
+                      itemBuilder: (context, EntityService item, index) =>
+                          InkWell(
                         onTap: () => onTaskPressed(
                           state: state,
                           index: index,
@@ -166,13 +181,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             endRate: '${item.budgetTo ?? 0}',
                             budgetType: '${item.budgetType ?? 'budegetType'}',
                             count: item.count?.toString() ?? '0',
-                            imageUrl: item.createdBy?.profileImage ?? kServiceImageNImg,
+                            imageUrl: item.createdBy?.profileImage ??
+                                kServiceImageNImg,
                             location: item.location ?? 'remote',
                             endHour: Jiffy(
-                              item.createdAt?.toString() ?? DateTime.now().toString(),
+                              item.createdAt?.toString() ??
+                                  DateTime.now().toString(),
                             ).jm,
                             endDate: Jiffy(
-                              item.endDate?.toString() ?? DateTime.now().toString(),
+                              item.endDate?.toString() ??
+                                  DateTime.now().toString(),
                             ).yMMMMd,
                             taskName: item.title ?? 'task title',
                             callback: () => onTaskPressed(
@@ -180,6 +198,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                               index: index,
                               isApply: true,
                             ),
+                            onTapCallback: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                            },
                           ),
                         ),
                       ),

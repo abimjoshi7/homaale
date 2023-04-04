@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -17,6 +19,7 @@ class TaskerCard extends StatelessWidget {
     this.networkImageUrl,
     this.callbackLabel,
     this.buttonWidth,
+    required this.onFavouriteTapped,
   });
 
   final String? label;
@@ -30,6 +33,7 @@ class TaskerCard extends StatelessWidget {
   final String? networkImageUrl;
   final double? buttonWidth;
   final VoidCallback callback;
+  final VoidCallback onFavouriteTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +137,18 @@ class TaskerCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        const Icon(
-                          Icons.favorite_outline,
-                          color: Color(0xffFE5050),
+                        GestureDetector(
+                          onTap: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
+                            onFavouriteTapped();
+                          },
+                          child: const Icon(
+                            Icons.favorite_outline,
+                            color: Color(0xffFE5050),
+                          ),
                         ),
                         SizedBox(
                           height: 30,

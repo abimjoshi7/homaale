@@ -105,6 +105,12 @@ class _TasksRecommendationSectionState
                               index: index,
                               isApply: true,
                             ),
+                            onTapCallback: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                            },
                           ),
                         ),
                       ),

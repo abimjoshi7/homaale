@@ -30,7 +30,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [
+        children: <Widget>[
           kHeight50,
           CustomHeader(
             leadingWidget: IconButton(
@@ -58,7 +58,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       itemCount: state.nestedCategory.length,
                       itemBuilder: (context, index) => Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
+                        children: <Widget>[
                           ColoredBox(
                             color: selectedIndex == index
                                 ? Colors.white
@@ -200,7 +200,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                                     );
                                                   },
                                                   child: Column(
-                                                    children: [
+                                                    children: <Widget>[
                                                       Container(
                                                         decoration:
                                                             BoxDecoration(

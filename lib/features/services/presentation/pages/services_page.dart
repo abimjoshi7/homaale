@@ -23,7 +23,7 @@ class ServicesPage extends StatelessWidget {
         );
     return Scaffold(
       body: Column(
-        children: [
+        children: <Widget>[
           kHeight50,
           CustomHeader(
             leadingWidget: IconButton(

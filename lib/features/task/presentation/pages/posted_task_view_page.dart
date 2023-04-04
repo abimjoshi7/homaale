@@ -351,6 +351,7 @@ class TaskersTabSection extends StatelessWidget {
             ),
             itemBuilder: (context, index) => TaskerCard(
               callback: () {},
+              onFavouriteTapped: () {},
             ),
           ),
         ),

@@ -17,6 +17,7 @@ class TaskCard extends StatelessWidget {
     required this.callback,
     this.count,
     this.budgetType,
+     this.onTapCallback,
   });
 
   final String? imageUrl;
@@ -29,6 +30,7 @@ class TaskCard extends StatelessWidget {
   final String? endRate;
   final String? count;
   final VoidCallback callback;
+  final VoidCallback? onTapCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +45,9 @@ class TaskCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   Row(
-                    children: [
+                    children: <Widget>[
                       Container(
                         height: 50,
                         width: 50,
@@ -74,7 +76,9 @@ class TaskCard extends StatelessWidget {
                     ],
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      onTapCallback!();
+                    },
                     child: const Icon(
                       Icons.favorite_border,
                       color: Color(0xffFE5050),
@@ -88,7 +92,7 @@ class TaskCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   WidgetText(
                     label: StringUtils.capitalize(
                       location ?? 'Buddhanagar',
@@ -100,7 +104,7 @@ class TaskCard extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       WidgetText(
                         label: endDate ?? 'yy/mm/dd',
                         widget: const Icon(
@@ -122,15 +126,15 @@ class TaskCard extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Row(
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Rs. ${startRate ?? '0'} - ",
                             style: kPurpleText16,
                           ),
                           Row(
-                            children: [
+                            children: <Widget>[
                               Text(
                                 endRate ?? '0',
                                 style: kPurpleText16,

@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
@@ -5,7 +6,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task/data/models/single_task_entity_service.dart' as ses;
+import 'package:cipher/features/task/data/models/single_task_entity_service.dart'
+    as ses;
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -20,7 +22,8 @@ class SingleTaskPage extends StatefulWidget {
   State<SingleTaskPage> createState() => _SingleTaskPageState();
 }
 
-class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProviderStateMixin {
+class _SingleTaskPageState extends State<SingleTaskPage>
+    with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
 
@@ -48,7 +51,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
               context: context,
               builder: (context) => CustomToast(
                 heading: 'Failed',
-                content: error ?? 'Something went wrong while trying to accept tasker. Please try again!',
+                content: error ??
+                    'Something went wrong while trying to accept tasker. Please try again!',
                 onTap: () {
                   context.read<TaskBloc>().add(ResetApproveFailureStatus());
                   Navigator.pop(context);
@@ -78,7 +82,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
               context: context,
               builder: (context) => CustomToast(
                 heading: 'Failed',
-                content: error ?? 'Something went wrong while trying to reject tasker. Please try again!',
+                content: error ??
+                    'Something went wrong while trying to reject tasker. Please try again!',
                 onTap: () {
                   context.read<TaskBloc>().add(ResetRejectFailureStatus());
                   Navigator.pop(context);
@@ -105,7 +110,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
         },
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
-            if (state.theState == TheStates.success && state.taskModel != null) {
+            if (state.theState == TheStates.success &&
+                state.taskModel != null) {
               final documentDescription = Bidi.stripHtmlIfNeeded(
                 state.taskModel?.description ??
                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
@@ -116,7 +122,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
               ];
 
               return Column(
-                children: [
+                children: <Widget>[
                   kHeight50,
                   CustomHeader(
                     leadingWidget: IconButton(
@@ -140,13 +146,14 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                   Expanded(
                     child: ListView(
                       padding: EdgeInsets.zero,
-                      children: [
+                      children: <Widget>[
                         if (taskMedia.isNotEmpty)
                           CarouselSlider.builder(
                             itemCount: taskMedia.length,
                             itemBuilder: (context, index, realIndex) {
                               return SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.2,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.2,
                                 child: Stack(
                                   children: [
                                     if (taskMedia[index].mediaType == 'mp4')
@@ -157,17 +164,22 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                     else
                                       Image.network(
                                         taskMedia[index].media.toString(),
-                                        errorBuilder: (context, error, stackTrace) => Image.network(kServiceImageNImg),
-                                        width: MediaQuery.of(context).size.width,
+                                        errorBuilder: (context, error,
+                                                stackTrace) =>
+                                            Image.network(kServiceImageNImg),
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         fit: BoxFit.cover,
                                       ),
                                     Positioned(
                                       bottom: 10,
                                       child: SizedBox(
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         child: Center(
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: List.generate(
                                               taskMedia.length,
                                               (ind) => Container(
@@ -175,8 +187,11 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                                 margin: const EdgeInsets.all(2),
                                                 width: index == ind ? 20 : 10,
                                                 decoration: BoxDecoration(
-                                                  color: index == ind ? kColorGrey : Colors.grey,
-                                                  borderRadius: BorderRadius.circular(10),
+                                                  color: index == ind
+                                                      ? kColorGrey
+                                                      : Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
                                               ),
                                             ),
@@ -206,10 +221,11 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                           padding: kPadding10,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
                                   Row(
                                     children: [
                                       Container(
@@ -219,7 +235,9 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                              state.taskModel?.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                                              state.taskModel?.createdBy
+                                                      ?.profileImage ??
+                                                  kDefaultAvatarNImg,
                                             ),
                                             fit: BoxFit.cover,
                                           ),
@@ -229,10 +247,14 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                         10,
                                       ),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.7,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7,
                                             child: Text(
                                               state.taskModel?.title ?? '',
                                               style: kPurpleText16,
@@ -249,14 +271,27 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                     ],
                                   ),
                                   Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.favorite_border_outlined,
-                                        color: Colors.red,
+                                    children: <Widget>[
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (!CacheHelper.isLoggedIn) {
+                                            notLoggedInPopUp(context);
+                                          }
+                                          if (!CacheHelper.isLoggedIn) return;
+                                        },
+                                        child: const Icon(
+                                          Icons.favorite_border_outlined,
+                                          color: Colors.red,
+                                        ),
                                       ),
                                       kWidth10,
                                       GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          if (!CacheHelper.isLoggedIn) {
+                                            notLoggedInPopUp(context);
+                                          }
+                                          if (!CacheHelper.isLoggedIn) return;
+                                        },
                                         child: const Icon(
                                           Icons.more_vert,
                                         ),
@@ -267,9 +302,9 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                               ),
                               addVerticalSpace(10),
                               Row(
-                                children: [
+                                children: <Widget>[
                                   Row(
-                                    children: [
+                                    children: <Widget>[
                                       const Icon(
                                         Icons.calendar_today,
                                         color: Colors.red,
@@ -278,7 +313,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                       kWidth5,
                                       Text(
                                         Jiffy(
-                                          state.taskModel?.startDate ?? DateTime.now().toString(),
+                                          state.taskModel?.startDate ??
+                                              DateTime.now().toString(),
                                         ).yMMMMd,
                                       ),
                                     ],
@@ -301,7 +337,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                               ),
                               addVerticalSpace(10),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -379,21 +416,25 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                     kWidth10,
                                     Text(
                                       StringUtils.capitalize(
-                                        state.taskModel?.highlights?[index] ?? '',
+                                        state.taskModel?.highlights?[index] ??
+                                            '',
                                       ),
                                       style: kRequirements,
                                     )
                                   ],
                                 ),
-                                separatorBuilder: (context, index) => addVerticalSpace(8.0),
-                                itemCount: state.taskModel?.highlights?.length ?? 0,
+                                separatorBuilder: (context, index) =>
+                                    addVerticalSpace(8.0),
+                                itemCount:
+                                    state.taskModel?.highlights?.length ?? 0,
                               ),
                             ],
                           ),
                         ),
                         if (state.applicantModel?.result?.length != 0) ...[
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               'Taskers',
                               style: kPurpleText16,
@@ -408,26 +449,39 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                             children: List.generate(
                               state.applicantModel?.result?.length ?? 0,
                               (index) => TaskerCard(
+                                onFavouriteTapped: () {},
                                 callback: () => showApplicantDetailsDialog(
                                   context: context,
-                                  profileImage:
-                                      state.applicantModel?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
+                                  profileImage: state
+                                          .applicantModel
+                                          ?.result?[index]
+                                          .createdBy
+                                          ?.profileImage ??
+                                      kServiceImageNImg,
                                   happyClients:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                   successRate:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                   rating:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                  designation: state.applicantModel?.result?[index].createdBy?.designation,
-                                  isProfileVerified:
-                                      state.applicantModel?.result?[index].createdBy?.isProfileVerified ?? false,
+                                  designation: state.applicantModel
+                                      ?.result?[index].createdBy?.designation,
+                                  isProfileVerified: state
+                                          .applicantModel
+                                          ?.result?[index]
+                                          .createdBy
+                                          ?.isProfileVerified ??
+                                      false,
                                   title: state.taskModel?.title ?? '',
                                   budget:
                                       'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
                                   onRejectPressed: () {
                                     context.read<TaskBloc>().add(
                                           TaskRejectPeople(
-                                            rejectReq: RejectReq(booking: state.applicantModel?.result?[index].id ?? 0),
+                                            rejectReq: RejectReq(
+                                                booking: state.applicantModel
+                                                        ?.result?[index].id ??
+                                                    0),
                                           ),
                                         );
                                     Navigator.pop(context);
@@ -435,24 +489,32 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   onApprovePressed: () {
                                     context.read<TaskBloc>().add(
                                           TaskApprovePeople(
-                                            approveReq:
-                                                ApproveReq(booking: state.applicantModel?.result?[index].id ?? 0),
+                                            approveReq: ApproveReq(
+                                                booking: state.applicantModel
+                                                        ?.result?[index].id ??
+                                                    0),
                                           ),
                                         );
                                     Navigator.pop(context);
                                   },
                                 ),
-                                buttonWidth: MediaQuery.of(context).size.width * 0.22,
+                                buttonWidth:
+                                    MediaQuery.of(context).size.width * 0.22,
                                 callbackLabel: 'View detail',
-                                networkImageUrl:
-                                    state.applicantModel?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
+                                networkImageUrl: state
+                                        .applicantModel
+                                        ?.result?[index]
+                                        .createdBy
+                                        ?.profileImage ??
+                                    kServiceImageNImg,
                                 happyClients:
                                     '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                 rewardPercentage:
                                     '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                 label:
                                     '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
-                                designation: state.applicantModel?.result?[index].createdBy?.designation,
+                                designation: state.applicantModel
+                                    ?.result?[index].createdBy?.designation,
                                 rate:
                                     'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
                                 ratings:

@@ -89,16 +89,22 @@ class _RootState extends State<Root> {
                   .read<TaskerCertificationCubit>()
                   .getTaskerCertification(),
             )
-            .then(
-              (value) async => context.read<UserBloc>().add(
-                    UserLoaded(),
-                  ),
-            )
-            .then(
-              (value) async => context.read<KycBloc>().add(
-                    KycLoaded(),
-                  ),
-            )
+            .then((value) async => {
+                  if (CacheHelper.isLoggedIn)
+                    {
+                      context.read<UserBloc>().add(
+                            UserLoaded(),
+                          ),
+                    }
+                })
+            .then((value) async => {
+                  if (CacheHelper.isLoggedIn)
+                    {
+                      context.read<KycBloc>().add(
+                            KycLoaded(),
+                          ),
+                    }
+                })
             .then(
               (value) async => context
                   .read<EntityServiceBloc>()
@@ -107,11 +113,11 @@ class _RootState extends State<Root> {
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
-            .then(
-              (value) async => context
-                  .read<NotificationBloc>()
-                  .add(MyNotificationListInitiated()),
-            );
+            .then((value) async => {
+                  context
+                      .read<NotificationBloc>()
+                      .add(MyNotificationListInitiated()),
+                });
       },
     );
   }

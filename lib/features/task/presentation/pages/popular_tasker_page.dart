@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -103,7 +105,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
-                          children: const [
+                          children: const <Widget>[
                             Text(
                               'Buddhanagar',
                             ),
@@ -118,7 +120,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
-                          children: const [
+                          children: const <Widget>[
                             Text(
                               'Any Price',
                             ),
@@ -171,7 +173,13 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                             ratings:
                                 "${item.rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${item.rating?.userRatingCount ?? '0'})",
                             rate: "Rs. ${item.hourlyRate}",
-                            callback: () {},
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                            },
+                            onFavouriteTapped: () {},
                           ),
                         ),
                       ),

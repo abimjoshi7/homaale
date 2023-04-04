@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_add_skills.dart';
@@ -25,6 +27,15 @@ class _PreferenceState extends State<Preference> {
     const PreferencesServiceCategory(),
     const PreferencesAddSkill(),
   ];
+  void onTapSkip() {
+    context.read<SignInBloc>().add(SignInWithoutCredentials());
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      Root.routeName,
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,19 +61,24 @@ class _PreferenceState extends State<Preference> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: const <Widget>[
-                      Text(
-                        'Skip',
-                        style: kSkipHelper,
-                      ),
-                      kWidth10,
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 12,
-                        color: Color(0xff868E96),
-                      )
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      onTapSkip();
+                    },
+                    child: Row(
+                      children: const <Widget>[
+                        Text(
+                          'Skip',
+                          style: kSkipHelper,
+                        ),
+                        kWidth10,
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 12,
+                          color: Color(0xff868E96),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -117,12 +133,7 @@ class _PreferenceState extends State<Preference> {
                   },
                 );
                 if (selectedIndex >= 3) {
-                  context.read<SignInBloc>().add(SignInWithoutCredentials());
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  );
+                  onTapSkip();
                 }
               },
               label: 'Next',
