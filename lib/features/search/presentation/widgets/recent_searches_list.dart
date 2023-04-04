@@ -22,7 +22,9 @@ class RecentSearchesList extends StatelessWidget {
         ),
         () => _isTilePressed = false,
       );
-      return CircularProgressIndicator();
+      return const Center(
+        child: CardLoading(height: 200,),
+      );
     }
     if (recentSearchesList.isEmpty) {
       return Text('No recent searches yet.');

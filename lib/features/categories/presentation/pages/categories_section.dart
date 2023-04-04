@@ -16,7 +16,7 @@ class CategoriesSection extends StatelessWidget {
       builder: (context, state) {
         if (state is HeroCategoryInitial) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CardLoading(height: 100,),
           );
         } else if (state is HeroCategoryLoadSuccess) {
           return Padding(

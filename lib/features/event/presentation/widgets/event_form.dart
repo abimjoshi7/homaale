@@ -28,8 +28,8 @@ class _EventFormState extends State<EventForm> {
     return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
         if (state.theStates == TheStates.initial) {
-          return Center(
-            child: CircularProgressIndicator(),
+          return const Center(
+            child: CardLoading(height: 200,),
           );
         }
         if (state.theStates == TheStates.success &&

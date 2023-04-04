@@ -35,7 +35,7 @@ class PopularTaskerSection extends StatelessWidget {
             builder: (context, state) {
               if (state.states == TheStates.initial) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CardLoading(height: 200,),
                 );
               }
               if (state.states == TheStates.success) {

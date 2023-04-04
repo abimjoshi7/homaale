@@ -27,7 +27,8 @@ class _BookedServicePageState extends State<BookedServicePage> {
       body: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
           if (state.states == TheStates.initial) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CardLoading(height: 200,),);
           } else if (state.states == TheStates.success) {
             final booking = state.result!;
             final mediaList = <bm.Image>[

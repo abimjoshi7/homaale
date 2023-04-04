@@ -126,7 +126,9 @@ class TaskDisplayList extends StatelessWidget {
         Flexible(
           fit: FlexFit.loose,
           child: (state?.theStates == TheStates.initial)
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(
+    child: CardLoading(height: 200,)
+    )
               : ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -262,7 +264,9 @@ class PaymentDetailsContainer extends StatelessWidget {
         Flexible(
           fit: FlexFit.loose,
           child: (state.theStates == TheStates.initial)
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(
+    child: CardLoading(height: 200,)
+    )
               :  ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,

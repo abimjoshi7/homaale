@@ -241,8 +241,8 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                 ),
               );
             }
-            return Center(
-              child: CircularProgressIndicator(),
+            return const Center(
+              child: CardLoading(height: 200,),
             );
           },
         ),

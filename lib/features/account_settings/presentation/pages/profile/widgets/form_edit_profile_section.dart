@@ -296,7 +296,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           );
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CardLoading(height: 200,),
           );
         }
       },

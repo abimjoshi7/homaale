@@ -65,11 +65,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         style: kPurpleText16,
                       ),
                       if (state.theState == TheStates.initial)
-                        const SizedBox(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
+                        const Center(
+                            child: CardLoading(
+                          height: 200,
+                        )),
                       if (state.theState == TheStates.success &&
                           state.paymentType!.result != null)
                         ListView.builder(

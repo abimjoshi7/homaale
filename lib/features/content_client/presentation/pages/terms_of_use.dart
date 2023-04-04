@@ -73,7 +73,7 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
 
                         if (state.theStates == TheStates.initial) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: CardLoading(height: 200,),
                           );
                         }
                         return const SizedBox();

@@ -44,7 +44,9 @@ class _ScheduleViewState extends State<ScheduleView> {
         BlocBuilder<EventBloc, EventState>(
           builder: (context, state) {
             if (state.theStates == TheStates.initial) {
-              return const CircularProgressIndicator();
+              return const Center(
+                child: CardLoading(height: 200,),
+              );
             }
             if (state.isLoaded == true) {
               if (dateList.isEmpty) {

@@ -47,7 +47,9 @@ class AccountProfile extends StatelessWidget {
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if(state.theStates==TheStates.initial)
-                Center(child: CircularProgressIndicator());
+                const Center(
+                  child: CardLoading(height: 200,),
+                );
               if (state.theStates == TheStates.success) {
                 return Expanded(
                   child: ListView(
@@ -324,7 +326,9 @@ class AccountProfile extends StatelessWidget {
                   ),
                 );
               }
-              return const SizedBox.shrink();
+              return const  Center(
+                child: CardLoading(height: 200,),
+              );
             },
           ),
         ],

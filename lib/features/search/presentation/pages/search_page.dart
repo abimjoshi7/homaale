@@ -1,17 +1,11 @@
-import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/widgets.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/task/data/models/all_task_list.dart';
-import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -191,7 +185,9 @@ class _SearchPageState extends State<SearchPage> {
                             Text('An Error Occured. Please Try Again Later.'),
                       );
                     }
-                    return CircularProgressIndicator();
+                    return const Center(
+                      child: CardLoading(height: 200,),
+                    );
                   },
                 ),
                 //**Recent Searches List**//

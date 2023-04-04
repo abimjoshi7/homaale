@@ -53,7 +53,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ? Chewie(
                 controller: chewieController,
               )
-            : const CircularProgressIndicator()
-        : const CircularProgressIndicator();
+            : const Center(
+      child: CardLoading(height: 200,)
+    )
+        : const Center(
+      child: CardLoading(height: 200,),
+    );
   }
 }

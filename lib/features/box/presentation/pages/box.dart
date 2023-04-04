@@ -105,7 +105,9 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
               Flexible(
                 fit: FlexFit.loose,
                 child: (state.theStates == TheStates.initial)
-                    ? Center(child: CircularProgressIndicator())
+                    ? CardLoading(
+                      height: 200,
+                    )
                     : TabBarView(
                         controller: _tabController,
                         children: [

@@ -122,8 +122,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         child: BlocBuilder<ServicesBloc, ServicesState>(
                           builder: (context, serviceState) {
                             if (serviceState.theStates == TheStates.initial) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return const  Center(
+                                child: CardLoading(height: 200,),
                               );
                             }
 

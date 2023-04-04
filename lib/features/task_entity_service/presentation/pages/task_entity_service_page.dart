@@ -221,7 +221,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CardLoading(height: 200,),
             );
           }
         },

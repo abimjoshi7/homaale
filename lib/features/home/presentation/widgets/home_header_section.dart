@@ -109,7 +109,9 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
               ],
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CardLoading(height: 200,),
+            );
           }
         }
 

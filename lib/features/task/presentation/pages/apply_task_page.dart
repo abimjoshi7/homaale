@@ -251,12 +251,12 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
               );
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CardLoading(height: 200,),
               );
             }
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CardLoading(height: 200,),
             );
           }
         },

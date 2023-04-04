@@ -238,7 +238,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           );
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CardLoading(height: 200,),
           );
         }
       },

@@ -531,7 +531,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
               );
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CardLoading(height: 200,),
               );
             }
           },

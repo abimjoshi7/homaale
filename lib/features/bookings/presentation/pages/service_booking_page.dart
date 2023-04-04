@@ -49,8 +49,8 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
       body: BlocBuilder<EventBloc, EventState>(
         builder: (context, eventState) {
           if (eventState.theStates == TheStates.initial) {
-            return Center(
-              child: const CircularProgressIndicator(),
+            return const Center(
+              child: CardLoading(height: 200,),
             );
           }
           return Column(

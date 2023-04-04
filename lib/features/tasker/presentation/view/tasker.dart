@@ -150,7 +150,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                 ),
               );
             } else {
-              return const CircularProgressIndicator();
+              return const Center(
+                child: CardLoading(height: 200,),
+              );
             }
           }
 
@@ -386,7 +388,7 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CardLoading(height: 200,),
             );
           }
         },

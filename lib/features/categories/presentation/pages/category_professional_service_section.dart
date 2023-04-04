@@ -21,7 +21,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
         builder: (context, state) {
           if (state.theStates == TheStates.initial) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CardLoading(height: 200,),
             );
           }
           if (state.theStates == TheStates.success) {

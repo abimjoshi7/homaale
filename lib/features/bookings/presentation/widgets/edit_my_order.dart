@@ -520,7 +520,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
           );
         }
         return const Center(
-          child: CircularProgressIndicator(),
+          child: CardLoading(height: 200,),
         );
       },
     );
