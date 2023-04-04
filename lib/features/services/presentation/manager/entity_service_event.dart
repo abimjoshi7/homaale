@@ -7,7 +7,7 @@ abstract class EntityServiceEvent extends Equatable {
 
 class EntityServiceInitiated extends EntityServiceEvent {
   final int? page;
-  final String? order;
+  final List<String>? order;
   final bool? isDateSort;
   final bool? isBudgetSort;
 
