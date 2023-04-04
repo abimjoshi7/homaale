@@ -203,7 +203,7 @@ class _KycDetailsState extends State<KycDetails> {
           if (state is KycLoadSuccess) {
             return CustomFormContainer(
               hintText:
-                  state.list.first.validThrough.toString().substring(0, 10),
+                  state.list.first.validThrough.toString().substring(0, state.list.first.validThrough?.day),
               leadingWidget: const Icon(
                 Icons.calendar_month_rounded,
                 color: kColorPrimary,
@@ -211,7 +211,7 @@ class _KycDetailsState extends State<KycDetails> {
             );
           }
           return CustomFormContainer(
-            hintText: expiryDate?.toString().substring(0, 10) ?? '1999-06-13',
+            hintText:expiryDate !=null ? expiryDate?.toString().substring(0, expiryDate?.day) ?? 'yyy':'yyy',
             leadingWidget: const Icon(
               Icons.calendar_month_rounded,
               color: kColorPrimary,
