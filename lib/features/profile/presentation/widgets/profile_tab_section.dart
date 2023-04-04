@@ -26,15 +26,15 @@ class ProfileTabSection extends StatelessWidget {
         Tab(
           text: 'Activities',
         ),
-        Tab(
-          text: 'Rewards',
-        ),
-        Tab(
-          text: 'My Offers',
-        ),
-        Tab(
-          text: 'Reviews',
-        ),
+        // Tab(
+        //   text: 'Rewards',
+        // ),
+        // Tab(
+        //   text: 'My Offers',
+        // ),
+        // Tab(
+        //   text: 'Reviews',
+        // ),
       ],
     );
   }

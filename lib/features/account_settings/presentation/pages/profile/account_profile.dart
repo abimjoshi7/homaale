@@ -3,13 +3,10 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/presenta
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
-import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
-import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -21,7 +18,6 @@ class AccountProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = false;
     return Scaffold(
       body: Column(
         children: [
@@ -29,7 +25,7 @@ class AccountProfile extends StatelessWidget {
           CustomHeader(
             leadingWidget: addHorizontalSpace(45),
             trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
+              icon: const Icon(Icons.search,size: 0,),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -50,6 +46,8 @@ class AccountProfile extends StatelessWidget {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
+              if(state.theStates==TheStates.initial)
+                Center(child: CircularProgressIndicator());
               if (state.theStates == TheStates.success) {
                 return Expanded(
                   child: ListView(
@@ -173,54 +171,54 @@ class AccountProfile extends StatelessWidget {
                           }
                         },
                       ),
-                      AccountListTileSection(
-                        onTap: () {
-                          Navigator.pushNamed(context, SandboxPage.routeName);
-                        },
-                        icon: const Icon(
-                          Icons.reduce_capacity_sharp,
-                          color: Color(0xff495057),
-                        ),
-                        label: 'Sandbox',
-                        trailingWidget: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        ),
-                      ),
-                      AccountListTileSection(
-                        onTap: () {
-                          Navigator.pushNamed(context, SavedPage.routeName);
-                        },
-                        icon: const Icon(
-                          Icons.favorite_border_outlined,
-                          color: Color(0xff495057),
-                        ),
-                        label: 'Saved',
-                        trailingWidget: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        ),
-                      ),
-                      Visibility(
-                        visible: false,
-                        child: AccountListTileSection(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              OffersPage.routeName,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.card_giftcard_outlined,
-                            color: Color(0xff495057),
-                          ),
-                          label: 'Offers',
-                          trailingWidget: const Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                          ),
-                        ),
-                      ),
+                      // AccountListTileSection(
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, SandboxPage.routeName);
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.reduce_capacity_sharp,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Sandbox',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      // ),
+                      // AccountListTileSection(
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, SavedPage.routeName);
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.favorite_border_outlined,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Saved',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      // ),
+                      // Visibility(
+                      //   visible: false,
+                      //   child: AccountListTileSection(
+                      //     onTap: () {
+                      //       Navigator.pushNamed(
+                      //         context,
+                      //         OffersPage.routeName,
+                      //       );
+                      //     },
+                      //     icon: const Icon(
+                      //       Icons.card_giftcard_outlined,
+                      //       color: Color(0xff495057),
+                      //     ),
+                      //     label: 'Offers',
+                      //     trailingWidget: const Icon(
+                      //       Icons.arrow_forward_ios,
+                      //       size: 16,
+                      //     ),
+                      //   ),
+                      // ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -238,31 +236,31 @@ class AccountProfile extends StatelessWidget {
                           size: 16,
                         ),
                       ),
-                      AccountListTileSection(
-                        onTap: () {},
-                        icon: const Icon(
-                          Icons.dark_mode_outlined,
-                          color: Color(0xff495057),
-                        ),
-                        label: 'Dark Mode',
-                        trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
-                          builder: (context, state) {
-                            return StatefulBuilder(
-                              builder: (context, setState) => Switch(
-                                value: isDark,
-                                onChanged: (value) => setState(
-                                  () {
-                                    isDark = !isDark;
-                                    context.read<ThemeBloc>().add(
-                                          ThemeChangeChanged(),
-                                        );
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      // AccountListTileSection(
+                      //   onTap: () {},
+                      //   icon: const Icon(
+                      //     Icons.dark_mode_outlined,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Dark Mode',
+                      //   trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
+                      //     builder: (context, state) {
+                      //       return StatefulBuilder(
+                      //         builder: (context, setState) => Switch(
+                      //           value: isDark,
+                      //           onChanged: (value) => setState(
+                      //             () {
+                      //               isDark = !isDark;
+                      //               context.read<ThemeBloc>().add(
+                      //                     ThemeChangeChanged(),
+                      //                   );
+                      //             },
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(

@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
-import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -11,52 +10,54 @@ class PasswordAndSecurity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
+        body: Column(
+      children: [
+        kHeight50,
+        CustomHeader(
+          leadingWidget: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
             ),
-            trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            child: const Text(
-              'Password & Security',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
+          ),
+          trailingWidget: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+          child: const Text(
+            'Password & Security',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Color(
+                0xff212529,
               ),
             ),
           ),
-          const Divider(),
-          Expanded(
-            child: Padding(
-              padding: kPadding20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  kHeight20,
-                  const Text(
-                    'Password',
-                    style: kPurpleText16,
-                  ),
-                  kHeight5,
-                  const Text(
-                    'You will be asked to enter password before logging in Homaale',
-                    style: kHelper13,
-                  ),
-                  kHeight5,
-                  Row(
+        ),
+        const Divider(),
+        Expanded(
+          child: Padding(
+            padding: kPadding20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kHeight20,
+                const Text(
+                  'Password',
+                  style: kPurpleText16,
+                ),
+                kHeight5,
+                const Text(
+                  'You will be asked to enter password before logging in Homaale',
+                  style: kHelper13,
+                ),
+                kHeight20,
+
+                Center(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(
@@ -80,100 +81,104 @@ class PasswordAndSecurity extends StatelessWidget {
                       ),
                     ],
                   ),
-                  kHeight20,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Two Factor Authentication'),
-                      Switch(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                    ],
-                  ),
-                  kHeight5,
-                  const Text(
-                    'Add an extra layer of security to block unauthorized access and protect your account.',
-                    style: kHelper13,
-                  ),
-                  kHeight20,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Authenticator App Code',
-                      ),
-                      OutlinedButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                            constraints: const BoxConstraints(
-                              maxHeight: 750,
-                              minWidth: double.infinity,
-                            ),
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) => const AuthenticatorAppCode(),
-                          );
-                        },
-                        child: const Text(
-                          'Setup',
-                        ),
-                      ),
-                    ],
-                  ),
-                  kHeight5,
-                  const Text(
-                    "Enter a code generated by Google authenticator app to confirm it's you.",
-                    style: kHelper13,
-                  ),
-                  kHeight20,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('SMS Recovery'),
-                      OutlinedButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Setup',
-                        ),
-                      ),
-                    ],
-                  ),
-                  kHeight5,
-                  const Text(
-                    "Recieve a four digit code by text message to confirm it's you",
-                    style: kHelper13,
-                  ),
-                  kHeight20,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Security Question',
-                        style: kPurpleText16,
-                      ),
-                      Switch(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                    ],
-                  ),
-                  kHeight5,
-                  const Text(
-                    "Answer a question you choose to confirm it's you.",
-                    style: kHelper13,
-                  ),
-                ],
-              ),
+                ),
+                kHeight20,
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             const Text('Two Factor Authentication'),
+                //             Switch(
+                //               value: false,
+                //               onChanged: (value) {},
+                //             ),
+                //           ],
+                //         ),
+                //         kHeight5,
+                //         const Text(
+                //           'Add an extra layer of security to block unauthorized access and protect your account.',
+                //           style: kHelper13,
+                //         ),
+                //         kHeight20,
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             const Text(
+                //               'Authenticator App Code',
+                //             ),
+                //             OutlinedButton(
+                //               onPressed: () {
+                //                 showModalBottomSheet(
+                //                   constraints: const BoxConstraints(
+                //                     maxHeight: 750,
+                //                     minWidth: double.infinity,
+                //                   ),
+                //                   isScrollControlled: true,
+                //                   context: context,
+                //                   builder: (context) => const AuthenticatorAppCode(),
+                //                 );
+                //               },
+                //               child: const Text(
+                //                 'Setup',
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         kHeight5,
+                //         const Text(
+                //           "Enter a code generated by Google authenticator app to confirm it's you.",
+                //           style: kHelper13,
+                //         ),
+                //         kHeight20,
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             const Text('SMS Recovery'),
+                //             OutlinedButton(
+                //               onPressed: () {},
+                //               child: const Text(
+                //                 'Setup',
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         kHeight5,
+                //         const Text(
+                //           "Recieve a four digit code by text message to confirm it's you",
+                //           style: kHelper13,
+                //         ),
+                //         kHeight20,
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             const Text(
+                //               'Security Question',
+                //               style: kPurpleText16,
+                //             ),
+                //             Switch(
+                //               value: false,
+                //               onChanged: (value) {},
+                //             ),
+                //           ],
+                //         ),
+                //         kHeight5,
+                //         const Text(
+                //           "Answer a question you choose to confirm it's you.",
+                //           style: kHelper13,
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // CustomElevatedButton(
+                //   callback: () {},
+                //   label: 'Save',
+                // ),
+                // kHeight50,
+              ],
             ),
           ),
-          CustomElevatedButton(
-            callback: () {},
-            label: 'Save',
-          ),
-          kHeight50,
-        ],
-      ),
-    );
+        ),
+      ],
+    ));
   }
 }

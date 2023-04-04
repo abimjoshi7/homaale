@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.87,
+        // height: MediaQuery.of(context).size.height * 0.88,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -28,6 +28,7 @@ class Home extends StatelessWidget {
                     TasksRecommendationSection(),
                     PopularTaskerSection(),
                     NotableBannerSection(),
+                    SizedBox(height: 120,),
                     // Padding(
                     //   padding: const EdgeInsets.symmetric(
                     //     horizontal: 10,
