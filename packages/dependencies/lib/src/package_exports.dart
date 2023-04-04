@@ -36,3 +36,4 @@ export 'package:permission_handler/permission_handler.dart' hide ServiceStatus;
 export 'package:telephony/telephony.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:card_loading/card_loading.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';
