@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -23,27 +24,36 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
 
   List<EntityService> serviceList = [];
+  List<String>? items = [];
+
   bool dateSelected = true;
   bool budgetSelected = false;
+  bool categorySelected = false;
+
   bool sortDateIsAscending = true;
   bool sortBudgetIsAscending = true;
 
   SortType sortType = SortType.date;
   List<String>? order = ['-created_at'];
+  String? selectedCategoryId;
 
   @override
   void initState() {
     //so at event add list of records
+    entityServiceBloc.add(FetchServicesList());
+
     _pagingController.addPageRequestListener(
       (pageKey) => entityServiceBloc.add(
         EntityServiceInitiated(
           page: pageKey,
           order: order,
+          serviceId: selectedCategoryId,
           isBudgetSort: false,
           isDateSort: false,
         ),
       ),
     );
+
     super.initState();
   }
 
@@ -52,6 +62,32 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     entityServiceBloc.close();
     _pagingController.dispose();
     super.dispose();
+  }
+
+  void onFilterCategory({String? category}) {
+    if (category != null) {
+      for (ServiceList element in entityServiceBloc.state.serviceList ?? []) {
+        if (element.title == category) {
+          setState(() {
+            selectedCategoryId = element.id.toString();
+          });
+          break;
+        }
+      }
+    } else {
+      setState(() {
+        selectedCategoryId = null;
+      });
+    }
+
+    entityServiceBloc.add(EntityServiceInitiated(
+      page: 1,
+      order: order,
+      serviceId: selectedCategoryId,
+      isFilter: selectedCategoryId == null ? false : true,
+      isDateSort: entityServiceBloc.state.isDateSort,
+      isBudgetSort: entityServiceBloc.state.isBudgetSort,
+    ));
   }
 
   void onBudgetDateClear({required SortType sortType}) {
@@ -82,7 +118,12 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     }
 
     entityServiceBloc.add(EntityServiceInitiated(
-        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
+        page: 1,
+        order: order,
+        serviceId: selectedCategoryId,
+        isFilter: selectedCategoryId == null ? false : true,
+        isDateSort: sortType == SortType.date,
+        isBudgetSort: sortType == SortType.budget));
   }
 
   void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
@@ -115,7 +156,12 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     }
 
     entityServiceBloc.add(EntityServiceInitiated(
-        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
+        page: 1,
+        order: order,
+        serviceId: selectedCategoryId,
+        isFilter: selectedCategoryId == null ? false : true,
+        isDateSort: sortType == SortType.date,
+        isBudgetSort: sortType == SortType.budget));
   }
 
   @override
@@ -124,8 +170,18 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       body: BlocListener<EntityServiceBloc, EntityServiceState>(
         bloc: entityServiceBloc,
         listener: (context, state) {
-          if ((state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
+          if ((state.isDateSort ?? false) || (state.isBudgetSort ?? false) || (state.isFilter ?? false)) {
             _pagingController.refresh();
+          }
+
+          if (state.servicesLoaded ?? false) {
+            setState(() {
+              items = [...?state.serviceList?.map((e) => e.title!).toList()];
+            });
+          }
+
+          if (state.theStates == TheStates.failure) {
+            _pagingController.error = 'Error';
           }
 
           if (state.theStates == TheStates.success) {
@@ -139,50 +195,85 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
               _pagingController.appendPage(serviceList, next);
             }
           }
-          if (state.theStates == TheStates.failure) {
-            _pagingController.error = 'Error';
-          }
         },
         child: BlocBuilder<EntityServiceBloc, EntityServiceState>(
           builder: (context, state) {
             return Column(
               children: [
-                addVerticalSpace(
-                  50,
-                ),
+                addVerticalSpace(50),
                 const CustomHeader(
                   label: 'Popular Services',
                 ),
                 const Divider(),
                 addVerticalSpace(8),
                 SizedBox(
-                  height: 35,
+                  height: 50,
                   width: double.infinity,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     children: [
-                      // const Icon(
-                      //   Icons.filter_alt_outlined,
-                      //   color: kColorSilver,
-                      // ),
-                      // addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const [
-                            Text(
-                              'Category',
+                      items?.isNotEmpty ?? false
+                          ? Container(
+                              width: 170,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: categorySelected ? kColorAmber : Colors.white,
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(color: kColorGrey),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownSearch<String?>(
+                                      items: items ?? ['N/A'],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          categorySelected = value != null ? true : false;
+                                        });
+                                        onFilterCategory(category: value);
+                                      },
+                                      clearButtonProps: ClearButtonProps(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 16,
+                                        visualDensity: VisualDensity.compact,
+                                        alignment: Alignment.centerRight,
+                                        isVisible: categorySelected,
+                                        color: categorySelected ? Colors.white : Colors.black,
+                                      ),
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                          hintText: 'Category',
+                                          border: InputBorder.none,
+                                          suffixIconColor: categorySelected ? Colors.white : Colors.black,
+                                        ),
+                                        baseStyle: TextStyle(
+                                          color: categorySelected ? Colors.white : Colors.black,
+                                        ),
+                                      ),
+                                      popupProps: PopupProps.modalBottomSheet(
+                                        showSearchBox: true,
+                                        modalBottomSheetProps: ModalBottomSheetProps(
+                                          useSafeArea: false,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ChoiceChip(
+                              label: Row(
+                                children: const [
+                                  Text('Category'),
+                                  Icon(Icons.keyboard_arrow_down_outlined),
+                                ],
+                              ),
+                              backgroundColor: Colors.white,
+                              side: const BorderSide(color: kColorGrey),
+                              selected: false,
+                              disabledColor: Colors.white,
                             ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
-                      ),
                       addHorizontalSpace(5),
                       ChoiceChip(
                         label: Row(
@@ -212,7 +303,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                               color: budgetSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
                             children: [
@@ -262,7 +353,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                               color: dateSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
                             children: [
@@ -311,9 +402,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                         child: InkWell(
                           onTap: () {
                             context.read<TaskEntityServiceBloc>().add(
-                                  TaskEntityServiceSingleLoaded(
-                                    id: item.id!,
-                                  ),
+                                  TaskEntityServiceSingleLoaded(id: item.id!),
                                 );
 
                             Navigator.pushNamed(

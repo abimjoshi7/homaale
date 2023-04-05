@@ -66,21 +66,13 @@ class ServicesRepositories {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
           url: 'task/entity/service/',
-          query: {
-            'is_requested': false,
-            'page': page,
-            'ordering': orders,
-          },
+          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId},
         );
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
           url: 'task/entity/service/',
-          query: {
-            'is_requested': false,
-            'page': page,
-            'ordering': orders,
-          },
+          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId},
           token: CacheHelper.accessToken,
         );
         return res as Map<String, dynamic>;
