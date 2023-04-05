@@ -1,10 +1,7 @@
-import 'dart:async';
-
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
+import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -120,86 +117,30 @@ class _ResendVerificationPageState extends State<ResendVerificationPage> {
                   ),
                 ),
               ),
-              BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
-                listener: (context, state) async {
-                  final x = await CacheHelper.getCachedString(kErrorLog);
-                  if (state is ForgotPasswordWithEmailSuccess) {
-                    if (!mounted) return;
-                    await showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: 'Success',
-                        content: 'Verify your email',
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            SignInPage.routeName,
-                            (route) => false,
+              Center(
+                child: CustomElevatedButton(
+                  callback: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+
+                      context.read<OtpResetVerifyBloc>().add(
+                            OtpResendSignUpInitiated(
+                              phoneNumber: "+977${phoneController.text}",
+                            ),
                           );
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        OtpSignUp.routeName,
+                        (route) => false,
+                        arguments: {
+                          'phone': '+977${phoneController.text}',
+                          'password': '',
                         },
-                        isSuccess: true,
-                      ),
-                    );
-                  }
-                  if (state is ForgotPasswordWithPhoneSuccess) {
-                    if (!mounted) return;
-                    await showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: 'Success',
-                        content: 'OTP generated successfully',
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            ConfirmOtpPage.routeName,
-                            (route) => false,
-                            arguments: phoneController.text,
-                          );
-                        },
-                        isSuccess: true,
-                      ),
-                    );
-                  }
-                  if (state is ForgotPasswordFailure) {
-                    if (!mounted) return;
-                    await showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: 'Failure',
-                        content: x ?? '',
-                        onTap: () {},
-                        isSuccess: false,
-                      ),
-                    );
-                  }
-                },
-                builder: (context, state2) {
-                  return Center(
-                    child: CustomElevatedButton(
-                      callback: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          if (state.theStates == TheStates.initial) return;
-                          if (!state.isPhoneNumber) {
-                            context.read<ForgotPasswordBloc>().add(
-                                  ForgotPasswordEmailInitiated(
-                                    emailController.text,
-                                  ),
-                                );
-                          }
-                          if (state.isPhoneNumber) {
-                            context.read<ForgotPasswordBloc>().add(
-                                  ForgotPasswordPhoneInitiated(
-                                    "+977${phoneController.text}",
-                                  ),
-                                );
-                          }
-                        }
-                      },
-                      label: 'Continue',
-                    ),
-                  );
-                },
+                      );
+                    }
+                  },
+                  label: 'Continue',
+                ),
               ),
               kHeight50,
             ],

@@ -26,4 +26,7 @@ class OtpResetVerifyFailure extends OtpResetVerifyState {
   List<Object?> get props => [error];
 }
 
-
+class OtpResendSignUpSuccess extends OtpResetVerifyState {
+  @override
+  List<Object?> get props => [];
+}

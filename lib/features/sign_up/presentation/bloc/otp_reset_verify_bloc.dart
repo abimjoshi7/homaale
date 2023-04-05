@@ -34,5 +34,13 @@ class OtpResetVerifyBloc
         }
       },
     );
+    on<OtpResendSignUpInitiated>((event, emit) async {
+      try {
+        await repositories.resendOTPSignUp(
+          phoneNumber: event.phoneNumber,
+        );
+        // emit(OtpResendSignUpSuccess());
+      } catch (e) {}
+    });
   }
 }

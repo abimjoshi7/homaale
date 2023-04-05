@@ -74,7 +74,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
         return SignInScaffold(
           child: Column(
-            children: [
+            children: <Widget>[
               kHeight20,
               kHeight20,
               const Text('Forgot Password', style: kHeading1),
@@ -93,11 +93,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   child: SizedBox(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         displayText(),
                         kHeight10,
                         Row(
-                          children: [
+                          children: <Widget>[
                             Flexible(
                               child: Form(
                                 key: _formKey,

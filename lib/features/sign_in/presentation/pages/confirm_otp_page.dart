@@ -61,7 +61,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                 kHeight20,
                 Expanded(
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       _buildOTP(),
                       kHeight20,
                       Row(
