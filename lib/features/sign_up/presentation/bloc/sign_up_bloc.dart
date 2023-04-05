@@ -82,8 +82,7 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
           );
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
-          log("error test log:" + err.toString());
-          // final error = jsonDecode(err!).toString();
+
           emit(
             state.copyWith(
               theStates: TheStates.failure,

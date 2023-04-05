@@ -12,3 +12,4 @@ class OtpResetVerifyInitiated extends OtpResetVerifyEvent {
   @override
   List<Object?> get props => [initiateEvent];
 }
+

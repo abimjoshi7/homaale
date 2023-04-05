@@ -80,6 +80,11 @@ class AppRouter {
           builder: (context) => const OtpSignUp(),
           settings: settings,
         );
+      case ResendVerificationPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ResendVerificationPage(),
+          settings: settings,
+        );
       case TermsOfUsePage.routeName:
         return MaterialPageRoute(
           builder: (content) => const TermsOfUsePage(),

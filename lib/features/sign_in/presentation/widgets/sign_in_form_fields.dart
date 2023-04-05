@@ -4,6 +4,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/models/user_login_req.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
+import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -213,7 +215,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Row(
-                    children: [
+                    children: <Widget>[
                       CustomCheckBox(
                         isChecked: keepLogged,
                         onTap: () => setState(
@@ -306,6 +308,23 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 },
                 label: 'Login',
               ),
+              addVerticalSpace(8.0),
+              if (state.theStates == TheStates.initial)
+                CustomTextButton(
+                  text: (state.isPhoneNumber)
+                      ? "Didn't get OTP ?"
+                      : "Didn't get verification email?",
+                  voidCallback: () => Navigator.pushNamed(
+                    context,
+                    ResendVerificationPage.routeName,
+                  ),
+                  style: kText13.copyWith(
+                    color: kColorPrimaryAccent,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.1,
+                    wordSpacing: 0.1,
+                  ),
+                ),
             ],
           ),
         );

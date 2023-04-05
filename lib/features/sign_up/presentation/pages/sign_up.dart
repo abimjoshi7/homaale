@@ -243,7 +243,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           Column(
                             children: <Widget>[
                               Row(
-                                children: [
+                                children: <Widget>[
                                   const Flexible(
                                     child: CustomHorizontalDivider(),
                                   ),

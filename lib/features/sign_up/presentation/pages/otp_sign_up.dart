@@ -40,7 +40,7 @@ class _OtpSignUpState extends State<OtpSignUp> {
     final number = args!['phone']!.substring(1, args['phone']?.length);
     return SignInScaffold(
       child: Column(
-        children: [
+        children: <Widget>[
           kHeight20,
           kHeight20,
           const Text('Confirm OTP', style: kHeading1),
@@ -52,12 +52,12 @@ class _OtpSignUpState extends State<OtpSignUp> {
           kHeight20,
           Expanded(
             child: Column(
-              children: [
+              children: <Widget>[
                 _buildOTP(),
                 kHeight20,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Image.asset('assets/timer.png'),
                     kWidth10,
                     const CustomTimer(),

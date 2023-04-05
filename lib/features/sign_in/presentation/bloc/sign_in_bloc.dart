@@ -47,7 +47,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           await _signInRepository.initiateSignIn(event.userLoginReq).then(
             (value) {
               CacheHelper.isLoggedIn = true;
-
               emit(
                 state.copyWith(
                   userLoginRes: value,
@@ -118,3 +117,5 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     });
   }
 }
+
+

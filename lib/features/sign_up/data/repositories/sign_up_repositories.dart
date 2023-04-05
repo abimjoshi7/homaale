@@ -51,4 +51,20 @@ class SignUpRepositories {
       rethrow;
     }
   }
+
+  Future resendOTPSignUp({
+    required String phoneNumber,
+  }) async {
+    try {
+      final res = await _dio.postData(
+        data: {"phone": "$phoneNumber"},
+        url: 'user/resend/otp/activation/',
+      );
+      log("resend OTP test: " + res.toString());
+      return res;
+    } catch (e) {
+      log('Could not resend OTP: $e');
+      rethrow;
+    }
+  }
 }
