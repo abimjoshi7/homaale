@@ -30,7 +30,9 @@ class ServiceCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                    imagePath == null ? kServiceImageNImg : imagePath ?? kServiceImageNImg,
+                    imagePath == null
+                        ? kServiceImageNImg
+                        : imagePath ?? kServiceImageNImg,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -64,11 +66,13 @@ class ServiceCard extends StatelessWidget {
                       color: kColorAmber,
                       size: 13,
                     ),
-                    IconText(
-                      label: location ?? 'Remote',
-                      iconData: Icons.location_on_outlined,
-                      color: kColorPink,
-                      size: 13,
+                    Flexible(
+                      child: IconText(
+                        label: location ?? 'Remote',
+                        iconData: Icons.location_on_outlined,
+                        color: kColorPink,
+                        size: 13,
+                      ),
                     ),
                   ],
                 ),

@@ -24,6 +24,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
     super.initState();
     selectedIndex = 0;
     context.read<NestedCategoriesCubit>().getNestedCategory();
+    context.read<ServicesBloc>().add(
+          ProfessionalServicesLoaded(),
+        );
   }
 
   @override
@@ -31,7 +34,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          kHeight50,
+          addVerticalSpace(
+            50,
+          ),
           CustomHeader(
             leadingWidget: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -63,42 +68,49 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             color: selectedIndex == index
                                 ? Colors.white
                                 : Colors.transparent,
-                            child: CategoriesIcons(
-                              onTap: () async {
-                                setState(
-                                  () {
-                                    selectedIndex = index;
-                                    list =
-                                        state.nestedCategory[index].child ?? [];
-                                  },
-                                );
-                                if (state
-                                    .nestedCategory[index].child!.isEmpty) {
-                                  context.read<ServicesBloc>().add(
-                                        ServicesLoadInitiated(
-                                          categoryId:
-                                              state.nestedCategory[index].id ??
-                                                  0,
-                                        ),
-                                      );
-
-                                  await Navigator.pushNamed(
-                                    context,
-                                    ServicesPage.routeName,
-                                    arguments: state.nestedCategory[index],
+                            child: SizedBox(
+                              height: 80,
+                              child: CategoriesIcons(
+                                onTap: () async {
+                                  setState(
+                                    () {
+                                      selectedIndex = index;
+                                      list =
+                                          state.nestedCategory[index].child ??
+                                              [];
+                                    },
                                   );
-                                }
-                              },
-                              data: state.nestedCategory[index].name ?? '',
-                              color: randomColorGenerator(),
-                              child: SizedBox(
-                                height: 18,
-                                width: 18,
-                                child: SvgPicture.string(
-                                  state.nestedCategory[index].icon
-                                          ?.toString() ??
-                                      kErrorSvg,
-                                  color: Colors.white,
+                                  if (state
+                                      .nestedCategory[index].child!.isEmpty) {
+                                    context.read<ServicesBloc>().add(
+                                          ServicesLoadInitiated(
+                                            categoryId: state
+                                                    .nestedCategory[index].id ??
+                                                0,
+                                          ),
+                                        );
+
+                                    await Navigator.pushNamed(
+                                      context,
+                                      ServicesPage.routeName,
+                                      arguments: state.nestedCategory[index],
+                                    );
+                                  }
+                                },
+                                data: state.nestedCategory[index].name ?? '',
+                                color: randomColorGenerator(),
+                                child: SizedBox(
+                                  height: 18,
+                                  width: 18,
+                                  child: SvgPicture.string(
+                                    state.nestedCategory[index].icon
+                                            ?.toString() ??
+                                        kErrorSvg,
+                                    colorFilter: ColorFilter.mode(
+                                      Colors.white,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

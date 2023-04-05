@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_picker_dialog.dart';
+import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -178,20 +180,19 @@ class _DetailsViewState extends State<DetailsView> {
                 addVerticalSpace(5),
                 InkWell(
                   onTap: () async {
-                    await context
-                        .read<ImageUploadCubit>()
-                        .uploadImage()
-                        .whenComplete(
-                          () => eventCache.add(
-                            BookEventPicked(
-                              req: BookEntityServiceReq(
-                                images: imageList,
-                                endDate:
-                                    DateTime.parse(eventCache.state.endDate!),
-                              ),
-                            ),
+                    showDialog(
+                      context: context,
+                      builder: (context) => ImagePickerDialog(),
+                    ).whenComplete(
+                      () => eventCache.add(
+                        BookEventPicked(
+                          req: BookEntityServiceReq(
+                            images: imageList,
+                            endDate: DateTime.parse(eventCache.state.endDate!),
                           ),
-                        );
+                        ),
+                      ),
+                    );
                   },
                   child: BlocListener<ImageUploadCubit, ImageUploadState>(
                     listener: (context, state) async {
@@ -235,20 +236,19 @@ class _DetailsViewState extends State<DetailsView> {
                 addVerticalSpace(5),
                 InkWell(
                   onTap: () async {
-                    await context
-                        .read<ImageUploadCubit>()
-                        .uploadVideo()
-                        .whenComplete(
-                          () => eventCache.add(
-                            BookEventPicked(
-                              req: BookEntityServiceReq(
-                                videos: fileList,
-                                endDate:
-                                    DateTime.parse(eventCache.state.endDate!),
-                              ),
-                            ),
+                    showDialog(
+                      context: context,
+                      builder: (context) => VideoPickerDialog(),
+                    ).whenComplete(
+                      () => eventCache.add(
+                        BookEventPicked(
+                          req: BookEntityServiceReq(
+                            videos: fileList,
+                            endDate: DateTime.parse(eventCache.state.endDate!),
                           ),
-                        );
+                        ),
+                      ),
+                    );
                   },
                   child: BlocListener<ImageUploadCubit, ImageUploadState>(
                     listener: (context, state) async {

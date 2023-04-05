@@ -183,7 +183,8 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayIssuedDate() {
           if (state is KycLoadSuccess) {
             return CustomFormContainer(
-              hintText: state.list.first.issuedDate.toString().substring(0, 10),
+              hintText:
+                  "${state.list.first.issuedDate?.year}-${state.list.first.issuedDate?.weekday}-${state.list.first.issuedDate?.day}",
               leadingWidget: const Icon(
                 Icons.calendar_month_rounded,
                 color: kColorPrimary,
@@ -203,7 +204,7 @@ class _KycDetailsState extends State<KycDetails> {
           if (state is KycLoadSuccess) {
             return CustomFormContainer(
               hintText:
-                  state.list.first.validThrough.toString().substring(0, state.list.first.validThrough?.day),
+                  "${state.list.first.validThrough?.year}-${state.list.first.validThrough?.weekday}-${state.list.first.validThrough?.day}",
               leadingWidget: const Icon(
                 Icons.calendar_month_rounded,
                 color: kColorPrimary,
@@ -211,7 +212,9 @@ class _KycDetailsState extends State<KycDetails> {
             );
           }
           return CustomFormContainer(
-            hintText:expiryDate !=null ? expiryDate?.toString().substring(0, expiryDate?.day) ?? 'yyy':'yyy',
+            hintText: expiryDate != null
+                ? expiryDate?.toString().substring(0, 4) ?? 'yyyy'
+                : 'yyyy',
             leadingWidget: const Icon(
               Icons.calendar_month_rounded,
               color: kColorPrimary,
@@ -222,8 +225,8 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayDocuments() {
           if (state is KycLoadSuccess) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              width: double.infinity,
+              height: 100,
+              width: double.maxFinite,
               child: Image.network(
                 state.list.first.file ?? kDefaultAvatarNImg,
                 fit: BoxFit.cover,
@@ -329,7 +332,9 @@ class _KycDetailsState extends State<KycDetails> {
                 child: Form(
                   key: _key,
                   child: Padding(
-                    padding: kPadding20,
+                    padding: EdgeInsets.all(
+                      16,
+                    ),
                     child: Column(
                       children: [
                         CustomFormField(

@@ -22,6 +22,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   String? profilePicture;
   XFile? selectedImage;
   final _key = GlobalKey<FormState>();
+  bool isCamera = false;
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +74,53 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      await ImagePickHelper().pickImagePath().then(
-                        (value) {
-                          if (value != null) {
-                            setState(
-                              () {
-                                selectedImage = value;
-                              },
-                            );
-                          }
-                        },
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              WidgetText(
+                                  callback: () {
+                                    setState(
+                                      () {
+                                        isCamera = true;
+                                      },
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  widget: Icon(Icons.camera_alt_outlined),
+                                  label: "Camera"),
+                              WidgetText(
+                                  callback: () {
+                                    setState(
+                                      () {
+                                        isCamera = false;
+                                      },
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  widget: Icon(Icons.camera_alt_outlined),
+                                  label: "Gallery"),
+                            ],
+                          ),
+                        ),
+                      ).then(
+                        (value) async => await ImagePickHelper()
+                            .pickImagePath(
+                          isCamera: isCamera,
+                        )
+                            .then(
+                          (value) {
+                            if (value != null) {
+                              setState(
+                                () {
+                                  selectedImage = value;
+                                },
+                              );
+                            }
+                          },
+                        ),
                       );
                     },
                     child: Column(

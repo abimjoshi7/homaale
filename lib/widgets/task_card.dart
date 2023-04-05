@@ -14,10 +14,10 @@ class TaskCard extends StatelessWidget {
     this.location,
     this.startRate,
     this.endRate,
-    required this.callback,
+    this.callback,
     this.count,
     this.budgetType,
-     this.onTapCallback,
+    this.onTapCallback,
   });
 
   final String? imageUrl;
@@ -29,13 +29,17 @@ class TaskCard extends StatelessWidget {
   final String? startRate;
   final String? endRate;
   final String? count;
-  final VoidCallback callback;
+  final VoidCallback? callback;
   final VoidCallback? onTapCallback;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          15,
+        ),
+      ),
       child: Padding(
         padding: kPadding10,
         child: Column(
@@ -76,9 +80,7 @@ class TaskCard extends StatelessWidget {
                     ],
                   ),
                   InkWell(
-                    onTap: () {
-                      onTapCallback!();
-                    },
+                    onTap: onTapCallback,
                     child: const Icon(
                       Icons.favorite_border,
                       color: Color(0xffFE5050),
@@ -163,7 +165,7 @@ class TaskCard extends StatelessWidget {
             ),
             CustomElevatedButton(
               theWidth: double.infinity,
-              callback: callback,
+              callback: callback ?? () {},
               mainColor: kColorGreen,
               borderColor: kColorGreen,
               label: 'Apply Now',

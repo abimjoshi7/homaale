@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
-  static const routeName = '/categories';
+  static const routeName = '/categories-section';
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,11 @@ class CategoriesSection extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
-              height: 100,
+              height: 190,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   addVerticalSpace(8),
                   SectionHeading(
                     labelName: 'Categories',
@@ -40,13 +40,14 @@ class CategoriesSection extends StatelessWidget {
                   addVerticalSpace(8),
                   Expanded(
                     child: GridView.builder(
+                      shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.hero.result?.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 5,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: 1.5,
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
@@ -62,8 +63,13 @@ class CategoriesSection extends StatelessWidget {
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.hero.result?[index]?.category?.icon?.toString() ?? kErrorSvg,
-                              color: Colors.white,
+                              state.hero.result?[index]?.category?.icon
+                                      ?.toString() ??
+                                  kErrorSvg,
+                              colorFilter: ColorFilter.mode(
+                                Colors.white,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ),

@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/widgets.dart';
@@ -186,7 +185,9 @@ class _SearchPageState extends State<SearchPage> {
                       );
                     }
                     return const Center(
-                      child: CardLoading(height: 200,),
+                      child: CardLoading(
+                        height: 200,
+                      ),
                     );
                   },
                 ),

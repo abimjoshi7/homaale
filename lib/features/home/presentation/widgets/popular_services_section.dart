@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_is_empty
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -16,7 +16,7 @@ class PopularServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EntityServiceBloc, EntityServiceState>(
+    return BlocBuilder<ServicesBloc, ServicesState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           return Padding(
@@ -69,10 +69,14 @@ class PopularServicesSection extends StatelessWidget {
                           description:
                               "${state.service?.result?[index].createdBy?.firstName} ${state.service?.result?[index].createdBy?.lastName}",
                           title: state.service?.result?[index].title,
-                          imagePath: state.service?.result?[index].images?.length == 0
-                              ? kServiceImageNImg
-                              : state.service?.result?[index].images?.first.media,
-                          rating: state.service?.result?[index].rating?.first.rating.toString(),
+                          imagePath:
+                              state.service?.result?[index].images?.length == 0
+                                  ? kServiceImageNImg
+                                  : state.service?.result?[index].images?.first
+                                      .media,
+                          rating: state
+                              .service?.result?[index].rating?.first.rating
+                              .toString(),
                         ),
                       ),
                     ),

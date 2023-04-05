@@ -9,7 +9,7 @@ import 'package:cipher/features/categories/presentation/cubit/hero_category_cubi
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -117,14 +117,16 @@ class _RootState extends State<Root> {
                 })
             .then(
               (value) async => context
-                  .read<EntityServiceBloc>()
+                  .read<ServicesBloc>()
                   .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
-              (value) async => context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+              (value) async => context
+                  .read<NotificationBloc>()
+                  .add(MyNotificationListInitiated()),
             );
       },
     );
