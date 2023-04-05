@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_verify_event.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -162,51 +164,65 @@ class OrderInvoicePage extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
-          builder: (context, paymentTypeState) {
-        return BlocBuilder<PaymentBloc, PaymentIntentState>(
-          builder: (context, state) {
-            // return
-            //   // state.theState == TheStates.initial
-            //   //   ? CircularProgressIndicator()
-            //   //   :
-            return BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
-                builder: (context, orderState) {
-              return CustomElevatedButton(
-                  callback: () async {
-                    if (state.theState == TheStates.failure) {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => CustomToast(
-                          heading: 'Failure',
-                          content: "Please try again.",
-                          onTap: () {},
-                          isSuccess: false,
-                        ),
-                      );
-                    }
-                    context.read<PaymentBloc>().add(
-                          PaymentIntentInitiated(
-                            provider: paymentTypeState
-                                    .paymentType
-                                    ?.result![
-                                        paymentTypeState.currentIndex ?? 0]
-                                    .slug ??
-                                "khalti",
-                            uuid: orderState.orderIdCreate?.order ?? "",
-                            //'5d99da8f-be5b-409c-88b4-f4e4a04bcdd9',
+        builder: (context, paymentTypeState) {
+          return BlocBuilder<PaymentBloc, PaymentIntentState>(
+            builder: (context, state) {
+              // return
+              //   // state.theState == TheStates.initial
+              //   //   ? CircularProgressIndicator()
+              //   //   :
+              return BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
+                  builder: (context, orderState) {
+                return CustomElevatedButton(
+                    callback: () async {
+                      if (state.theState == TheStates.failure) {
+                        await showDialog(
+                          context: context,
+                          builder: (context) => CustomToast(
+                            heading: 'Failure',
+                            content: "Please try again.",
+                            onTap: () {},
+                            isSuccess: false,
                           ),
                         );
-                    final Uri url =
-                        Uri.parse(state.paymentIntent?.data?.paymentUrl ?? '');
-                    if (!await launchUrl(url)) {
-                      throw Exception('Could not launch $url');
-                    }
-                  },
-                  label: 'Confirm Payment');
-            });
-          },
-        );
-      }),
+                      }
+                      context.read<PaymentBloc>().add(
+                            PaymentIntentInitiated(
+                              provider: paymentTypeState
+                                      .paymentType
+                                      ?.result![
+                                          paymentTypeState.currentIndex ?? 0]
+                                      .slug ??
+                                  "khalti",
+                              uuid: orderState.orderIdCreate?.order ?? "",
+                            ),
+                          );
+                      final Uri url = Uri.parse(
+                          state.paymentIntent?.data?.paymentUrl ?? '');
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch $url');
+                      }
+
+                      if (state.theState == TheStates.success) {
+                        context.read<PaymentVerifyBloc>().add(
+                              PaymentVerifyInitiated(
+                                provider: paymentTypeState
+                                        .paymentType
+                                        ?.result![
+                                            paymentTypeState.currentIndex ?? 0]
+                                        .slug ??
+                                    "khalti",
+                                pidx: state.paymentIntent?.data?.pidx ?? "",
+                              ),
+                            );
+                      }
+                    },
+                    label: 'Confirm Payment');
+              });
+            },
+          );
+        },
+      ),
     );
   }
 }
