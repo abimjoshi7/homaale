@@ -21,29 +21,27 @@ class CustomHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        leadingWidget ??
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: kColorSilver,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: leadingWidget ??
+                Icon(
+                  Icons.arrow_back,
+                  color: kColorSilver,
+                ),
+          ),
+        ),
+        Center(
+          child: child ??
+              Text(
+                label ?? '',
+                style: kText15,
               ),
-            ),
-        child ??
-            Text(
-              label ?? '',
-              style: kText15,
-            ),
+        ),
         trailingWidget ?? SizedBox.shrink(),
-        // IconButton(
-        //   onPressed: () {},
-        //   icon: const Icon(
-        //     Icons.search,
-        //     color: kColorSilver,
-        //   ),
-        // ),
       ],
     );
   }

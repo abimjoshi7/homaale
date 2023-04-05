@@ -7,6 +7,7 @@ import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,17 @@ class _KycDetailsState extends State<KycDetails> {
       },
       builder: (context, state) {
         Widget displayName() {
+          if (state is KycLoadSuccess) {
+            return BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                return CustomTextFormField(
+                  readOnly: true,
+                  hintText:
+                      "${state.taskerProfile?.user?.firstName ?? ""} ${state.taskerProfile?.user?.middleName ?? ""} ${state.taskerProfile?.user?.lastName ?? ""}",
+                );
+              },
+            );
+          }
           return CustomTextFormField(
             onChanged: (p0) => setState(
               () {
@@ -113,11 +125,7 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayDocType() {
           if (state is KycLoadSuccess) {
             return CustomDropDownField(
-              onChanged: (value) => setState(
-                () {
-                  identityTypeController.text = value!;
-                },
-              ),
+              onChanged: null,
               list: val,
               hintText: state.list.first.documentType!,
             );
@@ -137,13 +145,8 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayDocId() {
           if (state is KycLoadSuccess) {
             return CustomTextFormField(
-              validator: validateNotEmpty,
+              readOnly: true,
               hintText: state.list.first.documentId!,
-              onSaved: (p0) => setState(
-                () {
-                  identityNumberController.text = p0!;
-                },
-              ),
             );
           }
           return CustomTextFormField(
@@ -160,13 +163,8 @@ class _KycDetailsState extends State<KycDetails> {
         Widget displayIssued() {
           if (state is KycLoadSuccess) {
             return CustomTextFormField(
-              validator: validateNotEmpty,
+              readOnly: true,
               hintText: state.list.first.issuerOrganization!,
-              onSaved: (p0) => setState(
-                () {
-                  issuedFromController.text = p0!;
-                },
-              ),
             );
           }
           return CustomTextFormField(
@@ -197,6 +195,22 @@ class _KycDetailsState extends State<KycDetails> {
               Icons.calendar_month_rounded,
               color: kColorPrimary,
             ),
+            callback: () async {
+              await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1950),
+                lastDate: DateTime(
+                  2080,
+                ),
+              ).then(
+                (value) => setState(
+                  () {
+                    issuedDate = value;
+                  },
+                ),
+              );
+            },
           );
         }
 
@@ -219,17 +233,37 @@ class _KycDetailsState extends State<KycDetails> {
               Icons.calendar_month_rounded,
               color: kColorPrimary,
             ),
+            callback: () async {
+              await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1950),
+                lastDate: DateTime(
+                  2080,
+                ),
+              ).then(
+                (value) => setState(
+                  () {
+                    expiryDate = value;
+                  },
+                ),
+              );
+            },
           );
         }
 
         Widget displayDocuments() {
           if (state is KycLoadSuccess) {
-            return SizedBox(
-              height: 100,
+            return Container(
+              height: 150,
               width: double.maxFinite,
-              child: Image.network(
-                state.list.first.file ?? kDefaultAvatarNImg,
-                fit: BoxFit.cover,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    state.list.first.file ?? kDefaultAvatarNImg,
+                  ),
+                ),
               ),
             );
           }
@@ -283,8 +317,6 @@ class _KycDetailsState extends State<KycDetails> {
                   ),
                 );
               }
-              // {status: success, id: 22, message: KYC created successfully.}
-              // {status: success, message: KYCDocument added successfully.}
             },
             label: 'Submit',
           );
@@ -297,18 +329,6 @@ class _KycDetailsState extends State<KycDetails> {
             children: [
               kHeight50,
               CustomHeader(
-                leadingWidget: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                ),
-                trailingWidget: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () async {},
-                ),
                 child: const Text(
                   'KYC Details',
                   style: TextStyle(
@@ -363,25 +383,7 @@ class _KycDetailsState extends State<KycDetails> {
                               child: CustomFormField(
                                 label: 'Issued Date',
                                 isRequired: true,
-                                child: InkWell(
-                                  onTap: () async {
-                                    await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1950),
-                                      lastDate: DateTime(
-                                        2080,
-                                      ),
-                                    ).then(
-                                      (value) => setState(
-                                        () {
-                                          issuedDate = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: displayIssuedDate(),
-                                ),
+                                child: displayIssuedDate(),
                               ),
                             ),
                             kWidth20,
@@ -389,25 +391,7 @@ class _KycDetailsState extends State<KycDetails> {
                               child: CustomFormField(
                                 label: 'Expiry Date',
                                 isRequired: true,
-                                child: InkWell(
-                                  onTap: () async {
-                                    await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1950),
-                                      lastDate: DateTime(
-                                        2080,
-                                      ),
-                                    ).then(
-                                      (value) => setState(
-                                        () {
-                                          expiryDate = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: displayExpiryDate(),
-                                ),
+                                child: displayExpiryDate(),
                               ),
                             ),
                           ],
@@ -458,10 +442,6 @@ class _KycDetailsState extends State<KycDetails> {
                 child: displayButton(),
               ),
               kHeight50,
-
-              // const GeneralInformationSection(),
-              // const CompanyContactSection(),
-              // const PanVatInformationSection(),
             ],
           ),
         );
