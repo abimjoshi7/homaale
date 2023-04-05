@@ -24,7 +24,8 @@ class ServicesRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchServiceCategoryList([int? categoryId]) async {
+  Future<List<Map<String, dynamic>>> fetchServiceCategoryList(
+      [int? categoryId]) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
@@ -67,13 +68,23 @@ class ServicesRepositories {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
           url: 'task/entity/service/',
-          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId, 'city': city},
+          query: {
+            'is_requested': false,
+            'page': page,
+            'ordering': orders,
+            'service': serviceId,
+          },
         );
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
           url: 'task/entity/service/',
-          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId, 'city': city},
+          query: {
+            'is_requested': false,
+            'page': page,
+            'ordering': orders,
+            'service': serviceId,
+          },
           token: CacheHelper.accessToken,
         );
         return res as Map<String, dynamic>;
@@ -86,42 +97,18 @@ class ServicesRepositories {
     }
   }
 
-  // Future<Map<String, dynamic>> createTaskEntityService(
-  //   AddServiceReq addServiceReq,
-  // ) async {
-  //   try {
-  //     final res = await _dio.postDataWithCredential(
-  //       data: addServiceReq.toJson(),
-  //       url: 'task/entity/service/',
-  //       token: CacheHelper.accessToken,
-  //     );
-  //     return res as Map<String, dynamic>;
-  //   } catch (e) {
-  //     log(
-  //       e.toString(),
-  //     );
-  //     rethrow;
-  //   }
-  // }
-
   Future<Map<String, dynamic>> fetchProfessionalService({
-    int? pageNumber = 1,
-    int? pageSize = 10,
+    int? pageNumber,
   }) async {
     try {
-      final res = await _dio.getDatawithCredential(
+      final res = await _dio.getData(
         query: {
-          'page': pageNumber,
-          'page_size': pageSize,
+          'page': pageNumber ?? 1,
         },
         url: 'task/professional-service/',
-        token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
     } catch (e) {
-      log(
-        e.toString(),
-      );
       rethrow;
     }
   }

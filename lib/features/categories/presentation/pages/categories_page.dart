@@ -24,6 +24,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
     super.initState();
     selectedIndex = 0;
     context.read<NestedCategoriesCubit>().getNestedCategory();
+    context.read<ServicesBloc>().add(
+          ProfessionalServicesLoaded(),
+        );
   }
 
   @override
@@ -31,7 +34,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          kHeight50,
+          addVerticalSpace(
+            50,
+          ),
           CustomHeader(
             leadingWidget: IconButton(
               icon: const Icon(Icons.arrow_back),

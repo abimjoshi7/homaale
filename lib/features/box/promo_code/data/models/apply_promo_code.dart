@@ -1,6 +1,4 @@
-
-
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:dependencies/dependencies.dart';
 
 part 'apply_promo_code.freezed.dart';
 part 'apply_promo_code.g.dart';
@@ -12,5 +10,6 @@ class ApplyPromoCode with _$ApplyPromoCode {
     String? message,
   }) = _ApplyOffer;
 
-  factory ApplyPromoCode.fromJson(Map<String, dynamic> json) => _$ApplyPromoCodeFromJson(json);
+  factory ApplyPromoCode.fromJson(Map<String, dynamic> json) =>
+      _$ApplyPromoCodeFromJson(json);
 }

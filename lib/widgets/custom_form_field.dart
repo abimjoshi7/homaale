@@ -47,10 +47,7 @@ class CustomFormField extends StatelessWidget {
             rightSection ?? SizedBox.shrink(),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: child ?? const SizedBox.shrink(),
-        ),
+        child ?? const SizedBox.shrink(),
       ],
     );
   }

@@ -26,11 +26,15 @@ class IconText extends StatelessWidget {
           color: color,
           size: size,
         ),
-        kWidth10,
-        AutoSizeText(
-          label,
-          maxFontSize: 12,
-          overflow: TextOverflow.ellipsis,
+        addHorizontalSpace(
+          5,
+        ),
+        Flexible(
+          child: AutoSizeText(
+            label,
+            maxFontSize: 12,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

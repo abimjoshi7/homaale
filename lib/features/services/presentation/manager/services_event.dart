@@ -24,10 +24,37 @@ class MyCreatedServiceTaskLoadInitiated extends ServicesEvent {
       ];
 }
 
-class ServicesAddInitiated extends ServicesEvent {
-  final AddServiceReq addServiceReq;
+class EntityServiceInitiated extends ServicesEvent {
+  final int? page;
+  final List<String>? order;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
+  final String? serviceId;
 
-  const ServicesAddInitiated(this.addServiceReq);
+  const EntityServiceInitiated({
+    this.page,
+    this.order,
+    this.isDateSort,
+    this.isBudgetSort,
+    this.serviceId,
+  });
   @override
-  List<Object?> get props => [addServiceReq];
+  List<Object?> get props => [
+        page,
+        order,
+        isDateSort,
+        isBudgetSort,
+        serviceId,
+      ];
+}
+
+class ProfessionalServicesLoaded extends ServicesEvent {
+  final int? pageNumber;
+  ProfessionalServicesLoaded({
+    this.pageNumber,
+  });
+  @override
+  List<Object?> get props => [
+        pageNumber,
+      ];
 }

@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/constants.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -32,16 +31,20 @@ class CategoriesIcons extends StatelessWidget {
               child: Center(child: child),
             ),
           ),
-          kHeight5,
           Flexible(
-            child: AutoSizeText(
-              data,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
+            child: Padding(
+              padding: const EdgeInsets.all(
+                5,
               ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
+              child: AutoSizeText(
+                data,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],

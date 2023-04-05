@@ -21,8 +21,6 @@ import 'package:cipher/features/notification/presentation/bloc/notification_bloc
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/professional_service_category_bloc/professional_service_category_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -167,9 +165,6 @@ class Cipher extends StatelessWidget {
             create: (context) => NestedCategoriesCubit(),
           ),
           BlocProvider(
-            create: (context) => ServicesBloc(),
-          ),
-          BlocProvider(
             create: (context) => locator<TaskEntityServiceBloc>(),
           ),
           BlocProvider(
@@ -179,13 +174,10 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<TaskBloc>(),
           ),
           BlocProvider(
-            create: (context) => locator<EntityServiceBloc>(),
+            create: (context) => locator<ServicesBloc>(),
           ),
           BlocProvider(
             create: (context) => locator<BookingsBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => ProfessionalServiceCategoryBloc(),
           ),
           BlocProvider(
             create: (context) => TaxCalculatorCubit(),
