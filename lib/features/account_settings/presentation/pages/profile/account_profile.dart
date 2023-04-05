@@ -8,6 +8,7 @@ import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,10 @@ class AccountProfile extends StatelessWidget {
           CustomHeader(
             leadingWidget: addHorizontalSpace(45),
             trailingWidget: IconButton(
-              icon: const Icon(Icons.search,size: 0,),
+              icon: const Icon(
+                Icons.search,
+                size: 0,
+              ),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -46,9 +50,11 @@ class AccountProfile extends StatelessWidget {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              if(state.theStates==TheStates.initial)
+              if (state.theStates == TheStates.initial)
                 const Center(
-                  child: CardLoading(height: 200,),
+                  child: CardLoading(
+                    height: 200,
+                  ),
                 );
               if (state.theStates == TheStates.success) {
                 return Expanded(
@@ -107,21 +113,29 @@ class AccountProfile extends StatelessWidget {
                           )
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ProfileStatsCard(
-                            imagePath: 'assets/reward.png',
-                            label: 'Reward Points',
-                            value:
-                                state.taskerProfile?.points.toString() ?? '0',
-                          ),
-                          const ProfileStatsCard(
-                            imagePath: 'assets/wallet.png',
-                            label: 'Account Balance',
-                            value: 'Rs. 1,00,000.00',
-                          ),
-                        ],
+                      BlocProvider(
+                        create: (context) => WalletBloc(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ProfileStatsCard(
+                              imagePath: 'assets/reward.png',
+                              label: 'Reward Points',
+                              value:
+                                  state.taskerProfile?.points.toString() ?? '0',
+                            ),
+                            BlocBuilder<WalletBloc, WalletState>(
+                              builder: (context, walletState) {
+                                return ProfileStatsCard(
+                                  imagePath: 'assets/wallet.png',
+                                  label: 'Account Balance',
+                                  value:
+                                      "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       kHeight20,
                       Padding(
@@ -326,8 +340,10 @@ class AccountProfile extends StatelessWidget {
                   ),
                 );
               }
-              return const  Center(
-                child: CardLoading(height: 200,),
+              return const Center(
+                child: CardLoading(
+                  height: 200,
+                ),
               );
             },
           ),

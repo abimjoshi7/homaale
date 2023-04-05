@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -19,20 +20,28 @@ class ProfileRewardBalanceSection extends StatelessWidget {
         if (state.theStates == TheStates.success) {
           return Visibility(
             visible: user == 'self',
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ProfileStatsCard(
-                  imagePath: 'assets/reward.png',
-                  label: 'Reward Points',
-                  value: state.taskerProfile?.points.toString() ?? '',
-                ),
-                const ProfileStatsCard(
-                  imagePath: 'assets/wallet.png',
-                  label: 'Account Balance',
-                  value: 'Rs. 1,00,000.00',
-                ),
-              ],
+            child: BlocProvider(
+              create: (context) => WalletBloc(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ProfileStatsCard(
+                    imagePath: 'assets/reward.png',
+                    label: 'Reward Points',
+                    value: state.taskerProfile?.points.toString() ?? '',
+                  ),
+                  BlocBuilder<WalletBloc, WalletState>(
+                    builder: (context, walletState) {
+                      return ProfileStatsCard(
+                        imagePath: 'assets/wallet.png',
+                        label: 'Account Balance',
+                        value:
+                            "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         }

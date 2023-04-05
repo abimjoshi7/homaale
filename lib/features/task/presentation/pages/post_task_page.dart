@@ -120,9 +120,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 if (state.theStates == TheStates.success) {
                                   return CustomDropDownField(
                                     list: List.generate(
-                                      state.serviceList!.length,
+                                      state.serviceList?.length ?? 0,
                                       (index) =>
-                                          state.serviceList![index].title,
+                                          state.serviceList?[index].title,
                                     ),
                                     hintText: 'Trimming & Cutting',
                                     onChanged: (value) {
@@ -477,7 +477,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           ),
 
                           CustomFormField(
-                            label: 'Budget',
+                            label: 'Budget(Mininum Rs.10)',
                             isRequired: true,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
