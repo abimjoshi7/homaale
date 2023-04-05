@@ -64,7 +64,11 @@ class _OtpSignUpState extends State<OtpSignUp> {
                     kWidth20,
                     CustomTextButton(
                       text: 'Resend',
-                      voidCallback: () {},
+                      voidCallback: () {
+                        context.read<OtpResetVerifyBloc>().add(
+                            OtpResendSignUpInitiated(
+                                phoneNumber: args['phone'].toString()));
+                      },
                     ),
                   ],
                 ),
