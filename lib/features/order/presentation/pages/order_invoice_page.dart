@@ -1,10 +1,10 @@
+import 'dart:math';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_event.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
 import '../../../box/presentation/bloc/order_id_create_bloc.dart';
 import '../../../box/presentation/bloc/order_id_create_state.dart';
 import '../../../box/presentation/bloc/order_retrive_bloc.dart';
@@ -13,12 +13,17 @@ import '../../../checkout/presentation/pages/checkout_page.dart';
 import '../../../payment/presentation/bloc/payment_bloc.dart';
 import '../../../payment/presentation/bloc/payment_type_bloc.dart';
 import '../../../payment/presentation/bloc/payment_type_list_state.dart';
-import 'dart:math';
+import '../../../payment/presentation/pages/payment_ongoing_page.dart';
 
-class OrderInvoicePage extends StatelessWidget {
+class OrderInvoicePage extends StatefulWidget {
   static const routeName = '/order-invoice-page';
   const OrderInvoicePage({super.key});
 
+  @override
+  State<OrderInvoicePage> createState() => _OrderInvoicePageState();
+}
+
+class _OrderInvoicePageState extends State<OrderInvoicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,10 +172,6 @@ class OrderInvoicePage extends StatelessWidget {
         builder: (context, paymentTypeState) {
           return BlocBuilder<PaymentBloc, PaymentIntentState>(
             builder: (context, state) {
-              // return
-              //   // state.theState == TheStates.initial
-              //   //   ? CircularProgressIndicator()
-              //   //   :
               return BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
                   builder: (context, orderState) {
                 return CustomElevatedButton(
@@ -191,31 +192,30 @@ class OrderInvoicePage extends StatelessWidget {
                               provider: paymentTypeState
                                       .paymentType
                                       ?.result![
-                                          paymentTypeState.currentIndex ?? 0]
+                                          paymentTypeState.currentIndex!]
                                       .slug ??
-                                  "khalti",
+                                  "",
                               uuid: orderState.orderIdCreate?.order ?? "",
                             ),
                           );
-                      final Uri url = Uri.parse(
-                          state.paymentIntent?.data?.paymentUrl ?? '');
-                      if (!await launchUrl(url)) {
-                        throw Exception('Could not launch $url');
-                      }
-
-                      if (state.theState == TheStates.success) {
-                        context.read<PaymentVerifyBloc>().add(
-                              PaymentVerifyInitiated(
-                                provider: paymentTypeState
-                                        .paymentType
-                                        ?.result![
-                                            paymentTypeState.currentIndex ?? 0]
-                                        .slug ??
-                                    "khalti",
-                                pidx: state.paymentIntent?.data?.pidx ?? "",
-                              ),
-                            );
-                      }
+print('stripe: ${paymentTypeState
+    .paymentType
+    ?.result![
+paymentTypeState.currentIndex!]
+    .slug}');
+                      context.read<PaymentVerifyBloc>().add(
+                            PaymentVerifyInitiated(
+                              provider: paymentTypeState
+                                      .paymentType
+                                      ?.result![
+                                          paymentTypeState.currentIndex! ]
+                                      .slug ??
+                                  "",
+                              pidx: state.paymentIntent?.data?.pidx ?? "",
+                            ),
+                          );
+                      await Navigator.pushNamed(
+                          context, PaymentOnGoingPage.routeName);
                     },
                     label: 'Confirm Payment');
               });

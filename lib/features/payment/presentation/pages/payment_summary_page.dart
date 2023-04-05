@@ -21,8 +21,6 @@ class PaymentSummaryPage extends StatefulWidget {
 }
 
 class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
-  final paymentTypeBloc = locator<PaymentTypeBloc>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,8 +81,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                             subtitle: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                    '.........................................................................................................................'),
+                                Divider(),
                                 Flexible(
                                   fit: FlexFit.loose,
                                   child: ListView.builder(
@@ -159,30 +156,32 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20)),
                       child: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
-                        bloc: paymentTypeBloc,
                         builder: (context, state) {
-                          print(
-                              'currentIndex : ${paymentTypeBloc.state.currentIndex}');
-                          return ListTile(
-                            leading: Image.network(
-                              state
-                                      .paymentType
-                                      ?.result![
-                                          paymentTypeBloc.state.currentIndex ??
-                                              0]
-                                      .logo ??
-                                  "",
-                              height: 20,
-                              width: 20,
-                              scale: 1,
-                            ),
-                            title: Text(paymentTypeBloc
-                                    .state
-                                    .paymentType
-                                    ?.result![
-                                        paymentTypeBloc.state.currentIndex ?? 0]
-                                    .name ??
-                                ""),
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.network(
+                                state
+                                        .paymentType
+                                        ?.result![state.currentIndex ?? 0]
+                                        .logo ??
+                                    "",
+                                height: 100,
+                                width: 120,
+                                scale: 1,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 18.0),
+                                child: Text(
+                                  state
+                                          .paymentType
+                                          ?.result![state.currentIndex ?? 0]
+                                          .name ??
+                                      "",
+                                  style: kPurpleText19,
+                                ),
+                              ),
+                            ],
                           );
                         },
                       ),

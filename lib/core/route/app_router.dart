@@ -42,9 +42,9 @@ import 'package:cipher/features/task/presentation/pages/posted_task_view_page.da
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
-
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
+import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
 
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {
@@ -263,6 +263,11 @@ class AppRouter {
       case OrderInvoicePage.routeName:
         return MaterialPageRoute(
           builder: (context) => const OrderInvoicePage(),
+          settings: settings,
+        );
+      case PaymentOnGoingPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentOnGoingPage(),
           settings: settings,
         );
       case InvoicePage.routeName:

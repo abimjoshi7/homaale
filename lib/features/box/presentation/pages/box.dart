@@ -52,7 +52,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
       for (var items in selectedItems) {
         sum = sum +
             double.parse(state
-                    .orderItemList?.result?[items].entityService?.budgetTo
+                    .orderItemList?.result?[items].charge
                     .toString() ??
                 "0.0");
       }

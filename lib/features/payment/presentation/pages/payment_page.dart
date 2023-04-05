@@ -19,10 +19,7 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  late final paymentTypeBloc = locator<PaymentTypeBloc>();
-  final SizedBox commonSize = const SizedBox(
-    height: 20,
-  );
+  final SizedBox commonSize = const SizedBox(height: 20);
 
   int currentIndex = 0;
 
@@ -133,9 +130,8 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 CustomElevatedButton(
                   callback: () {
-                    paymentTypeBloc.add(
-                      PaymentTypeCurrentIndex(currentIndex: currentIndex),
-                    );
+                    context.read<PaymentTypeBloc>().add(
+                        PaymentTypeCurrentIndex(currentIndex: currentIndex));
                     Navigator.pushNamed(
                       context,
                       PaymentSummaryPage.routeName,
