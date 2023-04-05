@@ -32,12 +32,18 @@ class AllTaskLoadInitiated extends TaskEvent {
   final List<String>? order;
   final bool? isDateSort;
   final bool? isBudgetSort;
+  final String? serviceId;
+  final String? city;
+  final bool? isFilter;
 
   const AllTaskLoadInitiated({
     this.page,
     this.order,
     this.isDateSort,
     this.isBudgetSort,
+    this.serviceId,
+    this.city,
+    this.isFilter,
   });
   @override
   List<Object?> get props => [
@@ -45,6 +51,9 @@ class AllTaskLoadInitiated extends TaskEvent {
         order,
         isDateSort,
         isBudgetSort,
+        serviceId,
+        city,
+        isFilter,
       ];
 }
 
@@ -113,6 +122,12 @@ class ResetRejectFailureStatus extends TaskEvent {
   List<Object?> get props => [];
 }
 
+class ResetFilterSort extends TaskEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class ResetApproveSuccessStatus extends TaskEvent {
   const ResetApproveSuccessStatus();
 
@@ -130,5 +145,11 @@ class ResetApproveFailureStatus extends TaskEvent {
 class TaskBookInitiated extends TaskEvent {
   const TaskBookInitiated();
   @override
+  List<Object?> get props => [];
+}
+
+class FetchServicesList extends TaskEvent {
+  @override
+  // TODO: implement props
   List<Object?> get props => [];
 }

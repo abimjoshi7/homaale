@@ -33,6 +33,12 @@ class FetchServicesList extends EntityServiceEvent {
   List<Object?> get props => [];
 }
 
+class ResetFilterSort extends EntityServiceEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
 class SingleEntityServiceInitiated extends EntityServiceEvent {
   final String id;
 

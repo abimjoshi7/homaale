@@ -33,7 +33,12 @@ class EntityServiceBloc extends Bloc<EntityServiceEvent, EntityServiceState> {
               );
         } catch (e) {
           log("Service load error: $e");
-          emit(state.copyWith(theStates: TheStates.failure));
+          emit(state.copyWith(
+            theStates: TheStates.failure,
+            isFilter: false,
+            isBudgetSort: false,
+            isDateSort: false,
+          ));
         }
       },
     );
@@ -54,6 +59,17 @@ class EntityServiceBloc extends Bloc<EntityServiceEvent, EntityServiceState> {
           log("Service List load error: $e");
           emit(state.copyWith(servicesLoaded: false));
         }
+      },
+    );
+
+    on<ResetFilterSort>(
+      (event, emit) async {
+        emit(state.copyWith(
+          servicesLoaded: false,
+          isFilter: false,
+          isBudgetSort: false,
+          isDateSort: false,
+        ));
       },
     );
   }

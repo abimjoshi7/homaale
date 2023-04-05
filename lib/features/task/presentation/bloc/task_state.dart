@@ -18,6 +18,9 @@ class TaskState extends Equatable {
   final bool? rejectFail;
   final bool? isDateSort;
   final bool? isBudgetSort;
+  final bool? isFilter;
+  final List<ServiceList>? serviceList;
+  final bool? servicesLoaded;
 
   const TaskState({
     this.theState = TheStates.initial,
@@ -29,6 +32,9 @@ class TaskState extends Equatable {
     this.selfCreatedTaskServiceModel,
     this.taskApplyCountModel,
     this.applicantModel,
+    this.serviceList,
+    this.isFilter = false,
+    this.servicesLoaded = false,
     this.applyTaskFail = false,
     this.applyTaskSuccess = false,
     this.approveSuccess = false,
@@ -59,6 +65,9 @@ class TaskState extends Equatable {
       rejectFail,
       isDateSort,
       isBudgetSort,
+      serviceList,
+      servicesLoaded,
+      isFilter,
     ];
   }
 
@@ -72,6 +81,7 @@ class TaskState extends Equatable {
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
     TaskApplyCountModel? taskApplyCountModel,
     ApplicantModel? applicantModel,
+    List<ServiceList>? serviceList,
     bool? applyTaskFail,
     bool? applyTaskSuccess,
     bool? approveSuccess,
@@ -80,6 +90,8 @@ class TaskState extends Equatable {
     bool? rejectFail,
     bool? isDateSort,
     bool? isBudgetSort,
+    bool? isFilter,
+    bool? servicesLoaded,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
@@ -99,6 +111,9 @@ class TaskState extends Equatable {
       rejectFail: rejectFail ?? this.rejectFail,
       isDateSort: isDateSort ?? this.isDateSort,
       isBudgetSort: isBudgetSort ?? this.isBudgetSort,
+      serviceList: serviceList ?? this.serviceList,
+      isFilter: isFilter ?? this.isFilter,
+      servicesLoaded: servicesLoaded ?? this.servicesLoaded,
     );
   }
 }

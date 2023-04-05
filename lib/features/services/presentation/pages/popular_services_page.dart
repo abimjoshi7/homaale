@@ -89,9 +89,13 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       order: order,
       serviceId: selectedCategoryId,
       city: selectedLocation,
-      isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
-      isDateSort: entityServiceBloc.state.isDateSort,
-      isBudgetSort: entityServiceBloc.state.isBudgetSort,
+      isFilter: selectedCategoryId != null
+          ? true
+          : selectedLocation != null
+              ? true
+              : false,
+      isDateSort: entityServiceBloc.state.isDateSort ?? false,
+      isBudgetSort: entityServiceBloc.state.isBudgetSort ?? false,
     ));
   }
 
@@ -111,9 +115,13 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       order: order,
       serviceId: selectedCategoryId,
       city: selectedLocation,
-      isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
-      isDateSort: entityServiceBloc.state.isDateSort,
-      isBudgetSort: entityServiceBloc.state.isBudgetSort,
+      isFilter: selectedCategoryId != null
+          ? true
+          : selectedLocation != null
+              ? true
+              : false,
+      isDateSort: entityServiceBloc.state.isDateSort ?? false,
+      isBudgetSort: entityServiceBloc.state.isBudgetSort ?? false,
     ));
   }
 
@@ -149,7 +157,11 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
         order: order,
         city: selectedLocation,
         serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
+        isFilter: selectedCategoryId != null
+            ? true
+            : selectedLocation != null
+                ? true
+                : false,
         isDateSort: sortType == SortType.date,
         isBudgetSort: sortType == SortType.budget));
   }
@@ -188,7 +200,11 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
         order: order,
         city: selectedLocation,
         serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
+        isFilter: selectedCategoryId != null
+            ? true
+            : selectedLocation != null
+                ? true
+                : false,
         isDateSort: sortType == SortType.date,
         isBudgetSort: sortType == SortType.budget));
   }
@@ -199,8 +215,9 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       body: BlocListener<EntityServiceBloc, EntityServiceState>(
         bloc: entityServiceBloc,
         listener: (context, state) {
-          if ((state.isDateSort ?? false) || (state.isBudgetSort ?? false) || (state.isFilter ?? false)) {
+          if ((state.isFilter ?? false) || (state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
             _pagingController.refresh();
+            entityServiceBloc.add(ResetFilterSort());
           }
 
           if (state.servicesLoaded ?? false) {

@@ -7,6 +7,8 @@ import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
+import 'package:cipher/features/services/data/models/services_list.dart';
+import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/apply_task_req.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
@@ -24,6 +26,7 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final repo = TaskRepositories();
   final bookingRepo = BookingRepositories();
+  final serviceRepo = ServicesRepositories();
 
   TaskBloc() : super(const TaskState()) {
     on<TaskAddInitiated>(
@@ -88,7 +91,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             state.copyWith(theState: TheStates.initial),
           );
-          await repo.fetchAllTaskList(page: event.page ?? 1, order: event.order).then(
+          await repo
+              .fetchAllTaskList(page: event.page ?? 1, order: event.order, serviceId: event.serviceId, city: event.city)
+              .then(
             (value) {
               final allTaskList = es.EntityServiceModel.fromJson(value);
 
@@ -96,6 +101,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 state.copyWith(
                   theState: TheStates.success,
                   tasksList: allTaskList,
+                  isFilter: event.isFilter,
                   isBudgetSort: event.isBudgetSort,
                   isDateSort: event.isDateSort,
                 ),
@@ -105,7 +111,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         } catch (e) {
           log("All Task List Fetch Parse error: $e");
           emit(
-            state.copyWith(theState: TheStates.failure),
+            state.copyWith(
+              theState: TheStates.failure,
+              isFilter: false,
+              isBudgetSort: false,
+              isDateSort: false,
+            ),
           );
         }
       },
@@ -263,6 +274,36 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(state.copyWith(
           theState: TheStates.success,
           approveFail: false,
+        ));
+      },
+    );
+
+    on<FetchServicesList>(
+      (event, emit) async {
+        try {
+          await serviceRepo.fetchServiceCategoryList().then(
+                (value) => emit(
+                  state.copyWith(
+                    servicesLoaded: true,
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort((a, b) => a.title!.compareTo(b.title!)),
+                  ),
+                ),
+              );
+        } catch (e) {
+          log("Service List load error: $e");
+          emit(state.copyWith(servicesLoaded: false));
+        }
+      },
+    );
+
+    on<ResetFilterSort>(
+      (event, emit) async {
+        emit(state.copyWith(
+          servicesLoaded: false,
+          isFilter: false,
+          isBudgetSort: false,
+          isDateSort: false,
         ));
       },
     );

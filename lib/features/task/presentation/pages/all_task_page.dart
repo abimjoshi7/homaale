@@ -2,9 +2,11 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -23,15 +25,20 @@ class AllTaskPage extends StatefulWidget {
 class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
   List<EntityService> taskList = [];
+  List<String>? items = [];
 
   bool dateSelected = true;
   bool budgetSelected = false;
+  bool categorySelected = false;
+  bool locationSelected = false;
 
   bool sortDateIsAscending = true;
   bool sortBudgetIsAscending = true;
 
   SortType sortType = SortType.date;
   List<String>? order = ['-created_at'];
+  String? selectedCategoryId;
+  String? selectedLocation;
 
   //initialize page controller
   final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
@@ -39,6 +46,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   @override
   void initState() {
     super.initState();
+    taskBloc.add(FetchServicesList());
 
     //so at event add list of records
     _pagingController.addPageRequestListener(
@@ -46,6 +54,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
         AllTaskLoadInitiated(
           page: pageKey,
           order: order,
+          city: selectedLocation,
+          serviceId: selectedCategoryId,
           isBudgetSort: false,
           isDateSort: false,
         ),
@@ -58,6 +68,63 @@ class _AllTaskPageState extends State<AllTaskPage> {
     super.dispose();
     taskBloc.close();
     _pagingController.dispose();
+  }
+
+  void onFilterCategory({String? category}) {
+    if (category != null) {
+      for (ServiceList element in taskBloc.state.serviceList ?? []) {
+        if (element.title == category) {
+          setState(() {
+            selectedCategoryId = element.id.toString();
+          });
+          break;
+        }
+      }
+    } else {
+      setState(() {
+        selectedCategoryId = null;
+      });
+    }
+
+    taskBloc.add(AllTaskLoadInitiated(
+      page: 1,
+      order: order,
+      serviceId: selectedCategoryId,
+      city: selectedLocation,
+      isFilter: selectedCategoryId != null
+          ? true
+          : selectedLocation != null
+              ? true
+              : false,
+      isDateSort: taskBloc.state.isDateSort,
+      isBudgetSort: taskBloc.state.isBudgetSort,
+    ));
+  }
+
+  void onFilterLocation({String? location}) {
+    if (location != null) {
+      setState(() {
+        selectedLocation = location;
+      });
+    } else {
+      setState(() {
+        selectedLocation = null;
+      });
+    }
+
+    taskBloc.add(AllTaskLoadInitiated(
+      page: 1,
+      order: order,
+      serviceId: selectedCategoryId,
+      city: selectedLocation,
+      isFilter: selectedCategoryId != null
+          ? true
+          : selectedLocation != null
+              ? true
+              : false,
+      isDateSort: taskBloc.state.isDateSort,
+      isBudgetSort: taskBloc.state.isBudgetSort,
+    ));
   }
 
   void onBudgetDateClear({required SortType sortType}) {
@@ -88,7 +155,17 @@ class _AllTaskPageState extends State<AllTaskPage> {
     }
 
     taskBloc.add(AllTaskLoadInitiated(
-        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
+        page: 1,
+        order: order,
+        city: selectedLocation,
+        serviceId: selectedCategoryId,
+        isFilter: selectedCategoryId != null
+            ? true
+            : selectedLocation != null
+                ? true
+                : false,
+        isDateSort: sortType == SortType.date,
+        isBudgetSort: sortType == SortType.budget));
   }
 
   void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
@@ -121,7 +198,17 @@ class _AllTaskPageState extends State<AllTaskPage> {
     }
 
     taskBloc.add(AllTaskLoadInitiated(
-        page: 1, order: order, isDateSort: sortType == SortType.date, isBudgetSort: sortType == SortType.budget));
+        page: 1,
+        order: order,
+        city: selectedLocation,
+        serviceId: selectedCategoryId,
+        isFilter: selectedCategoryId != null
+            ? true
+            : selectedLocation != null
+                ? true
+                : false,
+        isDateSort: sortType == SortType.date,
+        isBudgetSort: sortType == SortType.budget));
   }
 
   void onTaskPressed({
@@ -145,9 +232,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
     if (!isApply) {
       Navigator.pushNamed(context, SingleTaskPage.routeName);
     }
-    // isApply
-    //     ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
-    //     : Navigator.pushNamed(context, SingleTaskPage.routeName);
   }
 
   @override
@@ -156,9 +240,21 @@ class _AllTaskPageState extends State<AllTaskPage> {
       body: BlocListener<TaskBloc, TaskState>(
         bloc: taskBloc,
         listener: (context, state) {
-          if ((state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
+          if ((state.isFilter ?? false) || (state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
             _pagingController.refresh();
+            taskBloc.add(ResetFilterSort());
           }
+
+          if (state.servicesLoaded ?? false) {
+            setState(() {
+              items = [...?state.serviceList?.map((e) => e.title!).toList()];
+            });
+          }
+
+          if (state.theState == TheStates.failure) {
+            _pagingController.error = 'Error';
+          }
+
           if (state.theState == TheStates.success) {
             taskList = state.tasksList!.result!;
 
@@ -171,9 +267,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
               _pagingController.appendPage(taskList, next);
             }
           }
-          if (state.theState == TheStates.failure) {
-            _pagingController.error = 'Error';
-          }
         },
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
@@ -184,7 +277,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   label: 'All Task Page',
                 ),
                 SizedBox(
-                  height: 35,
+                  height: 50,
                   width: double.infinity,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
@@ -192,39 +285,136 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       horizontal: 10,
                     ),
                     children: <Widget>[
-                      // const Icon(
-                      //   Icons.filter_alt_outlined,
-                      //   color: kColorSilver,
-                      // ),
-                      addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const <Widget>[
-                            Text(
-                              'Category',
+                      items?.isNotEmpty ?? false
+                          ? Container(
+                              width: 170,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: categorySelected ? kColorAmber : Colors.white,
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(color: kColorGrey),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownSearch<String?>(
+                                      items: items ?? ['N/A'],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          categorySelected = value != null ? true : false;
+                                        });
+                                        onFilterCategory(category: value);
+                                      },
+                                      clearButtonProps: ClearButtonProps(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 16,
+                                        visualDensity: VisualDensity.compact,
+                                        alignment: Alignment.centerRight,
+                                        isVisible: categorySelected,
+                                        color: categorySelected ? Colors.white : Colors.black,
+                                      ),
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                          hintText: 'Category',
+                                          border: InputBorder.none,
+                                          suffixIconColor: categorySelected ? Colors.white : Colors.black,
+                                        ),
+                                        baseStyle: TextStyle(
+                                          color: categorySelected ? Colors.white : Colors.black,
+                                        ),
+                                      ),
+                                      popupProps: PopupProps.modalBottomSheet(
+                                        showSearchBox: true,
+                                        modalBottomSheetProps: ModalBottomSheetProps(
+                                          useSafeArea: false,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ChoiceChip(
+                              label: Row(
+                                children: const [
+                                  Text('Category'),
+                                  Icon(Icons.keyboard_arrow_down_outlined),
+                                ],
+                              ),
+                              backgroundColor: Colors.white,
+                              side: const BorderSide(color: kColorGrey),
+                              selected: false,
+                              disabledColor: Colors.white,
                             ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
-                      ),
                       addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const [
-                            Text(
-                              'Buddhanagar',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined)
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
+                      BlocBuilder<CityBloc, CityState>(
+                        builder: (context, state) {
+                          if (state is CityLoadSuccess) {
+                            return Container(
+                              width: 170,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: locationSelected ? kColorAmber : Colors.white,
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(color: kColorGrey),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownSearch<String?>(
+                                      items: state.list.map((e) => e.name).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          locationSelected = value != null ? true : false;
+                                        });
+                                        onFilterLocation(location: value);
+                                      },
+                                      clearButtonProps: ClearButtonProps(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 16,
+                                        visualDensity: VisualDensity.compact,
+                                        alignment: Alignment.centerRight,
+                                        isVisible: locationSelected,
+                                        color: locationSelected ? Colors.white : Colors.black,
+                                      ),
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                          hintText: 'Location',
+                                          border: InputBorder.none,
+                                          suffixIconColor: locationSelected ? Colors.white : Colors.black,
+                                        ),
+                                        baseStyle: TextStyle(
+                                          color: locationSelected ? Colors.white : Colors.black,
+                                        ),
+                                      ),
+                                      popupProps: PopupProps.modalBottomSheet(
+                                        showSearchBox: true,
+                                        modalBottomSheetProps: ModalBottomSheetProps(
+                                          useSafeArea: false,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return ChoiceChip(
+                              label: Row(
+                                children: const [
+                                  Text(
+                                    'Location',
+                                  ),
+                                  Icon(Icons.keyboard_arrow_down_outlined),
+                                ],
+                              ),
+                              backgroundColor: Colors.white,
+                              side: const BorderSide(color: kColorGrey),
+                              selected: false,
+                              disabledColor: Colors.white,
+                            );
+                          }
+                        },
                       ),
                       addHorizontalSpace(5),
                       InkWell(
@@ -240,7 +430,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                               color: budgetSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
                             children: [
@@ -290,7 +480,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
                               color: dateSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(16.0),
+                              borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
                             children: [
