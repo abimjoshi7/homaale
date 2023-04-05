@@ -18,7 +18,8 @@ class EntityServiceBloc extends Bloc<EntityServiceEvent, EntityServiceState> {
         emit(state.copyWith(theStates: TheStates.initial));
         try {
           await repositories
-              .fetchEntityServices(page: event.page ?? 1, order: event.order, serviceId: event.serviceId)
+              .fetchEntityServices(
+                  page: event.page ?? 1, order: event.order, serviceId: event.serviceId, city: event.city)
               .then(
                 (value) => emit(
                   state.copyWith(

@@ -58,6 +58,7 @@ class ServicesRepositories {
 
   Future<Map<String, dynamic>> fetchEntityServices({
     String? serviceId,
+    String? city,
     int? page,
     List<String>? order,
   }) async {
@@ -66,13 +67,13 @@ class ServicesRepositories {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
           url: 'task/entity/service/',
-          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId},
+          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId, 'city': city},
         );
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
           url: 'task/entity/service/',
-          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId},
+          query: {'is_requested': false, 'page': page, 'ordering': orders, 'service': serviceId, 'city': city},
           token: CacheHelper.accessToken,
         );
         return res as Map<String, dynamic>;

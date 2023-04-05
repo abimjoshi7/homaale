@@ -11,6 +11,7 @@ class EntityServiceInitiated extends EntityServiceEvent {
   final bool? isDateSort;
   final bool? isBudgetSort;
   final String? serviceId;
+  final String? city;
   final bool? isFilter;
 
   const EntityServiceInitiated({
@@ -19,10 +20,11 @@ class EntityServiceInitiated extends EntityServiceEvent {
     this.isDateSort,
     this.isBudgetSort,
     this.serviceId,
+    this.city,
     this.isFilter,
   });
   @override
-  List<Object?> get props => [page, order, isDateSort, isBudgetSort, serviceId, isFilter];
+  List<Object?> get props => [page, order, isDateSort, isBudgetSort, serviceId, isFilter, city];
 }
 
 class FetchServicesList extends EntityServiceEvent {

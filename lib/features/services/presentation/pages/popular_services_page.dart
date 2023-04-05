@@ -4,6 +4,7 @@ import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -29,6 +30,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   bool dateSelected = true;
   bool budgetSelected = false;
   bool categorySelected = false;
+  bool locationSelected = false;
 
   bool sortDateIsAscending = true;
   bool sortBudgetIsAscending = true;
@@ -36,6 +38,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   SortType sortType = SortType.date;
   List<String>? order = ['-created_at'];
   String? selectedCategoryId;
+  String? selectedLocation;
 
   @override
   void initState() {
@@ -47,6 +50,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
         EntityServiceInitiated(
           page: pageKey,
           order: order,
+          city: selectedLocation,
           serviceId: selectedCategoryId,
           isBudgetSort: false,
           isDateSort: false,
@@ -84,7 +88,30 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       page: 1,
       order: order,
       serviceId: selectedCategoryId,
-      isFilter: selectedCategoryId == null ? false : true,
+      city: selectedLocation,
+      isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
+      isDateSort: entityServiceBloc.state.isDateSort,
+      isBudgetSort: entityServiceBloc.state.isBudgetSort,
+    ));
+  }
+
+  void onFilterLocation({String? location}) {
+    if (location != null) {
+      setState(() {
+        selectedLocation = location;
+      });
+    } else {
+      setState(() {
+        selectedLocation = null;
+      });
+    }
+
+    entityServiceBloc.add(EntityServiceInitiated(
+      page: 1,
+      order: order,
+      serviceId: selectedCategoryId,
+      city: selectedLocation,
+      isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
       isDateSort: entityServiceBloc.state.isDateSort,
       isBudgetSort: entityServiceBloc.state.isBudgetSort,
     ));
@@ -120,8 +147,9 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     entityServiceBloc.add(EntityServiceInitiated(
         page: 1,
         order: order,
+        city: selectedLocation,
         serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId == null ? false : true,
+        isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
         isDateSort: sortType == SortType.date,
         isBudgetSort: sortType == SortType.budget));
   }
@@ -158,8 +186,9 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     entityServiceBloc.add(EntityServiceInitiated(
         page: 1,
         order: order,
+        city: selectedLocation,
         serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId == null ? false : true,
+        isFilter: selectedCategoryId == null && selectedLocation == null ? false : true,
         isDateSort: sortType == SortType.date,
         isBudgetSort: sortType == SortType.budget));
   }
@@ -275,19 +304,74 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                               disabledColor: Colors.white,
                             ),
                       addHorizontalSpace(5),
-                      ChoiceChip(
-                        label: Row(
-                          children: const [
-                            Text(
-                              'Location',
-                            ),
-                            Icon(Icons.keyboard_arrow_down_outlined),
-                          ],
-                        ),
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: kColorGrey),
-                        selected: false,
-                        disabledColor: Colors.white,
+                      BlocBuilder<CityBloc, CityState>(
+                        builder: (context, state) {
+                          if (state is CityLoadSuccess) {
+                            return Container(
+                              width: 170,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: locationSelected ? kColorAmber : Colors.white,
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(color: kColorGrey),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: DropdownSearch<String?>(
+                                      items: state.list.map((e) => e.name).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          locationSelected = value != null ? true : false;
+                                        });
+                                        onFilterLocation(location: value);
+                                      },
+                                      clearButtonProps: ClearButtonProps(
+                                        padding: EdgeInsets.zero,
+                                        iconSize: 16,
+                                        visualDensity: VisualDensity.compact,
+                                        alignment: Alignment.centerRight,
+                                        isVisible: locationSelected,
+                                        color: locationSelected ? Colors.white : Colors.black,
+                                      ),
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
+                                          hintText: 'Location',
+                                          border: InputBorder.none,
+                                          suffixIconColor: locationSelected ? Colors.white : Colors.black,
+                                        ),
+                                        baseStyle: TextStyle(
+                                          color: locationSelected ? Colors.white : Colors.black,
+                                        ),
+                                      ),
+                                      popupProps: PopupProps.modalBottomSheet(
+                                        showSearchBox: true,
+                                        modalBottomSheetProps: ModalBottomSheetProps(
+                                          useSafeArea: false,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return ChoiceChip(
+                              label: Row(
+                                children: const [
+                                  Text(
+                                    'Location',
+                                  ),
+                                  Icon(Icons.keyboard_arrow_down_outlined),
+                                ],
+                              ),
+                              backgroundColor: Colors.white,
+                              side: const BorderSide(color: kColorGrey),
+                              selected: false,
+                              disabledColor: Colors.white,
+                            );
+                          }
+                        },
                       ),
                       addHorizontalSpace(5),
                       InkWell(
@@ -415,6 +499,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                             imagePath: item.images?.length == 0 ? kServiceImageNImg : item.images?.first.media,
                             rating: item.rating?.first.rating.toString(),
                             description: "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
+                            location: item.location == '' ? "Remote" : item.location,
                           ),
                         ),
                       ),
