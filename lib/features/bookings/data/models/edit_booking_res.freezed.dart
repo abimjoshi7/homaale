@@ -31,9 +31,9 @@ mixin _$EditBookingRes {
   String? get endTime => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   bool? get isActive => throw _privateConstructorUsedError;
-  dynamic? get extraData => throw _privateConstructorUsedError;
+  dynamic get extraData => throw _privateConstructorUsedError;
   String? get createdBy => throw _privateConstructorUsedError;
-  dynamic? get bookingMerchant => throw _privateConstructorUsedError;
+  dynamic get bookingMerchant => throw _privateConstructorUsedError;
   String? get entityService => throw _privateConstructorUsedError;
   int? get city => throw _privateConstructorUsedError;
   List<int>? get images => throw _privateConstructorUsedError;
@@ -63,9 +63,9 @@ abstract class $EditBookingResCopyWith<$Res> {
       String? endTime,
       String? location,
       bool? isActive,
-      dynamic? extraData,
+      dynamic extraData,
       String? createdBy,
-      dynamic? bookingMerchant,
+      dynamic bookingMerchant,
       String? entityService,
       int? city,
       List<int>? images,
@@ -152,7 +152,7 @@ class _$EditBookingResCopyWithImpl<$Res, $Val extends EditBookingRes>
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -160,7 +160,7 @@ class _$EditBookingResCopyWithImpl<$Res, $Val extends EditBookingRes>
       bookingMerchant: freezed == bookingMerchant
           ? _value.bookingMerchant
           : bookingMerchant // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       entityService: freezed == entityService
           ? _value.entityService
           : entityService // ignore: cast_nullable_to_non_nullable
@@ -201,9 +201,9 @@ abstract class _$$_EditBookingResCopyWith<$Res>
       String? endTime,
       String? location,
       bool? isActive,
-      dynamic? extraData,
+      dynamic extraData,
       String? createdBy,
-      dynamic? bookingMerchant,
+      dynamic bookingMerchant,
       String? entityService,
       int? city,
       List<int>? images,
@@ -288,7 +288,7 @@ class __$$_EditBookingResCopyWithImpl<$Res>
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -296,7 +296,7 @@ class __$$_EditBookingResCopyWithImpl<$Res>
       bookingMerchant: freezed == bookingMerchant
           ? _value.bookingMerchant
           : bookingMerchant // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       entityService: freezed == entityService
           ? _value.entityService
           : entityService // ignore: cast_nullable_to_non_nullable
@@ -377,11 +377,11 @@ class _$_EditBookingRes implements _EditBookingRes {
   @override
   final bool? isActive;
   @override
-  final dynamic? extraData;
+  final dynamic extraData;
   @override
   final String? createdBy;
   @override
-  final dynamic? bookingMerchant;
+  final dynamic bookingMerchant;
   @override
   final String? entityService;
   @override
@@ -497,9 +497,9 @@ abstract class _EditBookingRes implements EditBookingRes {
       final String? endTime,
       final String? location,
       final bool? isActive,
-      final dynamic? extraData,
+      final dynamic extraData,
       final String? createdBy,
-      final dynamic? bookingMerchant,
+      final dynamic bookingMerchant,
       final String? entityService,
       final int? city,
       final List<int>? images,
@@ -531,11 +531,11 @@ abstract class _EditBookingRes implements EditBookingRes {
   @override
   bool? get isActive;
   @override
-  dynamic? get extraData;
+  dynamic get extraData;
   @override
   String? get createdBy;
   @override
-  dynamic? get bookingMerchant;
+  dynamic get bookingMerchant;
   @override
   String? get entityService;
   @override

@@ -29,13 +29,13 @@ mixin _$SingleTaskEntityService {
   Service? get service => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
   List<Image>? get videos => throw _privateConstructorUsedError;
-  dynamic? get rating => throw _privateConstructorUsedError;
+  dynamic get rating => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   List<Offer>? get offers => throw _privateConstructorUsedError;
   List<dynamic>? get endorsements => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_redeemable')
   bool? get isRedeemable => throw _privateConstructorUsedError;
-  dynamic? get event => throw _privateConstructorUsedError;
+  dynamic get event => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
@@ -65,7 +65,7 @@ mixin _$SingleTaskEntityService {
   bool? get isNegotiable => throw _privateConstructorUsedError;
   int? get revisions => throw _privateConstructorUsedError;
   @JsonKey(name: 'recursion_type')
-  dynamic? get recursionType => throw _privateConstructorUsedError;
+  dynamic get recursionType => throw _privateConstructorUsedError;
   @JsonKey(name: 'views_count')
   int? get viewsCount => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
@@ -76,9 +76,9 @@ mixin _$SingleTaskEntityService {
   @JsonKey(name: 'is_requested')
   bool? get isRequested => throw _privateConstructorUsedError;
   @JsonKey(name: 'discount_type')
-  dynamic? get discountType => throw _privateConstructorUsedError;
+  dynamic get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: 'discount_value')
-  dynamic? get discountValue => throw _privateConstructorUsedError;
+  dynamic get discountValue => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_data')
   List<dynamic>? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: 'no_of_reservation')
@@ -90,8 +90,8 @@ mixin _$SingleTaskEntityService {
   bool? get needsApproval => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_endorsed')
   bool? get isEndorsed => throw _privateConstructorUsedError;
-  dynamic? get merchant => throw _privateConstructorUsedError;
-  dynamic? get avatar => throw _privateConstructorUsedError;
+  dynamic get merchant => throw _privateConstructorUsedError;
+  dynamic get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -113,12 +113,12 @@ abstract class $SingleTaskEntityServiceCopyWith<$Res> {
       Service? service,
       List<Image>? images,
       List<Image>? videos,
-      dynamic? rating,
+      dynamic rating,
       int? count,
       List<Offer>? offers,
       List<dynamic>? endorsements,
       @JsonKey(name: 'is_redeemable') bool? isRedeemable,
-      dynamic? event,
+      dynamic event,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
       @JsonKey(name: 'deleted_at') String? deletedAt,
@@ -135,22 +135,22 @@ abstract class $SingleTaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: 'share_location') bool? shareLocation,
       @JsonKey(name: 'is_negotiable') bool? isNegotiable,
       int? revisions,
-      @JsonKey(name: 'recursion_type') dynamic? recursionType,
+      @JsonKey(name: 'recursion_type') dynamic recursionType,
       @JsonKey(name: 'views_count') int? viewsCount,
       String? location,
       @JsonKey(name: 'is_professional') bool? isProfessional,
       @JsonKey(name: 'is_online') bool? isOnline,
       @JsonKey(name: 'is_requested') bool? isRequested,
-      @JsonKey(name: 'discount_type') dynamic? discountType,
-      @JsonKey(name: 'discount_value') dynamic? discountValue,
+      @JsonKey(name: 'discount_type') dynamic discountType,
+      @JsonKey(name: 'discount_value') dynamic discountValue,
       @JsonKey(name: 'extra_data') List<dynamic>? extraData,
       @JsonKey(name: 'no_of_reservation') int? noOfReservation,
       String? slug,
       @JsonKey(name: 'is_active') bool? isActive,
       @JsonKey(name: 'needs_approval') bool? needsApproval,
       @JsonKey(name: 'is_endorsed') bool? isEndorsed,
-      dynamic? merchant,
-      dynamic? avatar});
+      dynamic merchant,
+      dynamic avatar});
 
   $CurrencyCopyWith<$Res>? get currency;
   $CityCopyWith<$Res>? get city;
@@ -250,7 +250,7 @@ class _$SingleTaskEntityServiceCopyWithImpl<$Res,
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -270,7 +270,7 @@ class _$SingleTaskEntityServiceCopyWithImpl<$Res,
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -338,7 +338,7 @@ class _$SingleTaskEntityServiceCopyWithImpl<$Res,
       recursionType: freezed == recursionType
           ? _value.recursionType
           : recursionType // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       viewsCount: freezed == viewsCount
           ? _value.viewsCount
           : viewsCount // ignore: cast_nullable_to_non_nullable
@@ -362,11 +362,11 @@ class _$SingleTaskEntityServiceCopyWithImpl<$Res,
       discountType: freezed == discountType
           ? _value.discountType
           : discountType // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -394,11 +394,11 @@ class _$SingleTaskEntityServiceCopyWithImpl<$Res,
       merchant: freezed == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ) as $Val);
   }
 
@@ -467,12 +467,12 @@ abstract class _$$_SingleTaskEntityServiceCopyWith<$Res>
       Service? service,
       List<Image>? images,
       List<Image>? videos,
-      dynamic? rating,
+      dynamic rating,
       int? count,
       List<Offer>? offers,
       List<dynamic>? endorsements,
       @JsonKey(name: 'is_redeemable') bool? isRedeemable,
-      dynamic? event,
+      dynamic event,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
       @JsonKey(name: 'deleted_at') String? deletedAt,
@@ -489,22 +489,22 @@ abstract class _$$_SingleTaskEntityServiceCopyWith<$Res>
       @JsonKey(name: 'share_location') bool? shareLocation,
       @JsonKey(name: 'is_negotiable') bool? isNegotiable,
       int? revisions,
-      @JsonKey(name: 'recursion_type') dynamic? recursionType,
+      @JsonKey(name: 'recursion_type') dynamic recursionType,
       @JsonKey(name: 'views_count') int? viewsCount,
       String? location,
       @JsonKey(name: 'is_professional') bool? isProfessional,
       @JsonKey(name: 'is_online') bool? isOnline,
       @JsonKey(name: 'is_requested') bool? isRequested,
-      @JsonKey(name: 'discount_type') dynamic? discountType,
-      @JsonKey(name: 'discount_value') dynamic? discountValue,
+      @JsonKey(name: 'discount_type') dynamic discountType,
+      @JsonKey(name: 'discount_value') dynamic discountValue,
       @JsonKey(name: 'extra_data') List<dynamic>? extraData,
       @JsonKey(name: 'no_of_reservation') int? noOfReservation,
       String? slug,
       @JsonKey(name: 'is_active') bool? isActive,
       @JsonKey(name: 'needs_approval') bool? needsApproval,
       @JsonKey(name: 'is_endorsed') bool? isEndorsed,
-      dynamic? merchant,
-      dynamic? avatar});
+      dynamic merchant,
+      dynamic avatar});
 
   @override
   $CurrencyCopyWith<$Res>? get currency;
@@ -606,7 +606,7 @@ class __$$_SingleTaskEntityServiceCopyWithImpl<$Res>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -626,7 +626,7 @@ class __$$_SingleTaskEntityServiceCopyWithImpl<$Res>
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -694,7 +694,7 @@ class __$$_SingleTaskEntityServiceCopyWithImpl<$Res>
       recursionType: freezed == recursionType
           ? _value.recursionType
           : recursionType // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       viewsCount: freezed == viewsCount
           ? _value.viewsCount
           : viewsCount // ignore: cast_nullable_to_non_nullable
@@ -718,11 +718,11 @@ class __$$_SingleTaskEntityServiceCopyWithImpl<$Res>
       discountType: freezed == discountType
           ? _value.discountType
           : discountType // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       extraData: freezed == extraData
           ? _value._extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -750,11 +750,11 @@ class __$$_SingleTaskEntityServiceCopyWithImpl<$Res>
       merchant: freezed == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ));
   }
 }
@@ -850,7 +850,7 @@ class _$_SingleTaskEntityService implements _SingleTaskEntityService {
   }
 
   @override
-  final dynamic? rating;
+  final dynamic rating;
   @override
   final int? count;
   final List<Offer>? _offers;
@@ -877,7 +877,7 @@ class _$_SingleTaskEntityService implements _SingleTaskEntityService {
   @JsonKey(name: 'is_redeemable')
   final bool? isRedeemable;
   @override
-  final dynamic? event;
+  final dynamic event;
   @override
   @JsonKey(name: 'created_at')
   final String? createdAt;
@@ -932,7 +932,7 @@ class _$_SingleTaskEntityService implements _SingleTaskEntityService {
   final int? revisions;
   @override
   @JsonKey(name: 'recursion_type')
-  final dynamic? recursionType;
+  final dynamic recursionType;
   @override
   @JsonKey(name: 'views_count')
   final int? viewsCount;
@@ -949,10 +949,10 @@ class _$_SingleTaskEntityService implements _SingleTaskEntityService {
   final bool? isRequested;
   @override
   @JsonKey(name: 'discount_type')
-  final dynamic? discountType;
+  final dynamic discountType;
   @override
   @JsonKey(name: 'discount_value')
-  final dynamic? discountValue;
+  final dynamic discountValue;
   final List<dynamic>? _extraData;
   @override
   @JsonKey(name: 'extra_data')
@@ -979,9 +979,9 @@ class _$_SingleTaskEntityService implements _SingleTaskEntityService {
   @JsonKey(name: 'is_endorsed')
   final bool? isEndorsed;
   @override
-  final dynamic? merchant;
+  final dynamic merchant;
   @override
-  final dynamic? avatar;
+  final dynamic avatar;
 
   @override
   String toString() {
@@ -1146,12 +1146,12 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
       final Service? service,
       final List<Image>? images,
       final List<Image>? videos,
-      final dynamic? rating,
+      final dynamic rating,
       final int? count,
       final List<Offer>? offers,
       final List<dynamic>? endorsements,
       @JsonKey(name: 'is_redeemable') final bool? isRedeemable,
-      final dynamic? event,
+      final dynamic event,
       @JsonKey(name: 'created_at') final String? createdAt,
       @JsonKey(name: 'updated_at') final String? updatedAt,
       @JsonKey(name: 'deleted_at') final String? deletedAt,
@@ -1168,22 +1168,22 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
       @JsonKey(name: 'share_location') final bool? shareLocation,
       @JsonKey(name: 'is_negotiable') final bool? isNegotiable,
       final int? revisions,
-      @JsonKey(name: 'recursion_type') final dynamic? recursionType,
+      @JsonKey(name: 'recursion_type') final dynamic recursionType,
       @JsonKey(name: 'views_count') final int? viewsCount,
       final String? location,
       @JsonKey(name: 'is_professional') final bool? isProfessional,
       @JsonKey(name: 'is_online') final bool? isOnline,
       @JsonKey(name: 'is_requested') final bool? isRequested,
-      @JsonKey(name: 'discount_type') final dynamic? discountType,
-      @JsonKey(name: 'discount_value') final dynamic? discountValue,
+      @JsonKey(name: 'discount_type') final dynamic discountType,
+      @JsonKey(name: 'discount_value') final dynamic discountValue,
       @JsonKey(name: 'extra_data') final List<dynamic>? extraData,
       @JsonKey(name: 'no_of_reservation') final int? noOfReservation,
       final String? slug,
       @JsonKey(name: 'is_active') final bool? isActive,
       @JsonKey(name: 'needs_approval') final bool? needsApproval,
       @JsonKey(name: 'is_endorsed') final bool? isEndorsed,
-      final dynamic? merchant,
-      final dynamic? avatar}) = _$_SingleTaskEntityService;
+      final dynamic merchant,
+      final dynamic avatar}) = _$_SingleTaskEntityService;
 
   factory _SingleTaskEntityService.fromJson(Map<String, dynamic> json) =
       _$_SingleTaskEntityService.fromJson;
@@ -1204,7 +1204,7 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
   @override
   List<Image>? get videos;
   @override
-  dynamic? get rating;
+  dynamic get rating;
   @override
   int? get count;
   @override
@@ -1215,7 +1215,7 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
   @JsonKey(name: 'is_redeemable')
   bool? get isRedeemable;
   @override
-  dynamic? get event;
+  dynamic get event;
   @override
   @JsonKey(name: 'created_at')
   String? get createdAt;
@@ -1262,7 +1262,7 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
   int? get revisions;
   @override
   @JsonKey(name: 'recursion_type')
-  dynamic? get recursionType;
+  dynamic get recursionType;
   @override
   @JsonKey(name: 'views_count')
   int? get viewsCount;
@@ -1279,10 +1279,10 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
   bool? get isRequested;
   @override
   @JsonKey(name: 'discount_type')
-  dynamic? get discountType;
+  dynamic get discountType;
   @override
   @JsonKey(name: 'discount_value')
-  dynamic? get discountValue;
+  dynamic get discountValue;
   @override
   @JsonKey(name: 'extra_data')
   List<dynamic>? get extraData;
@@ -1301,9 +1301,9 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
   @JsonKey(name: 'is_endorsed')
   bool? get isEndorsed;
   @override
-  dynamic? get merchant;
+  dynamic get merchant;
   @override
-  dynamic? get avatar;
+  dynamic get avatar;
   @override
   @JsonKey(ignore: true)
   _$$_SingleTaskEntityServiceCopyWith<_$_SingleTaskEntityService>

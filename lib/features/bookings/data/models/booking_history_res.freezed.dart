@@ -324,7 +324,7 @@ mixin _$Result {
   DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_date')
   DateTime? get endDate => throw _privateConstructorUsedError;
-  dynamic? get completedOn => throw _privateConstructorUsedError;
+  dynamic get completedOn => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_time')
   String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_time')
@@ -367,7 +367,7 @@ abstract class $ResultCopyWith<$Res> {
       String? slug,
       @JsonKey(name: 'start_date') DateTime? startDate,
       @JsonKey(name: 'end_date') DateTime? endDate,
-      dynamic? completedOn,
+      dynamic completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
       @JsonKey(name: 'extra_data') List<dynamic>? extraData,
@@ -500,7 +500,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       completedOn: freezed == completedOn
           ? _value.completedOn
           : completedOn // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -610,7 +610,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       String? slug,
       @JsonKey(name: 'start_date') DateTime? startDate,
       @JsonKey(name: 'end_date') DateTime? endDate,
-      dynamic? completedOn,
+      dynamic completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
       @JsonKey(name: 'extra_data') List<dynamic>? extraData,
@@ -744,7 +744,7 @@ class __$$_ResultCopyWithImpl<$Res>
       completedOn: freezed == completedOn
           ? _value.completedOn
           : completedOn // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -872,7 +872,7 @@ class _$_Result implements _Result {
   @JsonKey(name: 'end_date')
   final DateTime? endDate;
   @override
-  final dynamic? completedOn;
+  final dynamic completedOn;
   @override
   @JsonKey(name: 'start_time')
   final String? startTime;
@@ -1038,7 +1038,7 @@ abstract class _Result implements Result {
       final String? slug,
       @JsonKey(name: 'start_date') final DateTime? startDate,
       @JsonKey(name: 'end_date') final DateTime? endDate,
-      final dynamic? completedOn,
+      final dynamic completedOn,
       @JsonKey(name: 'start_time') final String? startTime,
       @JsonKey(name: 'end_time') final String? endTime,
       @JsonKey(name: 'extra_data') final List<dynamic>? extraData,
@@ -1094,7 +1094,7 @@ abstract class _Result implements Result {
   @JsonKey(name: 'end_date')
   DateTime? get endDate;
   @override
-  dynamic? get completedOn;
+  dynamic get completedOn;
   @override
   @JsonKey(name: 'start_time')
   String? get startTime;

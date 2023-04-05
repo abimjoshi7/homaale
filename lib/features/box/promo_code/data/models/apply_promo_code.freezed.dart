@@ -14,34 +14,34 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-ApplyPromoCode _$ApplyOfferFromJson(Map<String, dynamic> json) {
+ApplyPromoCode _$ApplyPromoCodeFromJson(Map<String, dynamic> json) {
   return _ApplyOffer.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ApplyOffer {
+mixin _$ApplyPromoCode {
   String? get status => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ApplyOfferCopyWith<ApplyPromoCode> get copyWith =>
+  $ApplyPromoCodeCopyWith<ApplyPromoCode> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ApplyOfferCopyWith<$Res> {
-  factory $ApplyOfferCopyWith(
+abstract class $ApplyPromoCodeCopyWith<$Res> {
+  factory $ApplyPromoCodeCopyWith(
           ApplyPromoCode value, $Res Function(ApplyPromoCode) then) =
-      _$ApplyOfferCopyWithImpl<$Res, ApplyPromoCode>;
+      _$ApplyPromoCodeCopyWithImpl<$Res, ApplyPromoCode>;
   @useResult
   $Res call({String? status, String? message});
 }
 
 /// @nodoc
-class _$ApplyOfferCopyWithImpl<$Res, $Val extends ApplyPromoCode>
-    implements $ApplyOfferCopyWith<$Res> {
-  _$ApplyOfferCopyWithImpl(this._value, this._then);
+class _$ApplyPromoCodeCopyWithImpl<$Res, $Val extends ApplyPromoCode>
+    implements $ApplyPromoCodeCopyWith<$Res> {
+  _$ApplyPromoCodeCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -69,7 +69,7 @@ class _$ApplyOfferCopyWithImpl<$Res, $Val extends ApplyPromoCode>
 
 /// @nodoc
 abstract class _$$_ApplyOfferCopyWith<$Res>
-    implements $ApplyOfferCopyWith<$Res> {
+    implements $ApplyPromoCodeCopyWith<$Res> {
   factory _$$_ApplyOfferCopyWith(
           _$_ApplyOffer value, $Res Function(_$_ApplyOffer) then) =
       __$$_ApplyOfferCopyWithImpl<$Res>;
@@ -80,7 +80,7 @@ abstract class _$$_ApplyOfferCopyWith<$Res>
 
 /// @nodoc
 class __$$_ApplyOfferCopyWithImpl<$Res>
-    extends _$ApplyOfferCopyWithImpl<$Res, _$_ApplyOffer>
+    extends _$ApplyPromoCodeCopyWithImpl<$Res, _$_ApplyOffer>
     implements _$$_ApplyOfferCopyWith<$Res> {
   __$$_ApplyOfferCopyWithImpl(
       _$_ApplyOffer _value, $Res Function(_$_ApplyOffer) _then)
@@ -120,7 +120,7 @@ class _$_ApplyOffer implements _ApplyOffer {
 
   @override
   String toString() {
-    return 'ApplyOffer(status: $status, message: $message)';
+    return 'ApplyPromoCode(status: $status, message: $message)';
   }
 
   @override

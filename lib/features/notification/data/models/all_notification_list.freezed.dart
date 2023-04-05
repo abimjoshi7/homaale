@@ -24,8 +24,8 @@ mixin _$AllNotificationList {
   int? get totalPages => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   int? get current => throw _privateConstructorUsedError;
-  dynamic? get next => throw _privateConstructorUsedError;
-  dynamic? get previous => throw _privateConstructorUsedError;
+  dynamic get next => throw _privateConstructorUsedError;
+  dynamic get previous => throw _privateConstructorUsedError;
   @JsonKey(name: "page_size")
   int? get pageSize => throw _privateConstructorUsedError;
   List<Result>? get result => throw _privateConstructorUsedError;
@@ -48,8 +48,8 @@ abstract class $AllNotificationListCopyWith<$Res> {
       {@JsonKey(name: "total_pages") int? totalPages,
       int? count,
       int? current,
-      dynamic? next,
-      dynamic? previous,
+      dynamic next,
+      dynamic previous,
       @JsonKey(name: "page_size") int? pageSize,
       List<Result>? result,
       @JsonKey(name: "unread_count") int? unreadCount});
@@ -93,11 +93,11 @@ class _$AllNotificationListCopyWithImpl<$Res, $Val extends AllNotificationList>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       previous: freezed == previous
           ? _value.previous
           : previous // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ abstract class _$$_AllNotificationListCopyWith<$Res>
       {@JsonKey(name: "total_pages") int? totalPages,
       int? count,
       int? current,
-      dynamic? next,
-      dynamic? previous,
+      dynamic next,
+      dynamic previous,
       @JsonKey(name: "page_size") int? pageSize,
       List<Result>? result,
       @JsonKey(name: "unread_count") int? unreadCount});
@@ -169,11 +169,11 @@ class __$$_AllNotificationListCopyWithImpl<$Res>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       previous: freezed == previous
           ? _value.previous
           : previous // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -215,9 +215,9 @@ class _$_AllNotificationList implements _AllNotificationList {
   @override
   final int? current;
   @override
-  final dynamic? next;
+  final dynamic next;
   @override
-  final dynamic? previous;
+  final dynamic previous;
   @override
   @JsonKey(name: "page_size")
   final int? pageSize;
@@ -291,8 +291,8 @@ abstract class _AllNotificationList implements AllNotificationList {
           {@JsonKey(name: "total_pages") final int? totalPages,
           final int? count,
           final int? current,
-          final dynamic? next,
-          final dynamic? previous,
+          final dynamic next,
+          final dynamic previous,
           @JsonKey(name: "page_size") final int? pageSize,
           final List<Result>? result,
           @JsonKey(name: "unread_count") final int? unreadCount}) =
@@ -309,9 +309,9 @@ abstract class _AllNotificationList implements AllNotificationList {
   @override
   int? get current;
   @override
-  dynamic? get next;
+  dynamic get next;
   @override
-  dynamic? get previous;
+  dynamic get previous;
   @override
   @JsonKey(name: "page_size")
   int? get pageSize;

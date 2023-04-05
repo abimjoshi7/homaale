@@ -24,8 +24,8 @@ mixin _$PaymentTypeList {
   int? get totalPages => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   int? get current => throw _privateConstructorUsedError;
-  dynamic? get next => throw _privateConstructorUsedError;
-  dynamic? get previous => throw _privateConstructorUsedError;
+  dynamic get next => throw _privateConstructorUsedError;
+  dynamic get previous => throw _privateConstructorUsedError;
   @JsonKey(name: 'page_size')
   int? get pageSize => throw _privateConstructorUsedError;
   List<Result>? get result => throw _privateConstructorUsedError;
@@ -46,8 +46,8 @@ abstract class $PaymentTypeListCopyWith<$Res> {
       {@JsonKey(name: 'total_pages') int? totalPages,
       int? count,
       int? current,
-      dynamic? next,
-      dynamic? previous,
+      dynamic next,
+      dynamic previous,
       @JsonKey(name: 'page_size') int? pageSize,
       List<Result>? result});
 }
@@ -89,11 +89,11 @@ class _$PaymentTypeListCopyWithImpl<$Res, $Val extends PaymentTypeList>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       previous: freezed == previous
           ? _value.previous
           : previous // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -118,8 +118,8 @@ abstract class _$$_PaymentTypeListCopyWith<$Res>
       {@JsonKey(name: 'total_pages') int? totalPages,
       int? count,
       int? current,
-      dynamic? next,
-      dynamic? previous,
+      dynamic next,
+      dynamic previous,
       @JsonKey(name: 'page_size') int? pageSize,
       List<Result>? result});
 }
@@ -159,11 +159,11 @@ class __$$_PaymentTypeListCopyWithImpl<$Res>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       previous: freezed == previous
           ? _value.previous
           : previous // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       pageSize: freezed == pageSize
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
@@ -200,9 +200,9 @@ class _$_PaymentTypeList implements _PaymentTypeList {
   @override
   final int? current;
   @override
-  final dynamic? next;
+  final dynamic next;
   @override
-  final dynamic? previous;
+  final dynamic previous;
   @override
   @JsonKey(name: 'page_size')
   final int? pageSize;
@@ -268,8 +268,8 @@ abstract class _PaymentTypeList implements PaymentTypeList {
       {@JsonKey(name: 'total_pages') final int? totalPages,
       final int? count,
       final int? current,
-      final dynamic? next,
-      final dynamic? previous,
+      final dynamic next,
+      final dynamic previous,
       @JsonKey(name: 'page_size') final int? pageSize,
       final List<Result>? result}) = _$_PaymentTypeList;
 
@@ -284,9 +284,9 @@ abstract class _PaymentTypeList implements PaymentTypeList {
   @override
   int? get current;
   @override
-  dynamic? get next;
+  dynamic get next;
   @override
-  dynamic? get previous;
+  dynamic get previous;
   @override
   @JsonKey(name: 'page_size')
   int? get pageSize;
@@ -310,7 +310,7 @@ mixin _$Result {
   String? get logo => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'thumb_nail')
-  dynamic? get thumbnail => throw _privateConstructorUsedError;
+  dynamic get thumbnail => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -328,7 +328,7 @@ abstract class $ResultCopyWith<$Res> {
       String? slug,
       String? logo,
       String? type,
-      @JsonKey(name: 'thumb_nail') dynamic? thumbnail});
+      @JsonKey(name: 'thumb_nail') dynamic thumbnail});
 }
 
 /// @nodoc
@@ -375,7 +375,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       thumbnail: freezed == thumbnail
           ? _value.thumbnail
           : thumbnail // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ) as $Val);
   }
 }
@@ -392,7 +392,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       String? slug,
       String? logo,
       String? type,
-      @JsonKey(name: 'thumb_nail') dynamic? thumbnail});
+      @JsonKey(name: 'thumb_nail') dynamic thumbnail});
 }
 
 /// @nodoc
@@ -436,7 +436,7 @@ class __$$_ResultCopyWithImpl<$Res>
       thumbnail: freezed == thumbnail
           ? _value.thumbnail
           : thumbnail // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ));
   }
 }
@@ -467,7 +467,7 @@ class _$_Result implements _Result {
   final String? type;
   @override
   @JsonKey(name: 'thumb_nail')
-  final dynamic? thumbnail;
+  final dynamic thumbnail;
 
   @override
   String toString() {
@@ -513,7 +513,7 @@ abstract class _Result implements Result {
       final String? slug,
       final String? logo,
       final String? type,
-      @JsonKey(name: 'thumb_nail') final dynamic? thumbnail}) = _$_Result;
+      @JsonKey(name: 'thumb_nail') final dynamic thumbnail}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
 
@@ -529,7 +529,7 @@ abstract class _Result implements Result {
   String? get type;
   @override
   @JsonKey(name: 'thumb_nail')
-  dynamic? get thumbnail;
+  dynamic get thumbnail;
   @override
   @JsonKey(ignore: true)
   _$$_ResultCopyWith<_$_Result> get copyWith =>
