@@ -19,6 +19,22 @@ class PaymentRepositories {
     }
   }
 
+  Future<Map<String, dynamic>> postPaymentVerify(
+    String provider,
+    String pidx,
+  ) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: {'verification_id': pidx},
+        url: "payment/verify/$provider/",
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> getPaymentTypeList() async {
     try {
       final res = await _dio.getDatawithCredential(
