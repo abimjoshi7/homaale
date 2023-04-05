@@ -172,7 +172,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       callback: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          if (state.theStates == TheStates.initial) return;
+                          if (state.theStates != TheStates.initial) return;
                           if (!state.isPhoneNumber) {
                             context.read<ForgotPasswordBloc>().add(
                                   ForgotPasswordEmailInitiated(
