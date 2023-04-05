@@ -51,7 +51,8 @@ class SocialLoginSection extends StatelessWidget {
             addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
+                kWidth20,
                 GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
@@ -70,22 +71,24 @@ class SocialLoginSection extends StatelessWidget {
                   },
                   child: buildLogo(),
                 ),
+                // kWidth20,
+                //TODO:implement google sign in and apple sign in
+                // GestureDetector(
+                //   onTap: () => Navigator.pushNamed(
+                //     context,
+                //     GoogleLogin.routeName,
+                //   ),
+                //   child: Image.asset('assets/logos/google_logo.png'),
+                // ),
                 kWidth20,
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    GoogleLogin.routeName,
-                  ),
-                  child: Image.asset('assets/logos/google_logo.png'),
-                ),
-                kWidth20,
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    FacebookLogin.routeName,
-                  ),
-                  child: Image.asset('assets/logos/fb_logo.png'),
-                ),
+                //TODO:implement facebook sign in
+                // GestureDetector(
+                //   onTap: () => Navigator.pushNamed(
+                //     context,
+                //     FacebookLogin.routeName,
+                //   ),
+                //   child: Image.asset('assets/logos/fb_logo.png'),
+                // ),
               ],
             ),
           ],

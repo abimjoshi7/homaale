@@ -76,11 +76,29 @@ class DioHelper {
       } else {
         log("API request failed: $e");
       }
+      //formatting the error message
+      // Remove the braces and split the message into an array of strings
+      List<String> errorMsgs = e.response!.data
+          .toString()
+          .replaceAll('{', '')
+          .replaceAll('}', '')
+          .split(',');
+      // Remove the keys from each string in the array
+      for (int i = 0; i < errorMsgs.length; i++) {
+        errorMsgs[i] = errorMsgs[i].substring(errorMsgs[i].indexOf(':') + 2);
+      }
+
+      final String cleanedMsg = errorMsgs
+          .join('\n')
+          .replaceAll('[', '')
+          .replaceAll(']', '')
+          .toTitleCase();
+
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
           (e.response?.statusCode == 400)
-              ? e.response!.data.toString()
+              ? cleanedMsg
               : e.response!.data
                   .toString()
                   .toTitleCase()

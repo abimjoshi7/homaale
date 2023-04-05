@@ -55,12 +55,11 @@ class SignupBloc extends Bloc<SignUpEvent, SignUpState> {
           }
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
-          final errRes = jsonDecode(err!) as Map<String, dynamic>;
-          log("erro test" + errRes.toString());
+
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              errorMsg: '',
+              errorMsg: err,
               isPhoneNumber: false,
             ),
           );
