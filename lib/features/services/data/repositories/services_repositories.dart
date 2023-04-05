@@ -24,8 +24,7 @@ class ServicesRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchServiceCategoryList(
-      [int? categoryId]) async {
+  Future<List<Map<String, dynamic>>> fetchServiceCategoryList([int? categoryId]) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
@@ -73,6 +72,7 @@ class ServicesRepositories {
             'page': page,
             'ordering': orders,
             'service': serviceId,
+            'city': city,
           },
         );
         return res as Map<String, dynamic>;
@@ -84,6 +84,7 @@ class ServicesRepositories {
             'page': page,
             'ordering': orders,
             'service': serviceId,
+            'city': city,
           },
           token: CacheHelper.accessToken,
         );

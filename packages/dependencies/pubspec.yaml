@@ -50,7 +50,6 @@ dependencies:
   firebase_core: ^2.9.0
   card_loading: ^0.3.0
   connectivity_plus: ^3.0.3
-  flutter_inappwebview: ^5.7.2+3
   dropdown_search: ^5.0.6
   flutter_inappwebview: ^5.7.2+3
 
