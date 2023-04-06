@@ -3,9 +3,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/html_remover.dart';
 import 'package:flutter_html/flutter_html.dart';
-// import 'package:flutter_html_all/flutter_html_all.dart';
 
 class ContentClientWidget extends StatelessWidget {
   final String contentClientTitle;
