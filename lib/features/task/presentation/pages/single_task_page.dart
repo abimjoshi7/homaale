@@ -458,6 +458,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           .createdBy
                                           ?.profileImage ??
                                       kServiceImageNImg,
+                                  label:
+                                      '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                   happyClients:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                   successRate:
@@ -531,7 +533,9 @@ class _SingleTaskPageState extends State<SingleTaskPage>
               );
             } else {
               return const Center(
-                child: CardLoading(height: 200,),
+                child: CardLoading(
+                  height: 200,
+                ),
               );
             }
           },

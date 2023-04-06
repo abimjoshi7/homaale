@@ -12,7 +12,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   Bloc.observer = AppObserver();
   DioHelper.init();
@@ -22,3 +22,7 @@ void main() async {
     const Cipher(),
   );
 }
+
+
+//TODO: no bookings after 3 times
+//TODO: no bookings after 3 times

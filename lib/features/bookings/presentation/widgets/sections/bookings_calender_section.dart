@@ -27,7 +27,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
       bloc: bookingsBloc,
       builder: (context, state) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.17,
+          height: 180,
           width: double.infinity,
           child: Column(
             children: [
