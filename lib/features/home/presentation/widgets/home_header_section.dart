@@ -110,7 +110,9 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             );
           } else {
             return const Center(
-              child: CardLoading(height: 200,),
+              child: CardLoading(
+                height: 200,
+              ),
             );
           }
         }
@@ -131,7 +133,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                            state.taskerProfile?.profileImage ??
+                                kServiceImageNImg,
                           ),
                         ),
                       ),
