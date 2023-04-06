@@ -106,294 +106,296 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                 fit: FlexFit.loose,
                 child: (state.theStates == TheStates.initial)
                     ? CardLoading(
-                      height: 200,
-                    )
+                        height: 200,
+                      )
                     : TabBarView(
                         controller: _tabController,
                         children: [
                           (state.theStates == TheStates.failure)
                               ? Center(child: Text("Opps! Try Again."))
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      state.orderItemList?.result!.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        setState(() {
+                              : SingleChildScrollView(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        state.orderItemList?.result!.length ??
+                                            0,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: () async{
                                           if (selectedItems.contains(index)) {
-                                            selectedItems.remove(index);
+                                            setState(() {
+                                              selectedItems.remove(index);
+                                            });
                                           } else {
-                                            selectedItems.add(index);
+                                            setState(() {
+                                              selectedItems.add(index);
+                                            });
                                           }
-                                        });
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: selectedItems.contains(index)
-                                                ? Color(0xffDEB988)
-                                                : Colors.grey.shade300,
-                                            width: 1,
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color:
+                                                  selectedItems.contains(index)
+                                                      ? Color(0xffDEB988)
+                                                      : Colors.grey.shade300,
+                                              width: 1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        height: 200,
-                                        margin: EdgeInsets.only(
-                                            top: 20, left: 20, right: 20),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: 72,
-                                                        width: 72,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      16.0),
-                                                          image:
-                                                              DecorationImage(
-                                                            image: NetworkImage(
-                                                                //TODO: display media image from entity/service
-                                                                state
-                                                                        .orderItemList
-                                                                        ?.result![
-                                                                            index]
-                                                                        .assigner!
-                                                                        .profileImage ??
-                                                                    ""),
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      addHorizontalSpace(8),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.65,
-                                                        child: Column(
-                                                          children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text(state
-                                                                            .orderItemList
-                                                                            ?.result![index]
-                                                                            .entityService!
-                                                                            .title ??
-                                                                        ""
-                                                                    // 'Trimming & Cutting',
-                                                                    ),
-                                                                // Icon(
-                                                                //   Icons
-                                                                //       .delete_outline_sharp,
-                                                                //   color: Colors
-                                                                //       .red,
-                                                                // )
-                                                              ],
-                                                            ),
-                                                            addVerticalSpace(8),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .location_on_outlined,
-                                                                      size: 16,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                                    Text(
+                                          height: 200,
+                                          margin: EdgeInsets.only(
+                                              top: 20, left: 20, right: 20),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          height: 72,
+                                                          width: 72,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        16.0),
+                                                            image:
+                                                                DecorationImage(
+                                                              image:
+                                                                  NetworkImage(
+                                                                      //TODO: display media image from entity/service
                                                                       state
                                                                               .orderItemList
                                                                               ?.result![index]
-                                                                              .entityService!
-                                                                              .city!
-                                                                              .name ??
-                                                                          "",
-                                                                      // 'Buddhanagar, Kathmandu',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                Text(
-                                                                  '${state.orderItemList?.result![index].currency!.symbol}'
-                                                                  '  '
-                                                                  '${state.orderItemList?.result![index].entityService!.budgetTo.toString() ?? "0"}',
-                                                                ),
-                                                              ],
+                                                                              .assigner!
+                                                                              .profileImage ??
+                                                                          ""),
+                                                              fit: BoxFit.cover,
                                                             ),
-                                                            addVerticalSpace(8),
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Row(
-                                                                      children: [
-                                                                        const Icon(
-                                                                          Icons
-                                                                              .calendar_month,
-                                                                          size:
-                                                                              20,
-                                                                          color:
-                                                                              Colors.red,
-                                                                        ),
-                                                                        Text(
-                                                                          '  '
-                                                                          '${state.orderItemList?.result![index].startDate ?? ""}',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                12,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    addHorizontalSpace(
-                                                                      16,
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        const Icon(
-                                                                          Icons
-                                                                              .watch_later_outlined,
-                                                                          size:
-                                                                              20,
-                                                                          color:
-                                                                              Colors.blue,
-                                                                        ),
-                                                                        Text(
-                                                                          '${state.orderItemList?.result![index].startTime ?? ""}',
-                                                                          // '8:00 PM',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                12,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                const Text(
-                                                                  'per project',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color:
-                                                                        kColorSilver,
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .italic,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const Divider(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      const Text(
-                                                        'Booking:',
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                      addHorizontalSpace(4),
-                                                      Chip(
-                                                        backgroundColor: Colors
-                                                            .lightBlue.shade50,
-                                                        label: Text(
-                                                          'Approved',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors
-                                                                .lightBlue,
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      context
-                                                          .read<BookingsBloc>()
-                                                          .add(
-                                                            BookingSingleLoaded(
-                                                              int.parse(state
-                                                                      .orderItemList
-                                                                      ?.result?[
-                                                                          index]
-                                                                      .id ??
-                                                                  '0'),
+                                                        addHorizontalSpace(8),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.65,
+                                                          child: Column(
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Text(state
+                                                                              .orderItemList
+                                                                              ?.result![index]
+                                                                              .entityService!
+                                                                              .title ??
+                                                                          ""
+                                                                      // 'Trimming & Cutting',
+                                                                      ),
+                                                                  // Icon(
+                                                                  //   Icons
+                                                                  //       .delete_outline_sharp,
+                                                                  //   color: Colors
+                                                                  //       .red,
+                                                                  // )
+                                                                ],
+                                                              ),
+                                                              addVerticalSpace(
+                                                                  8),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .location_on_outlined,
+                                                                        size:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .red,
+                                                                      ),
+                                                                      Text(
+                                                                        state.orderItemList?.result![index].entityService!.city!.name ??
+                                                                            "",
+                                                                        // 'Buddhanagar, Kathmandu',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    '${state.orderItemList?.result![index].currency!.symbol}'
+                                                                    '  '
+                                                                    '${state.orderItemList?.result![index].entityService!.budgetTo.toString() ?? "0"}',
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              addVerticalSpace(
+                                                                  8),
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          const Icon(
+                                                                            Icons.calendar_month,
+                                                                            size:
+                                                                                20,
+                                                                            color:
+                                                                                Colors.red,
+                                                                          ),
+                                                                          Text(
+                                                                            '  '
+                                                                            '${state.orderItemList?.result![index].startDate ?? ""}',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      addHorizontalSpace(
+                                                                        16,
+                                                                      ),
+                                                                      Row(
+                                                                        children: [
+                                                                          const Icon(
+                                                                            Icons.watch_later_outlined,
+                                                                            size:
+                                                                                20,
+                                                                            color:
+                                                                                Colors.blue,
+                                                                          ),
+                                                                          Text(
+                                                                            '${state.orderItemList?.result![index].startTime ?? ""}',
+                                                                            // '8:00 PM',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 12,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  const Text(
+                                                                    'per project',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color:
+                                                                          kColorSilver,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .italic,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const Divider(),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const Text(
+                                                          'Booking:',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        addHorizontalSpace(4),
+                                                        Chip(
+                                                          backgroundColor:
+                                                              Colors.lightBlue
+                                                                  .shade50,
+                                                          label: Text(
+                                                            'Approved',
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: Colors
+                                                                  .lightBlue,
                                                             ),
-                                                          );
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          BookedServicePage
-                                                              .routeName);
-                                                    },
-                                                    child: const Text(
-                                                      'Booking Details',
-                                                      style: TextStyle(
-                                                        color: kColorSilver,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                BookingsBloc>()
+                                                            .add(
+                                                              BookingSingleLoaded(
+                                                                int.parse(state
+                                                                        .orderItemList
+                                                                        ?.result?[
+                                                                            index]
+                                                                        .id ??
+                                                                    '0'),
+                                                              ),
+                                                            );
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            BookedServicePage
+                                                                .routeName);
+                                                      },
+                                                      child: const Text(
+                                                        'Booking Details',
+                                                        style: TextStyle(
+                                                          color: kColorSilver,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
                           ServicesSection(
                             isCheckPending: true,
@@ -423,12 +425,13 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                           return GestureDetector(
                             onTap: () async {
                               context.read<OrderIdCreateBloc>().add(
-                                    OrderIdCreateInitiated(
+                                    await OrderIdCreateInitiated(
                                       uuid: passListOfUuid(state),
                                     ),
                                   );
+
                               context.read<OrderItemRetriveBloc>().add(
-                                    OrderItemRetriveInitiated(
+                                    await OrderItemRetriveInitiated(
                                         uuid: orderState.orderIdCreate?.order ??
                                             ""),
                                   );

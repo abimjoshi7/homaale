@@ -132,40 +132,40 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
                   height: 10,
                 )
               : SizedBox(),
-          GestureDetector(
-            onTap: () {
-              setState(
-                () {
-                  _isShowOffer = !_isShowOffer;
-                  _isShowVoucher = false;
-                },
-              );
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              color: _isShowOffer ? Colors.blue.shade50 : Colors.grey.shade50,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 25.0,
-                ),
-                child: Text(
-                  'Select Offer ',
-                  style: _isShowOffer
-                      ? kPurpleText16
-                      : TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.blue),
-                ),
-              ),
-            ),
-          ),
-          _isShowOffer
-              ? Visibility(
-                  visible: _isShowOffer,
-                  child: AddVoucherAndOffersContainer(
-                      labelText: 'Redeem',
-                      controller: textEditingOfferController),
-                )
-              : SizedBox(),
+          // GestureDetector(
+          //   onTap: () {
+          //     setState(
+          //       () {
+          //         _isShowOffer = !_isShowOffer;
+          //         _isShowVoucher = false;
+          //       },
+          //     );
+          //   },
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width,
+          //     color: _isShowOffer ? Colors.blue.shade50 : Colors.grey.shade50,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(
+          //         left: 25.0,
+          //       ),
+          //       child: Text(
+          //         'Select Offer ',
+          //         style: _isShowOffer
+          //             ? kPurpleText16
+          //             : TextStyle(
+          //                 fontWeight: FontWeight.bold, color: Colors.blue),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // _isShowOffer
+          //     ? Visibility(
+          //         visible: _isShowOffer,
+          //         child: AddVoucherAndOffersContainer(
+          //             labelText: 'Redeem',
+          //             controller: textEditingOfferController),
+          //       )
+          //     : SizedBox(),
         ],
       );
     });
