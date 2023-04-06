@@ -51,10 +51,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
       sum = 0.0;
       for (var items in selectedItems) {
         sum = sum +
-            double.parse(state
-                    .orderItemList?.result?[items].charge
-                    .toString() ??
-                "0.0");
+            double.parse(
+                state.orderItemList?.result?[items].charge.toString() ?? "0.0");
       }
       return 'Rs. $sum';
     }
@@ -122,7 +120,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                             0,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
-                                        onTap: () async{
+                                        onTap: () {
                                           if (selectedItems.contains(index)) {
                                             setState(() {
                                               selectedItems.remove(index);
@@ -425,20 +423,24 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                           return GestureDetector(
                             onTap: () async {
                               context.read<OrderIdCreateBloc>().add(
-                                    await OrderIdCreateInitiated(
-                                      uuid: passListOfUuid(state),
-                                    ),
-                                  );
+                                  await OrderIdCreateInitiated(
+                                  uuid: passListOfUuid(state),
+                              ),
+                              );
 
                               context.read<OrderItemRetriveBloc>().add(
-                                    await OrderItemRetriveInitiated(
-                                        uuid: orderState.orderIdCreate?.order ??
-                                            ""),
-                                  );
-                              await Navigator.pushNamed(
-                                context,
-                                CheckoutPage.routeName,
+                              await OrderItemRetriveInitiated(
+                              uuid:
+                              orderState.orderIdCreate?.order ??
+                              ""),
                               );
+                              Future.delayed(const Duration(seconds: 1),
+                                  () async {
+                              await  Navigator.pushNamed(
+                                  context,
+                                  CheckoutPage.routeName,
+                                );
+                              });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
