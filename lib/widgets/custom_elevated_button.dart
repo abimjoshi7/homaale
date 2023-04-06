@@ -8,7 +8,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.label = '',
     this.mainColor = kColorPrimary,
     this.textColor = Colors.white,
-    this.borderColor = kColorPrimary,
+    this.borderColor = Colors.transparent,
     this.theHeight = 48,
     this.theWidth = 366,
   });

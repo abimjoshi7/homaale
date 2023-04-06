@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
@@ -20,7 +21,7 @@ class PopularTaskerSection extends StatelessWidget {
         horizontal: 10,
       ),
       child: Column(
-        children: [
+        children: <Widget>[
           SectionHeading(
             labelName: 'Popular Taskers',
             onTap: () {
@@ -34,26 +35,18 @@ class PopularTaskerSection extends StatelessWidget {
             builder: (context, state) {
               if (state.states == TheStates.initial) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CardLoading(height: 200,),
                 );
               }
               if (state.states == TheStates.success) {
                 final data = state.taskerListRes?.result;
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.27,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => TaskerCard(
-                      networkImageUrl: data?[index].profileImage,
-                      label:
-                          "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
-                      designation: data?[index].designation,
-                      happyClients: data?[index].stats?.happyClients.toString(),
-                      ratings:
-                          "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
-                      rate: "Rs. ${data?[index].hourlyRate}",
-                      callback: () {
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
                         context.read<TaskerCubit>().loadSingleTasker(
                               data?[index].user?.id ?? '',
                             );
@@ -72,6 +65,23 @@ class PopularTaskerSection extends StatelessWidget {
                           TaskerProfileView.routeName,
                         );
                       },
+                      child: TaskerCard(
+                        networkImageUrl: data?[index].profileImage,
+                        label:
+                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        designation: data?[index].designation,
+                        happyClients:
+                            data?[index].stats?.happyClients.toString(),
+                        ratings:
+                            "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                        callback: () {
+                          if (CacheHelper.isLoggedIn == false) {
+                            notLoggedInPopUp(context);
+                          }
+                          if (CacheHelper.isLoggedIn == false) return;
+                        },
+                        onFavouriteTapped: () {},
+                      ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,
                     itemCount: state.taskerListRes?.result?.length ?? 1,

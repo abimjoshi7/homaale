@@ -5,51 +5,117 @@ abstract class BookingsEvent extends Equatable {
   const BookingsEvent();
 }
 
-class ServiceBookingInitiated extends BookingsEvent {
+class BookingLoaded extends BookingsEvent {
+  final bool? isTask;
+  final String? status;
+  final int? page;
+  const BookingLoaded({
+    this.isTask,
+    this.status,
+    this.page,
+  });
+
+  @override
+  List<Object?> get props => [isTask, status, page];
+}
+
+class BookingSingleLoaded extends BookingsEvent {
+  final int id;
+
+  const BookingSingleLoaded(
+    this.id,
+  );
+  @override
+  List<Object?> get props => [
+        id,
+      ];
+}
+
+class BookingCreated extends BookingsEvent {
   final BookEntityServiceReq service;
 
-  const ServiceBookingInitiated(this.service);
+  const BookingCreated(this.service);
   @override
   List<Object?> get props => [service];
 }
 
-class ServiceBookingListLoadInitiated extends BookingsEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-class ServiceBookingEditInitiated extends BookingsEvent {
+class BookingEdited extends BookingsEvent {
   final int id;
   final EditBookingReq req;
-  const ServiceBookingEditInitiated({
+  final bool isTask;
+  const BookingEdited({
     required this.id,
     required this.req,
+    required this.isTask,
   });
   @override
   List<Object?> get props => [
         id,
         req,
+        isTask,
       ];
 }
 
-class ServiceBookingDeleteInitiated extends BookingsEvent {
+class BookingApproved extends BookingsEvent {
+  final ApproveReq approveReq;
+  const BookingApproved({
+    required this.approveReq,
+  });
+  @override
+  List<Object?> get props => [
+        approveReq,
+      ];
+}
+
+class BookingDeleted extends BookingsEvent {
   final int id;
-  const ServiceBookingDeleteInitiated({
+  final bool isTask;
+  const BookingDeleted({
     required this.id,
+    required this.isTask,
   });
   @override
   List<Object?> get props => [
         id,
+        isTask,
       ];
 }
 
-class ServiceBookingCancelInitiated extends BookingsEvent {
+class BookingRejected extends BookingsEvent {
+  final RejectReq rejectReq;
+  final bool isTask;
+  const BookingRejected({
+    required this.rejectReq,
+    required this.isTask,
+  });
+  @override
+  List<Object?> get props => [
+        rejectReq,
+        isTask,
+      ];
+}
+
+class BookingHistory extends BookingsEvent {
+  final BookingHistoryReq bookingHistoryReq;
+  const BookingHistory({
+    required this.bookingHistoryReq,
+  });
+  @override
+  List<Object?> get props => [
+        bookingHistoryReq,
+      ];
+}
+
+class BookingCancelled extends BookingsEvent {
   final int id;
-  const ServiceBookingCancelInitiated({
+  final bool isTask;
+  const BookingCancelled({
     required this.id,
+    required this.isTask,
   });
   @override
   List<Object?> get props => [
         id,
+        isTask,
       ];
 }

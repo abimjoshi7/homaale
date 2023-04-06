@@ -5,8 +5,9 @@ class CustomTextButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.voidCallback,
+    this.style,
   });
-
+  final TextStyle? style;
   final String text;
   final VoidCallback voidCallback;
 
@@ -16,10 +17,11 @@ class CustomTextButton extends StatelessWidget {
       onTap: voidCallback,
       child: Text(
         text,
-        style: const TextStyle(
-          color: Color(0xff3d3f7d),
-          fontWeight: FontWeight.w400,
-        ),
+        style: style ??
+            const TextStyle(
+              color: Color(0xff3d3f7d),
+              fontWeight: FontWeight.w400,
+            ),
       ),
     );
   }

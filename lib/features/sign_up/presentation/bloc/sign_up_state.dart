@@ -1,40 +1,45 @@
 part of 'sign_up_bloc.dart';
 
-abstract class SignUpState extends Equatable {
-  const SignUpState();
-}
+class SignUpState extends Equatable {
+  final String? identifierFormFieldValue;
+  final bool isPhoneNumber;
+  final TheStates? theStates;
+  final UserSignUpRes? userSignUpRes;
+  final String? errorMsg;
 
-class SignUpPhoneInitial extends SignUpState {
-  @override
-  List<Object?> get props => [];
-}
-
-class SignUpEmailInitial extends SignUpState {
-  @override
-  List<Object?> get props => [];
-}
-
-class SignUpWithPhoneSuccess extends SignUpState {
-  final UserSignUpRes userSignUpRes;
-  const SignUpWithPhoneSuccess({
-    required this.userSignUpRes,
+  const SignUpState({
+    this.identifierFormFieldValue,
+    this.isPhoneNumber = true,
+    this.theStates,
+    this.userSignUpRes,
+    this.errorMsg,
   });
 
-  @override
-  List<Object?> get props => [userSignUpRes];
-}
+  SignUpState copyWith({
+    String? identifierFormFieldValue,
+    bool? isPhoneNumber,
+    TheStates? theStates,
+    UserSignUpRes? userSignUpRes,
+    String? errorMsg,
+  }) {
+    return SignUpState(
+      identifierFormFieldValue:
+          identifierFormFieldValue ?? this.identifierFormFieldValue,
+      isPhoneNumber: isPhoneNumber ?? this.isPhoneNumber,
+      theStates: theStates ?? this.theStates,
+      userSignUpRes: userSignUpRes ?? this.userSignUpRes,
+      errorMsg: errorMsg ?? this.errorMsg,
+    );
+  }
 
-class SignUpWithEmailSuccess extends SignUpState {
-  final UserSignUpRes userSignUpRes;
-  const SignUpWithEmailSuccess({
-    required this.userSignUpRes,
-  });
-
   @override
-  List<Object?> get props => [userSignUpRes];
-}
-
-class SignUpFailure extends SignUpState {
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props {
+    return [
+      identifierFormFieldValue,
+      isPhoneNumber,
+      theStates,
+      userSignUpRes,
+      errorMsg,
+    ];
+  }
 }

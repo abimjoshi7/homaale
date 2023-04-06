@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {
@@ -18,17 +19,21 @@ class IconText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           iconData,
           color: color,
           size: size,
         ),
-        kWidth10,
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
+        addHorizontalSpace(
+          5,
+        ),
+        Flexible(
+          child: AutoSizeText(
+            label,
+            maxFontSize: 12,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

@@ -1,31 +1,35 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
-import 'package:cipher/features/bookings/presentation/pages/booking_details_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
-import 'package:cipher/features/bookings/presentation/pages/bookings_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
+import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
-import 'package:cipher/features/order/presentation/pages/order_page.dart';
+import 'package:cipher/features/order/presentation/pages/order_invoice_page.dart';
 import 'package:cipher/features/payment/presentation/pages/add_payment_method_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
-import 'package:cipher/features/services/presentation/pages/entity_services_page.dart';
+import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
-import 'package:cipher/features/services/presentation/pages/service_provider_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
@@ -35,8 +39,12 @@ import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
+import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:flutter/material.dart';
+import '../../features/content_client/presentation/pages/pages.dart';
+import '../../features/notification/presentation/pages/notification_from_home.dart';
+import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
 
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {
@@ -72,7 +80,21 @@ class AppRouter {
           builder: (context) => const OtpSignUp(),
           settings: settings,
         );
-
+      case ResendVerificationPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ResendVerificationPage(),
+          settings: settings,
+        );
+      case TermsOfUsePage.routeName:
+        return MaterialPageRoute(
+          builder: (content) => const TermsOfUsePage(),
+          settings: settings,
+        );
+      case PrivacyPolicyPage.routeName:
+        return MaterialPageRoute(
+          builder: (content) => const PrivacyPolicyPage(),
+          settings: settings,
+        );
       case FacebookLogin.routeName:
         return MaterialPageRoute(
           builder: (context) => const FacebookLogin(),
@@ -116,6 +138,10 @@ class AppRouter {
       case Home.routeName:
         return MaterialPageRoute(
           builder: (context) => const Home(),
+        );
+      case SearchPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SearchPage(),
         );
       case AccountProfile.routeName:
         return MaterialPageRoute(
@@ -181,13 +207,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const DeactivatePage(),
         );
-      case BookingPages.routeName:
+      case MyBookingsPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const BookingPages(),
+          builder: (context) => const MyBookingsPage(),
         );
-      case ServiceProviderPage.routeName:
+      case TaskEntityServicePage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const ServiceProviderPage(),
+          builder: (context) => const TaskEntityServicePage(),
+          settings: settings,
         );
       case CategoriesPage.routeName:
         return MaterialPageRoute(
@@ -198,9 +225,9 @@ class AppRouter {
           builder: (context) => const ServicesPage(),
           settings: settings,
         );
-      case EntityServicesPage.routeName:
+      case CategoryProfessionalServiceSection.routeName:
         return MaterialPageRoute(
-          builder: (context) => const EntityServicesPage(),
+          builder: (context) => const CategoryProfessionalServiceSection(),
           settings: settings,
         );
       case AddServicePage.routeName:
@@ -208,11 +235,11 @@ class AppRouter {
           builder: (context) => const AddServicePage(),
           settings: settings,
         );
-      case BookingDetailsPage.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const BookingDetailsPage(),
-          settings: settings,
-        );
+      // case BookingDetailsPage.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const BookingDetailsPage(),
+      //     settings: settings,
+      //   );
       case BookingNextDetailPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingNextDetailPage(),
@@ -238,9 +265,14 @@ class AppRouter {
           builder: (context) => const PaymentSummaryPage(),
           settings: settings,
         );
-      case OrderPage.routeName:
+      case OrderInvoicePage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const OrderPage(),
+          builder: (context) => const OrderInvoicePage(),
+          settings: settings,
+        );
+      case PaymentOnGoingPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const PaymentOnGoingPage(),
           settings: settings,
         );
       case InvoicePage.routeName:
@@ -273,6 +305,11 @@ class AppRouter {
           builder: (context) => const ApplyTaskPage(),
           settings: settings,
         );
+      case SingleTaskPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SingleTaskPage(),
+          settings: settings,
+        );
       case PopularTaskerPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const PopularTaskerPage(),
@@ -288,18 +325,34 @@ class AppRouter {
           builder: (context) => const AllTaskPage(),
           settings: settings,
         );
+      case ServiceBookingPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ServiceBookingPage(),
+          settings: settings,
+        );
 
       case SandboxPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SandboxPage(),
         );
+      case NotificationFromHome.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const NotificationFromHome(),
+          settings: settings,
+        );
+      case BookedServicePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookedServicePage(),
+          settings: settings,
+        );
+      case EventDetailsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const EventDetailsPage(),
+          settings: settings,
+        );
       default:
         return MaterialPageRoute(
-          builder: (context) => const Scaffold(
-            body: Center(
-              child: Text('Page not found'),
-            ),
-          ),
+          builder: (context) => const ErrorPage(),
         );
     }
   }

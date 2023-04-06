@@ -1,6 +1,9 @@
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
-import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
+import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +29,17 @@ class _TaskerTaskState extends State<TaskerTask> {
     super.initState();
   }
 
+  void onTaskPressed({
+    required String id,
+    required int index,
+    required bool isApply,
+  }) {
+    context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: id));
+    isApply
+        ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
+        : Navigator.pushNamed(context, SingleTaskPage.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,17 +51,29 @@ class _TaskerTaskState extends State<TaskerTask> {
         separatorBuilder: (context, index) => addVerticalSpace(16),
         itemCount: taskList?.length ?? 0,
         itemBuilder: (context, index) {
-          return TaskCard(
-            taskName: taskList![index].title ?? 'taskName',
-            startRate: taskList![index].budgetFrom?.toString() ?? '0',
-            endRate: taskList![index].budgetTo?.toString() ?? '0',
-            imageUrl:
-                taskList![index].createdBy?.profileImage ?? kServiceImageNImg,
-            location: taskList![index].location,
-            endHour: Jiffy(taskList![index].createdAt.toString()).jm,
-            endDate: Jiffy(taskList![index].endDate.toString()).yMMMMd,
-            count: taskList![index].count.toString(),
-            callback: () {},
+          return InkWell(
+            onTap: () => onTaskPressed(
+              id: taskList![index].id!,
+              index: index,
+              isApply: false,
+            ),
+            child: TaskCard(
+              taskName: taskList![index].title ?? 'taskName',
+              startRate: taskList![index].budgetFrom?.toString() ?? '0',
+              endRate: taskList![index].budgetTo?.toString() ?? '0',
+              budgetType: '${taskList![index].budgetType} ',
+              imageUrl:
+                  taskList![index].createdBy?.profileImage ?? kServiceImageNImg,
+              location: taskList![index].location,
+              endHour: Jiffy(taskList![index].createdAt.toString()).jm,
+              endDate: Jiffy(taskList![index].endDate.toString()).yMMMMd,
+              count: taskList![index].count.toString(),
+              callback: () => onTaskPressed(
+                id: taskList![index].id!,
+                index: index,
+                isApply: true,
+              ),
+            ),
           );
         },
       ),

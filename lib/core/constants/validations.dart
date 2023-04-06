@@ -15,7 +15,7 @@ String? validateEmail(String? value) {
 
 String? validateNotEmpty(String? value) {
   if (value!.isEmpty) {
-    return 'Field cannot be empty';
+    return 'Required Field';
   }
   return null;
 }
@@ -28,14 +28,14 @@ String? validateNumber(String? value) {
 }
 
 String? validatePassword(String? value) {
-  final regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~]).{6,}$');
+  final regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!@#\$&*~]).{10,}$');
   if (value!.isEmpty) {
     return 'Please enter password';
   } else {
     if (!regex.hasMatch(value)) {
       return '''
-Your password must be at least 6 character long
- with minimum 1 upper case, lowercase, special character each
+Your password must be at least 10 character long with atleast
+1 numeric charater, 1 capital case and 1 special character each
 ''';
     } else {
       return null;

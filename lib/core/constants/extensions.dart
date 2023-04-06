@@ -18,3 +18,9 @@ extension StringCasingExtension on String {
       .map((str) => str.toCapitalized())
       .join(' ');
 }
+
+extension MyDateExtension on DateTime {
+  DateTime toDateOnly() {
+    return DateTime(year, month, day);
+  }
+}

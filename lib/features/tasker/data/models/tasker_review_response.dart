@@ -34,8 +34,8 @@ class Result with _$Result {
     @JsonKey(name: 'created_at') DateTime? createdAt,
     int? rating,
     String? review,
-    dynamic? reply,
-    @JsonKey(name: 'replied_date') dynamic? repliedDate,
+    dynamic reply,
+    @JsonKey(name: 'replied_date') dynamic repliedDate,
     @JsonKey(name: 'is_verified') bool? isVerified,
     String? task,
   }) = _Result;

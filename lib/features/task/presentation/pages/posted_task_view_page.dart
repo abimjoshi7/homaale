@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -114,9 +113,9 @@ class PostedTaskViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconText(
-                              label: DateFormat.yMMMEd().format(
-                                taskModel?.createdAt ?? DateTime.now(),
-                              ),
+                              label: Jiffy(taskModel?.createdAt ??
+                                      DateTime.now().toString())
+                                  .yMMMEd,
                               iconData: Icons.calendar_today_rounded,
                             ),
                             IconText(
@@ -271,6 +270,12 @@ class _ClientTaskViewTabSectionState extends State<ClientTaskViewTabSection>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -346,6 +351,7 @@ class TaskersTabSection extends StatelessWidget {
             ),
             itemBuilder: (context, index) => TaskerCard(
               callback: () {},
+              onFavouriteTapped: () {},
             ),
           ),
         ),

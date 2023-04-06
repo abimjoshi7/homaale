@@ -1,9 +1,12 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_add_skills.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_join_as.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_service_category.dart';
 import 'package:cipher/features/preference/presentation/pages/preference_sign_up.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class Preference extends StatefulWidget {
@@ -16,23 +19,32 @@ class Preference extends StatefulWidget {
 
 class _PreferenceState extends State<Preference> {
   int selectedIndex = 0;
-  final widgets = [
+  final widgets = <Widget>[
     const PreferencesSignUp(),
     const PreferencesJoinAs(),
     const PreferencesServiceCategory(),
     const PreferencesAddSkill(),
   ];
+  void onTapSkip() {
+    context.read<SignInBloc>().add(SignInWithoutCredentials());
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      Root.routeName,
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     IconButton(
                       onPressed: () {
                         Navigator.pop(context);
@@ -47,19 +59,24 @@ class _PreferenceState extends State<Preference> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: const [
-                      Text(
-                        'Skip',
-                        style: kSkipHelper,
-                      ),
-                      kWidth10,
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 12,
-                        color: Color(0xff868E96),
-                      )
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      onTapSkip();
+                    },
+                    child: Row(
+                      children: const <Widget>[
+                        Text(
+                          'Skip',
+                          style: kSkipHelper,
+                        ),
+                        kWidth10,
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 12,
+                          color: Color(0xff868E96),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -67,7 +84,7 @@ class _PreferenceState extends State<Preference> {
             Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
-                children: [
+                children: <Widget>[
                   Container(
                     width: selectedIndex == 0
                         ? 100
@@ -113,6 +130,9 @@ class _PreferenceState extends State<Preference> {
                     }
                   },
                 );
+                if (selectedIndex >= 3) {
+                  onTapSkip();
+                }
               },
               label: 'Next',
             ),

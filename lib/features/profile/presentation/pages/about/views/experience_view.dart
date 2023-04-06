@@ -107,7 +107,17 @@ class ExperienceView extends StatelessWidget {
                             ),
                             Text(
                               // '${state.taskerExperienceRes.result?[index]?.startDate.toString().substring(0, 10)} - ${state.taskerExperienceRes.result?[index]?.endDate.toString().substring(0, 10)}',
-                              '${DateFormat('yyyy-MM-dd').format(state.taskerExperienceRes[index].startDate!)} - ${DateFormat('yyyy-MM-dd').format(state.taskerExperienceRes[index].endDate!)}',
+                              '${DateFormat('yyyy-MM-dd').format(
+                                state.taskerExperienceRes[index].startDate ??
+                                    DateTime(
+                                      2000,
+                                    ),
+                              )} - ${DateFormat('yyyy-MM-dd').format(
+                                state.taskerExperienceRes[index].endDate ??
+                                    DateTime(
+                                      2000,
+                                    ),
+                              )}',
                               style: kHelper13,
                             ),
                             const Divider()

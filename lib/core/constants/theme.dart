@@ -49,5 +49,4 @@ final kLightTheme = ThemeData(
     space: 0,
     thickness: 1.2,
   ),
-
 );

@@ -8,26 +8,25 @@ import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart'
 class UserRepositories {
   final _dio = DioHelper();
 
-  Future<TaskerProfile> fetchUser() async {
+  Future<Map<String, dynamic>> fetchUser() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );
-      return TaskerProfile.fromJson(
-        x as Map<String, dynamic>,
-      );
+      return x as Map<String, dynamic>;
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }
 
   Future<Map<String, dynamic>> addUser(
-    TaskerProfileCreateReq taskerProfileCreateReq,
+    Map<String, dynamic> taskerProfileCreateReq,
   ) async {
     try {
       final x = await _dio.postFormData(
-        map: taskerProfileCreateReq.toJson(),
+        map: taskerProfileCreateReq,
         url: 'tasker/my-profile/',
         token: CacheHelper.accessToken,
       );

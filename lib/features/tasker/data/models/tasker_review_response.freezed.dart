@@ -303,9 +303,9 @@ mixin _$Result {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   int? get rating => throw _privateConstructorUsedError;
   String? get review => throw _privateConstructorUsedError;
-  dynamic? get reply => throw _privateConstructorUsedError;
+  dynamic get reply => throw _privateConstructorUsedError;
   @JsonKey(name: 'replied_date')
-  dynamic? get repliedDate => throw _privateConstructorUsedError;
+  dynamic get repliedDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_verified')
   bool? get isVerified => throw _privateConstructorUsedError;
   String? get task => throw _privateConstructorUsedError;
@@ -327,8 +327,8 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: 'created_at') DateTime? createdAt,
       int? rating,
       String? review,
-      dynamic? reply,
-      @JsonKey(name: 'replied_date') dynamic? repliedDate,
+      dynamic reply,
+      @JsonKey(name: 'replied_date') dynamic repliedDate,
       @JsonKey(name: 'is_verified') bool? isVerified,
       String? task});
 
@@ -388,11 +388,11 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       reply: freezed == reply
           ? _value.reply
           : reply // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       repliedDate: freezed == repliedDate
           ? _value.repliedDate
           : repliedDate // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -442,8 +442,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: 'created_at') DateTime? createdAt,
       int? rating,
       String? review,
-      dynamic? reply,
-      @JsonKey(name: 'replied_date') dynamic? repliedDate,
+      dynamic reply,
+      @JsonKey(name: 'replied_date') dynamic repliedDate,
       @JsonKey(name: 'is_verified') bool? isVerified,
       String? task});
 
@@ -502,11 +502,11 @@ class __$$_ResultCopyWithImpl<$Res>
       reply: freezed == reply
           ? _value.reply
           : reply // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       repliedDate: freezed == repliedDate
           ? _value.repliedDate
           : repliedDate // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -553,10 +553,10 @@ class _$_Result implements _Result {
   @override
   final String? review;
   @override
-  final dynamic? reply;
+  final dynamic reply;
   @override
   @JsonKey(name: 'replied_date')
-  final dynamic? repliedDate;
+  final dynamic repliedDate;
   @override
   @JsonKey(name: 'is_verified')
   final bool? isVerified;
@@ -625,8 +625,8 @@ abstract class _Result implements Result {
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       final int? rating,
       final String? review,
-      final dynamic? reply,
-      @JsonKey(name: 'replied_date') final dynamic? repliedDate,
+      final dynamic reply,
+      @JsonKey(name: 'replied_date') final dynamic repliedDate,
       @JsonKey(name: 'is_verified') final bool? isVerified,
       final String? task}) = _$_Result;
 
@@ -648,10 +648,10 @@ abstract class _Result implements Result {
   @override
   String? get review;
   @override
-  dynamic? get reply;
+  dynamic get reply;
   @override
   @JsonKey(name: 'replied_date')
-  dynamic? get repliedDate;
+  dynamic get repliedDate;
   @override
   @JsonKey(name: 'is_verified')
   bool? get isVerified;

@@ -3,6 +3,7 @@ import 'package:cipher/features/account_settings/presentation/pages/password_and
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class Settings extends StatelessWidget {
               ),
             ),
             trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
+              icon: const Icon(Icons.search,size: 0,),
               onPressed: () async {},
             ),
             child: const Text(
@@ -71,34 +72,34 @@ class Settings extends StatelessWidget {
               );
             },
           ),
-          AccountListTileSection(
-            icon: const Icon(Icons.person_add_alt_outlined),
-            label: 'Membership',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                Membership.routeName,
-              );
-            },
-          ),
-          AccountListTileSection(
-            icon: const Icon(Icons.private_connectivity_sharp),
-            label: 'Connected Account',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                ConnectedAccountPage.routeName,
-              );
-            },
-          ),
+          // AccountListTileSection(
+          //   icon: const Icon(Icons.person_add_alt_outlined),
+          //   label: 'Membership',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios,
+          //     size: 16,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       Membership.routeName,
+          //     );
+          //   },
+          // ),
+          // AccountListTileSection(
+          //   icon: const Icon(Icons.private_connectivity_sharp),
+          //   label: 'Connected Account',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios,
+          //     size: 16,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       ConnectedAccountPage.routeName,
+          //     );
+          //   },
+          // ),
           AccountListTileSection(
             icon: const Icon(Icons.notifications_none),
             label: 'Notifications',
@@ -109,52 +110,52 @@ class Settings extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                NotificationsPage.routeName,
+                NotificationFromHome.routeName,
               );
             },
           ),
-          AccountListTileSection(
-            icon: const Icon(Icons.language),
-            label: 'Languages',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                LanguagesPage.routeName,
-              );
-            },
-          ),
-          AccountListTileSection(
-            icon: const Icon(Icons.monetization_on_outlined),
-            label: 'Billing & Payments',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                BillingAndPaymentPage.routeName,
-              );
-            },
-          ),
-          AccountListTileSection(
-            icon: const Icon(Icons.person_outline_outlined),
-            label: 'Help & Legal',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                HelpAndLegalPage.routeName,
-              );
-            },
-          ),
+          // AccountListTileSection(
+          //   icon: const Icon(Icons.language),
+          //   label: 'Languages',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios,
+          //     size: 16,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       LanguagesPage.routeName,
+          //     );
+          //   },
+          // ),
+          // AccountListTileSection(
+          //   icon: const Icon(Icons.monetization_on_outlined),
+          //   label: 'Billing & Payments',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios,
+          //     size: 16,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       BillingAndPaymentPage.routeName,
+          //     );
+          //   },
+          // ),
+          // AccountListTileSection(
+          //   icon: const Icon(Icons.person_outline_outlined),
+          //   label: 'Help & Legal',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios,
+          //     size: 16,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       HelpAndLegalPage.routeName,
+          //     );
+          //   },
+          // ),
           AccountListTileSection(
             icon: const Icon(Icons.close),
             label: 'Deactivate',

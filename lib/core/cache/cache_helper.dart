@@ -6,6 +6,7 @@ class CacheHelper {
   static String? accessToken;
   static String? refreshToken;
   static bool? hasProfile;
+  static bool isLoggedIn = false;
 
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(
@@ -37,6 +38,7 @@ class CacheHelper {
   static Future<void> clearAllCachedData() async {
     accessToken = null;
     refreshToken = null;
+
     await _storage.deleteAll();
   }
 

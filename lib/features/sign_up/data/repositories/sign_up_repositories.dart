@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
@@ -48,6 +50,22 @@ class SignUpRepositories {
       );
       return OtpResetVerifyRes.fromJson(res as Map<String, dynamic>);
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future resendOTPSignUp({
+    required String phoneNumber,
+  }) async {
+    try {
+      final res = await _dio.postData(
+        data: {"phone": "$phoneNumber"},
+        url: 'user/resend/otp/activation/',
+      );
+      log("resend OTP test: " + res.toString());
+      return res;
+    } catch (e) {
+      log('Could not resend OTP: $e');
       rethrow;
     }
   }

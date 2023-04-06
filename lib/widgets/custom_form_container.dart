@@ -27,9 +27,8 @@ class CustomFormContainer extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           border: Border.all(
-            color: const Color(
-              0xffDEE2E6,
-            ),
+            color: kColorGrey,
+            width: 0.8,
           ),
           borderRadius: BorderRadius.circular(8),
         ),

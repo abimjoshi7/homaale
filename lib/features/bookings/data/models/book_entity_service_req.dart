@@ -19,16 +19,16 @@ class BookEntityServiceReq {
   });
 
   final DateTime? endDate;
-  final Map<String, dynamic>? requirements;
+  final List<String>? requirements;
   final String? location;
   final List<int>? offer;
   final String? description;
-  final int? budgetFrom;
-  final int? budgetTo;
+  final double? budgetFrom;
+  final double? budgetTo;
   final DateTime? startDate;
   final String? startTime;
   final String? endTime;
-  final Map<String, dynamic>? extraData;
+  final List<String>? extraData;
   final String? bookingMerchant;
   final String? entityService;
   final int? city;
@@ -42,24 +42,20 @@ class BookEntityServiceReq {
             : DateTime.parse(
                 json["end_date"] as String,
               ),
-        requirements: json["requirements"] == null
-            ? null
-            : json["requirements"] as Map<String, dynamic>,
+        requirements: json["requirements"] as List<String>?,
         location: json["location"] as String?,
         offer: json["offer"] == null
             ? []
             : List<int>.from(json["offer"].map((x) => x) as Iterable),
         description: json["description"] as String?,
-        budgetFrom: json["budget_from"] as int?,
-        budgetTo: json["budget_to"] as int?,
+        budgetFrom: json["budget_from"] as double?,
+        budgetTo: json["budget_to"] as double?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(json["start_date"] as String),
         startTime: json["start_time"] as String?,
         endTime: json["end_time"] as String?,
-        extraData: json["extra_data"] == null
-            ? null
-            : json["extra_data"] as Map<String, dynamic>,
+        extraData: json["extra_data"] as List<String>?,
         bookingMerchant: json["booking_merchant"] as String?,
         entityService: json["entity_service"] as String?,
         city: json["city"] as int?,

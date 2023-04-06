@@ -6,3 +6,5 @@ analyzer:
 linter:
   rules:
     avoid_dynamic_calls: false
+    missing_return: error
+    invalid_annotation_target: false

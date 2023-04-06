@@ -15,7 +15,7 @@ class SingleEntityTaskCubit extends Cubit<SingleEntityTaskState> {
       await repo.fetchSingleTask(id: id).then(
         (value) {
           TaskModel.fromJson(
-            value as Map<String, dynamic>,
+            value,
           );
           emit(
             SingleEntityTaskLoadSuccess(

@@ -1,7 +1,6 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/data/repositories/user_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -27,7 +26,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               emit(
                 state.copyWith(
                   theStates: TheStates.success,
-                  taskerProfile: value,
+                  taskerProfile: TaskerProfile.fromJson(
+                    value,
+                  ),
                 ),
               );
             },
@@ -48,26 +49,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           await respositories
               .addUser(event.req)
               .then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                  ),
-                ),
+                (value) => emit(state.copyWith(theStates: TheStates.success)),
               )
               .whenComplete(
             () {
               CacheHelper.hasProfile = true;
-              add(
-                UserLoaded(),
-              );
+              add(UserLoaded());
             },
           );
         } catch (e) {
-          emit(
-            state.copyWith(
-              theStates: TheStates.failure,
-            ),
-          );
+          emit(state.copyWith(theStates: TheStates.failure));
         }
       },
     );

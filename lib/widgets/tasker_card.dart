@@ -1,10 +1,14 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TaskerCard extends StatelessWidget {
   const TaskerCard({
     super.key,
+    required this.callback,
     this.label,
     this.designation,
     this.happyClients,
@@ -13,7 +17,9 @@ class TaskerCard extends StatelessWidget {
     this.ratings,
     this.rate,
     this.networkImageUrl,
-    required this.callback,
+    this.callbackLabel,
+    this.buttonWidth,
+    required this.onFavouriteTapped,
   });
 
   final String? label;
@@ -23,8 +29,11 @@ class TaskerCard extends StatelessWidget {
   final String? distance;
   final String? ratings;
   final String? rate;
+  final String? callbackLabel;
   final String? networkImageUrl;
+  final double? buttonWidth;
   final VoidCallback callback;
+  final VoidCallback onFavouriteTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +45,7 @@ class TaskerCard extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+            children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.08,
                 width: MediaQuery.of(context).size.width * 0.2,
@@ -54,15 +63,18 @@ class TaskerCard extends StatelessWidget {
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: <Widget>[
                     Column(
-                      children: [
+                      children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              label ?? 'Harry Smith',
-                              style: kPurpleText16,
+                          children: <Widget>[
+                            Flexible(
+                              child: AutoSizeText(
+                                label ?? 'Harry Smith',
+                                style: kPurpleText16,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             kWidth5,
                             const Icon(
@@ -79,7 +91,7 @@ class TaskerCard extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         WidgetText(
                           label: happyClients ?? '200',
                           widget: const Icon(
@@ -109,32 +121,47 @@ class TaskerCard extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         IconText(
                           label: ratings ?? '3.5 (100)',
                           iconData: Icons.star_rate_rounded,
                           size: 15,
                           color: kColorAmber,
                         ),
-                        Text(
-                          rate ?? 'Rs 2,000/hr',
-                          style: kPurpleText16,
-                        )
+                        // Text(
+                        //   rate ?? 'Rs 2,000/hr',
+                        //   style: kPurpleText16,
+                        // )
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(
-                          Icons.favorite_outline,
-                          color: Color(0xffFE5050),
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
+                            onFavouriteTapped();
+                          },
+                          child: const Icon(
+                            Icons.favorite_outline,
+                            color: Color(0xffFE5050),
+                          ),
                         ),
                         SizedBox(
                           height: 30,
-                          width: 80,
+                          width: buttonWidth ?? 80,
                           child: CustomElevatedButton(
-                            callback: callback,
-                            label: 'Hire Me',
+                            callback: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                              callback();
+                            },
+                            label: callbackLabel ?? 'Hire Me',
                           ),
                         ),
                       ],

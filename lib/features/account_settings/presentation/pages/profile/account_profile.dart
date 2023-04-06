@@ -1,17 +1,14 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
-import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
-import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +19,6 @@ class AccountProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = false;
     return Scaffold(
       body: Column(
         children: [
@@ -30,7 +26,10 @@ class AccountProfile extends StatelessWidget {
           CustomHeader(
             leadingWidget: addHorizontalSpace(45),
             trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
+              icon: const Icon(
+                Icons.search,
+                size: 0,
+              ),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -51,6 +50,12 @@ class AccountProfile extends StatelessWidget {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
+              if (state.theStates == TheStates.initial)
+                const Center(
+                  child: CardLoading(
+                    height: 200,
+                  ),
+                );
               if (state.theStates == TheStates.success) {
                 return Expanded(
                   child: ListView(
@@ -108,28 +113,41 @@ class AccountProfile extends StatelessWidget {
                           )
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ProfileStatsCard(
-                            imagePath: 'assets/reward.png',
-                            label: 'Reward Points',
-                            value:
-                                state.taskerProfile?.points.toString() ?? '0',
-                          ),
-                          const ProfileStatsCard(
-                            imagePath: 'assets/wallet.png',
-                            label: 'Account Balance',
-                            value: 'Rs. 1,00,000.00',
-                          ),
-                        ],
+                      BlocProvider(
+                        create: (context) => WalletBloc(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ProfileStatsCard(
+                              imagePath: 'assets/reward.png',
+                              label: 'Reward Points',
+                              value:
+                                  state.taskerProfile?.points.toString() ?? '0',
+                            ),
+                            BlocBuilder<WalletBloc, WalletState>(
+                              builder: (context, walletState) {
+                                return ProfileStatsCard(
+                                  imagePath: 'assets/wallet.png',
+                                  label: 'Account Balance',
+                                  value:
+                                      "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       kHeight20,
-                      CustomElevatedButton(
-                        callback: () {
-                          Navigator.pushNamed(context, Profile.routeName);
-                        },
-                        label: 'View Profile',
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: CustomElevatedButton(
+                          callback: () {
+                            Navigator.pushNamed(context, Profile.routeName);
+                          },
+                          label: 'View Profile',
+                        ),
                       ),
                       kHeight20,
                       InkWell(
@@ -143,9 +161,9 @@ class AccountProfile extends StatelessWidget {
                       ),
                       BlocBuilder<SignInBloc, SignInState>(
                         builder: (context, state) {
-                          if (state is SignInSuccess) {
+                          if (state.theStates == TheStates.success) {
                             return Visibility(
-                              visible: state.userLoginRes.hasProfile ?? false,
+                              visible: state.userLoginRes?.hasProfile ?? false,
                               child: AccountListTileSection(
                                 onTap: () async {
                                   Navigator.pushNamed(
@@ -169,54 +187,54 @@ class AccountProfile extends StatelessWidget {
                           }
                         },
                       ),
-                      AccountListTileSection(
-                        onTap: () {
-                          Navigator.pushNamed(context, SandboxPage.routeName);
-                        },
-                        icon: const Icon(
-                          Icons.reduce_capacity_sharp,
-                          color: Color(0xff495057),
-                        ),
-                        label: 'Sandbox',
-                        trailingWidget: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        ),
-                      ),
-                      AccountListTileSection(
-                        onTap: () {
-                          Navigator.pushNamed(context, SavedPage.routeName);
-                        },
-                        icon: const Icon(
-                          Icons.favorite_border_outlined,
-                          color: Color(0xff495057),
-                        ),
-                        label: 'Saved',
-                        trailingWidget: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        ),
-                      ),
-                      Visibility(
-                        visible: false,
-                        child: AccountListTileSection(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              OffersPage.routeName,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.card_giftcard_outlined,
-                            color: Color(0xff495057),
-                          ),
-                          label: 'Offers',
-                          trailingWidget: const Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                          ),
-                        ),
-                      ),
+                      // AccountListTileSection(
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, SandboxPage.routeName);
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.reduce_capacity_sharp,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Sandbox',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      // ),
+                      // AccountListTileSection(
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, SavedPage.routeName);
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.favorite_border_outlined,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Saved',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      // ),
+                      // Visibility(
+                      //   visible: false,
+                      //   child: AccountListTileSection(
+                      //     onTap: () {
+                      //       Navigator.pushNamed(
+                      //         context,
+                      //         OffersPage.routeName,
+                      //       );
+                      //     },
+                      //     icon: const Icon(
+                      //       Icons.card_giftcard_outlined,
+                      //       color: Color(0xff495057),
+                      //     ),
+                      //     label: 'Offers',
+                      //     trailingWidget: const Icon(
+                      //       Icons.arrow_forward_ios,
+                      //       size: 16,
+                      //     ),
+                      //   ),
+                      // ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -234,31 +252,31 @@ class AccountProfile extends StatelessWidget {
                           size: 16,
                         ),
                       ),
-                      AccountListTileSection(
-                        onTap: () {},
-                        icon: const Icon(
-                          Icons.dark_mode_outlined,
-                          color: Color(0xff495057),
-                        ),
-                        label: 'Dark Mode',
-                        trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
-                          builder: (context, state) {
-                            return StatefulBuilder(
-                              builder: (context, setState) => Switch(
-                                value: isDark,
-                                onChanged: (value) => setState(
-                                  () {
-                                    isDark = !isDark;
-                                    context.read<ThemeBloc>().add(
-                                          ThemeChangeChanged(),
-                                        );
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      // AccountListTileSection(
+                      //   onTap: () {},
+                      //   icon: const Icon(
+                      //     Icons.dark_mode_outlined,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Dark Mode',
+                      //   trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
+                      //     builder: (context, state) {
+                      //       return StatefulBuilder(
+                      //         builder: (context, setState) => Switch(
+                      //           value: isDark,
+                      //           onChanged: (value) => setState(
+                      //             () {
+                      //               isDark = !isDark;
+                      //               context.read<ThemeBloc>().add(
+                      //                     ThemeChangeChanged(),
+                      //                   );
+                      //             },
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -298,11 +316,35 @@ class AccountProfile extends StatelessWidget {
                           );
                         },
                       ),
+                      // BlocBuilder<PaymentBloc, PaymentIntentState>(
+                      //   builder: (context, state) {
+                      //     return
+
+                      // AccountListTileSection(
+                      //   onTap: () async {
+                      //     await Navigator.pushNamed(
+                      //       context,
+                      //       CheckoutPage.routeName,
+                      //     );
+                      //   },
+                      //   icon: const Icon(Icons.check_box),
+                      //   label: 'Checkout',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      //   //   );
+                      //   // },
+                      // ),
                     ],
                   ),
                 );
               }
-              return const SizedBox.shrink();
+              return const Center(
+                child: CardLoading(
+                  height: 200,
+                ),
+              );
             },
           ),
         ],

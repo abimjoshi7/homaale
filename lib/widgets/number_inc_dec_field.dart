@@ -1,14 +1,20 @@
-import 'package:cipher/core/constants/constants.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
+import 'package:cipher/core/constants/constants.dart';
 
 class NumberIncDecField extends StatefulWidget {
   final TextEditingController controller;
   final double? width;
+  final ValueChanged? onChanged;
+  final ValueChanged? onSubmit;
   const NumberIncDecField({
-    super.key,
+    Key? key,
     required this.controller,
-    this.width,
-  });
+    this.width = 100,
+    this.onChanged,
+    this.onSubmit,
+  }) : super(key: key);
 
   @override
   State<NumberIncDecField> createState() => _NumberIncDecFieldState();
@@ -18,7 +24,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width ?? 100,
+      width: widget.width,
       foregroundDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         border: Border.all(
@@ -29,12 +35,19 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
         children: <Widget>[
           Expanded(
             child: TextFormField(
-              decoration: const InputDecoration(border: InputBorder.none),
-              textAlign: TextAlign.center,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(
+                  10,
+                ),
+              ),
               controller: widget.controller,
               keyboardType: const TextInputType.numberWithOptions(
                 signed: true,
               ),
+              onChanged: widget.onChanged,
+              onFieldSubmitted: widget.onSubmit,
             ),
           ),
           SizedBox(

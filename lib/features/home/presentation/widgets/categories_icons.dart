@@ -1,4 +1,4 @@
-import 'package:cipher/core/constants/constants.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesIcons extends StatelessWidget {
@@ -18,34 +18,36 @@ class CategoriesIcons extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              height: 48,
-              width: 48,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: color,
               ),
-              child: child,
+              child: Center(child: child),
             ),
-            kHeight5,
-            Flexible(
-              child: Text(
+          ),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(
+                5,
+              ),
+              child: AutoSizeText(
                 data,
                 style: const TextStyle(
-                  color: Color(0xff3d3f7d),
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: FontWeight.w400,
                 ),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

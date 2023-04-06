@@ -5,9 +5,23 @@ class TaskState extends Equatable {
   final PostTaskRes? postTaskRes;
   final MyTaskRes? myTaskRes;
   final AllTaskList? allTaskList;
-  final EntityServiceModel? tasksList;
-  final TaskModel? taskModel;
+  final es.EntityServiceModel? tasksList;
+  final SingleTaskEntityService? taskModel;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
+  final TaskApplyCountModel? taskApplyCountModel;
+  final ApplicantModel? applicantModel;
+  final bool applyTaskFail;
+  final bool applyTaskSuccess;
+  final bool? approveSuccess;
+  final bool? approveFail;
+  final bool? rejectSuccess;
+  final bool? rejectFail;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
+  final bool? isFilter;
+  final List<ServiceList>? serviceList;
+  final bool? servicesLoaded;
+
   const TaskState({
     this.theState = TheStates.initial,
     this.postTaskRes,
@@ -16,6 +30,19 @@ class TaskState extends Equatable {
     this.tasksList,
     this.taskModel,
     this.selfCreatedTaskServiceModel,
+    this.taskApplyCountModel,
+    this.applicantModel,
+    this.serviceList,
+    this.isFilter = false,
+    this.servicesLoaded = false,
+    this.applyTaskFail = false,
+    this.applyTaskSuccess = false,
+    this.approveSuccess = false,
+    this.approveFail = false,
+    this.rejectSuccess = false,
+    this.rejectFail = false,
+    this.isDateSort = false,
+    this.isBudgetSort = false,
   });
 
   @override
@@ -28,6 +55,19 @@ class TaskState extends Equatable {
       tasksList,
       taskModel,
       selfCreatedTaskServiceModel,
+      taskApplyCountModel,
+      applicantModel,
+      applyTaskFail,
+      applyTaskSuccess,
+      approveSuccess,
+      approveFail,
+      rejectSuccess,
+      rejectFail,
+      isDateSort,
+      isBudgetSort,
+      serviceList,
+      servicesLoaded,
+      isFilter,
     ];
   }
 
@@ -36,9 +76,22 @@ class TaskState extends Equatable {
     PostTaskRes? postTaskRes,
     MyTaskRes? myTaskRes,
     AllTaskList? allTaskList,
-    EntityServiceModel? tasksList,
-    TaskModel? taskModel,
+    es.EntityServiceModel? tasksList,
+    SingleTaskEntityService? taskModel,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
+    TaskApplyCountModel? taskApplyCountModel,
+    ApplicantModel? applicantModel,
+    List<ServiceList>? serviceList,
+    bool? applyTaskFail,
+    bool? applyTaskSuccess,
+    bool? approveSuccess,
+    bool? approveFail,
+    bool? rejectSuccess,
+    bool? rejectFail,
+    bool? isDateSort,
+    bool? isBudgetSort,
+    bool? isFilter,
+    bool? servicesLoaded,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
@@ -47,8 +100,20 @@ class TaskState extends Equatable {
       allTaskList: allTaskList ?? this.allTaskList,
       tasksList: tasksList ?? this.tasksList,
       taskModel: taskModel ?? this.taskModel,
-      selfCreatedTaskServiceModel:
-          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      selfCreatedTaskServiceModel: selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      taskApplyCountModel: taskApplyCountModel ?? this.taskApplyCountModel,
+      applicantModel: applicantModel ?? this.applicantModel,
+      applyTaskFail: applyTaskFail ?? this.applyTaskFail,
+      applyTaskSuccess: applyTaskSuccess ?? this.applyTaskSuccess,
+      approveSuccess: approveSuccess ?? this.approveSuccess,
+      approveFail: approveFail ?? this.approveFail,
+      rejectSuccess: rejectSuccess ?? this.rejectSuccess,
+      rejectFail: rejectFail ?? this.rejectFail,
+      isDateSort: isDateSort ?? this.isDateSort,
+      isBudgetSort: isBudgetSort ?? this.isBudgetSort,
+      serviceList: serviceList ?? this.serviceList,
+      isFilter: isFilter ?? this.isFilter,
+      servicesLoaded: servicesLoaded ?? this.servicesLoaded,
     );
   }
 }

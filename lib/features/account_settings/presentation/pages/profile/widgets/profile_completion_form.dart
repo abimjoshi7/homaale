@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
-import 'package:cipher/features/user/data/models/tasker_profile_create_req.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -55,6 +53,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   List<Map<String, dynamic>> map = [];
   List<int?>? interestCodes = [];
   final _key = GlobalKey<FormState>();
+  bool isCamera = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +68,54 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
               children: [
                 InkWell(
                   onTap: () async {
-                    await ImagePickHelper().pickImagePath().then(
-                          (value) => setState(
-                            () {
-                              selectedImage = value;
-                            },
-                          ),
-                        );
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WidgetText(
+                                callback: () {
+                                  setState(
+                                    () {
+                                      isCamera = true;
+                                    },
+                                  );
+                                  Navigator.pop(context);
+                                },
+                                widget: Icon(Icons.camera_alt_outlined),
+                                label: "Camera"),
+                            WidgetText(
+                                callback: () {
+                                  setState(
+                                    () {
+                                      isCamera = false;
+                                    },
+                                  );
+                                  Navigator.pop(context);
+                                },
+                                widget: Icon(Icons.camera_alt_outlined),
+                                label: "Gallery"),
+                          ],
+                        ),
+                      ),
+                    ).then(
+                      (value) async => await ImagePickHelper()
+                          .pickImagePath(
+                        isCamera: isCamera,
+                      )
+                          .then(
+                        (value) {
+                          if (value != null) {
+                            setState(
+                              () {
+                                selectedImage = value;
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    );
                   },
                   child: Column(
                     children: [
@@ -84,9 +124,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.25,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              16,
-                            ),
+                            borderRadius: BorderRadius.circular(16),
                             child: selectedImage == null
                                 ? const Placeholder(
                                     color: kColorSecondary,
@@ -269,41 +307,41 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   padding: EdgeInsets.symmetric(vertical: 8.0),
                   child: Divider(),
                 ),
-                CustomFormField(
-                  label: 'Select User Type',
-                  isRequired: true,
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isClient,
-                            onChanged: (value) => setState(
-                              () {
-                                isClient = value!;
-                              },
-                            ),
-                          ),
-                          const Text('Client')
-                        ],
-                      ),
-                      kWidth10,
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isTasker,
-                            onChanged: (value) => setState(
-                              () {
-                                isTasker = value!;
-                              },
-                            ),
-                          ),
-                          const Text('Tasker')
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                // CustomFormField(
+                //   label: 'Select User Type',
+                //   isRequired: true,
+                //   child: Row(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           Checkbox(
+                //             value: isClient,
+                //             onChanged: (value) => setState(
+                //               () {
+                //                 isClient = value!;
+                //               },
+                //             ),
+                //           ),
+                //           const Text('Client')
+                //         ],
+                //       ),
+                //       kWidth10,
+                //       Row(
+                //         children: [
+                //           Checkbox(
+                //             value: isTasker,
+                //             onChanged: (value) => setState(
+                //               () {
+                //                 isTasker = value!;
+                //               },
+                //             ),
+                //           ),
+                //           const Text('Tasker')
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 CustomFormField(
                   label: 'Skills',
                   isRequired: true,
@@ -455,20 +493,20 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     ],
                   ),
                 ),
-                CustomFormField(
-                  label: 'Base Rate Per Hour',
-                  isRequired: true,
-                  child: CustomTextFormField(
-                    textInputType: TextInputType.number,
-                    hintText: 'Base Rate Per Hour',
-                    onSaved: (p0) => setState(
-                      () {
-                        baseRateController.text = p0!;
-                      },
-                    ),
-                    validator: validateNotEmpty,
-                  ),
-                ),
+                // CustomFormField(
+                //   label: 'Base Rate Per Hour',
+                //   isRequired: true,
+                //   child: CustomTextFormField(
+                //     textInputType: TextInputType.number,
+                //     hintText: 'Base Rate Per Hour',
+                //     onSaved: (p0) => setState(
+                //       () {
+                //         baseRateController.text = p0!;
+                //       },
+                //     ),
+                //     validator: validateNotEmpty,
+                //   ),
+                // ),
                 CustomFormField(
                   isRequired: true,
                   label: 'Country',
@@ -693,8 +731,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                       return CustomElevatedButton(
                         callback: () async {
                           final image = await getImageFileFromAssets(
-                            'avatar-ga3c7ddeec_640.png',
-                          );
+                              'avatar-ga3c7ddeec_640.png');
                           if (startTime == null && endTime == null) {
                             if (!mounted) return;
                             showDialog(
@@ -728,57 +765,47 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               userType = "";
                             }
                             if (!mounted) return;
-                            final q = TaskerProfileCreateReq(
-                              city: cityCode,
-                              country: countryName ?? 'NP',
-                              interests: interestCodes,
-                              firstName: firstNameController.text,
-                              middleName: middleNameController.text,
-                              lastName: lastNameController.text,
-                              bio: bioController.text,
-                              designation: jobProfileController.text,
-                              gender: genderGroup,
-                              skill: tagController.getTags != null
+                            final Map<String, dynamic> q = {
+                              "city": cityCode,
+                              "country": countryName ?? 'NP',
+                              "interests": interestCodes,
+                              "first_name": firstNameController.text,
+                              "middle_name": middleNameController.text,
+                              "last_name": lastNameController.text,
+                              "bio": bioController.text,
+                              "designation": jobProfileController.text,
+                              "gender": genderGroup,
+                              "skill": tagController.getTags != null
                                   ? tagController.getTags!
                                       .map((e) => '"$e"')
                                       .toList()
                                       .toString()
                                   : '',
-                              dateOfBirth: dateOfBirth ??
-                                  DateTime(
-                                    1980,
-                                  ),
-                              activeHourStart: startTime!.format(context),
-                              activeHourEnd: endTime!.format(context),
-                              experienceLevel: experienceLevel,
-                              userType: userType,
-                              hourlyRate: int.parse(baseRateController.text),
-                              profileVisibility:
+                              "date_of_birth":
+                                  "${dateOfBirth?.year}-${dateOfBirth?.month}-${dateOfBirth?.day}",
+                              "active_hour_start": startTime!.format(context),
+                              "active_hour_end": endTime!.format(context),
+                              "experience_level": experienceLevel,
+                              "profile_visibility":
                                   visibilityController.text.isNotEmpty
                                       ? visibilityController.text
                                       : 'Public',
-                              taskPreferences:
+                              "task_preferences":
                                   taskPreferencesController.text.isNotEmpty
                                       ? taskPreferencesController.text
                                       : 'Short-Term tasks',
-                              addressLine1: address1Controller.text,
-                              addressLine2: address2Controller.text,
-                              chargeCurrency: currencyCode ?? 'NPR',
-                              remainingPoints: 0,
-                              points: 0,
-                              followingCount: 0,
-                              // ! Error
-                              profileImage: await MultipartFile.fromFile(
-                                selectedImage?.path ?? image.path,
-                              ).toString(),
-                              language: languageController.text,
-                            );
+                              "address_line1": address1Controller.text,
+                              "address_line2": address2Controller.text,
+                              "charge_currency": currencyCode ?? 'NPR',
+                              "remaining_points": 0,
+                              "points": 0,
+                              "following_count": 0,
+                              "profile_image": await MultipartFile.fromFile(
+                                  selectedImage?.path ?? image.path),
+                              "language": languageController.text,
+                            };
                             if (!mounted) return;
-                            context.read<UserBloc>().add(
-                                  UserAdded(
-                                    req: q,
-                                  ),
-                                );
+                            context.read<UserBloc>().add(UserAdded(req: q));
                           } else {
                             if (!mounted) return;
                             showDialog(

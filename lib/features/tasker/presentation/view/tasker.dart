@@ -1,4 +1,5 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/enums.dart';
@@ -6,6 +7,8 @@ import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
 import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_review_section.dart';
@@ -32,6 +35,23 @@ class TaskerProfileViewState extends State<TaskerProfileView>
   void initState() {
     tabController = TabController(length: 4, vsync: this);
     super.initState();
+  }
+
+  Future notLoggedInPopUp(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (_) => CustomToast(
+        heading: 'Attention',
+        content: 'But first log in or register.',
+        isSuccess: true,
+        buttonLabel: 'Log in',
+        onTap: () => Navigator.pushNamedAndRemoveUntil(
+          context,
+          SignInPage.routeName,
+          (route) => false,
+        ),
+      ),
+    );
   }
 
   @override
@@ -85,10 +105,28 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                             context: context,
                             builder: (context) => Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const ListTile(
-                                  leading: Icon(Icons.share),
-                                  title: Text('Share'),
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () async {
+                                    Navigator.pop(context);
+                                    if (CacheHelper.isLoggedIn == false) {
+                                      await notLoggedInPopUp(context);
+                                    }
+                                    if (CacheHelper.isLoggedIn == true) {
+                                      final box = context.findRenderObject()
+                                          as RenderBox?;
+                                      Share.share(
+                                        "Share this Hommale with friends.",
+                                        sharePositionOrigin:
+                                            box!.localToGlobal(Offset.zero) &
+                                                box.size,
+                                      );
+                                    }
+                                  },
+                                  child: const ListTile(
+                                    leading: Icon(Icons.share),
+                                    title: Text('Share'),
+                                  ),
                                 ),
                                 const ListTile(
                                   leading: Icon(Icons.report),
@@ -115,7 +153,11 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                 ),
               );
             } else {
-              return const CircularProgressIndicator();
+              return const Center(
+                child: CardLoading(
+                  height: 200,
+                ),
+              );
             }
           }
 
@@ -123,7 +165,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
             if (state.states == TheStates.success) {
               return Row(
                 children: List.generate(
-                  (state.tasker?.rating?.avgRating as double?)?.round() ?? 5,
+                  (state.tasker?.rating?.avgRating)?.round() ?? 5,
                   (index) => const Icon(
                     Icons.star_rate_rounded,
                     color: Colors.amber,
@@ -209,7 +251,12 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                     ),
                   ),
                   trailingWidget: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        SearchPage.routeName,
+                      );
+                    },
                     icon: const Icon(
                       Icons.search,
                     ),
@@ -252,16 +299,17 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Rs. ${state.tasker?.hourlyRate!}/hr',
-                            style: kPurpleText16,
-                          ),
+                        children: <Widget>[
                           kHeight8,
                           CustomElevatedButton(
                             theWidth: 91,
                             label: 'Hire me',
-                            callback: () {},
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn) {}
+                            },
                           ),
                         ],
                       )
@@ -337,7 +385,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                         activeHourEnd: state.tasker?.activeHourEnd ?? '',
                         skills: state.tasker?.skill,
                         location:
-                            "${state.tasker?.addressLine1}, ${state.tasker?.country!.name ?? ''}",
+                            "${state.tasker?.addressLine1}, ${state.tasker?.country?.name ?? ''}",
                         portfolio: state.tasker?.portfolio ?? [],
                         education: state.tasker?.education ?? [],
                         experience: state.tasker?.experience ?? [],
@@ -358,7 +406,9 @@ class TaskerProfileViewState extends State<TaskerProfileView>
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CardLoading(
+                height: 200,
+              ),
             );
           }
         },

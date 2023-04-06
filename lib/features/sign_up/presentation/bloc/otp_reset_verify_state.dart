@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'otp_reset_verify_bloc.dart';
 
 abstract class OtpResetVerifyState extends Equatable {
@@ -23,4 +24,9 @@ class OtpResetVerifyFailure extends OtpResetVerifyState {
   });
   @override
   List<Object?> get props => [error];
+}
+
+class OtpResendSignUpSuccess extends OtpResetVerifyState {
+  @override
+  List<Object?> get props => [];
 }

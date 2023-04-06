@@ -1,4 +1,5 @@
-
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,22 @@ class TasksAndServicesNearbySection extends StatelessWidget {
     return Padding(
       padding: kPadding10,
       child: Column(
-        children: [
+        children: <Widget>[
           SectionHeading(
             labelName: 'Tasks & Services Near You',
-            onTap: () {},
+            onTap: () {
+              if (CacheHelper.isLoggedIn == false) {
+                notLoggedInPopUp(context);
+              }
+              if (CacheHelper.isLoggedIn) {}
+            },
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.24,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: Image.asset(
                     'assets/syd map 1.png',
@@ -39,7 +45,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: <Widget>[
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

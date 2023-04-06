@@ -1,6 +1,5 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -239,7 +238,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           );
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CardLoading(height: 200,),
           );
         }
       },

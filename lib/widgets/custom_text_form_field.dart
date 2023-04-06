@@ -1,10 +1,14 @@
-import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:cipher/core/constants/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
-    super.key,
+    Key? key,
+    this.readOnly = false,
     this.theHeight = 50,
+    this.theWidth,
     this.hintText = '',
     this.prefixWidget,
     this.suffixWidget,
@@ -13,15 +17,20 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.onEditingComplete,
     this.onFieldSubmitted,
+    this.onTap,
+    this.onTapOutside,
     this.textInputType,
     this.validator,
     this.obscureText = false,
     this.maxLines = 1,
     this.controller,
     this.node,
-  });
-
+    this.inputFormatters,
+    this.inputAction,
+  }) : super(key: key);
+  final bool? readOnly;
   final double theHeight;
+  final double? theWidth;
   final String hintText;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
@@ -30,16 +39,21 @@ class CustomTextFormField extends StatelessWidget {
   final void Function(String?)? onChanged;
   final void Function()? onEditingComplete;
   final void Function(String?)? onFieldSubmitted;
+  final void Function()? onTap;
+  final void Function(PointerDownEvent)? onTapOutside;
   final TextInputType? textInputType;
   final String? Function(String?)? validator;
   final bool obscureText;
   final int maxLines;
   final TextEditingController? controller;
   final FocusNode? node;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputAction? inputAction;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       focusNode: node,
       controller: controller,
       maxLines: maxLines,
@@ -47,13 +61,20 @@ class CustomTextFormField extends StatelessWidget {
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
       onSaved: onSaved,
+      onTap: onTap,
+      // onTapOutside: onTapOutside,
       enableInteractiveSelection: true,
       obscureText: obscureText,
       validator: validator,
       keyboardType: textInputType,
+      textInputAction: inputAction,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(10),
-        constraints: BoxConstraints(minHeight: theHeight),
+        constraints: BoxConstraints(
+          minHeight: theHeight,
+          maxWidth: theWidth ?? MediaQuery.of(context).size.width,
+        ),
         hintText: hintText,
         hintStyle: const TextStyle(
           color: Color(0xff9CA0C1),

@@ -11,44 +11,49 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SignInScaffold(
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () async {
-              DioHelper().refreshToken();
-            },
-            child: const Text('Welcome', style: kHeading1),
-          ),
-          const Text(
-            'Login to your account',
-            style: kHelper13,
-          ),
-          const Expanded(
-            child: SignInFormFields(),
-          ),
-          kHeight20,
-          const FingerPrintSection(),
-          kHeight50,
-          const SocialLoginSection(),
-          kHeight20,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Don't have any account?"),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    SignUpPage.routeName,
-                  );
-                },
-                child: const Text(
-                  'Sign Up',
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              children: <Widget>[
+                addVerticalSpace(10.0),
+                InkWell(
+                  onTap: () async {
+                    DioHelper().refreshToken();
+                  },
+                  child: const Text('Welcome', style: kHeading1),
                 ),
-              ),
-            ],
+                const Text(
+                  'Login to your account',
+                  style: kHelper13,
+                ),
+                // addVerticalSpace(20),
+                SignInFormFields(),
+                // addVerticalSpace(MediaQuery.of(context).size.height * 0.026),
+                // const FingerPrintSection(), //TODO:implement fingerprint login
+                addVerticalSpace(20.0),
+                const SocialLoginSection(),
+                addVerticalSpace(10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Don't have any account?"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          SignUpPage.routeName,
+                        );
+                      },
+                      child: const Text(
+                        'Sign Up',
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          kHeight20,
         ],
       ),
     );

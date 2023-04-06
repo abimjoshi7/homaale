@@ -1,5 +1,8 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
+import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -20,24 +23,31 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   late Widget? child;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {},
       builder: (context, state) {
         Widget displayUserInfo() {
-          if (state is SignInSuccess) {
+          if (state.theStates == TheStates.success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
-                  'Hi, ${state.userLoginRes.username ?? 'New User'}',
+                  'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
                 ),
-                kHeight5,
                 InkWell(
                   onTap: () async {
                     await Geolocator.checkPermission().then(
@@ -67,13 +77,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           () {
                             location =
                                 '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location =
+                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
                     });
                   },
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       const Icon(
                         Icons.location_on_outlined,
                         color: Colors.white,
@@ -97,14 +109,18 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
               ],
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CardLoading(
+                height: 200,
+              ),
+            );
           }
         }
 
         return ColoredBox(
           color: kColorPrimary,
           child: Column(
-            children: [
+            children: <Widget>[
               kHeight50,
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
@@ -132,14 +148,60 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     leading: child,
                     title: displayUserInfo(),
-                    trailing: BlocBuilder<SignInBloc, SignInState>(
+                    trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        return IconButton(
-                          onPressed: () async {},
-                          icon: const Icon(
-                            Icons.notifications_none,
-                            color: Colors.white,
-                            size: 30,
+                        return SizedBox(
+                          width: 50,
+                          height: 40,
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                top: 5,
+                                child: InkWell(
+                                  onTap: () {
+                                    (CacheHelper.isLoggedIn)
+                                        ? Navigator.pushNamed(
+                                            context,
+                                            NotificationFromHome.routeName,
+                                          )
+                                        : null;
+                                  },
+                                  child: Icon(
+                                    (CacheHelper.isLoggedIn)
+                                        ? Icons.notifications_none
+                                        : Icons.notifications_off_outlined,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ),
+                              ),
+                              state.allNotificationList?.unreadCount != null &&
+                                      state.allNotificationList?.unreadCount !=
+                                          0
+                                  ? Positioned(
+                                      right: 13,
+                                      child: Container(
+                                        height: 20,
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.red),
+                                        child: Center(
+                                          child: Text(
+                                            state.allNotificationList
+                                                    ?.unreadCount
+                                                    .toString() ??
+                                                "0",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox()
+                            ],
                           ),
                         );
                       },
@@ -148,7 +210,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(8.0),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -156,9 +218,14 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       8,
                     ),
                   ),
-                  child: const CustomTextFormField(
+                  child: CustomTextFormField(
+                    readOnly: true,
                     prefixWidget: Icon(Icons.search),
                     hintText: 'Search here',
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      SearchPage.routeName,
+                    ),
                   ),
                 ),
               ),

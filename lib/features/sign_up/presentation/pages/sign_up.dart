@@ -1,12 +1,15 @@
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/content_client/presentation/pages/privacy_policy.dart';
+import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/features/sign_up/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -24,284 +27,306 @@ class _SignUpPageState extends State<SignUpPage> {
   final confirmPasswordController = TextEditingController();
   bool isChecked = false;
   List<bool> isObscure = [true, true];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<SignupBloc>().add(
+          const SignUpWithPhoneSelected(),
+        );
+  }
+
+  Widget buildFormField(SignUpState state) {
+    if (state.theStates == TheStates.initial) {
+      if (state.isPhoneNumber) {
+        return CustomFormField(
+          isRequired: true,
+          label: 'Phone',
+          child: CustomTextFormField(
+            value: state.identifierFormFieldValue ?? '',
+            textInputType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+            validator: validateNumber,
+            onSaved: (value) =>
+                setState(() => phoneNumberController.text = '$value'),
+            hintText: 'Mobile Number',
+            prefixWidget: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset('assets/nepalflag.png'),
+                  const Text(
+                    '+977',
+                    style: kBodyText1,
+                  ),
+                  const Icon(Icons.arrow_drop_down)
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+
+      if (!state.isPhoneNumber) {
+        return CustomFormField(
+          isRequired: true,
+          label: 'Email',
+          child: CustomTextFormField(
+            value: state.identifierFormFieldValue ?? '',
+            textInputType: TextInputType.emailAddress,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.singleLineFormatter
+            ],
+            validator: validateEmail,
+            onSaved: (value) => setState(() => emailController.text = '$value'),
+            hintText: 'Enter your email here',
+          ),
+        );
+      }
+    }
+    return const LinearProgressIndicator();
+  }
+
+  Future signUpSuccessDialogBox(BuildContext context, SignUpState state) {
+    return showDialog(
+      context: context,
+      builder: (_) => CustomToast(
+        heading: 'Success',
+        content: (!state.isPhoneNumber)
+            ? 'Succesfully signed up. Please verify your email'
+            : 'Succesfully signed up.',
+        onTap: () {
+          (!state.isPhoneNumber)
+              ? Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  SignInPage.routeName,
+                  (route) => false,
+                )
+              : Navigator.pushNamed(
+                  context,
+                  OtpSignUp.routeName,
+                  arguments: {
+                    'phone': '+977${phoneNumberController.text}',
+                    'password': passwordController.text,
+                  },
+                );
+        },
+        isSuccess: true,
+      ),
+    );
+  }
+
+  Future signUpFailureDialogBox(
+    String? x,
+    BuildContext context,
+    SignUpState state,
+  ) async {
+    return showDialog(
+      context: context,
+      builder: (_) => CustomToast(
+        heading: 'Failure',
+        content: x ?? '',
+        isSuccess: false,
+        onTap: () {},
+      ),
+    ).then(
+      (value) => (!state.isPhoneNumber)
+          ? context.read<SignupBloc>().add(
+                SignUpWithEmailSelected(email: emailController.text),
+              )
+          : context.read<SignupBloc>().add(
+                SignUpWithPhoneSelected(phone: phoneNumberController.text),
+              ),
+    );
+  }
+
+  Widget passwordFormField() {
+    return CustomFormField(
+      isRequired: true,
+      label: 'Password',
+      child: CustomTextFormField(
+        validator: validatePassword,
+        textInputType: TextInputType.visiblePassword,
+        onSaved: (value) => setState(() {
+          passwordController.text = '$value';
+          setState(() => {});
+        }),
+        obscureText: isObscure[0],
+        suffixWidget: InkWell(
+          onTap: () {
+            setState(() {
+              isObscure[0] = !isObscure[0];
+            });
+          },
+          child: Icon(
+            color: kColorPrimary,
+            isObscure[0]
+                ? Icons.visibility_rounded
+                : Icons.visibility_off_rounded,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget confirmPasswordFormField() {
+    return CustomFormField(
+      isRequired: true,
+      label: 'Confirm Password',
+      child: CustomTextFormField(
+        textInputType: TextInputType.visiblePassword,
+        onSaved: (value) => setState(
+          () {
+            confirmPasswordController.text = '$value';
+            setState(() => {});
+          },
+        ),
+        validator: (val) {
+          if (val!.isEmpty) return 'Cannot be empty';
+          if (!(confirmPasswordController.text == passwordController.text)) {
+            return "Password didn't match";
+          }
+          return null;
+        },
+        obscureText: isObscure[1],
+        suffixWidget: InkWell(
+          onTap: () {
+            setState(() {
+              isObscure[1] = !isObscure[1];
+            });
+          },
+          child: Icon(
+            color: kColorPrimary,
+            isObscure[1]
+                ? Icons.visibility_rounded
+                : Icons.visibility_off_rounded,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BlocBuilder<SignupBloc, SignUpState>(
-        builder: (context, state) {
-          Widget buildFormField() {
-            if (state is SignUpPhoneInitial) {
-              return CustomFormField(
-                isRequired: true,
-                label: 'Phone',
-                child: CustomTextFormField(
-                  textInputType: TextInputType.number,
-                  validator: validateNumber,
-                  onSaved: (p0) => setState(
-                    () {
-                      phoneNumberController.text = p0 ?? '';
-                    },
-                  ),
-                  hintText: 'Mobile Number',
-                  prefixWidget: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset('assets/nepalflag.png'),
-                        const Text(
-                          '+977',
-                          style: kBodyText1,
-                        ),
-                        const Icon(Icons.arrow_drop_down)
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            } else if (state is SignUpEmailInitial) {
-              return CustomFormField(
-                isRequired: true,
-                label: 'Email',
-                child: CustomTextFormField(
-                  textInputType: TextInputType.emailAddress,
-                  validator: validateEmail,
-                  onSaved: (p0) => setState(
-                    () {
-                      emailController.text = p0 ?? '';
-                    },
-                  ),
-                  hintText: 'Enter your email here',
-                ),
-              );
-            }
-            return const CircularProgressIndicator();
+      body: BlocListener<SignupBloc, SignUpState>(
+        listener: (_, state) {
+          if (state.theStates == TheStates.failure) {
+            signUpFailureDialogBox(
+                state.errorMsg ?? 'Failed to log.', _, state);
           }
-
-          Widget buildText() {
-            if (state is SignUpEmailInitial) {
-              return const Text(
-                'Or Sign Up with Phone instead',
-                style: kHelper13,
-              );
-            } else if (state is SignUpPhoneInitial) {
-              return const Text(
-                'Or Sign Up with Email instead',
-                style: kHelper13,
-              );
-            }
-            return const CircularProgressIndicator();
+          if (state.theStates == TheStates.success) {
+            signUpSuccessDialogBox(_, state);
           }
-
-          Widget displayLogo() {
-            if (state is SignUpEmailInitial) {
-              return Image.asset(
-                'assets/logos/phone_logo.png',
-              );
-            } else if (state is SignUpPhoneInitial) {
-              return Image.asset(
-                'assets/logos/mail_logo.png',
-              );
-            }
-            return const CircularProgressIndicator();
-          }
-
-          return Column(
-            children: [
-              SignUpHeaderSection(mounted: mounted),
-              Flexible(
-                flex: 3,
-                child: Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        buildFormField(),
-                        CustomFormField(
-                          isRequired: true,
-                          label: 'Password',
-                          child: CustomTextFormField(
-                            validator: validatePassword,
-                            textInputType: TextInputType.visiblePassword,
-                            onSaved: (p0) => setState(() {
-                              passwordController.text = p0 ?? '';
-                            }),
-                            obscureText: isObscure[0],
-                            suffixWidget: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isObscure[0] = !isObscure[0];
-                                });
-                              },
-                              child: Icon(
-                                color: kColorPrimary,
-                                isObscure[0]
-                                    ? Icons.visibility_rounded
-                                    : Icons.visibility_off_rounded,
+        },
+        child: BlocBuilder<SignupBloc, SignUpState>(
+          builder: (_, state) {
+            return Column(
+              children: <Widget>[
+                SignUpHeaderSection(mounted: mounted),
+                Flexible(
+                  flex: 3,
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          buildFormField(state),
+                          passwordFormField(),
+                          confirmPasswordFormField(),
+                          addVerticalSpace(16),
+                          Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  const Flexible(
+                                    child: CustomHorizontalDivider(),
+                                  ),
+                                  kWidth10,
+                                  SignUpBuildText(state: state),
+                                  kWidth10,
+                                  const Flexible(
+                                    child: CustomHorizontalDivider(),
+                                  ),
+                                ],
                               ),
-                            ),
+                              addVerticalSpace(8),
+                              SelectSignUpMethodButton(state: state),
+                            ],
                           ),
-                        ),
-                        CustomFormField(
-                          isRequired: true,
-                          label: 'Confirm Password',
-                          child: CustomTextFormField(
-                            textInputType: TextInputType.visiblePassword,
-                            onSaved: (p0) => setState(
-                              () {
-                                confirmPasswordController.text = p0 ?? '';
-                              },
-                            ),
-                            validator: (val) {
-                              if (val!.isEmpty) return 'Cannot be empty';
-                              if (!val.contains(passwordController.text)) {
-                                return "Password didn't match";
-                              }
-                              return null;
-                            },
-                            obscureText: isObscure[1],
-                            suffixWidget: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isObscure[1] = !isObscure[1];
-                                });
-                              },
-                              child: Icon(
-                                color: kColorPrimary,
-                                isObscure[1]
-                                    ? Icons.visibility_rounded
-                                    : Icons.visibility_off_rounded,
-                              ),
-                            ),
-                          ),
-                        ),
-                        addVerticalSpace(16),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Flexible(
-                                  child: CustomHorizontalDivider(),
+                          addVerticalSpace(16),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                CustomCheckBox(
+                                  isChecked: isChecked,
+                                  onTap: () => setState(() {
+                                    isChecked = !isChecked;
+                                  }),
                                 ),
-                                kWidth10,
-                                buildText(),
-                                kWidth10,
-                                const Flexible(
-                                  child: CustomHorizontalDivider(),
+                                addHorizontalSpace(8),
+                                Flexible(
+                                  child: RichText(
+                                    strutStyle:
+                                        const StrutStyle(fontFamily: 'Poppins'),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      text: 'By signing up, you agree to our ',
+                                      style: kHeading3.copyWith(
+                                        wordSpacing: 0.5,
+                                        letterSpacing: 0.1,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'terms of use ',
+                                          style: kHeading3.copyWith(
+                                            color: const Color(0xffFCA500),
+                                            letterSpacing: 0.3,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () => Navigator.pushNamed(
+                                                  context,
+                                                  TermsOfUsePage.routeName,
+                                                ),
+                                        ),
+                                        const TextSpan(
+                                          text: 'and ',
+                                        ),
+                                        TextSpan(
+                                          text: 'privacy policy.',
+                                          style: kHeading3.copyWith(
+                                            color: const Color(0xffFCA500),
+                                            letterSpacing: 0.3,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () => Navigator.pushNamed(
+                                                  context,
+                                                  PrivacyPolicyPage.routeName,
+                                                ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                            addVerticalSpace(8),
-                            GestureDetector(
-                              onTap: () {
-                                if (state is SignUpPhoneInitial) {
-                                  context.read<SignupBloc>().add(
-                                        SignUpWithEmailSelected(),
-                                      );
-                                } else if (state is SignUpEmailInitial) {
-                                  context.read<SignupBloc>().add(
-                                        SignUpWithPhoneSelected(),
-                                      );
-                                }
-                              },
-                              child: displayLogo(),
-                            )
-                          ],
-                        ),
-                        addVerticalSpace(16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomCheckBox(
-                                isChecked: isChecked,
-                                onTap: () => setState(() {
-                                  isChecked = !isChecked;
-                                }),
-                              ),
-                              addHorizontalSpace(8),
-                              const Flexible(
-                                child: AutoSizeText(
-                                  minFontSize: 13,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  'By signing up, you agree to our terms of use and privacy policy.',
-                                ),
-                              ),
-                            ],
                           ),
-                        ),
-                        addVerticalSpace(32),
-                        Flexible(
-                          child: BlocConsumer<SignupBloc, SignUpState>(
-                            listener: (context, state) async {
-                              final x = await CacheHelper.getCachedString(
-                                kErrorLog,
-                              );
-                              if (state is SignUpWithEmailSuccess) {
-                                if (!mounted) return;
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => CustomToast(
-                                    heading: 'Success',
-                                    content:
-                                        'Succesfully signed up. Please verify your email',
-                                    onTap: () {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        SignInPage.routeName,
-                                        (route) => false,
-                                      );
-                                    },
-                                    isSuccess: true,
-                                  ),
-                                );
-                              }
-                              if (state is SignUpWithPhoneSuccess) {
-                                if (!mounted) return;
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => CustomToast(
-                                    heading: 'Success',
-                                    content: 'Succesfully signed up.',
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        OtpSignUp.routeName,
-                                        arguments: {
-                                          'phone':
-                                              '+977${phoneNumberController.text}',
-                                          'password': passwordController.text,
-                                        },
-                                      );
-                                    },
-                                    isSuccess: true,
-                                  ),
-                                );
-                              }
-                              if (state is SignUpFailure) {
-                                if (!mounted) return;
-                                await showDialog(
-                                  context: context,
-                                  builder: (context) => CustomToast(
-                                    heading: 'Failure',
-                                    content: x ?? '',
-                                    isSuccess: false,
-                                    onTap: () {},
-                                  ),
-                                ).then(
-                                  (value) => context.read<SignupBloc>().add(
-                                        SignUpWithPhoneSelected(),
-                                      ),
-                                );
-                              }
-                            },
-                            builder: (context, state) {
-                              return CustomElevatedButton(
-                                callback: () async {
+                          addVerticalSpace(32),
+                          if (state.theStates != TheStates.initial)
+                            CircularProgressIndicator(),
+                          if (state.theStates == TheStates.initial)
+                            Flexible(
+                              child: CustomElevatedButton(
+                                callback: () {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
                                     if (isChecked == false) {
@@ -314,41 +339,44 @@ class _SignUpPageState extends State<SignUpPage> {
                                         ),
                                       );
                                     } else {
-                                      if (state is SignUpPhoneInitial) {
-                                        context.read<SignupBloc>().add(
-                                              SignUpWithPhoneInitiated(
-                                                phone:
-                                                    phoneNumberController.text,
-                                                password:
-                                                    passwordController.text,
-                                              ),
-                                            );
-                                      } else if (state is SignUpEmailInitial) {
-                                        context.read<SignupBloc>().add(
-                                              SignUpWithEmailInitiated(
-                                                email: emailController.text,
-                                                password:
-                                                    passwordController.text,
-                                              ),
-                                            );
+                                      if (state.theStates ==
+                                          TheStates.initial) {
+                                        if (state.isPhoneNumber) {
+                                          context.read<SignupBloc>().add(
+                                                SignUpWithPhoneInitiated(
+                                                  phone: phoneNumberController
+                                                      .text,
+                                                  password:
+                                                      passwordController.text,
+                                                ),
+                                              );
+                                        }
+                                        if (!state.isPhoneNumber) {
+                                          context.read<SignupBloc>().add(
+                                                SignUpWithEmailInitiated(
+                                                  email: emailController.text,
+                                                  password:
+                                                      passwordController.text,
+                                                ),
+                                              );
+                                        }
                                       }
                                     }
                                   }
                                 },
                                 label: 'Sign Up',
-                              );
-                            },
-                          ),
-                        ),
-                        const SignUpFooterSection(),
-                      ],
+                              ),
+                            ),
+                          const SignUpFooterSection(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

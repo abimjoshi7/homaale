@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/services/data/models/entity_service.dart';
+import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/models/tasker_review_response.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
@@ -13,10 +13,12 @@ class TaskerCubit extends Cubit<TaskerState> {
   final repo = TaskerRepositories();
   TaskerCubit() : super(const TaskerState());
 
-  Future loadTaskerList() async {
+  Future loadTaskerList({
+    int? page,
+  }) async {
     try {
       emit(state.copyWith(states: TheStates.initial));
-      await repo.fetchAllTaskers().then(
+      await repo.fetchAllTaskers(page: page ?? 1).then(
         (value) {
           final taskerListRes = TaskerListRes.fromJson(value);
           emit(

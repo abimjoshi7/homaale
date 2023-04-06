@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/bookings/data/models/approve_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
+import 'package:cipher/features/bookings/data/models/reject_req.dart';
 
 class BookingRepositories {
   final _dio = DioHelper();
@@ -12,7 +17,7 @@ class BookingRepositories {
     try {
       final res = await _dio.postDataWithCredential(
         data: bookEntityService.toJson(),
-        url: kCreateBookings,
+        url: kBooking,
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
@@ -21,23 +26,28 @@ class BookingRepositories {
     }
   }
 
-// ! incomplete parameters
-  Future<Map<String, dynamic>> fetchOthersBookingList() async {
+  Future<Map<String, dynamic>> fetchSingleBooking({
+    required int id,
+  }) async {
     try {
-      final x = await _dio.getDatawithCredential(
-        query: {},
-        url: kCreateBookings,
+      final res = await _dio.getDatawithCredential(
+        url: "$kBooking/$id",
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      return res as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Map<String, dynamic>> fetchMyServiceBookingList() async {
+  Future<Map<String, dynamic>> fetchMyBookingsList({bool? isTask, String? status, int? page}) async {
     try {
       final x = await _dio.getDatawithCredential(
+        query: {
+          "page": page,
+          "is_requested": isTask,
+          "status": status,
+        },
         url: kMyBookingList,
         token: CacheHelper.accessToken,
       );
@@ -52,52 +62,82 @@ class BookingRepositories {
     EditBookingReq editBookingReq,
   ) async {
     try {
-      final x = await _dio.patchDataWithCredential(
+      final res = await _dio.patchDataWithCredential(
         data: editBookingReq.toJson(),
-        url: '$kCreateBookings$id',
+        url: '$kBooking$id/',
         token: CacheHelper.accessToken,
       );
-
-      return x as Map<String, dynamic>;
+      return res as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> deleteBooking(int id) async {
+  Future<Map<String, dynamic>> deleteBooking(int id) async {
     try {
-      await _dio.deleteDataWithCredential(
+      final res = await _dio.deleteDataWithCredential(
         id: id,
-        url: kCreateBookings,
+        url: kBooking,
         token: CacheHelper.accessToken,
       );
+      return res as Map<String, dynamic>;
     } catch (e) {
+      log('delete error: ' + e.toString());
       rethrow;
     }
   }
 
-  Future<void> cancelBooking(int id) async {
+  Future<Map<String, dynamic>> cancelBooking(int id) async {
     try {
-      await _dio.postDataWithCredential(
+      final res = await _dio.postDataWithCredential(
         data: {},
-        url: '$kCreateBookingsCancel$id',
+        url: '$kCreateBookingsCancel$id/',
         token: CacheHelper.accessToken,
       );
+      return res as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> approveBooking(int id) async {
+  Future<Map<String, dynamic>> approveBooking(ApproveReq approveReq) async {
     try {
-      await _dio.postDataWithCredential(
-        data: {
-          "booking": id,
-        },
-        url: kCreateBookingsApproval,
+      final res = await _dio.postDataWithCredential(
+        data: approveReq.toJson(),
+        url: '$kCreateBookingsApproval',
         token: CacheHelper.accessToken,
       );
+      return res as Map<String, dynamic>;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> rejectBooking(RejectReq rejectReq) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: rejectReq.toJson(),
+        url: '$kCreateBookingsDecline',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
+    try {
+      final query = bookingHistoryReq.toJson();
+      log('booking api $query');
+      final res = await _dio.getDatawithCredential(
+        query: bookingHistoryReq.toJson(),
+        url: '/task/entity/service/task/list/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log('booking api error : ${e.toString()}');
       rethrow;
     }
   }

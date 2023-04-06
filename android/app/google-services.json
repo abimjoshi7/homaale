@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "17609084275",
+    "project_id": "homaale-c945b",
+    "storage_bucket": "homaale-c945b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17609084275:android:7feff6644ec28662bc8906",
+        "android_client_info": {
+          "package_name": "com.cagtu.cipher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17609084275-d91m3a34je8srhcqi0o7vukpatq56a65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnPp0xblhAwjlB_ZOdxHQbOZaNLWLJAbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17609084275-d91m3a34je8srhcqi0o7vukpatq56a65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

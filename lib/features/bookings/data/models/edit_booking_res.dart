@@ -1,127 +1,31 @@
-class EditBookingRes {
-  EditBookingRes({
-    this.id,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.description,
-    this.requirements,
-    this.budgetFrom,
-    this.budgetTo,
-    this.startDate,
-    this.endDate,
-    this.startTime,
-    this.endTime,
-    this.location,
-    this.isActive,
-    this.extraData,
-    this.createdBy,
-    this.bookingMerchant,
-    this.entityService,
-    this.city,
-    this.images,
-    this.videos,
-  });
+import 'package:dependencies/dependencies.dart';
 
-  final int? id;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final String? description;
-  final Map<String, dynamic>? requirements;
-  final int? budgetFrom;
-  final int? budgetTo;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final String? startTime;
-  final String? endTime;
-  final String? location;
-  final bool? isActive;
-  final Map<String, dynamic>? extraData;
-  final String? createdBy;
-  final String? bookingMerchant;
-  final String? entityService;
-  final int? city;
-  final List<int>? images;
-  final List<int>? videos;
+part 'edit_booking_res.freezed.dart';
+part 'edit_booking_res.g.dart';
 
-  factory EditBookingRes.fromJson(Map<String, dynamic> json) => EditBookingRes(
-        id: json["id"] as int?,
-        status: json["status"] as String?,
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(
-                json["created_at"] as String,
-              ),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(
-                json["updated_at"] as String,
-              ),
-        description: json["description"] as String?,
-        requirements: json["requirements"] == null
-            ? null
-            : json["requirements"] as Map<String, dynamic>?,
-        budgetFrom: json["budget_from"] as int?,
-        budgetTo: json["budget_to"] as int?,
-        startDate: json["start_date"] == null
-            ? null
-            : DateTime.parse(
-                json["start_date"] as String,
-              ),
-        endDate: json["end_date"] == null
-            ? null
-            : DateTime.parse(
-                json["end_date"] as String,
-              ),
-        startTime: json["start_time"] as String?,
-        endTime: json["end_time"] as String?,
-        location: json["location"] as String?,
-        isActive: json["is_active"] as bool?,
-        extraData: json["extra_data"] == null
-            ? null
-            : json["extra_data"] as Map<String, dynamic>?,
-        createdBy: json["created_by"] as String?,
-        bookingMerchant: json["booking_merchant"] as String?,
-        entityService: json["entity_service"] as String?,
-        city: json["city"] as int?,
-        images: json["images"] == null
-            ? []
-            : List<int>.from(
-                json["images"]!.map((x) => x) as Iterable,
-              ),
-        videos: json["videos"] == null
-            ? []
-            : List<int>.from(
-                json["videos"]!.map((x) => x) as Iterable,
-              ),
-      );
+@freezed
+class EditBookingRes with _$EditBookingRes {
+  const factory EditBookingRes({
+    String? status,
+    String? description,
+    List<String>? requirements,
+    int? budgetFrom,
+    int? budgetTo,
+    DateTime? startDate,
+    DateTime? endDate,
+    String? startTime,
+    String? endTime,
+    String? location,
+    bool? isActive,
+    dynamic extraData,
+    String? createdBy,
+    dynamic bookingMerchant,
+    String? entityService,
+    int? city,
+    List<int>? images,
+    List<int>? videos,
+  }) = _EditBookingRes;
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "status": status,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-        "description": description,
-        "requirements": requirements,
-        "budget_from": budgetFrom,
-        "budget_to": budgetTo,
-        "start_date":
-            "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
-        "end_date":
-            "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
-        "start_time": startTime,
-        "end_time": endTime,
-        "location": location,
-        "is_active": isActive,
-        "extra_data": extraData,
-        "created_by": createdBy,
-        "booking_merchant": bookingMerchant,
-        "entity_service": entityService,
-        "city": city,
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "videos":
-            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
-      };
+  factory EditBookingRes.fromJson(Map<String, dynamic> json) =>
+      _$EditBookingResFromJson(json);
 }

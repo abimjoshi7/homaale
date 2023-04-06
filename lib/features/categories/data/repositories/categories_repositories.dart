@@ -9,15 +9,26 @@ class CategoriesRepositories {
 
   Future<List<Category>> fetchCategoriesList() async {
     try {
-      final x = await _dio.getDatawithCredential(
-        url: 'task/cms/task-category/list/',
-        token: CacheHelper.accessToken,
-      );
-      return (x as List<dynamic>)
-          .map(
-            (e) => Category.fromMap(e as Map<String, dynamic>),
-          )
-          .toList();
+      if (CacheHelper.isLoggedIn == false) {
+        final x = await _dio.getData(
+          url: 'task/cms/task-category/list/',
+        );
+        return (x as List<dynamic>)
+            .map(
+              (e) => Category.fromMap(e as Map<String, dynamic>),
+            )
+            .toList();
+      } else {
+        final x = await _dio.getDatawithCredential(
+          url: 'task/cms/task-category/list/',
+          token: CacheHelper.accessToken,
+        );
+        return (x as List<dynamic>)
+            .map(
+              (e) => Category.fromMap(e as Map<String, dynamic>),
+            )
+            .toList();
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -28,11 +39,18 @@ class CategoriesRepositories {
 
   Future<Map<String, dynamic>> fetchHeroCategory() async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/hero-category/',
-        token: CacheHelper.accessToken,
-      );
-      return res as Map<String, dynamic>;
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: 'task/hero-category/',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/hero-category/',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
     } catch (e) {
       log(
         e.toString(),
@@ -43,12 +61,18 @@ class CategoriesRepositories {
 
   Future<List<Map<String, dynamic>>> fetchNestedCategory() async {
     try {
-      final res = await _dio.getDatawithCredential(
-        url: 'task/task-category/nested/',
-        token: CacheHelper.accessToken,
-      );
-      return List<Map<String, dynamic>>.from(res as Iterable);
-
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: 'task/task-category/nested/',
+        );
+        return List<Map<String, dynamic>>.from(res as Iterable);
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: 'task/task-category/nested/',
+          token: CacheHelper.accessToken,
+        );
+        return List<Map<String, dynamic>>.from(res as Iterable);
+      }
     } catch (e) {
       log(
         e.toString(),

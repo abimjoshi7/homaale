@@ -1,7 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/features/sign_in/presentation/pages/facebook_login.dart';
-import 'package:cipher/features/sign_in/presentation/pages/google_login.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +12,11 @@ class SocialLoginSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) {
+      builder: (_, state) {
         Widget buildLogo() {
-          if (state is SignInEmailInitial) {
+          if (state.theStates == TheStates.initial) ;
+
+          if (!state.isPhoneNumber) {
             return Image.asset(
               'assets/logos/phone_logo.png',
             );
@@ -25,11 +25,6 @@ class SocialLoginSection extends StatelessWidget {
               'assets/logos/mail_logo.png',
             );
           }
-          // else {
-          //   return Image.asset(
-          //     'assets/logos/phone_logo.png',
-          //   );
-          // }
         }
 
         return Column(
@@ -51,40 +46,47 @@ class SocialLoginSection extends StatelessWidget {
                 ),
               ],
             ),
-            kHeight20,
+            addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
+                kWidth20,
                 GestureDetector(
                   onTap: () {
-                    if (state is SignInPhoneInitial) {
-                      context.read<SignInBloc>().add(
-                            SignInWithEmailSelected(),
-                          );
-                    } else if (state is SignInEmailInitial) {
-                      context.read<SignInBloc>().add(
-                            SignInWithPhoneSelected(),
-                          );
+                    FocusScope.of(context).unfocus();
+                    if (state.theStates == TheStates.initial) {
+                      if (state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithEmailSelected(),
+                            );
+                      }
+                      if (!state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithPhoneSelected(),
+                            );
+                      }
                     }
                   },
                   child: buildLogo(),
                 ),
+                // kWidth20,
+                //TODO:implement google sign in and apple sign in
+                // GestureDetector(
+                //   onTap: () => Navigator.pushNamed(
+                //     context,
+                //     GoogleLogin.routeName,
+                //   ),
+                //   child: Image.asset('assets/logos/google_logo.png'),
+                // ),
                 kWidth20,
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    GoogleLogin.routeName,
-                  ),
-                  child: Image.asset('assets/logos/google_logo.png'),
-                ),
-                kWidth20,
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    FacebookLogin.routeName,
-                  ),
-                  child: Image.asset('assets/logos/fb_logo.png'),
-                ),
+                //TODO:implement facebook sign in
+                // GestureDetector(
+                //   onTap: () => Navigator.pushNamed(
+                //     context,
+                //     FacebookLogin.routeName,
+                //   ),
+                //   child: Image.asset('assets/logos/fb_logo.png'),
+                // ),
               ],
             ),
           ],

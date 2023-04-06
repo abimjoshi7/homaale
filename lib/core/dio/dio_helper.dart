@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cipher/core/app/api_end_points.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/extensions.dart';
 import 'package:dependencies/dependencies.dart';
 
 class DioHelper {
@@ -13,10 +14,10 @@ class DioHelper {
     final options = BaseOptions(
       baseUrl: sandbox,
       connectTimeout: const Duration(
-        seconds: 10,
+        seconds: 20,
       ),
       receiveTimeout: const Duration(
-        seconds: 10,
+        seconds: 20,
       ),
       receiveDataWhenStatusError: true,
     );
@@ -44,7 +45,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -72,10 +76,33 @@ class DioHelper {
       } else {
         log("API request failed: $e");
       }
+      //formatting the error message
+      // Remove the braces and split the message into an array of strings
+      List<String> errorMsgs = e.response!.data
+          .toString()
+          .replaceAll('{', '')
+          .replaceAll('}', '')
+          .split(',');
+      // Remove the keys from each string in the array
+      for (int i = 0; i < errorMsgs.length; i++) {
+        errorMsgs[i] = errorMsgs[i].substring(errorMsgs[i].indexOf(':') + 2);
+      }
+
+      final String cleanedMsg = errorMsgs
+          .join('\n')
+          .replaceAll('[', '')
+          .replaceAll(']', '')
+          .toTitleCase();
+
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          (e.response?.statusCode == 400)
+              ? cleanedMsg
+              : e.response!.data
+                  .toString()
+                  .toTitleCase()
+                  .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST ERROR: ${e.response?.data}');
@@ -114,7 +141,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -126,9 +156,11 @@ class DioHelper {
     required dynamic data,
     required String url,
     required String? token,
+    Map<String, dynamic>? queryParams,
   }) async {
     try {
       final response = await dio.post<dynamic>(
+        queryParameters: queryParams,
         url,
         data: jsonEncode(data),
         options: Options(
@@ -153,7 +185,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -191,7 +226,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -199,13 +237,14 @@ class DioHelper {
   }
 
   Future<dynamic> deleteDataWithCredential({
-    required int id,
+    int? id,
     required String url,
     required String? token,
+    String? sid,
   }) async {
     try {
       final response = await dio.delete(
-        '$url$id/',
+        '$url${id ?? sid}/',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -228,7 +267,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -272,7 +314,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
@@ -285,16 +330,14 @@ class DioHelper {
     required Map<String, dynamic> map,
   }) async {
     try {
-      final formData = FormData.fromMap(
-        map,
-      );
+      final formData = FormData.fromMap(map);
       final response = await dio.post<dynamic>(
         url,
         data: formData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
         ),
       );
@@ -313,7 +356,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST FORM DATA ERROR: ${e.response?.data}');
@@ -354,7 +400,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');

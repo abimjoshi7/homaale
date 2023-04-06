@@ -5,11 +5,11 @@ class CustomBottomNavItems extends StatelessWidget {
   const CustomBottomNavItems({
     super.key,
     required this.onPressed,
-    required this.pageIndex,
-    required this.index,
     required this.label,
     required this.iconData,
-    required this.checkOpenAdd,
+    required this.index,
+    required this.pageIndex,
+    required this.isActive,
   });
 
   final VoidCallback onPressed;
@@ -17,14 +17,14 @@ class CustomBottomNavItems extends StatelessWidget {
   final int index;
   final String label;
   final IconData iconData;
-  final bool checkOpenAdd;
+  final bool isActive;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         TextButton(
           onPressed: onPressed,
-          child: pageIndex == index  && !checkOpenAdd
+          child: isActive
               ? Icon(
                   iconData,
                   color: kColorSecondary,
@@ -39,7 +39,7 @@ class CustomBottomNavItems extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: pageIndex == index && !checkOpenAdd ? kColorSecondary : kColorSilver,
+            color: isActive ? kColorSecondary : kColorSilver,
           ),
         ),
       ],

@@ -1,6 +1,5 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -23,6 +22,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   String? profilePicture;
   XFile? selectedImage;
   final _key = GlobalKey<FormState>();
+  bool isCamera = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,16 +74,53 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      await ImagePickHelper().pickImagePath().then(
-                        (value) {
-                          if (value != null) {
-                            setState(
-                              () {
-                                selectedImage = value;
-                              },
-                            );
-                          }
-                        },
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              WidgetText(
+                                  callback: () {
+                                    setState(
+                                      () {
+                                        isCamera = true;
+                                      },
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  widget: Icon(Icons.camera_alt_outlined),
+                                  label: "Camera"),
+                              WidgetText(
+                                  callback: () {
+                                    setState(
+                                      () {
+                                        isCamera = false;
+                                      },
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  widget: Icon(Icons.camera_alt_outlined),
+                                  label: "Gallery"),
+                            ],
+                          ),
+                        ),
+                      ).then(
+                        (value) async => await ImagePickHelper()
+                            .pickImagePath(
+                          isCamera: isCamera,
+                        )
+                            .then(
+                          (value) {
+                            if (value != null) {
+                              setState(
+                                () {
+                                  selectedImage = value;
+                                },
+                              );
+                            }
+                          },
+                        ),
                       );
                     },
                     child: Column(
@@ -297,7 +334,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           );
         } else {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CardLoading(height: 200,),
           );
         }
       },

@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/colors.dart';
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 
 const kTabBarTitle = TextStyle(
   fontWeight: FontWeight.w600,
@@ -7,6 +7,12 @@ const kTabBarTitle = TextStyle(
   color: Color(
     0xff343A40,
   ),
+);
+
+const kLightBlueText12 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: Color(0xff3eaeff),
 );
 
 const kLightBlueText14 = TextStyle(
@@ -20,11 +26,21 @@ const kTealText18 = TextStyle(
   fontSize: 18,
   color: kColorTeal,
 );
-
+const kPurpleText12 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: kColorDarkPurple,
+);
 const kPurpleText13 = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 13,
-  color: Color(0xff3d3f7d),
+  color: kColorDarkPurple,
+);
+
+const kPurpleText14 = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+  color: Color(0xff2D2D66),
 );
 
 const kPurpleText16 = TextStyle(
@@ -33,10 +49,27 @@ const kPurpleText16 = TextStyle(
   color: Color(0xff3D3F7D),
 );
 
+const kPurpleText17 = TextStyle(
+  fontSize: 17,
+  fontWeight: FontWeight.w600,
+  color: Color(0xff3D3F7D),
+);
+
 const kPurpleText19 = TextStyle(
   color: Color(0xff3D3F7D),
   fontWeight: FontWeight.w600,
   fontSize: 19,
+);
+
+const kText13 = TextStyle(
+  fontSize: 13,
+  color: Color(0xff495057),
+  fontWeight: FontWeight.normal,
+);
+const kText14 = TextStyle(
+  fontSize: 14,
+  color: Color(0xff495057),
+  fontWeight: FontWeight.w500,
 );
 
 const kText15 = TextStyle(
@@ -84,7 +117,7 @@ const kHeading3 = TextStyle(
 const kHelper13 = TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.w400,
-  color: Color(0xff9CA0C1),
+  color: Color(0xff495057),
 );
 
 const kSkipHelper = TextStyle(
@@ -106,6 +139,18 @@ const kSubHeading = TextStyle(
 const kInfo = TextStyle(
   fontWeight: FontWeight.w400,
   fontSize: 10,
+);
+
+const kRequirements = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+  color: kColorSilver,
+);
+
+const kBoldText = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 14,
+  color: Colors.black,
 );
 
 const kBodyText1 =

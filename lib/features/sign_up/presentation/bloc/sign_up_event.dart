@@ -3,16 +3,26 @@ part of 'sign_up_bloc.dart';
 
 abstract class SignUpEvent extends Equatable {
   const SignUpEvent();
+  @override
+  List<Object?> get props;
 }
 
 class SignUpWithPhoneSelected extends SignUpEvent {
+  final String? phone;
+  const SignUpWithPhoneSelected({
+    this.phone,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [phone];
 }
 
 class SignUpWithEmailSelected extends SignUpEvent {
+  final String? email;
+  const SignUpWithEmailSelected({
+    this.email,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [email];
 }
 
 class SignUpWithPhoneInitiated extends SignUpEvent {
