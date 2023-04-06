@@ -30,9 +30,7 @@ class ServiceCard extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                    imagePath == null
-                        ? kServiceImageNImg
-                        : imagePath ?? kServiceImageNImg,
+                    imagePath ?? kServiceImageNImg,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -40,9 +38,7 @@ class ServiceCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(
-              8.0,
-            ),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,24 +53,30 @@ class ServiceCard extends StatelessWidget {
                   style: kLightBlueText14,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconText(
-                      label: rating ?? '3.5 (300)',
-                      iconData: Icons.star_rate_rounded,
-                      color: kColorAmber,
-                      size: 13,
-                    ),
-                    Flexible(
-                      child: IconText(
-                        label: location ?? 'Remote',
-                        iconData: Icons.location_on_outlined,
-                        color: kColorPink,
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: 120,
+                    maxWidth: 150,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconText(
+                        label: rating ?? '3.5 (300)',
+                        iconData: Icons.star_rate_rounded,
+                        color: kColorAmber,
                         size: 13,
                       ),
-                    ),
-                  ],
+                      Flexible(
+                        child: IconText(
+                          label: location ?? 'Remote',
+                          iconData: Icons.location_on_outlined,
+                          color: kColorPink,
+                          size: 13,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

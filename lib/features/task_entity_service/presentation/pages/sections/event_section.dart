@@ -34,8 +34,7 @@ class EventSection extends StatelessWidget {
       },
       builder: (context, state) {
         return Visibility(
-          visible: taskEntityService.createdBy?.id ==
-              user.state.taskerProfile?.user?.id,
+          visible: taskEntityService.createdBy?.id == user.state.taskerProfile?.user?.id,
           child: CustomFormField(
             label: "Events",
             rightSection: InkWell(

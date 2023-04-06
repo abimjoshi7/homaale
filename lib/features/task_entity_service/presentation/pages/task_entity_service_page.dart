@@ -4,7 +4,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
@@ -25,13 +25,12 @@ class TaskEntityServicePage extends StatefulWidget {
 
 class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
   late final user = locator<UserBloc>();
+  int _imageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    user.add(
-      UserLoaded(),
-    );
+    user.add(UserLoaded());
   }
 
   @override
@@ -51,12 +50,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
               context: context,
               builder: (context) => CustomToast(
                 heading: 'Failed',
-                content: error ??
-                    'Something went wrong while trying to accept tasker. Please try again!',
+                content: error ?? 'Something went wrong while trying to accept tasker. Please try again!',
                 onTap: () {
-                  context
-                      .read<TaskEntityServiceBloc>()
-                      .add(ResetApproveFailureStatus());
+                  context.read<TaskEntityServiceBloc>().add(ResetApproveFailureStatus());
                   Navigator.pop(context);
                 },
                 isSuccess: true,
@@ -70,9 +66,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                 heading: 'Success',
                 content: 'Successfully hired!',
                 onTap: () {
-                  context
-                      .read<TaskEntityServiceBloc>()
-                      .add(ResetApproveSuccessStatus());
+                  context.read<TaskEntityServiceBloc>().add(ResetApproveSuccessStatus());
                   Navigator.pop(context);
                 },
                 isSuccess: true,
@@ -82,6 +76,10 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
         },
         builder: (context, state) {
           if (state.theStates == TheStates.success) {
+            final List<tes.Image> mediaList = [
+              ...state.taskEntityService?.images ?? [],
+              ...state.taskEntityService?.videos ?? [],
+            ];
             return Column(
               children: [
                 addVerticalSpace(50),
@@ -94,35 +92,93 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                     children: [
                       ProfileDetailSection(state: state),
                       EventSection(
-                        taskEntityService:
-                            state.taskEntityService ?? TaskEntityService(),
+                        taskEntityService: state.taskEntityService ?? tes.TaskEntityService(),
                         user: user,
                       ),
-                      // ScheduleSection(
-                      //   taskEntityServiceState: state,
-                      //   userState: user.state,
-                      // ),
-                      if (state.taskEntityService?.highlights?.isNotEmpty ??
-                          false) ...[
+                      if (state.taskEntityService?.highlights?.isNotEmpty ?? false) ...[
                         RequirementSection(
-                          requirementList:
-                              state.taskEntityService?.highlights ?? [],
+                          requirementList: state.taskEntityService?.highlights ?? [],
                         ),
                       ],
-                      // const Visibility(
-                      //   visible: false,
-                      //   child: PackagesOffersSection(),
-                      // ),
                       AdditionalInfoSection(),
                       RatingReviewSection(),
+                      if (mediaList.isNotEmpty) ...[
+                        addVerticalSpace(10),
+                        Text(
+                          'Media',
+                          style: kPurpleText16,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.21,
+                          child: CarouselSlider.builder(
+                            itemCount: mediaList.length,
+                            itemBuilder: (context, index, realIndex) {
+                              return Container(
+                                height: MediaQuery.of(context).size.height * 0.2,
+                                margin: EdgeInsets.only(right: 32),
+                                child: mediaList[index].mediaType == 'mp4'
+                                    ? VideoPlayerWidget(
+                                        videoURL: mediaList[index].media ??
+                                            'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                      )
+                                    : Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(16.0),
+                                            child: Image.network(
+                                              mediaList[index].media.toString(),
+                                              errorBuilder: (context, error, stackTrace) =>
+                                                  Image.network(kServiceImageNImg),
+                                              width: MediaQuery.of(context).size.width,
+                                              height: MediaQuery.of(context).size.height * 0.2,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              );
+                            },
+                            options: CarouselOptions(
+                              padEnds: mediaList.length == 1,
+                              enlargeCenterPage: mediaList.length == 1,
+                              viewportFraction: 0.8,
+                              enableInfiniteScroll: false,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _imageIndex = index;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                mediaList.length,
+                                (ind) => Container(
+                                  height: 10,
+                                  margin: const EdgeInsets.all(2),
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                    color: _imageIndex == ind ? Colors.amber : Colors.grey,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                       SimilarEntityServiceSection(),
                       addVerticalSpace(10),
-                      if (state.applicantModel?.result?.isNotEmpty ??
-                          false) ...[
+                      if (state.applicantModel?.result?.isNotEmpty ?? false) ...[
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
                             'Applicants',
                             style: kPurpleText16,
@@ -144,20 +200,13 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     context: context,
                                     builder: (context) {
                                       return CustomToast(
-                                        heading:
-                                            'Are you sure you want to hire?',
+                                        heading: 'Are you sure you want to hire?',
                                         content:
                                             'Do you want to hire ${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''} for your task.',
                                         onTap: () {
-                                          context
-                                              .read<TaskEntityServiceBloc>()
-                                              .add(TaskEntityServiceApprovePeople(
-                                                  approveReq: ApproveReq(
-                                                      booking: state
-                                                              .applicantModel
-                                                              ?.result?[index]
-                                                              .id ??
-                                                          0)));
+                                          context.read<TaskEntityServiceBloc>().add(TaskEntityServiceApprovePeople(
+                                              approveReq:
+                                                  ApproveReq(booking: state.applicantModel?.result?[index].id ?? 0)));
                                           Navigator.pop(context);
                                         },
                                         isSuccess: true,
@@ -166,20 +215,15 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   );
                                 },
                                 callbackLabel: 'Approve',
-                                networkImageUrl: state
-                                        .applicantModel
-                                        ?.result?[index]
-                                        .createdBy
-                                        ?.profileImage ??
-                                    kServiceImageNImg,
+                                networkImageUrl:
+                                    state.applicantModel?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
                                 happyClients:
                                     '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                 rewardPercentage:
                                     '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                 label:
                                     '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
-                                designation: state.applicantModel
-                                    ?.result?[index].createdBy?.designation,
+                                designation: state.applicantModel?.result?[index].createdBy?.designation,
                                 rate:
                                     'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
                                 ratings:
@@ -193,8 +237,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   ),
                 ),
                 Visibility(
-                  visible: state.taskEntityService?.createdBy?.id !=
-                      user.state.taskerProfile?.user?.id,
+                  visible: state.taskEntityService?.createdBy?.id != user.state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
                     buttonLabel: getStatus('')["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
@@ -206,8 +249,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       if (!CacheHelper.isLoggedIn) return;
                       context.read<EventBloc>().add(
                             EventLoaded(
-                              id: state.taskEntityService?.event?.id ??
-                                  'Null Case',
+                              id: state.taskEntityService?.event?.id ?? 'Null Case',
                             ),
                           );
                       Navigator.pushNamed(
@@ -221,7 +263,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             );
           } else {
             return const Center(
-              child: CardLoading(height: 200,),
+              child: CardLoading(
+                height: 200,
+              ),
             );
           }
         },

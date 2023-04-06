@@ -12,7 +12,7 @@ class SimilarEntityServiceSection extends StatelessWidget {
       label: 'Similar Services',
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.21,
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         child: ListView.builder(
           padding: EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
