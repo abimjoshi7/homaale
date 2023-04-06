@@ -7,6 +7,7 @@ import 'package:cipher/features/profile/presentation/pages/activites/activities_
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               onPressed: () async {
                 Navigator.pushNamed(
                   context,
-                  CompleteProfilePage.routeName,
+                  SearchPage.routeName,
                 );
               },
               icon: const Icon(

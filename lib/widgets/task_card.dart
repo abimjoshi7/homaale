@@ -53,7 +53,7 @@ class TaskCard extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Container(
-                        height: 50,
+                        height: 49,
                         width: 50,
                         decoration: BoxDecoration(
                           image: DecorationImage(

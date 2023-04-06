@@ -33,12 +33,12 @@ class ServicesPage extends StatelessWidget {
                 Icons.arrow_back,
               ),
             ),
-            trailingWidget: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-              ),
-            ),
+            // trailingWidget: IconButton(
+            //   onPressed: () {},
+            //   icon: const Icon(
+            //     Icons.search,
+            //   ),
+            // ),
             child: Text(nestedCategory?.name ?? ''),
           ),
           Expanded(

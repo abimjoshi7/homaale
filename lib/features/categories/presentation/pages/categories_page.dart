@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -45,7 +46,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
               },
             ),
             trailingWidget: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  SearchPage.routeName,
+                );
+              },
               icon: const Icon(
                 Icons.search,
               ),
@@ -134,8 +140,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         child: BlocBuilder<ServicesBloc, ServicesState>(
                           builder: (context, serviceState) {
                             if (serviceState.theStates == TheStates.initial) {
-                              return const  Center(
-                                child: CardLoading(height: 200,),
+                              return const Center(
+                                child: CardLoading(
+                                  height: 200,
+                                ),
                               );
                             }
 

@@ -2,6 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -134,7 +135,12 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                       ),
                     ),
                     trailingWidget: IconButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        Navigator.pushNamed(
+                          context,
+                          SearchPage.routeName,
+                        );
+                      },
                       icon: const Icon(
                         Icons.search,
                       ),

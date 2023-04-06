@@ -7,6 +7,7 @@ import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/profile/presentation/widgets/number_count_text.dart';
 import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.dart';
@@ -25,7 +26,8 @@ class TaskerProfileView extends StatefulWidget {
   State<TaskerProfileView> createState() => TaskerProfileViewState();
 }
 
-class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerProviderStateMixin {
+class TaskerProfileViewState extends State<TaskerProfileView>
+    with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
 
@@ -60,7 +62,8 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
         builder: (context, state) {
           String profilePicUrl() {
             if (state.states == TheStates.success) {
-              return state.tasker?.profileImage.toString() ?? 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
+              return state.tasker?.profileImage.toString() ??
+                  'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
             }
             return 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
           }
@@ -151,7 +154,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
               );
             } else {
               return const Center(
-                child: CardLoading(height: 200,),
+                child: CardLoading(
+                  height: 200,
+                ),
               );
             }
           }
@@ -183,7 +188,8 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
           Widget buildTaskSuccessRate() {
             if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker?.stats!.successRate!.toStringAsFixed(0) ?? '0',
+                numberText:
+                    state.tasker?.stats!.successRate!.toStringAsFixed(0) ?? '0',
                 textColor: kColorGreen,
               );
             } else {
@@ -197,7 +203,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
           Widget buildTaskHappyClients() {
             if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker?.stats!.happyClients!.toStringAsFixed(0) ?? '0',
+                numberText:
+                    state.tasker?.stats!.happyClients!.toStringAsFixed(0) ??
+                        '0',
                 textColor: kColorPurple,
               );
             } else {
@@ -211,7 +219,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
           Widget buildTaskCompleted() {
             if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker?.stats!.taskCompleted!.toStringAsFixed(0) ?? '0',
+                numberText:
+                    state.tasker?.stats!.taskCompleted!.toStringAsFixed(0) ??
+                        '0',
                 textColor: kColorOrange,
               );
             } else {
@@ -241,7 +251,12 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                     ),
                   ),
                   trailingWidget: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        SearchPage.routeName,
+                      );
+                    },
                     icon: const Icon(
                       Icons.search,
                     ),
@@ -275,7 +290,8 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                           ),
                           kHeight5,
                           Text(
-                            state.tasker?.designation?.toString() ?? 'Homaale User',
+                            state.tasker?.designation?.toString() ??
+                                'Homaale User',
                           ),
                           kHeight5,
                           displayRating(),
@@ -363,11 +379,13 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                     children: [
                       TaskerAboutSection(
                         bio: state.tasker?.bio,
-                        contact: state.tasker?.user!.phone?.toString() ?? state.tasker?.user!.email!,
+                        contact: state.tasker?.user!.phone?.toString() ??
+                            state.tasker?.user!.email!,
                         activeHourStart: state.tasker?.activeHourStart ?? '',
                         activeHourEnd: state.tasker?.activeHourEnd ?? '',
                         skills: state.tasker?.skill,
-                        location: "${state.tasker?.addressLine1}, ${state.tasker?.country?.name ?? ''}",
+                        location:
+                            "${state.tasker?.addressLine1}, ${state.tasker?.country?.name ?? ''}",
                         portfolio: state.tasker?.portfolio ?? [],
                         education: state.tasker?.education ?? [],
                         experience: state.tasker?.experience ?? [],
@@ -388,7 +406,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
             );
           } else {
             return const Center(
-              child: CardLoading(height: 200,),
+              child: CardLoading(
+                height: 200,
+              ),
             );
           }
         },

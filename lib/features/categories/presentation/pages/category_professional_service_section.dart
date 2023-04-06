@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -126,7 +127,12 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                       ),
                     ),
                     trailingWidget: IconButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        Navigator.pushNamed(
+                          context,
+                          SearchPage.routeName,
+                        );
+                      },
                       icon: const Icon(
                         Icons.search,
                       ),
