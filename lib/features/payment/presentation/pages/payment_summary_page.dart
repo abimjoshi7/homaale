@@ -4,7 +4,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../locator.dart';
 import '../../../box/presentation/bloc/order_retrive_bloc.dart';
 import '../../../box/presentation/bloc/order_retrive_state.dart';
 import '../bloc/payment_type_bloc.dart';

@@ -298,13 +298,55 @@ class AccountProfile extends StatelessWidget {
                         builder: (context, state) {
                           return AccountListTileSection(
                             onTap: () async {
-                              context.read<SignInBloc>().add(
-                                    SignOutInitiated(),
-                                  );
-                              await Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                SignInPage.routeName,
-                                (route) => false,
+                              await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    "Logout",
+                                    style: kPurpleText16,
+                                  ),
+                                  content: Text(
+                                    "Are you sure to logout?",
+                                    style: kText15,
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Flexible(
+                                          child: CustomElevatedButton(
+                                            callback: () async {
+                                              context.read<SignInBloc>().add(
+                                                    SignOutInitiated(),
+                                                  );
+                                              await Navigator
+                                                  .pushNamedAndRemoveUntil(
+                                                context,
+                                                SignInPage.routeName,
+                                                (route) => false,
+                                              );
+                                            },
+                                            label: "Continue",
+                                          ),
+                                        ),
+                                        addHorizontalSpace(
+                                          10,
+                                        ),
+                                        Flexible(
+                                          child: CustomElevatedButton(
+                                            callback: () {
+                                              Navigator.pop(context);
+                                            },
+                                            label: "Cancel",
+                                            mainColor: Colors.white,
+                                            textColor: kColorPrimary,
+                                            borderColor: kColorPrimary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                             icon: const Icon(Icons.logout_rounded),

@@ -2,6 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
+import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
@@ -686,7 +687,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ),
                               Flexible(
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      TermsOfUsePage.routeName,
+                                    );
+                                  },
                                   child: const Text(
                                     'Terms and Conditions.',
                                     style: TextStyle(
