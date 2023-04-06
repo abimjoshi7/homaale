@@ -3,7 +3,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/html_remover.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class ContentClientWidget extends StatelessWidget {
   final String contentClientTitle;
@@ -34,9 +34,17 @@ class ContentClientWidget extends StatelessWidget {
           style: kSubHeading,
         ),
         addVerticalSpace(20.0),
-        HtmlRemover(
-          text: state.contentClient!.content.toString(),
-          textAlign: TextAlign.justify,
+        // HtmlRemover(
+        //   text: state.contentClient!.content.toString(),
+        //   textAlign: TextAlign.justify,
+        // ),
+        Html(
+          data: state.contentClient!.content.toString(),
+          style: {
+            "p": Style(
+              textAlign: TextAlign.justify,
+            ),
+          },
         ),
       ],
     );

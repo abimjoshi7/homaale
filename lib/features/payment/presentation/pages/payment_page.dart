@@ -6,7 +6,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../locator.dart';
 import '../bloc/payment_type_bloc.dart';
 import '../bloc/payment_type_event.dart';
 

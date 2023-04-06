@@ -2,6 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
+import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
@@ -297,186 +298,182 @@ class _AddServicePageState extends State<AddServicePage> {
                               validator: validateNotEmpty,
                             ),
                           ),
-                          CustomFormField(
-                            label: 'Budget',
-                            child: Column(
-                              children: [
-                                CustomFormField(
-                                  label: 'Currency',
-                                  isRequired: true,
-                                  child:
-                                      BlocBuilder<CurrencyBloc, CurrencyState>(
-                                    builder: (context, state) {
-                                      if (state is CurrencyLoadSuccess) {
-                                        return CustomDropDownField(
-                                          list: List.generate(
-                                            state.currencyListRes.length,
-                                            (index) => state
-                                                .currencyListRes[index].name,
-                                          ),
-                                          hintText: 'Enter your Currency',
-                                          onChanged: (p0) => setState(
-                                            () async {
-                                              final x = state.currencyListRes
-                                                  .firstWhere(
-                                                (element) => p0 == element.name,
-                                              );
-                                              currencyCode = x.code;
-                                            },
-                                          ),
-                                        );
-                                      } else {
-                                        return const SizedBox.shrink();
-                                      }
-                                    },
-                                  ),
-                                ),
-                                CustomFormField(
-                                  label: 'Price',
-                                  isRequired: true,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Radio<String>(
-                                            value: 'Fixed',
-                                            groupValue: priceType,
-                                            onChanged: (value) => setState(
-                                              () {
-                                                priceType = value;
-                                                isBudgetVariable = false;
-                                              },
-                                            ),
-                                          ),
-                                          const Text('Fixed'),
-                                          addHorizontalSpace(10),
-                                          Radio<String>(
-                                            value: 'Variable',
-                                            groupValue: priceType,
-                                            onChanged: (value) => setState(
-                                              () {
-                                                priceType = value;
-                                                isBudgetVariable = true;
-                                              },
-                                            ),
-                                          ),
-                                          const Text('Variable'),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Visibility(
-                                      visible: isBudgetVariable,
-                                      child: Flexible(
-                                        child: NumberIncDecField(
-                                          controller: startPriceController,
+                          Column(
+                            children: [
+                              CustomFormField(
+                                label: 'Currency',
+                                isRequired: true,
+                                child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                                  builder: (context, state) {
+                                    if (state is CurrencyLoadSuccess) {
+                                      return CustomDropDownField(
+                                        list: List.generate(
+                                          state.currencyListRes.length,
+                                          (index) =>
+                                              state.currencyListRes[index].name,
                                         ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: isBudgetVariable,
-                                      child: const Text(' To '),
-                                    ),
-                                    Flexible(
-                                      child: NumberIncDecField(
-                                        controller: endPriceController,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      flex: 2,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        child: CustomDropDownField(
-                                          list: const [
-                                            'Project',
-                                            'Hourly',
-                                            'Daily',
-                                            'Monthly',
-                                          ],
-                                          hintText: 'Per project',
-                                          onChanged: (value) {
-                                            setState(
-                                              () {
-                                                budgetType = value;
-                                              },
+                                        hintText: 'Enter your Currency',
+                                        onChanged: (p0) => setState(
+                                          () async {
+                                            final x = state.currencyListRes
+                                                .firstWhere(
+                                              (element) => p0 == element.name,
                                             );
+                                            currencyCode = x.code;
                                           },
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    } else {
+                                      return const SizedBox.shrink();
+                                    }
+                                  },
+                                ),
+                              ),
+                              CustomFormField(
+                                label: 'Price',
+                                isRequired: true,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Radio<String>(
+                                          value: 'Fixed',
+                                          groupValue: priceType,
+                                          onChanged: (value) => setState(
+                                            () {
+                                              priceType = value;
+                                              isBudgetVariable = false;
+                                            },
+                                          ),
+                                        ),
+                                        const Text('Fixed'),
+                                        addHorizontalSpace(10),
+                                        Radio<String>(
+                                          value: 'Variable',
+                                          groupValue: priceType,
+                                          onChanged: (value) => setState(
+                                            () {
+                                              priceType = value;
+                                              isBudgetVariable = true;
+                                            },
+                                          ),
+                                        ),
+                                        const Text('Variable'),
+                                      ],
+                                    )
                                   ],
                                 ),
-                                addVerticalSpace(10),
-                                Row(
-                                  children: [
-                                    CustomCheckBox(
-                                      isChecked: isDiscounted,
-                                      onTap: () => setState(
-                                        () {
-                                          isDiscounted = !isDiscounted;
+                              ),
+                              Row(
+                                children: [
+                                  Visibility(
+                                    visible: isBudgetVariable,
+                                    child: Flexible(
+                                      child: NumberIncDecField(
+                                        controller: startPriceController,
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: isBudgetVariable,
+                                    child: const Text(' To '),
+                                  ),
+                                  Flexible(
+                                    child: NumberIncDecField(
+                                      controller: endPriceController,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      child: CustomDropDownField(
+                                        list: const [
+                                          'Project',
+                                          'Hourly',
+                                          'Daily',
+                                          'Monthly',
+                                        ],
+                                        hintText: 'Per project',
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              budgetType = value;
+                                            },
+                                          );
                                         },
                                       ),
                                     ),
-                                    addHorizontalSpace(10),
-                                    const Text('Add Discount'),
-                                  ],
-                                ),
-                                Visibility(
-                                  visible: isDiscounted,
-                                  child: Column(
-                                    children: [
-                                      addVerticalSpace(8),
-                                      Row(
-                                        children: [
-                                          Flexible(
-                                            child: NumberIncDecField(
-                                              controller: discountController,
-                                            ),
-                                          ),
-                                          addHorizontalSpace(10),
-                                          Flexible(
-                                            child: CustomDropDownField(
-                                              list: const [
-                                                'Project',
-                                                'Hourly',
-                                                'Daily',
-                                                'Monthly',
-                                              ],
-                                              hintText: 'Specify',
-                                              onChanged: (value) {},
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
                                   ),
-                                ),
-                                addVerticalSpace(10),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.info_outline_rounded,
-                                      color: kColorSecondary,
+                                ],
+                              ),
+                              addVerticalSpace(10),
+                              Row(
+                                children: [
+                                  CustomCheckBox(
+                                    isChecked: isDiscounted,
+                                    onTap: () => setState(
+                                      () {
+                                        isDiscounted = !isDiscounted;
+                                      },
                                     ),
-                                    addHorizontalSpace(10),
-                                    const Flexible(
-                                      child: Text(
-                                        'After 20% discount on the budget i.e. Rs 240, new budget will be Rs 960',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                                  ),
+                                  addHorizontalSpace(10),
+                                  const Text('Add Discount'),
+                                ],
+                              ),
+                              Visibility(
+                                visible: isDiscounted,
+                                child: Column(
+                                  children: [
+                                    addVerticalSpace(8),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: NumberIncDecField(
+                                            controller: discountController,
+                                          ),
                                         ),
-                                      ),
+                                        addHorizontalSpace(10),
+                                        Flexible(
+                                          child: CustomDropDownField(
+                                            list: const [
+                                              'Project',
+                                              'Hourly',
+                                              'Daily',
+                                              'Monthly',
+                                            ],
+                                            hintText: 'Specify',
+                                            onChanged: (value) {},
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              addVerticalSpace(10),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.info_outline_rounded,
+                                    color: kColorSecondary,
+                                  ),
+                                  addHorizontalSpace(10),
+                                  const Flexible(
+                                    child: Text(
+                                      'After 20% discount on the budget i.e. Rs 240, new budget will be Rs 960',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           CustomFormField(
                             label: 'Images',
@@ -591,7 +588,12 @@ class _AddServicePageState extends State<AddServicePage> {
                               ),
                               Flexible(
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      TermsOfUsePage.routeName,
+                                    );
+                                  },
                                   child: const Text(
                                     'Terms and Conditions.',
                                     style: TextStyle(
@@ -699,7 +701,10 @@ class _AddServicePageState extends State<AddServicePage> {
                                       );
 
                                       context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceCreated(req: req));
+                                            TaskEntityServiceCreated(
+                                              req: req,
+                                            ),
+                                          );
                                     } else {
                                       showDialog(
                                         context: context,
@@ -741,388 +746,4 @@ class _AddServicePageState extends State<AddServicePage> {
       ),
     );
   }
-
-  // Widget buildDate() {
-  //   if (isCustomDate == false) {
-  //     return Column(
-  //       children: [
-  //         CustomFormField(
-  //           label: 'Date',
-  //           child: SizedBox(
-  //             width: MediaQuery.of(context).size.width * 0.4,
-  //             child: InkWell(
-  //               onTap: () async {
-  //                 await showDatePicker(
-  //                   context: context,
-  //                   initialDate: DateTime.now(),
-  //                   firstDate: DateTime(2022),
-  //                   lastDate: DateTime(
-  //                     2050,
-  //                   ),
-  //                 ).then(
-  //                   (value) => setState(
-  //                     () {
-  //                       endDate = value;
-  //                     },
-  //                   ),
-  //                 );
-  //               },
-  //               child: CustomFormContainer(
-  //                 leadingWidget: const Icon(
-  //                   Icons.calendar_today_rounded,
-  //                 ),
-  //                 hintText: endDate?.toIso8601String().substring(
-  //                           0,
-  //                           10,
-  //                         ) ??
-  //                     'dd/mm/yy',
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Row(
-  //           children: [
-  //             CustomCheckBox(
-  //               isChecked: isSpecified,
-  //               onTap: () {
-  //                 setState(
-  //                   () {
-  //                     isSpecified = !isSpecified;
-  //                   },
-  //                 );
-  //               },
-  //             ),
-  //             addHorizontalSpace(5),
-  //             const Text('Set specific time'),
-  //           ],
-  //         ),
-  //         Visibility(
-  //           visible: isSpecified,
-  //           child: SizedBox(
-  //             height: 130,
-  //             width: double.infinity,
-  //             child: Padding(
-  //               padding: const EdgeInsets.all(10),
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   Row(
-  //                     children: [
-  //                       Flexible(
-  //                         child: InkWell(
-  //                           onTap: () async {
-  //                             await showTimePicker(
-  //                               context: context,
-  //                               initialTime: TimeOfDay.now(),
-  //                             ).then(
-  //                               (value) => setState(
-  //                                 () {
-  //                                   startTime = value;
-  //                                 },
-  //                               ),
-  //                             );
-  //                           },
-  //                           child: CustomFormContainer(
-  //                             hintText:
-  //                                 startTime?.format(context) ?? 'hh:mm A.M',
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       const Text(' - '),
-  //                       Flexible(
-  //                         child: InkWell(
-  //                           onTap: () async {
-  //                             await showTimePicker(
-  //                               context: context,
-  //                               initialTime: TimeOfDay.now(),
-  //                             ).then(
-  //                               (value) => setState(
-  //                                 () {
-  //                                   endTime = value;
-  //                                 },
-  //                               ),
-  //                             );
-  //                           },
-  //                           child: CustomFormContainer(
-  //                             hintText: endTime?.format(context) ?? 'hh:mm A.M',
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       IconButton(
-  //                         onPressed: () {},
-  //                         icon: const Icon(
-  //                           Icons.delete_outline_rounded,
-  //                           color: kColorSecondary,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   Padding(
-  //                     padding: EdgeInsets.only(
-  //                       top: 8.0,
-  //                       right: MediaQuery.of(context).size.width * 0.6,
-  //                     ),
-  //                     child: CustomElevatedButton(
-  //                       callback: () {},
-  //                       label: 'Add',
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     );
-  //   }
-  //   return Column(
-  //     children: [
-  //       Row(
-  //         children: [
-  //           Flexible(
-  //             child: CustomFormField(
-  //               label: 'Start Date',
-  //               child: SizedBox(
-  //                 child: InkWell(
-  //                   onTap: () async {
-  //                     await showDatePicker(
-  //                       context: context,
-  //                       initialDate: DateTime.now(),
-  //                       firstDate: DateTime(2020),
-  //                       lastDate: DateTime(
-  //                         2050,
-  //                       ),
-  //                     ).then(
-  //                       (value) => setState(
-  //                         () {
-  //                           startDate = value;
-  //                         },
-  //                       ),
-  //                     );
-  //                   },
-  //                   child: CustomFormContainer(
-  //                     leadingWidget: const Icon(
-  //                       Icons.calendar_today_rounded,
-  //                     ),
-  //                     hintText: startDate != null
-  //                         ? DateFormat('yy/MM/dd').format(startDate!)
-  //                         : 'dd/mm/yy',
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //           addHorizontalSpace(10),
-  //           Flexible(
-  //             child: CustomFormField(
-  //               label: 'End Date',
-  //               child: SizedBox(
-  //                 child: InkWell(
-  //                   onTap: () async {
-  //                     await showDatePicker(
-  //                       context: context,
-  //                       initialDate: DateTime.now(),
-  //                       firstDate: DateTime(2020),
-  //                       lastDate: DateTime(
-  //                         2050,
-  //                       ),
-  //                     ).then(
-  //                       (value) => setState(
-  //                         () {
-  //                           endDate = value;
-  //                         },
-  //                       ),
-  //                     );
-  //                   },
-  //                   child: CustomFormContainer(
-  //                     leadingWidget: const Icon(
-  //                       Icons.calendar_today_rounded,
-  //                     ),
-  //                     hintText: endDate != null
-  //                         ? DateFormat('yy/MM/dd').format(endDate!)
-  //                         : 'dd/mm/yy',
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //       Row(
-  //         children: [
-  //           CustomCheckBox(
-  //             isChecked: isSpecified,
-  //             onTap: () {
-  //               setState(() {
-  //                 isSpecified = !isSpecified;
-  //               });
-  //             },
-  //           ),
-  //           addHorizontalSpace(5),
-  //           const Text('Set specific time'),
-  //         ],
-  //       ),
-  //       Visibility(
-  //         visible: isSpecified,
-  //         child: SizedBox(
-  //           height: 50,
-  //           width: double.infinity,
-  //           child: ListView.separated(
-  //             scrollDirection: Axis.horizontal,
-  //             itemBuilder: (context, index) {
-  //               return InkWell(
-  //                 onTap: () {
-  //                   if (selectedWeekDay.contains(index) == false) {
-  //                     setState(
-  //                       () {
-  //                         selectedWeekDay.add(index);
-  //                         switch (index) {
-  //                           case 0:
-  //                             widgetList.add(
-  //                               WeekTimeSpecifier(
-  //                                 weekName: 'Sunday',
-  //                                 onTap1: () async {
-  //                                   await showTimePicker(
-  //                                     context: context,
-  //                                     initialTime: TimeOfDay.now(),
-  //                                   ).then(
-  //                                     (value) => setState(
-  //                                       () {
-  //                                         startTime = value;
-  //                                       },
-  //                                     ),
-  //                                   );
-  //                                 },
-  //                                 onTap2: () async {
-  //                                   await showTimePicker(
-  //                                     context: context,
-  //                                     initialTime: TimeOfDay.now(),
-  //                                   ).then(
-  //                                     (value) => setState(
-  //                                       () {
-  //                                         endTime = value;
-  //                                       },
-  //                                     ),
-  //                                   );
-  //                                 },
-  //                               ),
-  //                             );
-  //                             break;
-  //                           case 1:
-  //                             widgetList.add(
-  //                               const WeekTimeSpecifier(
-  //                                 weekName: 'Monday',
-  //                               ),
-  //                             );
-  //                             break;
-  //                           case 2:
-  //                             widgetList.add(
-  //                               const WeekTimeSpecifier(
-  //                                 weekName: 'Tuesday',
-  //                               ),
-  //                             );
-  //                             break;
-  //                           case 3:
-  //                             widgetList.add(
-  //                               const WeekTimeSpecifier(
-  //                                 weekName: 'Wednesday',
-  //                               ),
-  //                             );
-  //                             break;
-  //                           case 4:
-  //                             widgetList.add(
-  //                               const WeekTimeSpecifier(
-  //                                 weekName: 'Thursday',
-  //                               ),
-  //                             );
-  //                             break;
-  //                           case 5:
-  //                             widgetList.add(
-  //                               const WeekTimeSpecifier(
-  //                                 weekName: 'Friday',
-  //                               ),
-  //                             );
-  //                             break;
-  //                           case 6:
-  //                             widgetList.add(
-  //                               const WeekTimeSpecifier(
-  //                                 weekName: 'Saturday',
-  //                               ),
-  //                             );
-  //                             break;
-  //                           default:
-  //                             widgetList.clear();
-  //                             break;
-  //                         }
-  //                       },
-  //                     );
-  //                   } else {
-  //                     setState(
-  //                       () {
-  //                         selectedWeekDay.remove(index);
-  //                         switch (index) {
-  //                           case 0:
-  //                             widgetList.removeAt(0);
-  //                             break;
-  //                           case 1:
-  //                             widgetList.remove(widgetList[index]);
-  //                             break;
-  //                           case 2:
-  //                             widgetList.remove(widgetList[index]);
-  //                             break;
-  //                           case 3:
-  //                             widgetList.remove(widgetList[index]);
-  //                             break;
-  //                           case 4:
-  //                             widgetList.remove(widgetList[index]);
-  //                             break;
-  //                           case 5:
-  //                             // widgetList.removeAt(widgetList[5]);
-  //                             break;
-  //                           case 6:
-  //                             widgetList.removeLast();
-  //                             break;
-  //                           default:
-  //                             widgetList.clear();
-  //                             break;
-  //                         }
-  //                       },
-  //                     );
-  //                   }
-  //                 },
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.all(8),
-  //                   child: ClipRRect(
-  //                     borderRadius: BorderRadius.circular(
-  //                       5,
-  //                     ),
-  //                     child: Container(
-  //                       width: 40,
-  //                       color: selectedWeekDay.contains(index)
-  //                           ? kColorPrimary
-  //                           : kColorGrey,
-  //                       child: Center(
-  //                         child: Text(
-  //                           weekNames[index],
-  //                           style: const TextStyle(
-  //                             color: Colors.white,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               );
-  //             },
-  //             separatorBuilder: (context, index) => kWidth10,
-  //             itemCount: weekNames.length,
-  //           ),
-  //         ),
-  //       ),
-  //       Column(
-  //         children: isSpecified == true ? widgetList : [],
-  //       ),
-  //     ],
-  //   );
-  // }
 }

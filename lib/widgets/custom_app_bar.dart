@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -32,9 +33,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         onPressed: () => Navigator.pop(context),
       ),
-      actions: const [
+      actions: [
         IconButton(
-          onPressed: null,
+          onPressed: () => Navigator.pushNamed(
+            context,
+            SearchPage.routeName,
+          ),
           icon: Icon(
             Icons.search_rounded,
             color: kColorGreyDark,

@@ -1,7 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
-import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';

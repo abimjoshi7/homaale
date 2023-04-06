@@ -168,60 +168,65 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
           );
         },
       ),
-      bottomNavigationBar: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
-        builder: (context, paymentTypeState) {
-          return BlocBuilder<PaymentBloc, PaymentIntentState>(
-            builder: (context, state) {
-              return BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
-                  builder: (context, orderState) {
-                return CustomElevatedButton(
-                    callback: () async {
-                      if (state.theState == TheStates.failure) {
-                        await showDialog(
-                          context: context,
-                          builder: (context) => CustomToast(
-                            heading: 'Failure',
-                            content: "Please try again.",
-                            onTap: () {},
-                            isSuccess: false,
-                          ),
-                        );
-                      }
-                      context.read<PaymentBloc>().add(
-                            PaymentIntentInitiated(
-                              provider: paymentTypeState
-                                      .paymentType
-                                      ?.result![
-                                          paymentTypeState.currentIndex!]
-                                      .slug ??
-                                  "",
-                              uuid: orderState.orderIdCreate?.order ?? "",
-                            ),
-                          );
-print('stripe: ${paymentTypeState
-    .paymentType
-    ?.result![
-paymentTypeState.currentIndex!]
-    .slug}');
-                      context.read<PaymentVerifyBloc>().add(
-                            PaymentVerifyInitiated(
-                              provider: paymentTypeState
-                                      .paymentType
-                                      ?.result![
-                                          paymentTypeState.currentIndex! ]
-                                      .slug ??
-                                  "",
-                              pidx: state.paymentIntent?.data?.pidx ?? "",
-                            ),
-                          );
-                      await Navigator.pushNamed(
-                          context, PaymentOnGoingPage.routeName);
-                    },
-                    label: 'Confirm Payment');
-              });
-            },
-          );
-        },
+      bottomNavigationBar: SizedBox(
+        height: 70,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
+              builder: (context, paymentTypeState) {
+                return BlocBuilder<PaymentBloc, PaymentIntentState>(
+                  builder: (context, state) {
+                    return BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
+                        builder: (context, orderState) {
+                      return CustomElevatedButton(
+                          callback: () async {
+                            if (state.theState == TheStates.failure) {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                  heading: 'Failure',
+                                  content: "Please try again.",
+                                  onTap: () {},
+                                  isSuccess: false,
+                                ),
+                              );
+                            }
+                            context.read<PaymentBloc>().add(
+                                  PaymentIntentInitiated(
+                                    provider: paymentTypeState
+                                            .paymentType
+                                            ?.result![paymentTypeState.currentIndex!]
+                                            .slug ??
+                                        "",
+                                    uuid: orderState.orderIdCreate?.order ?? "",
+                                  ),
+                                );
+                            print(
+                                'stripe: ${paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug}');
+                            context.read<PaymentVerifyBloc>().add(
+                                  PaymentVerifyInitiated(
+                                    provider: paymentTypeState
+                                            .paymentType
+                                            ?.result![paymentTypeState.currentIndex!]
+                                            .slug ??
+                                        "",
+                                    pidx: state.paymentIntent?.data?.pidx ?? "",
+                                  ),
+                                );
+                            await Navigator.pushNamed(
+                                context, PaymentOnGoingPage.routeName);
+                          },
+                          label: 'Confirm Payment');
+                    });
+                  },
+                );
+              },
+            ),
+            SizedBox(height: 20,)
+
+          ],
+        ),
       ),
     );
   }
