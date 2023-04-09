@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/services/widgets/services_text_card.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -36,17 +37,25 @@ class _TasksProfileState extends State<TasksProfile> {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 10,
               ),
-              itemBuilder: (context, index) => ServicesTextCard(
-                price: data?[index].budgetTo.toString() ?? 'Rs 2000',
-                location: data?[index].location ?? 'Shantinagar',
-                createdDate: DateFormat.yMMMEd().format(
-                  data?[index].createdAt ?? DateTime.now(),
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: data?[index].id ?? ''));
+                  Navigator.pushNamed(context, SingleTaskPage.routeName);
+                },
+                child: ServicesTextCard(
+                  price: data?[index].budgetTo?.toString() ?? 'N/A',
+                  location: data?[index].location ?? 'Shantinagar',
+                  createdDate: DateFormat.yMMMEd().format(
+                    data?[index].createdAt ?? DateTime.now(),
+                  ),
+                  address: data?[index].location ?? 'Buddhanagar, KTM',
+                  title: data?[index].title ?? 'Garden Redesign',
+                  viewCount: data?[index].viewsCount?.toString() ?? '0',
+                  description: data?[index].description ?? '... ',
+                  imagePath: data?[index].images?.length == 0
+                      ? kServiceImageNImg
+                      : data![index].images?.first['media'].toString(),
                 ),
-                address: data?[index].location ?? 'Buddhanagar, KTM',
-                title: data?[index].title ?? 'Garden Redesign',
-                viewCount: data?[index].viewsCount.toString(),
-                description: data?[index].description ?? '... ',
-                imagePath: data?[index].images?.length == 0 ? kServiceImageNImg : data![index].images?.first.toString(),
               ),
             ),
           );
