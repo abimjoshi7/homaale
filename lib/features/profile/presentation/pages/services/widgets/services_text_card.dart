@@ -48,17 +48,17 @@ class ServicesTextCard extends StatelessWidget {
         ),
         kHeight5,
         Text(
-          address ?? '',
+          address == '' ? 'N/A' : address ?? 'No address',
           style: kHighlightedText,
         ),
-        kHeight5,
-        FittedBox(
-          child: Text(
-            description ?? '',
-            style: kPurpleText13,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
+        // kHeight5,
+        // FittedBox(
+        //   child: Text(
+        //     description ?? '',
+        //     style: kPurpleText13,
+        //     overflow: TextOverflow.ellipsis,
+        //   ),
+        // ),
         kHeight5,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
