@@ -49,7 +49,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
         if (state is ForgotPasswordWithPhoneSuccess) {
           return SignInScaffold(
             child: Column(
-              children: [
+              children: <Widget>[
                 kHeight20,
                 kHeight20,
                 const Text('Confirm OTP', style: kHeading1),
@@ -66,15 +66,17 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                       kHeight20,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: <Widget>[
                           Image.asset('assets/timer.png'),
                           kWidth10,
-                          const CustomTimer(),
-                          kWidth20,
-                          CustomTextButton(
-                            text: 'Resend',
-                            voidCallback: () async {},
+                          CustomTimer(
+                            args: {"phone": args},
                           ),
+                          // kWidth20,
+                          // CustomTextButton(
+                          //   text: 'Resend',
+                          //   voidCallback: () async {},
+                          // ),
                         ],
                       ),
                     ],
@@ -109,14 +111,14 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      children: [
+                                      children: <Widget>[
                                         const Text(
                                           'New Password',
                                           style: kLabelPrimary,
                                         ),
                                         kHeight10,
                                         Row(
-                                          children: [
+                                          children: <Widget>[
                                             Flexible(
                                               child: CustomTextFormField(
                                                 validator: validatePassword,
@@ -137,7 +139,7 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                                         ),
                                         kHeight10,
                                         Row(
-                                          children: [
+                                          children: <Widget>[
                                             Flexible(
                                               child: CustomTextFormField(
                                                 validator: validatePassword,

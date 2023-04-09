@@ -132,9 +132,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         controller: phoneNumberController,
                         validator: validateNotEmpty,
                         onSaved: (p0) => setState(
-                          () {
-                            phoneNumberController.text = p0!;
-                          },
+                          () => phoneNumberController.text = p0!,
                         ),
                         textInputType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[

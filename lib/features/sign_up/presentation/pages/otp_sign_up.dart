@@ -60,15 +60,8 @@ class _OtpSignUpState extends State<OtpSignUp> {
                   children: <Widget>[
                     Image.asset('assets/timer.png'),
                     kWidth10,
-                    const CustomTimer(),
-                    kWidth20,
-                    CustomTextButton(
-                      text: 'Resend',
-                      voidCallback: () {
-                        context.read<OtpResetVerifyBloc>().add(
-                            OtpResendSignUpInitiated(
-                                phoneNumber: args['phone'].toString()));
-                      },
+                    CustomTimer(
+                      args: args,
                     ),
                   ],
                 ),
