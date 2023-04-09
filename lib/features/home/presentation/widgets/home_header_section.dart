@@ -40,13 +40,27 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (context, userState) {
+                    if (state.theStates == TheStates.success) {
+                      return Text(
+                        'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : userState.taskerProfile?.fullName ?? state.userLoginRes?.username ?? 'New User'}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      );
+                    }
+                    return Text(
+                      'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    );
+                  },
                 ),
                 InkWell(
                   onTap: () async {
