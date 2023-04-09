@@ -70,11 +70,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               .then(
                 (value) => emit(
                   state.copyWith(
-                      theState: TheStates.success, selfCreatedTaskServiceModel: SelfCreatedTaskService.fromJson(value)
-                      // myTaskRes: MyTaskRes.fromJson(
-                      //   value,
-                      // ),
-                      ),
+                      theState: TheStates.success, selfCreatedTaskServiceModel: SelfCreatedTaskService.fromJson(value)),
                 ),
               );
         } catch (e) {
