@@ -60,14 +60,17 @@ class AppRouter {
       case Root.routeName:
         return MaterialPageRoute(
           builder: (context) => const Root(),
+          settings: settings,
         );
       case SignInPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SignInPage(),
+          settings: settings,
         );
       case ForgotPasswordPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ForgotPasswordPage(),
+          settings: settings,
         );
 
       case ConfirmOtpPage.routeName:

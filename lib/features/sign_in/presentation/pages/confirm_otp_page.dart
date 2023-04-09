@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -44,218 +46,212 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
     //! obscuring phone number
     final number = args.substring(0, args.length);
     return BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
-      listener: (context, state) {},
+      listener: (context, state) async {
+        final error = await CacheHelper.getCachedString(
+          kErrorLog,
+        );
+        if (state is ForgotPasswordResetSuccess) {
+          if (!mounted) return;
+          await showDialog(
+            context: context,
+            builder: (_) => CustomToast(
+              heading: 'Success',
+              content: "Password change successfully",
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  SignInPage.routeName,
+                  (route) => false,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state is ForgotPasswordResetFailure) {
+          if (!mounted) return;
+          await showDialog(
+            context: context,
+            builder: (_) => CustomToast(
+              heading: 'Failure',
+              content: error ?? "Password change failed",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
+      },
       builder: (context, state) {
-        if (state is ForgotPasswordWithPhoneSuccess) {
-          return SignInScaffold(
-            child: Column(
-              children: <Widget>[
-                kHeight20,
-                kHeight20,
-                const Text('Confirm OTP', style: kHeading1),
-                kHeight5,
-                Text(
-                  "Please enter the 6 digit code send to ${number.replaceRange(8, number.length, "*****")}",
-                  style: kHelper13,
-                ),
-                kHeight20,
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      _buildOTP(),
-                      kHeight20,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset('assets/timer.png'),
-                          kWidth10,
-                          CustomTimer(
-                            args: {"phone": args},
-                          ),
-                          // kWidth20,
-                          // CustomTextButton(
-                          //   text: 'Resend',
-                          //   voidCallback: () async {},
-                          // ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                CustomElevatedButton(
-                  callback: () async {
-                    try {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              kHeight50,
-                              const Text('Reset Password', style: kHeading1),
-                              kHeight5,
-                              const Text(
-                                'Recover your password',
-                                style: kHelper13,
-                              ),
-                              kHeight20,
-                              Form(
-                                key: _key,
-                                child: Padding(
-                                  padding: kPadding20,
-                                  child: SizedBox(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        const Text(
-                                          'New Password',
-                                          style: kLabelPrimary,
-                                        ),
-                                        kHeight10,
-                                        Row(
-                                          children: <Widget>[
-                                            Flexible(
-                                              child: CustomTextFormField(
-                                                validator: validatePassword,
-                                                onSaved: (p0) => setState(
-                                                  () {
-                                                    passwordController.text =
-                                                        p0!;
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        kHeight20,
-                                        const Text(
-                                          'Confirm Password',
-                                          style: kLabelPrimary,
-                                        ),
-                                        kHeight10,
-                                        Row(
-                                          children: <Widget>[
-                                            Flexible(
-                                              child: CustomTextFormField(
-                                                validator: validatePassword,
-                                                onSaved: (p0) => setState(
-                                                  () {
-                                                    confirmPasswordController
-                                                        .text = p0!;
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              BlocConsumer<ForgotPasswordBloc,
-                                  ForgotPasswordState>(
-                                listener: (context, state) async {
-                                  final error =
-                                      await CacheHelper.getCachedString(
-                                    kErrorLog,
-                                  );
-                                  if (state is ForgotPasswordResetSuccess) {
-                                    if (!mounted) return;
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) => CustomToast(
-                                        heading: 'Success',
-                                        content: "Password change successfully",
-                                        onTap: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            SignInPage.routeName,
-                                            (route) => false,
-                                          );
-                                        },
-                                        isSuccess: true,
-                                      ),
-                                    );
-                                  } else {
-                                    if (!mounted) return;
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) => CustomToast(
-                                        heading: 'Failure',
-                                        content:
-                                            error ?? "Password change failed",
-                                        onTap: () {},
-                                        isSuccess: false,
-                                      ),
-                                    );
-                                  }
-                                },
-                                builder: (context, state) {
-                                  return CustomElevatedButton(
-                                    callback: () async {
-                                      if (_key.currentState!.validate()) {
-                                        _key.currentState!.save();
-                                        context.read<ForgotPasswordBloc>().add(
-                                              ForgotPasswordPhoneResetInitiated(
-                                                OtpResetVerifyReq(
-                                                  phone: "+977$args",
-                                                  otp: otpValue,
-                                                  scope: 'reset',
-                                                  password:
-                                                      passwordController.text,
-                                                  confirmPassword:
-                                                      confirmPasswordController
-                                                          .text,
-                                                ),
-                                              ),
-                                            );
-                                      }
-                                    },
-                                    label: 'Continue',
-                                  );
-                                },
-                              ),
-                              kHeight50
-                            ],
-                          ),
+        return SignInScaffold(
+          child: Column(
+            children: <Widget>[
+              kHeight20,
+              kHeight20,
+              const Text('Confirm OTP', style: kHeading1),
+              kHeight5,
+              Text(
+                "Please enter the 6 digit code send to ${number.replaceRange(8, number.length, "*****")}",
+                style: kHelper13,
+              ),
+              kHeight20,
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    _buildOTP(),
+                    kHeight20,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset('assets/timer.png'),
+                        kWidth10,
+                        CustomTimer(
+                          args: {"phone": args},
                         ),
-                      );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Something went wrong. Try again'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              CustomElevatedButton(
+                callback: () async {
+                  try {
+                    if (otpValue == null || otpValue!.isEmpty) {
+                      if (!mounted) return;
+                      await showDialog(
+                        context: context,
+                        builder: (_) => CustomToast(
+                          heading: 'Failure',
+                          content: "OTP Field Cannot Be Empty",
+                          onTap: () {},
+                          isSuccess: false,
                         ),
                       );
                     }
-                  },
-                  label: 'Continue',
-                ),
-                kHeight15,
-                CustomElevatedButton(
-                  label: 'Cancel',
-                  mainColor: Colors.white,
-                  textColor: kColorPrimary,
-                  callback: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      SignInPage.routeName,
-                      (route) => false,
+                    if (otpValue == null || otpValue!.isEmpty) return;
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) => Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            kHeight50,
+                            const Text('Reset Password', style: kHeading1),
+                            kHeight5,
+                            const Text(
+                              'Recover your password',
+                              style: kHelper13,
+                            ),
+                            kHeight20,
+                            Form(
+                              key: _key,
+                              child: Padding(
+                                padding: kPadding20,
+                                child: SizedBox(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      const Text(
+                                        'New Password',
+                                        style: kLabelPrimary,
+                                      ),
+                                      kHeight10,
+                                      Row(
+                                        children: <Widget>[
+                                          Flexible(
+                                            child: CustomTextFormField(
+                                              validator: validatePassword,
+                                              onSaved: (p0) => setState(
+                                                () {
+                                                  passwordController.text = p0!;
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      kHeight20,
+                                      const Text(
+                                        'Confirm Password',
+                                        style: kLabelPrimary,
+                                      ),
+                                      kHeight10,
+                                      Row(
+                                        children: <Widget>[
+                                          Flexible(
+                                            child: CustomTextFormField(
+                                              validator: validatePassword,
+                                              onSaved: (p0) => setState(
+                                                () {
+                                                  confirmPasswordController
+                                                      .text = p0!;
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            CustomElevatedButton(
+                              callback: () async {
+                                if (_key.currentState!.validate()) {
+                                  _key.currentState!.save();
+                                  context.read<ForgotPasswordBloc>().add(
+                                        ForgotPasswordPhoneResetInitiated(
+                                          OtpResetVerifyReq(
+                                            phone: "+977$args",
+                                            otp: otpValue,
+                                            scope: 'reset',
+                                            password: passwordController.text,
+                                            confirmPassword:
+                                                confirmPasswordController.text,
+                                          ),
+                                        ),
+                                      );
+                                }
+                              },
+                              label: 'Continue',
+                            ),
+                            kHeight50
+                          ],
+                        ),
+                      ),
                     );
-                  },
-                ),
-                kHeight50,
-              ],
-            ),
-          );
-        } else {
-          return const SizedBox.shrink();
-        }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Something went wrong. Try again.'),
+                      ),
+                    );
+                  }
+                },
+                label: 'Continue',
+              ),
+              kHeight15,
+              CustomElevatedButton(
+                label: 'Cancel',
+                mainColor: Colors.white,
+                textColor: kColorPrimary,
+                callback: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    SignInPage.routeName,
+                    (route) => false,
+                  );
+                },
+              ),
+              kHeight50,
+            ],
+          ),
+        );
       },
     );
   }

@@ -6,7 +6,7 @@ abstract class OtpResetVerifyEvent extends Equatable {
 }
 
 class OtpResetVerifyInitiated extends OtpResetVerifyEvent {
-  final OtpResetVerifyReq initiateEvent;
+  final Map<String,dynamic> initiateEvent;
   const OtpResetVerifyInitiated({
     required this.initiateEvent,
   });

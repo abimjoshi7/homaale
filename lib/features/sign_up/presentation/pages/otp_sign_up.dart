@@ -95,14 +95,8 @@ class _OtpSignUpState extends State<OtpSignUp> {
                   builder: (context) => CustomToast(
                     heading: 'Failure',
                     content: error ?? 'Please try again',
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        SignInPage.routeName,
-                        (route) => false,
-                      );
-                    },
-                    isSuccess: true,
+                    onTap: () {},
+                    isSuccess: false,
                   ),
                 );
               }
@@ -110,15 +104,26 @@ class _OtpSignUpState extends State<OtpSignUp> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
+                  if (otpValue == null || otpValue!.isEmpty) {
+                    if (!mounted) return;
+                    await showDialog(
+                      context: context,
+                      builder: (_) => CustomToast(
+                        heading: 'Failure',
+                        content: "OTP Field Cannot Be Empty",
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  }
+                  if (otpValue == null || otpValue!.isEmpty) return;
                   context.read<OtpResetVerifyBloc>().add(
                         OtpResetVerifyInitiated(
-                          initiateEvent: OtpResetVerifyReq(
-                            otp: otpValue,
-                            phone: args['phone'],
-                            scope: 'verify',
-                            password: args['password'],
-                            confirmPassword: args['password'],
-                          ),
+                          initiateEvent: {
+                            "otp": otpValue,
+                            "phone": args['phone'],
+                            "scope": 'verify',
+                          },
                         ),
                       );
                 },

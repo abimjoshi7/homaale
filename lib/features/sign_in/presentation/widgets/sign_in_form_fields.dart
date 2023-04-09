@@ -160,7 +160,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                       addHorizontalSpace(
                           MediaQuery.of(context).size.width * 0.020),
                       GetDevicePhoneNumberButton(
-                        onTap: () {},
+                        onTap: () => null,
                       ),
                     ],
                   ),
