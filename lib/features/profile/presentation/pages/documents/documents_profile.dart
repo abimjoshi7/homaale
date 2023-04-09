@@ -38,7 +38,9 @@ class DocumentsProfile extends StatelessWidget {
             ),
           );
         } else {
-          return const SizedBox.shrink();
+          return const Center(
+            child: Text('No documents to show.'),
+          );
         }
       },
     );
