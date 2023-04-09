@@ -1,5 +1,6 @@
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/box/presentation/bloc/order_id_create_bloc.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
@@ -25,6 +26,7 @@ void init() {
   locator.registerFactory(() => PaymentBloc());
   locator.registerFactory(() => PaymentTypeBloc());
   locator.registerFactory(() => NotificationBloc());
+  locator.registerFactory(() => OrderIdCreateBloc());
   locator.registerLazySingleton(
     () => BookEventHandlerBloc(),
   );

@@ -211,7 +211,7 @@ class Cipher extends StatelessWidget {
             create: (context) => OrderItemListBloc(),
           ),
           BlocProvider(
-            create: (context) => OrderIdCreateBloc(),
+            create: (context) => locator<OrderIdCreateBloc>(),
           ),
           BlocProvider(
             create: (context) => OrderItemRetriveBloc(),
