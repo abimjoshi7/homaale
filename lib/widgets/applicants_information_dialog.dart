@@ -15,6 +15,7 @@ showApplicantDetailsDialog({
   String? title,
   String? budget,
   String? description,
+  String? status,
   required VoidCallback onApprovePressed,
   required VoidCallback onRejectPressed,
 }) {
@@ -149,26 +150,49 @@ showApplicantDetailsDialog({
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomElevatedButton(
+            if (status?.toLowerCase() == 'pending') ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomElevatedButton(
+                    theWidth: MediaQuery.of(context).size.width * 0.3,
+                    borderColor: kColorAmber,
+                    mainColor: Colors.white,
+                    label: 'Reject',
+                    textColor: kColorAmber,
+                    callback: onRejectPressed,
+                  ),
+                  CustomElevatedButton(
+                    theWidth: MediaQuery.of(context).size.width * 0.3,
+                    mainColor: kColorAmber,
+                    label: 'Approve',
+                    textColor: Colors.white,
+                    callback: onApprovePressed,
+                  ),
+                ],
+              )
+            ] else if (status?.toLowerCase() == 'rejected')
+              Center(
+                child: CustomElevatedButton(
                   theWidth: MediaQuery.of(context).size.width * 0.3,
-                  borderColor: kColorAmber,
-                  mainColor: Colors.white,
-                  label: 'Reject',
-                  textColor: kColorAmber,
-                  callback: onRejectPressed,
-                ),
-                CustomElevatedButton(
-                  theWidth: MediaQuery.of(context).size.width * 0.3,
-                  mainColor: kColorAmber,
-                  label: 'Approve',
+                  borderColor: Colors.red,
+                  mainColor: Colors.red,
+                  label: 'Rejected',
                   textColor: Colors.white,
-                  callback: onApprovePressed,
+                  callback: () {},
                 ),
-              ],
-            )
+              )
+            else
+              Center(
+                child: CustomElevatedButton(
+                  theWidth: MediaQuery.of(context).size.width * 0.3,
+                  borderColor: kColorGreen,
+                  mainColor: kColorGreen,
+                  label: 'Approved',
+                  textColor: Colors.white,
+                  callback: () {},
+                ),
+              ),
           ],
         ),
       ),
