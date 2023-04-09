@@ -36,7 +36,7 @@ class AccountUserInfoSection extends StatelessWidget {
           ],
         ),
         kHeight5,
-        Text(designation),
+        Text(designation == '' ? 'Hoomale User' : designation),
         kHeight5,
         Text(
           credentialId,
