@@ -40,13 +40,27 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (context, userState) {
+                    if (state.theStates == TheStates.success) {
+                      return Text(
+                        'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : userState.taskerProfile?.fullName ?? state.userLoginRes?.username ?? 'New User'}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      );
+                    }
+                    return Text(
+                      'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    );
+                  },
                 ),
                 InkWell(
                   onTap: () async {
@@ -75,10 +89,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       ).then(
                         (value) => setState(
                           () {
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
@@ -133,8 +145,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            state.taskerProfile?.profileImage ??
-                                kServiceImageNImg,
+                            state.taskerProfile?.profileImage ?? kServiceImageNImg,
                           ),
                         ),
                       ),
@@ -176,22 +187,16 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                 ),
                               ),
                               state.allNotificationList?.unreadCount != null &&
-                                      state.allNotificationList?.unreadCount !=
-                                          0
+                                      state.allNotificationList?.unreadCount != 0
                                   ? Positioned(
                                       right: 13,
                                       child: Container(
                                         height: 20,
                                         width: 20,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.red),
+                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
                                         child: Center(
                                           child: Text(
-                                            state.allNotificationList
-                                                    ?.unreadCount
-                                                    .toString() ??
-                                                "0",
+                                            state.allNotificationList?.unreadCount.toString() ?? "0",
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 14,
