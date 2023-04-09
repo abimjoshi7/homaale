@@ -34,9 +34,7 @@ class OrderListRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> postCreateOrderId(
-   List <String> uuid,
-  ) async {
+  Future<Map<String, dynamic>> postCreateOrderId(List<String> uuid) async {
     try {
       final res = await _dio.postDataWithCredential(
         data: {'tasks': uuid},
@@ -45,6 +43,7 @@ class OrderListRepositories {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
+      log('Create order id error : $e');
       rethrow;
     }
   }

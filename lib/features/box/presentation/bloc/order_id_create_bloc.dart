@@ -12,12 +12,9 @@ class OrderIdCreateBloc extends Bloc<OrderIdCreateEvent, OrderIdCreateState> {
   OrderIdCreateBloc() : super(OrderIdCreateState()) {
     on<OrderIdCreateInitiated>((event, emit) async {
       try {
-        emit(
-          state.copyWith(theState: TheStates.initial),
-        );
+        emit(state.copyWith(theState: TheStates.initial));
         await repositories.postCreateOrderId(event.uuid).then(
           (value) {
-            // log(value.toString() as num);
             emit(
               state.copyWith(
                 theState: TheStates.success,
@@ -27,10 +24,7 @@ class OrderIdCreateBloc extends Bloc<OrderIdCreateEvent, OrderIdCreateState> {
           },
         );
       } catch (e) {
-        emit(
-          state.copyWith(theState: TheStates.failure),
-        );
-        // log(e.toString() as num);
+        emit(state.copyWith(theState: TheStates.failure, orderIdCreate: OrderIdCreate()));
       }
     });
   }
