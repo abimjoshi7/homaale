@@ -21,6 +21,9 @@ class ProfileTabSection extends StatelessWidget {
           text: 'Services',
         ),
         Tab(
+          text: 'Tasks',
+        ),
+        Tab(
           text: 'Documents',
         ),
         Tab(
