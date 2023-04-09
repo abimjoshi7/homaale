@@ -51,3 +51,26 @@ class TaskEntityServiceCreated extends TaskEntityServiceEvent {
         req,
       ];
 }
+
+class TaskRejectPeople extends TaskEntityServiceEvent {
+  final RejectReq rejectReq;
+
+  const TaskRejectPeople({required this.rejectReq});
+
+  @override
+  List<Object?> get props => [rejectReq];
+}
+
+class ResetRejectSuccessStatus extends TaskEntityServiceEvent {
+  const ResetRejectSuccessStatus();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetRejectFailureStatus extends TaskEntityServiceEvent {
+  const ResetRejectFailureStatus();
+
+  @override
+  List<Object?> get props => [];
+}
