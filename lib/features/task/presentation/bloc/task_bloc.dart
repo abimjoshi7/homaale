@@ -184,6 +184,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           emit(
             state.copyWith(
               applyTaskFail: true,
+              applyTaskSuccess: false,
             ),
           );
         }
