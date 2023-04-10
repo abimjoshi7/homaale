@@ -1,26 +1,26 @@
-import 'package:cipher/features/categories/data/models/hero_category.dart';
-import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
-import 'package:dependencies/dependencies.dart';
+// import 'package:cipher/features/categories/data/models/hero_category.dart';
+// import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
+// import 'package:dependencies/dependencies.dart';
 
-part 'hero_category_state.dart';
+// part 'hero_category_state.dart';
 
-class HeroCategoryCubit extends Cubit<HeroCategoryState> {
-  final repositories = CategoriesRepositories();
-  HeroCategoryCubit() : super(HeroCategoryInitial());
+// class HeroCategoryCubit extends Cubit<HeroCategoryState> {
+//   final repositories = CategoriesRepositories();
+//   HeroCategoryCubit() : super(HeroCategoryInitial());
 
-  Future getHeroCategory() async {
-    try {
-      await repositories.fetchHeroCategory().then(
-            (value) => emit(
-              HeroCategoryLoadSuccess(
-                HeroCategory.fromJson(value),
-              ),
-            ),
-          );
-    } catch (e) {
-      emit(
-        HeroCategoryLoadFailure(),
-      );
-    }
-  }
-}
+//   Future getHeroCategory() async {
+//     try {
+//       await repositories.fetchHeroCategory().then(
+//             (value) => emit(
+//               HeroCategoryLoadSuccess(
+//                 HeroCategory.fromJson(value),
+//               ),
+//             ),
+//           );
+//     } catch (e) {
+//       emit(
+//         HeroCategoryLoadFailure(),
+//       );
+//     }
+//   }
+// }

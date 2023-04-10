@@ -75,12 +75,8 @@ class _RootState extends State<Root> {
       const Duration(microseconds: 10),
       () async {
         await context
-            .read<HeroCategoryCubit>()
-            .getHeroCategory()
-            .then(
-              (value) async =>
-                  context.read<TaskerPortfolioCubit>().getPortfolio(),
-            )
+            .read<TaskerPortfolioCubit>()
+            .getPortfolio()
             .then(
               (value) async => context
                   .read<TaskBloc>()

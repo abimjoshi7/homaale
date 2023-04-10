@@ -3,8 +3,11 @@ import 'package:cipher/features/categories/data/models/task_sub_category_model.d
 import 'package:dependencies/dependencies.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'dart:developer';
+
 import 'package:cipher/features/categories/data/models/category.dart';
 import 'package:cipher/features/categories/data/models/hero_category.dart';
+import 'package:cipher/features/categories/data/models/top_category.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 
 part 'categories_event.dart';
@@ -47,7 +50,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       },
     );
 
-    on<CategoriesHeroLoadInitiated>(
+    on<CategoriesTopLoadInitiated>(
       (event, emit) async {
         try {
           emit(
@@ -55,13 +58,14 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               theStates: TheStates.loading,
             ),
           );
-          await repositories.fetchHeroCategory().then(
+          await repositories.fetchTopCategory().then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    heroCategory: HeroCategory.fromJson(
-                      value,
-                    ),
+                    // heroCategory: HeroCategory.fromJson(
+
+                    //   value,
+                    // ),
                   ),
                 ),
               );

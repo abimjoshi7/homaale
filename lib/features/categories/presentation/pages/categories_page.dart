@@ -25,9 +25,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     super.initState();
     selectedIndex = 0;
     context.read<NestedCategoriesCubit>().getNestedCategory();
-    context.read<ServicesBloc>().add(
-          ProfessionalServicesLoaded(),
-        );
+    context.read<ServicesBloc>().add(ProfessionalServicesLoaded());
   }
 
   @override
@@ -71,9 +69,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           ColoredBox(
-                            color: selectedIndex == index
-                                ? Colors.white
-                                : Colors.transparent,
+                            color: selectedIndex == index ? Colors.white : Colors.transparent,
                             child: SizedBox(
                               height: 80,
                               child: CategoriesIcons(
@@ -81,18 +77,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   setState(
                                     () {
                                       selectedIndex = index;
-                                      list =
-                                          state.nestedCategory[index].child ??
-                                              [];
+                                      list = state.nestedCategory[index].child ?? [];
                                     },
                                   );
-                                  if (state
-                                      .nestedCategory[index].child!.isEmpty) {
+                                  if (state.nestedCategory[index].child!.isEmpty) {
                                     context.read<ServicesBloc>().add(
                                           ServicesLoadInitiated(
-                                            categoryId: state
-                                                    .nestedCategory[index].id ??
-                                                0,
+                                            categoryId: state.nestedCategory[index].id ?? 0,
                                           ),
                                         );
 
@@ -109,9 +100,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   height: 18,
                                   width: 18,
                                   child: SvgPicture.string(
-                                    state.nestedCategory[index].icon
-                                            ?.toString() ??
-                                        kErrorSvg,
+                                    state.nestedCategory[index].icon?.toString() ?? kErrorSvg,
                                     colorFilter: ColorFilter.mode(
                                       Colors.white,
                                       BlendMode.srcIn,
@@ -178,57 +167,37 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                               horizontal: 10,
                                             ),
                                             child: SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.2,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.7,
+                                              height: MediaQuery.of(context).size.height * 0.2,
+                                              width: MediaQuery.of(context).size.width * 0.7,
                                               child: GridView.builder(
                                                 padding: EdgeInsets.zero,
-                                                itemCount:
-                                                    list[index].child!.length,
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                itemCount: list[index].child!.length,
+                                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 3,
                                                   mainAxisSpacing: 10,
                                                   crossAxisSpacing: 10,
                                                   childAspectRatio: 0.8,
                                                 ),
-                                                itemBuilder:
-                                                    (context, index3) =>
-                                                        InkWell(
+                                                itemBuilder: (context, index3) => InkWell(
                                                   onTap: () async {
-                                                    context
-                                                        .read<ServicesBloc>()
-                                                        .add(
+                                                    context.read<ServicesBloc>().add(
                                                           ServicesLoadInitiated(
-                                                            categoryId:
-                                                                list[index]
-                                                                        .id ??
-                                                                    0,
+                                                            categoryId: list[index].id ?? 0,
                                                           ),
                                                         );
 
                                                     await Navigator.pushNamed(
                                                       context,
                                                       ServicesPage.routeName,
-                                                      arguments: list[index]
-                                                          .child![index3],
+                                                      arguments: list[index].child![index3],
                                                     );
                                                   },
                                                   child: Column(
                                                     children: <Widget>[
                                                       Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Colors.blueGrey,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.blueGrey,
+                                                          borderRadius: BorderRadius.circular(
                                                             10,
                                                           ),
                                                         ),
@@ -236,13 +205,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                                       ),
                                                       Flexible(
                                                         child: Text(
-                                                          list[index]
-                                                                  .child![
-                                                                      index3]
-                                                                  .name ??
-                                                              '',
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                          list[index].child![index3].name ?? '',
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                       )
                                                     ],
