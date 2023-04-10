@@ -123,11 +123,14 @@ class _RootState extends State<Root> {
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
-            .then(
-              (value) async => context
-                  .read<NotificationBloc>()
-                  .add(MyNotificationListInitiated()),
-            );
+            .then((value) async => {
+                  if (CacheHelper.isLoggedIn)
+                    {
+                      context
+                          .read<NotificationBloc>()
+                          .add(MyNotificationListInitiated()),
+                    }
+                });
       },
     );
   }
