@@ -75,29 +75,19 @@ class _RootState extends State<Root> {
       const Duration(microseconds: 10),
       () async {
         await context
-            .read<HeroCategoryCubit>()
-            .getHeroCategory()
+            .read<TaskerPortfolioCubit>()
+            .getPortfolio()
             .then(
-              (value) async =>
-                  context.read<TaskerPortfolioCubit>().getPortfolio(),
+              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerEducationCubit>().getTaskerEducation(),
-            )
-            .then(
-              (value) async => context
-                  .read<TaskerCertificationCubit>()
-                  .getTaskerCertification(),
+              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -116,17 +106,13 @@ class _RootState extends State<Root> {
                     }
                 })
             .then(
-              (value) async => context
-                  .read<ServicesBloc>()
-                  .add(const EntityServiceInitiated()),
+              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
-              (value) async => context
-                  .read<NotificationBloc>()
-                  .add(MyNotificationListInitiated()),
+              (value) async => context.read<NotificationBloc>().add(MyNotificationListInitiated()),
             );
       },
     );

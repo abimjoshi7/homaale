@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cipher/features/categories/data/models/category.dart';
 import 'package:cipher/features/categories/data/models/hero_category.dart';
+import 'package:cipher/features/categories/data/models/top_category.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -27,20 +30,27 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       },
     );
 
-    on<CategoriesHeroLoadInitiated>(
+    on<CategoriesTopLoadInitiated>(
       (event, emit) async {
         try {
-          await respositories.fetchHeroCategory().then(
-                (value) => emit(
-                  CategoriesHeroLoadSuccess(
-                    HeroCategory.fromJson(value),
-                  ),
-                ),
+          await respositories.fetchTopCategory().then(
+            (value) {
+              List<TopCategory> tList = [];
+
+              for (var element in value) {
+                tList.add(TopCategory.fromJson(element as Map<String, dynamic>));
+              }
+
+              log('tList: $tList');
+
+              emit(
+                CategoriesTopLoadSuccess(tList),
               );
-        } catch (e) {
-          emit(
-            CategoriesLoadFailure(),
+            },
           );
+        } catch (e) {
+          log('Category error: ${e.toString()}');
+          emit(CategoriesLoadFailure());
         }
       },
     );

@@ -63,9 +63,7 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    await context
-                        .read<TaskerEducationCubit>()
-                        .getTaskerEducation();
+                    await context.read<TaskerEducationCubit>().getTaskerEducation();
                     if (state is TaskerGetEducationSuccess) {
                       log(state.taskerEducationRes.first.id.toString());
                     }
@@ -125,28 +123,26 @@ class SandboxPage extends StatelessWidget {
             ),
           ),
           kHeight20,
-          Center(
-            child: BlocBuilder<CategoriesBloc, CategoriesState>(
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  callback: () async {
-                    await CategoriesRepositories().fetchHeroCategory();
-                    // print(x);
-                  },
-                  label: 'Get Categories',
-                );
-              },
-            ),
-          ),
-          kHeight20,
+          // Center(
+          //   child: BlocBuilder<CategoriesBloc, CategoriesState>(
+          //     builder: (context, state) {
+          //       return CustomElevatedButton(
+          //         callback: () async {
+          //           await CategoriesRepositories().fetchHeroCategory();
+          //           // print(x);
+          //         },
+          //         label: 'Get Categories',
+          //       );
+          //     },
+          //   ),
+          // ),
+          // kHeight20,
           Center(
             child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    final x = await CategoriesRepositories()
-                        .fetchNestedCategory()
-                        .then(
+                    final x = await CategoriesRepositories().fetchNestedCategory().then(
                           (value) => value.map(
                             (e) => NestedCategory.fromJson(e),
                           ),
@@ -169,8 +165,7 @@ class SandboxPage extends StatelessWidget {
                 return CustomElevatedButton(
                   callback: () async {
                     // final x =
-                    await BookingRepositories()
-                        .approveBooking(ApproveReq(booking: 468));
+                    await BookingRepositories().approveBooking(ApproveReq(booking: 468));
                     // print(x['result'].toJson());
                     // print(123);
                   },

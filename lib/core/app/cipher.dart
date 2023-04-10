@@ -11,7 +11,6 @@ import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
-import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/content_client/presentation/cubit/privacy_policy/privacy_policy_cubit.dart';
 import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/terms_of_use_cubit.dart';
@@ -67,7 +66,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(
             create: (context) => CategoriesBloc()
               ..add(
-                CategoriesHeroLoadInitiated(),
+                CategoriesTopLoadInitiated(),
               ),
           ),
           BlocProvider(
@@ -159,9 +158,9 @@ class Cipher extends StatelessWidget {
                 ThemeChangeInitiated(),
               ),
           ),
-          BlocProvider(
-            create: (context) => HeroCategoryCubit(),
-          ),
+          // BlocProvider(
+          //   create: (context) => HeroCategoryCubit(),
+          // ),
           BlocProvider(
             create: (context) => NestedCategoriesCubit(),
           ),

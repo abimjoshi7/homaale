@@ -37,24 +37,28 @@ class CategoriesRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchHeroCategory() async {
+  Future<List<dynamic>> fetchTopCategory() async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
-          url: 'task/hero-category/',
+          query: {
+            'page': -1,
+          },
+          url: 'task/top-categories/',
         );
-        return res as Map<String, dynamic>;
+        return res as List<dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
-          url: 'task/hero-category/',
+          query: {
+            'page': -1,
+          },
+          url: 'task/top-categories/',
           token: CacheHelper.accessToken,
         );
-        return res as Map<String, dynamic>;
+        return res as List<dynamic>;
       }
     } catch (e) {
-      log(
-        e.toString(),
-      );
+      log('top category error' + e.toString());
       rethrow;
     }
   }

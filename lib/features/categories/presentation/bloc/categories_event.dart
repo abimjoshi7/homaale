@@ -4,13 +4,12 @@ abstract class CategoriesEvent extends Equatable {
   const CategoriesEvent();
 }
 
-class CategoriesLoadInitiated extends CategoriesEvent{
+class CategoriesLoadInitiated extends CategoriesEvent {
   @override
-
   List<Object?> get props => [];
 }
-class CategoriesHeroLoadInitiated extends CategoriesEvent{
-  @override
 
+class CategoriesTopLoadInitiated extends CategoriesEvent {
+  @override
   List<Object?> get props => [];
 }

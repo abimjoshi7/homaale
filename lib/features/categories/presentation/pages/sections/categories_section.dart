@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
+import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -11,14 +11,16 @@ class CategoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HeroCategoryCubit, HeroCategoryState>(
+    return BlocConsumer<CategoriesBloc, CategoriesState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is HeroCategoryInitial) {
+        if (state is CategoriesInitial) {
           return const Center(
-            child: CardLoading(height: 100,),
+            child: CardLoading(
+              height: 100,
+            ),
           );
-        } else if (state is HeroCategoryLoadSuccess) {
+        } else if (state is CategoriesTopLoadSuccess) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
@@ -42,10 +44,9 @@ class CategoriesSection extends StatelessWidget {
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.hero.result?.length,
+                      itemCount: state.topCategory.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
@@ -57,15 +58,13 @@ class CategoriesSection extends StatelessWidget {
                           );
                         },
                         child: CategoriesIcons(
-                          data: state.hero.result?[index]?.category?.name ?? '',
+                          data: state.topCategory[index].category ?? '',
                           color: randomColorGenerator(),
                           child: SizedBox(
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.hero.result?[index]?.category?.icon
-                                      ?.toString() ??
-                                  kErrorSvg,
+                              state.topCategory[index].icon?.toString() ?? kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

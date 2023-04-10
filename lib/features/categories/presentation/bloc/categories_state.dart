@@ -9,7 +9,7 @@ class CategoriesInitial extends CategoriesState {
   List<Object> get props => [];
 }
 
-class CategoriesLoadSuccess extends CategoriesState{
+class CategoriesLoadSuccess extends CategoriesState {
   final List<Category> categoryList;
 
   const CategoriesLoadSuccess(this.categoryList);
@@ -17,15 +17,15 @@ class CategoriesLoadSuccess extends CategoriesState{
   List<Object?> get props => [categoryList];
 }
 
-class CategoriesHeroLoadSuccess extends CategoriesState{
-  final HeroCategory heroCategory;
+class CategoriesTopLoadSuccess extends CategoriesState {
+  final List<TopCategory> topCategory;
 
-  const CategoriesHeroLoadSuccess(this.heroCategory);
+  const CategoriesTopLoadSuccess(this.topCategory);
   @override
-  List<Object?> get props => [heroCategory];
+  List<Object?> get props => [topCategory];
 }
 
-class CategoriesLoadFailure extends CategoriesState{
+class CategoriesLoadFailure extends CategoriesState {
   @override
   // TODO: implement props
   List<Object?> get props => [];
