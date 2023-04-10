@@ -9,12 +9,9 @@ import 'package:cipher/widgets/custom_toast.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../bookings/presentation/bloc/bookings_bloc.dart';
-import '../../../bookings/presentation/pages/booked_service_page.dart';
 import '../../../bookings/presentation/widgets/sections/services/services_section.dart';
 import '../../../checkout/presentation/pages/checkout_page.dart';
 import '../bloc/order_id_create_bloc.dart';
-import '../bloc/order_retrive_bloc.dart';
-import '../bloc/order_retrive_event.dart';
 
 class BoxPage extends StatefulWidget {
   const BoxPage({super.key});
@@ -151,50 +148,64 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
                                                         Stack(
-                                                         children: [
-                                                           Container(
-                                                             height: 72,
-                                                             width: 72,
-                                                             decoration:
-                                                             BoxDecoration(
-                                                               borderRadius:
-                                                               BorderRadius
-                                                                   .circular(
-                                                                   16.0),
-                                                               image:
-                                                               DecorationImage(
-                                                                 image:
-                                                                 NetworkImage(
-                                                                   //TODO: display media image from entity/service
-                                                                     state
-                                                                         .orderItemList
-                                                                         ?.result![index]
-                                                                         .assigner!
-                                                                         .profileImage ??
-                                                                         ""),
-                                                                 fit: BoxFit.cover,
-                                                               ),
-                                                             ),
-                                                           ),
-                                                           Positioned(
-                                                             left:5,top: 5,
-                                                             child:  selectedItems
-                                                                 .contains(
-                                                                 index)
-                                                                 ? Icon(
-                                                               Icons
-                                                                   .check_circle_outline,
-                                                               color:
-                                                               kColorSecondary,
-                                                             )
-                                                                 : SizedBox(),),
-                                                         ],
+                                                          children: [
+                                                            Container(
+                                                              height: 72,
+                                                              width: 72,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            16.0),
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: NetworkImage((state
+                                                                              .orderItemList
+                                                                              ?.result?[
+                                                                                  index]
+                                                                              .entityService
+                                                                              ?.images
+                                                                              ?.length ==
+                                                                          0)
+                                                                      ? kServiceImageNImg
+                                                                      : state
+                                                                              .orderItemList
+                                                                              ?.result![index]
+                                                                              .entityService
+                                                                              ?.images
+                                                                              ?.last
+                                                                              .media ??
+                                                                          kServiceImageNImg),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Positioned(
+                                                              left: 5,
+                                                              top: 5,
+                                                              child: selectedItems
+                                                                      .contains(
+                                                                          index)
+                                                                  ? Icon(
+                                                                      Icons
+                                                                          .check_circle_outline,
+                                                                      color:
+                                                                          kColorSecondary,
+                                                                    )
+                                                                  : SizedBox(),
+                                                            ),
+                                                          ],
                                                         ),
-
                                                         addHorizontalSpace(8),
                                                         SizedBox(
                                                           width: MediaQuery.of(

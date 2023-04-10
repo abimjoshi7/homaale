@@ -133,11 +133,11 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                               ),
                             ],
                           ),
-                          addVerticalSpace(10),
+                          addVerticalSpace(5),
                           Row(
                             children: [
                               SizedBox(
-                                height: 30,
+                                height: 40,
                                 width: MediaQuery.of(context).size.width / 3,
                                 child: Text(
                                   retriveState
@@ -191,31 +191,36 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                   isSuccess: false,
                                 ),
                               );
+                            } else {
+                              context.read<PaymentBloc>().add(
+                                    PaymentIntentInitiated(
+                                      provider: paymentTypeState
+                                              .paymentType
+                                              ?.result![paymentTypeState
+                                                  .currentIndex!]
+                                              .slug ??
+                                          "",
+                                      uuid:
+                                          orderState.orderIdCreate?.order ?? "",
+                                    ),
+                                  );
+                              print(
+                                  'stripe: ${paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug}');
+                              context.read<PaymentVerifyBloc>().add(
+                                    PaymentVerifyInitiated(
+                                      provider: paymentTypeState
+                                              .paymentType
+                                              ?.result![paymentTypeState
+                                                  .currentIndex!]
+                                              .slug ??
+                                          "",
+                                      pidx:
+                                          state.paymentIntent?.data?.pidx ?? "",
+                                    ),
+                                  );
+                              await Navigator.pushNamed(
+                                  context, PaymentOnGoingPage.routeName);
                             }
-                            context.read<PaymentBloc>().add(
-                                  PaymentIntentInitiated(
-                                    provider: paymentTypeState
-                                            .paymentType
-                                            ?.result![paymentTypeState.currentIndex!]
-                                            .slug ??
-                                        "",
-                                    uuid: orderState.orderIdCreate?.order ?? "",
-                                  ),
-                                );
-                            print(
-                                'stripe: ${paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug}');
-                            context.read<PaymentVerifyBloc>().add(
-                                  PaymentVerifyInitiated(
-                                    provider: paymentTypeState
-                                            .paymentType
-                                            ?.result![paymentTypeState.currentIndex!]
-                                            .slug ??
-                                        "",
-                                    pidx: state.paymentIntent?.data?.pidx ?? "",
-                                  ),
-                                );
-                            await Navigator.pushNamed(
-                                context, PaymentOnGoingPage.routeName);
                           },
                           label: 'Confirm Payment');
                     });
@@ -223,8 +228,9 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                 );
               },
             ),
-            SizedBox(height: 20,)
-
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
