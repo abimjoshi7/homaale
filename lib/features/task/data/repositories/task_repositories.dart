@@ -124,9 +124,7 @@ class TaskRepositories {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       rethrow;
     }
   }
