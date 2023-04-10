@@ -52,13 +52,16 @@ class CategoriesSection extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.topCategory.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          context.read<NestedCategoriesCubit>().getNestedCategory();
+                          context
+                              .read<NestedCategoriesCubit>()
+                              .getNestedCategory();
                           Navigator.pushNamed(
                             context,
                             CategoriesPage.routeName,
@@ -75,7 +78,8 @@ class CategoriesSection extends StatelessWidget {
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.topCategory[index].icon?.toString() ?? kErrorSvg,
+                              state.topCategory[index].icon?.toString() ??
+                                  kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

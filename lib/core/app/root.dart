@@ -78,11 +78,6 @@ class _RootState extends State<Root> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
-            )
-            .then(
               (value) async =>
                   context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
