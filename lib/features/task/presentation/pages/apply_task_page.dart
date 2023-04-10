@@ -65,6 +65,7 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                     requirementList.clear();
                   });
                   Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 isSuccess: true,
               ),
@@ -251,12 +252,16 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
               );
             } else {
               return const Center(
-                child: CardLoading(height: 200,),
+                child: CardLoading(
+                  height: 200,
+                ),
               );
             }
           } else {
             return const Center(
-              child: CardLoading(height: 200,),
+              child: CardLoading(
+                height: 200,
+              ),
             );
           }
         },
