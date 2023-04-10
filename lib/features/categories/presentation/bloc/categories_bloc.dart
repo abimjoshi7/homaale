@@ -49,63 +49,58 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       },
     );
 
+    on<TaskSubCategoryLoaded>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
+        await repositories.fetchTaskSubCategory(event.categoryId).then(
+              (value) => emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  taskSubCategoryModel: TaskSubCategoryModel.fromJson(
+                    value,
+                  ),
+                  categoryName: event.categoryName,
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            theStates: TheStates.failure,
+            taskSubCategoryModel: null,
+          ),
+        );
+      }
+    });
+
     // on<CategoriesTopLoadInitiated>(
     //   (event, emit) async {
     //     try {
-    //       emit(
-    //         state.copyWith(
-    //           theStates: TheStates.loading,
-    //         ),
-    //       );
-    //       await repositories.fetchHeroCategory().then(
-    //             (value) => emit(
-    //               state.copyWith(
-    //                 theStates: TheStates.success,
-    //                 heroCategory: HeroCategory.fromJson(
-    //                   value,
-    //                 ),
-    //               ),
-    //             ),
+    //       await respositories.fetchTopCategory().then(
+    //         (value) {
+    //           List<TopCategory> tList = [];
+
+    //           for (var element in value) {
+    //             tList
+    //                 .add(TopCategory.fromJson(element as Map<String, dynamic>));
+    //           }
+
+    //           log('tList: $tList');
+
+    //           emit(
+    //             CategoriesTopLoadSuccess(tList),
     //           );
-    //     } catch (e) {
-    //       emit(
-    //         state.copyWith(
-    //           theStates: TheStates.failure,
-    //           heroCategory: null,
-    //         ),
+    //         },
     //       );
+    //     } catch (e) {
+    //       log('Category error: ${e.toString()}');
+    //       emit(CategoriesLoadFailure());
     //     }
     //   },
     // );
-
-    on<TaskSubCategoryLoaded>(
-      (event, emit) async {
-        try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
-          await repositories.fetchTaskSubCategory(event.categoryId).then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    taskSubCategoryModel: TaskSubCategoryModel.fromJson(
-                      value,
-                    ),
-                    categoryName: event.categoryName,
-                  ),
-                ),
-              );
-        } catch (e) {
-          emit(
-            state.copyWith(
-              theStates: TheStates.failure,
-              taskSubCategoryModel: null,
-            ),
-          );
-        }
-      },
-    );
   }
 }

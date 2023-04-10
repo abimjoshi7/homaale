@@ -24,6 +24,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
   bool checkFromRoute = true;
 
   @override
+  void initState() {
+    super.initState();
+    selectedIndex = 0;
+    context.read<NestedCategoriesCubit>().getNestedCategory();
+    context.read<ServicesBloc>().add(ProfessionalServicesLoaded());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(

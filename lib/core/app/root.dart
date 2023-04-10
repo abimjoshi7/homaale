@@ -79,10 +79,6 @@ class _RootState extends State<Root> {
             .getPortfolio()
             .then(
               (value) async =>
-                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
-            )
-            .then(
-              (value) async =>
                   context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
