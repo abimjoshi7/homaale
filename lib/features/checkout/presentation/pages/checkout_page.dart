@@ -300,7 +300,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Platform Tax',
+                                'Tax Amount',
                               ),
                               Text(
                                 'Rs '

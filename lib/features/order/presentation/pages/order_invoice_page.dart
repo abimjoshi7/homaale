@@ -169,7 +169,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
         },
       ),
       bottomNavigationBar: SizedBox(
-        height: 70,
+        height: 80,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -181,17 +181,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                         builder: (context, orderState) {
                       return CustomElevatedButton(
                           callback: () async {
-                            if (state.theState == TheStates.failure) {
-                              await showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                  heading: 'Failure',
-                                  content: "Please try again.",
-                                  onTap: () {},
-                                  isSuccess: false,
-                                ),
-                              );
-                            } else {
+                            if (state.theState == TheStates.success) {
                               context.read<PaymentBloc>().add(
                                     PaymentIntentInitiated(
                                       provider: paymentTypeState
@@ -220,6 +210,16 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                   );
                               await Navigator.pushNamed(
                                   context, PaymentOnGoingPage.routeName);
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                  heading: 'Failure',
+                                  content: "Please try again.",
+                                  onTap: () {},
+                                  isSuccess: false,
+                                ),
+                              );
                             }
                           },
                           label: 'Confirm Payment');
@@ -229,7 +229,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
               },
             ),
             SizedBox(
-              height: 20,
+              height: 25,
             )
           ],
         ),
