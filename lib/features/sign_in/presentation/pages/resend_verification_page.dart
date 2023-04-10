@@ -83,14 +83,14 @@ class _ResendVerificationPageState extends State<ResendVerificationPage> {
           child: Column(
             children: <Widget>[
               kHeight20,
-              kHeight20,
+              // kHeight20,
               buildHeaderText(),
               kHeight5,
               const Text(
                 'Hey, No Worries!👋',
                 style: kHelper13,
               ),
-              kHeight20,
+              // kHeight20,
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -110,39 +110,43 @@ class _ResendVerificationPageState extends State<ResendVerificationPage> {
                             ),
                           ],
                         ),
-                        kHeight20,
+                        addVerticalSpace(20.0),
                         displayText2(),
                       ],
                     ),
                   ),
                 ),
               ),
-              Center(
-                child: CustomElevatedButton(
-                  callback: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
+              Visibility(
+                visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 50.0),
+                    child: CustomElevatedButton(
+                      callback: () async {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
-                      context.read<OtpResetVerifyBloc>().add(
-                            OtpResendSignUpInitiated(
-                              phoneNumber: "+977${phoneController.text}",
-                            ),
+                          context.read<OtpResetVerifyBloc>().add(
+                                OtpResendSignUpInitiated(
+                                  phoneNumber: "+977${phoneController.text}",
+                                ),
+                              );
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            OtpSignUp.routeName,
+                            (route) => false,
+                            arguments: {
+                              'phone': '+977${phoneController.text}',
+                            },
                           );
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        OtpSignUp.routeName,
-                        (route) => false,
-                        arguments: {
-                          'phone': '+977${phoneController.text}',
-                          'password': '',
-                        },
-                      );
-                    }
-                  },
-                  label: 'Continue',
+                        }
+                      },
+                      label: 'Continue',
+                    ),
+                  ),
                 ),
               ),
-              kHeight50,
             ],
           ),
         );

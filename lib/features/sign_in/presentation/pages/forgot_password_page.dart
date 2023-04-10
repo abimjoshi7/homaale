@@ -76,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: Column(
             children: <Widget>[
               kHeight20,
-              kHeight20,
+              // kHeight20,
               const Text('Forgot Password', style: kHeading1),
               kHeight5,
               InkWell(
@@ -86,7 +86,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   style: kHelper13,
                 ),
               ),
-              kHeight20,
+              // kHeight20,
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -167,34 +167,39 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   }
                 },
                 builder: (context, state2) {
-                  return Center(
-                    child: CustomElevatedButton(
-                      callback: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          if (state.theStates != TheStates.initial) return;
-                          if (!state.isPhoneNumber) {
-                            context.read<ForgotPasswordBloc>().add(
-                                  ForgotPasswordEmailInitiated(
-                                    emailController.text,
-                                  ),
-                                );
-                          }
-                          if (state.isPhoneNumber) {
-                            context.read<ForgotPasswordBloc>().add(
-                                  ForgotPasswordPhoneInitiated(
-                                    "+977${phoneController.text}",
-                                  ),
-                                );
-                          }
-                        }
-                      },
-                      label: 'Continue',
+                  return Visibility(
+                    visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 50.0),
+                        child: CustomElevatedButton(
+                          callback: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              if (state.theStates != TheStates.initial) return;
+                              if (!state.isPhoneNumber) {
+                                context.read<ForgotPasswordBloc>().add(
+                                      ForgotPasswordEmailInitiated(
+                                        emailController.text,
+                                      ),
+                                    );
+                              }
+                              if (state.isPhoneNumber) {
+                                context.read<ForgotPasswordBloc>().add(
+                                      ForgotPasswordPhoneInitiated(
+                                        "+977${phoneController.text}",
+                                      ),
+                                    );
+                              }
+                            }
+                          },
+                          label: 'Continue',
+                        ),
+                      ),
                     ),
                   );
                 },
               ),
-              kHeight50,
             ],
           ),
         );
