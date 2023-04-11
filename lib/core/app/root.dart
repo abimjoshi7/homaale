@@ -348,7 +348,7 @@ class _RootState extends State<Root> {
                         ),
                         addHorizontalSpace(100),
                         AddPopupButton(
-                          label: 'Add a Service',
+                          label: 'Post a Service',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
                             setState(() {
