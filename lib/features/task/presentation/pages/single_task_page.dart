@@ -284,7 +284,42 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                             if (!CacheHelper.isLoggedIn) {
                                               notLoggedInPopUp(context);
                                             }
-                                            if (!CacheHelper.isLoggedIn) return;
+                                            if (CacheHelper.isLoggedIn) {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) => Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        Navigator.pop(context);
+                                                        if (CacheHelper.isLoggedIn == false) {
+                                                          await notLoggedInPopUp(context);
+                                                        }
+                                                        if (CacheHelper.isLoggedIn == true) {
+                                                          final box = context.findRenderObject() as RenderBox?;
+                                                          Share.share(
+                                                            "Share this Hommale with friends.",
+                                                            sharePositionOrigin:
+                                                                box!.localToGlobal(Offset.zero) & box.size,
+                                                          );
+                                                        }
+                                                      },
+                                                      child: const ListTile(
+                                                        leading: Icon(Icons.share),
+                                                        title: Text('Share'),
+                                                      ),
+                                                    ),
+                                                    const ListTile(
+                                                      leading: Icon(Icons.report),
+                                                      title: Text('Report'),
+                                                    ),
+                                                    addVerticalSpace(16)
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                            ;
                                           },
                                           child: const Icon(
                                             Icons.more_vert,
