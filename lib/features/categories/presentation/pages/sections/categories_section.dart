@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
+import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -33,9 +34,14 @@ class CategoriesSection extends StatelessWidget {
                   SectionHeading(
                     labelName: 'Categories',
                     onTap: () {
+                      context.read<NestedCategoriesCubit>().getNestedCategory();
                       Navigator.pushNamed(
                         context,
                         CategoriesPage.routeName,
+                        arguments: {
+                          'id': -1,
+                          'category': '',
+                        },
                       );
                     },
                   ),
@@ -52,9 +58,14 @@ class CategoriesSection extends StatelessWidget {
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
+                          context.read<NestedCategoriesCubit>().getNestedCategory();
                           Navigator.pushNamed(
                             context,
                             CategoriesPage.routeName,
+                            arguments: {
+                              'id': state.topCategory[index].id,
+                              'category': state.topCategory[index].category,
+                            },
                           );
                         },
                         child: CategoriesIcons(

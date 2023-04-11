@@ -222,6 +222,7 @@ class AppRouter {
       case CategoriesPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CategoriesPage(),
+          settings: settings,
         );
       case ServicesPage.routeName:
         return MaterialPageRoute(
