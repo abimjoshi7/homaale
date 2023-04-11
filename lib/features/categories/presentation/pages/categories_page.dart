@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -18,24 +20,15 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   List<NestedCategory> list = [];
-  late int selectedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedIndex = 0;
-    context.read<NestedCategoriesCubit>().getNestedCategory();
-    context.read<ServicesBloc>().add(ProfessionalServicesLoaded());
-  }
+  int selectedIndex = 0;
+  bool checkFromRoute = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          addVerticalSpace(
-            50,
-          ),
+          addVerticalSpace(50),
           CustomHeader(
             leadingWidget: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -62,6 +55,22 @@ class _CategoriesPageState extends State<CategoriesPage> {
               builder: (context, state) {
                 Widget displaySideCategory() {
                   if (state is NestedCategoriesLoadSuccess) {
+                    if (checkFromRoute) {
+                      final routeArgs = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                      if (routeArgs?['id'] != -1) {
+                        for (var element in state.nestedCategory) {
+                          if (element.name == routeArgs?['category']) {
+                            selectedIndex = state.nestedCategory.indexOf(element);
+                            list = state.nestedCategory[selectedIndex].child ?? [];
+                          }
+                        }
+                      } else {
+                        if (state.nestedCategory.length > 0) {
+                          selectedIndex = 0;
+                          list = state.nestedCategory[0].child ?? [];
+                        }
+                      }
+                    }
                     return ListView.separated(
                       padding: EdgeInsets.zero,
                       itemCount: state.nestedCategory.length,
@@ -76,6 +85,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 onTap: () async {
                                   setState(
                                     () {
+                                      checkFromRoute = false;
                                       selectedIndex = index;
                                       list = state.nestedCategory[index].child ?? [];
                                     },
