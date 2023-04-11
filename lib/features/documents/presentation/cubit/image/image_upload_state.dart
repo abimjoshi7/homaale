@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'image_upload_cubit.dart';
 
 abstract class ImageUploadState extends Equatable {
@@ -9,13 +10,23 @@ class ImageUploadInitial extends ImageUploadState {
   List<Object?> get props => [];
 }
 
+class ImageUploadLoading extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
 class ImageUploadSuccess extends ImageUploadState {
   const ImageUploadSuccess({
     required this.list,
+    required this.imagePath,
   });
   final List<dynamic> list;
+  final XFile imagePath;
   @override
-  List<Object?> get props => [list];
+  List<Object?> get props => [
+        list,
+        imagePath,
+      ];
 }
 
 class ImageUploadFailure extends ImageUploadState {

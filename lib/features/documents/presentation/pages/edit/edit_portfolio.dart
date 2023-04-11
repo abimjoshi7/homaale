@@ -4,6 +4,7 @@ import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
   DateTime? issuedDate;
   Portfolio? portfolio;
   late String? imagePath;
+  final ImageUploadCubit imageCubit = locator<ImageUploadCubit>();
 
   @override
   void initState() {
@@ -37,6 +39,9 @@ class _EditPortfolioState extends State<EditPortfolio> {
     descriptionController.dispose();
     issuedDateController.dispose();
     credentialUrlController.dispose();
+    locator.resetLazySingleton(
+      instance: imageCubit,
+    );
     super.dispose();
   }
 
@@ -270,10 +275,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: InkWell(
                               onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => ImagePickerDialog(),
-                                );
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (context) => ImagePickerDialog(),
+                                // );
                               },
                               child: SizedBox(
                                 height: 150,
@@ -290,9 +295,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: InkWell(
                               onTap: () async {
-                                await context
-                                    .read<ImageUploadCubit>()
-                                    .uploadFile();
+                                await imageCubit.uploadFile();
                               },
                               child: SizedBox(
                                 height: 150,

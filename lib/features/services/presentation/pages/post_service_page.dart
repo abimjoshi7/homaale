@@ -1,26 +1,35 @@
+import 'dart:io';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class AddServicePage extends StatefulWidget {
+import '../../../documents/presentation/cubit/cubits.dart';
+
+class PostServicePage extends StatefulWidget {
   static const routeName = '/add-service-page';
-  const AddServicePage({super.key});
+  const PostServicePage({super.key});
 
   @override
-  State<AddServicePage> createState() => _AddServicePageState();
+  State<PostServicePage> createState() => _PostServicePageState();
 }
 
-class _AddServicePageState extends State<AddServicePage> {
+class _PostServicePageState extends State<PostServicePage> {
   final startPriceController = TextEditingController();
   final endPriceController = TextEditingController();
   final titleController = TextEditingController();
@@ -52,9 +61,11 @@ class _AddServicePageState extends State<AddServicePage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
+  late final ImageUploadCubit imageCubit;
 
   @override
   void initState() {
+    imageCubit = locator<ImageUploadCubit>();
     context.read<ServicesBloc>().add(
           const ServicesLoadInitiated(),
         );
@@ -70,6 +81,7 @@ class _AddServicePageState extends State<AddServicePage> {
     requirementController.dispose();
     addressController.dispose();
     discountController.dispose();
+    locator.resetLazySingleton<ImageUploadCubit>(instance: imageCubit);
     super.dispose();
   }
 
@@ -93,7 +105,7 @@ class _AddServicePageState extends State<AddServicePage> {
               onPressed: () {},
               icon: const Icon(Icons.search),
             ),
-            child: const Text('Add Service'),
+            child: const Text('Post a Service'),
           ),
           const Divider(),
           Expanded(
@@ -149,7 +161,7 @@ class _AddServicePageState extends State<AddServicePage> {
                             ),
                           ),
                           CustomFormField(
-                            label: 'Requirements',
+                            label: 'Highlights',
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -188,7 +200,8 @@ class _AddServicePageState extends State<AddServicePage> {
                                             },
                                             child: const Icon(
                                               Icons.clear,
-                                              size: 14,
+                                              size: 15,
+                                              color: kColorGrey,
                                             ),
                                           ),
                                         ],
@@ -197,16 +210,24 @@ class _AddServicePageState extends State<AddServicePage> {
                                   ),
                                 ),
                                 CustomTextFormField(
-                                  hintText: 'Add requirements',
+                                  hintText: 'Add highlights',
+                                  inputAction: TextInputAction.next,
+                                  suffixWidget: IconButton(
+                                    onPressed: () {
+                                      setState(
+                                        () {
+                                          requirementList
+                                              .add(requirementController.text);
+                                          requirementController.clear();
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.add_box_outlined,
+                                      color: kColorSecondary,
+                                    ),
+                                  ),
                                   controller: requirementController,
-                                  onFieldSubmitted: (p0) {
-                                    if (p0 != "") {
-                                      setState(() {
-                                        requirementList.add(p0!);
-                                        requirementController.clear();
-                                      });
-                                    }
-                                  },
                                 ),
                               ],
                             ),
@@ -268,6 +289,12 @@ class _AddServicePageState extends State<AddServicePage> {
                               builder: (context, state) {
                                 if (state is CityLoadSuccess) {
                                   return CustomDropDownField(
+                                    initialValue: state.list
+                                        .firstWhere(
+                                          (element) => element.name!
+                                              .startsWith("Kathmandu"),
+                                        )
+                                        .name,
                                     list: List.generate(
                                       state.list.length,
                                       (index) => state.list[index].name,
@@ -307,21 +334,28 @@ class _AddServicePageState extends State<AddServicePage> {
                                   builder: (context, state) {
                                     if (state is CurrencyLoadSuccess) {
                                       return CustomDropDownField(
+                                        initialValue: state.currencyListRes
+                                            .firstWhere((element) => element
+                                                .name!
+                                                .startsWith("Nepalese"))
+                                            .name,
                                         list: List.generate(
                                           state.currencyListRes.length,
                                           (index) =>
                                               state.currencyListRes[index].name,
                                         ),
                                         hintText: 'Enter your Currency',
-                                        onChanged: (p0) => setState(
-                                          () async {
-                                            final x = state.currencyListRes
-                                                .firstWhere(
-                                              (element) => p0 == element.name,
-                                            );
-                                            currencyCode = x.code;
-                                          },
-                                        ),
+                                        onChanged: (p0) {
+                                          setState(
+                                            () async {
+                                              final x = state.currencyListRes
+                                                  .firstWhere(
+                                                (element) => p0 == element.name,
+                                              );
+                                              currencyCode = x.code;
+                                            },
+                                          );
+                                        },
                                       );
                                     } else {
                                       return const SizedBox.shrink();
@@ -410,21 +444,22 @@ class _AddServicePageState extends State<AddServicePage> {
                                   ),
                                 ],
                               ),
-                              addVerticalSpace(10),
-                              Row(
-                                children: [
-                                  CustomCheckBox(
-                                    isChecked: isDiscounted,
-                                    onTap: () => setState(
-                                      () {
-                                        isDiscounted = !isDiscounted;
-                                      },
-                                    ),
-                                  ),
-                                  addHorizontalSpace(10),
-                                  const Text('Add Discount'),
-                                ],
-                              ),
+                              //* Paused as discussed
+                              // addVerticalSpace(10),
+                              // Row(
+                              //   children: [
+                              //     CustomCheckBox(
+                              //       isChecked: isDiscounted,
+                              //       onTap: () => setState(
+                              //         () {
+                              //           isDiscounted = !isDiscounted;
+                              //         },
+                              //       ),
+                              //     ),
+                              //     addHorizontalSpace(10),
+                              //     const Text('Add Discount'),
+                              //   ],
+                              // ),
                               Visibility(
                                 visible: isDiscounted,
                                 child: Column(
@@ -455,95 +490,109 @@ class _AddServicePageState extends State<AddServicePage> {
                                   ],
                                 ),
                               ),
-                              addVerticalSpace(10),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.info_outline_rounded,
-                                    color: kColorSecondary,
-                                  ),
-                                  addHorizontalSpace(10),
-                                  const Flexible(
-                                    child: Text(
-                                      'After 20% discount on the budget i.e. Rs 240, new budget will be Rs 960',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              //* Paused as discussed
+                              // Row(
+                              //   children: [
+                              //     const Icon(
+                              //       Icons.info_outline_rounded,
+                              //       color: kColorSecondary,
+                              //     ),
+                              //     addHorizontalSpace(10),
+                              //     const Flexible(
+                              //       child: Text(
+                              //         'After 20% discount on the budget i.e. Rs 240, new budget will be Rs 960',
+                              //         style: TextStyle(
+                              //           fontSize: 12,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
-                          CustomFormField(
-                            label: 'Images',
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
+                          Column(
+                            children: [
+                              CustomFormField(
+                                label: 'Images',
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Text(
-                                      'Maximum Image Size 20 MB',
-                                      style: kHelper13,
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.info_outline,
+                                          color: Colors.orange,
+                                        ),
+                                        addHorizontalSpace(5),
+                                        const Text(
+                                          kImageLimit,
+                                          style: kHelper13,
+                                        ),
+                                      ],
                                     ),
-                                    addHorizontalSpace(5),
-                                    const Icon(
-                                      Icons.info_outline,
-                                      color: Colors.orange,
+                                    addVerticalSpace(5),
+                                    InkWell(
+                                      onTap: () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              ImagePickerDialog(
+                                            uploadCubit: imageCubit,
+                                          ),
+                                        );
+                                      },
+                                      child: BlocConsumer<ImageUploadCubit,
+                                          ImageUploadState>(
+                                        bloc: imageCubit,
+                                        listener: (context, state) {
+                                          if (state is ImageUploadSuccess) {
+                                            setState(() {
+                                              imageList =
+                                                  List<int>.from(state.list);
+                                            });
+                                          }
+                                        },
+                                        builder: (context, state) {
+                                          if (state is ImageUploadLoading) {
+                                            return CircularProgressIndicator();
+                                          }
+                                          if (state is ImageUploadSuccess) {
+                                            final file =
+                                                File(state.imagePath.path);
+                                            return Container(
+                                              width: double.infinity,
+                                              height: 100,
+                                              child: Image.file(
+                                                file,
+                                                fit: BoxFit.fitWidth,
+                                              ),
+                                            );
+                                          }
+
+                                          if (state is ImageUploadInitial) {
+                                            return CustomDottedContainerStack(
+                                              theWidget: imageList == null
+                                                  ? Text('Select Images')
+                                                  : Text('Image Uploaded'),
+                                            );
+                                          }
+
+                                          return Text('FAilure!');
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),
-                                addVerticalSpace(5),
-                                InkWell(
+                              ),
+                              CustomFormField(
+                                label: 'Videos',
+                                child: InkWell(
                                   onTap: () async {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => ImagePickerDialog(),
-                                    );
-                                  },
-                                  child: BlocListener<ImageUploadCubit,
-                                      ImageUploadState>(
-                                    listener: (context, state) {
-                                      if (state is ImageUploadSuccess) {
-                                        setState(() {
-                                          imageList =
-                                              List<int>.from(state.list);
-                                        });
-                                      }
-                                    },
-                                    child: CustomDottedContainerStack(
-                                      theWidget: imageList == null
-                                          ? Text('Select Images')
-                                          : Text('Image Uploaded'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomFormField(
-                            label: 'Videos',
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Maximum Video Size 20 MB',
-                                      style: kHelper13,
-                                    ),
-                                    addHorizontalSpace(5),
-                                    const Icon(
-                                      Icons.info_outline,
-                                      color: Colors.orange,
-                                    ),
-                                  ],
-                                ),
-                                addVerticalSpace(5),
-                                InkWell(
-                                  onTap: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => VideoPickerDialog(),
+                                      builder: (context) => VideoPickerDialog(
+                                        uploadCubit: imageCubit,
+                                      ),
                                     );
                                   },
                                   child: BlocListener<ImageUploadCubit,
@@ -562,8 +611,8 @@ class _AddServicePageState extends State<AddServicePage> {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           Row(
                             children: [
@@ -694,7 +743,7 @@ class _AddServicePageState extends State<AddServicePage> {
                                         isEndorsed: true,
                                         service: categoryId,
                                         event: "",
-                                        city: cityCode,
+                                        city: cityCode ?? int.parse(kCityCode),
                                         currency: currencyCode ?? "NPR",
                                         images: imageList ?? [],
                                         videos: fileList ?? [],

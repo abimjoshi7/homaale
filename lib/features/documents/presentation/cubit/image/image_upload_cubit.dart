@@ -14,7 +14,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   }) async {
     try {
       emit(
-        ImageUploadInitial(),
+        ImageUploadLoading(),
       );
 
       final imagePath = await ImagePickHelper().pickImagePath(
@@ -28,8 +28,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       if (response['status'] == 'success') {
         emit(
           ImageUploadSuccess(
-            list: response['data'] as List<dynamic>,
-          ),
+              list: response['data'] as List<dynamic>, imagePath: imagePath),
         );
       }
     } catch (e) {
@@ -44,7 +43,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   }) async {
     try {
       emit(
-        ImageUploadInitial(),
+        ImageUploadLoading(),
       );
 
       final imagePath = await ImagePickHelper().pickVideoPath(
@@ -98,7 +97,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   Future<void> uploadFile() async {
     try {
       emit(
-        ImageUploadInitial(),
+        ImageUploadLoading(),
       );
 
       final filePath = await FilePickHelper.filePicker();

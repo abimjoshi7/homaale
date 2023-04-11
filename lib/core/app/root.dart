@@ -10,7 +10,7 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
-import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
+import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
@@ -365,7 +365,7 @@ class _RootState extends State<Root> {
                         ),
                         addHorizontalSpace(100),
                         AddPopupButton(
-                          label: 'Add a Service',
+                          label: 'Post a Service',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
                             setState(() {
@@ -377,7 +377,7 @@ class _RootState extends State<Root> {
                             });
                             Navigator.pushNamed(
                               context,
-                              AddServicePage.routeName,
+                              PostServicePage.routeName,
                             );
                           },
                         )

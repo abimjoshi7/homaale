@@ -5,6 +5,7 @@ import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
   final credentialUrlController = TextEditingController();
   DateTime? issuedDate;
   final _key = GlobalKey<FormState>();
+  final imageCubit = locator<ImageUploadCubit>();
 
   @override
   void dispose() {
@@ -31,6 +33,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
     descriptionController.dispose();
     issuedDateController.dispose();
     credentialUrlController.dispose();
+    locator.resetLazySingleton(
+      instance: imageCubit,
+    );
     super.dispose();
   }
 
@@ -219,7 +224,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             onTap: () async {
                               showDialog(
                                 context: context,
-                                builder: (context) => ImagePickerDialog(),
+                                builder: (context) => ImagePickerDialog(
+                                  uploadCubit: imageCubit,
+                                ),
                               );
                             },
                             child: SizedBox(

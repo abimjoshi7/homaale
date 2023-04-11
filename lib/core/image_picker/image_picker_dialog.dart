@@ -1,64 +1,83 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/presentation/cubit/image/image_upload_cubit.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class ImagePickerDialog extends StatelessWidget {
+  final ImageUploadCubit uploadCubit;
+
+  const ImagePickerDialog({super.key, required this.uploadCubit});
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        'Select image source',
-        style: kPurpleText16,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
+    return BlocBuilder<ImageUploadCubit, ImageUploadState>(
+      bloc: uploadCubit,
+      builder: (context, state) {
+        if (state is ImageUploadLoading)
+          return Center(
+            child: CircularProgressIndicator(
+              color: kColorSecondary,
+            ),
+          );
+        return AlertDialog(
+          title: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: WidgetText(
-              label: "Camera",
-              widget: Icon(
-                Icons.camera_alt_outlined,
-                color: kColorBlue,
-              ),
-              callback: () async {
-                await context
-                    .read<ImageUploadCubit>()
-                    .uploadImage(
+            child: Text(
+              'Select image source',
+              style: kPurpleText17,
+            ),
+          ),
+          titlePadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Card(
+                child: ListTile(
+                  title: Text("Camera"),
+                  leading: Icon(
+                    Icons.camera_alt_outlined,
+                    color: kColorBlue,
+                  ),
+                  onTap: () async {
+                    await uploadCubit
+                        .uploadImage(
                       isCamera: true,
                     )
-                    .whenComplete(
-                      () => Navigator.of(context).pop(),
+                        .whenComplete(
+                      () {
+                        Navigator.of(context).pop();
+                      },
                     );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: WidgetText(
-              label: "Gallery",
-              widget: Icon(
-                Icons.photo_library_outlined,
-                color: kColorGreen,
+                  },
+                ),
               ),
-              callback: () async {
-                await context
-                    .read<ImageUploadCubit>()
-                    .uploadImage(
+              Card(
+                child: ListTile(
+                  title: Text("Gallery"),
+                  leading: Icon(
+                    Icons.photo_library_outlined,
+                    color: kColorGreen,
+                  ),
+                  onTap: () async {
+                    await uploadCubit
+                        .uploadImage(
                       isCamera: false,
                     )
-                    .whenComplete(
-                      () => Navigator.of(context).pop(),
+                        .whenComplete(
+                      () {
+                        Navigator.of(context).pop();
+                      },
                     );
-              },
-            ),
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
