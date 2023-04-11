@@ -3,6 +3,9 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
+import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -23,18 +26,21 @@ class SingleTaskPage extends StatefulWidget {
 }
 
 class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProviderStateMixin {
+  late final user = locator<UserBloc>();
   int selectedIndex = 0;
   late TabController tabController;
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
+    user.add(UserLoaded());
     super.initState();
   }
 
   @override
   void dispose() {
     tabController.dispose();
+    user.close();
     super.dispose();
   }
 
@@ -533,6 +539,24 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                           addVerticalSpace(16)
                         ],
                       ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: state.taskModel?.createdBy?.id != user.state.taskerProfile?.user?.id,
+                    child: PriceBookFooterSection(
+                      buttonLabel: getStatus('')["status"] as String,
+                      buttonColor: getStatus('')["color"] as Color,
+                      price: "Rs. ${state.taskModel?.budgetTo}",
+                      onPressed: () {
+                        if (!CacheHelper.isLoggedIn) {
+                          notLoggedInPopUp(context);
+                        }
+                        if (!CacheHelper.isLoggedIn) return;
+                        context.read<TaskBloc>().add(
+                              SingleEntityTaskLoadInitiated(id: state.taskModel?.id ?? ''),
+                            );
+                        Navigator.pushNamed(context, ApplyTaskPage.routeName);
+                      },
                     ),
                   ),
                 ],
