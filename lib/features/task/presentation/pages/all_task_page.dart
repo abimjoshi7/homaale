@@ -6,6 +6,7 @@ import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -24,6 +25,7 @@ class AllTaskPage extends StatefulWidget {
 
 class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
+  late final user = locator<UserBloc>();
   List<EntityService> taskList = [];
   List<String>? items = [];
 
@@ -46,6 +48,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   @override
   void initState() {
     super.initState();
+    user.add(UserLoaded());
     taskBloc.add(FetchServicesList());
 
     //so at event add list of records
@@ -67,6 +70,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   void dispose() {
     super.dispose();
     taskBloc.close();
+    user.close();
     _pagingController.dispose();
   }
 
@@ -535,6 +539,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.21,
                           child: TaskCard(
+                            buttonLabel:
+                                item.createdBy?.id == user.state.taskerProfile?.user?.id ? 'View Details' : 'Apply Now',
                             startRate: '${item.budgetFrom ?? 0}',
                             endRate: '${item.budgetTo ?? 0}',
                             budgetType: '${item.budgetType ?? 'budegetType'}',
@@ -551,7 +557,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             callback: () => onTaskPressed(
                               state: state,
                               index: index,
-                              isApply: true,
+                              isApply: item.createdBy?.id != user.state.taskerProfile?.user?.id,
                             ),
                             onTapCallback: () {
                               if (!CacheHelper.isLoggedIn) {

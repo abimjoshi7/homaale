@@ -18,6 +18,7 @@ class TaskCard extends StatelessWidget {
     this.count,
     this.budgetType,
     this.onTapCallback,
+    this.buttonLabel,
   });
 
   final String? imageUrl;
@@ -29,6 +30,7 @@ class TaskCard extends StatelessWidget {
   final String? startRate;
   final String? endRate;
   final String? count;
+  final String? buttonLabel;
   final VoidCallback? callback;
   final VoidCallback? onTapCallback;
 
@@ -168,7 +170,7 @@ class TaskCard extends StatelessWidget {
               callback: callback ?? () {},
               mainColor: kColorGreen,
               borderColor: kColorGreen,
-              label: 'Apply Now',
+              label: buttonLabel ?? 'Apply Now',
             )
           ],
         ),
