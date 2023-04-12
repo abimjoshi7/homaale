@@ -55,10 +55,14 @@ void init() {
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 
+  // repository
   locator.registerLazySingleton(() => ChatRepository());
 
   //cubit
   locator.registerFactory<ImageUploadCubit>(
     () => ImageUploadCubit(),
   );
+
+  var firebaseInstance = FirebaseFirestore.instance;
+  locator.registerLazySingleton<FirebaseFirestore>(() => firebaseInstance);
 }
