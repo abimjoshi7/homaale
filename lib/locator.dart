@@ -65,6 +65,13 @@ void init() {
     ),
   );
   locator.registerFactory(() => OrderIdCreateBloc());
+  locator.registerFactory(() => ChatBloc(chatRepository: locator()));
+
+  locator.registerFactory(
+    () => KycBloc(
+      locator(),
+    ),
+  );
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 
   // repository
