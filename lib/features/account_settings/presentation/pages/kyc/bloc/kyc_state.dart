@@ -1,49 +1,30 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'kyc_bloc.dart';
 
-abstract class KycState extends Equatable {
-  const KycState();
-}
-
-class KycInitial extends KycState {
-  @override
-  List<Object?> get props => [];
-}
-
-class KycCreateSuccess extends KycState {
-  final int id;
-  const KycCreateSuccess({
-    required this.id,
+class KycState extends Equatable {
+  final TheStates? theStates;
+  final KycModel? kycModel;
+  final List<KycListRes>? list;
+  final int? kycId;
+  const KycState({
+    this.theStates = TheStates.initial,
+    this.kycModel,
+    this.list,
+    this.kycId,
   });
   @override
-  List<Object?> get props => [id];
-}
+  List<Object?> get props => [theStates, kycModel, list, kycId];
 
-class KycCreateFailure extends KycState {
-  @override
-  List<Object?> get props => [];
-}
-
-class KycAddSuccess extends KycState {
-  @override
-  List<Object?> get props => [];
-}
-
-class KycAddFailure extends KycState {
-  @override
-  List<Object?> get props => [];
-}
-
-class KycLoadSuccess extends KycState {
-  final List<GetKycRes> list;
-  const KycLoadSuccess({
-    required this.list,
-  });
-  @override
-  List<Object?> get props => [list];
-}
-
-class KycLoadFailure extends KycState {
-  @override
-  List<Object?> get props => [];
+  KycState copyWith({
+    TheStates? theStates,
+    KycModel? kycModel,
+    List<KycListRes>? list,
+    int? kycId,
+  }) {
+    return KycState(
+      theStates: theStates ?? this.theStates,
+      kycModel: kycModel ?? this.kycModel,
+      list: list ?? this.list,
+      kycId: kycId ?? this.kycId,
+    );
+  }
 }

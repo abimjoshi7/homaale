@@ -65,10 +65,15 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
       items: widget.list.map(
         (T value) {
           return DropdownMenuItem<T>(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             value: value,
-            child: AutoSizeText(
-              value.toString(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4,
+              ),
+              child: AutoSizeText(
+                value.toString(),
+              ),
             ),
           );
         },

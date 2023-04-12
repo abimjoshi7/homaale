@@ -111,7 +111,7 @@ class _RootState extends State<Root> {
                   if (CacheHelper.isLoggedIn)
                     {
                       context.read<KycBloc>().add(
-                            KycLoaded(),
+                            KycModelLoaded(),
                           ),
                     }
                 })

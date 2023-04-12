@@ -1,3 +1,5 @@
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -15,6 +17,10 @@ import 'package:dependencies/dependencies.dart';
 final locator = GetIt.instance;
 
 void init() {
+  //repositories
+  locator.registerLazySingleton(
+    () => KycRepositories(),
+  );
   // bloc
   locator.registerFactory(() => TaskBloc());
   locator.registerFactory(() => ServicesBloc());
@@ -26,6 +32,11 @@ void init() {
   locator.registerFactory(() => PaymentBloc());
   locator.registerFactory(() => PaymentTypeBloc());
   locator.registerFactory(() => NotificationBloc());
+  locator.registerFactory(
+    () => KycBloc(
+      locator(),
+    ),
+  );
   locator.registerLazySingleton(
     () => BookEventHandlerBloc(),
   );

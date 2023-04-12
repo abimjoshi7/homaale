@@ -3,6 +3,7 @@ import 'package:cipher/features/account_settings/presentation/pages/deactivate/c
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
@@ -93,13 +94,7 @@ class Cipher extends StatelessWidget {
                 TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
-            create: (context) => KycBloc()
-              ..add(
-                KycLoaded(),
-              )
-              ..add(
-                KycListLoaded(),
-              ),
+            create: (context) => locator<KycBloc>(),
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),

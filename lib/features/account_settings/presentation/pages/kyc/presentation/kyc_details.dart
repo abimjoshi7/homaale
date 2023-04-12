@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +38,17 @@ class _KycDetailsState extends State<KycDetails> {
   DateTime? expiryDate;
   File? file;
   final _key = GlobalKey<FormState>();
+  final kycBloc = locator<KycBloc>();
+
+  @override
+  void initState() {
+    kycBloc
+      ..add(
+        KycDocumentLoaded(),
+      )
+      ..add(KycModelLoaded());
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -46,281 +56,81 @@ class _KycDetailsState extends State<KycDetails> {
     fullNameController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
+    kycBloc.close();
+    file?.delete();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<KycBloc, KycState>(
+      bloc: kycBloc,
+      // listenWhen: (previous, current) {
+      //   if (previous.kycId == null && current.kycId != null) {
+      //     return true;
+      //     // if (current.theStates == TheStates.success &&
+      //     //     current.list?.length != 0) return true;
+      //   }
+      //   return previous.theStates == TheStates.loading;
+      // },
       listener: (context, state) async {
-        final error = await CacheHelper.getCachedString(kErrorLog);
-        if (state is KycAddSuccess) {
-          if (!mounted) return;
-          await showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Success',
-              content: 'KYC document added Successfully',
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Root.routeName,
-                  (route) => false,
-                );
-              },
-              isSuccess: true,
+        print(kycBloc.state.kycId);
+        if (state.kycId != null) {
+          kycBloc.add(
+            KycAdded(
+              addKycReq: AddKycReq(
+                kyc: state.kycId as int,
+                documentType: identityTypeController.text,
+                documentId: identityNumberController.text,
+                isCompany: false,
+                issuedDate: issuedDate,
+                validThrough: expiryDate ?? DateTime(3000),
+                issuerOrganization: issuedFromController.text,
+                file: await MultipartFile.fromFile(
+                  file!.path,
+                ),
+              ),
             ),
           );
-        }
-        if (state is KycAddFailure) {
-          if (!mounted) return;
-          await showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Failure',
-              content: error ?? 'KYC document failed',
-              onTap: () {
-                Navigator.pop(context);
-              },
-              isSuccess: false,
-            ),
-          );
-        } else if (state is KycCreateFailure) {
-          if (!mounted) return;
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Failure',
-              content: error ?? 'KYC document creation failed',
-              onTap: () {
-                Navigator.pop(context);
-              },
-              isSuccess: false,
-            ),
-          );
+          if (state.theStates == TheStates.success) {
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: "Success",
+                content: "Kyc document uploaded successfully",
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  );
+                },
+                isSuccess: true,
+              ),
+            );
+          }
+
+          if (state.theStates == TheStates.failure) {
+            kycBloc.add(
+              KycModelDeleted(),
+            );
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: "Failure",
+                content: "Kyc document cannot be uploaded",
+                onTap: () {},
+                isSuccess: false,
+              ),
+            );
+          }
         }
       },
       builder: (context, state) {
-        Widget displayName() {
-          if (state is KycLoadSuccess) {
-            return BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                return CustomTextFormField(
-                  readOnly: true,
-                  hintText:
-                      "${state.taskerProfile?.user?.firstName ?? ""} ${state.taskerProfile?.user?.middleName ?? ""} ${state.taskerProfile?.user?.lastName ?? ""}",
-                );
-              },
-            );
-          }
-          return CustomTextFormField(
-            onChanged: (p0) => setState(
-              () {
-                fullNameController.text = p0!;
-              },
-            ),
+        if (state.theStates == TheStates.loading)
+          return Center(
+            child: CircularProgressIndicator(),
           );
-        }
-
-        Widget displayDocType() {
-          if (state is KycLoadSuccess) {
-            return CustomDropDownField(
-              onChanged: null,
-              list: val,
-              hintText: state.list.first.documentType!,
-            );
-          } else {
-            return CustomDropDownField(
-              onChanged: (value) => setState(
-                () {
-                  identityTypeController.text = value!;
-                },
-              ),
-              list: val,
-              hintText: 'Choose your document type here',
-            );
-          }
-        }
-
-        Widget displayDocId() {
-          if (state is KycLoadSuccess) {
-            return CustomTextFormField(
-              readOnly: true,
-              hintText: state.list.first.documentId!,
-            );
-          }
-          return CustomTextFormField(
-            validator: validateNotEmpty,
-            hintText: '123321-123-123123',
-            onSaved: (p0) => setState(
-              () {
-                identityNumberController.text = p0!;
-              },
-            ),
-          );
-        }
-
-        Widget displayIssued() {
-          if (state is KycLoadSuccess) {
-            return CustomTextFormField(
-              readOnly: true,
-              hintText: state.list.first.issuerOrganization!,
-            );
-          }
-          return CustomTextFormField(
-            validator: validateNotEmpty,
-            hintText: 'Kathmandu',
-            onSaved: (p0) => setState(
-              () {
-                issuedFromController.text = p0!;
-              },
-            ),
-          );
-        }
-
-        Widget displayIssuedDate() {
-          if (state is KycLoadSuccess) {
-            return CustomFormContainer(
-              hintText:
-                  "${state.list.first.issuedDate?.year}-${state.list.first.issuedDate?.weekday}-${state.list.first.issuedDate?.day}",
-              leadingWidget: const Icon(
-                Icons.calendar_month_rounded,
-                color: kColorPrimary,
-              ),
-            );
-          }
-          return CustomFormContainer(
-            hintText: issuedDate?.toString().substring(0, 10) ?? '1999-06-13',
-            leadingWidget: const Icon(
-              Icons.calendar_month_rounded,
-              color: kColorPrimary,
-            ),
-            callback: () async {
-              await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1950),
-                lastDate: DateTime(
-                  2080,
-                ),
-              ).then(
-                (value) => setState(
-                  () {
-                    issuedDate = value;
-                  },
-                ),
-              );
-            },
-          );
-        }
-
-        Widget displayExpiryDate() {
-          if (state is KycLoadSuccess) {
-            return CustomFormContainer(
-              hintText:
-                  "${state.list.first.validThrough?.year}-${state.list.first.validThrough?.weekday}-${state.list.first.validThrough?.day}",
-              leadingWidget: const Icon(
-                Icons.calendar_month_rounded,
-                color: kColorPrimary,
-              ),
-            );
-          }
-          return CustomFormContainer(
-            hintText: expiryDate != null
-                ? expiryDate?.toString().substring(0, 4) ?? 'yyyy'
-                : 'yyyy',
-            leadingWidget: const Icon(
-              Icons.calendar_month_rounded,
-              color: kColorPrimary,
-            ),
-            callback: () async {
-              await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1950),
-                lastDate: DateTime(
-                  2080,
-                ),
-              ).then(
-                (value) => setState(
-                  () {
-                    expiryDate = value;
-                  },
-                ),
-              );
-            },
-          );
-        }
-
-        Widget displayDocuments() {
-          if (state is KycLoadSuccess) {
-            return Container(
-              height: 150,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    state.list.first.file ?? kDefaultAvatarNImg,
-                  ),
-                ),
-              ),
-            );
-          }
-          return CustomFormContainer(
-            hintText: file?.path.substring(0, 30) ?? '+ Select files',
-          );
-        }
-
-        Widget displayButton() {
-          if (state is KycLoadSuccess) {
-            return const SizedBox.shrink();
-          }
-          return CustomElevatedButton(
-            callback: () async {
-              if (_key.currentState!.validate() &&
-                  issuedDate!.isBefore(expiryDate!)) {
-                _key.currentState!.save();
-                context.read<KycBloc>().add(
-                      KycInitiated(
-                        createKycReq: CreateKycReq(
-                          fullName: fullNameController.text,
-                          address: issuedFromController.text,
-                          country: 'NP',
-                          isCompany: false,
-                          extraData: {},
-                        ),
-                      ),
-                    );
-                if (state is KycCreateSuccess) {
-                  context.read<KycBloc>().add(
-                        KycAdded(
-                          addKycReq: AddKycReq(
-                            kyc: state.id,
-                            documentType: identityTypeController.text,
-                            documentId: identityNumberController.text,
-                            isCompany: false,
-                            issuedDate: issuedDate,
-                            validThrough: expiryDate,
-                            issuerOrganization: 'Nepal Government',
-                            file: await MultipartFile.fromFile(
-                              file!.path,
-                            ),
-                          ),
-                        ),
-                      );
-                }
-              } else if (expiryDate!.isBefore(issuedDate!)) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please check your start and end dates'),
-                  ),
-                );
-              }
-            },
-            label: 'Submit',
-          );
-        }
 
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -331,13 +141,6 @@ class _KycDetailsState extends State<KycDetails> {
               CustomHeader(
                 child: const Text(
                   'KYC Details',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(
-                      0xff212529,
-                    ),
-                  ),
                 ),
               ),
               const Divider(),
@@ -345,7 +148,7 @@ class _KycDetailsState extends State<KycDetails> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   'KYC Details',
-                  style: kPurpleText19,
+                  style: kPurpleText17,
                 ),
               ),
               Expanded(
@@ -360,22 +163,70 @@ class _KycDetailsState extends State<KycDetails> {
                         CustomFormField(
                           label: 'Identify Type',
                           isRequired: true,
-                          child: displayDocType(),
+                          child: CustomDropDownField<String>(
+                            onChanged: state.list?.length != 0
+                                ? null
+                                : (value) {
+                                    setState(() {
+                                      identityTypeController.text = value!;
+                                    });
+                                  },
+                            list: val,
+                            hintText: state.list?.length != 0
+                                ? state.list?.first.documentType
+                                : "Choose document type",
+                          ),
                         ),
                         CustomFormField(
                           label: 'Full Name',
                           isRequired: true,
-                          child: displayName(),
+                          child: CustomTextFormField(
+                            validator: validateNotEmpty,
+                            onSaved: (p0) {
+                              setState(() {
+                                fullNameController.text = p0!;
+                              });
+                            },
+                            readOnly: state.kycModel != null,
+                            hintText: state.kycModel?.fullName?.length == 0
+                                ? ""
+                                : state.kycModel?.fullName ?? "",
+                            onFieldSubmitted: (p0) {
+                              print(kycBloc.state);
+                            },
+                          ),
                         ),
                         CustomFormField(
                           label: 'Identity number',
                           isRequired: true,
-                          child: displayDocId(),
+                          child: CustomTextFormField(
+                            readOnly: state.list?.length != 0,
+                            hintText: state.list?.length == 0
+                                ? ""
+                                : state.list?.first.documentId ?? "",
+                            validator: validateNotEmpty,
+                            onSaved: (p0) => setState(
+                              () {
+                                identityNumberController.text = p0!;
+                              },
+                            ),
+                          ),
                         ),
                         CustomFormField(
                           label: 'Issued',
                           isRequired: true,
-                          child: displayIssued(),
+                          child: CustomTextFormField(
+                            readOnly: state.list?.length != 0,
+                            validator: validateNotEmpty,
+                            hintText: state.list?.length == 0
+                                ? ""
+                                : state.list?.first.issuerOrganization ?? "",
+                            onSaved: (p0) => setState(
+                              () {
+                                issuedFromController.text = p0!;
+                              },
+                            ),
+                          ),
                         ),
                         Row(
                           children: [
@@ -383,15 +234,82 @@ class _KycDetailsState extends State<KycDetails> {
                               child: CustomFormField(
                                 label: 'Issued Date',
                                 isRequired: true,
-                                child: displayIssuedDate(),
+                                child: CustomFormContainer(
+                                  hintText: state.list?.length == 0
+                                      ? issuedDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              issuedDate!,
+                                            )
+                                          : "yyyy-mm-dd"
+                                      : state.list?.first.issuedDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              state.list!.first.issuedDate!,
+                                            )
+                                          : "No date available",
+                                  leadingWidget: const Icon(
+                                    Icons.calendar_month_rounded,
+                                    color: kColorPrimary,
+                                  ),
+                                  callback: state.list?.length != 0
+                                      ? null
+                                      : () async {
+                                          await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1950),
+                                            lastDate: DateTime(
+                                              2080,
+                                            ),
+                                          ).then(
+                                            (value) => setState(
+                                              () {
+                                                issuedDate = value;
+                                              },
+                                            ),
+                                          );
+                                        },
+                                ),
                               ),
                             ),
                             kWidth20,
                             Flexible(
                               child: CustomFormField(
                                 label: 'Expiry Date',
-                                isRequired: true,
-                                child: displayExpiryDate(),
+                                child: CustomFormContainer(
+                                  hintText: state.list?.length == 0
+                                      ? expiryDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              expiryDate!,
+                                            )
+                                          : "yyyy-mm-dd"
+                                      : state.list?.first.validThrough != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              state.list!.first.validThrough!,
+                                            )
+                                          : "No date available",
+                                  leadingWidget: const Icon(
+                                    Icons.calendar_month_rounded,
+                                    color: kColorPrimary,
+                                  ),
+                                  callback: state.list?.length != 0
+                                      ? null
+                                      : () async {
+                                          await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1950),
+                                            lastDate: DateTime(
+                                              2080,
+                                            ),
+                                          ).then(
+                                            (value) => setState(
+                                              () {
+                                                expiryDate = value;
+                                              },
+                                            ),
+                                          );
+                                        },
+                                ),
                               ),
                             ),
                           ],
@@ -404,7 +322,7 @@ class _KycDetailsState extends State<KycDetails> {
                               Row(
                                 children: const [
                                   Text(
-                                    'Maximum file size 20 MB',
+                                    'Maximum file size 5 MB',
                                     style: kHelper13,
                                   ),
                                   kWidth10,
@@ -415,7 +333,6 @@ class _KycDetailsState extends State<KycDetails> {
                                   )
                                 ],
                               ),
-                              kHeight10,
                               InkWell(
                                 onTap: () async {
                                   await FilePickHelper.filePicker().then(
@@ -426,10 +343,60 @@ class _KycDetailsState extends State<KycDetails> {
                                     ),
                                   );
                                 },
-                                child: displayDocuments(),
+                                child: file == null
+                                    ? state.list?.length == 0
+                                        ? CustomDottedContainerStack()
+                                        : ConstrainedBox(
+                                            constraints: BoxConstraints.expand(
+                                              height: 200,
+                                              width: double.maxFinite,
+                                            ),
+                                            child: Image.network(
+                                              state.list?.first.file ??
+                                                  kNoImageNImg,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                    : ConstrainedBox(
+                                        constraints: BoxConstraints.expand(
+                                          height: 200,
+                                          width: double.maxFinite,
+                                        ),
+                                        child: Image.file(
+                                          file!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                               ),
-                              kHeight20,
                             ],
+                          ),
+                        ),
+                        Visibility(
+                          visible: state.list?.isEmpty ?? true,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomElevatedButton(
+                                callback: () async {
+                                  print(kycBloc.state);
+                                  if (_key.currentState!.validate()) {
+                                    _key.currentState!.save();
+                                    kycBloc.add(
+                                      KycInitiated(
+                                        createKycReq: CreateKycReq(
+                                          fullName: fullNameController.text,
+                                          address: issuedFromController.text,
+                                          country: 'NP',
+                                          isCompany: false,
+                                          extraData: {},
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                                label: 'Submit',
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -437,11 +404,6 @@ class _KycDetailsState extends State<KycDetails> {
                   ),
                 ),
               ),
-              kHeight20,
-              Center(
-                child: displayButton(),
-              ),
-              kHeight50,
             ],
           ),
         );
