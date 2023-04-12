@@ -607,7 +607,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
-                                        hintText: 'Enter Your City',
+                                        hintText: 'Enter Your Currency',
                                         hintStyle: const TextStyle(
                                           color: Color(0xff9CA0C1),
                                           fontWeight: FontWeight.w400,
