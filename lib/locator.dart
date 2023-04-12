@@ -75,4 +75,6 @@ void init() {
   locator.registerFactory<ImageUploadCubit>(
     () => ImageUploadCubit(),
   );
+  var firebaseInstance = FirebaseFirestore.instance;
+  locator.registerLazySingleton<FirebaseFirestore>(() => firebaseInstance);
 }
