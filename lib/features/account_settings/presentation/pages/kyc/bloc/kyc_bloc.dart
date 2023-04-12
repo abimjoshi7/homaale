@@ -64,7 +64,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
                 ),
               );
         } catch (e) {
-          print(e.toString());
           emit(
             state.copyWith(
               theStates: TheStates.failure,
