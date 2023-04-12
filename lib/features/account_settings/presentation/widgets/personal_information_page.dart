@@ -63,7 +63,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
             children: [
               const CustomModalSheetDrawerIcon(),
               kHeight10,
-              const Text(
+               Text(
                 'Personal Information',
                 style: kPurpleText19,
               ),

@@ -22,7 +22,6 @@ export 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 export 'package:intl/intl.dart';
 export 'package:jiffy/jiffy.dart';
 export 'package:json_annotation/json_annotation.dart';
-export 'package:khalti_flutter/khalti_flutter.dart';
 export 'package:multi_select_flutter/multi_select_flutter.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:pinput/pinput.dart';
@@ -40,4 +39,3 @@ export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:flutter_inappwebview/flutter_inappwebview.dart'
     hide AndroidOptions, KeyUsage, ASN1Object;
 export 'package:dropdown_search/dropdown_search.dart';
-

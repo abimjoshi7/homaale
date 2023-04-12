@@ -25,7 +25,7 @@ class _KycChoiceOptionState extends State<KycChoiceOption> {
             child: CustomModalSheetDrawerIcon(),
           ),
           kHeight20,
-          const Text(
+           Text(
             'Fill KYC as',
             style: kPurpleText19,
           ),
@@ -101,7 +101,7 @@ class _KYC123State extends State<KYC123> {
         children: [
           const CustomModalSheetDrawerIcon(),
           kHeight10,
-          const Text(
+           Text(
             'General Information',
             style: kPurpleText19,
           ),
@@ -196,7 +196,7 @@ class _KYC123State extends State<KYC123> {
                   child: Column(
                     children: [
                       const CustomModalSheetDrawerIcon(),
-                      const Text(
+                       Text(
                         'Bank Details',
                         style: kPurpleText19,
                       ),
@@ -326,7 +326,7 @@ class _KYC123State extends State<KYC123> {
                                     const Center(
                                       child: CustomModalSheetDrawerIcon(),
                                     ),
-                                    const Center(
+                                     Center(
                                       child: Text(
                                         'Identity Information',
                                         style: kPurpleText19,

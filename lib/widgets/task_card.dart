@@ -70,7 +70,7 @@ class TaskCard extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
                           StringUtils.capitalize(
-                            taskName ?? 'Need Gardening',
+                            taskName ?? '',
                           ),
                           style: kPurpleText16,
                           maxLines: 2,

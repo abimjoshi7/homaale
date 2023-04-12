@@ -1,5 +1,11 @@
 import 'package:cipher/core/constants/colors.dart';
+import 'package:cipher/core/constants/theme.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
+
+import '../../features/theme/presentation/bloc/theme_event.dart';
+
+Color kDarkThemeColor = Colors.white;
 
 const kTabBarTitle = TextStyle(
   fontWeight: FontWeight.w600,
@@ -55,8 +61,10 @@ const kPurpleText17 = TextStyle(
   color: Color(0xff3D3F7D),
 );
 
-const kPurpleText19 = TextStyle(
-  color: Color(0xff3D3F7D),
+final kPurpleText19 = TextStyle(
+  color: AppTheme == AppTheme.lightTheme ? kColorSecondary :
+  // kColorSecondary,
+  Color(0xff3D3F7D),
   fontWeight: FontWeight.w600,
   fontSize: 19,
 );

@@ -65,7 +65,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
             children: [
               const CustomModalSheetDrawerIcon(),
               kHeight20,
-              const Text(
+               Text(
                 'Address Information',
                 style: kPurpleText19,
               ),
@@ -228,7 +228,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
           children: [
             const CustomModalSheetDrawerIcon(),
             kHeight20,
-            const Text(
+             Text(
               'Address Information',
               style: kPurpleText19,
             ),

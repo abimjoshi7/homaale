@@ -9,7 +9,7 @@ mixin Ranking {
       builder: (context) => Column(
         children: [
           const CustomModalSheetDrawerIcon(),
-          const Text(
+           Text(
             'Ranking',
             style: kPurpleText19,
           ),

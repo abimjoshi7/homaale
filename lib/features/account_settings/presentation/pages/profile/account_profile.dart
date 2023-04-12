@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
@@ -12,10 +13,34 @@ import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../../../theme/presentation/bloc/theme_bloc.dart';
+import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../theme/presentation/utlis/utlis.dart';
 
-class AccountProfile extends StatelessWidget {
+class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
   static const routeName = '/account-profile';
+
+  @override
+  State<AccountProfile> createState() => _AccountProfileState();
+}
+
+class _AccountProfileState extends State<AccountProfile> {
+  AppTheme? currentTheme;
+  final SecureStorage _secureStorage = SecureStorage();
+
+  _setTheme(bool darkTheme)  {
+    currentTheme = darkTheme ? AppTheme.darkTheme : AppTheme.lightTheme;
+    context.read<ThemeBloc>().add(
+          ThemeChangeChanged(appTheme: currentTheme),
+        );
+    // _secureStorage = darkTheme ? await _secureStorage.setLightTheme('light'):await _secureStorage.setDarkMode('dark');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +64,10 @@ class AccountProfile extends StatelessWidget {
             ),
             child: const Text(
               'Account',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
+              // style: TextStyle(
+              //   fontSize: 14,
+              //   fontWeight: FontWeight.w500,
+              // ),
             ),
           ),
           BlocBuilder<UserBloc, UserState>(
@@ -173,7 +195,7 @@ class AccountProfile extends StatelessWidget {
                                 },
                                 icon: const Icon(
                                   Icons.card_membership_rounded,
-                                  color: Color(0xff495057),
+                                  // color: Color(0xff495057),
                                 ),
                                 label: 'KYC',
                                 trailingWidget: const Icon(
@@ -244,7 +266,7 @@ class AccountProfile extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.settings,
-                          color: Color(0xff495057),
+                          // color: Color(0xff495057),
                         ),
                         label: 'Settings',
                         trailingWidget: const Icon(
@@ -252,31 +274,23 @@ class AccountProfile extends StatelessWidget {
                           size: 16,
                         ),
                       ),
-                      // AccountListTileSection(
-                      //   onTap: () {},
-                      //   icon: const Icon(
-                      //     Icons.dark_mode_outlined,
-                      //     color: Color(0xff495057),
-                      //   ),
-                      //   label: 'Dark Mode',
-                      //   trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
-                      //     builder: (context, state) {
-                      //       return StatefulBuilder(
-                      //         builder: (context, setState) => Switch(
-                      //           value: isDark,
-                      //           onChanged: (value) => setState(
-                      //             () {
-                      //               isDark = !isDark;
-                      //               context.read<ThemeBloc>().add(
-                      //                     ThemeChangeChanged(),
-                      //                   );
-                      //             },
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
+                      AccountListTileSection(
+                        onTap: () {},
+                        icon: const Icon(
+                          Icons.dark_mode_outlined,
+                          // color: Color(0xff495057),
+                        ),
+                        label: 'Dark Mode',
+                        trailingWidget: Switch(
+                          value: currentTheme == AppTheme.darkTheme,
+                          onChanged: (value) => setState(
+                            () {
+                              _setTheme(value);
+                              print(currentTheme);
+                            },
+                          ),
+                        ),
+                      ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -286,7 +300,7 @@ class AccountProfile extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.contact_mail_sharp,
-                          color: Color(0xff495057),
+                          // color: Color(0xff495057),
                         ),
                         label: 'Tax Calculator',
                         trailingWidget: const Icon(

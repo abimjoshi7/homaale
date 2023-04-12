@@ -1,40 +1,31 @@
 import 'package:cipher/core/constants/theme.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_event.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_state.dart';
 import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
-
-part 'theme_event.dart';
-part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc()
       : super(
-          ThemeLight(
-            themeData: ThemeData(),
+          ThemeState(
+            themeData: AppThemes.appThemeData[AppTheme.lightTheme],
           ),
         ) {
     on<ThemeChangeInitiated>(
       (event, emit) => emit(
-        ThemeLight(
-          themeData: kLightTheme,
+        ThemeState(
+          themeData: AppThemes.appThemeData[AppTheme.darkTheme],
         ),
       ),
     );
-    on<ThemeChangeChanged>(
-      (event, emit) {
-        if (state is ThemeLight) {
-          emit(
-            ThemeDark(
-              themeData: kDarkTheme,
-            ),
-          );
-        } else {
-          emit(
-            ThemeLight(
-              themeData: kLightTheme,
-            ),
-          );
-        }
-      },
-    );
+    on<ThemeChangeChanged>((event, emit) {
+      ThemeState(
+        themeData: AppThemes.appThemeData[event.appTheme],
+      );
+      // Stream<ThemeState> mapEventToState(ThemeChangeChanged event) async* {
+      //   yield ThemeState(
+      //     themeData: AppThemes.appThemeData[event.appTheme],
+      //   );
+      // };
+    });
   }
 }

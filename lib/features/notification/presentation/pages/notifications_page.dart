@@ -41,7 +41,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Messages',
                   style: kPurpleText19,
@@ -59,7 +59,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Email',
                   style: kPurpleText19,
@@ -77,7 +77,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Messages',
                   style: kPurpleText19,
@@ -95,7 +95,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Proposal',
                   style: kPurpleText19,
@@ -113,7 +113,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Contracts',
                   style: kPurpleText19,
@@ -131,7 +131,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Group & Invitations',
                   style: kPurpleText19,
@@ -149,7 +149,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Memberships',
                   style: kPurpleText19,
@@ -167,7 +167,7 @@ class NotificationsPage extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Miscellaneous',
                   style: kPurpleText19,

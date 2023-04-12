@@ -9,7 +9,7 @@ class PanVatInformationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
+         Text(
           'PAN/VAT Information',
           style: kPurpleText19,
         ),

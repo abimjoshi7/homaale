@@ -32,13 +32,13 @@ class DeactivatePage extends StatelessWidget {
             ),
             child: const Text(
               'Deactivate',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
+              // style: TextStyle(
+              //   fontSize: 14,
+              //   fontWeight: FontWeight.w500,
+              //   color: Color(
+              //     0xff212529,
+              //   ),
+              // ),
             ),
           ),
           const Divider(),
@@ -195,7 +195,7 @@ class DeactivationHeaderInfo extends StatelessWidget {
       padding: kPadding20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children:  [
           Text('Deactivating your Homaale account', style: kPurpleText19),
           kHeight20,
           Text(

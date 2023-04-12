@@ -137,12 +137,12 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                           ),
                                           height: 200,
                                           margin: EdgeInsets.only(
-                                              top: 20, left: 20, right: 20),
+                                              top: 10, left: 20, right: 20),
                                           child: Column(
                                             children: [
                                               Padding(
                                                 padding:
-                                                    const EdgeInsets.all(16.0),
+                                                    const EdgeInsets.all(10.0),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,

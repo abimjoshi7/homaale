@@ -24,7 +24,7 @@ class CertificationView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                       Text(
                         'Certification',
                         style: kPurpleText19,
                       ),

@@ -341,7 +341,7 @@ class _KycDetailsState extends State<KycDetails> {
                 ),
               ),
               const Divider(),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   'KYC Details',

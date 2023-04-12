@@ -40,7 +40,7 @@ class AccountUserInfoSection extends StatelessWidget {
         kHeight5,
         Text(
           credentialId,
-          style: kHelper13,
+          // style: kHelper13,
         ),
       ],
     );

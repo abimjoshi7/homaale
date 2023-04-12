@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
@@ -42,12 +43,15 @@ import 'package:flutter/material.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
+import '../../features/theme/presentation/bloc/theme_state.dart';
 
 class Cipher extends StatelessWidget {
   const Cipher({super.key});
 
   @override
   Widget build(BuildContext context) {
+    /// Determines whether device's os is using dark theme or light.
+    final osThemeIsLight = Brightness.light;
     return RepositoryProvider(
       create: (context) => SupportHelpRepositories()..getHelpTopicList(),
       child: MultiBlocProvider(
@@ -88,7 +92,8 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => KycBloc()
@@ -152,12 +157,7 @@ class Cipher extends StatelessWidget {
                 LanguageLoadInitiated(),
               ),
           ),
-          BlocProvider(
-            create: (context) => ThemeBloc()
-              ..add(
-                ThemeChangeInitiated(),
-              ),
-          ),
+          BlocProvider(create: (context) => ThemeBloc()),
           // BlocProvider(
           //   create: (context) => HeroCategoryCubit(),
           // ),
@@ -192,7 +192,8 @@ class Cipher extends StatelessWidget {
             create: (context) => SingleEntityTaskCubit(),
           ),
           BlocProvider(
-            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) =>
+                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -223,20 +224,11 @@ class Cipher extends StatelessWidget {
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (context, state) {
-            ThemeData? displayTheme() {
-              ThemeData? theme;
-              if (state is ThemeLight) {
-                theme = state.themeData;
-              } else if (state is ThemeDark) {
-                theme = state.themeData;
-              }
-              return theme;
-            }
-
+          builder: (BuildContext context, ThemeState themeState) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: displayTheme(),
+              theme: themeState.themeData,
+              darkTheme: ThemeData.dark(),
               builder: (context, child) => ResponsiveWrapper.builder(
                 BouncingScrollWrapper.builder(context, child!),
                 maxWidth: 1200,

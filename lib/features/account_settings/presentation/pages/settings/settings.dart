@@ -32,13 +32,13 @@ class Settings extends StatelessWidget {
             ),
             child: const Text(
               'Settings',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
+              // style: TextStyle(
+              //   fontSize: 14,
+              //   fontWeight: FontWeight.w500,
+              //   color: Color(
+              //     0xff212529,
+              //   ),
+              // ),
             ),
           ),
           const Divider(),
