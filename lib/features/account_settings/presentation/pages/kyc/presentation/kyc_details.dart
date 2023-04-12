@@ -124,38 +124,6 @@ class _KycDetailsState extends State<KycDetails> {
               isSuccess: false,
             ),
           );
-          if (state.theStates == TheStates.success) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: "Success",
-                content: "Kyc document uploaded successfully",
-                onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  );
-                },
-                isSuccess: true,
-              ),
-            );
-          }
-
-          if (state.theStates == TheStates.failure) {
-            kycBloc.add(
-              KycModelDeleted(),
-            );
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: "Failure",
-                content: "Kyc document cannot be uploaded",
-                onTap: () {},
-                isSuccess: false,
-              ),
-            );
-          }
         }
       },
       builder: (context, state) {
