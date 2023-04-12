@@ -174,8 +174,10 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                   },
                                 ),
                               );
-                            } else {
+                            } else if (state.states == TheStates.failure) {
                               return Center(child: Text('No chats. Start a service or task to initiate chat'));
+                            } else {
+                              return Center(child: CircularProgressIndicator());
                             }
                           },
                         );
