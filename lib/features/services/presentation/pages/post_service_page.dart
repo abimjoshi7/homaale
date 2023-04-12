@@ -361,40 +361,79 @@ class _PostServicePageState extends State<PostServicePage> {
                             ),
                           ),
                           Column(
-                            children: [
+                            children: <Widget>[
                               CustomFormField(
                                 label: 'Currency',
                                 isRequired: true,
                                 child: BlocBuilder<CurrencyBloc, CurrencyState>(
                                   builder: (context, state) {
                                     if (state is CurrencyLoadSuccess) {
-                                      return CustomDropDownField(
-                                        initialValue: state.currencyListRes
-                                            .firstWhere((element) => element
-                                                .name!
-                                                .startsWith("Nepalese"))
-                                            .name,
-                                        list: List.generate(
+                                      return DropdownSearch(
+                                        items: List.generate(
                                           state.currencyListRes.length,
                                           (index) =>
                                               state.currencyListRes[index].name,
                                         ),
-                                        hintText: 'Enter your Currency',
-                                        onChanged: (p0) {
-                                          setState(
-                                            () async {
-                                              final x = state.currencyListRes
-                                                  .firstWhere(
-                                                (element) => p0 == element.name,
-                                              );
-                                              currencyCode = x.code;
-                                            },
-                                          );
-                                        },
+                                        onChanged: (p0) => setState(
+                                          () {
+                                            final x = state.currencyListRes
+                                                .firstWhere(
+                                              (element) => p0 == element.name,
+                                            );
+                                            currencyCode = x.code;
+                                          },
+                                        ),
+                                        dropdownDecoratorProps:
+                                            DropDownDecoratorProps(
+                                          dropdownSearchDecoration:
+                                              InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.all(5),
+                                            hintText: 'Enter Your Currency',
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xff9CA0C1),
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(
+                                                  color: Color(0xffDEE2E6)),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(
+                                                color: kColorSecondary,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                8,
+                                              ),
+                                            ),
+                                          ),
+                                          baseStyle: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        clearButtonProps: ClearButtonProps(
+                                          padding: EdgeInsets.zero,
+                                          iconSize: 16,
+                                          visualDensity: VisualDensity.compact,
+                                          alignment: Alignment.centerRight,
+                                          isVisible: true,
+                                          color: currencyCode == null
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                        popupProps: PopupProps.modalBottomSheet(
+                                          showSearchBox: true,
+                                          modalBottomSheetProps:
+                                              ModalBottomSheetProps(
+                                            useSafeArea: false,
+                                          ),
+                                        ),
                                       );
-                                    } else {
-                                      return const SizedBox.shrink();
                                     }
+                                    return const SizedBox.shrink();
                                   },
                                 ),
                               ),
