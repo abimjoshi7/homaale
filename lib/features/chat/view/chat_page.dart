@@ -3,6 +3,7 @@ import 'package:cipher/core/helpers/cryptojs_aes_encryption_helper.dart';
 import 'package:cipher/core/helpers/date_helper.dart';
 import 'package:cipher/features/chat/models/chat_messages.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,13 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final chatBoxController = TextEditingController();
+  final userBloc = locator<UserBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    userBloc.add(UserLoaded());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +180,33 @@ class _ChatPageState extends State<ChatPage> {
               suffixIcon: IconButton(
                 onPressed: () {
                   if (chatBoxController.text.trim().isNotEmpty) {
-                    print(chatBoxController.text.trim());
+                    String message = encryptAESCryptoJS(chatBoxController.text.trim(), kAESEncryptionKey);
+                    String userID = userBloc.state.taskerProfile?.user?.id.toString() ?? '';
+
+                    locator<FirebaseFirestore>()
+                        .collection("chats")
+                        .doc("${chatPersonDetails?.groupName ?? ''}")
+                        .update({
+                      "messages": FieldValue.arrayUnion([
+                        {
+                          "date": Timestamp.now(),
+                          "senderId": userID,
+                          "text": message,
+                        }
+                      ])
+                    });
+
+                    locator<FirebaseFirestore>().collection("userChats").doc("$userID").update({
+                      "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
+                      "${chatPersonDetails?.groupName}.date": FieldValue.serverTimestamp(),
+                    });
+
+                    locator<FirebaseFirestore>().collection("userChats").doc("${chatPersonDetails?.id}").update({
+                      "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
+                      "${chatPersonDetails?.groupName}.date": FieldValue.serverTimestamp(),
+                      "${chatPersonDetails?.groupName}.read": false,
+                    });
+
                     chatBoxController.clear();
                     FocusScope.of(context).unfocus();
                   }
