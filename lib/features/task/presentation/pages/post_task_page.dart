@@ -571,23 +571,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             child: BlocBuilder<CurrencyBloc, CurrencyState>(
                               builder: (context, state) {
                                 if (state is CurrencyLoadSuccess) {
-                                  // return CustomDropDownField(
-                                  //   list: List.generate(
-                                  //     state.currencyListRes.length,
-                                  //     (index) =>
-                                  //         state.currencyListRes[index].name,
-                                  //   ),
-                                  //   hintText: 'Enter your Currency',
-                                  //   onChanged: (p0) => setState(
-                                  //     () async {
-                                  //       final x =
-                                  //           state.currencyListRes.firstWhere(
-                                  //         (element) => p0 == element.name,
-                                  //       );
-                                  //       currencyCode = x.code;
-                                  //     },
-                                  //   ),
-                                  // );
                                   return DropdownSearch(
                                     items: List.generate(
                                       state.currencyListRes.length,
@@ -660,9 +643,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             isRequired: true,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 Row(
-                                  children: [
+                                  children: <Widget>[
                                     Radio<String>(
                                       value: 'Fixed',
                                       groupValue: priceType,
