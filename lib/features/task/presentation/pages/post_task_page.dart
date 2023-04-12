@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
@@ -69,9 +71,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
     descriptionController.dispose();
     requirementController.dispose();
     addressController.dispose();
-    locator.resetLazySingleton<ImageUploadCubit>(
-      instance: imageCubit,
-    );
+    imageCubit.close();
+    // locator.resetLazySingleton<ImageUploadCubit>(
+    //   instance: imageCubit,
+    // );
     super.dispose();
   }
 
@@ -207,13 +210,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       color: kColorSecondary,
                                     ),
                                     onPressed: () {
-                                      setState(
-                                        () {
-                                          requirementList
-                                              .add(requirementController.text);
-                                          requirementController.clear();
-                                        },
-                                      );
+                                      if (requirementController.text.isNotEmpty)
+                                        setState(
+                                          () {
+                                            requirementList.add(
+                                                requirementController.text);
+                                            requirementController.clear();
+                                          },
+                                        );
                                     },
                                   ),
                                 ),
@@ -627,8 +631,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       ),
                                     );
                                   },
-                                  child: BlocListener<ImageUploadCubit,
+                                  child: BlocConsumer<ImageUploadCubit,
                                       ImageUploadState>(
+                                    bloc: imageCubit,
                                     listener: (context, state) {
                                       if (state is ImageUploadSuccess) {
                                         setState(() {
@@ -637,11 +642,54 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         });
                                       }
                                     },
-                                    child: CustomDottedContainerStack(
-                                      theWidget: imageList == null
-                                          ? Text('Select Images')
-                                          : Text('Image Uploaded'),
-                                    ),
+                                    builder: (context, state) {
+                                      if (state is ImageUploadSuccess) {
+                                        final fileList = List.generate(
+                                          state.imagePathList?.length ?? 0,
+                                          (index) => File(state
+                                                  .imagePathList?[index]
+                                                  ?.path ??
+                                              ""),
+                                        );
+                                        return Container(
+                                          width: double.infinity,
+                                          height: 100,
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: fileList.length,
+                                            itemBuilder: (context, index) =>
+                                                Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 4,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  10,
+                                                ),
+                                                child: Image.file(
+                                                  fileList[index],
+                                                  fit: BoxFit.fitWidth,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      if (state is ImageUploadInitial) {
+                                        return CustomDottedContainerStack(
+                                          theWidget: imageList == null
+                                              ? Text('Select Images')
+                                              : Text('Image Uploaded'),
+                                        );
+                                      }
+
+                                      return SizedBox.shrink();
+                                    },
                                   ),
                                 ),
                               ],

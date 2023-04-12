@@ -541,6 +541,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       if (state is CityLoadSuccess) {
                         return CustomDropDownField(
+                          initialValue: state.list
+                              .firstWhere(
+                                (element) =>
+                                    element.name!.startsWith("Kathmandu"),
+                              )
+                              .name,
                           list: List.generate(
                             state.list.length,
                             (index) => state.list[index].name,
@@ -637,6 +643,10 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       if (state is CurrencyLoadSuccess) {
                         return CustomDropDownField(
+                          initialValue: state.currencyListRes
+                              .firstWhere((element) =>
+                                  element.name!.startsWith("Nepalese"))
+                              .name,
                           list: List.generate(
                             state.currencyListRes.length,
                             (index) => state.currencyListRes[index].name,
@@ -766,7 +776,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             }
                             if (!mounted) return;
                             final Map<String, dynamic> q = {
-                              "city": cityCode,
+                              "city": cityCode ?? int.parse(kCityCode),
                               "country": countryName ?? 'NP',
                               "interests": interestCodes,
                               "first_name": firstNameController.text,

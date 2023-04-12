@@ -11,58 +11,51 @@ class ProfileKycVerifySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<KycBloc, KycState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
+    return BlocBuilder<KycBloc, KycState>(
       builder: (context, state) {
-        if (state.theStates == TheStates.failure) {
-          return BlocBuilder<SignInBloc, SignInState>(
-            builder: (context, state2) {
-              if (state2.theStates == TheStates.success) {
-                return Visibility(
-                  visible: state2.userLoginRes?.hasProfile ?? false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      width: double.infinity,
-                      height: 52,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffFFF5E5),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: const [
-                                Icon(
-                                  Icons.info_outline_rounded,
-                                  size: 20,
-                                  color: Colors.amber,
-                                ),
-                                kWidth5,
-                                Text('Get your KYC verified now'),
-                              ],
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 20,
-                            ),
-                          ],
+        return Visibility(
+          visible: state.list?.isEmpty ?? true,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              width: double.infinity,
+              height: 52,
+              decoration: const BoxDecoration(
+                color: Color(0xffFFF5E5),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: const [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: 20,
+                          color: Colors.amber,
                         ),
-                      ),
+                        kWidth5,
+                        Text('Get your KYC verified now'),
+                      ],
                     ),
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          );
-        }
-        return const SizedBox.shrink();
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }

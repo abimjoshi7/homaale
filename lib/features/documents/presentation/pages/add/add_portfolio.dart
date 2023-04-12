@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -26,6 +28,8 @@ class _AddPortfolioState extends State<AddPortfolio> {
   DateTime? issuedDate;
   final _key = GlobalKey<FormState>();
   final imageCubit = locator<ImageUploadCubit>();
+  List<int>? imageList;
+  List<int>? fileList;
 
   @override
   void dispose() {
@@ -33,9 +37,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
     descriptionController.dispose();
     issuedDateController.dispose();
     credentialUrlController.dispose();
-    locator.resetLazySingleton(
-      instance: imageCubit,
-    );
+    imageCubit.close();
     super.dispose();
   }
 
@@ -44,31 +46,57 @@ class _AddPortfolioState extends State<AddPortfolio> {
     return Scaffold(
       body: SingleChildScrollView(
         child: BlocConsumer<ImageUploadCubit, ImageUploadState>(
+          bloc: imageCubit,
           listener: (context, state) {
             if (state is ImageUploadSuccess) {
+              if (!mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Uploaded successfully'),
                 ),
               );
-            } else if (state is ImageUploadFailure) {
+              setState(() {
+                imageList = List<int>.from(state.list);
+              });
+            }
+            if (state is FileUploadSuccess) {
+              if (!mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Upload failed. Please try again.'),
                 ),
               );
+              setState(() {
+                fileList = List<int>.from(state.list);
+              });
             }
           },
           builder: (context, state) {
             Widget displayImage() {
               if (state is ImageUploadSuccess) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.check_circle_outline),
-                    kWidth5,
-                    Text("Image upload successful"),
-                  ],
+                final fileList = List.generate(
+                  state.imagePathList?.length ?? 0,
+                  (index) => File(state.imagePathList?[index]?.path ?? ""),
+                );
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: fileList.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                      child: Image.file(
+                        fileList[index],
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
                 );
               } else {
                 return Column(
@@ -81,9 +109,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     ),
                     kHeight10,
                     const Text(
-                      'Maximum Image Size 20 MB',
+                      kImageLimit,
                       style: kHelper13,
-                    )
+                    ),
                   ],
                 );
               }
@@ -110,7 +138,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     ),
                     kHeight10,
                     const Text(
-                      'Maximum file Size 20 MB',
+                      'Maximum file Size 5 MB',
                       style: kHelper13,
                     ),
                   ],
@@ -131,7 +159,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     ),
                   ),
                   trailingWidget: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print(state);
+                    },
                     icon: const Icon(
                       Icons.search,
                     ),
@@ -144,7 +174,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                 Form(
                   key: _key,
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(
+                      8,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -154,9 +186,11 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           child: CustomTextFormField(
                             hintText: 'Please enter the title',
                             onSaved: (p0) {
-                              setState(() {
-                                titleController.text = p0!;
-                              });
+                              setState(
+                                () {
+                                  titleController.text = p0!;
+                                },
+                              );
                             },
                             validator: validateNotEmpty,
                           ),
@@ -196,7 +230,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             child: CustomFormContainer(
                               hintText:
                                   issuedDate?.toString().substring(0, 10) ??
-                                      '1999-03-06',
+                                      'yyyy-mm-dd',
                               leadingWidget: const Icon(
                                 Icons.calendar_month_rounded,
                                 color: kColorPrimary,
@@ -218,8 +252,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           ),
                         ),
                         CustomFormField(
-                          label: 'Gallery',
-                          isRequired: true,
+                          label: 'Images',
                           child: InkWell(
                             onTap: () async {
                               showDialog(
@@ -231,6 +264,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             },
                             child: SizedBox(
                               height: 150,
+                              width: double.infinity,
                               child: Card(
                                 child: Center(
                                   child: displayImage(),
@@ -240,8 +274,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           ),
                         ),
                         CustomFormField(
-                          label: 'Files',
-                          isRequired: true,
+                          label: 'Documents',
                           child: InkWell(
                             onTap: () async {
                               await context
@@ -301,25 +334,37 @@ class _AddPortfolioState extends State<AddPortfolio> {
                     return Center(
                       child: CustomElevatedButton(
                         callback: () async {
-                          if (_key.currentState!.validate()) {
-                            if (state is ImageUploadSuccess) {
-                              _key.currentState!.save();
-                              final taskerPortfolioReq = TaskerPortfolioReq(
-                                title: titleController.text,
-                                description: descriptionController.text,
-                                issuedDate: issuedDate ?? DateTime.now(),
-                                credentialUrl:
-                                    'https://${credentialUrlController.text}',
-                                files: [],
-                                images: List<int>.from(state.list),
-                              );
+                          if (issuedDate != null) {
+                            if (_key.currentState!.validate()) {
+                              {
+                                _key.currentState!.save();
+                                final taskerPortfolioReq = TaskerPortfolioReq(
+                                  title: titleController.text,
+                                  description: descriptionController.text,
+                                  issuedDate: issuedDate ?? DateTime.now(),
+                                  credentialUrl:
+                                      'https://${credentialUrlController.text}',
+                                  files: fileList ?? [],
+                                  images: imageList ?? [],
+                                );
 
-                              await context
-                                  .read<TaskerPortfolioCubit>()
-                                  .addPortfolio(
-                                    taskerPortfolioReq,
-                                  );
+                                await context
+                                    .read<TaskerPortfolioCubit>()
+                                    .addPortfolio(
+                                      taskerPortfolioReq,
+                                    );
+                              }
                             }
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomToast(
+                                heading: "Failure",
+                                content: "Issued date cannot be empty",
+                                isSuccess: false,
+                                onTap: () {},
+                              ),
+                            );
                           }
                         },
                         label: 'Add',

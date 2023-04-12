@@ -42,7 +42,7 @@ void init() {
   );
 
   //cubit
-  locator.registerLazySingleton<ImageUploadCubit>(
+  locator.registerFactory<ImageUploadCubit>(
     () => ImageUploadCubit(),
   );
 }

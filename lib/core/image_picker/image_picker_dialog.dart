@@ -62,11 +62,7 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () async {
-                    await uploadCubit
-                        .uploadImage(
-                      isCamera: false,
-                    )
-                        .whenComplete(
+                    await uploadCubit.uploadMultipleImage().whenComplete(
                       () {
                         Navigator.of(context).pop();
                       },

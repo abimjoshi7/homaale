@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/documents/presentation/pages/edit/edit_portfolio.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
@@ -7,7 +8,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class PortfolioView extends StatefulWidget {
+class PortfolioView extends StatefulWidget with TheModalBottomSheet {
   const PortfolioView({
     super.key,
   });
@@ -101,11 +102,10 @@ class _PortfolioViewState extends State<PortfolioView> {
                         );
                       },
                       onTap: () {
-                        showModalBottomSheet(
+                        showBottomSheet(
                           constraints: const BoxConstraints(
                             maxHeight: 800,
                           ),
-                          isScrollControlled: true,
                           context: context,
                           builder: (context) => EditPortfolio(
                             id: state.taskerPortfolioRes[index].id ?? 0,
@@ -115,9 +115,6 @@ class _PortfolioViewState extends State<PortfolioView> {
                       child: PortfolioCard(
                         islocalImage: false,
                         imagePath:
-                            // state
-                            //         .taskerPortfolioRes[index].images?[0]['media']
-                            //         .toString() ??
                             'https://cdn.pixabay.com/photo/2022/07/11/10/42/boho-style-7314646_960_720.png',
                         label: state.taskerPortfolioRes[index].title ?? '',
                       ),

@@ -45,19 +45,29 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycAdded>(
       (event, emit) async {
         try {
-          await repositories.addKyc(event.addKycReq!).then(
+          await repositories
+              .addKyc(event.addKycReq!)
+              .then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
                     kycId: null,
+                    isCreated: true,
+                  ),
+                ),
+              )
+              .whenComplete(
+                () => emit(
+                  state.copyWith(
+                    isCreated: false,
                   ),
                 ),
               );
         } catch (e) {
-          print(e.toString());
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isCreated: false,
             ),
           );
         }

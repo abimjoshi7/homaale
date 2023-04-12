@@ -4,12 +4,18 @@ import 'package:cipher/features/profile/presentation/pages/documents/widgets/doc
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-//TODO: kyc docs implementation
 class DocumentsProfile extends StatelessWidget {
   const DocumentsProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
     return BlocBuilder<KycBloc, KycState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
@@ -22,7 +28,6 @@ class DocumentsProfile extends StatelessWidget {
                 isLocalFile: false,
                 imagePath: state.list?[index].file ?? '',
                 label: state.list?[index].documentId ?? '',
-                iconPath: 'assets/2.png',
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

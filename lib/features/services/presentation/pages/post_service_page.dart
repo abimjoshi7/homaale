@@ -6,10 +6,6 @@ import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -18,8 +14,6 @@ import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import '../../../documents/presentation/cubit/cubits.dart';
 
 class PostServicePage extends StatefulWidget {
   static const routeName = '/add-service-page';
@@ -81,7 +75,8 @@ class _PostServicePageState extends State<PostServicePage> {
     requirementController.dispose();
     addressController.dispose();
     discountController.dispose();
-    locator.resetLazySingleton<ImageUploadCubit>(instance: imageCubit);
+    imageCubit.close();
+    // locator.resetLazySingleton<ImageUploadCubit>(instance: imageCubit);
     super.dispose();
   }
 
@@ -214,13 +209,14 @@ class _PostServicePageState extends State<PostServicePage> {
                                   inputAction: TextInputAction.next,
                                   suffixWidget: IconButton(
                                     onPressed: () {
-                                      setState(
-                                        () {
-                                          requirementList
-                                              .add(requirementController.text);
-                                          requirementController.clear();
-                                        },
-                                      );
+                                      if (requirementController.text.isNotEmpty)
+                                        setState(
+                                          () {
+                                            requirementList.add(
+                                                requirementController.text);
+                                            requirementController.clear();
+                                          },
+                                        );
                                     },
                                     icon: Icon(
                                       Icons.add_box_outlined,
@@ -553,18 +549,40 @@ class _PostServicePageState extends State<PostServicePage> {
                                           }
                                         },
                                         builder: (context, state) {
-                                          if (state is ImageUploadLoading) {
-                                            return CircularProgressIndicator();
-                                          }
                                           if (state is ImageUploadSuccess) {
-                                            final file =
-                                                File(state.imagePath.path);
+                                            final fileList = List.generate(
+                                              state.imagePathList?.length ?? 0,
+                                              (index) => File(state
+                                                      .imagePathList?[index]
+                                                      ?.path ??
+                                                  ""),
+                                            );
                                             return Container(
                                               width: double.infinity,
                                               height: 100,
-                                              child: Image.file(
-                                                file,
-                                                fit: BoxFit.fitWidth,
+                                              child: ListView.builder(
+                                                padding: EdgeInsets.zero,
+                                                shrinkWrap: true,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: fileList.length,
+                                                itemBuilder: (context, index) =>
+                                                    Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 4,
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      10,
+                                                    ),
+                                                    child: Image.file(
+                                                      fileList[index],
+                                                      fit: BoxFit.fitWidth,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             );
                                           }
@@ -577,7 +595,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                             );
                                           }
 
-                                          return Text('FAilure!');
+                                          return SizedBox.shrink();
                                         },
                                       ),
                                     ),

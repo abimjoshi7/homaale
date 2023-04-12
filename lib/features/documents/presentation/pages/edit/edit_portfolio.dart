@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
@@ -111,13 +113,33 @@ class _EditPortfolioState extends State<EditPortfolio> {
 
                 Widget displayImage() {
                   if (state is ImageUploadSuccess) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.check_circle_outline),
-                        kWidth5,
-                        Text("Image upload successful"),
-                      ],
+                    final fileList = List.generate(
+                      state.imagePathList?.length ?? 0,
+                      (index) => File(state.imagePathList?[index]?.path ?? ""),
+                    );
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: fileList.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
+                            image: DecorationImage(
+                              image: FileImage(
+                                fileList[index],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
                     );
                   } else {
                     return Column(
@@ -178,7 +200,6 @@ class _EditPortfolioState extends State<EditPortfolio> {
 
                 return Column(
                   children: [
-                    const CustomModalSheetDrawerIcon(),
                     const Center(
                       child: Text(
                         'Edit Portfolio',

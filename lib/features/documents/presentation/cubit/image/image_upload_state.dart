@@ -18,14 +18,14 @@ class ImageUploadLoading extends ImageUploadState {
 class ImageUploadSuccess extends ImageUploadState {
   const ImageUploadSuccess({
     required this.list,
-    required this.imagePath,
+    this.imagePathList,
   });
   final List<dynamic> list;
-  final XFile imagePath;
+  final List<XFile?>? imagePathList;
   @override
   List<Object?> get props => [
         list,
-        imagePath,
+        imagePathList,
       ];
 }
 
