@@ -1,4 +1,5 @@
 import 'package:cipher/features/categories/presentation/pages/sections/categories_section.dart';
+import 'package:cipher/features/chat/view/chat_listing.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,12 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const HomeHeaderSection(),
+            CustomElevatedButton(
+              callback: () {
+                Navigator.pushNamed(context, ChatListingPage.routeName);
+              },
+              label: 'Go to Chats',
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
