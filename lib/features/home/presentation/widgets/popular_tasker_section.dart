@@ -35,7 +35,9 @@ class PopularTaskerSection extends StatelessWidget {
             builder: (context, state) {
               if (state.states == TheStates.initial) {
                 return const Center(
-                  child: CardLoading(height: 200,),
+                  child: CardLoading(
+                    height: 200,
+                  ),
                 );
               }
               if (state.states == TheStates.success) {
@@ -67,13 +69,11 @@ class PopularTaskerSection extends StatelessWidget {
                       },
                       child: TaskerCard(
                         networkImageUrl: data?[index].profileImage,
-                        label:
-                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        label: "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
                         designation: data?[index].designation,
-                        happyClients:
-                            data?[index].stats?.happyClients.toString(),
+                        happyClients: data?[index].stats?.happyClients.toString(),
                         ratings:
-                            "${data?[index].rating?.avgRating ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                            "${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
                         callback: () {
                           if (CacheHelper.isLoggedIn == false) {
                             notLoggedInPopUp(context);
