@@ -31,6 +31,7 @@ import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/resend_verification_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -71,6 +72,11 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => SignInBloc(),
+          ),
+          BlocProvider(
+            create: (context) => ResendVerificationBloc(
+              SignUpRepositories(),
+            ),
           ),
           BlocProvider(
             create: (context) => locator<UserBloc>()
