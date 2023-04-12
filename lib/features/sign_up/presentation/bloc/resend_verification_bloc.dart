@@ -11,7 +11,7 @@ class ResendVerificationBloc
     on<ResendVerificationWithPhoneInititated>((event, emit) async {
       try {
         emit(ResendVerificationInitial());
-        final x = await repository.resendOTPSignUp(phoneNumber: event.phone);
+        await repository.resendOTPSignUp(phoneNumber: event.phone);
 
         emit(ResendVerificationWithPhoneSuccess());
       } catch (e) {
@@ -21,7 +21,7 @@ class ResendVerificationBloc
     on<ResendVerificationWithEmailInitiated>((event, emit) async {
       try {
         emit(ResendVerificationInitial());
-        final x = await repository.resendEmailSignUp(email: event.email);
+        await repository.resendEmailSignUp(email: event.email);
 
         emit(ResendVerificationWithEmailSuccess());
       } catch (e) {
