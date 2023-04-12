@@ -33,5 +33,9 @@ void init() {
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 
+  // repository
   locator.registerLazySingleton(() => ChatRepository());
+
+  var firebaseInstance = FirebaseFirestore.instance;
+  locator.registerLazySingleton<FirebaseFirestore>(() => firebaseInstance);
 }
