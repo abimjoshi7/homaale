@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
-import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
@@ -19,14 +19,42 @@ import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../network_info/network_info.dart';
 
-class Root extends StatefulWidget {
-  const Root({super.key});
+class Root extends StatelessWidget {
   static const routeName = '/root';
 
+  const Root({Key? key}) : super(key: key);
+
   @override
-  _RootState createState() => _RootState();
+  Widget build(BuildContext context) {
+    return ShowCaseWidget(
+        onStart: (index, key) {
+          log('onStart: $index, $key');
+        },
+        onComplete: (index, key) {
+          log('onComplete: $index, $key');
+          // if (index == 0) {
+          SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle.light.copyWith(
+              statusBarIconBrightness: Brightness.dark,
+              statusBarColor: Colors.white,
+            ),
+          );
+          // }
+        },
+        blurValue: 1,
+        autoPlayDelay: const Duration(seconds: 3),
+        builder: Builder(builder: (context) => CalledRootClass()));
+  }
+}
+
+class CalledRootClass extends StatefulWidget {
+  const CalledRootClass({Key? key}) : super(key: key);
+
+  @override
+  State<CalledRootClass> createState() => _CalledRootClassState();
 }
 
 Future notLoggedInPopUp(BuildContext context) {
@@ -46,7 +74,7 @@ Future notLoggedInPopUp(BuildContext context) {
   );
 }
 
-class _RootState extends State<Root> {
+class _CalledRootClassState extends State<CalledRootClass> {
   int pageIndex = 0;
 
   bool homeActive = true;
@@ -54,6 +82,13 @@ class _RootState extends State<Root> {
   bool addActive = false;
   bool bookingsActive = false;
   bool profileActive = false;
+  final GlobalKey _one = GlobalKey();
+  final GlobalKey _two = GlobalKey();
+  final GlobalKey _three = GlobalKey();
+  final GlobalKey _four = GlobalKey();
+  final GlobalKey _five = GlobalKey();
+
+  final scrollController = ScrollController();
 
   final pages = const <Widget>[
     const Home(),
@@ -78,16 +113,22 @@ class _RootState extends State<Root> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context
+                  .read<TaskBloc>()
+                  .add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -106,13 +147,17 @@ class _RootState extends State<Root> {
                     }
                 })
             .then(
-              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
+              (value) async => context
+                  .read<ServicesBloc>()
+                  .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
-              (value) async => context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+              (value) async => context
+                  .read<NotificationBloc>()
+                  .add(MyNotificationListInitiated()),
             );
       },
     );
@@ -141,7 +186,21 @@ class _RootState extends State<Root> {
         }
       },
     );
+    startShowCase();
     super.initState();
+  }
+
+  startShowCase() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ShowCaseWidget.of(context)
+          .startShowCase([_one, _two, _three, _four, _five]);
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -190,6 +249,9 @@ class _RootState extends State<Root> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 CustomBottomNavItems(
+                                  showCaseTitle: 'Home',
+                                  showCaseDec:'Tap “Home” to see all details.',
+                                  showKey: _one,
                                   onPressed: () {
                                     setState(
                                       () {
@@ -209,6 +271,9 @@ class _RootState extends State<Root> {
                                   isActive: homeActive,
                                 ),
                                 CustomBottomNavItems(
+                                  showCaseTitle: 'Box',
+                                  showCaseDec:'Tap “Box” to view your Bookings Payments list. ',
+                                  showKey: _two,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
                                       notLoggedInPopUp(context);
@@ -230,9 +295,10 @@ class _RootState extends State<Root> {
                                   iconData: Icons.shopping_basket_outlined,
                                   isActive: boxActive,
                                 ),
-
-                                // commented this lines cause of changes this functionality by applying floating acton button
                                 CustomBottomNavItems(
+                                  showCaseTitle: 'Add',
+                                  showCaseDec:'Tap “Add” to add your tasks & services.',
+                                  showKey: _three,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
                                       notLoggedInPopUp(context);
@@ -264,6 +330,9 @@ class _RootState extends State<Root> {
                                   isActive: addActive,
                                 ),
                                 CustomBottomNavItems(
+                                  showCaseTitle: 'Bookings',
+                                  showCaseDec:'Tap “Bookings” to book services.',
+                                  showKey: _four,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
                                       notLoggedInPopUp(context);
@@ -286,6 +355,9 @@ class _RootState extends State<Root> {
                                   isActive: bookingsActive,
                                 ),
                                 CustomBottomNavItems(
+                                  showCaseTitle: 'Profile',
+                                  showCaseDec:'Tap “Profile” to setup your account.',
+                                  showKey: _five,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
                                       notLoggedInPopUp(context);

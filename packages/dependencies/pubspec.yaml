@@ -52,6 +52,7 @@ dependencies:
   dropdown_search: ^5.0.6
   flutter_inappwebview: ^5.7.2+3
   flutter_html: ^3.0.0-alpha.6
+  showcaseview: ^2.0.3
 
 dev_dependencies:
   flutter_test:
