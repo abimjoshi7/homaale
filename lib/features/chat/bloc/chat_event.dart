@@ -14,3 +14,19 @@ class FetchChatLists extends ChatEvent {
   @override
   List<Object?> get props => [chatList];
 }
+
+class HandleUserCreationChat extends ChatEvent {
+  final String? userID;
+  final String? taskerID;
+
+  HandleUserCreationChat({
+    this.userID,
+    this.taskerID,
+  });
+
+  @override
+  List<Object?> get props => [
+        userID,
+        taskerID,
+      ];
+}
