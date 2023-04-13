@@ -50,7 +50,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         if (rCl.isNotEmpty && (cl.length == rCl.length)) {
           emit(state.copyWith(states: TheStates.success, rCl: rCl));
         }
-      } on Exception catch (e) {
+      } catch (e) {
         log('Chat details bloc error: $e');
         emit(state.copyWith(states: TheStates.failure));
       }
