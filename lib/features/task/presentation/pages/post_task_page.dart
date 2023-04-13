@@ -4,6 +4,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
+import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -31,11 +32,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final requirementController = TextEditingController();
   final addressController = TextEditingController();
   String? categoryId;
+  String? categoryName;
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
   String? taskType = 'Remote';
   String? budgetType = 'Project';
   String? currencyCode;
+  String? serviceId;
   bool isDiscounted = false;
   bool isSpecified = true;
   bool isAddressVisibile = false;
@@ -53,10 +56,16 @@ class _PostTaskPageState extends State<PostTaskPage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
-  final ImageUploadCubit imageCubit = locator<ImageUploadCubit>();
+  late final ImageUploadCubit imageCubit;
+  late final CategoriesBloc categoriesBloc;
 
   @override
   void initState() {
+    imageCubit = locator<ImageUploadCubit>();
+    categoriesBloc = locator<CategoriesBloc>()
+      ..add(
+        CategoriesLoadInitiated(),
+      );
     context.read<ServicesBloc>().add(
           const ServicesLoadInitiated(),
         );
@@ -72,6 +81,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
     requirementController.dispose();
     addressController.dispose();
     imageCubit.close();
+    categoriesBloc.close();
     // locator.resetLazySingleton<ImageUploadCubit>(
     //   instance: imageCubit,
     // );
@@ -120,36 +130,29 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               hintText: 'Need a Garden Cleaner',
                             ),
                           ),
-                          CustomFormField(
-                            label: 'Category',
-                            isRequired: true,
-                            child: BlocBuilder<ServicesBloc, ServicesState>(
-                              builder: (context, state) {
-                                if (state.theStates == TheStates.success) {
-                                  return CustomDropDownField(
-                                    list: List.generate(
-                                      state.serviceList?.length ?? 0,
-                                      (index) =>
-                                          state.serviceList?[index].title,
-                                    ),
-                                    hintText: 'Trimming & Cutting',
-                                    onChanged: (value) {
-                                      for (final element
-                                          in state.serviceList!) {
-                                        if (value == element.title) {
-                                          setState(
-                                            () {
-                                              categoryId = element.id;
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
+                          TheCategoriesDropdown(
+                            hintText: categoryName,
+                            categoriesBloc: categoriesBloc,
+                            onChanged: (value) {
+                              categoriesBloc.state.categoryList?.forEach(
+                                (element) {
+                                  if (value == element.name) {
+                                    categoriesBloc.add(
+                                      TaskSubCategoryLoaded(
+                                        categoryId: element.id,
+                                        categoryName: element.name,
+                                      ),
+                                    );
+                                    setState(
+                                      () {
+                                        categoryName = element.name;
+                                        serviceId = element.id.toString();
+                                      },
+                                    );
+                                  }
+                                },
+                              );
+                            },
                           ),
                           CustomFormField(
                             label: 'Requirements',

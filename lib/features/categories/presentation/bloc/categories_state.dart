@@ -1,32 +1,43 @@
 part of 'categories_bloc.dart';
 
-abstract class CategoriesState extends Equatable {
-  const CategoriesState();
-}
+class CategoriesState extends Equatable {
+  final TheStates? theStates;
+  final List<Category>? categoryList;
+  final HeroCategory? heroCategory;
+  final TaskSubCategoryModel? taskSubCategoryModel;
+  final String? categoryName;
+  CategoriesState({
+    this.theStates = TheStates.initial,
+    this.categoryList,
+    this.heroCategory,
+    this.taskSubCategoryModel,
+    this.categoryName,
+  });
 
-class CategoriesInitial extends CategoriesState {
+  CategoriesState copyWith({
+    TheStates? theStates,
+    List<Category>? categoryList,
+    HeroCategory? heroCategory,
+    TaskSubCategoryModel? taskSubCategoryModel,
+    String? categoryName,
+  }) {
+    return CategoriesState(
+      theStates: theStates ?? this.theStates,
+      categoryList: categoryList ?? this.categoryList,
+      heroCategory: heroCategory ?? this.heroCategory,
+      taskSubCategoryModel: taskSubCategoryModel ?? this.taskSubCategoryModel,
+      categoryName: categoryName ?? this.categoryName,
+    );
+  }
+
   @override
-  List<Object> get props => [];
-}
-
-class CategoriesLoadSuccess extends CategoriesState{
-  final List<Category> categoryList;
-
-  const CategoriesLoadSuccess(this.categoryList);
-  @override
-  List<Object?> get props => [categoryList];
-}
-
-class CategoriesHeroLoadSuccess extends CategoriesState{
-  final HeroCategory heroCategory;
-
-  const CategoriesHeroLoadSuccess(this.heroCategory);
-  @override
-  List<Object?> get props => [heroCategory];
-}
-
-class CategoriesLoadFailure extends CategoriesState{
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props {
+    return [
+      theStates,
+      categoryList,
+      heroCategory,
+      taskSubCategoryModel,
+      categoryName,
+    ];
+  }
 }

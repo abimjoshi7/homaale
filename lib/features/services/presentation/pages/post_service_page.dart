@@ -1,19 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
+
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
+import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
+import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class PostServicePage extends StatefulWidget {
   static const routeName = '/add-service-page';
@@ -31,7 +36,7 @@ class _PostServicePageState extends State<PostServicePage> {
   final requirementController = TextEditingController();
   final addressController = TextEditingController();
   final discountController = TextEditingController();
-  String? categoryId;
+  String? serviceId;
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
   String? serviceType = 'Remote';
@@ -56,10 +61,15 @@ class _PostServicePageState extends State<PostServicePage> {
   int? cityCode;
   final _key = GlobalKey<FormState>();
   late final ImageUploadCubit imageCubit;
+  late final CategoriesBloc categoriesBloc;
 
   @override
   void initState() {
     imageCubit = locator<ImageUploadCubit>();
+    categoriesBloc = locator<CategoriesBloc>()
+      ..add(
+        CategoriesLoadInitiated(),
+      );
     context.read<ServicesBloc>().add(
           const ServicesLoadInitiated(),
         );
@@ -76,7 +86,7 @@ class _PostServicePageState extends State<PostServicePage> {
     addressController.dispose();
     discountController.dispose();
     imageCubit.close();
-    // locator.resetLazySingleton<ImageUploadCubit>(instance: imageCubit);
+    categoriesBloc.close();
     super.dispose();
   }
 
@@ -97,7 +107,11 @@ class _PostServicePageState extends State<PostServicePage> {
               ),
             ),
             trailingWidget: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                print(categoriesBloc.state.theStates);
+                print(123);
+                print(categoriesBloc.state.taskSubCategoryModel);
+              },
               icon: const Icon(Icons.search),
             ),
             child: const Text('Post a Service'),
@@ -122,38 +136,27 @@ class _PostServicePageState extends State<PostServicePage> {
                               validator: validateNotEmpty,
                             ),
                           ),
-                          CustomFormField(
-                            label: 'Category',
-                            isRequired: true,
-                            child: BlocBuilder<ServicesBloc, ServicesState>(
-                              builder: (context, state) {
-                                if (state.theStates == TheStates.success &&
-                                    state.isServiceListLoaded == true) {
-                                  return CustomDropDownField(
-                                    list: List.generate(
-                                      state.serviceList?.length ?? 0,
-                                      (index) =>
-                                          state.serviceList?[index].title,
-                                    ),
-                                    hintText: 'Trimming & Cutting',
-                                    onChanged: (value) {
-                                      for (final element
-                                          in state.serviceList ?? []) {
-                                        if (value == element.title) {
-                                          setState(
-                                            () {
-                                              categoryId =
-                                                  element.id.toString();
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
-                                  );
-                                }
-                                return const CustomTextFormField();
-                              },
-                            ),
+                          TheCategoriesDropdown(
+                            categoriesBloc: categoriesBloc,
+                            onChanged: (value) {
+                              categoriesBloc.state.categoryList?.forEach(
+                                (element) {
+                                  if (value == element.name) {
+                                    categoriesBloc.add(
+                                      TaskSubCategoryLoaded(
+                                        categoryId: element.id,
+                                        categoryName: element.name,
+                                      ),
+                                    );
+                                    setState(
+                                      () {
+                                        serviceId = element.id.toString();
+                                      },
+                                    );
+                                  }
+                                },
+                              );
+                            },
                           ),
                           CustomFormField(
                             label: 'Highlights',
@@ -759,7 +762,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         isActive: true,
                                         needsApproval: true,
                                         isEndorsed: true,
-                                        service: categoryId,
+                                        service: serviceId,
                                         event: "",
                                         city: cityCode ?? int.parse(kCityCode),
                                         currency: currencyCode ?? "NPR",

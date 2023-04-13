@@ -11,6 +11,7 @@ import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bl
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
+import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/hero_category_cubit.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -66,10 +67,7 @@ class Cipher extends StatelessWidget {
             create: (context) => TermsOfUseCubit(),
           ),
           BlocProvider(
-            create: (context) => CategoriesBloc()
-              ..add(
-                CategoriesHeroLoadInitiated(),
-              ),
+            create: (context) => locator<CategoriesBloc>(),
           ),
           BlocProvider(
             create: (context) => SignInBloc(),
