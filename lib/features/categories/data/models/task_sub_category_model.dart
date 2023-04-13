@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:dependencies/dependencies.dart';
 
 part 'task_sub_category_model.freezed.dart';

@@ -29,8 +29,6 @@ void init() {
   locator.registerLazySingleton(
     () => CategoriesRepositories(),
   );
-  locator.registerLazySingleton(() => ChatRepository());
-
   // bloc
   locator.registerFactory(() => TaskBloc());
   locator.registerFactory(() => ServicesBloc());
@@ -63,6 +61,11 @@ void init() {
 
   locator.registerFactory(
     () => KycBloc(
+      locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => CategoriesBloc(
       locator(),
     ),
   );
