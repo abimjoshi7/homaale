@@ -4,6 +4,8 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
+import 'package:cipher/features/chat/models/chat_person_details.dart';
+import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -219,7 +221,43 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                         ],
                         SimilarEntityServiceSection(),
-                        addVerticalSpace(10),
+                        addVerticalSpace(16),
+                        if (user.state.taskerProfile?.user?.id != state.taskEntityService?.createdBy?.id) ...[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            child: CustomElevatedButton(
+                              callback: () {
+                                locator<FirebaseFirestore>()
+                                    .collection("userChats")
+                                    .doc("${user.state.taskerProfile?.user?.id}")
+                                    .get()
+                                    .then((value) {
+                                  value.data()?.forEach((key, value) {
+                                    if (value['userInfo']['uid'] == state.taskEntityService?.createdBy?.id) {
+                                      Navigator.pushNamed(
+                                        context,
+                                        ChatPage.routeName,
+                                        arguments: ChatPersonDetails(
+                                          groupName: key,
+                                          fullName:
+                                              "${state.taskEntityService?.createdBy?.firstName ?? ''} ${state.taskEntityService?.createdBy?.middleName ?? ''} ${state.taskEntityService?.createdBy?.lastName ?? ''}",
+                                          date: (value['date'] as Timestamp).toDate().toString(),
+                                          id: state.taskEntityService?.createdBy?.id,
+                                          isRead: value['read'] as bool,
+                                          lastMessage: value['lastMessage']['text'] as String,
+                                          profileImage:
+                                              state.taskEntityService?.createdBy?.profileImage ?? kServiceImageNImg,
+                                        ),
+                                      );
+                                    }
+                                  });
+                                });
+                              },
+                              label: 'Open Conversation',
+                            ),
+                          ),
+                          addVerticalSpace(16)
+                        ],
                         if (state.applicantModel?.result?.isNotEmpty ?? false) ...[
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
