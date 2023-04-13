@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
@@ -21,12 +23,9 @@ class HomeHeaderSection extends StatefulWidget {
 class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location;
   late Widget? child;
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     setState(() {});
   }
 
@@ -83,6 +82,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     );
 
                     await Geolocator.getCurrentPosition().then((value) async {
+                      await CacheHelper.setCachedString(
+                          "CurrentUserLocation", jsonEncode(value));
                       await placemarkFromCoordinates(
                         value.latitude,
                         value.longitude,
