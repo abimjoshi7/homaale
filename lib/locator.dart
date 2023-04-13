@@ -58,6 +58,11 @@ void init() {
       locator(),
     ),
   );
+  locator.registerFactory(
+    () => CategoriesBloc(
+      locator(),
+    ),
+  );
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 
   // repository
