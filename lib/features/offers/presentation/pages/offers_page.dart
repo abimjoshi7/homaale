@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -31,13 +32,9 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: "Offers"),
       body: Column(
         children: [
-          addVerticalSpace(50),
-          CustomHeader(
-            leadingWidget: addHorizontalSpace(50),
-            label: 'Offers',
-          ),
           Expanded(
             child: Column(
               children: [

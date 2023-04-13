@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';

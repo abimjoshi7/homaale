@@ -1,4 +1,3 @@
-import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
 import 'package:dependencies/dependencies.dart';
