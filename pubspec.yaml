@@ -21,7 +21,8 @@ environment:
 dependencies:
   dependencies:
     path: packages/dependencies
-
+  encrypt: ^5.0.1
+  
   flutter:
     sdk: flutter
 

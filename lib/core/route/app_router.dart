@@ -10,6 +10,8 @@ import 'package:cipher/features/bookings/presentation/pages/booked_service_page.
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
+import 'package:cipher/features/chat/view/chat_listing.dart';
+import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
@@ -249,6 +251,16 @@ class AppRouter {
       case CheckoutPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CheckoutPage(),
+          settings: settings,
+        );
+      case ChatListingPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ChatListingPage(),
+          settings: settings,
+        );
+      case ChatPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ChatPage(),
           settings: settings,
         );
       case PaymentPage.routeName:
