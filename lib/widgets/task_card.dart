@@ -37,12 +37,9 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          15,
-        ),
-      ),
-      child: Padding(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Container(
+        height: 205,
         padding: kPadding10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
