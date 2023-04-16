@@ -13,8 +13,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   NotificationBloc() : super(const NotificationState()) {
     on<MyNotificationListInitiated>(
       (event, emit) async {
+        emit(state.copyWith(theStates: TheStates.initial));
         try {
-          emit(state.copyWith(theStates: TheStates.initial));
           await repo.getAllNotification(event.page ?? 1).then((value) {
             emit(
               state.copyWith(

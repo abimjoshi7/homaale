@@ -222,7 +222,8 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         ],
                         SimilarEntityServiceSection(),
                         addVerticalSpace(16),
-                        if (user.state.taskerProfile?.user?.id != state.taskEntityService?.createdBy?.id) ...[
+                        if ((state.taskEntityService?.isBooked ?? false) &&
+                            user.state.taskerProfile?.user?.id != state.taskEntityService?.createdBy?.id) ...[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
                             child: CustomElevatedButton(

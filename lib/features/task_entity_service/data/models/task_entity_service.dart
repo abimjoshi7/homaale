@@ -40,6 +40,7 @@ class TaskEntityService with _$TaskEntityService {
     @JsonKey(name: "recursion_type") dynamic recursionType,
     @JsonKey(name: "views_count") num? viewsCount,
     String? location,
+    @JsonKey(name: "is_booked") bool? isBooked,
     @JsonKey(name: "is_professional") bool? isProfessional,
     @JsonKey(name: "is_online") bool? isOnline,
     @JsonKey(name: "is_requested") bool? isRequested,
@@ -55,8 +56,7 @@ class TaskEntityService with _$TaskEntityService {
     dynamic avatar,
   }) = _TaskEntityService;
 
-  factory TaskEntityService.fromJson(Map<String, dynamic> json) =>
-      _$TaskEntityServiceFromJson(json);
+  factory TaskEntityService.fromJson(Map<String, dynamic> json) => _$TaskEntityServiceFromJson(json);
 }
 
 @freezed
@@ -79,8 +79,7 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 }
 
 @freezed
@@ -105,8 +104,7 @@ class CreatedBy with _$CreatedBy {
     Badge? badge,
   }) = _CreatedBy;
 
-  factory CreatedBy.fromJson(Map<String, dynamic> json) =>
-      _$CreatedByFromJson(json);
+  factory CreatedBy.fromJson(Map<String, dynamic> json) => _$CreatedByFromJson(json);
 }
 
 @freezed
@@ -129,8 +127,7 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -199,8 +196,7 @@ class Service with _$Service {
     List<dynamic>? images,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
 }
 
 @freezed
@@ -212,6 +208,5 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 }
