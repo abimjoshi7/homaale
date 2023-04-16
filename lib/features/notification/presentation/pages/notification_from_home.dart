@@ -26,21 +26,17 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
   @override
   void initState() {
-    notificationBloc.add(MyNotificationListInitiated(
-        page: currentPage, isMarkAllRead: false, isRefetch: false));
+    notificationBloc.add(MyNotificationListInitiated(page: currentPage, isMarkAllRead: false, isRefetch: false));
 
     Future.delayed(Duration(milliseconds: 1000), () {
       setState(() {
         currentPage = notificationBloc.state.allNotificationList?.current ?? 1;
-        totalPages =
-            notificationBloc.state.allNotificationList?.totalPages ?? 0;
-        notificationList =
-            notificationBloc.state.allNotificationList?.result ?? [];
+        totalPages = notificationBloc.state.allNotificationList?.totalPages ?? 0;
+        notificationList = notificationBloc.state.allNotificationList?.result ?? [];
       });
 
       _scrollController.addListener(() async {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
+        if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
           if (currentPage != totalPages) {
             currentPage += 1;
             notificationBloc.add(MyNotificationListInitiated(
@@ -86,24 +82,25 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
           if (state.markAllRead ?? false) {
             setState(() {
-              currentPage =
-                  notificationBloc.state.allNotificationList?.current ?? 1;
-              totalPages =
-                  notificationBloc.state.allNotificationList?.totalPages ?? 0;
-              notificationList =
-                  notificationBloc.state.allNotificationList?.result ?? [];
+              currentPage = notificationBloc.state.allNotificationList?.current ?? 1;
+              totalPages = notificationBloc.state.allNotificationList?.totalPages ?? 0;
+              notificationList = notificationBloc.state.allNotificationList?.result ?? [];
             });
           }
         },
         child: BlocBuilder<NotificationBloc, NotificationState>(
           builder: (context, state) {
-            if (state.theStates == TheStates.success) {
+            if (state.theStates == TheStates.initial) {
+              return const Center(
+                child: CardLoading(
+                  height: 200,
+                ),
+              );
+            } else if (state.theStates == TheStates.success) {
               final todayList = notificationList
                   .where((element) =>
                       DateTime.now()
-                          .difference(DateTime(
-                              element.createdDate?.year ?? 0,
-                              element.createdDate?.month ?? 0,
+                          .difference(DateTime(element.createdDate?.year ?? 0, element.createdDate?.month ?? 0,
                               element.createdDate?.day ?? 0))
                           .inDays ==
                       0)
@@ -112,9 +109,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
               final earlierList = notificationList
                   .where((element) =>
                       DateTime.now()
-                          .difference(DateTime(
-                              element.createdDate?.year ?? 0,
-                              element.createdDate?.month ?? 0,
+                          .difference(DateTime(element.createdDate?.year ?? 0, element.createdDate?.month ?? 0,
                               element.createdDate?.day ?? 0))
                           .inDays >
                       0)
@@ -123,15 +118,13 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                 height: MediaQuery.of(context).size.height,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    notificationBloc.add(MyNotificationListInitiated(
-                        page: 1, isMarkAllRead: false, isRefetch: false));
+                    notificationBloc.add(MyNotificationListInitiated(page: 1, isMarkAllRead: false, isRefetch: false));
                   },
                   child: ListView(
                     controller: _scrollController,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -157,77 +150,39 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                         ),
                       ),
                       kHeight10,
-                      todayList.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: todayList.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                String? statusTitle =
-                                    todayList[index].contentObject?.status ??
-                                        todayList[index].title;
-                                return ListTileComponent(
-                                  readDate: notificationList[index].readDate,
-                                  bgColor: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: todayList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.isRequested ??
-                                          false,
-                                      userName: todayList[index]
-                                              .createdFor
-                                              ?.fullName ??
-                                          "",
-                                      serviceName: todayList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.title ??
-                                          "")["color"] as Color,
-                                  userName: todayList[index].user ?? "",
-                                  statusDetails: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: todayList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.isRequested ??
-                                          false,
-                                      userName: todayList[index]
-                                              .createdFor
-                                              ?.fullName ??
-                                          "",
-                                      serviceName: todayList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.title ??
-                                          "")["message"] as String,
-                                  statusTitle: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: todayList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.isRequested ??
-                                          false,
-                                      userName: todayList[index]
-                                              .createdFor
-                                              ?.fullName ??
-                                          "",
-                                      serviceName: todayList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.title ??
-                                          "")["status"] as String,
-                                  time: todayList[index].createdDate,
-                                  userImage: todayList[index]
-                                          .createdFor
-                                          ?.profileImage ??
-                                      kServiceImageNImg,
-                                );
-                              },
-                            )
-                          : CardLoading(height: 100),
-                      if (state.theStates == TheStates.success &&
-                          todayList.isEmpty)
+                      ListView.builder(
+                        itemCount: todayList.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          String? statusTitle = todayList[index].contentObject?.status ?? todayList[index].title;
+                          return ListTileComponent(
+                            readDate: notificationList[index].readDate,
+                            bgColor: getNotificationStatus(
+                                    status: statusTitle?.toLowerCase() ?? '',
+                                    isRequested: todayList[index].contentObject?.entityService?.isRequested ?? false,
+                                    userName: todayList[index].createdFor?.fullName ?? "",
+                                    serviceName: todayList[index].contentObject?.entityService?.title ?? "")["color"]
+                                as Color,
+                            userName: todayList[index].user ?? "",
+                            statusDetails: getNotificationStatus(
+                                    status: statusTitle?.toLowerCase() ?? '',
+                                    isRequested: todayList[index].contentObject?.entityService?.isRequested ?? false,
+                                    userName: todayList[index].createdFor?.fullName ?? "",
+                                    serviceName: todayList[index].contentObject?.entityService?.title ?? "")["message"]
+                                as String,
+                            statusTitle: getNotificationStatus(
+                                    status: statusTitle?.toLowerCase() ?? '',
+                                    isRequested: todayList[index].contentObject?.entityService?.isRequested ?? false,
+                                    userName: todayList[index].createdFor?.fullName ?? "",
+                                    serviceName: todayList[index].contentObject?.entityService?.title ?? "")["status"]
+                                as String,
+                            time: todayList[index].createdDate,
+                            userImage: todayList[index].createdFor?.profileImage ?? kServiceImageNImg,
+                          );
+                        },
+                      ),
+                      if (todayList.isEmpty)
                         Container(
                           width: MediaQuery.of(context).size.width,
                           padding: kPadding20,
@@ -238,82 +193,43 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                         ),
                       kHeight10,
                       const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         child: Text("Earlier"),
                       ),
                       kHeight10,
-                      earlierList.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: earlierList.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                String? statusTitle =
-                                    earlierList[index].contentObject?.status ??
-                                        earlierList[index].title;
-                                return ListTileComponent(
-                                  readDate: earlierList[index].readDate,
-                                  bgColor: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: earlierList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.isRequested ??
-                                          false,
-                                      userName: earlierList[index]
-                                              .createdFor
-                                              ?.fullName ??
-                                          "",
-                                      serviceName: earlierList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.title ??
-                                          "")["color"] as Color,
-                                  userName: earlierList[index].user ?? "",
-                                  statusDetails: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: earlierList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.isRequested ??
-                                          false,
-                                      userName: earlierList[index]
-                                              .createdFor
-                                              ?.fullName ??
-                                          "",
-                                      serviceName: earlierList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.title ??
-                                          "")["message"] as String,
-                                  statusTitle: getNotificationStatus(
-                                      status: statusTitle?.toLowerCase() ?? '',
-                                      isRequested: earlierList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.isRequested ??
-                                          false,
-                                      userName: earlierList[index]
-                                              .createdFor
-                                              ?.fullName ??
-                                          "",
-                                      serviceName: earlierList[index]
-                                              .contentObject
-                                              ?.entityService
-                                              ?.title ??
-                                          "")["status"] as String,
-                                  time: earlierList[index].createdDate,
-                                  userImage: earlierList[index]
-                                          .createdFor
-                                          ?.profileImage ??
-                                      kServiceImageNImg,
-                                );
-                              },
-                            )
-                          : CardLoading(height: 100),
-                      if (state.theStates == TheStates.success &&
-                          todayList.isEmpty)
+                      ListView.builder(
+                        itemCount: earlierList.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          String? statusTitle = earlierList[index].contentObject?.status ?? earlierList[index].title;
+                          return ListTileComponent(
+                            readDate: earlierList[index].readDate,
+                            bgColor: getNotificationStatus(
+                                    status: statusTitle?.toLowerCase() ?? '',
+                                    isRequested: earlierList[index].contentObject?.entityService?.isRequested ?? false,
+                                    userName: earlierList[index].createdFor?.fullName ?? "",
+                                    serviceName: earlierList[index].contentObject?.entityService?.title ?? "")["color"]
+                                as Color,
+                            userName: earlierList[index].user ?? "",
+                            statusDetails: getNotificationStatus(
+                                status: statusTitle?.toLowerCase() ?? '',
+                                isRequested: earlierList[index].contentObject?.entityService?.isRequested ?? false,
+                                userName: earlierList[index].createdFor?.fullName ?? "",
+                                serviceName:
+                                    earlierList[index].contentObject?.entityService?.title ?? "")["message"] as String,
+                            statusTitle: getNotificationStatus(
+                                    status: statusTitle?.toLowerCase() ?? '',
+                                    isRequested: earlierList[index].contentObject?.entityService?.isRequested ?? false,
+                                    userName: earlierList[index].createdFor?.fullName ?? "",
+                                    serviceName: earlierList[index].contentObject?.entityService?.title ?? "")["status"]
+                                as String,
+                            time: earlierList[index].createdDate,
+                            userImage: earlierList[index].createdFor?.profileImage ?? kServiceImageNImg,
+                          );
+                        },
+                      ),
+                      if (earlierList.isEmpty)
                         Container(
                           width: MediaQuery.of(context).size.width,
                           padding: kPadding20,
@@ -327,11 +243,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                 ),
               );
             }
-            return const Center(
-              child: CardLoading(
-                height: 200,
-              ),
-            );
+            return SizedBox.shrink();
           },
         ),
       ),

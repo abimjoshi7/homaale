@@ -68,6 +68,8 @@ mixin _$TaskEntityService {
   @JsonKey(name: "views_count")
   num? get viewsCount => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_booked")
+  bool? get isBooked => throw _privateConstructorUsedError;
   @JsonKey(name: "is_professional")
   bool? get isProfessional => throw _privateConstructorUsedError;
   @JsonKey(name: "is_online")
@@ -137,6 +139,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "recursion_type") dynamic recursionType,
       @JsonKey(name: "views_count") num? viewsCount,
       String? location,
+      @JsonKey(name: "is_booked") bool? isBooked,
       @JsonKey(name: "is_professional") bool? isProfessional,
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
@@ -203,6 +206,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? recursionType = freezed,
     Object? viewsCount = freezed,
     Object? location = freezed,
+    Object? isBooked = freezed,
     Object? isProfessional = freezed,
     Object? isOnline = freezed,
     Object? isRequested = freezed,
@@ -346,6 +350,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
+      isBooked: freezed == isBooked
+          ? _value.isBooked
+          : isBooked // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isProfessional: freezed == isProfessional
           ? _value.isProfessional
           : isProfessional // ignore: cast_nullable_to_non_nullable
@@ -503,6 +511,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "recursion_type") dynamic recursionType,
       @JsonKey(name: "views_count") num? viewsCount,
       String? location,
+      @JsonKey(name: "is_booked") bool? isBooked,
       @JsonKey(name: "is_professional") bool? isProfessional,
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
@@ -572,6 +581,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? recursionType = freezed,
     Object? viewsCount = freezed,
     Object? location = freezed,
+    Object? isBooked = freezed,
     Object? isProfessional = freezed,
     Object? isOnline = freezed,
     Object? isRequested = freezed,
@@ -715,6 +725,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
+      isBooked: freezed == isBooked
+          ? _value.isBooked
+          : isBooked // ignore: cast_nullable_to_non_nullable
+              as bool?,
       isProfessional: freezed == isProfessional
           ? _value.isProfessional
           : isProfessional // ignore: cast_nullable_to_non_nullable
@@ -807,6 +821,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       @JsonKey(name: "recursion_type") this.recursionType,
       @JsonKey(name: "views_count") this.viewsCount,
       this.location,
+      @JsonKey(name: "is_booked") this.isBooked,
       @JsonKey(name: "is_professional") this.isProfessional,
       @JsonKey(name: "is_online") this.isOnline,
       @JsonKey(name: "is_requested") this.isRequested,
@@ -960,6 +975,9 @@ class _$_TaskEntityService implements _TaskEntityService {
   @override
   final String? location;
   @override
+  @JsonKey(name: "is_booked")
+  final bool? isBooked;
+  @override
   @JsonKey(name: "is_professional")
   final bool? isProfessional;
   @override
@@ -1006,7 +1024,7 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1065,6 +1083,8 @@ class _$_TaskEntityService implements _TaskEntityService {
                 other.viewsCount == viewsCount) &&
             (identical(other.location, location) ||
                 other.location == location) &&
+            (identical(other.isBooked, isBooked) ||
+                other.isBooked == isBooked) &&
             (identical(other.isProfessional, isProfessional) ||
                 other.isProfessional == isProfessional) &&
             (identical(other.isOnline, isOnline) ||
@@ -1126,6 +1146,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         const DeepCollectionEquality().hash(recursionType),
         viewsCount,
         location,
+        isBooked,
         isProfessional,
         isOnline,
         isRequested,
@@ -1190,6 +1211,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "recursion_type") final dynamic recursionType,
       @JsonKey(name: "views_count") final num? viewsCount,
       final String? location,
+      @JsonKey(name: "is_booked") final bool? isBooked,
       @JsonKey(name: "is_professional") final bool? isProfessional,
       @JsonKey(name: "is_online") final bool? isOnline,
       @JsonKey(name: "is_requested") final bool? isRequested,
@@ -1287,6 +1309,9 @@ abstract class _TaskEntityService implements TaskEntityService {
   num? get viewsCount;
   @override
   String? get location;
+  @override
+  @JsonKey(name: "is_booked")
+  bool? get isBooked;
   @override
   @JsonKey(name: "is_professional")
   bool? get isProfessional;
