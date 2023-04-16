@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 import 'package:cipher/features/sign_up/data/models/user_sign_up_res.dart';
 
@@ -41,12 +40,12 @@ class SignUpRepositories {
   }
 
   Future<OtpResetVerifyRes> verifyOTPSignUp({
-    required OtpResetVerifyReq otpResetVerifyReq,
+    required Map<String, dynamic> otpResetVerifyReq,
   }) async {
     try {
       final res = await _dio.postData(
         url: 'user/reset/otp/verify/',
-        data: otpResetVerifyReq.toMap(),
+        data: otpResetVerifyReq,
       );
       return OtpResetVerifyRes.fromJson(res as Map<String, dynamic>);
     } catch (e) {

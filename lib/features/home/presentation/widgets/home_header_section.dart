@@ -144,9 +144,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                            state.taskerProfile?.profileImage ?? kServiceImageNImg,
-                          ),
+                          image: (CacheHelper.isLoggedIn)
+                              ? NetworkImage(
+                                  state.taskerProfile?.profileImage ??
+                                      kDefaultAvatarNImg,
+                                )
+                              : NetworkImage(
+                                  kDefaultAvatarNImg,
+                                ),
+
                         ),
                       ),
                     );
@@ -186,26 +192,35 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                               ),
-                              state.allNotificationList?.unreadCount != null &&
-                                      state.allNotificationList?.unreadCount != 0
-                                  ? Positioned(
-                                      right: 13,
-                                      child: Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                                        child: Center(
-                                          child: Text(
-                                            state.allNotificationList?.unreadCount.toString() ?? "0",
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
+                              if (CacheHelper.isLoggedIn)
+                                state.allNotificationList?.unreadCount !=
+                                            null &&
+                                        state.allNotificationList
+                                                ?.unreadCount !=
+                                            0
+                                    ? Positioned(
+                                        right: 13,
+                                        child: Container(
+                                          height: 20,
+                                          width: 20,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.red),
+                                          child: Center(
+                                            child: Text(
+                                              state.allNotificationList
+                                                      ?.unreadCount
+                                                      .toString() ??
+                                                  "0",
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    )
-                                  : SizedBox()
+                                      )
+                                    : SizedBox()
                             ],
                           ),
                         );

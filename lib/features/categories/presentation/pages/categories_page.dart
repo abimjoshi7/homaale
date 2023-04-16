@@ -20,8 +20,16 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   List<NestedCategory> list = [];
-  int selectedIndex = 0;
+  late int selectedIndex;
   bool checkFromRoute = true;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = 0;
+    context.read<NestedCategoriesCubit>().getNestedCategory();
+    context.read<ServicesBloc>().add(ProfessionalServicesLoaded());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +64,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 Widget displaySideCategory() {
                   if (state is NestedCategoriesLoadSuccess) {
                     if (checkFromRoute) {
+
                       final routeArgs = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
                       if (routeArgs?['id'] != -1) {
                         for (var element in state.nestedCategory) {
                           if (element.name == routeArgs?['category']) {
                             selectedIndex = state.nestedCategory.indexOf(element);
                             list = state.nestedCategory[selectedIndex].child ?? [];
+
                           }
                         }
                       } else {

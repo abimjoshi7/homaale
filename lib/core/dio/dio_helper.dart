@@ -281,14 +281,35 @@ class DioHelper {
     required String url,
     String? path,
     required String? token,
+    List<String>? pathList,
   }) async {
     try {
-      final formData = FormData.fromMap(
-        {
-          'medias': [await MultipartFile.fromFile(path!)],
-        },
-      );
-
+      FormData formData;
+      if (path != null) {
+        formData = FormData.fromMap(
+          {
+            'medias': [
+              await MultipartFile.fromFile(
+                path,
+              ),
+            ],
+          },
+        );
+      } else {
+        formData = FormData.fromMap({});
+        for (var i = 0; i < 5; i++) {
+          formData.files.addAll(
+            [
+              MapEntry(
+                "medias",
+                await MultipartFile.fromFile(
+                  pathList?[i] ?? "",
+                ),
+              ),
+            ],
+          );
+        }
+      }
       final response = await dio.post<dynamic>(
         url,
         data: formData,
@@ -321,6 +342,8 @@ class DioHelper {
         ),
       );
       log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
+    } catch (e) {
+      rethrow;
     }
   }
 

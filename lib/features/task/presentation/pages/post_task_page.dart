@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
+import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -28,11 +32,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final requirementController = TextEditingController();
   final addressController = TextEditingController();
   String? categoryId;
+  String? categoryName;
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
   String? taskType = 'Remote';
   String? budgetType = 'Project';
   String? currencyCode;
+  String? serviceId;
   bool isDiscounted = false;
   bool isSpecified = true;
   bool isAddressVisibile = false;
@@ -50,9 +56,16 @@ class _PostTaskPageState extends State<PostTaskPage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
+  late final ImageUploadCubit imageCubit;
+  late final CategoriesBloc categoriesBloc;
 
   @override
   void initState() {
+    imageCubit = locator<ImageUploadCubit>();
+    categoriesBloc = locator<CategoriesBloc>()
+      ..add(
+        CategoriesLoadInitiated(),
+      );
     context.read<ServicesBloc>().add(
           const ServicesLoadInitiated(),
         );
@@ -67,6 +80,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
     descriptionController.dispose();
     requirementController.dispose();
     addressController.dispose();
+    imageCubit.close();
+    categoriesBloc.close();
+    // locator.resetLazySingleton<ImageUploadCubit>(
+    //   instance: imageCubit,
+    // );
     super.dispose();
   }
 
@@ -93,10 +111,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
             child: const Text('Post a Task'),
           ),
           const Divider(),
-          Form(
-            key: _key,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - 140,
+          Expanded(
+            child: Form(
+              key: _key,
               child: CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
@@ -113,36 +130,29 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               hintText: 'Need a Garden Cleaner',
                             ),
                           ),
-                          CustomFormField(
-                            label: 'Category',
-                            isRequired: true,
-                            child: BlocBuilder<ServicesBloc, ServicesState>(
-                              builder: (context, state) {
-                                if (state.theStates == TheStates.success) {
-                                  return CustomDropDownField(
-                                    list: List.generate(
-                                      state.serviceList?.length ?? 0,
-                                      (index) =>
-                                          state.serviceList?[index].title,
-                                    ),
-                                    hintText: 'Trimming & Cutting',
-                                    onChanged: (value) {
-                                      for (final element
-                                          in state.serviceList!) {
-                                        if (value == element.title) {
-                                          setState(
-                                            () {
-                                              categoryId = element.id;
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
+                          TheCategoriesDropdown(
+                            hintText: categoryName,
+                            categoriesBloc: categoriesBloc,
+                            onChanged: (value) {
+                              categoriesBloc.state.categoryList?.forEach(
+                                (element) {
+                                  if (value == element.name) {
+                                    categoriesBloc.add(
+                                      TaskSubCategoryLoaded(
+                                        categoryId: element.id,
+                                        categoryName: element.name,
+                                      ),
+                                    );
+                                    setState(
+                                      () {
+                                        categoryName = element.name;
+                                        serviceId = element.id.toString();
+                                      },
+                                    );
+                                  }
+                                },
+                              );
+                            },
                           ),
                           CustomFormField(
                             label: 'Requirements',
@@ -183,7 +193,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             },
                                             child: const Icon(
                                               Icons.clear,
-                                              size: 14,
+                                              size: 15,
+                                              color: kColorGrey,
                                             ),
                                           ),
                                         ],
@@ -195,16 +206,29 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 CustomTextFormField(
                                   controller: requirementController,
                                   hintText: 'Add requirements',
-                                  onFieldSubmitted: (p0) {
-                                    requirementList.add(p0!);
-                                    requirementController.clear();
-                                  },
+                                  inputAction: TextInputAction.next,
+                                  suffixWidget: IconButton(
+                                    icon: Icon(
+                                      Icons.add_box_outlined,
+                                      color: kColorSecondary,
+                                    ),
+                                    onPressed: () {
+                                      if (requirementController.text.isNotEmpty)
+                                        setState(
+                                          () {
+                                            requirementList.add(
+                                                requirementController.text);
+                                            requirementController.clear();
+                                          },
+                                        );
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           CustomFormField(
-                            label: 'Select Task Type',
+                            label: 'Task Type',
                             isRequired: true,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -257,6 +281,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               builder: (context, state) {
                                 if (state is CityLoadSuccess) {
                                   return CustomDropDownField(
+                                    initialValue: state.list
+                                        .firstWhere(
+                                          (element) => element.name!
+                                              .startsWith("Kathmandu"),
+                                        )
+                                        .name,
                                     list: List.generate(
                                       state.list.length,
                                       (index) => state.list[index].name,
@@ -358,6 +388,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     ),
                                   ],
                                 ),
+                                //* Paused as discussed
                                 // Row(
                                 //   children: [
                                 //     CustomCheckBox(
@@ -439,7 +470,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ],
                             ),
                           ),
-                          // buildDate(),
                           // Visibility(
                           //   visible: isAddressVisibile,
                           //   child: CustomTextFormField(
@@ -454,6 +484,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               builder: (context, state) {
                                 if (state is CurrencyLoadSuccess) {
                                   return CustomDropDownField(
+                                    initialValue: state.currencyListRes
+                                        .firstWhere((element) => element.name!
+                                            .startsWith("Nepalese"))
+                                        .name,
                                     list: List.generate(
                                       state.currencyListRes.length,
                                       (index) =>
@@ -557,22 +591,21 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ),
                             ],
                           ),
-                          addVerticalSpace(10),
-                          Row(
-                            children: [
-                              CustomCheckBox(
-                                isChecked: isDiscounted,
-                                onTap: () => setState(
-                                  () {
-                                    isDiscounted = !isDiscounted;
-                                  },
-                                ),
-                              ),
-                              addHorizontalSpace(10),
-                              const Text('Yes, it is negotiable.'),
-                            ],
-                          ),
-                          addVerticalSpace(10),
+                          //* Paused as discussed
+                          // Row(
+                          //   children: [
+                          //     CustomCheckBox(
+                          //       isChecked: isDiscounted,
+                          //       onTap: () => setState(
+                          //         () {
+                          //           isDiscounted = !isDiscounted;
+                          //         },
+                          //       ),
+                          //     ),
+                          //     addHorizontalSpace(10),
+                          //     const Text('Yes, it is negotiable.'),
+                          //   ],
+                          // ),
                           CustomFormField(
                             label: 'Images',
                             child: Column(
@@ -581,7 +614,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 Row(
                                   children: [
                                     const Text(
-                                      'Maximum Image Size 20 MB',
+                                      kImageLimit,
                                       style: kHelper13,
                                     ),
                                     addHorizontalSpace(5),
@@ -596,11 +629,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   onTap: () async {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => ImagePickerDialog(),
+                                      builder: (context) => ImagePickerDialog(
+                                        uploadCubit: imageCubit,
+                                      ),
                                     );
                                   },
-                                  child: BlocListener<ImageUploadCubit,
+                                  child: BlocConsumer<ImageUploadCubit,
                                       ImageUploadState>(
+                                    bloc: imageCubit,
                                     listener: (context, state) {
                                       if (state is ImageUploadSuccess) {
                                         setState(() {
@@ -609,11 +645,54 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         });
                                       }
                                     },
-                                    child: CustomDottedContainerStack(
-                                      theWidget: imageList == null
-                                          ? Text('Select Images')
-                                          : Text('Image Uploaded'),
-                                    ),
+                                    builder: (context, state) {
+                                      if (state is ImageUploadSuccess) {
+                                        final fileList = List.generate(
+                                          state.imagePathList?.length ?? 0,
+                                          (index) => File(state
+                                                  .imagePathList?[index]
+                                                  ?.path ??
+                                              ""),
+                                        );
+                                        return Container(
+                                          width: double.infinity,
+                                          height: 100,
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: fileList.length,
+                                            itemBuilder: (context, index) =>
+                                                Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 4,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  10,
+                                                ),
+                                                child: Image.file(
+                                                  fileList[index],
+                                                  fit: BoxFit.fitWidth,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      if (state is ImageUploadInitial) {
+                                        return CustomDottedContainerStack(
+                                          theWidget: imageList == null
+                                              ? Text('Select Images')
+                                              : Text('Image Uploaded'),
+                                        );
+                                      }
+
+                                      return SizedBox.shrink();
+                                    },
                                   ),
                                 ),
                               ],
@@ -621,46 +700,30 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           ),
                           CustomFormField(
                             label: 'Videos',
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Maximum Video Size 20 MB',
-                                      style: kHelper13,
-                                    ),
-                                    addHorizontalSpace(5),
-                                    const Icon(
-                                      Icons.info_outline,
-                                      color: Colors.orange,
-                                    ),
-                                  ],
-                                ),
-                                addVerticalSpace(5),
-                                InkWell(
-                                  onTap: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => VideoPickerDialog(),
-                                    );
-                                  },
-                                  child: BlocListener<ImageUploadCubit,
-                                      ImageUploadState>(
-                                    listener: (context, state) {
-                                      if (state is VideoUploadSuccess) {
-                                        setState(() {
-                                          fileList = List<int>.from(state.list);
-                                        });
-                                      }
-                                    },
-                                    child: CustomDottedContainerStack(
-                                      theWidget: fileList == null
-                                          ? Text('Select Videos')
-                                          : Text('File Uploaded'),
-                                    ),
+                            child: InkWell(
+                              onTap: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => VideoPickerDialog(
+                                    uploadCubit: imageCubit,
                                   ),
+                                );
+                              },
+                              child: BlocListener<ImageUploadCubit,
+                                  ImageUploadState>(
+                                listener: (context, state) {
+                                  if (state is VideoUploadSuccess) {
+                                    setState(() {
+                                      fileList = List<int>.from(state.list);
+                                    });
+                                  }
+                                },
+                                child: CustomDottedContainerStack(
+                                  theWidget: fileList == null
+                                      ? Text('Select Videos')
+                                      : Text('File Uploaded'),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                           addVerticalSpace(10),
@@ -796,8 +859,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         isEndorsed: true,
                                         service: categoryId,
                                         event: "",
-                                        city: cityCode,
-                                        currency: currencyCode,
+                                        city: cityCode ??
+                                            int.parse(
+                                              kCityCode,
+                                            ),
+                                        currency: currencyCode ?? "NPR",
                                         images: imageList ?? [],
                                         videos: fileList ?? [],
                                       );

@@ -7,13 +7,11 @@ class DocumentTextCard extends StatelessWidget {
     super.key,
     required this.imagePath,
     required this.label,
-    required this.iconPath,
     this.isLocalFile = true,
   });
 
   final String imagePath;
   final String label;
-  final String iconPath;
   final bool isLocalFile;
 
   @override
@@ -23,7 +21,9 @@ class DocumentTextCard extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              // borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(
+                4,
+              ),
               image: DecorationImage(
                 image: NetworkImage(imagePath),
                 fit: BoxFit.cover,

@@ -29,6 +29,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     /// Get chat and person details from route arguments
+
     ChatPersonDetails? chatPersonDetails = ModalRoute.of(context)?.settings.arguments as ChatPersonDetails?;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -116,6 +117,7 @@ class _ChatPageState extends State<ChatPage> {
                               width: MediaQuery.of(context).size.width * 0.7,
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
+
                                 color: chatPersonDetails?.id == mList[index].senderId ? kColorGrey : kColorBlue,
                                 borderRadius: BorderRadius.only(
                                   topLeft: chatPersonDetails?.id == mList[index].senderId
@@ -123,6 +125,7 @@ class _ChatPageState extends State<ChatPage> {
                                       : Radius.circular(16),
                                   topRight: Radius.circular(16),
                                   bottomLeft: Radius.circular(16),
+
                                   bottomRight: chatPersonDetails?.id == mList[index].senderId
                                       ? Radius.circular(16)
                                       : Radius.zero,
@@ -195,6 +198,7 @@ class _ChatPageState extends State<ChatPage> {
                         }
                       ])
                     });
+
 
                     locator<FirebaseFirestore>().collection("userChats").doc("$userID").update({
                       "${chatPersonDetails?.groupName}.lastMessage": {'text': message},

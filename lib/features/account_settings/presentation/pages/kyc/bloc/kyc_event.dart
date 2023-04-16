@@ -6,24 +6,39 @@ abstract class KycEvent extends Equatable {
 }
 
 class KycInitiated extends KycEvent {
-  final CreateKycReq createKycReq;
+  final CreateKycReq? createKycReq;
   const KycInitiated({
-    required this.createKycReq,
+    this.createKycReq,
   });
   @override
-  List<Object?> get props => [createKycReq];
+  List<Object?> get props => [
+        createKycReq,
+      ];
 }
 
 class KycAdded extends KycEvent {
-  final AddKycReq addKycReq;
+  final AddKycReq? addKycReq;
+
   const KycAdded({
-    required this.addKycReq,
+    this.addKycReq,
   });
   @override
-  List<Object?> get props => [addKycReq];
+  List<Object?> get props => [
+        addKycReq,
+      ];
 }
 
-class KycLoaded extends KycEvent {
+class KycModelLoaded extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class KycModelDeleted extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class KycDocumentLoaded extends KycEvent {
   @override
   List<Object?> get props => [];
 }

@@ -38,7 +38,7 @@ class CustomToast extends StatelessWidget {
               kHeight50,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children: <Widget>[
                   if (isSuccess == false)
                     SizedBox(
                       width: 150,

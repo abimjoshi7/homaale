@@ -1,30 +1,42 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
+import 'package:dependencies/dependencies.dart';
+
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/models/get_kyc_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
-import 'package:dependencies/dependencies.dart';
 
 part 'kyc_event.dart';
 part 'kyc_state.dart';
 
 class KycBloc extends Bloc<KycEvent, KycState> {
-  final repositories = KycRepositories();
-  KycBloc() : super(KycInitial()) {
+  final KycRepositories repositories;
+  KycBloc(
+    this.repositories,
+  ) : super(const KycState()) {
     on<KycInitiated>(
       (event, emit) async {
         try {
-          emit(KycInitial());
-          final x = await repositories.createKyc(event.createKycReq);
-          if (x['status'] == 'success') {
-            emit(
-              KycCreateSuccess(
-                id: x['id'] as int,
-              ),
-            );
-          }
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
+          await repositories.createKyc(event.createKycReq!).then(
+                (value) => emit(
+                  state.copyWith(
+                    kycId: value["id"] as int,
+                  ),
+                ),
+              );
         } catch (e) {
           emit(
-            KycCreateFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+              kycId: 0,
+            ),
           );
         }
       },
@@ -33,40 +45,103 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycAdded>(
       (event, emit) async {
         try {
-          emit(
-            KycInitial(),
-          );
-          final x = await repositories.addKyc(event.addKycReq);
-          if (x['status'] == 'success') {
-            emit(
-              KycAddSuccess(),
-            );
-          }
+          await repositories
+              .addKyc(event.addKycReq!)
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    kycId: null,
+                    isCreated: true,
+                  ),
+                ),
+              )
+              .whenComplete(
+                () => emit(
+                  state.copyWith(
+                    isCreated: false,
+                  ),
+                ),
+              );
         } catch (e) {
           emit(
-            KycAddFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+              isCreated: false,
+            ),
           );
         }
       },
     );
 
-    on<KycLoaded>(
+    on<KycModelLoaded>(
       (event, emit) async {
-        try {
-          emit(
-            KycInitial(),
-          );
-          final x = await repositories.getKyc();
-          if (x.isNotEmpty) {
-            emit(
-              KycLoadSuccess(
-                list: x.map((e) => GetKycRes.fromJson(e)).toList(),
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
+        await repositories
+            .getKyc()
+            .then(
+              (value) => emit(
+                state.copyWith(
+                  kycModel: KycModel.fromJson(value),
+                ),
+              ),
+            )
+            .whenComplete(
+              () => emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                ),
               ),
             );
-          }
+      },
+    );
+
+    on<KycModelDeleted>(
+      (event, emit) async {
+        await repositories.deleteKyc().then(
+          (value) {
+            if (value["status"] == "success") {
+              add(KycModelLoaded());
+            }
+          },
+        );
+      },
+    );
+
+    on<KycDocumentLoaded>(
+      (event, emit) async {
+        try {
+          emit(state.copyWith(
+            theStates: TheStates.loading,
+          ));
+          await repositories.getKycDocument().then(
+                (value) => value.isNotEmpty
+                    ? emit(
+                        state.copyWith(
+                          list: value
+                              .map(
+                                (e) => KycListRes.fromJson(e),
+                              )
+                              .toList(),
+                        ),
+                      )
+                    : emit(
+                        state.copyWith(
+                          theStates: TheStates.failure,
+                          list: [],
+                        ),
+                      ),
+              );
         } catch (e) {
           emit(
-            KycLoadFailure(),
+            state.copyWith(
+              theStates: TheStates.failure,
+              list: [],
+            ),
           );
         }
       },

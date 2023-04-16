@@ -27,12 +27,16 @@ class _DetailsViewState extends State<DetailsView> {
   List<int>? fileList;
 
   late final eventCache = locator<BookEventHandlerBloc>();
+  late final imageCubit = locator<ImageUploadCubit>();
 
   @override
   void dispose() {
     requirementController.dispose();
     problemDescController.dispose();
     budgetController.dispose();
+    locator.resetLazySingleton(
+      instance: imageCubit,
+    );
     super.dispose();
   }
 
@@ -182,7 +186,9 @@ class _DetailsViewState extends State<DetailsView> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => ImagePickerDialog(),
+                      builder: (context) => ImagePickerDialog(
+                        uploadCubit: imageCubit,
+                      ),
                     ).whenComplete(
                       () => eventCache.add(
                         BookEventPicked(
@@ -238,7 +244,9 @@ class _DetailsViewState extends State<DetailsView> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => VideoPickerDialog(),
+                      builder: (context) => VideoPickerDialog(
+                        uploadCubit: imageCubit,
+                      ),
                     ).whenComplete(
                       () => eventCache.add(
                         BookEventPicked(

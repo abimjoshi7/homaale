@@ -34,7 +34,31 @@ class KycRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getKyc() async {
+  Future<Map<String, dynamic>> getKyc() async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        url: 'tasker/my-kyc/',
+        token: CacheHelper.accessToken,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> deleteKyc() async {
+    try {
+      final x = await _dio.deleteDataWithCredential(
+        url: 'tasker/my-kyc/',
+        token: CacheHelper.accessToken,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getKycDocument() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/kyc-document/',

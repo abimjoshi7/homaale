@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
@@ -14,7 +16,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   }) async {
     try {
       emit(
-        ImageUploadInitial(),
+        ImageUploadLoading(),
       );
 
       final imagePath = await ImagePickHelper().pickImagePath(
@@ -29,10 +31,12 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
         emit(
           ImageUploadSuccess(
             list: response['data'] as List<dynamic>,
+            imagePathList: [imagePath],
           ),
         );
       }
     } catch (e) {
+      log(e.toString());
       emit(
         ImageUploadFailure(),
       );
@@ -44,7 +48,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   }) async {
     try {
       emit(
-        ImageUploadInitial(),
+        ImageUploadLoading(),
       );
 
       final imagePath = await ImagePickHelper().pickVideoPath(
@@ -69,36 +73,36 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
     }
   }
 
-  // Future<void> uploadMultipleImage() async {
-  //   try {
-  //     emit(
-  //       ImageUploadInitial(),
-  //     );
-  //
-  //     final imagePath = await ImagePickHelper().pickMultipleImages();
-  //     final response = await DioHelper().postMultiFormData(
-  //       path: imagePath!.path,
-  //       url: 'task/filestore/',
-  //       token: CacheHelper.accessToken,
-  //     );
-  //     if (response['status'] == 'success') {
-  //       emit(
-  //         ImageUploadSuccess(
-  //           list: response['data'] as List<dynamic>,
-  //         ),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     emit(
-  //       ImageUploadFailure(),
-  //     );
-  //   }
-  // }
+  Future<void> uploadMultipleImage() async {
+    try {
+      emit(
+        ImageUploadLoading(),
+      );
+      final imagePath = await ImagePickHelper().pickMultipleImages();
+      final response = await DioHelper().postMultiFormData(
+        pathList: imagePath.map((e) => e!.path).toList(),
+        url: 'task/filestore/',
+        token: CacheHelper.accessToken,
+      );
+      if (response['status'] == 'success') {
+        emit(
+          ImageUploadSuccess(
+            list: response['data'] as List<dynamic>,
+            imagePathList: imagePath.sublist(0, 5),
+          ),
+        );
+      }
+    } catch (e) {
+      emit(
+        ImageUploadFailure(),
+      );
+    }
+  }
 
   Future<void> uploadFile() async {
     try {
       emit(
-        ImageUploadInitial(),
+        ImageUploadLoading(),
       );
 
       final filePath = await FilePickHelper.filePicker();
@@ -109,9 +113,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       );
       if (response['status'] == 'success') {
         emit(
-          FileUploadSuccess(
-            list: response['data'] as List<dynamic>,
-          ),
+          FileUploadSuccess(list: response['data'] as List<dynamic>),
         );
       }
     } catch (e) {

@@ -142,10 +142,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         heading: 'Success',
                         content: 'OTP generated successfully',
                         onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
+                          Navigator.pushNamed(
                             context,
                             ConfirmOtpPage.routeName,
-                            (route) => false,
+                            // (route) => false,
                             arguments: phoneController.text,
                           );
                         },

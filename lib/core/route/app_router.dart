@@ -27,7 +27,7 @@ import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
-import 'package:cipher/features/services/presentation/pages/add_service_page.dart';
+import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
@@ -62,14 +62,17 @@ class AppRouter {
       case Root.routeName:
         return MaterialPageRoute(
           builder: (context) => const Root(),
+          settings: settings,
         );
       case SignInPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SignInPage(),
+          settings: settings,
         );
       case ForgotPasswordPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ForgotPasswordPage(),
+          settings: settings,
         );
 
       case ConfirmOtpPage.routeName:
@@ -233,9 +236,9 @@ class AppRouter {
           builder: (context) => const CategoryProfessionalServiceSection(),
           settings: settings,
         );
-      case AddServicePage.routeName:
+      case PostServicePage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const AddServicePage(),
+          builder: (context) => const PostServicePage(),
           settings: settings,
         );
       // case BookingDetailsPage.routeName:
