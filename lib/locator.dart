@@ -83,5 +83,7 @@ void init() {
   );
 
   var firebaseInstance = FirebaseFirestore.instance;
-  locator.registerFactory<FirebaseFirestore>(() => firebaseInstance);
+  locator.registerFactory<FirebaseFirestore>(
+    () => firebaseInstance,
+  );
 }
