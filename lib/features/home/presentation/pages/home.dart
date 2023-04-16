@@ -17,12 +17,6 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const HomeHeaderSection(),
-            CustomElevatedButton(
-              callback: () {
-                Navigator.pushNamed(context, ChatListingPage.routeName);
-              },
-              label: 'Go to Chats',
-            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
