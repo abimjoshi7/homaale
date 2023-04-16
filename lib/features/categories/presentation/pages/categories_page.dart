@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -20,7 +18,7 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   List<NestedCategory> list = [];
-  int selectedIndex = 0;
+  late int selectedIndex;
   bool checkFromRoute = true;
 
   @override
