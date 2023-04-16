@@ -59,25 +59,8 @@ void init() {
       locator(),
     ),
   );
-  locator.registerFactory(() => OrderIdCreateBloc());
-  locator.registerFactory(() => ChatBloc(chatRepository: locator()));
-
-  locator.registerFactory(
-    () => KycBloc(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => CategoriesBloc(
-      locator(),
-    ),
-  );
-  locator.registerFactory(() => OrderIdCreateBloc());
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
-
-  // repository
-  locator.registerLazySingleton(() => ChatRepository());
 
   //cubit
   locator.registerFactory<ImageUploadCubit>(

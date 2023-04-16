@@ -81,19 +81,11 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             theStates: TheStates.loading,
           ),
         );
-        await repositories
-            .getKyc()
-            .then(
+        await repositories.getKyc().then(
               (value) => emit(
                 state.copyWith(
-                  kycModel: KycModel.fromJson(value),
-                ),
-              ),
-            )
-            .whenComplete(
-              () => emit(
-                state.copyWith(
                   theStates: TheStates.success,
+                  kycModel: KycModel.fromJson(value),
                 ),
               ),
             );

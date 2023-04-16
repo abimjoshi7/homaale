@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:cipher/features/categories/data/models/task_sub_category_model.dart';
 import 'package:dependencies/dependencies.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-
 
 import 'package:cipher/features/categories/data/models/category.dart';
 import 'package:cipher/features/categories/data/models/hero_category.dart';
@@ -78,31 +79,38 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       }
     });
 
-    // on<CategoriesTopLoadInitiated>(
-    //   (event, emit) async {
-    //     try {
-    //       await respositories.fetchTopCategory().then(
-    //         (value) {
-    //           List<TopCategory> tList = [];
+    on<CategoriesTopLoadInitiated>(
+      (event, emit) async {
+        try {
+          await repositories.fetchTopCategory().then(
+            (value) {
+              List<TopCategory> tList = [];
 
-    //           for (var element in value) {
-    //             tList
-    //                 .add(TopCategory.fromJson(element as Map<String, dynamic>));
-    //           }
+              for (var element in value) {
+                tList.add(
+                  TopCategory.fromJson(
+                    element as Map<String, dynamic>,
+                  ),
+                );
+              }
 
-    //           log('tList: $tList');
-
-    //           emit(
-    //             CategoriesTopLoadSuccess(tList),
-    //           );
-    //         },
-    //       );
-    //     } catch (e) {
-    //       log('Category error: ${e.toString()}');
-    //       emit(CategoriesLoadFailure());
-    //     }
-    //   },
-    // );
-
+              emit(
+                state.copyWith(
+                  topCategory: tList,
+                  theStates: TheStates.success,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          log('Category error: ${e.toString()}');
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+            ),
+          );
+        }
+      },
+    );
   }
 }

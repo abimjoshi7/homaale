@@ -12,18 +12,18 @@ class CategoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
     return BlocConsumer<CategoriesBloc, CategoriesState>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state.theStates == TheStates.initial) {
-
           return const Center(
             child: CardLoading(
               height: 100,
             ),
           );
-        } else if (state.theStates == TheStates.success) {
-
+        } else if (state.theStates == TheStates.success &&
+            state.topCategory != null) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
@@ -48,51 +48,50 @@ class CategoriesSection extends StatelessWidget {
                     },
                   ),
                   addVerticalSpace(8),
-                  // Expanded(
-                  //   child: GridView.builder(
-                  //     shrinkWrap: true,
-                  //     physics: const NeverScrollableScrollPhysics(),
-                  //     itemCount: state.topCategory.length,
-                  //     padding: EdgeInsets.zero,
-                  //     gridDelegate:
-                  //         const SliverGridDelegateWithFixedCrossAxisCount(
-                  //       crossAxisCount: 4,
-                  //       childAspectRatio: 1.5,
-                  //     ),
-                  //     itemBuilder: (context, index) => InkWell(
-                  //       onTap: () {
-                  //         context
-                  //             .read<NestedCategoriesCubit>()
-                  //             .getNestedCategory();
-                  //         Navigator.pushNamed(
-                  //           context,
-                  //           CategoriesPage.routeName,
-                  //           arguments: {
-                  //             'id': state.topCategory[index].id,
-                  //             'category': state.topCategory[index].category,
-                  //           },
-                  //         );
-                  //       },
-                  //       child: CategoriesIcons(
-                  //         data: state.topCategory[index].category ?? '',
-                  //         color: randomColorGenerator(),
-                  //         child: SizedBox(
-                  //           height: 18,
-                  //           width: 18,
-                  //           child: SvgPicture.string(
-                  //             state.topCategory[index].icon?.toString() ??
-                  //                 kErrorSvg,
-                  //             colorFilter: ColorFilter.mode(
-                  //               Colors.white,
-                  //               BlendMode.srcIn,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
+                  Expanded(
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.topCategory?.length,
+                      padding: EdgeInsets.zero,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        childAspectRatio: 1.5,
+                      ),
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          context
+                              .read<NestedCategoriesCubit>()
+                              .getNestedCategory();
+                          Navigator.pushNamed(
+                            context,
+                            CategoriesPage.routeName,
+                            arguments: {
+                              'id': state.topCategory?[index].id,
+                              'category': state.topCategory?[index].category,
+                            },
+                          );
+                        },
+                        child: CategoriesIcons(
+                          data: state.topCategory?[index].category ?? '',
+                          color: randomColorGenerator(),
+                          child: SizedBox(
+                            height: 18,
+                            width: 18,
+                            child: SvgPicture.string(
+                              state.topCategory?[index].icon?.toString() ??
+                                  kErrorSvg,
+                              colorFilter: ColorFilter.mode(
+                                Colors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
