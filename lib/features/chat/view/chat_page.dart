@@ -212,7 +212,7 @@ class _ChatPageState extends State<ChatPage> {
                     });
 
                     chatBoxController.clear();
-                    FocusScope.of(context).unfocus();
+                    // FocusScope.of(context).unfocus();
                   }
                 },
                 icon: Icon(

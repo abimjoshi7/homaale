@@ -245,7 +245,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                           date: (value['date'] as Timestamp).toDate().toString(),
                                           id: state.taskEntityService?.createdBy?.id,
                                           isRead: value['read'] as bool,
-                                          lastMessage: value['lastMessage']['text'] as String,
+                                          lastMessage: '',
                                           profileImage:
                                               state.taskEntityService?.createdBy?.profileImage ?? kServiceImageNImg,
                                         ),
