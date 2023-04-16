@@ -29,6 +29,8 @@ void init() {
   locator.registerLazySingleton(
     () => CategoriesRepositories(),
   );
+  locator.registerLazySingleton(() => ChatRepository());
+
   // bloc
   locator.registerFactory(() => TaskBloc());
   locator.registerFactory(() => ServicesBloc());
@@ -42,18 +44,10 @@ void init() {
   locator.registerFactory(() => NotificationBloc());
   locator.registerFactory(() => OrderIdCreateBloc());
   locator.registerFactory(
-    () => KycBloc(
-      locator(),
+    () => ChatBloc(
+      chatRepository: locator(),
     ),
   );
-  locator.registerFactory(
-    () => CategoriesBloc(
-      locator(),
-    ),
-  );
-  locator.registerFactory(() => OrderIdCreateBloc());
-  locator.registerFactory(() => ChatBloc(chatRepository: locator()));
-
   locator.registerFactory(
     () => KycBloc(
       locator(),
@@ -80,10 +74,5 @@ void init() {
   //cubit
   locator.registerFactory<ImageUploadCubit>(
     () => ImageUploadCubit(),
-  );
-
-  var firebaseInstance = FirebaseFirestore.instance;
-  locator.registerFactory<FirebaseFirestore>(
-    () => firebaseInstance,
   );
 }

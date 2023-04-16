@@ -86,36 +86,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               theStates: TheStates.loading,
             ),
           );
-          await repositories.fetchTopCategory().then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    // heroCategory: HeroCategory.fromJson(
-
-                    //   value,
-                    // ),
-                  ),
-                ),
-              );
-        } catch (e) {
-          emit(
-            state.copyWith(
-              theStates: TheStates.failure,
-              heroCategory: null,
-            ),
-          );
-        }
-      },
-    );
-
-    on<TaskSubCategoryLoaded>(
-      (event, emit) async {
-        try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
           await repositories.fetchTaskSubCategory(event.categoryId).then(
                 (value) => emit(
                   state.copyWith(
