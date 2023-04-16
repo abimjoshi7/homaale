@@ -67,6 +67,7 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<CategoriesBloc>(),
+
           ),
           BlocProvider(
             create: (context) => SignInBloc(),

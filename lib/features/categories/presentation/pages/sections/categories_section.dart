@@ -16,12 +16,14 @@ class CategoriesSection extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         if (state.theStates == TheStates.initial) {
+
           return const Center(
             child: CardLoading(
               height: 100,
             ),
           );
         } else if (state.theStates == TheStates.success) {
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
@@ -90,6 +92,7 @@ class CategoriesSection extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
+
                 ],
               ),
             ),

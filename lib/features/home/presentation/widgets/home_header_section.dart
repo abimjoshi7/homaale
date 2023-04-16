@@ -89,10 +89,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       ).then(
                         (value) => setState(
                           () {
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
@@ -154,6 +152,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                               : NetworkImage(
                                   kDefaultAvatarNImg,
                                 ),
+
                         ),
                       ),
                     );

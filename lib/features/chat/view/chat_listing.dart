@@ -63,13 +63,11 @@ class _ChatListingPageState extends State<ChatListingPage> {
                           (key, value) {
                             cList.add(Chat(
                               groupName: key,
-                              date: (value['date'] as Timestamp)
-                                  .toDate()
-                                  .toString(),
-                              lastMessage:
-                                  value.toString().contains('lastMessage')
-                                      ? value['lastMessage']['text'].toString()
-                                      : '',
+
+                              date: (value['date'] as Timestamp).toDate().toString(),
+                              lastMessage: value.toString().contains('lastMessage')
+                                  ? value['lastMessage']['text'].toString()
+                                  : '',
                               isRead: value['read'] as bool,
                               personID: value['userInfo']['uid'].toString(),
                             ));
@@ -90,17 +88,14 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                     shrinkWrap: true,
                                     padding: EdgeInsets.zero,
                                     itemCount: state.rCl?.length ?? 0,
-                                    separatorBuilder: (context, index) =>
-                                        Container(
+
+                                    separatorBuilder: (context, index) => Container(
                                       margin: EdgeInsets.symmetric(vertical: 8),
                                       child: Divider(),
                                     ),
                                     itemBuilder: (context, index) {
                                       String date =
-                                          DateTimeHelper.timeAgoSinceDate(state
-                                                  .rCl?[index].date
-                                                  ?.toString() ??
-                                              '');
+                                          DateTimeHelper.timeAgoSinceDate(state.rCl?[index].date?.toString() ?? '');
                                       return GestureDetector(
                                         onTap: () {
                                           Navigator.pushNamed(
@@ -111,14 +106,11 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                         },
                                         child: Container(
                                           height: 105,
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                          width: MediaQuery.of(context).size.width,
                                           padding: EdgeInsets.all(16.0),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Container(
                                                 height: 60,
@@ -127,9 +119,8 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                      state.rCl?[index]
-                                                              .profileImage ??
-                                                          kServiceImageNImg,
+
+                                                      state.rCl?[index].profileImage ?? kServiceImageNImg,
                                                     ),
                                                     fit: BoxFit.cover,
                                                   ),
@@ -137,43 +128,26 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                               ),
                                               addHorizontalSpace(8),
                                               Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.79,
+                                                    width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Text(
-                                                      state.rCl?[index].fullName
-                                                              ?.toString() ??
-                                                          '',
+                                                      state.rCl?[index].fullName?.toString() ?? '',
                                                       style: kBoldText,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      overflow: TextOverflow.ellipsis,
+ 
                                                     ),
                                                   ),
                                                   addVerticalSpace(4),
                                                   SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.79,
+
+                                                    width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Text(
-                                                      state.rCl?[index]
-                                                              .lastMessage
-                                                              ?.toString() ??
-                                                          '',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      state.rCl?[index].lastMessage?.toString() ?? '',
+                                                      overflow: TextOverflow.ellipsis,
                                                       style: TextStyle(
-                                                        fontStyle: state
-                                                                    .rCl?[index]
-                                                                    .lastMessage
-                                                                    ?.toString() ==
+                                                        fontStyle: state.rCl?[index].lastMessage?.toString() ==
                                                                 'Start Conversation'
                                                             ? FontStyle.italic
                                                             : FontStyle.normal,
@@ -182,25 +156,16 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                   ),
                                                   addVerticalSpace(4),
                                                   SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.79,
+
+                                                    width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Text(date),
                                                         Icon(
-                                                          state.rCl?[index]
-                                                                      .isRead ??
-                                                                  false
-                                                              ? Icons
-                                                                  .check_circle_rounded
-                                                              : Icons
-                                                                  .check_circle_outline_rounded,
+                                                          state.rCl?[index].isRead ?? false
+                                                              ? Icons.check_circle_rounded
+                                                              : Icons.check_circle_outline_rounded,
                                                           size: 16,
                                                           color: kColorBlue,
                                                         )
@@ -217,12 +182,10 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                   ),
                                 );
                               } else if (state.states == TheStates.failure) {
-                                return Center(
-                                    child: Text(
-                                        'No chats. Start a service or task to initiate chat'));
+
+                                return Center(child: Text('No chats. Start a service or task to initiate chat'));
                               } else {
-                                return Center(
-                                    child: CircularProgressIndicator());
+                                return Center(child: CircularProgressIndicator());
                               }
                             },
                           );
@@ -231,15 +194,12 @@ class _ChatListingPageState extends State<ChatListingPage> {
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 0.9,
                             child: Center(
-                              child: Text(
-                                  'No chats. Start a service or task to initiate chat'),
+                              child: Text('No chats. Start a service or task to initiate chat'),
                             ),
                           );
                         }
                       } else {
-                        return Center(
-                            child: Text(
-                                'No chats. Start a service or task to initiate chat'));
+                        return Center(child: Text('No chats. Start a service or task to initiate chat'));
                       }
                     }
                     return Center(child: CircularProgressIndicator());

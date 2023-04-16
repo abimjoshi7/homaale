@@ -9,6 +9,7 @@ const kBookedMap = "booked_map";
 const kAESEncryptionKey = "Cipher-homaale";
 
 //links
+
 const kDefaultAvatarNImg =
     'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
 const kNoImageNImg =
@@ -21,3 +22,4 @@ const kImageLimit = "Limited to 5 Images upto 5MB each";
 
 //City code
 const kCityCode = "26064";
+

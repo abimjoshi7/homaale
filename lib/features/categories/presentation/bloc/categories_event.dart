@@ -10,7 +10,8 @@ class CategoriesLoadInitiated extends CategoriesEvent {
   List<Object?> get props => [];
 }
 
-class CategoriesHeroLoadInitiated extends CategoriesEvent {
+
+class CategoriesTopLoadInitiated extends CategoriesEvent {
   @override
   List<Object?> get props => [];
 }
