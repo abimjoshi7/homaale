@@ -25,9 +25,9 @@ class PriceBookFooterSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 10,
+        horizontal: 16,
       ),
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: MediaQuery.of(context).size.height * 0.09,
       width: double.infinity,
       decoration: BoxDecoration(
         color: bgColor ?? Color(0xffBCD4FA),

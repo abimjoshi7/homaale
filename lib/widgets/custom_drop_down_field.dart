@@ -1,10 +1,12 @@
-import 'package:cipher/core/constants/constants.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+
 class CustomDropDownField<T> extends StatefulWidget {
   const CustomDropDownField({
-    super.key,
+    Key? key,
     required this.list,
     this.theChild,
     this.onChanged,
@@ -12,7 +14,8 @@ class CustomDropDownField<T> extends StatefulWidget {
     this.hintText,
     this.selectedIndex,
     this.borderRadius,
-  });
+    this.initialValue,
+  }) : super(key: key);
   final List<T> list;
   final Widget? theChild;
   final ValueChanged<T?>? onChanged;
@@ -20,6 +23,7 @@ class CustomDropDownField<T> extends StatefulWidget {
   final String? hintText;
   final int? selectedIndex;
   final double? borderRadius;
+  final T? initialValue;
 
   @override
   State<CustomDropDownField<T>> createState() => _CustomDropDownTextformState();
@@ -36,7 +40,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
       iconSize: 14,
       isExpanded: true,
       // focusColor: kColorGrey,
-      // value: widget.list[widget.selectedIndex ?? 0],
+      value: widget.initialValue,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(5),
         hintText: widget.hintText,
@@ -61,10 +65,15 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
       items: widget.list.map(
         (T value) {
           return DropdownMenuItem<T>(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             value: value,
-            child: AutoSizeText(
-              value.toString(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 4,
+              ),
+              child: AutoSizeText(
+                value.toString(),
+              ),
             ),
           );
         },

@@ -18,6 +18,7 @@ class TaskCard extends StatelessWidget {
     this.count,
     this.budgetType,
     this.onTapCallback,
+    this.buttonLabel,
   });
 
   final String? imageUrl;
@@ -29,18 +30,16 @@ class TaskCard extends StatelessWidget {
   final String? startRate;
   final String? endRate;
   final String? count;
+  final String? buttonLabel;
   final VoidCallback? callback;
   final VoidCallback? onTapCallback;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-          15,
-        ),
-      ),
-      child: Padding(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Container(
+        height: 205,
         padding: kPadding10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +167,7 @@ class TaskCard extends StatelessWidget {
               callback: callback ?? () {},
               mainColor: kColorGreen,
               borderColor: kColorGreen,
-              label: 'Apply Now',
+              label: buttonLabel ?? 'Apply Now',
             )
           ],
         ),

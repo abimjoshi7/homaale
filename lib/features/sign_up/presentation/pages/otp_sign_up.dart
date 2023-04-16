@@ -1,7 +1,6 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
-import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
 import 'package:cipher/widgets/custom_timer.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -60,15 +59,8 @@ class _OtpSignUpState extends State<OtpSignUp> {
                   children: <Widget>[
                     Image.asset('assets/timer.png'),
                     kWidth10,
-                    const CustomTimer(),
-                    kWidth20,
-                    CustomTextButton(
-                      text: 'Resend',
-                      voidCallback: () {
-                        context.read<OtpResetVerifyBloc>().add(
-                            OtpResendSignUpInitiated(
-                                phoneNumber: args['phone'].toString()));
-                      },
+                    CustomTimer(
+                      args: args,
                     ),
                   ],
                 ),
@@ -102,14 +94,8 @@ class _OtpSignUpState extends State<OtpSignUp> {
                   builder: (context) => CustomToast(
                     heading: 'Failure',
                     content: error ?? 'Please try again',
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        SignInPage.routeName,
-                        (route) => false,
-                      );
-                    },
-                    isSuccess: true,
+                    onTap: () {},
+                    isSuccess: false,
                   ),
                 );
               }
@@ -117,15 +103,26 @@ class _OtpSignUpState extends State<OtpSignUp> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
+                  if (otpValue == null || otpValue!.isEmpty) {
+                    if (!mounted) return;
+                    await showDialog(
+                      context: context,
+                      builder: (_) => CustomToast(
+                        heading: 'Failure',
+                        content: "OTP Field Cannot Be Empty",
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  }
+                  if (otpValue == null || otpValue!.isEmpty) return;
                   context.read<OtpResetVerifyBloc>().add(
                         OtpResetVerifyInitiated(
-                          initiateEvent: OtpResetVerifyReq(
-                            otp: otpValue,
-                            phone: args['phone'],
-                            scope: 'verify',
-                            password: args['password'],
-                            confirmPassword: args['password'],
-                          ),
+                          initiateEvent: {
+                            "otp": otpValue,
+                            "phone": args['phone'],
+                            "scope": 'verify',
+                          },
                         ),
                       );
                 },

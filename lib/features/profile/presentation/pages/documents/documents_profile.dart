@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/widgets/document_text_card.dart';
 import 'package:dependencies/dependencies.dart';
@@ -8,19 +9,25 @@ class DocumentsProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
     return BlocBuilder<KycBloc, KycState>(
       builder: (context, state) {
-        if (state is KycLoadSuccess) {
+        if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.all(10),
             child: GridView.builder(
               padding: EdgeInsets.zero,
-              itemCount: state.list.length,
+              itemCount: state.list?.length ?? 0,
               itemBuilder: (context, index) => DocumentTextCard(
                 isLocalFile: false,
-                imagePath: state.list[index].file ?? '',
-                label: state.list[index].documentId ?? '',
-                iconPath: 'assets/2.png',
+                imagePath: state.list?[index].file ?? '',
+                label: state.list?[index].documentId ?? '',
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

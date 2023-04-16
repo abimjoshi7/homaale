@@ -84,4 +84,17 @@ class CategoriesRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchTaskSubCategory(int id) async => await _dio
+          .getDatawithCredential(
+            url: "task/cms/task-subcategory/$id/",
+            token: CacheHelper.accessToken,
+          )
+          .then((value) => value as Map<String, dynamic>)
+          .onError(
+        (error, stackTrace) {
+          log("TaskSubCategory Fetch Error: $error");
+          throw "";
+        },
+      );
 }

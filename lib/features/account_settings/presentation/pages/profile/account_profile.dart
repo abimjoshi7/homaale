@@ -4,6 +4,10 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/presenta
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
+import 'package:cipher/features/chat/view/chat_listing.dart';
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
+
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -113,22 +117,16 @@ class _AccountProfileState extends State<AccountProfile> {
                                     ),
                                   ),
                                   width: 100,
-                                  height: 100,
+                                  height: 70,
                                 ),
                                 kWidth20,
                                 AccountUserInfoSection(
                                   name:
                                       '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                                  isVerified:
-                                      state.taskerProfile?.isProfileVerified ??
-                                          false,
-                                  designation: state.taskerProfile?.designation
-                                          ?.toString() ??
-                                      'Homaale User',
+                                  isVerified: state.taskerProfile?.isProfileVerified ?? false,
+                                  designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
                                   credentialId:
-                                      state.taskerProfile?.user?.phone ??
-                                          state.taskerProfile?.user?.email ??
-                                          '',
+                                      state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
                                 ),
                               ],
                             ),
@@ -143,16 +141,14 @@ class _AccountProfileState extends State<AccountProfile> {
                             ProfileStatsCard(
                               imagePath: 'assets/reward.png',
                               label: 'Reward Points',
-                              value:
-                                  state.taskerProfile?.points.toString() ?? '0',
+                              value: state.taskerProfile?.points.toString() ?? '0',
                             ),
                             BlocBuilder<WalletBloc, WalletState>(
                               builder: (context, walletState) {
                                 return ProfileStatsCard(
                                   imagePath: 'assets/wallet.png',
                                   label: 'Account Balance',
-                                  value:
-                                      "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                                  value: "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
                                 );
                               },
                             ),
@@ -209,6 +205,25 @@ class _AccountProfileState extends State<AccountProfile> {
                           }
                         },
                       ),
+
+                      AccountListTileSection(
+                        onTap: () {
+
+                          Navigator.pushNamed(
+                              context, ChatListingPage.routeName);
+
+                        },
+                        icon: const Icon(
+                          Icons.chat_bubble_outline,
+                          color: Color(0xff495057),
+                        ),
+                        label: 'Chats',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
+
                       // AccountListTileSection(
                       //   onTap: () {
                       //     Navigator.pushNamed(context, SandboxPage.routeName);
@@ -237,31 +252,29 @@ class _AccountProfileState extends State<AccountProfile> {
                       //     size: 16,
                       //   ),
                       // ),
-                      // Visibility(
-                      //   visible: false,
-                      //   child: AccountListTileSection(
-                      //     onTap: () {
-                      //       Navigator.pushNamed(
-                      //         context,
-                      //         OffersPage.routeName,
-                      //       );
-                      //     },
-                      //     icon: const Icon(
-                      //       Icons.card_giftcard_outlined,
-                      //       color: Color(0xff495057),
-                      //     ),
-                      //     label: 'Offers',
-                      //     trailingWidget: const Icon(
-                      //       Icons.arrow_forward_ios,
-                      //       size: 16,
-                      //     ),
-                      //   ),
-                      // ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            Settings.routeName,
+
+                            OffersPage.routeName,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.card_giftcard_outlined,
+                          color: Color(0xff495057),
+                        ),
+                        label: 'Offers',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
+                      AccountListTileSection(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            sets.Settings.routeName,
                           );
                         },
                         icon: const Icon(
@@ -333,8 +346,7 @@ class _AccountProfileState extends State<AccountProfile> {
                                               context.read<SignInBloc>().add(
                                                     SignOutInitiated(),
                                                   );
-                                              await Navigator
-                                                  .pushNamedAndRemoveUntil(
+                                              await Navigator.pushNamedAndRemoveUntil(
                                                 context,
                                                 SignInPage.routeName,
                                                 (route) => false,

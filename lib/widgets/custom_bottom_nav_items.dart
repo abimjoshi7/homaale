@@ -11,7 +11,7 @@ class CustomBottomNavItems extends StatelessWidget {
   final bool isActive;
   final String? showCaseTitle;
   final String? showCaseDec;
-  final GlobalKey<State<StatefulWidget>>? showKey;
+  final GlobalKey<State<StatefulWidget>> showKey;
   const CustomBottomNavItems({
     super.key,
     required this.onPressed,
@@ -20,69 +20,42 @@ class CustomBottomNavItems extends StatelessWidget {
     required this.index,
     required this.pageIndex,
     required this.isActive,
-    this.showKey,
+    required this.showKey,
     this.showCaseTitle,
     this.showCaseDec,
   });
 
   @override
   Widget build(BuildContext context) {
-    return
-      // showKey != null
-      //   ? CommonShowCase(
-      //       showKey: showKey!,
-      //       showCaseDec: showCaseDec,
-      //       showCaseTitle: showCaseTitle,
-      //       child: Column(
-      //         children: [
-      //           TextButton(
-      //             onPressed: onPressed,
-      //             child: isActive
-      //                 ? Icon(
-      //                     iconData,
-      //                     color: kColorSecondary,
-      //                     size: 30,
-      //                   )
-      //                 : Icon(
-      //                     iconData,
-      //                     color: kColorSilver,
-      //                     size: 30,
-      //                   ),
-      //           ),
-      //           Text(
-      //             label,
-      //             style: TextStyle(
-      //               color: isActive ? kColorSecondary : kColorSilver,
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     )
-      //   :
-      Column(
-            children: [
-              TextButton(
-                onPressed: onPressed,
-                child: isActive
-                    ? Icon(
-                        iconData,
-                        color: kColorSecondary,
-                        size: 30,
-                      )
-                    : Icon(
-                        iconData,
-                        color: kColorSilver,
-                        size: 30,
-                      ),
-              ),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isActive ? kColorSecondary : kColorSilver,
-                ),
-              ),
-            ],
-          );
+    return CommonShowCase(
+      showKey: showKey,
+      showCaseDec: showCaseDec,
+      showCaseTitle: showCaseTitle,
+      child: Column(
+        children: [
+          TextButton(
+            onPressed: onPressed,
+            child: isActive
+                ? Icon(
+                    iconData,
+                    color: kColorSecondary,
+                    size: 30,
+                  )
+                : Icon(
+                    iconData,
+                    color: kColorSilver,
+                    size: 30,
+                  ),
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              color: isActive ? kColorSecondary : kColorSilver,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

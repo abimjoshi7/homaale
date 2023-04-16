@@ -108,8 +108,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                   showCustomBottomSheet(
                                     context: context,
                                     widget: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         ListTile(
                                           onTap: editTap,
@@ -221,10 +220,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                 const Text("Status :"),
                                 kWidth5,
                                 Chip(
-                                  backgroundColor:
-                                      (getStatus(status ?? '')["color"]
-                                              as Color)
-                                          .withOpacity(
+                                  backgroundColor: (getStatus(status ?? '')["color"] as Color).withOpacity(
                                     0.6,
                                   ),
                                   label: Text(status?.toTitleCase() ?? ''),

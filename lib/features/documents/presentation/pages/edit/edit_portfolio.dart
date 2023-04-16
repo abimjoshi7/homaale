@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
   DateTime? issuedDate;
   Portfolio? portfolio;
   late String? imagePath;
+  final ImageUploadCubit imageCubit = locator<ImageUploadCubit>();
 
   @override
   void initState() {
@@ -37,6 +40,9 @@ class _EditPortfolioState extends State<EditPortfolio> {
     descriptionController.dispose();
     issuedDateController.dispose();
     credentialUrlController.dispose();
+    locator.resetLazySingleton(
+      instance: imageCubit,
+    );
     super.dispose();
   }
 
@@ -106,13 +112,33 @@ class _EditPortfolioState extends State<EditPortfolio> {
 
                 Widget displayImage() {
                   if (state is ImageUploadSuccess) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.check_circle_outline),
-                        kWidth5,
-                        Text("Image upload successful"),
-                      ],
+                    final fileList = List.generate(
+                      state.imagePathList?.length ?? 0,
+                      (index) => File(state.imagePathList?[index]?.path ?? ""),
+                    );
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: fileList.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
+                            image: DecorationImage(
+                              image: FileImage(
+                                fileList[index],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
                     );
                   } else {
                     return Column(
@@ -173,7 +199,6 @@ class _EditPortfolioState extends State<EditPortfolio> {
 
                 return Column(
                   children: [
-                    const CustomModalSheetDrawerIcon(),
                     const Center(
                       child: Text(
                         'Edit Portfolio',
@@ -270,10 +295,10 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: InkWell(
                               onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => ImagePickerDialog(),
-                                );
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (context) => ImagePickerDialog(),
+                                // );
                               },
                               child: SizedBox(
                                 height: 150,
@@ -290,9 +315,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: InkWell(
                               onTap: () async {
-                                await context
-                                    .read<ImageUploadCubit>()
-                                    .uploadFile();
+                                await imageCubit.uploadFile();
                               },
                               child: SizedBox(
                                 height: 150,
