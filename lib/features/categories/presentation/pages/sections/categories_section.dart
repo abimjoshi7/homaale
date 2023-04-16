@@ -5,9 +5,11 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../home/presentation/pages/home.dart';
+
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
-  static const routeName = '/categories-section';
+  static final catKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +32,20 @@ class CategoriesSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   addVerticalSpace(8),
-                  SectionHeading(
-                    labelName: 'Categories',
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        CategoriesPage.routeName,
-                      );
-                    },
+                  CommonShowCase(
+                    position: TooltipPosition.bottom,
+                    showKey: catKey,
+                    showCaseTitle: 'See All ',
+                    showCaseDec: 'See All Categories from here.',
+                    child: SectionHeading(
+                      labelName: 'Categories',
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          CategoriesPage.routeName,
+                        );
+                      },
+                    ),
                   ),
                   addVerticalSpace(8),
                   Expanded(
@@ -46,7 +54,8 @@ class CategoriesSection extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.topCategory.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
@@ -64,7 +73,8 @@ class CategoriesSection extends StatelessWidget {
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.topCategory[index].icon?.toString() ?? kErrorSvg,
+                              state.topCategory[index].icon?.toString() ??
+                                  kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

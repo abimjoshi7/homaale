@@ -10,6 +10,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TasksRecommendationSection extends StatefulWidget {
+  static final taskRecoSection = GlobalKey();
+
   const TasksRecommendationSection({super.key});
 
   @override
@@ -48,14 +50,19 @@ class _TasksRecommendationSectionState
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          SectionHeading(
-            labelName: 'Task recommendation for you',
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AllTaskPage.routeName,
-              );
-            },
+          CommonShowCase(
+            showKey: TasksRecommendationSection.taskRecoSection,
+            showCaseTitle: 'See All',
+            showCaseDec: 'See All recommendation task from here.',
+            child: SectionHeading(
+              labelName: 'Task recommendation for you',
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AllTaskPage.routeName,
+                );
+              },
+            ),
           ),
           BlocBuilder<TaskBloc, TaskState>(
             builder: (context, state) {
@@ -122,7 +129,9 @@ class _TasksRecommendationSectionState
                 );
               } else {
                 return const Center(
-                  child: CardLoading(height: 200,),
+                  child: CardLoading(
+                    height: 200,
+                  ),
                 );
               }
             },

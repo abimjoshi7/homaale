@@ -22,7 +22,6 @@ class BoxPage extends StatefulWidget {
 
 class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   final orderIdCreateBloc = locator<OrderIdCreateBloc>();
-
   late TabController _tabController;
   final TextStyle style = TextStyle(color: Colors.black, fontSize: 14);
   List<int> selectedItems = [];
@@ -137,7 +136,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                           ),
                                           height: 200,
                                           margin: EdgeInsets.only(
-                                              top: 10, left: 20, right: 20),
+                                              top: 20, left: 20, right: 20),
                                           child: Column(
                                             children: [
                                               Padding(

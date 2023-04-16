@@ -19,7 +19,7 @@ import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../features/categories/presentation/pages/sections/categories_section.dart';
 import '../network_info/network_info.dart';
 
 class Root extends StatelessWidget {
@@ -30,23 +30,10 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShowCaseWidget(
-        onStart: (index, key) {
-          log('onStart: $index, $key');
-        },
-        onComplete: (index, key) {
-          log('onComplete: $index, $key');
-          // if (index == 0) {
-          SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle.light.copyWith(
-              statusBarIconBrightness: Brightness.dark,
-              statusBarColor: Colors.white,
-            ),
-          );
-          // }
-        },
-        blurValue: 1,
-        autoPlayDelay: const Duration(seconds: 3),
-        builder: Builder(builder: (context) => CalledRootClass()));
+      builder: Builder(
+        builder: (context) => CalledRootClass(),
+      ),
+    );
   }
 }
 
@@ -82,21 +69,27 @@ class _CalledRootClassState extends State<CalledRootClass> {
   bool addActive = false;
   bool bookingsActive = false;
   bool profileActive = false;
+  final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   final GlobalKey _one = GlobalKey();
   final GlobalKey _two = GlobalKey();
   final GlobalKey _three = GlobalKey();
   final GlobalKey _four = GlobalKey();
   final GlobalKey _five = GlobalKey();
+  final GlobalKey _six = Home.notificationKey;
+  final GlobalKey _seven = CategoriesSection.catKey;
+  final GlobalKey _eight = PopularServicesSection.pServiceKey;
+  final GlobalKey _nine = TasksRecommendationSection.taskRecoSection;
 
   final scrollController = ScrollController();
 
-  final pages = const <Widget>[
+  final pages = <Widget>[
     const Home(),
     const BoxPage(),
     const MyBookingsPage(),
     const AccountProfile(),
   ];
   Dio dio = Dio();
+
   void initBlocs() {
     dio.interceptors.add(
       RetryOnConnectionChangeInterceptor(
@@ -192,8 +185,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context)
-          .startShowCase([_one, _two, _three, _four, _five]);
+      ShowCaseWidget.of(context).startShowCase(
+          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -215,178 +208,190 @@ class _CalledRootClassState extends State<CalledRootClass> {
         initBlocs();
       },
       child: Scaffold(
+        key: _scaffoldkey,
         body: Stack(
           children: <Widget>[
             pages[pageIndex],
             Align(
               alignment: Alignment.bottomCenter,
-              child: Builder(
-                builder: (context) {
-                  return Stack(
-                    children: <Widget>[
-                      Visibility(
-                        visible: !addActive,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 50),
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          width: MediaQuery.of(context).size.width,
-                          color: kColorPrimary,
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: <Widget>[
+                  Visibility(
+                    visible: !addActive,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 50),
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).size.width,
+                      color: kColorPrimary,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 102,
+                    width: MediaQuery.of(context).size.width,
+                    child: CustomPaint(
+                      painter: BottomNavCustomPainter(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                          top: 20,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Showcase(
+                              description: 'Tap “Home” to see all details.',
+                              key: _one,
+                              disposeOnTap: true,
+                              onTargetClick: () {
+                                setState(() {
+                                  ShowCaseWidget.of(context)
+                                      .startShowCase([_two]);
+                                });
+                              },
+                              child: CustomBottomNavItems(
+                                showCaseTitle: 'Home',
+                                showCaseDec: 'Tap “Home” to see all details.',
+                                showKey: _one,
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      pageIndex = 0;
+                                      homeActive = true;
+                                      boxActive = false;
+                                      addActive = false;
+                                      bookingsActive = false;
+                                      profileActive = false;
+                                    },
+                                  );
+                                },
+                                pageIndex: pageIndex,
+                                index: 0,
+                                label: 'Home',
+                                iconData: Icons.home,
+                                isActive: homeActive,
+                              ),
+                            ),
+                            CustomBottomNavItems(
+                              showCaseTitle: 'Box',
+                              showCaseDec:
+                                  'Tap “Box” to view your Bookings Payments list. ',
+                              showKey: _two,
+                              onPressed: () {
+                                if (CacheHelper.isLoggedIn == false) {
+                                  notLoggedInPopUp(context);
+                                }
+                                if (CacheHelper.isLoggedIn) {
+                                  setState(() {
+                                    pageIndex = 1;
+                                    homeActive = false;
+                                    boxActive = true;
+                                    addActive = false;
+                                    bookingsActive = false;
+                                    profileActive = false;
+                                  });
+                                }
+                              },
+                              pageIndex: pageIndex,
+                              index: 1,
+                              label: 'Box',
+                              iconData: Icons.shopping_basket_outlined,
+                              isActive: boxActive,
+                            ),
+                            CustomBottomNavItems(
+                              showCaseTitle: 'Add',
+                              showCaseDec:
+                                  'Tap “Add” to add your tasks & services.',
+                              showKey: _three,
+                              onPressed: () {
+                                if (CacheHelper.isLoggedIn == false) {
+                                  notLoggedInPopUp(context);
+                                }
+                                if (CacheHelper.isLoggedIn == false) return;
+                                if (addActive) {
+                                  setState(() {
+                                    homeActive = pageIndex == 0;
+                                    boxActive = pageIndex == 1;
+                                    addActive = false;
+                                    bookingsActive = pageIndex == 2;
+                                    profileActive = pageIndex == 3;
+                                  });
+                                } else {
+                                  setState(() {
+                                    homeActive = false;
+                                    boxActive = false;
+                                    addActive = true;
+                                    bookingsActive = false;
+                                    profileActive = false;
+                                  });
+                                }
+                              },
+                              pageIndex: pageIndex,
+                              //random index so that it is not active
+                              index: 5,
+                              label: 'Add',
+                              iconData: Icons.add_circle_outline,
+                              isActive: addActive,
+                            ),
+                            CustomBottomNavItems(
+                              showCaseTitle: 'Bookings',
+                              showCaseDec: 'Tap “Bookings” to book services.',
+                              showKey: _four,
+                              onPressed: () {
+                                if (CacheHelper.isLoggedIn == false) {
+                                  notLoggedInPopUp(context);
+                                }
+                                if (CacheHelper.isLoggedIn) {
+                                  setState(() {
+                                    pageIndex = 2;
+                                    homeActive = false;
+                                    boxActive = false;
+                                    addActive = false;
+                                    bookingsActive = true;
+                                    profileActive = false;
+                                  });
+                                }
+                              },
+                              pageIndex: pageIndex,
+                              index: 2,
+                              label: 'Bookings',
+                              iconData: Icons.edit_calendar_rounded,
+                              isActive: bookingsActive,
+                            ),
+                            CustomBottomNavItems(
+                              showCaseTitle: 'Profile',
+                              showCaseDec:
+                                  'Tap “Profile” to setup your account.',
+                              showKey: _five,
+                              onPressed: () {
+                                if (CacheHelper.isLoggedIn == false) {
+                                  notLoggedInPopUp(context);
+                                }
+                                if (CacheHelper.isLoggedIn) {
+                                  setState(() {
+                                    pageIndex = 3;
+                                    homeActive = false;
+                                    boxActive = false;
+                                    addActive = false;
+                                    bookingsActive = false;
+                                    profileActive = true;
+                                  });
+                                }
+                              },
+                              pageIndex: pageIndex,
+                              index: 3,
+                              label: 'Profile',
+                              iconData: Icons.account_circle_outlined,
+                              isActive: profileActive,
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 102,
-                        width: MediaQuery.of(context).size.width,
-                        child: CustomPaint(
-                          painter: BottomNavCustomPainter(),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 8.0,
-                              right: 8.0,
-                              top: 20,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                CustomBottomNavItems(
-                                  showCaseTitle: 'Home',
-                                  showCaseDec:'Tap “Home” to see all details.',
-                                  showKey: _one,
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        pageIndex = 0;
-                                        homeActive = true;
-                                        boxActive = false;
-                                        addActive = false;
-                                        bookingsActive = false;
-                                        profileActive = false;
-                                      },
-                                    );
-                                  },
-                                  pageIndex: pageIndex,
-                                  index: 0,
-                                  label: 'Home',
-                                  iconData: Icons.home,
-                                  isActive: homeActive,
-                                ),
-                                CustomBottomNavItems(
-                                  showCaseTitle: 'Box',
-                                  showCaseDec:'Tap “Box” to view your Bookings Payments list. ',
-                                  showKey: _two,
-                                  onPressed: () {
-                                    if (CacheHelper.isLoggedIn == false) {
-                                      notLoggedInPopUp(context);
-                                    }
-                                    if (CacheHelper.isLoggedIn) {
-                                      setState(() {
-                                        pageIndex = 1;
-                                        homeActive = false;
-                                        boxActive = true;
-                                        addActive = false;
-                                        bookingsActive = false;
-                                        profileActive = false;
-                                      });
-                                    }
-                                  },
-                                  pageIndex: pageIndex,
-                                  index: 1,
-                                  label: 'Box',
-                                  iconData: Icons.shopping_basket_outlined,
-                                  isActive: boxActive,
-                                ),
-                                CustomBottomNavItems(
-                                  showCaseTitle: 'Add',
-                                  showCaseDec:'Tap “Add” to add your tasks & services.',
-                                  showKey: _three,
-                                  onPressed: () {
-                                    if (CacheHelper.isLoggedIn == false) {
-                                      notLoggedInPopUp(context);
-                                    }
-                                    if (CacheHelper.isLoggedIn == false) return;
-                                    if (addActive) {
-                                      setState(() {
-                                        homeActive = pageIndex == 0;
-                                        boxActive = pageIndex == 1;
-                                        addActive = false;
-                                        bookingsActive = pageIndex == 2;
-                                        profileActive = pageIndex == 3;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        homeActive = false;
-                                        boxActive = false;
-                                        addActive = true;
-                                        bookingsActive = false;
-                                        profileActive = false;
-                                      });
-                                    }
-                                  },
-                                  pageIndex: pageIndex,
-                                  //random index so that it is not active
-                                  index: 5,
-                                  label: 'Add',
-                                  iconData: Icons.add_circle_outline,
-                                  isActive: addActive,
-                                ),
-                                CustomBottomNavItems(
-                                  showCaseTitle: 'Bookings',
-                                  showCaseDec:'Tap “Bookings” to book services.',
-                                  showKey: _four,
-                                  onPressed: () {
-                                    if (CacheHelper.isLoggedIn == false) {
-                                      notLoggedInPopUp(context);
-                                    }
-                                    if (CacheHelper.isLoggedIn) {
-                                      setState(() {
-                                        pageIndex = 2;
-                                        homeActive = false;
-                                        boxActive = false;
-                                        addActive = false;
-                                        bookingsActive = true;
-                                        profileActive = false;
-                                      });
-                                    }
-                                  },
-                                  pageIndex: pageIndex,
-                                  index: 2,
-                                  label: 'Bookings',
-                                  iconData: Icons.edit_calendar_rounded,
-                                  isActive: bookingsActive,
-                                ),
-                                CustomBottomNavItems(
-                                  showCaseTitle: 'Profile',
-                                  showCaseDec:'Tap “Profile” to setup your account.',
-                                  showKey: _five,
-                                  onPressed: () {
-                                    if (CacheHelper.isLoggedIn == false) {
-                                      notLoggedInPopUp(context);
-                                    }
-                                    if (CacheHelper.isLoggedIn) {
-                                      setState(() {
-                                        pageIndex = 3;
-                                        homeActive = false;
-                                        boxActive = false;
-                                        addActive = false;
-                                        bookingsActive = false;
-                                        profileActive = true;
-                                      });
-                                    }
-                                  },
-                                  pageIndex: pageIndex,
-                                  index: 3,
-                                  label: 'Profile',
-                                  iconData: Icons.account_circle_outlined,
-                                  isActive: profileActive,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                    ),
+                  ),
+                ],
               ),
             ),
             Visibility(

@@ -10,6 +10,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class PopularServicesSection extends StatelessWidget {
+  static final pServiceKey = GlobalKey();
+
   const PopularServicesSection({
     super.key,
   });
@@ -23,20 +25,19 @@ class PopularServicesSection extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: <Widget>[
-                SectionHeading(
-                  labelName: 'Popular services',
-                  onTap: () async {
-                    // try {
-                    //   await ServicesRepositories().fetchApplicants(
-                    //       id: "b9834867-327e-4bbd-b0f9-aa3f158f8307");
-                    // } catch (e) {
-                    //   log("Test repo" + e.toString());
-                    // }
-                    Navigator.pushNamed(
-                      context,
-                      PopularServicesPage.routeName,
-                    );
-                  },
+                CommonShowCase(
+                  showKey: pServiceKey,
+                  showCaseTitle: 'Popular Service',
+                  showCaseDec: 'See All Popular Service from here.',
+                  child: SectionHeading(
+                    labelName: 'Popular services',
+                    onTap: () async {
+                      Navigator.pushNamed(
+                        context,
+                        PopularServicesPage.routeName,
+                      );
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: 250,
