@@ -66,9 +66,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     return BlocConsumer<NearbyTaskEntityServiceCubit,
         NearbyTaskEntityServiceState>(
       listener: (context, state) {
-        if (state.theStates == TheStates.initial) {
-          log('hello from the alps!');
-        }
         if (state.theStates == TheStates.success) {
           for (final taskEntityService in state.nearbyTaskEntityServiceList!) {
             final marker = Marker(
@@ -95,6 +92,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
             elevation: 2,
           ),
           body: GoogleMap(
+            mapType: MapType.normal,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: _location,

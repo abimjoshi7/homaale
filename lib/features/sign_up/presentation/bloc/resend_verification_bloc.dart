@@ -22,9 +22,9 @@ class ResendVerificationBloc
       try {
         emit(ResendVerificationInitial());
         await repository.resendEmailSignUp(email: event.email);
-
         emit(ResendVerificationWithEmailSuccess());
       } catch (e) {
+				
         emit(ResendVerificationFailure(error: e.toString()));
       }
     });

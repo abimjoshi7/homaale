@@ -53,6 +53,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      // autovalidateMode: autoValidateMode,
       readOnly: readOnly ?? false,
       focusNode: node,
       controller: controller,

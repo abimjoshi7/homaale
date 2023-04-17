@@ -148,6 +148,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isRequired: true,
       label: 'Password',
       child: CustomTextFormField(
+        controller: passwordController,
         validator: validatePassword,
         textInputType: TextInputType.visiblePassword,
         onSaved: (value) => setState(() {
@@ -177,20 +178,18 @@ class _SignUpPageState extends State<SignUpPage> {
       isRequired: true,
       label: 'Confirm Password',
       child: CustomTextFormField(
+        controller: confirmPasswordController,
         textInputType: TextInputType.visiblePassword,
         onSaved: (value) => setState(
           () {
             confirmPasswordController.text = '$value';
-            setState(() => {});
+            setState(() {});
           },
         ),
-        validator: (val) {
-          if (val!.isEmpty) return 'Cannot be empty';
-          if (!(confirmPasswordController.text == passwordController.text)) {
-            return "Password didn't match";
-          }
-          return null;
-        },
+        validator: (val) =>
+            (passwordController.text != confirmPasswordController.text)
+                ? "Password didn't match"
+                : null,
         obscureText: isObscure[1],
         suffixWidget: InkWell(
           onTap: () {
@@ -362,6 +361,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                         }
                                       }
                                     }
+                                  } else {
+                                    return null;
                                   }
                                 },
                                 label: 'Sign Up',
