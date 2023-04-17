@@ -1,3 +1,5 @@
+import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -24,8 +26,8 @@ class ResendVerificationBloc
         await repository.resendEmailSignUp(email: event.email);
         emit(ResendVerificationWithEmailSuccess());
       } catch (e) {
-				
-        emit(ResendVerificationFailure(error: e.toString()));
+        final err = await CacheHelper.getCachedString(kErrorLog);
+        emit(ResendVerificationFailure(error: err));
       }
     });
   }

@@ -15,7 +15,7 @@ class GoogleMapsPage extends StatefulWidget {
 }
 
 class _GoogleMapsPageState extends State<GoogleMapsPage> {
-  late GoogleMapController mapController;
+  // late GoogleMapController mapController;
   final LatLng _center = const LatLng(27.7172, 85.3240);
   LatLng _location = LatLng(27.7172, 85.3240);
   String kCurrentLocation = "CurrentUserLocation";
@@ -57,7 +57,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
 
   @override
   void dispose() {
-    mapController.dispose();
+    // mapController.dispose();
     super.dispose();
   }
 
