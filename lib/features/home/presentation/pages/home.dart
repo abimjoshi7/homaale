@@ -36,10 +36,10 @@ class Home extends StatelessWidget {
                     ),
                     PopularTaskerSection(),
                     NotableBannerSection(),
-                    SizedBox(height: 120),
-
                     // RecentlyLaunchedServicesSection(),
                     TasksAndServicesNearbySection(),
+                    SizedBox(height: 120),
+
                     // const PopularTaskerNearbySection(),
                     // const TaskRecommendationSection(),
                     // PopularTaskNearbySection()
