@@ -71,7 +71,6 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<CategoriesBloc>(),
-
           ),
           BlocProvider(
             create: (context) => SignInBloc(),
@@ -92,8 +91,7 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) =>
-                TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => locator<KycBloc>(),
@@ -192,8 +190,7 @@ class Cipher extends StatelessWidget {
             create: (context) => SingleEntityTaskCubit(),
           ),
           BlocProvider(
-            create: (context) =>
-                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -233,7 +230,6 @@ class Cipher extends StatelessWidget {
                 BouncingScrollWrapper.builder(context, child!),
                 maxWidth: 1200,
                 minWidth: 480,
-                defaultScale: true,
                 breakpoints: [
                   const ResponsiveBreakpoint.resize(480, name: MOBILE),
                   const ResponsiveBreakpoint.autoScale(800, name: TABLET),
