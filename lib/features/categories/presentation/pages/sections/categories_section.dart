@@ -24,8 +24,7 @@ class CategoriesSection extends StatelessWidget {
               height: 100,
             ),
           );
-        } else if (state.theStates == TheStates.success &&
-            state.topCategory != null) {
+        } else if (state.theStates == TheStates.success && state.topCategory != null) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
@@ -35,20 +34,18 @@ class CategoriesSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   addVerticalSpace(8),
-                  CommonShowCase(
+                  SectionHeading(
+                    labelName: 'Categories',
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        CategoriesPage.routeName,
+                      );
+                    },
                     position: TooltipPosition.bottom,
                     showKey: catKey,
                     showCaseTitle: 'See All ',
                     showCaseDec: 'See All Categories from here.',
-                    child: SectionHeading(
-                      labelName: 'Categories',
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          CategoriesPage.routeName,
-                        );
-                      },
-                    ),
                   ),
                   addVerticalSpace(8),
                   Expanded(
@@ -57,16 +54,13 @@ class CategoriesSection extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.topCategory?.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          context
-                              .read<NestedCategoriesCubit>()
-                              .getNestedCategory();
+                          context.read<NestedCategoriesCubit>().getNestedCategory();
                           Navigator.pushNamed(
                             context,
                             CategoriesPage.routeName,
@@ -83,8 +77,7 @@ class CategoriesSection extends StatelessWidget {
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.topCategory?[index].icon?.toString() ??
-                                  kErrorSvg,
+                              state.topCategory?[index].icon?.toString() ?? kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

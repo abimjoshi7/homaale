@@ -63,19 +63,17 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          CommonShowCase(
+          SectionHeading(
+            labelName: 'Task recommendation for you',
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AllTaskPage.routeName,
+              );
+            },
             showKey: TasksRecommendationSection.taskRecoSection,
             showCaseTitle: 'See All',
             showCaseDec: 'See All recommendation task from here.',
-            child: SectionHeading(
-              labelName: 'Task recommendation for you',
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  AllTaskPage.routeName,
-                );
-              },
-            ),
           ),
           BlocBuilder<TaskBloc, TaskState>(
             builder: (context, state) {

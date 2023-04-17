@@ -66,12 +66,7 @@ class CommonShowCase extends StatelessWidget {
   final TooltipPosition? position;
   final GlobalKey<State<StatefulWidget>> showKey;
   const CommonShowCase(
-      {Key? key,
-      required this.child,
-      this.showCaseTitle,
-      this.showCaseDec,
-      required this.showKey,
-      this.position})
+      {Key? key, required this.child, this.showCaseTitle, this.showCaseDec, required this.showKey, this.position})
       : super(key: key);
 
   @override
@@ -80,13 +75,11 @@ class CommonShowCase extends StatelessWidget {
       overlayOpacity: .75,
       showArrow: true,
       key: showKey,
-      targetPadding: const EdgeInsets.only(left: 5, bottom: 0, top: 10),
+      targetPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       tooltipPosition: position != null ? position : TooltipPosition.top,
       title: showCaseTitle,
-      titlePadding: EdgeInsets.all(10),
       titleAlignment: TextAlign.center,
       description: showCaseDec,
-      descriptionPadding: EdgeInsets.only(bottom: 100),
       tooltipBackgroundColor: Colors.transparent,
       textColor: Colors.white,
       targetShapeBorder: const CircleBorder(),

@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/theme.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +11,18 @@ class SectionHeading extends StatelessWidget {
     super.key,
     required this.labelName,
     required this.onTap,
+    this.showCaseTitle,
+    this.showCaseDec,
+    this.position,
+    this.showKey,
   });
 
   final String labelName;
   final VoidCallback onTap;
+  final String? showCaseTitle;
+  final String? showCaseDec;
+  final TooltipPosition? position;
+  final GlobalKey<State<StatefulWidget>>? showKey;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +36,19 @@ class SectionHeading extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Row(
-            children: const [
-              Text(
-                'See all',
-                style: TextStyle(
-                  color: Color(0xff3eaeff),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
+            children: [
+              CommonShowCase(
+                position: position,
+                showKey: showKey ?? GlobalKey(),
+                showCaseTitle: showCaseTitle,
+                showCaseDec: showCaseDec,
+                child: Text(
+                  'See all',
+                  style: TextStyle(
+                    color: Color(0xff3eaeff),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                  ),
                 ),
               ),
               Icon(
