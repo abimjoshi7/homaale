@@ -29,15 +29,23 @@ class AccountListTileSection extends StatelessWidget {
               children: [
                 Expanded(
                   child: Row(
-                    children: [icon, kWidth20, Text(label)],
+                    children: [
+                      icon,
+                      kWidth20,
+                      Text(
+                        label,
+                        style: Theme.of(context).textTheme.displaySmall,
+                      )
+                    ],
                   ),
                 ),
                 trailingWidget
               ],
             ),
           ),
-           Divider(
-            thickness: 2,color: Colors.grey.shade300,
+          Divider(
+            thickness: 2,
+            color: Colors.grey.shade300,
           ),
         ],
       ),

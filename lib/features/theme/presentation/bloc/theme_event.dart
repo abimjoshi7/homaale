@@ -1,25 +1,17 @@
-import 'package:dependencies/dependencies.dart';
 
-import '../../../../core/constants/theme.dart';
+
+import 'package:dependencies/dependencies.dart';
 
 abstract class ThemeEvent extends Equatable {
   const ThemeEvent();
 }
 
 class ThemeChangeInitiated extends ThemeEvent {
-  final AppTheme? appTheme;
-  const ThemeChangeInitiated({
-    this.appTheme,
-  });
   @override
-  List<Object?> get props => [appTheme];
+  List<Object?> get props => [];
 }
 
 class ThemeChangeChanged extends ThemeEvent {
-  final AppTheme? appTheme;
-  const ThemeChangeChanged({
-    this.appTheme,
-  });
   @override
-  List<Object?> get props => [appTheme];
+  List<Object?> get props => [];
 }

@@ -1,15 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/enums.dart';
+abstract class ThemeState extends Equatable {
+  const ThemeState();
+}
 
- class ThemeState extends Equatable {
-   final TheStates? theStates;
-   final ThemeData? themeData;
-
-   const ThemeState({this.theStates,  this.themeData});
+class ThemeLight extends ThemeState {
+  final ThemeData themeData;
+  const ThemeLight({
+    required this.themeData,
+  });
 
   @override
-  List<Object?> get props => [theStates,themeData];
- }
+  List<Object?> get props => [themeData];
+}
+
+class ThemeDark extends ThemeState {
+  final ThemeData themeData;
+  const ThemeDark({
+    required this.themeData,
+  });
+  @override
+  List<Object?> get props => [themeData];
+}

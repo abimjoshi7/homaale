@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
@@ -51,7 +52,6 @@ class Cipher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// Determines whether device's os is using dark theme or light.
-    final osThemeIsLight = Brightness.light;
     return RepositoryProvider(
       create: (context) => SupportHelpRepositories()..getHelpTopicList(),
       child: MultiBlocProvider(
@@ -218,12 +218,22 @@ class Cipher extends StatelessWidget {
             create: (context) => PaymentVerifyBloc(),
           ),
         ],
-        child: BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (BuildContext context, ThemeState themeState) {
+        child:BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            ThemeData? displayTheme() {
+              ThemeData? theme;
+              if (state is ThemeLight) {
+                theme = state.themeData;
+              } else if (state is ThemeDark) {
+                theme = state.themeData;
+              }
+              return theme;
+            }
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: themeState.themeData== ThemeData.dark()? ThemeData.dark():ThemeData.light(),
-              // themeState.themeData,
+              theme: displayTheme(),
+              themeMode: ThemeMode.light,
+              darkTheme: kDarkTheme,
               builder: (context, child) => ResponsiveWrapper.builder(
                 BouncingScrollWrapper.builder(context, child!),
                 maxWidth: 1200,

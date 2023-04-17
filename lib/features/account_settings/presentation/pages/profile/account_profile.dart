@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
@@ -32,18 +31,18 @@ class AccountProfile extends StatefulWidget {
 }
 
 class _AccountProfileState extends State<AccountProfile> {
-  AppTheme? currentTheme;
-   final SecureStorage secureStorage =SecureStorage();
+  // AppTheme? currentTheme;
+  final SecureStorage secureStorage = SecureStorage();
   bool isDark = false;
 
-  _setTheme() async {
-    currentTheme = isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
-    context.read<ThemeBloc>().add(
-          ThemeChangeChanged(appTheme: currentTheme),
-        );
-    secureStorage ==  isDark ? await secureStorage.setLightTheme('light'):await secureStorage.setDarkMode('dark');
-  print(secureStorage);
-  }
+  // _setTheme() async {
+  //   // currentTheme = isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
+  //   context.read<ThemeBloc>().add(
+  //         ThemeChangeChanged(appTheme: currentTheme),
+  //       );
+  //   secureStorage ==  isDark ? await secureStorage.setLightTheme('light'):await secureStorage.setDarkMode('dark');
+  // print(secureStorage);
+  // }
 
   @override
   void initState() {
@@ -259,14 +258,6 @@ class _AccountProfileState extends State<AccountProfile> {
                           size: 16,
                         ),
                       ),
-                      Text(
-                        'data',
-                        style: TextStyle(
-                          color: currentTheme == AppTheme.darkTheme
-                              ? Theme.of(context).textTheme.bodySmall?.color
-                              : Colors.redAccent,
-                        ),
-                      ),
                       AccountListTileSection(
                         onTap: () {},
                         icon: const Icon(
@@ -283,8 +274,11 @@ class _AccountProfileState extends State<AccountProfile> {
                             onChanged: (value) => setState(
                               () {
                                 isDark = !isDark;
-                                _setTheme();
-                                print(currentTheme);
+                                context.read<ThemeBloc>().add(
+                                      ThemeChangeChanged(),
+                                    );
+                                // _setTheme();
+                                // print(currentTheme);
                                 print(isDark);
                               },
                             ),
