@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
+import 'package:cipher/features/sign_up/presentation/bloc/resend_verification_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -83,14 +85,14 @@ class _ResendVerificationPageState extends State<ResendVerificationPage> {
           child: Column(
             children: <Widget>[
               kHeight20,
-              kHeight20,
+              // kHeight20,
               buildHeaderText(),
               kHeight5,
               const Text(
                 'Hey, No Worries!👋',
                 style: kHelper13,
               ),
-              kHeight20,
+              // kHeight20,
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -110,39 +112,115 @@ class _ResendVerificationPageState extends State<ResendVerificationPage> {
                             ),
                           ],
                         ),
-                        kHeight20,
+                        addVerticalSpace(20.0),
                         displayText2(),
                       ],
                     ),
                   ),
                 ),
               ),
-              Center(
-                child: CustomElevatedButton(
-                  callback: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-
-                      context.read<OtpResetVerifyBloc>().add(
-                            OtpResendSignUpInitiated(
-                              phoneNumber: "+977${phoneController.text}",
-                            ),
+              BlocListener<ResendVerificationBloc, ResendVerificationState>(
+                listener: (context, state2) async {
+                  if (state2 is ResendVerificationWithEmailSuccess) {
+                    if (!mounted) return;
+                    await showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Success',
+                        content: 'Verification has been sent to your email.',
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            SignInPage.routeName,
+                            (route) => false,
                           );
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        OtpSignUp.routeName,
-                        (route) => false,
-                        arguments: {
-                          'phone': '+977${phoneController.text}',
-                          'password': '',
                         },
-                      );
-                    }
-                  },
-                  label: 'Continue',
+                        isSuccess: true,
+                      ),
+                    );
+                  }
+                  if (state2 is ResendVerificationWithPhoneSuccess) {
+                    if (!mounted) return;
+                    await showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Success',
+                        content: 'OTP has been sent to your phone.',
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            OtpSignUp.routeName,
+                            (route) => false,
+                            arguments: {
+                              'phone': '+977${phoneController.text}',
+                            },
+                          );
+                        },
+                        isSuccess: true,
+                      ),
+                    );
+                  }
+                  if (state2 is ResendVerificationFailure) {
+                    if (!mounted) return;
+                    await showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Failure',
+                        content: state2.error ?? 'Failed to Send Verification.',
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  }
+                },
+                child: Visibility(
+                  visible: MediaQuery.of(context).viewInsets.bottom == 0.0,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 50.0),
+                      child: CustomElevatedButton(
+                        callback: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+
+                            if (state.isPhoneNumber) {
+                              context.read<ResendVerificationBloc>().add(
+                                    ResendVerificationWithPhoneInititated(
+                                      phone: "+977${phoneController.text}",
+                                    ),
+                                  );
+                              // Navigator.pushNamedAndRemoveUntil(
+                              //   context,
+                              //   OtpSignUp.routeName,
+                              //   (route) => false,
+                              //   arguments: {
+                              //     'phone': '+977${phoneController.text}',
+                              //   },
+                              // );
+                            }
+                            if (!state.isPhoneNumber) {
+                              context
+                                  .read<ResendVerificationBloc>()
+                                  .add(ResendVerificationWithEmailInitiated(
+                                    email: "${emailController.text}",
+                                  ));
+                              // Navigator.pushNamedAndRemoveUntil(
+                              //   context,
+                              //   SignInPage.routeName,
+                              //   (route) => false,
+                              //   // arguments: {
+                              //   //   'email': '+977${phoneController.text}',
+                              //   // },
+                              // );
+                            }
+                          }
+                        },
+                        label: 'Continue',
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              kHeight50,
             ],
           ),
         );

@@ -22,13 +22,15 @@ class SocialLoginSection extends StatelessWidget {
             );
           } else {
             return Image.asset(
-              'assets/logos/mail_logo.png',
+              'assets/logos/gmail.png',
+              width: 55.0,
+              height: 55.0,
             );
           }
         }
 
         return Column(
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [

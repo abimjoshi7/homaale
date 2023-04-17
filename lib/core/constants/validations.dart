@@ -42,3 +42,7 @@ Your password must be at least 10 character long with atleast
     }
   }
 }
+
+String? validateConfirmPassword(String? value) {
+
+}

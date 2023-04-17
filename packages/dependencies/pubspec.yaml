@@ -55,6 +55,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   cloud_firestore: ^4.5.0
   tuple: ^2.0.1
+  google_maps_flutter: ^2.2.5
 
 dev_dependencies:
   flutter_test:
