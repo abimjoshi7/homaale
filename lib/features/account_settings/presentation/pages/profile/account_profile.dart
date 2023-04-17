@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+   
     as sets;
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
@@ -350,62 +351,18 @@ class _AccountProfileState extends State<AccountProfile> {
                             onTap: () async {
                               await showDialog(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(
-                                    "Logout",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  ),
-                                  content: Text(
-                                    "Are you sure to logout?",
-                                    // style: kText15,
-                                  ),
-                                  actions: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Flexible(
-                                          child: CustomElevatedButton(
-                                            callback: () {
-                                              Navigator.pop(context);
-                                            },
-                                            label: "Cancel",
-                                            mainColor: Colors.white,
-                                            textColor: kColorPrimary,
-                                            borderColor: kColorPrimary,
-                                          ),
-                                        ),
-                                        addHorizontalSpace(
-                                          10,
-                                        ),
-                                        Flexible(
-                                          child: CustomElevatedButton(
-                                            callback: () async {
-                                              context.read<SignInBloc>().add(
-                                                    SignOutInitiated(),
-                                                  );
-                                              await Navigator
-                                                  .pushNamedAndRemoveUntil(
-                                                context,
-                                                SignInPage.routeName,
-                                                (route) => false,
-                                              );
-                                            },
-                                            label: "Continue",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                builder: (context) => CustomLogout(),
                               );
                             },
                             icon: const Icon(Icons.logout_rounded),
                             label: 'Logout',
-                            trailingWidget: const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
+                            trailingWidget: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                              ),
                             ),
                           );
                         },

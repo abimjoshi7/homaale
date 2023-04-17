@@ -44,6 +44,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   List<Widget> widgetList = [];
   List<String> requirementList = [];
   int? cityCode;
+  XFile? imagePath;
+  XFile? videoPath;
 
   late int selectedIndex;
   late bool isTask;
@@ -360,9 +362,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               context: context,
                               builder: (context) => Dialog(),
                             );
-                            await context
-                                .read<ImageUploadCubit>()
-                                .uploadImage();
+                            await context.read<ImageUploadCubit>().uploadImage(
+                                  imagePath: imagePath,
+                                );
                           },
                           child:
                               BlocListener<ImageUploadCubit, ImageUploadState>(
@@ -403,9 +405,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         addVerticalSpace(5),
                         InkWell(
                           onTap: () async {
-                            await context
-                                .read<ImageUploadCubit>()
-                                .uploadVideo();
+                            await context.read<ImageUploadCubit>().uploadVideo(
+                                  imagePath: videoPath,
+                                );
                           },
                           child:
                               BlocListener<ImageUploadCubit, ImageUploadState>(
@@ -583,7 +585,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
           );
         }
         return const Center(
-          child: CardLoading(height: 200,),
+          child: CardLoading(
+            height: 200,
+          ),
         );
       },
     );

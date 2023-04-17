@@ -1,12 +1,21 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/documents/presentation/cubit/image/image_upload_cubit.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/documents/presentation/cubit/image/image_upload_cubit.dart';
+
 class ImagePickerDialog extends StatelessWidget {
   final ImageUploadCubit uploadCubit;
+  final XFile? imagePath;
+  final List<XFile?>? imagePathList;
 
-  const ImagePickerDialog({super.key, required this.uploadCubit});
+  const ImagePickerDialog({
+    Key? key,
+    required this.uploadCubit,
+    this.imagePath,
+    this.imagePathList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +54,7 @@ class ImagePickerDialog extends StatelessWidget {
                     await uploadCubit
                         .uploadImage(
                       isCamera: true,
+                      imagePath: imagePath,
                     )
                         .whenComplete(
                       () {
@@ -62,7 +72,11 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () async {
-                    await uploadCubit.uploadMultipleImage().whenComplete(
+                    await uploadCubit
+                        .uploadMultipleImage(
+                      imagePath: imagePathList,
+                    )
+                        .whenComplete(
                       () {
                         Navigator.of(context).pop();
                       },

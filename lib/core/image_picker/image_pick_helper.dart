@@ -7,6 +7,7 @@ class ImagePickHelper {
     bool isCamera = true,
   }) async {
     final x = await _picker.pickImage(
+
       source: isCamera ? ImageSource.camera : ImageSource.gallery,
     );
     return x;
