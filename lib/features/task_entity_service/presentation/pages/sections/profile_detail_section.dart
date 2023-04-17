@@ -65,6 +65,8 @@ class ProfileDetailSection extends StatelessWidget {
                     if (!CacheHelper.isLoggedIn) {
                       notLoggedInPopUp(context);
                     }
+                    print(state.taskEntityService?.createdBy?.id);
+                    print(state.taskEntityService?.createdBy?.fullName);
                   },
                   child: const Icon(
                     Icons.favorite_border_outlined,

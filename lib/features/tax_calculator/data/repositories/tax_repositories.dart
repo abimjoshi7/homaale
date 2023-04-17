@@ -1,6 +1,6 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/data/models/tax_req.dart';
+import 'package:cipher/features/tax_calculator/data/models/tax_req.dart';
 
 class TaxRepositories {
   final _dio = DioHelper();

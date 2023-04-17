@@ -6,7 +6,6 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
@@ -191,12 +190,8 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<ChatBloc>(),
           ),
           BlocProvider(
-            create: (context) => TaxCalculatorCubit(),
-          ),
-          BlocProvider(
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
-
           BlocProvider(
             create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
