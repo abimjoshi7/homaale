@@ -21,11 +21,6 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
       ThemeState(
         themeData: AppThemes.appThemeData[event.appTheme],
       );
-      // Stream<ThemeState> mapEventToState(ThemeChangeChanged event) async* {
-      //   yield ThemeState(
-      //     themeData: AppThemes.appThemeData[event.appTheme],
-      //   );
-      // };
     });
   }
 }

@@ -12,7 +12,6 @@ class AppThemes {
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.transparent,
       ),
-      // textTheme: GoogleFonts.poppinsTextTheme(),
       textSelectionTheme: TextSelectionThemeData(),
       brightness: Brightness.light,
       radioTheme: RadioThemeData(

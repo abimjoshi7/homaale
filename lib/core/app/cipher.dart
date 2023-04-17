@@ -224,8 +224,8 @@ class Cipher extends StatelessWidget {
           builder: (BuildContext context, ThemeState themeState) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: themeState.themeData,
-              darkTheme: ThemeData.dark(),
+              theme: themeState.themeData== ThemeData.dark()? ThemeData.dark():ThemeData.light(),
+              // themeState.themeData,
               builder: (context, child) => ResponsiveWrapper.builder(
                 BouncingScrollWrapper.builder(context, child!),
                 maxWidth: 1200,

@@ -12,6 +12,4 @@ import '../../../../core/constants/enums.dart';
 
   @override
   List<Object?> get props => [theStates,themeData];
-
-
  }

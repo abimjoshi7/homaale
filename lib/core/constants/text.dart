@@ -62,9 +62,10 @@ const kPurpleText17 = TextStyle(
 );
 
 final kPurpleText19 = TextStyle(
-  color: AppTheme == AppTheme.lightTheme ? kColorSecondary :
-  // kColorSecondary,
-  Color(0xff3D3F7D),
+  color: AppThemes.appThemeData == AppTheme.darkTheme
+      ? kColorSecondary
+      :
+      Color(0xff3D3F7D),
   fontWeight: FontWeight.w600,
   fontSize: 19,
 );
