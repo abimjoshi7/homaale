@@ -11,7 +11,7 @@ class KycListRes with _$KycListRes {
     int? id,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
-    @JsonKey(name: "document_type") String? documentType,
+    @JsonKey(name: "document_type") int? documentType,
     @JsonKey(name: "document_id") String? documentId,
     String? file,
     @JsonKey(name: "issuer_organization") String? issuerOrganization,

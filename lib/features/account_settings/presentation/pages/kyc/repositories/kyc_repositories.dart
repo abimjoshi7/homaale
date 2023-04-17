@@ -69,4 +69,18 @@ class KycRepositories {
       rethrow;
     }
   }
+
+  Future<List<Map<String, dynamic>>> fetchKycDocType() async {
+    try {
+      final response = await _dio.getDatawithCredential(
+        url: "/task/kyc/document-type/",
+        token: CacheHelper.accessToken,
+      );
+      return List<Map<String, dynamic>>.from(
+        response as Iterable,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

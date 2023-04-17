@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
@@ -107,32 +109,58 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycDocumentLoaded>(
       (event, emit) async {
         try {
-          emit(state.copyWith(
-            theStates: TheStates.loading,
-          ));
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
           await repositories.getKycDocument().then(
-                (value) => value.isNotEmpty
-                    ? emit(
-                        state.copyWith(
-                          list: value
-                              .map(
-                                (e) => KycListRes.fromJson(e),
-                              )
-                              .toList(),
-                        ),
+            (value) {
+              emit(
+                state.copyWith(
+                  list: value
+                      .map(
+                        (e) => KycListRes.fromJson(e),
                       )
-                    : emit(
-                        state.copyWith(
-                          theStates: TheStates.failure,
-                          list: [],
-                        ),
-                      ),
+                      .toList(),
+                ),
               );
+            },
+          );
         } catch (e) {
+          log("Kyc document load error: $e");
           emit(
             state.copyWith(
               theStates: TheStates.failure,
               list: [],
+            ),
+          );
+        }
+      },
+    );
+
+    on<KycDocTypeLoaded>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
+          await repositories.fetchKycDocType().then(
+            (value) {
+              if (value.isNotEmpty)
+                emit(
+                  state.copyWith(
+                    isDocLoaded: true,
+                  ),
+                );
+            },
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              isDocLoaded: false,
             ),
           );
         }
