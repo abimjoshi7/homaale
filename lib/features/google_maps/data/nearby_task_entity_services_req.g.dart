@@ -11,9 +11,9 @@ _$_NearbyTaskEntityServiceReq _$$_NearbyTaskEntityServiceReqFromJson(
     _$_NearbyTaskEntityServiceReq(
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
-      page: json['page'] as int?,
-      pageSize: json['page_size'] as int?,
-      radius: (json['radius'] as num?)?.toDouble(),
+      page: json['page'] as int? ?? 1,
+      pageSize: json['page_size'] as int? ?? 10,
+      radius: (json['radius'] as num?)?.toDouble() ?? 10000,
     );
 
 Map<String, dynamic> _$$_NearbyTaskEntityServiceReqToJson(

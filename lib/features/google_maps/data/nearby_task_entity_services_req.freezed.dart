@@ -161,9 +161,9 @@ class _$_NearbyTaskEntityServiceReq implements _NearbyTaskEntityServiceReq {
   const _$_NearbyTaskEntityServiceReq(
       {this.latitude,
       this.longitude,
-      this.page,
-      @JsonKey(name: 'page_size') this.pageSize,
-      this.radius});
+      this.page = 1,
+      @JsonKey(name: 'page_size') this.pageSize = 10,
+      this.radius = 10000});
 
   factory _$_NearbyTaskEntityServiceReq.fromJson(Map<String, dynamic> json) =>
       _$$_NearbyTaskEntityServiceReqFromJson(json);
@@ -173,11 +173,13 @@ class _$_NearbyTaskEntityServiceReq implements _NearbyTaskEntityServiceReq {
   @override
   final double? longitude;
   @override
+  @JsonKey()
   final int? page;
   @override
   @JsonKey(name: 'page_size')
   final int? pageSize;
   @override
+  @JsonKey()
   final double? radius;
 
   @override
