@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
@@ -22,23 +21,56 @@ import 'package:flutter/material.dart';
 import '../../features/categories/presentation/pages/sections/categories_section.dart';
 import '../network_info/network_info.dart';
 
-class Root extends StatelessWidget {
+class Root extends StatefulWidget {
   static const routeName = '/root';
 
   const Root({Key? key}) : super(key: key);
 
   @override
+  State<Root> createState() => _RootState();
+}
+
+class _RootState extends State<Root> {
+  late bool enableShowcase;
+
+  @override
+  void initState() {
+    super.initState();
+    checkShowcase();
+  }
+
+  void checkShowcase() async {
+    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    if (showcase == 'not-shown') {
+      setState(() {
+        enableShowcase = true;
+      });
+    } else {
+      setState(() {
+        enableShowcase = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ShowCaseWidget(
+      onFinish: () {
+        CacheHelper.setCachedString(kShowcase, 'done');
+      },
+      enableShowcase: enableShowcase,
       builder: Builder(
-        builder: (context) => CalledRootClass(),
+        builder: (context) => CalledRootClass(
+          showcase: enableShowcase,
+        ),
       ),
     );
   }
 }
 
 class CalledRootClass extends StatefulWidget {
-  const CalledRootClass({Key? key}) : super(key: key);
+  const CalledRootClass({Key? key, required this.showcase}) : super(key: key);
+  final bool showcase;
 
   @override
   State<CalledRootClass> createState() => _CalledRootClassState();
@@ -172,7 +204,9 @@ class _CalledRootClassState extends State<CalledRootClass> {
         }
       },
     );
-    startShowCase();
+    if (widget.showcase) {
+      startShowCase();
+    }
     super.initState();
   }
 

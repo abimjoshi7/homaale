@@ -30,8 +30,7 @@ class ProfileDetailSection extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: NetworkImage(
-                        state.taskEntityService?.createdBy?.profileImage ??
-                            kDefaultAvatarNImg,
+                        state.taskEntityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
                       ),
                     ),
                   ),
@@ -43,7 +42,7 @@ class ProfileDetailSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
+                      width: MediaQuery.of(context).size.width * 0.6,
                       child: Text(
                         state.taskEntityService?.title ?? '',
                         style: kPurpleText16,
@@ -82,8 +81,7 @@ class ProfileDetailSection extends StatelessWidget {
                     final box = context.findRenderObject() as RenderBox?;
                     Share.share(
                       "Share this Hommale with friends.",
-                      sharePositionOrigin:
-                          box!.localToGlobal(Offset.zero) & box.size,
+                      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                     );
                   },
                   child: const Icon(
@@ -100,8 +98,7 @@ class ProfileDetailSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconText(
-              label: state.taskEntityService?.rating?.first.rating.toString() ??
-                  '4.5',
+              label: state.taskEntityService?.rating?.first.rating.toString() ?? '4.5',
               iconData: Icons.star_outlined,
               color: kColorAmber,
               size: 18,

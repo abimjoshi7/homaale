@@ -1,9 +1,6 @@
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/theme.dart';
-import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:flutter/material.dart';
-
-import '../../features/theme/presentation/bloc/theme_event.dart';
 
 Color kDarkThemeColor = Colors.white;
 
@@ -62,9 +59,10 @@ const kPurpleText17 = TextStyle(
 );
 
 final kPurpleText19 = TextStyle(
-  color: AppThemes.appThemeData == AppTheme.darkTheme
+  color: AppTheme == AppTheme.lightTheme
       ? kColorSecondary
       :
+      // kColorSecondary,
       Color(0xff3D3F7D),
   fontWeight: FontWeight.w600,
   fontSize: 19,
@@ -162,7 +160,6 @@ const kBoldText = TextStyle(
   color: Colors.black,
 );
 
-const kBodyText1 =
-    TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
+const kBodyText1 = TextStyle(color: Color(0xff5C6096), fontWeight: FontWeight.w500);
 
 const kHighlightedText = TextStyle(color: Color(0xff3EAEFF), fontSize: 10);
