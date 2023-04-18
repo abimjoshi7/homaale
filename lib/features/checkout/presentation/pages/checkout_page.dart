@@ -76,6 +76,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       Navigator.pushNamed(
                         context,
                         PaymentPage.routeName,
+                        arguments: orderID,
                       );
                     },
                     label: 'Confirm',
