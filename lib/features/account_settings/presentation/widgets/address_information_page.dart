@@ -63,117 +63,111 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
 
           return Column(
             children: [
-              const CustomModalSheetDrawerIcon(),
-              kHeight20,
               const Text(
                 'Address Information',
                 style: kPurpleText19,
               ),
-              Padding(
-                padding: kPadding20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BlocBuilder<CountryBloc, CountryState>(
-                      builder: (context, countryState) {
-                        if (countryState is CountryLoadSuccess) {
-                          countryList = countryState.list;
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BlocBuilder<CountryBloc, CountryState>(
+                    builder: (context, countryState) {
+                      if (countryState is CountryLoadSuccess) {
+                        countryList = countryState.list;
+                      }
+                      return CustomFormField(
+                        label: 'Country',
+                        child: CustomDropDownField(
+                          hintText: state.taskerProfile?.country?.name ??
+                              'Specify your country',
+                          list: countryList?.map((e) => e.name).toList() ??
+                              [
+                                'Australia',
+                                'Nepal',
+                              ],
+                          onChanged: (value) {
+                            setState(
+                              () async {
+                                countryName = value;
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  CustomFormField(
+                    label: 'Address Line 1',
+                    child: CustomTextFormField(
+                      hintText:
+                          state.taskerProfile?.addressLine1 ?? 'Baneshwor',
+                      onChanged: (p0) => setState(
+                        () {
+                          addressLine1 = p0;
+                        },
+                      ),
+                    ),
+                  ),
+                  CustomFormField(
+                    label: 'Address Line 2',
+                    child: CustomTextFormField(
+                      hintText: state.taskerProfile?.addressLine2 ?? '',
+                      onChanged: (p0) => setState(
+                        () {
+                          addressLine2 = p0;
+                        },
+                      ),
+                    ),
+                  ),
+                  BlocBuilder<LanguageBloc, LanguageState>(
+                    builder: (context, languageState) {
+                      if (languageState is LanguageLoadSuccess) {
+                        languageList = languageState.language;
+                      }
+                      return CustomFormField(
+                        label: 'Languages',
+                        child: CustomDropDownField(
+                          hintText: state.taskerProfile?.language?.name ??
+                              'Specify your language',
+                          list: languageList?.map((e) => e.name).toList() ??
+                              [
+                                'English',
+                                'Nepali',
+                              ],
+                          onChanged: (value) => setState(
+                            () {
+                              languages = value;
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  CustomFormField(
+                    label: 'Currency',
+                    child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                      builder: (context, currencyState) {
+                        if (currencyState is CurrencyLoadSuccess) {
+                          currencyList = currencyState.currencyListRes;
                         }
-                        return CustomFormField(
-                          label: 'Country',
-                          child: CustomDropDownField(
-                            hintText: state.taskerProfile?.country?.name ??
-                                'Specify your country',
-                            list: countryList?.map((e) => e.name).toList() ??
-                                [
-                                  'Australia',
-                                  'Nepal',
-                                ],
-                            onChanged: (value) {
-                              setState(
-                                () async {
-                                  countryName = value;
-                                },
-                              );
+                        return CustomDropDownField(
+                          hintText: state.taskerProfile?.chargeCurrency?.name ??
+                              'Choose suitable currency',
+                          list: currencyList?.map((e) => e.name).toList() ??
+                              [
+                                'NPR',
+                                'AUD',
+                              ],
+                          onChanged: (value) => setState(
+                            () {
+                              currency = value;
                             },
                           ),
                         );
                       },
                     ),
-                    CustomFormField(
-                      label: 'Address Line 1',
-                      child: CustomTextFormField(
-                        hintText:
-                            state.taskerProfile?.addressLine1 ?? 'Baneshwor',
-                        onChanged: (p0) => setState(
-                          () {
-                            addressLine1 = p0;
-                          },
-                        ),
-                      ),
-                    ),
-                    CustomFormField(
-                      label: 'Address Line 2',
-                      child: CustomTextFormField(
-                        hintText: state.taskerProfile?.addressLine2 ?? '',
-                        onChanged: (p0) => setState(
-                          () {
-                            addressLine2 = p0;
-                          },
-                        ),
-                      ),
-                    ),
-                    BlocBuilder<LanguageBloc, LanguageState>(
-                      builder: (context, languageState) {
-                        if (languageState is LanguageLoadSuccess) {
-                          languageList = languageState.language;
-                        }
-                        return CustomFormField(
-                          label: 'Languages',
-                          child: CustomDropDownField(
-                            hintText: state.taskerProfile?.language?.name ??
-                                'Specify your language',
-                            list: languageList?.map((e) => e.name).toList() ??
-                                [
-                                  'English',
-                                  'Nepali',
-                                ],
-                            onChanged: (value) => setState(
-                              () {
-                                languages = value;
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    CustomFormField(
-                      label: 'Currency',
-                      child: BlocBuilder<CurrencyBloc, CurrencyState>(
-                        builder: (context, currencyState) {
-                          if (currencyState is CurrencyLoadSuccess) {
-                            currencyList = currencyState.currencyListRes;
-                          }
-                          return CustomDropDownField(
-                            hintText:
-                                state.taskerProfile?.chargeCurrency?.name ??
-                                    'Choose suitable currency',
-                            list: currencyList?.map((e) => e.name).toList() ??
-                                [
-                                  'NPR',
-                                  'AUD',
-                                ],
-                            onChanged: (value) => setState(
-                              () {
-                                currency = value;
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               CustomElevatedButton(
                 callback: () async {

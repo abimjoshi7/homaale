@@ -12,34 +12,9 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(appBarTitle: "Edit Profile"),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            child: const Text(
-              'Edit Profile',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
-            ),
-          ),
-          const Divider(),
           const Expanded(
             child: FormEditProfileSection(),
           ),

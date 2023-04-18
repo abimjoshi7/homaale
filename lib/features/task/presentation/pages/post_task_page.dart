@@ -92,25 +92,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(appBarTitle: "Post a task"),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search),
-            ),
-            child: const Text('Post a Task'),
-          ),
-          const Divider(),
           Expanded(
             child: Form(
               key: _key,

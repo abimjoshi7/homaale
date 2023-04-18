@@ -93,29 +93,9 @@ class _PostServicePageState extends State<PostServicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(appBarTitle: "Post a service"),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              onPressed: () async {
-                print(categoriesBloc.state.theStates);
-                print(123);
-                print(categoriesBloc.state.taskSubCategoryModel);
-              },
-              icon: const Icon(Icons.search),
-            ),
-            child: const Text('Post a Service'),
-          ),
-          const Divider(),
           Expanded(
             child: Form(
               key: _key,

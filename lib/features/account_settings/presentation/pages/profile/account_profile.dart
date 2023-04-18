@@ -1,9 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+    as sets;
 
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
@@ -26,34 +26,13 @@ class AccountProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Account",
+        leadingWidget: SizedBox.shrink(),
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: addHorizontalSpace(45),
-            trailingWidget: IconButton(
-              icon: const Icon(
-                Icons.search,
-                size: 0,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  CompleteProfilePage.routeName,
-                );
-              },
-            ),
-            child: const Text(
-              'Account',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
-            ),
-          ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state.theStates == TheStates.initial)
@@ -91,7 +70,8 @@ class AccountProfile extends StatelessWidget {
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
-                                        state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                        state.taskerProfile?.profileImage ??
+                                            kServiceImageNImg,
                                       ),
                                     ),
                                   ),
@@ -102,10 +82,16 @@ class AccountProfile extends StatelessWidget {
                                 AccountUserInfoSection(
                                   name:
                                       '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                                  isVerified: state.taskerProfile?.isProfileVerified ?? false,
-                                  designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
+                                  isVerified:
+                                      state.taskerProfile?.isProfileVerified ??
+                                          false,
+                                  designation: state.taskerProfile?.designation
+                                          ?.toString() ??
+                                      'Homaale User',
                                   credentialId:
-                                      state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                                      state.taskerProfile?.user?.phone ??
+                                          state.taskerProfile?.user?.email ??
+                                          '',
                                 ),
                               ],
                             ),
@@ -120,14 +106,16 @@ class AccountProfile extends StatelessWidget {
                             ProfileStatsCard(
                               imagePath: 'assets/reward.png',
                               label: 'Reward Points',
-                              value: state.taskerProfile?.points.toString() ?? '0',
+                              value:
+                                  state.taskerProfile?.points.toString() ?? '0',
                             ),
                             BlocBuilder<WalletBloc, WalletState>(
                               builder: (context, walletState) {
                                 return ProfileStatsCard(
                                   imagePath: 'assets/wallet.png',
                                   label: 'Account Balance',
-                                  value: "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                                  value:
+                                      "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
                                 );
                               },
                             ),
@@ -187,10 +175,8 @@ class AccountProfile extends StatelessWidget {
 
                       AccountListTileSection(
                         onTap: () {
-
                           Navigator.pushNamed(
                               context, ChatListingPage.routeName);
-
                         },
                         icon: const Icon(
                           Icons.chat_bubble_outline,
@@ -235,7 +221,6 @@ class AccountProfile extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-
                             OffersPage.routeName,
                           );
                         },
@@ -253,7 +238,6 @@ class AccountProfile extends StatelessWidget {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-
                             sets.Settings.routeName,
                           );
                         },
@@ -334,7 +318,8 @@ class AccountProfile extends StatelessWidget {
                                               context.read<SignInBloc>().add(
                                                     SignOutInitiated(),
                                                   );
-                                              await Navigator.pushNamedAndRemoveUntil(
+                                              await Navigator
+                                                  .pushNamedAndRemoveUntil(
                                                 context,
                                                 SignInPage.routeName,
                                                 (route) => false,

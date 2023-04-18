@@ -34,3 +34,4 @@ export './widget_text.dart';
 export '../features/home/presentation/widgets/widgets.dart';
 export '../features/sign_in/presentation/widgets/sign_in_scaffold.dart';
 export './the_categories_dropdown.dart';
+export './custom_app_bar.dart';

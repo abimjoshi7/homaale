@@ -7,6 +7,7 @@ import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   List<int?>? interestCodes = [];
   final _key = GlobalKey<FormState>();
   bool isCamera = false;
+  final userBloc = locator<UserBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         content: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            WidgetText(
+                            Flexible(
+                              child: WidgetText(
                                 callback: () {
                                   setState(
                                     () {
@@ -84,18 +87,22 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                   Navigator.pop(context);
                                 },
                                 widget: Icon(Icons.camera_alt_outlined),
-                                label: "Camera"),
-                            WidgetText(
-                                callback: () {
-                                  setState(
-                                    () {
-                                      isCamera = false;
-                                    },
-                                  );
-                                  Navigator.pop(context);
-                                },
-                                widget: Icon(Icons.camera_alt_outlined),
-                                label: "Gallery"),
+                                label: "Camera",
+                              ),
+                            ),
+                            Flexible(
+                              child: WidgetText(
+                                  callback: () {
+                                    setState(
+                                      () {
+                                        isCamera = false;
+                                      },
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  widget: Icon(Icons.camera_alt_outlined),
+                                  label: "Gallery"),
+                            ),
                           ],
                         ),
                       ),
@@ -297,16 +304,15 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                         Icons.calendar_month_rounded,
                         color: kColorPrimary,
                       ),
-                      hintText: DateFormat('yyyy-MM-dd').format(
-                        dateOfBirth ?? DateTime(1980),
-                      ),
+                      hintText: dateOfBirth == null
+                          ? "yyyy-mm-dd"
+                          : DateFormat('yyyy-MM-dd').format(
+                              dateOfBirth!,
+                            ),
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                  child: Divider(),
-                ),
+
                 // CustomFormField(
                 //   label: 'Select User Type',
                 //   isRequired: true,
@@ -349,6 +355,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 CustomFormField(
                   label: 'Interests',
+                  isRequired: true,
                   child: BlocBuilder<InterestsBloc, InterestsState>(
                     builder: (context, state) {
                       if (state is InterestsLoadSuccess) {
@@ -377,6 +384,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 CustomFormField(
                   label: 'Experience level',
+                  isRequired: true,
                   child: Column(
                     children: [
                       Row(
@@ -514,6 +522,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       if (state is CountryLoadSuccess) {
                         return CustomDropDownField(
+                          initialValue: state.list
+                              .firstWhere(
+                                (element) => element.name!.startsWith("Nepal"),
+                              )
+                              .name,
                           list: List.generate(
                             state.list.length,
                             (index) => state.list[index].name,
@@ -616,11 +629,16 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       if (state is LanguageLoadSuccess) {
                         return CustomDropDownField(
+                          initialValue: state.language
+                              .firstWhere(
+                                (element) => element.name.startsWith("English"),
+                              )
+                              .name,
                           list: List.generate(
                             state.language.length,
                             (index) => state.language[index].name,
                           ),
-                          hintText: 'Enter your city',
+                          hintText: 'Enter your language',
                           onChanged: (p0) => setState(
                             () async {
                               final x = state.language.firstWhere(
@@ -672,6 +690,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   child: Divider(),
                 ),
                 CustomFormField(
+                  isRequired: true,
                   label: 'Visibility',
                   child: CustomDropDownField<String>(
                     hintText: 'Choose one',
@@ -688,6 +707,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 ),
                 CustomFormField(
                   label: 'Task Preferences',
+                  isRequired: true,
                   child: CustomDropDownField<String>(
                     list: const [
                       'Long-Term Tasks',
@@ -701,8 +721,10 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     hintText: 'Choose one',
                   ),
                 ),
+                addVerticalSpace(8),
                 Center(
                   child: BlocConsumer<UserBloc, UserState>(
+                    bloc: userBloc,
                     listener: (context, state) async {
                       final error = await CacheHelper.getCachedString(
                         kErrorLog,
@@ -815,7 +837,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "language": languageController.text,
                             };
                             if (!mounted) return;
-                            context.read<UserBloc>().add(UserAdded(req: q));
+                            userBloc.add(
+                              UserAdded(
+                                req: q,
+                              ),
+                            );
                           } else {
                             if (!mounted) return;
                             showDialog(
@@ -860,7 +886,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
     visibilityController.dispose();
     taskPreferencesController.dispose();
     tagController.dispose();
-
+    userBloc.close();
     super.dispose();
   }
 }
