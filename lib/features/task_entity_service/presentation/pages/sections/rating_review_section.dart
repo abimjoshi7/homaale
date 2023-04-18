@@ -37,12 +37,11 @@ class RatingReviewSection extends StatelessWidget {
                       Flexible(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const <Widget>[
+                          children:  <Widget>[
                             Text(
                               'Reviews ',
-                              style: kPurpleText16,
-                            ),
-                            Text('(30)')
+                             style: Theme.of(context).textTheme.headlineSmall,                            ),
+                            Text('(0)')
                           ],
                         ),
                       ),

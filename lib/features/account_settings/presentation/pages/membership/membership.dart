@@ -41,7 +41,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'Free',
                   style: kPurpleText19,
@@ -59,7 +59,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'BASIC',
                   style: kPurpleText19,
@@ -77,7 +77,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'SILVER',
                   style: kPurpleText19,
@@ -100,7 +100,7 @@ class Membership extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Center(child: CustomModalSheetDrawerIcon()),
-                      const Center(
+                       Center(
                         child: Text(
                           'Homaale Silver Plan',
                           style: kPurpleText19,
@@ -161,7 +161,7 @@ class Membership extends StatelessWidget {
           AccountListTileSection(
             icon: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children:  [
                 Text(
                   'PREMIUM',
                   style: kPurpleText19,

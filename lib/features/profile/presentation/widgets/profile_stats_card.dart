@@ -25,7 +25,7 @@ class ProfileStatsCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: kText20,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +34,7 @@ class ProfileStatsCard extends StatelessWidget {
                 kWidth5,
                 Text(
                   label,
-                  style: kText17,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),

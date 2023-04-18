@@ -28,7 +28,10 @@ class _BookedServicePageState extends State<BookedServicePage> {
         builder: (context, state) {
           if (state.states == TheStates.initial) {
             return const Center(
-              child: CardLoading(height: 200,),);
+              child: CardLoading(
+                height: 200,
+              ),
+            );
           } else if (state.states == TheStates.success) {
             final booking = state.result!;
             final mediaList = <bm.Image>[
@@ -82,10 +85,12 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.7,
+                                              0.6,
                                           child: Text(
                                             '${booking.entityService?.title ?? ''}',
-                                            style: kPurpleText16,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
@@ -169,8 +174,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                               addVerticalSpace(10),
                               Text(
                                 'Images',
-                                style: kPurpleText16,
-                              ),
+                                  style: Theme.of(context).textTheme.headlineSmall,                              ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 height:

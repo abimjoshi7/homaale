@@ -57,35 +57,36 @@ class _ProfessionalInformationModalSheetState
         // }
       },
       builder: (context, state) {
-        if (state.theStates == TheStates.success) {
-          // if (state.taskerProfile!.userType!
-          //         .replaceAll(
-          //             RegExp(
-          //               r"\p{P}",
-          //               unicode: true,
-          //             ),
-          //             '')
-          //         .split(' ')
-          //         .length >
-          //     1) {
-          //   isTasker = true;
-          //   isClient = true;
-          // } else if (state.taskerProfile!.userType!
-          //             .replaceAll(RegExp(r"\p{P}", unicode: true), '')
-          //             .split(' ')
-          //             .length ==
-          //         1 &&
-          //     state.taskerProfile!.userType!
-          //             .replaceAll(RegExp(r"\p{P}", unicode: true), '')
-          //             .split(' ')
-          //             .first
-          //             .toLowerCase()
-          //             .trim() ==
-          //         'tasker') {
-          //   isTasker = true;
-          // } else {
-          //   isClient = true;
-          // }
+        if (state.theStates == TheStates.success && state.taskerProfile!.userType !=null) {
+          if (state.taskerProfile!.userType!
+                  .replaceAll(
+                      RegExp(
+                        r"\n{P}",
+                        unicode: true,
+                      ),
+                      '')
+                  .split(' ')
+                  .length >
+              1) {
+            isTasker = true;
+            isClient = true;
+          } else if (state.taskerProfile!.userType!
+                      .replaceAll(RegExp(r"\n{P}", unicode: true), '')
+                      .split(' ')
+                      .length ==
+                  1 &&
+              state.taskerProfile!.userType!
+                      .replaceAll(RegExp(r"\n{P}", unicode: true), '')
+                      .split(' ')
+                      .first
+                      .toLowerCase()
+                      .trim() ==
+                  'tasker') {
+            isTasker = true;
+          } else {
+            isClient = true;
+          }
+
 
           Widget displayClientCheckBox() {
             return Builder(
@@ -142,7 +143,7 @@ class _ProfessionalInformationModalSheetState
                   .split(',')
                   .map(
                     (e) => e.replaceAll(
-                      RegExp(r"\p{P}", unicode: true),
+                      RegExp(r"\n{P}", unicode: true),
                       "",
                     ),
                   )

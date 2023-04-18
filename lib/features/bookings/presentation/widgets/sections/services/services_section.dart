@@ -76,6 +76,7 @@ class _ServicesSectionState extends State<ServicesSection> {
         builder: (context, state) {
           return Column(
             children: [
+              SizedBox(height: 20,),
               Expanded(
                 child: PagedListView.separated(
                   pagingController: _pagingController,
@@ -205,11 +206,11 @@ class _ServicesSectionState extends State<ServicesSection> {
       children: [
         Text(
           "Rs. ${result.budgetFrom ?? '0'} - Rs. ${result.budgetTo ?? '0'}",
-          style: kText17,
+          // style: kText17,
         ),
         const Text(
           '/ project',
-          style: kHelper13,
+          // style: kHelper13,
         ),
       ],
     );

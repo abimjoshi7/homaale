@@ -29,9 +29,9 @@ class EducationView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                       Text(
                         'Education',
-                        style: kPurpleText19,
+                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {

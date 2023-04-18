@@ -389,9 +389,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       children: [
                         Row(
                           children: [
-                            const Text(
+                             Text(
                               'Maximum Video Size 20 MB',
-                              style: kHelper13,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             addHorizontalSpace(5),
                             const Icon(

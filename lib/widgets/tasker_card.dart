@@ -72,7 +72,7 @@ class TaskerCard extends StatelessWidget {
                             Flexible(
                               child: AutoSizeText(
                                 label ?? 'Harry Smith',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

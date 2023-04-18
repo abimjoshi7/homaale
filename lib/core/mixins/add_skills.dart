@@ -10,7 +10,7 @@ mixin AddSkills {
         children: [
           const CustomModalSheetDrawerIcon(),
           kHeight20,
-          const Text(
+           Text(
             'Add new skills',
             style: kPurpleText19,
           ),

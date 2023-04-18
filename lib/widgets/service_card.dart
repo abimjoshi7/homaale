@@ -45,7 +45,7 @@ class ServiceCard extends StatelessWidget {
               children: [
                 AutoSizeText(
                   title ?? 'Root Canal Treatment',
-                  style: kPurpleText16,
+                  style: Theme.of(context).textTheme.headlineSmall,
                   overflow: TextOverflow.ellipsis,
                 ),
                 AutoSizeText(

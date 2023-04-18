@@ -28,13 +28,13 @@ class PasswordAndSecurity extends StatelessWidget {
           ),
           child: const Text(
             'Password & Security',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Color(
-                0xff212529,
-              ),
-            ),
+            // style: TextStyle(
+            //   fontSize: 14,
+            //   fontWeight: FontWeight.w500,
+            //   color: Color(
+            //     0xff212529,
+            //   ),
+            // ),
           ),
         ),
         const Divider(),
@@ -45,14 +45,14 @@ class PasswordAndSecurity extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kHeight20,
-                const Text(
+                 Text(
                   'Password',
-                  style: kPurpleText16,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 kHeight5,
                 const Text(
                   'You will be asked to enter password before logging in Homaale',
-                  style: kHelper13,
+                  // style: kHelper13,
                 ),
                 kHeight20,
 

@@ -62,9 +62,11 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         if (state.theStates == TheStates.success) {
           return Column(
             children: [
-              const Text(
+              const CustomModalSheetDrawerIcon(),
+              kHeight10,
+               Text(
                 'Personal Information',
-                style: kPurpleText19,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,24 +81,29 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                         },
                       ),
                     ),
-                  ),
-                  CustomFormField(
-                    label: 'Contact',
-                    child: CustomTextFormField(
-                      textInputType: TextInputType.number,
-                      hintText: state.taskerProfile?.user?.phone ?? '',
-                      prefixWidget: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset('assets/nepalflag.png'),
-                            const Text(
-                              '+977',
-                              style: kBodyText1,
-                            ),
-                            const Icon(Icons.arrow_drop_down)
-                          ],
+                    CustomFormField(
+                      label: 'Contact',
+                      child: CustomTextFormField(
+                        textInputType: TextInputType.number,
+                        hintText: state.taskerProfile?.user?.phone ?? '',
+                        prefixWidget: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/nepalflag.png'),
+                               Text(
+                                '+977',
+                                  style: Theme.of(context).textTheme.headlineSmall                              ),
+                              const Icon(Icons.arrow_drop_down)
+                            ],
+                          ),
+                        ),
+                        onChanged: (p0) => setState(
+                          () {
+                            contact = p0;
+                          },
+
                         ),
                       ),
                       onChanged: (p0) => setState(
@@ -132,72 +139,69 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                         ),
                       ),
                     ),
+                    CustomFormField(
+                      label: 'Please specify your gender',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ChoiceChip(
+                            selected: isMale,
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffDEE2E6)),
+                            ),
+                            onSelected: (value) {
+                              setState(() {
+                                isMale = value;
+                                isFemale = !value;
+                                isOther = !value;
+                              });
+                            },
+                            label:  Text(
+                              'Male',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            selectedColor: kColorPrimary,
+                          ),
+                          ChoiceChip(
+                            selected: isFemale,
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffDEE2E6)),
+                            ),
+                            onSelected: (value) {
+                              setState(() {
+                                isFemale = value;
+                                isMale = !value;
+                                isOther = !value;
+                              });
+                            },
+                            label:  Text(
+                              'Female',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            selectedColor: kColorPrimary,
+                          ),
+                          ChoiceChip(
+                            selected: isOther,
+                            backgroundColor: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(color: Color(0xffDEE2E6)),
+                            ),
+                            onSelected: (value) {
+                              setState(() {
+                                isOther = value;
+                                isMale = !value;
+                                isFemale = !value;
+                              });
+                            },
+                            label:  Text(
+                              'Other',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            selectedColor: kColorPrimary,
                   ),
-                  CustomFormField(
-                    label: 'Please specify your gender',
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ChoiceChip(
-                          selected: isMale,
-                          backgroundColor: Colors.transparent,
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide(color: Color(0xffDEE2E6)),
-                          ),
-                          onSelected: (value) {
-                            setState(() {
-                              isMale = value;
-                              isFemale = !value;
-                              isOther = !value;
-                            });
-                          },
-                          label: const Text(
-                            'Male',
-                            style: kHelper13,
-                          ),
-                          selectedColor: kColorPrimary,
-                        ),
-                        ChoiceChip(
-                          selected: isFemale,
-                          backgroundColor: Colors.transparent,
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide(color: Color(0xffDEE2E6)),
-                          ),
-                          onSelected: (value) {
-                            setState(() {
-                              isFemale = value;
-                              isMale = !value;
-                              isOther = !value;
-                            });
-                          },
-                          label: const Text(
-                            'Female',
-                            style: kHelper13,
-                          ),
-                          selectedColor: kColorPrimary,
-                        ),
-                        ChoiceChip(
-                          selected: isOther,
-                          backgroundColor: Colors.transparent,
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide(color: Color(0xffDEE2E6)),
-                          ),
-                          onSelected: (value) {
-                            setState(() {
-                              isOther = value;
-                              isMale = !value;
-                              isFemale = !value;
-                            });
-                          },
-                          label: const Text(
-                            'Other',
-                            style: kHelper13,
-                          ),
-                          selectedColor: kColorPrimary,
-                        ),
-                      ],
-                    ),
-                  ),
+              
                   CustomFormField(
                     label: 'Bio',
                     child: CustomTextFormField(

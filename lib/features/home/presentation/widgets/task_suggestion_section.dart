@@ -12,6 +12,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class TasksRecommendationSection extends StatefulWidget {
+  static final taskRecoSection = GlobalKey();
+
   const TasksRecommendationSection({super.key});
 
   @override
@@ -69,6 +71,9 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                 AllTaskPage.routeName,
               );
             },
+            showKey: TasksRecommendationSection.taskRecoSection,
+            showCaseTitle: 'See All',
+            showCaseDec: 'See All recommendation task from here.',
           ),
           BlocBuilder<TaskBloc, TaskState>(
             builder: (context, state) {

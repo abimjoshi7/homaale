@@ -14,6 +14,34 @@ class AdditionalAccountInfoPage extends StatelessWidget
       appBar: CustomAppBar(appBarTitle: "Account"),
       body: Column(
         children: [
+          kHeight50,
+          CustomHeader(
+            leadingWidget: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
+            ),
+            trailingWidget: IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+            child: Text(
+              'Account',
+              style: Theme.of(context).textTheme.bodySmall,
+              // style: TextStyle(
+              //   fontSize: 14,
+              //   fontWeight: FontWeight.w500,
+              //   color: Color(
+              //     0xff212529,
+              //   ),
+              // ),
+            ),
+          ),
+          const Divider(),
+
           AccountListTileSection(
             icon: const SizedBox.shrink(),
             label: 'Personal information',

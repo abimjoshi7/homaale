@@ -57,7 +57,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: BlocBuilder<TaskerCubit, TaskerState>(
         builder: (context, state) {
           String profilePicUrl() {
@@ -278,7 +278,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                             children: [
                               Text(
                                 '${state.tasker?.user!.firstName!} ${state.tasker?.user!.lastName!}',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               kWidth5,
                               if (state.tasker?.isProfileVerified! == true)
@@ -409,8 +409,12 @@ class TaskerProfileViewState extends State<TaskerProfileView>
               ],
             );
           } else {
-            return const Center(
+            return  Center(
               child: CardLoading(
+                // cardLoadingTheme: CardLoadingTheme(
+                //   colorOne: Theme.of(context).cardColor,
+                //   colorTwo: Theme.of(context).cardColor,
+                // ),
                 height: 200,
               ),
             );

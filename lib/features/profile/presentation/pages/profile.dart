@@ -47,7 +47,35 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       appBar: CustomAppBar(appBarTitle: "Profile"),
       body: Column(
         children: [
-          addVerticalSpace(8),
+          kHeight50,
+          CustomHeader(
+            leadingWidget: IconButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Root.routeName,
+                  (route) => false,
+                );
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
+            ),
+            trailingWidget: IconButton(
+              onPressed: () async {
+                Navigator.pushNamed(
+                  context,
+                  SearchPage.routeName,
+                );
+              },
+              icon: const Icon(
+                Icons.search,
+              ),
+            ),
+            child: const Text('Profile'),
+          ),
+          const CustomHorizontalDivider(),
+          kHeight10,
           const ProfileHeaderSection(),
           ProfileRewardBalanceSection(user: user),
           const ProfileStatsSection(),

@@ -30,7 +30,8 @@ class PriceBookFooterSection extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.09,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: bgColor ?? Color(0xffBCD4FA),
+        color: bgColor ?? Theme.of(context).cardColor,
+            //Color(0xffBCD4FA),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +44,7 @@ class PriceBookFooterSection extends StatelessWidget {
                   const Text('Total Price'),
                   Text(
                     price ?? 'Rs. 1000',
-                    style: kText20,
+                    // style: kText20,
                   ),
                 ],
               ),
@@ -66,9 +67,9 @@ class PriceBookFooterSection extends StatelessWidget {
               child: AutoSizeText(
                 textAlign: TextAlign.center,
                 buttonLabel ?? '',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+                // style: TextStyle(
+                //   color: Colors.white,
+                // ),
               ),
             ),
           ),

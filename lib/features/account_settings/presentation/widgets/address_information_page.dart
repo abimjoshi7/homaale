@@ -63,9 +63,11 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
 
           return Column(
             children: [
-              const Text(
+              const CustomModalSheetDrawerIcon(),
+              kHeight20,
+               Text(
                 'Address Information',
-                style: kPurpleText19,
+                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,7 +224,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
           children: [
             const CustomModalSheetDrawerIcon(),
             kHeight20,
-            const Text(
+             Text(
               'Address Information',
               style: kPurpleText19,
             ),

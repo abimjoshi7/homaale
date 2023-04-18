@@ -13,7 +13,7 @@ class DealsOfTheDaySection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+               Text(
                 'Deals of the day',
                 style: kPurpleText19,
               ),

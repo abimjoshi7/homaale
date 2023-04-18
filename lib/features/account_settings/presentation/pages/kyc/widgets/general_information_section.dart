@@ -11,7 +11,7 @@ class GeneralInformationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
+         Text(
           'General Information',
           style: kPurpleText19,
         ),

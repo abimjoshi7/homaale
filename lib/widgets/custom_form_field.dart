@@ -30,7 +30,7 @@ class CustomFormField extends StatelessWidget {
               children: [
                 Text(
                   label ?? '',
-                  style: kPurpleText16,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 if (isRequired == true)
                   const Text(

@@ -6,13 +6,14 @@ import '../../data/repositories/order_list_repositories.dart';
 import 'order_retrive_event.dart';
 import 'order_retrive_state.dart';
 
-class OrderItemRetriveBloc extends Bloc<OrderItemRetriveEvent, OrderItemRetriveState> {
+class OrderItemRetriveBloc
+    extends Bloc<OrderItemRetriveEvent, OrderItemRetriveState> {
   final repo = OrderListRepositories();
   OrderItemRetriveBloc() : super(const OrderItemRetriveState()) {
     on<OrderItemRetriveInitiated>(
       (event, emit) async {
+        emit(state.copyWith(theStates: TheStates.initial));
         try {
-          emit(state.copyWith(theStates: TheStates.initial));
           await repo.getAllOrderRetrive(event.uuid).then((value) {
             emit(
               state.copyWith(
@@ -22,8 +23,8 @@ class OrderItemRetriveBloc extends Bloc<OrderItemRetriveEvent, OrderItemRetriveS
             );
           });
         } catch (e) {
-          log("notification parse error$e");
-          emit(state.copyWith(theStates: TheStates.failure, orderItemRetriveList: OrderItemRetriveList()));
+          log("retrieve error$e");
+          emit(state.copyWith(theStates: TheStates.failure));
         }
       },
     );

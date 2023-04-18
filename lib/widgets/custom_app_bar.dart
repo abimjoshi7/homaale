@@ -23,23 +23,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: AutoSizeText(
         appBarTitle,
         minFontSize: 14,
-        style: kText14.copyWith(
-          fontSize: 16,
-          color: kColorGreyDark,
-        ),
+        style: Theme.of(context).textTheme.bodySmall,
+        // style: kText14.copyWith(
+        //   fontSize: 16,
+        //   color: kColorGreyDark,
+        // ),
       ),
       centerTitle: true,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: leadingWidget ??
-          IconButton(
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              size: 25.0,
-              color: kColorGreyDark,
-            ),
-            onPressed: () => Navigator.pop(context),
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_rounded,
+          size: 25.0,
+          color: Theme.of(context).appBarTheme.iconTheme?.color,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () => Navigator.pushNamed(
+            context,
+            SearchPage.routeName,
+          ),
+          icon: Icon(
+            Icons.search_rounded,
+            color: Theme.of(context).appBarTheme.iconTheme?.color,
+            size: 25,
+
           ),
       actions: [
         trailingWidget ??

@@ -148,7 +148,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           addVerticalSpace(10),
                           Text(
                             'Media',
-                            style: kPurpleText16,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
@@ -264,7 +264,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               'Applicants',
-                              style: kPurpleText16,
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                           ),
                           addVerticalSpace(10),

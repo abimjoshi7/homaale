@@ -20,6 +20,7 @@ class AccountListTileSection extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Padding(
             padding: const EdgeInsets.all(15),
@@ -28,15 +29,23 @@ class AccountListTileSection extends StatelessWidget {
               children: [
                 Expanded(
                   child: Row(
-                    children: [icon, kWidth20, Text(label)],
+                    children: [
+                      icon,
+                      kWidth20,
+                      Text(
+                        label,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
+                    ],
                   ),
                 ),
                 trailingWidget
               ],
             ),
           ),
-          const Divider(
-            thickness: 0.5,
+          Divider(
+            thickness: 2,
+            color: Colors.grey.shade300,
           ),
         ],
       ),

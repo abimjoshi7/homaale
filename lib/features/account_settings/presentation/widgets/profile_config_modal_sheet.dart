@@ -23,9 +23,11 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
         if (state.theStates == TheStates.success) {
           return Column(
             children: [
-              const Text(
+              const CustomModalSheetDrawerIcon(),
+               Text(
+
                 'Profile Configuration',
-                style: kPurpleText19,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

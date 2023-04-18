@@ -9,7 +9,7 @@ class BankDetailsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
+         Text(
           'Bank Details',
           style: kPurpleText19,
         ),

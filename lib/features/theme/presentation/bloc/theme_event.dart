@@ -1,4 +1,6 @@
-part of 'theme_bloc.dart';
+
+
+import 'package:dependencies/dependencies.dart';
 
 abstract class ThemeEvent extends Equatable {
   const ThemeEvent();

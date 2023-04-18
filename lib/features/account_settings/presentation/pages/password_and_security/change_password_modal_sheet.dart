@@ -40,7 +40,7 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
         kHeight10,
         const Text(
           'Change Password',
-          style: kText17,
+          // style: kText17,
         ),
         Form(
           key: _key,

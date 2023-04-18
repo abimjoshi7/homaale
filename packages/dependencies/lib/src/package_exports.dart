@@ -22,7 +22,6 @@ export 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 export 'package:intl/intl.dart';
 export 'package:jiffy/jiffy.dart';
 export 'package:json_annotation/json_annotation.dart';
-export 'package:khalti_flutter/khalti_flutter.dart';
 export 'package:multi_select_flutter/multi_select_flutter.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:pinput/pinput.dart';
@@ -41,3 +40,4 @@ export 'package:flutter_inappwebview/flutter_inappwebview.dart' hide AndroidOpti
 export 'package:dropdown_search/dropdown_search.dart';
 export 'package:cloud_firestore/cloud_firestore.dart' hide Filter;
 export 'package:tuple/tuple.dart';
+export 'package:showcaseview/showcaseview.dart';

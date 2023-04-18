@@ -32,13 +32,13 @@ class DeactivatePage extends StatelessWidget {
             ),
             child: const Text(
               'Deactivate',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
+              // style: TextStyle(
+              //   fontSize: 14,
+              //   fontWeight: FontWeight.w500,
+              //   color: Color(
+              //     0xff212529,
+              //   ),
+              // ),
             ),
           ),
           const Divider(),
@@ -195,8 +195,8 @@ class DeactivationHeaderInfo extends StatelessWidget {
       padding: kPadding20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Deactivating your Homaale account', style: kPurpleText19),
+        children:  [
+          Text('Deactivating your Homaale account', style: Theme.of(context).textTheme.headlineSmall),
           kHeight20,
           Text(
             'If you want to take a break from Homaale, you can deactivate your account. You can activate your account after 5 days of deactivation time.',

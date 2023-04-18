@@ -23,7 +23,6 @@ class BoxPage extends StatefulWidget {
 
 class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   final orderIdCreateBloc = locator<OrderIdCreateBloc>();
-
   late TabController _tabController;
   final TextStyle style = TextStyle(color: Colors.black, fontSize: 14);
   List<int> selectedItems = [];
@@ -64,11 +63,11 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           'Box',
-          style: TextStyle(color: Colors.black),
+          // style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
@@ -102,7 +101,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                     : TabBarView(
                         controller: _tabController,
                         children: [
-                          (state.theStates == TheStates.failure)
+                          (state.theStates == TheStates.failure ||
+                                  state.orderItemList?.result!.length == 0)
                               ? Center(child: Text("Opps! Try Again."))
                               : SingleChildScrollView(
                                   child: ListView.builder(
@@ -143,7 +143,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                             children: [
                                               Padding(
                                                 padding:
-                                                    const EdgeInsets.all(16.0),
+                                                    const EdgeInsets.all(10.0),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,

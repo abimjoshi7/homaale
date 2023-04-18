@@ -10,6 +10,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class PopularServicesSection extends StatelessWidget {
+  static final pServiceKey = GlobalKey();
+
   const PopularServicesSection({
     super.key,
   });
@@ -26,17 +28,14 @@ class PopularServicesSection extends StatelessWidget {
                 SectionHeading(
                   labelName: 'Popular services',
                   onTap: () async {
-                    // try {
-                    //   await ServicesRepositories().fetchApplicants(
-                    //       id: "b9834867-327e-4bbd-b0f9-aa3f158f8307");
-                    // } catch (e) {
-                    //   log("Test repo" + e.toString());
-                    // }
                     Navigator.pushNamed(
                       context,
                       PopularServicesPage.routeName,
                     );
                   },
+                  showKey: pServiceKey,
+                  showCaseTitle: 'Popular Service',
+                  showCaseDec: 'See All Popular Service from here.',
                 ),
                 SizedBox(
                   height: 250,
@@ -44,8 +43,7 @@ class PopularServicesSection extends StatelessWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.service?.result?.length ?? 0,
-                    separatorBuilder: (context, index) =>
-                        addHorizontalSpace(10),
+                    separatorBuilder: (context, index) => addHorizontalSpace(10),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
@@ -67,14 +65,10 @@ class PopularServicesSection extends StatelessWidget {
                           description:
                               "${state.service?.result?[index].createdBy?.firstName} ${state.service?.result?[index].createdBy?.lastName}",
                           title: state.service?.result?[index].title,
-                          imagePath:
-                              state.service?.result?[index].images?.length == 0
-                                  ? kServiceImageNImg
-                                  : state.service?.result?[index].images?.first
-                                      .media,
-                          rating: state
-                              .service?.result?[index].rating?.first.rating
-                              .toString(),
+                          imagePath: state.service?.result?[index].images?.length == 0
+                              ? kServiceImageNImg
+                              : state.service?.result?[index].images?.first.media,
+                          rating: state.service?.result?[index].rating?.first.rating.toString(),
                         ),
                       ),
                     ),

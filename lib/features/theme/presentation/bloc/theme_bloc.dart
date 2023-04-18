@@ -1,9 +1,8 @@
 import 'package:cipher/core/constants/theme.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_event.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_state.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-part 'theme_event.dart';
-part 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc()

@@ -23,15 +23,16 @@ class ContentClientWidget extends StatelessWidget {
       children: <Widget>[
         AutoSizeText(
           contentClientTitle,
-          style: kLabelPrimary.copyWith(
-            color: kColorPrimary,
-            fontWeight: FontWeight.w500,
-          ),
+          style: Theme.of(context).textTheme.bodySmall,
+          // style: kLabelPrimary.copyWith(
+          //   color: kColorPrimary,
+          //   fontWeight: FontWeight.w500,
+          // ),
         ),
         addVerticalSpace(4),
         AutoSizeText(
           "Updated ${date ?? 'Not Specified'}",
-          style: kSubHeading,
+          // style: kSubHeading,
         ),
         addVerticalSpace(20.0),
         // HtmlRemover(

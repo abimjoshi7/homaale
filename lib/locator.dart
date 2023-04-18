@@ -20,6 +20,7 @@ import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
+
 final locator = GetIt.instance;
 
 void init() {

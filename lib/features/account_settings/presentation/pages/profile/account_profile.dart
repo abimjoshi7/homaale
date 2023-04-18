@@ -1,13 +1,14 @@
 import 'package:cipher/core/constants/constants.dart';
-
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
     as sets;
-
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/chat/view/chat_listing.dart';
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+    as sets;
 
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
@@ -17,11 +18,38 @@ import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../../theme/presentation/bloc/theme_bloc.dart';
+import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../theme/presentation/utlis/utlis.dart';
 
-class AccountProfile extends StatelessWidget {
+class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
   static const routeName = '/account-profile';
+
+  @override
+  State<AccountProfile> createState() => _AccountProfileState();
+}
+
+class _AccountProfileState extends State<AccountProfile> {
+  // AppTheme? currentTheme;
+  final SecureStorage secureStorage = SecureStorage();
+  bool isDark = false;
+
+  // _setTheme() async {
+  //   // currentTheme = isDark ? AppTheme.darkTheme : AppTheme.lightTheme;
+  //   context.read<ThemeBloc>().add(
+  //         ThemeChangeChanged(appTheme: currentTheme),
+  //       );
+  //   secureStorage ==  isDark ? await secureStorage.setLightTheme('light'):await secureStorage.setDarkMode('dark');
+  // print(secureStorage);
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +61,26 @@ class AccountProfile extends StatelessWidget {
       ),
       body: Column(
         children: [
+          kHeight50,
+          CustomHeader(
+            leadingWidget: addHorizontalSpace(45),
+            trailingWidget: IconButton(
+              icon: const Icon(
+                Icons.search,
+                size: 0,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  CompleteProfilePage.routeName,
+                );
+              },
+            ),
+            child: const Text(
+              'Profile',
+            ),
+          ),
+
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state.theStates == TheStates.initial)
@@ -122,7 +170,7 @@ class AccountProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      kHeight20,
+                      // kHeight20,
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -134,7 +182,7 @@ class AccountProfile extends StatelessWidget {
                           label: 'View Profile',
                         ),
                       ),
-                      kHeight20,
+                      // kHeight20,
                       InkWell(
                         onTap: () {
                           Navigator.pushNamed(
@@ -158,7 +206,6 @@ class AccountProfile extends StatelessWidget {
                                 },
                                 icon: const Icon(
                                   Icons.card_membership_rounded,
-                                  color: Color(0xff495057),
                                 ),
                                 label: 'KYC',
                                 trailingWidget: const Icon(
@@ -180,7 +227,6 @@ class AccountProfile extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.chat_bubble_outline,
-                          color: Color(0xff495057),
                         ),
                         label: 'Chats',
                         trailingWidget: const Icon(
@@ -188,35 +234,6 @@ class AccountProfile extends StatelessWidget {
                           size: 16,
                         ),
                       ),
-
-                      // AccountListTileSection(
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context, SandboxPage.routeName);
-                      //   },
-                      //   icon: const Icon(
-                      //     Icons.reduce_capacity_sharp,
-                      //     color: Color(0xff495057),
-                      //   ),
-                      //   label: 'Sandbox',
-                      //   trailingWidget: const Icon(
-                      //     Icons.arrow_forward_ios,
-                      //     size: 16,
-                      //   ),
-                      // ),
-                      // AccountListTileSection(
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context, SavedPage.routeName);
-                      //   },
-                      //   icon: const Icon(
-                      //     Icons.favorite_border_outlined,
-                      //     color: Color(0xff495057),
-                      //   ),
-                      //   label: 'Saved',
-                      //   trailingWidget: const Icon(
-                      //     Icons.arrow_forward_ios,
-                      //     size: 16,
-                      //   ),
-                      // ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -226,7 +243,6 @@ class AccountProfile extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.card_giftcard_outlined,
-                          color: Color(0xff495057),
                         ),
                         label: 'Offers',
                         trailingWidget: const Icon(
@@ -243,7 +259,6 @@ class AccountProfile extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.settings,
-                          color: Color(0xff495057),
                         ),
                         label: 'Settings',
                         trailingWidget: const Icon(
@@ -251,31 +266,33 @@ class AccountProfile extends StatelessWidget {
                           size: 16,
                         ),
                       ),
-                      // AccountListTileSection(
-                      //   onTap: () {},
-                      //   icon: const Icon(
-                      //     Icons.dark_mode_outlined,
-                      //     color: Color(0xff495057),
-                      //   ),
-                      //   label: 'Dark Mode',
-                      //   trailingWidget: BlocBuilder<ThemeBloc, ThemeState>(
-                      //     builder: (context, state) {
-                      //       return StatefulBuilder(
-                      //         builder: (context, setState) => Switch(
-                      //           value: isDark,
-                      //           onChanged: (value) => setState(
-                      //             () {
-                      //               isDark = !isDark;
-                      //               context.read<ThemeBloc>().add(
-                      //                     ThemeChangeChanged(),
-                      //                   );
-                      //             },
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // ),
+                      AccountListTileSection(
+                        onTap: () {},
+                        icon: const Icon(
+                          Icons.dark_mode_outlined,
+                        ),
+                        label: 'Dark Mode',
+                        trailingWidget: SizedBox(
+                          width: 50,
+                          height: 20,
+                          child: CupertinoSwitch(
+                            activeColor: kColorSecondary,
+                            trackColor: Colors.grey.shade300,
+                            value: isDark,
+                            onChanged: (value) => setState(
+                              () {
+                                isDark = !isDark;
+                                context.read<ThemeBloc>().add(
+                                      ThemeChangeChanged(),
+                                    );
+                                // _setTheme();
+                                // print(currentTheme);
+                                print(isDark);
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -285,9 +302,37 @@ class AccountProfile extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.contact_mail_sharp,
-                          color: Color(0xff495057),
                         ),
                         label: 'Tax Calculator',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
+                      AccountListTileSection(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, PrivacyPolicyPage.routeName);
+                        },
+                        icon: const Icon(
+                          Icons.policy_outlined,
+                        ),
+                        label: 'Privacy Policy',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
+                      AccountListTileSection(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, TermsOfUsePage.routeName);
+                        },
+                        icon: const Icon(
+                          Icons.book_outlined,
+                          // color: Color(0xff495057),
+                        ),
+                        label: 'Terms of Use',
                         trailingWidget: const Icon(
                           Icons.arrow_forward_ios,
                           size: 16,
@@ -302,11 +347,11 @@ class AccountProfile extends StatelessWidget {
                                 builder: (context) => AlertDialog(
                                   title: Text(
                                     "Logout",
-                                    style: kPurpleText16,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                   content: Text(
                                     "Are you sure to logout?",
-                                    style: kText15,
+                                    // style: kText15,
                                   ),
                                   actions: [
                                     Row(
@@ -357,26 +402,6 @@ class AccountProfile extends StatelessWidget {
                           );
                         },
                       ),
-                      // BlocBuilder<PaymentBloc, PaymentIntentState>(
-                      //   builder: (context, state) {
-                      //     return
-
-                      // AccountListTileSection(
-                      //   onTap: () async {
-                      //     await Navigator.pushNamed(
-                      //       context,
-                      //       CheckoutPage.routeName,
-                      //     );
-                      //   },
-                      //   icon: const Icon(Icons.check_box),
-                      //   label: 'Checkout',
-                      //   trailingWidget: const Icon(
-                      //     Icons.arrow_forward_ios,
-                      //     size: 16,
-                      //   ),
-                      //   //   );
-                      //   // },
-                      // ),
                     ],
                   ),
                 );

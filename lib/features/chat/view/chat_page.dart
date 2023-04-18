@@ -41,11 +41,11 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           '${chatPersonDetails?.fullName ?? ''}',
-          style: kText15,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
@@ -53,7 +53,7 @@ class _ChatPageState extends State<ChatPage> {
             padding: const EdgeInsets.all(8.0),
             child: Icon(
               Icons.arrow_back,
-              color: kColorSilver,
+              // color: kColorSilver,
             ),
           ),
         ),
@@ -150,7 +150,7 @@ class _ChatPageState extends State<ChatPage> {
                               date,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: kColorDarkGrey2,
+                                // color: kColorDarkGrey2,
                               ),
                             )
                           ],
@@ -183,7 +183,7 @@ class _ChatPageState extends State<ChatPage> {
             controller: chatBoxController,
             decoration: InputDecoration(
               hintText: 'Type a message',
-              hintStyle: kText14,
+              hintStyle: Theme.of(context).textTheme.bodySmall,
               border: InputBorder.none,
               suffixIcon: IconButton(
                 onPressed: () {

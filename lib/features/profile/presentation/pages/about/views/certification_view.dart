@@ -24,9 +24,9 @@ class CertificationView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                       Text(
                         'Certification',
-                        style: kPurpleText19,
+                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {

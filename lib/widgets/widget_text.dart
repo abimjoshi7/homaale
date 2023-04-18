@@ -25,7 +25,7 @@ class WidgetText extends StatelessWidget {
           kWidth5,
           Text(
             label,
-            style: kHelper13,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ),

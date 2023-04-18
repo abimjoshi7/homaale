@@ -47,7 +47,7 @@ class InvoicePage extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    const Text(
+                     Text(
                       'INVOICE',
                       style: kPurpleText19,
                     ),

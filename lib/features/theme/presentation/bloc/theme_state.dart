@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'theme_bloc.dart';
+
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 abstract class ThemeState extends Equatable {
   const ThemeState();

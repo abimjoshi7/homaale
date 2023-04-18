@@ -218,7 +218,7 @@ class BillingAndPaymentPage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {},
-            child: const Text(
+            child:  Text(
               '+ Add payment method',
               style: kPurpleText19,
             ),

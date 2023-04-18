@@ -204,11 +204,11 @@ class _TaskSectionState extends State<TaskSection> {
       children: [
         Text(
           "Rs. ${result.budgetFrom ?? '0'} - Rs. ${result.budgetTo ?? '0'}",
-          style: kText17,
+          // style: kText17,
         ),
         const Text(
           '/ project',
-          style: kHelper13,
+          // style: kHelper13,
         ),
       ],
     );

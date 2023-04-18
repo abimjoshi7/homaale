@@ -20,12 +20,13 @@ class AccountUserInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        kHeight20,
+        // kHeight20,
         Row(
           children: [
             Text(
               name,
-              style: kPurpleText16,
+              style: Theme.of(context).textTheme.headlineSmall,
+              // style: kPurpleText16,
             ),
             kWidth5,
             if (isVerified == true)
@@ -40,7 +41,7 @@ class AccountUserInfoSection extends StatelessWidget {
         kHeight5,
         Text(
           credentialId,
-          style: kHelper13,
+          // style: kHelper13,
         ),
       ],
     );

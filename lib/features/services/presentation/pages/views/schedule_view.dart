@@ -38,7 +38,7 @@ class _ScheduleViewState extends State<ScheduleView> {
           label: 'When do you need this done?',
           child: Text(
             'Select task date from the calender to complete booking.',
-            style: kHelper13,
+            // style: kHelper13,
           ),
         ),
         BlocBuilder<EventBloc, EventState>(

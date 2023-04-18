@@ -6,9 +6,11 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../home/presentation/pages/home.dart';
+
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
-  static const routeName = '/categories-section';
+  static final catKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,7 @@ class CategoriesSection extends StatelessWidget {
               height: 100,
             ),
           );
-        } else if (state.theStates == TheStates.success &&
-            state.topCategory != null) {
+        } else if (state.theStates == TheStates.success && state.topCategory != null) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
@@ -36,16 +37,15 @@ class CategoriesSection extends StatelessWidget {
                   SectionHeading(
                     labelName: 'Categories',
                     onTap: () {
-                      context.read<NestedCategoriesCubit>().getNestedCategory();
                       Navigator.pushNamed(
                         context,
                         CategoriesPage.routeName,
-                        arguments: {
-                          'id': -1,
-                          'category': '',
-                        },
                       );
                     },
+                    position: TooltipPosition.bottom,
+                    showKey: catKey,
+                    showCaseTitle: 'See All ',
+                    showCaseDec: 'See All Categories from here.',
                   ),
                   addVerticalSpace(8),
                   Expanded(
@@ -54,16 +54,13 @@ class CategoriesSection extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.topCategory?.length,
                       padding: EdgeInsets.zero,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          context
-                              .read<NestedCategoriesCubit>()
-                              .getNestedCategory();
+                          context.read<NestedCategoriesCubit>().getNestedCategory();
                           Navigator.pushNamed(
                             context,
                             CategoriesPage.routeName,
@@ -80,8 +77,7 @@ class CategoriesSection extends StatelessWidget {
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.topCategory?[index].icon?.toString() ??
-                                  kErrorSvg,
+                              state.topCategory?[index].icon?.toString() ?? kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

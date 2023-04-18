@@ -11,6 +11,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/home.dart';
+
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({
     super.key,
@@ -24,12 +26,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location;
   late Widget? child;
   @override
-  void initState() {
-    super.initState();
-    setState(() {});
-  }
 
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {},
@@ -147,13 +144,11 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ??
-                                      kDefaultAvatarNImg,
+                                  state.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
                                 ),
-
                         ),
                       ),
                     );
@@ -168,61 +163,58 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        return SizedBox(
-                          width: 50,
-                          height: 40,
-                          child: Stack(
-                            children: <Widget>[
-                              Positioned(
-                                top: 5,
-                                child: InkWell(
-                                  onTap: () {
-                                    (CacheHelper.isLoggedIn)
-                                        ? Navigator.pushNamed(
-                                            context,
-                                            NotificationFromHome.routeName,
-                                          )
-                                        : null;
-                                  },
-                                  child: Icon(
-                                    (CacheHelper.isLoggedIn)
-                                        ? Icons.notifications_none
-                                        : Icons.notifications_off_outlined,
-                                    color: Colors.white,
-                                    size: 30,
-                                  ),
+                        return CommonShowCase(
+                          position: TooltipPosition.bottom,
+                          showKey: Home.notificationKey,
+                          showCaseTitle: 'Notifications',
+                          showCaseDec: 'See all notifications from here.',
+                          child: SizedBox(
+                            width: 50,
+                            height: 40,
+                            child: Stack(
+                              children: <Widget>[
+                                Positioned(
+                                  top: 5,
+                                  child: InkWell(
+                                      onTap: () {
+                                        (CacheHelper.isLoggedIn)
+                                            ? Navigator.pushNamed(
+                                                context,
+                                                NotificationFromHome.routeName,
+                                              )
+                                            : null;
+                                      },
+                                      child: Icon(
+                                        (CacheHelper.isLoggedIn)
+                                            ? Icons.notifications_none
+                                            : Icons.notifications_off_outlined,
+                                        color: Colors.white,
+                                        size: 30,
+                                      )),
                                 ),
-                              ),
-                              if (CacheHelper.isLoggedIn)
-                                state.allNotificationList?.unreadCount !=
-                                            null &&
-                                        state.allNotificationList
-                                                ?.unreadCount !=
-                                            0
-                                    ? Positioned(
-                                        right: 13,
-                                        child: Container(
-                                          height: 20,
-                                          width: 20,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.red),
-                                          child: Center(
-                                            child: Text(
-                                              state.allNotificationList
-                                                      ?.unreadCount
-                                                      .toString() ??
-                                                  "0",
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 14,
+                                if (CacheHelper.isLoggedIn)
+                                  state.allNotificationList?.unreadCount != null &&
+                                          state.allNotificationList?.unreadCount != 0
+                                      ? Positioned(
+                                          right: 13,
+                                          child: Container(
+                                            height: 20,
+                                            width: 20,
+                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            child: Center(
+                                              child: Text(
+                                                state.allNotificationList?.unreadCount.toString() ?? "0",
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    : SizedBox()
-                            ],
+                                        )
+                                      : SizedBox()
+                              ],
+                            ),
                           ),
                         );
                       },

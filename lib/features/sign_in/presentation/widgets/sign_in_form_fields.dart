@@ -9,8 +9,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'widgets.dart';
-
 class SignInFormFields extends StatefulWidget {
   const SignInFormFields({super.key});
 
@@ -37,8 +35,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
     final String phone = await CacheHelper.getCachedString(kUserPhone) ?? '';
     final String mail = await CacheHelper.getCachedString(kUsermail) ?? '';
     final String password = await CacheHelper.getCachedString(kUserPass) ?? '';
-    final String keepInfo =
-        await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
+    final String keepInfo = await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
 
     setState(() {
       phoneNumberController.text = phone;
@@ -128,16 +125,14 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomTextFormField(
-                        theWidth: MediaQuery.of(context).size.width * 0.7965,
+                        theWidth: MediaQuery.of(context).size.width * 0.89,
                         controller: phoneNumberController,
                         validator: validateNotEmpty,
                         onSaved: (p0) => setState(
                           () => phoneNumberController.text = p0!,
                         ),
                         textInputType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
+                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         hintText: 'Mobile Number',
                         prefixWidget: InkWell(
                           onTap: () {},
@@ -157,11 +152,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                           ),
                         ),
                       ),
-                      addHorizontalSpace(
-                          MediaQuery.of(context).size.width * 0.020),
-                      GetDevicePhoneNumberButton(
-                        onTap: () => null,
-                      ),
+                      // addHorizontalSpace(MediaQuery.of(context).size.width * 0.01),
+                      // GetDevicePhoneNumberButton(
+                      //   onTap: () => null,
+                      // ),
                     ],
                   ),
                 ),
@@ -265,9 +259,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     },
                     child: Icon(
                       color: kColorPrimary,
-                      isObscure
-                          ? Icons.visibility_rounded
-                          : Icons.visibility_off_rounded,
+                      isObscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
                     ),
                   ),
                   onSaved: (p0) => setState(
@@ -310,13 +302,74 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 ],
               ),
               addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
-              loginButton(),
+              CustomElevatedButton(
+                callback: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+
+                    //setting validation error status
+                    // state.copyWith(hasValidationErrors: false);
+
+                    if (keepLogged) {
+                      CacheHelper.setCachedString(
+                        kUserPhone,
+                        phoneNumberController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kUserPass,
+                        passwordController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kUsermail,
+                        usernameController.text,
+                      );
+                      CacheHelper.setCachedString(
+                        kRememberCreds,
+                        'true',
+                      );
+                    } else {
+                      CacheHelper.clearCachedData(kUsermail);
+                      CacheHelper.clearCachedData(kUserPhone);
+                      CacheHelper.clearCachedData(kUserPass);
+                      CacheHelper.clearCachedData(kRememberCreds);
+                    }
+
+                    if (state.theStates == TheStates.initial) {
+                      if (state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithPhoneInitiated(
+                                userLoginReq: UserLoginReq(
+                                  username: '+977${phoneNumberController.text}',
+                                  password: passwordController.text,
+                                ),
+                              ),
+                            );
+                      }
+                      if (!state.isPhoneNumber) {
+                        context.read<SignInBloc>().add(
+                              SignInWithEmailInitiated(
+                                userLoginReq: UserLoginReq(
+                                  username: usernameController.text,
+                                  password: passwordController.text,
+                                ),
+                              ),
+                            );
+                      }
+                    }
+                  }
+                  //setting validation error status to true
+                  else {
+                    if (state.theStates == TheStates.initial) {
+                      context.read<SignInBloc>().add(SignInValErrorStatusChanged());
+                    }
+                  }
+                },
+                label: 'Login',
+              ),
               addVerticalSpace(8.0),
               if (state.theStates == TheStates.initial)
                 CustomTextButton(
-                  text: (state.isPhoneNumber)
-                      ? "Didn't get OTP ?"
-                      : "Didn't get verification email?",
+                  text: (state.isPhoneNumber) ? "Didn't get OTP ?" : "Didn't get verification email?",
                   voidCallback: () => Navigator.pushNamed(
                     context,
                     ResendVerificationPage.routeName,
