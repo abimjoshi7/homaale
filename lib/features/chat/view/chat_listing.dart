@@ -63,7 +63,6 @@ class _ChatListingPageState extends State<ChatListingPage> {
                           (key, value) {
                             cList.add(Chat(
                               groupName: key,
-
                               date: (value['date'] as Timestamp).toDate().toString(),
                               lastMessage: value.toString().contains('lastMessage')
                                   ? value['lastMessage']['text'].toString()
@@ -88,7 +87,6 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                     shrinkWrap: true,
                                     padding: EdgeInsets.zero,
                                     itemCount: state.rCl?.length ?? 0,
-
                                     separatorBuilder: (context, index) => Container(
                                       margin: EdgeInsets.symmetric(vertical: 8),
                                       child: Divider(),
@@ -119,7 +117,6 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-
                                                       state.rCl?[index].profileImage ?? kServiceImageNImg,
                                                     ),
                                                     fit: BoxFit.cover,
@@ -136,12 +133,10 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                       state.rCl?[index].fullName?.toString() ?? '',
                                                       style: kBoldText,
                                                       overflow: TextOverflow.ellipsis,
- 
                                                     ),
                                                   ),
                                                   addVerticalSpace(4),
                                                   SizedBox(
-
                                                     width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Text(
                                                       state.rCl?[index].lastMessage?.toString() ?? '',
@@ -156,7 +151,6 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                   ),
                                                   addVerticalSpace(4),
                                                   SizedBox(
-
                                                     width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,7 +176,6 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                   ),
                                 );
                               } else if (state.states == TheStates.failure) {
-
                                 return Center(child: Text('No chats. Start a service or task to initiate chat'));
                               } else {
                                 return Center(child: CircularProgressIndicator());
