@@ -76,7 +76,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
               position: LatLng(taskEntityService.city!.latitude!.toDouble(),
                   taskEntityService.city!.longitude!.toDouble()),
               infoWindow: InfoWindow(
-                title: "${taskEntityService.title}",
+                title: taskEntityService.isRequested ?? true
+                    ? "Task:${taskEntityService.title}"
+                    : "Service:${taskEntityService.title}",
                 snippet:
                     "${taskEntityService.city!.name},${taskEntityService.city!.country!.name}",
               ),
@@ -87,10 +89,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title:  Text('Task and Services Near Me',style: Theme.of(context).textTheme.bodySmall,),
-            elevation: 2,
-          ),
           body: GoogleMap(
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,

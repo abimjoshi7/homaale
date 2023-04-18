@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/nearby_task_entity_service_cubit.dart';
 import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,10 @@ class TasksAndServicesNearbySection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Expanded(
-                  child: Image.asset(
-                    'assets/syd map 1.png',
-                    fit: BoxFit.cover,
-                  ),
+                Container(
+                  width: 900,
+                  height: 250.0,
+                  child: GoogleMapsPage(),
                 ),
                 Flexible(
                   child: ListView.separated(

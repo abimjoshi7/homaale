@@ -521,24 +521,60 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   child: BlocBuilder<CountryBloc, CountryState>(
                     builder: (context, state) {
                       if (state is CountryLoadSuccess) {
-                        return CustomDropDownField(
-                          initialValue: state.list
-                              .firstWhere(
-                                (element) => element.name!.startsWith("Nepal"),
-                              )
-                              .name,
-                          list: List.generate(
+                        return DropdownSearch(
+                          items: List.generate(
                             state.list.length,
                             (index) => state.list[index].name,
                           ),
-                          hintText: 'Nepal',
                           onChanged: (p0) => setState(
-                            () async {
+                            () {
                               final x = state.list.firstWhere(
                                 (element) => p0 == element.name,
                               );
                               countryName = x.code;
                             },
+                          ),
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(5),
+                              hintText: 'Nepal',
+                              hintStyle: const TextStyle(
+                                color: Color(0xff9CA0C1),
+                                fontWeight: FontWeight.w400,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffDEE2E6)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: kColorSecondary,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  8,
+                                ),
+                              ),
+                            ),
+                            baseStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          clearButtonProps: ClearButtonProps(
+                            padding: EdgeInsets.zero,
+                            iconSize: 16,
+                            visualDensity: VisualDensity.compact,
+                            alignment: Alignment.centerRight,
+                            isVisible: true,
+                            color: countryName == null
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          popupProps: PopupProps.modalBottomSheet(
+                            showSearchBox: true,
+                            modalBottomSheetProps: ModalBottomSheetProps(
+                              useSafeArea: false,
+                            ),
                           ),
                         );
                       } else {
@@ -553,18 +589,17 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   child: BlocBuilder<CityBloc, CityState>(
                     builder: (context, state) {
                       if (state is CityLoadSuccess) {
-                        return CustomDropDownField(
-                          initialValue: state.list
+                        return DropdownSearch(
+                          selectedItem: state.list
                               .firstWhere(
                                 (element) =>
                                     element.name!.startsWith("Kathmandu"),
                               )
                               .name,
-                          list: List.generate(
+                          items: List.generate(
                             state.list.length,
                             (index) => state.list[index].name,
                           ),
-                          hintText: 'Enter your city',
                           onChanged: (p0) => setState(
                             () async {
                               final x = state.list.firstWhere(
@@ -572,6 +607,47 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               );
                               cityCode = x.id;
                             },
+                          ),
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(5),
+                              hintText: 'Enter Your City.',
+                              hintStyle: const TextStyle(
+                                color: Color(0xff9CA0C1),
+                                fontWeight: FontWeight.w400,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffDEE2E6)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: kColorSecondary,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  8,
+                                ),
+                              ),
+                            ),
+                            baseStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          clearButtonProps: ClearButtonProps(
+                            padding: EdgeInsets.zero,
+                            iconSize: 16,
+                            visualDensity: VisualDensity.compact,
+                            alignment: Alignment.centerRight,
+                            isVisible: true,
+                            color:
+                                cityCode == null ? Colors.white : Colors.black,
+                          ),
+                          popupProps: PopupProps.modalBottomSheet(
+                            showSearchBox: true,
+                            modalBottomSheetProps: ModalBottomSheetProps(
+                              useSafeArea: false,
+                            ),
                           ),
                         );
                       } else {
@@ -628,17 +704,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   child: BlocBuilder<LanguageBloc, LanguageState>(
                     builder: (context, state) {
                       if (state is LanguageLoadSuccess) {
-                        return CustomDropDownField(
-                          initialValue: state.language
-                              .firstWhere(
-                                (element) => element.name.startsWith("English"),
-                              )
-                              .name,
-                          list: List.generate(
+                        return DropdownSearch(
+                          items: List.generate(
                             state.language.length,
                             (index) => state.language[index].name,
                           ),
-                          hintText: 'Enter your language',
                           onChanged: (p0) => setState(
                             () async {
                               final x = state.language.firstWhere(
@@ -646,6 +716,48 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               );
                               languageController.text = x.code;
                             },
+                          ),
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(5),
+                              hintText: 'Choose Your Language.',
+                              hintStyle: const TextStyle(
+                                color: Color(0xff9CA0C1),
+                                fontWeight: FontWeight.w400,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffDEE2E6)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: kColorSecondary,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  8,
+                                ),
+                              ),
+                            ),
+                            baseStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          clearButtonProps: ClearButtonProps(
+                            padding: EdgeInsets.zero,
+                            iconSize: 16,
+                            visualDensity: VisualDensity.compact,
+                            alignment: Alignment.centerRight,
+                            isVisible: true,
+                            color: languageController.text.isEmpty
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          popupProps: PopupProps.modalBottomSheet(
+                            showSearchBox: true,
+                            modalBottomSheetProps: ModalBottomSheetProps(
+                              useSafeArea: false,
+                            ),
                           ),
                         );
                       } else {
@@ -660,16 +772,15 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   child: BlocBuilder<CurrencyBloc, CurrencyState>(
                     builder: (context, state) {
                       if (state is CurrencyLoadSuccess) {
-                        return CustomDropDownField(
-                          initialValue: state.currencyListRes
+                        return DropdownSearch(
+                          selectedItem: state.currencyListRes
                               .firstWhere((element) =>
                                   element.name!.startsWith("Nepalese"))
                               .name,
-                          list: List.generate(
+                          items: List.generate(
                             state.currencyListRes.length,
                             (index) => state.currencyListRes[index].name,
                           ),
-                          hintText: 'NPR',
                           onChanged: (p0) => setState(
                             () async {
                               final x = state.currencyListRes.firstWhere(
@@ -677,6 +788,48 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               );
                               currencyCode = x.code;
                             },
+                          ),
+                          dropdownDecoratorProps: DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(5),
+                              hintText: 'NPR',
+                              hintStyle: const TextStyle(
+                                color: Color(0xff9CA0C1),
+                                fontWeight: FontWeight.w400,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Color(0xffDEE2E6)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: kColorSecondary,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  8,
+                                ),
+                              ),
+                            ),
+                            baseStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          clearButtonProps: ClearButtonProps(
+                            padding: EdgeInsets.zero,
+                            iconSize: 16,
+                            visualDensity: VisualDensity.compact,
+                            alignment: Alignment.centerRight,
+                            isVisible: true,
+                            color: currencyCode == null
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          popupProps: PopupProps.modalBottomSheet(
+                            showSearchBox: true,
+                            modalBottomSheetProps: ModalBottomSheetProps(
+                              useSafeArea: false,
+                            ),
                           ),
                         );
                       } else {
