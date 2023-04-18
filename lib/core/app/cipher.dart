@@ -23,6 +23,8 @@ import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
+import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -225,6 +227,11 @@ class Cipher extends StatelessWidget {
           BlocProvider(
             create: (context) => OffersBloc(
               OfferRepository(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => SavedBloc(
+              SavedRepository(),
             ),
           ),
         ],

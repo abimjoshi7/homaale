@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'saved_model.dart';
+part of 'saved_add_req.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,35 +14,35 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-SavedModel _$SavedModelFromJson(Map<String, dynamic> json) {
+SavedAddReq _$SavedAddReqFromJson(Map<String, dynamic> json) {
   return _SavedModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SavedModel {
+mixin _$SavedAddReq {
   String? get model => throw _privateConstructorUsedError;
   @JsonKey(name: "object_id")
   String? get objectId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SavedModelCopyWith<SavedModel> get copyWith =>
+  $SavedAddReqCopyWith<SavedAddReq> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SavedModelCopyWith<$Res> {
-  factory $SavedModelCopyWith(
-          SavedModel value, $Res Function(SavedModel) then) =
-      _$SavedModelCopyWithImpl<$Res, SavedModel>;
+abstract class $SavedAddReqCopyWith<$Res> {
+  factory $SavedAddReqCopyWith(
+          SavedAddReq value, $Res Function(SavedAddReq) then) =
+      _$SavedAddReqCopyWithImpl<$Res, SavedAddReq>;
   @useResult
   $Res call({String? model, @JsonKey(name: "object_id") String? objectId});
 }
 
 /// @nodoc
-class _$SavedModelCopyWithImpl<$Res, $Val extends SavedModel>
-    implements $SavedModelCopyWith<$Res> {
-  _$SavedModelCopyWithImpl(this._value, this._then);
+class _$SavedAddReqCopyWithImpl<$Res, $Val extends SavedAddReq>
+    implements $SavedAddReqCopyWith<$Res> {
+  _$SavedAddReqCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -70,7 +70,7 @@ class _$SavedModelCopyWithImpl<$Res, $Val extends SavedModel>
 
 /// @nodoc
 abstract class _$$_SavedModelCopyWith<$Res>
-    implements $SavedModelCopyWith<$Res> {
+    implements $SavedAddReqCopyWith<$Res> {
   factory _$$_SavedModelCopyWith(
           _$_SavedModel value, $Res Function(_$_SavedModel) then) =
       __$$_SavedModelCopyWithImpl<$Res>;
@@ -81,7 +81,7 @@ abstract class _$$_SavedModelCopyWith<$Res>
 
 /// @nodoc
 class __$$_SavedModelCopyWithImpl<$Res>
-    extends _$SavedModelCopyWithImpl<$Res, _$_SavedModel>
+    extends _$SavedAddReqCopyWithImpl<$Res, _$_SavedModel>
     implements _$$_SavedModelCopyWith<$Res> {
   __$$_SavedModelCopyWithImpl(
       _$_SavedModel _value, $Res Function(_$_SavedModel) _then)
@@ -122,7 +122,7 @@ class _$_SavedModel implements _SavedModel {
 
   @override
   String toString() {
-    return 'SavedModel(model: $model, objectId: $objectId)';
+    return 'SavedAddReq(model: $model, objectId: $objectId)';
   }
 
   @override
@@ -153,7 +153,7 @@ class _$_SavedModel implements _SavedModel {
   }
 }
 
-abstract class _SavedModel implements SavedModel {
+abstract class _SavedModel implements SavedAddReq {
   const factory _SavedModel(
       {final String? model,
       @JsonKey(name: "object_id") final String? objectId}) = _$_SavedModel;

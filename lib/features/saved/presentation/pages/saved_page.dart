@@ -1,4 +1,4 @@
-import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
+import 'package:cipher/core/constants/iterable.dart';
 import 'package:cipher/features/saved/presentation/widgets/saved_card.dart';
 import 'package:flutter/material.dart';
 
@@ -17,22 +17,21 @@ class SavedPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Divider(),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomFormField(
                 label: "Your collection",
                 child: Expanded(
-                  child: GridView(
+                  child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 1,
                       crossAxisSpacing: 10,
                     ),
-                    children: [
-                      InkWell(onTap: () async {}, child: SavedCard()),
-                    ],
+                    itemCount: bookmarkTypeList.length,
+                    itemBuilder: (context, index) => SavedCard(
+                      label: bookmarkTypeList[index],
+                    ),
                   ),
                 ),
               ),

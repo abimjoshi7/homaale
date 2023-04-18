@@ -1,10 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class ProfileDetailSection extends StatelessWidget {
   final TaskEntityServiceState state;
@@ -65,12 +69,19 @@ class ProfileDetailSection extends StatelessWidget {
                     if (!CacheHelper.isLoggedIn) {
                       notLoggedInPopUp(context);
                     }
-                    print(state.taskEntityService?.createdBy?.id);
-                    print(state.taskEntityService?.createdBy?.fullName);
+                    print(state.taskEntityService?.id);
+                    context.read<SavedBloc>().add(
+                          SavedAdded(
+                            savedAddReq: SavedAddReq(
+                              model: "entityservice",
+                              objectId: state.taskEntityService?.id,
+                            ),
+                          ),
+                        );
+                    // print(state.taskEntityService?.createdBy?.bio);
                   },
-                  child: const Icon(
-                    Icons.favorite_border_outlined,
-                    color: Colors.red,
+                  child: CustomFavoriteButton(
+                    id: state.taskEntityService?.id ?? "",
                   ),
                 ),
                 kWidth10,
@@ -120,6 +131,44 @@ class ProfileDetailSection extends StatelessWidget {
                 'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
         addHorizontalSpace(10),
       ],
+    );
+  }
+}
+
+class CustomFavoriteButton extends StatefulWidget {
+  const CustomFavoriteButton({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
+  final String id;
+
+  @override
+  State<CustomFavoriteButton> createState() => _CustomFavoriteButtonState();
+}
+
+class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SavedBloc, SavedState>(
+      builder: (context, state) {
+        bool isFavorite = false;
+        if (state.savedModelRes != null &&
+            state.savedModelRes!.result != null) {
+          for (final element in state.savedModelRes!.result!) {
+            if (element.objectId == widget.id) {
+              print(element.objectId);
+              setState(() {
+                isFavorite = true;
+              });
+            }
+          }
+        }
+        return Icon(
+          isFavorite == true ? Icons.favorite : Icons.favorite_border_outlined,
+          color: Colors.red,
+        );
+      },
     );
   }
 }
