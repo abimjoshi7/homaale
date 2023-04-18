@@ -70,7 +70,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
           for (final taskEntityService in state.nearbyTaskEntityServiceList!) {
             final marker = Marker(
               icon: taskEntityService.isRequested ?? true
-                  ? BitmapDescriptor.defaultMarkerWithHue(90)
+                  ? BitmapDescriptor.defaultMarkerWithHue(120)
                   : BitmapDescriptor.defaultMarker,
               markerId: MarkerId(taskEntityService.title.toString()),
               position: LatLng(taskEntityService.city!.latitude!.toDouble(),

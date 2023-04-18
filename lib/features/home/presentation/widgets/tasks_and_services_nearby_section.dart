@@ -37,87 +37,88 @@ class TasksAndServicesNearbySection extends StatelessWidget {
               children: <Widget>[
                 Container(
                   width: 900,
-                  height: 250.0,
+                  height: 190.0,
                   child: GoogleMapsPage(),
                 ),
-                Flexible(
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) => SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children:  [
-                                  Text(
-                                    'Greenhouse Cleaning',
-                                    style: Theme.of(context).textTheme.headlineSmall,
-                                  ),
-                                  const Icon(
-                                    Icons.favorite_border,
-                                    color: Color(
-                                      0xfffe5050,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: const [
-                                  CircleAvatar(
-                                    radius: 10,
-                                  ),
-                                  kWidth10,
-                                  Text(
-                                    'Kantipur Nursery',
-                                    style: kLightBlueText14,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const WidgetText(
-                                    label: 'Buddhanagar',
-                                    widget: Icon(
-                                      Icons.location_on_outlined,
-                                      size: 12,
-                                      color: Color(0xfffe5050),
-                                    ),
-                                  ),
-                                  const WidgetText(
-                                    label: '3.4(190)',
-                                    widget: Icon(
-                                      Icons.star_rate_rounded,
-                                      size: 14,
-                                      color: Color(0xffFF9700),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 80,
-                                    height: 30,
-                                    child: CustomElevatedButton(
-                                      callback: () {},
-                                      label: 'Book Now',
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    separatorBuilder: (context, index) => kWidth5,
-                  ),
-                )
+                //TODO: re-discuss the design for nearby tasks and services
+                // Flexible(
+                //   child: ListView.separated(
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: 5,
+                //     itemBuilder: (context, index) => SizedBox(
+                //       width: MediaQuery.of(context).size.width * 0.65,
+                //       child: Card(
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(8),
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: <Widget>[
+                //               Row(
+                //                 mainAxisAlignment:
+                //                     MainAxisAlignment.spaceBetween,
+                //                 children: const [
+                //                   Text(
+                //                     'Greenhouse Cleaning',
+                //                     style: kPurpleText13,
+                //                   ),
+                //                   Icon(
+                //                     Icons.favorite_border,
+                //                     color: Color(
+                //                       0xfffe5050,
+                //                     ),
+                //                   )
+                //                 ],
+                //               ),
+                //               Row(
+                //                 children: const [
+                //                   CircleAvatar(
+                //                     radius: 10,
+                //                   ),
+                //                   kWidth10,
+                //                   Text(
+                //                     'Kantipur Nursery',
+                //                     style: kLightBlueText14,
+                //                   ),
+                //                 ],
+                //               ),
+                //               Row(
+                //                 mainAxisAlignment:
+                //                     MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   const WidgetText(
+                //                     label: 'Buddhanagar',
+                //                     widget: Icon(
+                //                       Icons.location_on_outlined,
+                //                       size: 12,
+                //                       color: Color(0xfffe5050),
+                //                     ),
+                //                   ),
+                //                   const WidgetText(
+                //                     label: '3.4(190)',
+                //                     widget: Icon(
+                //                       Icons.star_rate_rounded,
+                //                       size: 14,
+                //                       color: Color(0xffFF9700),
+                //                     ),
+                //                   ),
+                //                   SizedBox(
+                //                     width: 80,
+                //                     height: 30,
+                //                     child: CustomElevatedButton(
+                //                       callback: () {},
+                //                       label: 'Book Now',
+                //                     ),
+                //                   )
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     separatorBuilder: (context, index) => kWidth5,
+                //   ),
+                // )
               ],
             ),
           ),
