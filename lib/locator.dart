@@ -13,6 +13,8 @@ import 'package:cipher/features/chat/repository/chat_repository.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
+import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -32,6 +34,7 @@ void init() {
     () => CategoriesRepositories(),
   );
   locator.registerLazySingleton(() => ChatRepository());
+  locator.registerLazySingleton(() => SavedRepository());
 
   // bloc
   locator.registerFactory(() => TaskBloc());
@@ -64,6 +67,7 @@ void init() {
   );
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
+  locator.registerLazySingleton(() => SavedBloc(locator()));
 
   //cubit
   locator.registerFactory<ImageUploadCubit>(

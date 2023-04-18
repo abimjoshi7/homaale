@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -64,25 +65,9 @@ class ProfileDetailSection extends StatelessWidget {
             ),
             Row(
               children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    if (!CacheHelper.isLoggedIn) {
-                      notLoggedInPopUp(context);
-                    }
-                    print(state.taskEntityService?.id);
-                    context.read<SavedBloc>().add(
-                          SavedAdded(
-                            savedAddReq: SavedAddReq(
-                              model: "entityservice",
-                              objectId: state.taskEntityService?.id,
-                            ),
-                          ),
-                        );
-                    // print(state.taskEntityService?.createdBy?.bio);
-                  },
-                  child: CustomFavoriteButton(
-                    id: state.taskEntityService?.id ?? "",
-                  ),
+                CustomFavoriteIcon(
+                  taskEntityServiceState: state,
+                  type: "entityservice",
                 ),
                 kWidth10,
                 GestureDetector(
@@ -135,38 +120,87 @@ class ProfileDetailSection extends StatelessWidget {
   }
 }
 
-class CustomFavoriteButton extends StatefulWidget {
-  const CustomFavoriteButton({
+class CustomFavoriteIcon extends StatefulWidget {
+  const CustomFavoriteIcon({
     Key? key,
-    required this.id,
+    required this.taskEntityServiceState,
+    required this.type,
   }) : super(key: key);
 
-  final String id;
+  final TaskEntityServiceState taskEntityServiceState;
+  final String type;
 
   @override
-  State<CustomFavoriteButton> createState() => _CustomFavoriteButtonState();
+  State<CustomFavoriteIcon> createState() => _CustomFavoriteIconState();
 }
 
-class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
+class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
+  bool? isFavorite;
+  String? objectId;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<SavedBloc>()
+        ..add(
+          SavedListLoaded(
+            type: widget.type,
+          ),
+        );
+    });
+    super.initState();
+    // context.read<SavedBloc>().add(
+    //       SavedListLoaded(
+    //         type: widget.type,
+    //       ),
+    //     );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SavedBloc, SavedState>(
       builder: (context, state) {
-        bool isFavorite = false;
-        if (state.savedModelRes != null &&
-            state.savedModelRes!.result != null) {
-          for (final element in state.savedModelRes!.result!) {
-            if (element.objectId == widget.id) {
-              print(element.objectId);
-              setState(() {
-                isFavorite = true;
-              });
-            }
-          }
-        }
-        return Icon(
-          isFavorite == true ? Icons.favorite : Icons.favorite_border_outlined,
-          color: Colors.red,
+        if (state.theStates == TheStates.loading)
+          return SizedBox(
+            height: 15,
+            width: 15,
+            child: CircularProgressIndicator(),
+          );
+        return GestureDetector(
+          onTap: () async {
+            // if (!CacheHelper.isLoggedIn) {
+            //   notLoggedInPopUp(context);
+            // }
+
+            context.read<SavedBloc>().add(
+                  SavedAdded(
+                    savedAddReq: SavedAddReq(
+                      model: widget.type,
+                      objectId:
+                          widget.taskEntityServiceState.taskEntityService?.id,
+                    ),
+                  ),
+                );
+            context.read<SavedBloc>().add(
+                  SavedListLoaded(
+                    type: widget.type,
+                  ),
+                );
+            setState(() {
+              isFavorite = state.savedModelRes?.result?.any(
+                (element) =>
+                    element.objectId! ==
+                    widget.taskEntityServiceState.taskEntityService?.id,
+              );
+            });
+            print(isFavorite);
+          },
+          child: Icon(
+            isFavorite == true
+                ? Icons.favorite
+                : Icons.favorite_border_outlined,
+            color: Colors.red,
+          ),
         );
       },
     );

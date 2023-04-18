@@ -230,9 +230,7 @@ class Cipher extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => SavedBloc(
-              SavedRepository(),
-            ),
+            create: (context) => locator<SavedBloc>(),
           ),
         ],
         child:BlocBuilder<ThemeBloc, ThemeState>(
