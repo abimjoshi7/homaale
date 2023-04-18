@@ -26,7 +26,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
               const CustomModalSheetDrawerIcon(),
                Text(
                 'Profile Configuration',
-                style: kPurpleText19,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Padding(
                 padding: kPadding20,

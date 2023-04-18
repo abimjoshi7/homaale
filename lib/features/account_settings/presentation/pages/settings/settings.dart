@@ -30,15 +30,9 @@ class Settings extends StatelessWidget {
               icon: const Icon(Icons.search,size: 0,),
               onPressed: () async {},
             ),
-            child: const Text(
+            child:  Text(
               'Settings',
-              // style: TextStyle(
-              //   fontSize: 14,
-              //   fontWeight: FontWeight.w500,
-              //   color: Color(
-              //     0xff212529,
-              //   ),
-              // ),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ),
           const Divider(),

@@ -34,7 +34,7 @@ class AccountListTileSection extends StatelessWidget {
                       kWidth20,
                       Text(
                         label,
-                        style: Theme.of(context).textTheme.displaySmall,
+                        style: Theme.of(context).textTheme.bodySmall,
                       )
                     ],
                   ),

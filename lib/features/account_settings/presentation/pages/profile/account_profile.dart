@@ -322,7 +322,7 @@ class _AccountProfileState extends State<AccountProfile> {
                         },
                         icon: const Icon(
                           Icons.book_outlined,
-                          color: Color(0xff495057),
+                          // color: Color(0xff495057),
                         ),
                         label: 'Terms of Use',
                         trailingWidget: const Icon(
@@ -339,11 +339,11 @@ class _AccountProfileState extends State<AccountProfile> {
                                 builder: (context) => AlertDialog(
                                   title: Text(
                                     "Logout",
-                                    style: kPurpleText16,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                   content: Text(
                                     "Are you sure to logout?",
-                                    style: kText15,
+                                    // style: kText15,
                                   ),
                                   actions: [
                                     Row(

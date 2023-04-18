@@ -524,7 +524,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         addHorizontalSpace(5),
                                         const Text(
                                           kImageLimit,
-                                          style: kHelper13,
+                                          // style: kHelper13,
                                         ),
                                       ],
                                     ),

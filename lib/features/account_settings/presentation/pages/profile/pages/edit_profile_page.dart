@@ -20,12 +20,16 @@ class EditProfilePage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(
+              icon:  Icon(
                 Icons.arrow_back,
+                color: Theme.of(context).appBarTheme.iconTheme?.color,
               ),
             ),
             trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
+              icon:  Icon(
+                Icons.search,
+                color: Theme.of(context).appBarTheme.iconTheme?.color,
+              ),
               onPressed: () {},
             ),
             child: const Text(

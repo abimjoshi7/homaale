@@ -43,7 +43,7 @@ class CustomFormContainer extends StatelessWidget {
                   kWidth10,
                   Text(
                     hintText,
-                    style: kHelper13,
+                    // style: kHelper13,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),

@@ -133,7 +133,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
                                   profilePicture ??
-                                      'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/',
+                                    kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -142,10 +142,10 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           ),
                         ),
                         kHeight15,
-                        const Center(
+                         Center(
                           child: Text(
                             'Change profile photo',
-                            style: kPurpleText16,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ),
                       ],
@@ -159,10 +159,10 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              children: const [
+                              children:  [
                                 Text(
                                   'First name',
-                                  style: kPurpleText16,
+                                  style: Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 kWidth5,
                                 Text(
@@ -189,9 +189,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                             Text(
                               'Middle name',
-                              style: kPurpleText16,
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             kHeight5,
                             CustomTextFormField(
@@ -212,10 +212,10 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              children: const [
+                              children:  [
                                 Text(
                                   'Last name',
-                                  style: kPurpleText16,
+                                  style: Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 kWidth5,
                                 Text(
@@ -243,9 +243,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                       Text(
                         'Designation',
-                        style: kPurpleText16,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       kHeight5,
                       CustomTextFormField(
@@ -264,9 +264,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                           Text(
                             'Task Analytics',
-                            style: kPurpleText16,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Switch(
                             value: false,
@@ -274,9 +274,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           )
                         ],
                       ),
-                      const Text(
+                      Text(
                         'Do you want to enable task analytics in profile?',
-                        style: kHelper13,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),

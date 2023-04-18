@@ -148,7 +148,7 @@ class _KycDetailsState extends State<KycDetails> {
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   'KYC Details',
-                  style: kPurpleText17,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
               Expanded(
@@ -246,9 +246,9 @@ class _KycDetailsState extends State<KycDetails> {
                                               state.list!.first.issuedDate!,
                                             )
                                           : "No date available",
-                                  leadingWidget: const Icon(
+                                  leadingWidget:  Icon(
                                     Icons.calendar_month_rounded,
-                                    color: kColorPrimary,
+                                    color: Theme.of(context).indicatorColor,
                                   ),
                                   callback: state.list?.length != 0
                                       ? null
@@ -287,9 +287,9 @@ class _KycDetailsState extends State<KycDetails> {
                                               state.list!.first.validThrough!,
                                             )
                                           : "No date available",
-                                  leadingWidget: const Icon(
+                                  leadingWidget:  Icon(
                                     Icons.calendar_month_rounded,
-                                    color: kColorPrimary,
+                                    color: Theme.of(context).indicatorColor,
                                   ),
                                   callback: state.list?.length != 0
                                       ? null
@@ -323,7 +323,7 @@ class _KycDetailsState extends State<KycDetails> {
                                 children: const [
                                   Text(
                                     'Maximum file size 5 MB',
-                                    style: kHelper13,
+                                    // style: kHelper13,
                                   ),
                                   kWidth10,
                                   Icon(

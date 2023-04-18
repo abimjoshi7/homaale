@@ -90,7 +90,7 @@ class ProfileHeaderSection extends StatelessWidget {
                       children: [
                         Text(
                           '${state2.taskerProfile?.user?.firstName ?? ''} ${state2.taskerProfile?.user?.lastName ?? ''}',
-                          style: kPurpleText16,
+                            style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         kWidth5,
                         displayVerify(),

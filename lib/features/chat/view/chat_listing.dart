@@ -42,7 +42,7 @@ class _ChatListingPageState extends State<ChatListingPage> {
         children: [
           kHeight50,
           CustomHeader(
-            label: 'Mesages',
+            label: 'Messages',
           ),
           Divider(),
           BlocBuilder<UserBloc, UserState>(
@@ -113,8 +113,8 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                height: 60,
-                                                width: 60,
+                                                height: 30,
+                                                width: 30,
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
@@ -134,9 +134,9 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                     width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Text(
                                                       state.rCl?[index].fullName?.toString() ?? '',
-                                                      style: kBoldText,
+                                                      style: Theme.of(context).textTheme.headlineSmall,
                                                       overflow: TextOverflow.ellipsis,
- 
+
                                                     ),
                                                   ),
                                                   addVerticalSpace(4),
@@ -161,7 +161,7 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text(date),
+                                                        Text(date,style: Theme.of(context).textTheme.bodySmall,),
                                                         Icon(
                                                           state.rCl?[index].isRead ?? false
                                                               ? Icons.check_circle_rounded

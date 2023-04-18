@@ -67,7 +67,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
               kHeight20,
                Text(
                 'Address Information',
-                style: kPurpleText19,
+                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               Padding(
                 padding: kPadding20,

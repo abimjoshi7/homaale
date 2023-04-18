@@ -615,7 +615,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   children: [
                                     const Text(
                                       kImageLimit,
-                                      style: kHelper13,
+                                      // style: kHelper13,
                                     ),
                                     addHorizontalSpace(5),
                                     const Icon(

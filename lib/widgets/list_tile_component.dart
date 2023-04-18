@@ -26,7 +26,7 @@ class ListTileComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: readDate == null ? kColorBlue.withOpacity(0.2) : Colors.white,
+      color: readDate == null ? kColorBlue.withOpacity(0.2) :Theme.of(context).cardColor ,
       child: ListTile(
         leading: Container(
           padding: const EdgeInsets.all(8),

@@ -25,7 +25,7 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
             children: [
               Text(
                 'Reviews (${widget.taskerReviewsResponse?.count})',
-                style: kHeading3,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               OutlinedButton(
                 onPressed: () {},
@@ -60,7 +60,7 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                             '${widget.taskerReviewsResponse?.result?[index].ratedBy?.fullName}',
                           ),
                           const WidgetText(
-                            label: '3',
+                            label: '0',
                             widget: Icon(
                               Icons.star_rounded,
                               color: kColorAmber,

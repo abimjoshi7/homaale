@@ -196,7 +196,7 @@ class DeactivationHeaderInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:  [
-          Text('Deactivating your Homaale account', style: kPurpleText19),
+          Text('Deactivating your Homaale account', style: Theme.of(context).textTheme.headlineSmall),
           kHeight20,
           Text(
             'If you want to take a break from Homaale, you can deactivate your account. You can activate your account after 5 days of deactivation time.',

@@ -55,17 +55,17 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      // backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        iconTheme: const IconThemeData(
-          color: Colors.black, //change your color here
+        iconTheme:  IconThemeData(
+          color: Theme.of(context).appBarTheme.iconTheme?.color, //change your color here
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         title: const Text(
           "Notifications",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          // style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [],
       ),
@@ -130,7 +130,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                           children: [
                             Text(
                               'Today',
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                              // style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -186,7 +186,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           padding: kPadding20,
-                          color: Colors.white,
+                          // color: Colors.white,
                           child: const Center(
                             child: Text("No today's notifications to show."),
                           ),
@@ -233,7 +233,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           padding: kPadding20,
-                          color: Colors.white,
+                          // color: Colors.white,
                           child: const Center(
                             child: Text("No earlier notifications to show."),
                           ),

@@ -147,7 +147,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                       ),
                     ),
                     child: Text(
-                      state.taskModel?.service?.category?.name ?? 'Task Title',
+                      state.taskModel?.service?.category?.name ?? '',
                     ),
                   ),
                   Expanded(
@@ -254,10 +254,10 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width * 0.7,
+                                              width: MediaQuery.of(context).size.width * 0.5,
                                               child: Text(
                                                 state.taskModel?.title ?? '',
-                                                style: kPurpleText16,
+                                                style: Theme.of(context).textTheme.headlineSmall,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -284,7 +284,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                             color: Colors.red,
                                           ),
                                         ),
-                                        kWidth10,
+                                        // kWidth10,
                                         GestureDetector(
                                           onTap: () {
                                             if (!CacheHelper.isLoggedIn) {
@@ -415,11 +415,11 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   ],
                                 ),
                                 addVerticalSpace(24),
-                                const Align(
+                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
                                     'Description',
-                                    style: kPurpleText16,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                 ),
                                 kHeight10,
@@ -427,11 +427,11 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   text: documentDescription,
                                 ),
                                 addVerticalSpace(24),
-                                const Align(
+                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
                                     'Requirements',
-                                    style: kPurpleText16,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                 ),
                                 kHeight10,
@@ -451,7 +451,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                         StringUtils.capitalize(
                                           state.taskModel?.highlights?[index] ?? '',
                                         ),
-                                        style: kRequirements,
+                                        style: Theme.of(context).textTheme.bodySmall,
                                       )
                                     ],
                                   ),

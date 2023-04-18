@@ -65,7 +65,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
               kHeight10,
                Text(
                 'Personal Information',
-                style: kPurpleText19,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Padding(
                 padding: kPadding20,
@@ -94,10 +94,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.asset('assets/nepalflag.png'),
-                              const Text(
+                               Text(
                                 '+977',
-                                style: kBodyText1,
-                              ),
+                                  style: Theme.of(context).textTheme.headlineSmall                              ),
                               const Icon(Icons.arrow_drop_down)
                             ],
                           ),
@@ -154,9 +153,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                 isOther = !value;
                               });
                             },
-                            label: const Text(
+                            label:  Text(
                               'Male',
-                              style: kHelper13,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             selectedColor: kColorPrimary,
                           ),
@@ -173,9 +172,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                 isOther = !value;
                               });
                             },
-                            label: const Text(
+                            label:  Text(
                               'Female',
-                              style: kHelper13,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             selectedColor: kColorPrimary,
                           ),
@@ -192,9 +191,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                 isFemale = !value;
                               });
                             },
-                            label: const Text(
+                            label:  Text(
                               'Other',
-                              style: kHelper13,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             selectedColor: kColorPrimary,
                           ),

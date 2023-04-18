@@ -47,15 +47,15 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                               Text(
                                 'Annual Gross Salary',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 state.taxRes.details?.annualGrossSalary
                                         .toString() ??
                                     '',
-                                style: kText17,
+                                // style: kText17,
                               ),
                             ],
                           ),
@@ -72,15 +72,15 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                               Text(
                                 'Taxable Income',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 state.taxRes.details?.netTaxableIncome
                                         .toString() ??
                                     '',
-                                style: kText17,
+                                // style: kText17,
                               ),
                             ],
                           ),
@@ -97,9 +97,9 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                               Text(
                                 'Net Payable Tax',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 state.taxRes.details?.netPayableTax
@@ -122,13 +122,13 @@ class TaxCalculator extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
+                               Text(
                                 'Your Tax slab is:',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 'Upto ${state.taxRes.details?.taxRate ?? ''}',
-                                style: kText17,
+                                // style: kText17,
                               ),
                             ],
                           ),
@@ -143,14 +143,14 @@ class TaxCalculator extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children:  [
                               Text(
                                 'Taxable Salary',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 'Taxable Amount',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                             ],
                           ),
@@ -160,26 +160,26 @@ class TaxCalculator extends StatelessWidget {
                               Text(
                                 state.taxRes.data?.first.name?.toTitleCase() ??
                                     '',
-                                style: kText15,
+                                // style: kText15,
                               ),
                               Text(
                                 state.taxRes.details?.netTaxableIncome
                                         .toString() ??
                                     '',
-                                style: kText15,
+                                // style: kText15,
                               ),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children:  [
                               Text(
                                 'Tax Rate',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 'Tax Liability',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                             ],
                           ),
@@ -188,13 +188,13 @@ class TaxCalculator extends StatelessWidget {
                             children: [
                               Text(
                                 state.taxRes.details?.taxRate ?? '',
-                                style: kText15,
+                                // style: kText15,
                               ),
                               Text(
                                 state.taxRes.data?.first.taxLiability
                                         .toString() ??
                                     '',
-                                style: kText15,
+                                // style: kText15,
                               ),
                             ],
                           ),
@@ -202,30 +202,30 @@ class TaxCalculator extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
+                               Text(
                                 'Net Tax Liability (yearly)',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 state.taxRes.details?.netTaxLiabilityYearly
                                         .toString() ??
                                     '',
-                                style: kText15,
+                                // style: kText15,
                               ),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
+                               Text(
                                 'Net Tax Liability (monthly)',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 state.taxRes.details?.netTaxLiabilityMonthly
                                         .toString() ??
                                     '',
-                                style: kText15,
+                                // style: kText15,
                               ),
                             ],
                           ),
@@ -263,15 +263,16 @@ class TaxCalculator extends StatelessWidget {
                   icon: const Icon(Icons.search),
                   onPressed: () {},
                 ),
-                child: const Text(
+                child: Text(
                   'Tax Calculator',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(
-                      0xff212529,
-                    ),
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
+                  // style: TextStyle(
+                  //   fontSize: 14,
+                  //   fontWeight: FontWeight.w500,
+                  //   color: Color(
+                  //     0xff212529,
+                  //   ),
+                  // ),
                 ),
               ),
               const Divider(),

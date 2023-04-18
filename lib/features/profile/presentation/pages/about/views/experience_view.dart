@@ -26,7 +26,7 @@ class ExperienceView extends StatelessWidget {
                     children: [
                        Text(
                         'Experience',
-                        style: kPurpleText19,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {

@@ -30,7 +30,7 @@ class CustomHeader extends StatelessWidget {
             child: leadingWidget ??
                 Icon(
                   Icons.arrow_back,
-                  color: kColorSilver,
+                  color: Theme.of(context).appBarTheme.iconTheme?.color,
                 ),
           ),
         ),
@@ -38,7 +38,7 @@ class CustomHeader extends StatelessWidget {
           child: child ??
               Text(
                 label ?? '',
-                style: kText15,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
         ),
         trailingWidget ?? SizedBox.shrink(),

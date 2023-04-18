@@ -31,7 +31,7 @@ class SectionHeading extends StatelessWidget {
       children: [
         Text(
           labelName,
-          style: kPurpleText19,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
         GestureDetector(
           onTap: onTap,

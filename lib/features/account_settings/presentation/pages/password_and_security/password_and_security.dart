@@ -45,14 +45,14 @@ class PasswordAndSecurity extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kHeight20,
-                const Text(
+                 Text(
                   'Password',
-                  style: kPurpleText16,
+                  style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 kHeight5,
                 const Text(
                   'You will be asked to enter password before logging in Homaale',
-                  style: kHelper13,
+                  // style: kHelper13,
                 ),
                 kHeight20,
 

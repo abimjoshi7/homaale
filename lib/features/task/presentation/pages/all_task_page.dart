@@ -302,7 +302,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                 children: [
                                   Expanded(
                                     child: DropdownSearch<String?>(
-                                      items: items ?? ['N/A'],
+                                      items: items ?? [''],
                                       onChanged: (value) {
                                         setState(() {
                                           categorySelected = value != null ? true : false;

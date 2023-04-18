@@ -17,8 +17,8 @@ class ReviewsProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Reviews (30)',
-                style: kHeading3,
+                'Reviews (0)',
+                // style: kHeading3,
               ),
               OutlinedButton(
                 onPressed: () {},

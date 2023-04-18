@@ -31,7 +31,7 @@ class EducationView extends StatelessWidget {
                     children: [
                        Text(
                         'Education',
-                        style: kPurpleText19,
+                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {

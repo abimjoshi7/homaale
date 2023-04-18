@@ -57,11 +57,11 @@ class _ProfessionalInformationModalSheetState
         // }
       },
       builder: (context, state) {
-        if (state.theStates == TheStates.success) {
+        if (state.theStates == TheStates.success && state.taskerProfile!.userType !=null) {
           if (state.taskerProfile!.userType!
                   .replaceAll(
                       RegExp(
-                        r"\p{P}",
+                        r"\n{P}",
                         unicode: true,
                       ),
                       '')
@@ -71,12 +71,12 @@ class _ProfessionalInformationModalSheetState
             isTasker = true;
             isClient = true;
           } else if (state.taskerProfile!.userType!
-                      .replaceAll(RegExp(r"\p{P}", unicode: true), '')
+                      .replaceAll(RegExp(r"\n{P}", unicode: true), '')
                       .split(' ')
                       .length ==
                   1 &&
               state.taskerProfile!.userType!
-                      .replaceAll(RegExp(r"\p{P}", unicode: true), '')
+                      .replaceAll(RegExp(r"\n{P}", unicode: true), '')
                       .split(' ')
                       .first
                       .toLowerCase()
@@ -142,7 +142,7 @@ class _ProfessionalInformationModalSheetState
                   .split(',')
                   .map(
                     (e) => e.replaceAll(
-                      RegExp(r"\p{P}", unicode: true),
+                      RegExp(r"\n{P}", unicode: true),
                       "",
                     ),
                   )

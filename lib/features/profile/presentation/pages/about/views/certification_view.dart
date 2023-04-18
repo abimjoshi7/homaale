@@ -26,7 +26,7 @@ class CertificationView extends StatelessWidget {
                     children: [
                        Text(
                         'Certification',
-                        style: kPurpleText19,
+                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {

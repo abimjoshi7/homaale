@@ -45,7 +45,7 @@ class ProfileDetailSection extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Text(
                         state.taskEntityService?.title ?? '',
-                        style: kPurpleText16,
+                        style: Theme.of(context).textTheme.headlineSmall,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

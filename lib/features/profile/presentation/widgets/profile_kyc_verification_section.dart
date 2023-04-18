@@ -27,7 +27,7 @@ class ProfileKycVerifySection extends StatelessWidget {
               width: double.infinity,
               height: 52,
               decoration: const BoxDecoration(
-                color: Color(0xffFFF5E5),
+                // color: Color(0xffFFF5E5),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8),
@@ -35,14 +35,14 @@ class ProfileKycVerifySection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      children: const [
-                        Icon(
+                      children:  [
+                        const Icon(
                           Icons.info_outline_rounded,
                           size: 20,
                           color: Colors.amber,
                         ),
                         kWidth5,
-                        Text('Get your KYC verified now'),
+                        Text('Get your KYC verified now',style: Theme.of(context).textTheme.bodySmall,),
                       ],
                     ),
                     const Icon(

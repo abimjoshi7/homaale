@@ -138,11 +138,11 @@ class _HistorySectionState extends State<HistorySection> {
       children: [
         Text(
           "Rs. ${result.entityService?.budgetFrom ?? '0'} - Rs. ${result.entityService?.budgetTo ?? '0'}",
-          style: kText17,
+          // style: kText17,
         ),
         const Text(
           '/ project',
-          style: kHelper13,
+          // style: kHelper13,
         ),
       ],
     );

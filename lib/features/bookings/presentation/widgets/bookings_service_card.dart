@@ -55,21 +55,21 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: cardColor,
+              // color: Theme.of(context).cardColor,
             ),
           ),
           Positioned(
             left: 5,
-            right: 0,
+            right: 5,
             child: Container(
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: const [
+                // color: Theme.of(context).cardColor,
+                boxShadow:  [
                   BoxShadow(
                     offset: Offset(0.5, 0.5),
-                    color: Colors.black12,
+                    // color: Theme.of(context).indicatorColor,
                   ),
                 ],
               ),
@@ -91,8 +91,8 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                               width: MediaQuery.of(context).size.width * 0.7,
                               child: AutoSizeText(
                                 serviceName ?? '',
-                                style: kPurpleText16,
-                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.headlineSmall,
+
                               ),
                             ),
                             AutoSizeText(

@@ -4,7 +4,9 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key,});
+  const Home({
+    super.key,
+  });
   static const routeName = '/home';
   static final notificationKey = GlobalKey();
 
@@ -34,7 +36,10 @@ class Home extends StatelessWidget {
                         width: double.infinity,
                       ),
                     ),
+
                     PopularTaskerSection(),
+                    SizedBox(height: 10),
+
                     NotableBannerSection(),
                     SizedBox(height: 120),
 

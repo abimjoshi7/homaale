@@ -71,7 +71,7 @@ class TaskCard extends StatelessWidget {
                           StringUtils.capitalize(
                             taskName ?? '',
                           ),
-                          style: kPurpleText16,
+                          style: Theme.of(context).textTheme.headlineSmall,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -88,7 +88,7 @@ class TaskCard extends StatelessWidget {
                 ],
               ),
             ),
-            addVerticalSpace(8),
+            addVerticalSpace(5),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,13 +132,13 @@ class TaskCard extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "Rs. ${startRate ?? '0'} - ",
-                            style: kPurpleText16,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Row(
                             children: <Widget>[
                               Text(
                                 endRate ?? '0',
-                                style: kPurpleText16,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
                                 '/ ${budgetType?.toLowerCase()}',
@@ -148,7 +148,7 @@ class TaskCard extends StatelessWidget {
                         ],
                       ),
                       IconText(
-                        label: count ?? '80',
+                        label: count ?? '0',
                         iconData: Icons.visibility_outlined,
                       ),
                     ],
@@ -158,7 +158,7 @@ class TaskCard extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 8,
+                vertical: 3,
               ),
               child: Divider(),
             ),

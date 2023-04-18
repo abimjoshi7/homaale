@@ -21,7 +21,9 @@ class CustomDottedContainerStack extends StatelessWidget {
         SizedBox(
           height: theHeight,
           width: double.infinity,
-          child: const DashedRect(),
+          child:  DashedRect(
+            color: Theme.of(context).indicatorColor,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(13),
@@ -31,7 +33,7 @@ class CustomDottedContainerStack extends StatelessWidget {
               theWidget ??
                   Text(
                     '+ Select',
-                    style: kHelper13,
+                    // style: kHelper13,
                     // iconData: Icons.add,
                   ),
             ],
