@@ -106,6 +106,7 @@ class DioHelper {
         ),
       );
       log('DIO POST ERROR: ${e.response?.data}');
+      rethrow ;
     }
   }
 
