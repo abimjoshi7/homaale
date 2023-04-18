@@ -206,12 +206,12 @@ class _ChatPageState extends State<ChatPage> {
 
                     locator<FirebaseFirestore>().collection("userChats").doc("$userID").update({
                       "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
-                      "${chatPersonDetails?.groupName}.date": FieldValue.serverTimestamp(),
+                      "${chatPersonDetails?.groupName}.date": Timestamp.now(),
                     });
 
                     locator<FirebaseFirestore>().collection("userChats").doc("${chatPersonDetails?.id}").update({
                       "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
-                      "${chatPersonDetails?.groupName}.date": FieldValue.serverTimestamp(),
+                      "${chatPersonDetails?.groupName}.date": Timestamp.now(),
                       "${chatPersonDetails?.groupName}.read": false,
                     });
 

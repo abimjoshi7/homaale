@@ -25,7 +25,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         List<ChatPersonDetails> rCl = [];
 
         for (var item in cl) {
-
           var res = await chatRepository.fetchChatPersonDetails(id: item.personID ?? '');
 
           String decryptedMessage;
@@ -63,7 +62,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       try {
         /// Create user and tasker if not exist START
         try {
-
           firebaseFirestore.collection('users').doc('${event.userID}').get().then((value) {
             if (!value.exists) {
               firebaseFirestore.collection('users').doc('${event.userID}').set({
@@ -89,7 +87,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
         /// Create user and tasker chats if not exist START
         try {
-
           firebaseFirestore.collection('userChats').doc('${event.userID}').get().then((value) {
             if (!value.exists) {
               firebaseFirestore.collection('userChats').doc('${event.userID}').set({});
@@ -117,23 +114,21 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
                 {'messages': []},
               );
 
-
               firebaseFirestore.collection('userChats').doc('${event.userID}').get().then((value) {
                 if (value.exists) {
                   firebaseFirestore.collection('userChats').doc('${event.userID}').update({
                     "$combinedID.userInfo": {'uid': "${event.taskerID}"},
-                    "$combinedID.date": FieldValue.serverTimestamp(),
+                    "$combinedID.date": Timestamp.now(),
                     "$combinedID.read": true,
                   });
                 }
               });
 
-
               firebaseFirestore.collection('userChats').doc('${event.taskerID}').get().then((value) {
                 if (value.exists) {
                   firebaseFirestore.collection('userChats').doc('${event.taskerID}').update({
                     "$combinedID.userInfo": {'uid': "${event.userID}"},
-                    "$combinedID.date": FieldValue.serverTimestamp(),
+                    "$combinedID.date": Timestamp.now(),
                     "$combinedID.read": true,
                   });
                 }
