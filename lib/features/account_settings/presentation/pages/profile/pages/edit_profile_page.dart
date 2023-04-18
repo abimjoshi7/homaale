@@ -12,6 +12,7 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(appBarTitle: "Edit Profile"),
       body: Column(
         children: [
           kHeight50,
@@ -44,6 +45,7 @@ class EditProfilePage extends StatelessWidget {
             ),
           ),
           const Divider(),
+
           const Expanded(
             child: FormEditProfileSection(),
           ),

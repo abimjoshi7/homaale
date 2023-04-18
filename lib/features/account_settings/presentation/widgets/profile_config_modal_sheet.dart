@@ -25,48 +25,46 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
             children: [
               const CustomModalSheetDrawerIcon(),
                Text(
+
                 'Profile Configuration',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
-              Padding(
-                padding: kPadding20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomFormField(
-                      label: 'Visibility',
-                      child: CustomDropDownField(
-                        list: const [
-                          'Public',
-                          'Private',
-                        ],
-                        hintText: state.taskerProfile?.profileVisibility ??
-                            'Choose one',
-                        onChanged: (value) => setState(
-                          () {
-                            visibiltyType = value;
-                          },
-                        ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomFormField(
+                    label: 'Visibility',
+                    child: CustomDropDownField(
+                      list: const [
+                        'Public',
+                        'Private',
+                      ],
+                      hintText: state.taskerProfile?.profileVisibility ??
+                          'Choose one',
+                      onChanged: (value) => setState(
+                        () {
+                          visibiltyType = value;
+                        },
                       ),
                     ),
-                    CustomFormField(
-                      label: 'Task Preferences',
-                      child: CustomDropDownField(
-                        list: const [
-                          'Short term tasks',
-                          'Long term tasks',
-                        ],
-                        hintText: state.taskerProfile?.taskPreferences ??
-                            'Choose one',
-                        onChanged: (value) => setState(
-                          () {
-                            taskPreferences = value;
-                          },
-                        ),
+                  ),
+                  CustomFormField(
+                    label: 'Task Preferences',
+                    child: CustomDropDownField(
+                      list: const [
+                        'Short term tasks',
+                        'Long term tasks',
+                      ],
+                      hintText:
+                          state.taskerProfile?.taskPreferences ?? 'Choose one',
+                      onChanged: (value) => setState(
+                        () {
+                          taskPreferences = value;
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               kHeight20,
               CustomElevatedButton(

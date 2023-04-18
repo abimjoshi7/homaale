@@ -46,7 +46,12 @@ class _KycDetailsState extends State<KycDetails> {
       ..add(
         KycDocumentLoaded(),
       )
-      ..add(KycModelLoaded());
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocTypeLoaded(),
+      );
     super.initState();
   }
 
@@ -128,8 +133,10 @@ class _KycDetailsState extends State<KycDetails> {
       },
       builder: (context, state) {
         if (state.theStates == TheStates.loading)
-          return Center(
-            child: CircularProgressIndicator(),
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
 
         return Scaffold(
@@ -167,14 +174,14 @@ class _KycDetailsState extends State<KycDetails> {
                             onChanged: state.list?.length != 0
                                 ? null
                                 : (value) {
-                                    setState(() {
-                                      identityTypeController.text = value!;
-                                    });
+                                    setState(
+                                      () {
+                                        identityTypeController.text = value!;
+                                      },
+                                    );
                                   },
                             list: val,
-                            hintText: state.list?.length != 0
-                                ? state.list?.first.documentType
-                                : "Choose document type",
+                            hintText: "Choose document type",
                           ),
                         ),
                         CustomFormField(

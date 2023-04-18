@@ -299,7 +299,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                 border: Border.all(color: kColorGrey),
                               ),
                               child: Row(
-                                children: [
+                                children: <Widget>[
                                   Expanded(
                                     child: DropdownSearch<String?>(
                                       items: items ?? [''],
@@ -363,7 +363,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                 border: Border.all(color: kColorGrey),
                               ),
                               child: Row(
-                                children: [
+                                children: <Widget>[
                                   Expanded(
                                     child: DropdownSearch<String?>(
                                       items: state.list.map((e) => e.name).toList(),

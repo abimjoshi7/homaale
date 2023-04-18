@@ -1,14 +1,21 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appBarTitle;
+  final Widget? leadingWidget;
+  final Widget? trailingWidget;
+
   const CustomAppBar({
-    super.key,
+    Key? key,
     required this.appBarTitle,
-  });
+    this.leadingWidget,
+    this.trailingWidget,
+  }) : super(key: key);
 
   @override
   PreferredSizeWidget build(BuildContext context) {
@@ -44,9 +51,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Icons.search_rounded,
             color: Theme.of(context).appBarTheme.iconTheme?.color,
             size: 25,
+
           ),
-        )
+      actions: [
+        trailingWidget ??
+            IconButton(
+              onPressed: () => Navigator.pushNamed(
+                context,
+                SearchPage.routeName,
+              ),
+              icon: Icon(
+                Icons.search_rounded,
+                color: kColorGreyDark,
+                size: 25,
+              ),
+            )
       ],
+      bottom: PreferredSize(
+        child: Divider(),
+        preferredSize: Size(
+          double.maxFinite,
+          5,
+        ),
+      ),
     );
   }
 

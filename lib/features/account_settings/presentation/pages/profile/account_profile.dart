@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+    as sets;
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
@@ -52,6 +54,11 @@ class _AccountProfileState extends State<AccountProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Account",
+        leadingWidget: SizedBox.shrink(),
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         children: [
           kHeight50,
@@ -73,6 +80,7 @@ class _AccountProfileState extends State<AccountProfile> {
               'Profile',
             ),
           ),
+
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state.theStates == TheStates.initial)

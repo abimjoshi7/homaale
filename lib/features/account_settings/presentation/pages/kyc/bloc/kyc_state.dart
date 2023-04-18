@@ -6,12 +6,14 @@ class KycState extends Equatable {
   final List<KycListRes>? list;
   final int? kycId;
   final bool? isCreated;
+  final bool? isDocLoaded;
   const KycState({
     this.theStates = TheStates.initial,
     this.kycModel,
     this.list,
     this.kycId,
     this.isCreated = null,
+    this.isDocLoaded = false,
   });
   @override
   List<Object?> get props {
@@ -21,6 +23,7 @@ class KycState extends Equatable {
       list,
       kycId,
       isCreated,
+      isDocLoaded,
     ];
   }
 
@@ -30,6 +33,7 @@ class KycState extends Equatable {
     List<KycListRes>? list,
     int? kycId,
     bool? isCreated,
+    bool? isDocLoaded,
   }) {
     return KycState(
       theStates: theStates ?? this.theStates,
@@ -37,6 +41,7 @@ class KycState extends Equatable {
       list: list ?? this.list,
       kycId: kycId ?? this.kycId,
       isCreated: isCreated ?? this.isCreated,
+      isDocLoaded: isDocLoaded ?? this.isDocLoaded,
     );
   }
 }

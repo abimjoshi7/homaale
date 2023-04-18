@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,12 @@ class TasksAndServicesNearbySection extends StatelessWidget {
               if (CacheHelper.isLoggedIn == false) {
                 notLoggedInPopUp(context);
               }
-              if (CacheHelper.isLoggedIn) {}
+              if (CacheHelper.isLoggedIn) {
+                Navigator.pushNamed(
+                  context,
+                  GoogleMapsPage.routeName,
+                );
+              }
             },
           ),
           SizedBox(

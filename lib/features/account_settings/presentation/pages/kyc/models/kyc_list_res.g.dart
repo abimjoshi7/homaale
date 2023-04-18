@@ -15,7 +15,7 @@ _$_KycListRes _$$_KycListResFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      documentType: json['document_type'] as String?,
+      documentType: json['document_type'] as int?,
       documentId: json['document_id'] as String?,
       file: json['file'] as String?,
       issuerOrganization: json['issuer_organization'] as String?,

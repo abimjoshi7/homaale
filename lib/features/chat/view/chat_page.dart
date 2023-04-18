@@ -27,6 +27,13 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   @override
+  void dispose() {
+    userBloc.close();
+    chatBoxController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     /// Get chat and person details from route arguments
 
@@ -117,7 +124,6 @@ class _ChatPageState extends State<ChatPage> {
                               width: MediaQuery.of(context).size.width * 0.7,
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
-
                                 color: chatPersonDetails?.id == mList[index].senderId ? kColorGrey : kColorBlue,
                                 borderRadius: BorderRadius.only(
                                   topLeft: chatPersonDetails?.id == mList[index].senderId
@@ -125,7 +131,6 @@ class _ChatPageState extends State<ChatPage> {
                                       : Radius.circular(16),
                                   topRight: Radius.circular(16),
                                   bottomLeft: Radius.circular(16),
-
                                   bottomRight: chatPersonDetails?.id == mList[index].senderId
                                       ? Radius.circular(16)
                                       : Radius.zero,
@@ -199,15 +204,14 @@ class _ChatPageState extends State<ChatPage> {
                       ])
                     });
 
-
                     locator<FirebaseFirestore>().collection("userChats").doc("$userID").update({
                       "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
-                      "${chatPersonDetails?.groupName}.date": FieldValue.serverTimestamp(),
+                      "${chatPersonDetails?.groupName}.date": Timestamp.now(),
                     });
 
                     locator<FirebaseFirestore>().collection("userChats").doc("${chatPersonDetails?.id}").update({
                       "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
-                      "${chatPersonDetails?.groupName}.date": FieldValue.serverTimestamp(),
+                      "${chatPersonDetails?.groupName}.date": Timestamp.now(),
                       "${chatPersonDetails?.groupName}.read": false,
                     });
 

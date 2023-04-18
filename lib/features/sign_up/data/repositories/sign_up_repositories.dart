@@ -68,4 +68,15 @@ class SignUpRepositories {
       rethrow;
     }
   }
+
+  Future resendEmailSignUp({required String email}) async {
+    final res = await _dio.postData(
+      data: {"email": "$email"},
+      url: "user/resend/email/activation/",
+    );
+    log("resend Verification Email test: " + res.toString());
+    if (res != null) {
+      return res;
+    }
+  }
 }

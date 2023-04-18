@@ -36,7 +36,7 @@ class _PreferencesSignUpState extends State<PreferencesSignUp> {
                     height: 120,
                     width: double.infinity,
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         kHeight10,
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,

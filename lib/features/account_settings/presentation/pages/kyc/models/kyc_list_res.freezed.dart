@@ -26,7 +26,7 @@ mixin _$KycListRes {
   @JsonKey(name: "updated_at")
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: "document_type")
-  String? get documentType => throw _privateConstructorUsedError;
+  int? get documentType => throw _privateConstructorUsedError;
   @JsonKey(name: "document_id")
   String? get documentId => throw _privateConstructorUsedError;
   String? get file => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $KycListResCopyWith<$Res> {
       {int? id,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
-      @JsonKey(name: "document_type") String? documentType,
+      @JsonKey(name: "document_type") int? documentType,
       @JsonKey(name: "document_id") String? documentId,
       String? file,
       @JsonKey(name: "issuer_organization") String? issuerOrganization,
@@ -114,7 +114,7 @@ class _$KycListResCopyWithImpl<$Res, $Val extends KycListRes>
       documentType: freezed == documentType
           ? _value.documentType
           : documentType // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       documentId: freezed == documentId
           ? _value.documentId
           : documentId // ignore: cast_nullable_to_non_nullable
@@ -167,7 +167,7 @@ abstract class _$$_KycListResCopyWith<$Res>
       {int? id,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
-      @JsonKey(name: "document_type") String? documentType,
+      @JsonKey(name: "document_type") int? documentType,
       @JsonKey(name: "document_id") String? documentId,
       String? file,
       @JsonKey(name: "issuer_organization") String? issuerOrganization,
@@ -220,7 +220,7 @@ class __$$_KycListResCopyWithImpl<$Res>
       documentType: freezed == documentType
           ? _value.documentType
           : documentType // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       documentId: freezed == documentId
           ? _value.documentId
           : documentId // ignore: cast_nullable_to_non_nullable
@@ -292,7 +292,7 @@ class _$_KycListRes implements _KycListRes {
   final DateTime? updatedAt;
   @override
   @JsonKey(name: "document_type")
-  final String? documentType;
+  final int? documentType;
   @override
   @JsonKey(name: "document_id")
   final String? documentId;
@@ -389,7 +389,7 @@ abstract class _KycListRes implements KycListRes {
       {final int? id,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       @JsonKey(name: "updated_at") final DateTime? updatedAt,
-      @JsonKey(name: "document_type") final String? documentType,
+      @JsonKey(name: "document_type") final int? documentType,
       @JsonKey(name: "document_id") final String? documentId,
       final String? file,
       @JsonKey(name: "issuer_organization") final String? issuerOrganization,
@@ -413,7 +413,7 @@ abstract class _KycListRes implements KycListRes {
   DateTime? get updatedAt;
   @override
   @JsonKey(name: "document_type")
-  String? get documentType;
+  int? get documentType;
   @override
   @JsonKey(name: "document_id")
   String? get documentId;

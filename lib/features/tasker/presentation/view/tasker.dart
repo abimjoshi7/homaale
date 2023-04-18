@@ -26,7 +26,8 @@ class TaskerProfileView extends StatefulWidget {
   State<TaskerProfileView> createState() => TaskerProfileViewState();
 }
 
-class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerProviderStateMixin {
+class TaskerProfileViewState extends State<TaskerProfileView>
+    with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
 
@@ -61,7 +62,8 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
         builder: (context, state) {
           String profilePicUrl() {
             if (state.states == TheStates.success) {
-              return state.tasker?.profileImage.toString() ?? 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
+              return state.tasker?.profileImage.toString() ??
+                  'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
             }
             return 'https://www.seekpng.com/ima/u2q8u2w7e6y3a9a9/';
           }
@@ -111,10 +113,13 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                                       await notLoggedInPopUp(context);
                                     }
                                     if (CacheHelper.isLoggedIn == true) {
-                                      final box = context.findRenderObject() as RenderBox?;
+                                      final box = context.findRenderObject()
+                                          as RenderBox?;
                                       Share.share(
                                         "Share this Hommale with friends.",
-                                        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                                        sharePositionOrigin:
+                                            box!.localToGlobal(Offset.zero) &
+                                                box.size,
                                       );
                                     }
                                   },
@@ -183,7 +188,8 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
           Widget buildTaskSuccessRate() {
             if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker?.stats!.successRate!.toStringAsFixed(0) ?? '0',
+                numberText:
+                    state.tasker?.stats!.successRate!.toStringAsFixed(0) ?? '0',
                 textColor: kColorGreen,
               );
             } else {
@@ -197,7 +203,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
           Widget buildTaskHappyClients() {
             if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker?.stats!.happyClients!.toStringAsFixed(0) ?? '0',
+                numberText:
+                    state.tasker?.stats!.happyClients!.toStringAsFixed(0) ??
+                        '0',
                 textColor: kColorPurple,
               );
             } else {
@@ -211,7 +219,9 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
           Widget buildTaskCompleted() {
             if (state.states == TheStates.success) {
               return NumberCountText(
-                numberText: state.tasker?.stats!.taskCompleted!.toStringAsFixed(0) ?? '0',
+                numberText:
+                    state.tasker?.stats!.taskCompleted!.toStringAsFixed(0) ??
+                        '0',
                 textColor: kColorOrange,
               );
             } else {
@@ -280,7 +290,8 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                           ),
                           kHeight5,
                           Text(
-                            state.tasker?.designation?.toString() ?? 'Homaale User',
+                            state.tasker?.designation?.toString() ??
+                                'Homaale User',
                           ),
                           kHeight5,
                           displayRating(),
@@ -338,6 +349,10 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                 addVerticalSpace(20),
                 InkWell(
                   onTap: () {
+                    if (CacheHelper.isLoggedIn == false) {
+                      notLoggedInPopUp(context);
+                    }
+                    if (!CacheHelper.isLoggedIn) return;
                     Navigator.pushNamed(
                       context,
                       KycDetails.routeName,
@@ -368,11 +383,13 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                     children: [
                       TaskerAboutSection(
                         bio: state.tasker?.bio,
-                        contact: state.tasker?.user!.phone?.toString() ?? state.tasker?.user!.email!,
+                        contact: state.tasker?.user!.phone?.toString() ??
+                            state.tasker?.user!.email!,
                         activeHourStart: state.tasker?.activeHourStart ?? '',
                         activeHourEnd: state.tasker?.activeHourEnd ?? '',
                         skills: state.tasker?.skill,
-                        location: "${state.tasker?.addressLine1}, ${state.tasker?.country?.name ?? ''}",
+                        location:
+                            "${state.tasker?.addressLine1}, ${state.tasker?.country?.name ?? ''}",
                         portfolio: state.tasker?.portfolio ?? [],
                         education: state.tasker?.education ?? [],
                         experience: state.tasker?.experience ?? [],

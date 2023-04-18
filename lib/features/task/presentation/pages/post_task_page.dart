@@ -92,25 +92,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(appBarTitle: "Post a task"),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search),
-            ),
-            child: const Text('Post a Task'),
-          ),
-          const Divider(),
           Expanded(
             child: Form(
               key: _key,
@@ -130,29 +114,80 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               hintText: 'Need a Garden Cleaner',
                             ),
                           ),
-                          TheCategoriesDropdown(
-                            hintText: categoryName,
-                            categoriesBloc: categoriesBloc,
-                            onChanged: (value) {
-                              categoriesBloc.state.categoryList?.forEach(
-                                (element) {
-                                  if (value == element.name) {
-                                    categoriesBloc.add(
-                                      TaskSubCategoryLoaded(
-                                        categoryId: element.id,
-                                        categoryName: element.name,
+                          CustomFormField(
+                            label: 'Category',
+                            isRequired: true,
+                            child: BlocBuilder<ServicesBloc, ServicesState>(
+                              builder: (context, state) {
+                                if (state.theStates == TheStates.success) {
+                                  return DropdownSearch(
+                                    items: List.generate(
+                                      state.serviceList?.length ?? 0,
+                                      (index) =>
+                                          state.serviceList?[index].title,
+                                    ),
+                                    onChanged: (value) {
+                                      for (final element
+                                          in state.serviceList!) {
+                                        if (value == element.title) {
+                                          setState(
+                                            () {
+                                              categoryId = element.id;
+                                            },
+                                          );
+                                        }
+                                      }
+                                    },
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.all(5),
+                                        hintText: 'Trimming & Cutting',
+                                        hintStyle: const TextStyle(
+                                          color: Color(0xff9CA0C1),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color(0xffDEE2E6)),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: kColorSecondary,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
                                       ),
-                                    );
-                                    setState(
-                                      () {
-                                        categoryName = element.name;
-                                        serviceId = element.id.toString();
-                                      },
-                                    );
-                                  }
-                                },
-                              );
-                            },
+                                      baseStyle: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    clearButtonProps: ClearButtonProps(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 16,
+                                      visualDensity: VisualDensity.compact,
+                                      alignment: Alignment.centerRight,
+                                      isVisible: true,
+                                      color: categoryId == null
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                    popupProps: PopupProps.modalBottomSheet(
+                                      showSearchBox: true,
+                                      modalBottomSheetProps:
+                                          ModalBottomSheetProps(
+                                        useSafeArea: false,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
                           ),
                           CustomFormField(
                             label: 'Requirements',
@@ -232,7 +267,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             isRequired: true,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 Row(
                                   children: [
                                     Radio<String>(
@@ -274,45 +309,82 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               maxLines: 3,
                             ),
                           ),
+
                           CustomFormField(
                             isRequired: true,
                             label: 'City',
                             child: BlocBuilder<CityBloc, CityState>(
                               builder: (context, state) {
                                 if (state is CityLoadSuccess) {
-                                  return CustomDropDownField(
-                                    initialValue: state.list
-                                        .firstWhere(
-                                          (element) => element.name!
-                                              .startsWith("Kathmandu"),
-                                        )
-                                        .name,
-                                    list: List.generate(
+                                  return DropdownSearch(
+                                    items: List.generate(
                                       state.list.length,
                                       (index) => state.list[index].name,
                                     ),
-                                    hintText: 'Enter your city',
                                     onChanged: (p0) => setState(
-                                      () async {
+                                      () {
                                         final x = state.list.firstWhere(
                                           (element) => p0 == element.name,
                                         );
                                         cityCode = x.id;
                                       },
                                     ),
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.all(5),
+                                        hintText: 'Enter Your City',
+                                        hintStyle: const TextStyle(
+                                          color: Color(0xff9CA0C1),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color(0xffDEE2E6)),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: kColorSecondary,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      baseStyle: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    clearButtonProps: ClearButtonProps(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 16,
+                                      visualDensity: VisualDensity.compact,
+                                      alignment: Alignment.centerRight,
+                                      isVisible: true,
+                                      color: cityCode == null
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                    popupProps: PopupProps.modalBottomSheet(
+                                      showSearchBox: true,
+                                      modalBottomSheetProps:
+                                          ModalBottomSheetProps(
+                                        useSafeArea: false,
+                                      ),
+                                    ),
                                   );
-                                } else {
-                                  return const SizedBox.shrink();
                                 }
+                                return SizedBox.shrink();
                               },
                             ),
                           ),
-
                           CustomFormField(
                             label: 'When do you want the task to be completed?',
                             isRequired: true,
                             child: Column(
-                              children: [
+                              children: <Widget>[
                                 Row(
                                   children: [
                                     Flexible(
@@ -483,19 +555,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             child: BlocBuilder<CurrencyBloc, CurrencyState>(
                               builder: (context, state) {
                                 if (state is CurrencyLoadSuccess) {
-                                  return CustomDropDownField(
-                                    initialValue: state.currencyListRes
-                                        .firstWhere((element) => element.name!
-                                            .startsWith("Nepalese"))
-                                        .name,
-                                    list: List.generate(
+                                  return DropdownSearch(
+                                    items: List.generate(
                                       state.currencyListRes.length,
                                       (index) =>
                                           state.currencyListRes[index].name,
                                     ),
-                                    hintText: 'Enter your Currency',
                                     onChanged: (p0) => setState(
-                                      () async {
+                                      () {
                                         final x =
                                             state.currencyListRes.firstWhere(
                                           (element) => p0 == element.name,
@@ -503,10 +570,54 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         currencyCode = x.code;
                                       },
                                     ),
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.all(5),
+                                        hintText: 'Enter Your Currency',
+                                        hintStyle: const TextStyle(
+                                          color: Color(0xff9CA0C1),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color(0xffDEE2E6)),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: kColorSecondary,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      baseStyle: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    clearButtonProps: ClearButtonProps(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 16,
+                                      visualDensity: VisualDensity.compact,
+                                      alignment: Alignment.centerRight,
+                                      isVisible: true,
+                                      color: currencyCode == null
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                    popupProps: PopupProps.modalBottomSheet(
+                                      showSearchBox: true,
+                                      modalBottomSheetProps:
+                                          ModalBottomSheetProps(
+                                        useSafeArea: false,
+                                      ),
+                                    ),
                                   );
-                                } else {
-                                  return const SizedBox.shrink();
                                 }
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
@@ -516,9 +627,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             isRequired: true,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 Row(
-                                  children: [
+                                  children: <Widget>[
                                     Radio<String>(
                                       value: 'Fixed',
                                       groupValue: priceType,

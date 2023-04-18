@@ -1,15 +1,17 @@
-import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class AdditionalAccountInfoPage extends StatelessWidget {
+class AdditionalAccountInfoPage extends StatelessWidget
+    with TheModalBottomSheet {
   const AdditionalAccountInfoPage({super.key});
   static const routeName = '/additional-account-info-page';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: "Account"),
       body: Column(
         children: [
           kHeight50,
@@ -39,6 +41,7 @@ class AdditionalAccountInfoPage extends StatelessWidget {
             ),
           ),
           const Divider(),
+
           AccountListTileSection(
             icon: const SizedBox.shrink(),
             label: 'Personal information',
@@ -47,16 +50,10 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               size: 12,
             ),
             onTap: () {
-              showModalBottomSheet(
-                constraints: const BoxConstraints(maxHeight: 800),
-                isScrollControlled: true,
+              showCustomBottomSheet(
                 context: context,
-                builder: (context) => const PersonalInformationPage(),
+                widget: const PersonalInformationPage(),
               );
-              // Navigator.pushNamed(
-              //   context,
-              //   PersonalInformationPage.routeName,
-              // );
             },
           ),
           AccountListTileSection(
@@ -67,11 +64,9 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               size: 12,
             ),
             onTap: () {
-              showModalBottomSheet(
-                constraints: const BoxConstraints(maxHeight: 800),
-                isScrollControlled: true,
+              showCustomBottomSheet(
                 context: context,
-                builder: (context) => const AddressInformationPage(),
+                widget: const AddressInformationPage(),
               );
             },
           ),
@@ -83,11 +78,9 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               size: 12,
             ),
             onTap: () {
-              showModalBottomSheet(
-                constraints: const BoxConstraints(maxHeight: 800),
-                isScrollControlled: true,
+              showCustomBottomSheet(
                 context: context,
-                builder: (context) => const ProfessionalInformationModalSheet(),
+                widget: const ProfessionalInformationModalSheet(),
               );
             },
           ),
@@ -115,11 +108,9 @@ class AdditionalAccountInfoPage extends StatelessWidget {
               size: 12,
             ),
             onTap: () {
-              showModalBottomSheet(
-                // constraints: BoxConstraints(maxHeight: 800),
-                // isScrollControlled: true,
+              showCustomBottomSheet(
                 context: context,
-                builder: (context) => const ProfileConfigModalSheet(),
+                widget: const ProfileConfigModalSheet(),
               );
             },
           ),
@@ -128,25 +119,3 @@ class AdditionalAccountInfoPage extends StatelessWidget {
     );
   }
 }
-
-// class ActiveHoursPage extends StatefulWidget {
-//   const ActiveHoursPage({super.key});
-
-//   @override
-//   State<ActiveHoursPage> createState() => _ActiveHoursPageState();
-// }
-
-// class _ActiveHoursPageState extends State<ActiveHoursPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         CustomModalSheetDrawerIcon(),
-//         const Text(
-//           'Professional Information',
-//           style: kPurpleText16,
-//         ),
-//       ],
-//     );
-//   }
-// }

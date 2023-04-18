@@ -15,6 +15,7 @@ import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
+import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
@@ -74,7 +75,11 @@ class AppRouter {
           builder: (context) => const ForgotPasswordPage(),
           settings: settings,
         );
-
+      case GoogleMapsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const GoogleMapsPage(),
+          settings: settings,
+        );
       case ConfirmOtpPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ConfirmOtpPage(),

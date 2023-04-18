@@ -1,6 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
+import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
+import 'package:cipher/features/offers/presentation/widgets/offer_card.dart';
 import 'package:cipher/widgets/custom_app_bar.dart';
-import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class OffersPage extends StatefulWidget {
@@ -21,6 +24,9 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
       length: 4,
       vsync: this,
     );
+    context.read<OffersBloc>().add(
+          OfferListLoaded(),
+        );
   }
 
   @override
@@ -31,39 +37,62 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Offers"),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                TabBar(
-                  labelPadding: kPadding10,
-                  controller: _tabController,
-                  tabs: const [
-                    Text('All'),
-                    Text('Coupons'),
-                    Text('Scratch Cards'),
-                    Text('Offers'),
+    return BlocBuilder<OffersBloc, OffersState>(
+      builder: (context, state) {
+        if (state.theStates == TheStates.loading)
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        return Scaffold(
+          appBar: CustomAppBar(appBarTitle: "Offers"),
+          body: Column(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    TabBar(
+                      labelPadding: kPadding10,
+                      controller: _tabController,
+                      tabs: const [
+                        Text('All'),
+                        Text('Coupons'),
+                        Text('Scratch Cards'),
+                        Text('Offers'),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          GridView.builder(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8,
+                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                            ),
+                            itemCount: state.offerModel?.result?.length ?? 0,
+                            itemBuilder: (context, index) => OfferCard(
+                              index: index,
+                              state: state,
+                            ),
+                          ),
+                          Text('data'),
+                          Text('data'),
+                          Text('data'),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: const [
-                      Text('data'),
-                      Text('data'),
-                      Text('data'),
-                      Text('data'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

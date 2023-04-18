@@ -166,6 +166,78 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           return const SizedBox();
         }
 
+        Widget loginButton() {
+          if (state.theStates == TheStates.initial) {
+            return CustomElevatedButton(
+              callback: () async {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+
+                  //setting validation error status
+                  // state.copyWith(hasValidationErrors: false);
+
+                  if (keepLogged) {
+                    CacheHelper.setCachedString(
+                      kUserPhone,
+                      phoneNumberController.text,
+                    );
+                    CacheHelper.setCachedString(
+                      kUserPass,
+                      passwordController.text,
+                    );
+                    CacheHelper.setCachedString(
+                      kUsermail,
+                      usernameController.text,
+                    );
+                    CacheHelper.setCachedString(
+                      kRememberCreds,
+                      'true',
+                    );
+                  } else {
+                    CacheHelper.clearCachedData(kUsermail);
+                    CacheHelper.clearCachedData(kUserPhone);
+                    CacheHelper.clearCachedData(kUserPass);
+                    CacheHelper.clearCachedData(kRememberCreds);
+                  }
+
+                  if (state.theStates == TheStates.initial) {
+                    if (state.isPhoneNumber) {
+                      context.read<SignInBloc>().add(
+                            SignInWithPhoneInitiated(
+                              userLoginReq: UserLoginReq(
+                                username: '+977${phoneNumberController.text}',
+                                password: passwordController.text,
+                              ),
+                            ),
+                          );
+                    }
+                    if (!state.isPhoneNumber) {
+                      context.read<SignInBloc>().add(
+                            SignInWithEmailInitiated(
+                              userLoginReq: UserLoginReq(
+                                username: usernameController.text,
+                                password: passwordController.text,
+                              ),
+                            ),
+                          );
+                    }
+                  }
+                }
+                //setting validation error status to true
+                else {
+                  if (state.theStates == TheStates.initial) {
+                    context
+                        .read<SignInBloc>()
+                        .add(SignInValErrorStatusChanged());
+                  }
+                }
+              },
+              label: 'Login',
+            );
+          }
+          return CircularProgressIndicator();
+        }
+
         return Form(
           key: _formKey,
           child: Column(

@@ -87,6 +87,7 @@ class _ProfessionalInformationModalSheetState
             isClient = true;
           }
 
+
           Widget displayClientCheckBox() {
             return Builder(
               builder: (context) => StatefulBuilder(
@@ -195,8 +196,6 @@ class _ProfessionalInformationModalSheetState
           return SingleChildScrollView(
             child: Column(
               children: [
-                const CustomModalSheetDrawerIcon(),
-                kHeight20,
                 InkWell(
                   onTap: () {},
                   child: const Text(
@@ -204,141 +203,139 @@ class _ProfessionalInformationModalSheetState
                     style: kPurpleText16,
                   ),
                 ),
-                Padding(
-                  padding: kPadding20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomFormField(
-                        label: 'Select User Type',
-                        child: Row(
-                          children: [
-                            Row(
-                              children: [
-                                displayClientCheckBox(),
-                                const Text('Client'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                displayTaskerCheckBox(),
-                                const Text('Tasker')
-                              ],
-                            ),
-                          ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // CustomFormField(
+                    //   label: 'Select User Type',
+                    //   child: Row(
+                    //     children: [
+                    //       Row(
+                    //         children: [
+                    //           displayClientCheckBox(),
+                    //           const Text('Client'),
+                    //         ],
+                    //       ),
+                    //       Row(
+                    //         children: [
+                    //           displayTaskerCheckBox(),
+                    //           const Text('Tasker')
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    CustomFormField(
+                      label: 'Specialities',
+                      child: displaySkills(),
+                    ),
+                    CustomFormField(
+                      label: 'Experience Level',
+                      child: CustomDropDownField<String>(
+                        hintText: state.taskerProfile?.experienceLevel ??
+                            'Enter your skills',
+                        list: const [
+                          'Beginner (0 to 1 years experience)',
+                          'Intermediate (1 to 5 years experience)',
+                          'Expert (5 years experience or more)',
+                        ],
+                        onChanged: (value) => setState(
+                          () {
+                            if (value!.startsWith('Be')) {
+                              experienceLevel = 'Beginner';
+                            } else if (value.startsWith('In')) {
+                              experienceLevel = 'Intermediate';
+                            } else {
+                              experienceLevel = 'Expert';
+                            }
+                          },
                         ),
                       ),
-                      CustomFormField(
-                        label: 'Specialities',
-                        child: displaySkills(),
-                      ),
-                      CustomFormField(
-                        label: 'Experience Level',
-                        child: CustomDropDownField<String>(
-                          hintText: state.taskerProfile?.experienceLevel ??
-                              'Enter your skills',
-                          list: const [
-                            'Beginner (0 to 1 years experience)',
-                            'Intermediate (1 to 5 years experience)',
-                            'Expert (5 years experience or more)',
-                          ],
-                          onChanged: (value) => setState(
-                            () {
-                              if (value!.startsWith('Be')) {
-                                experienceLevel = 'Beginner';
-                              } else if (value.startsWith('In')) {
-                                experienceLevel = 'Intermediate';
-                              } else {
-                                experienceLevel = 'Expert';
-                              }
-                            },
+                    ),
+                    const Text(
+                      'Active Hours',
+                      style: kPurpleText16,
+                    ),
+                    kHeight10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Sunday',
+                          style: kPurpleText16,
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.delete_outline_rounded,
+                            color: kColorPrimary,
                           ),
                         ),
-                      ),
-                      const Text(
-                        'Active Hours',
-                        style: kPurpleText16,
-                      ),
-                      kHeight10,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Sunday',
-                            style: kPurpleText16,
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.delete_outline_rounded,
+                      ],
+                    ),
+                    kHeight10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: const [
+                        Flexible(
+                          child: CustomFormContainer(
+                            hintText: '08: 00 AM',
+                            leadingWidget: Icon(
+                              Icons.access_time_rounded,
                               color: kColorPrimary,
                             ),
                           ),
-                        ],
-                      ),
-                      kHeight10,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: const [
-                          Flexible(
-                            child: CustomFormContainer(
-                              hintText: '08: 00 AM',
-                              leadingWidget: Icon(
-                                Icons.access_time_rounded,
-                                color: kColorPrimary,
-                              ),
+                        ),
+                        kWidth10,
+                        Text('To'),
+                        kWidth10,
+                        Flexible(
+                          child: CustomFormContainer(
+                            hintText: '09: 00 AM',
+                            leadingWidget: Icon(
+                              Icons.access_time_rounded,
+                              color: kColorPrimary,
                             ),
-                          ),
-                          kWidth10,
-                          Text('To'),
-                          kWidth10,
-                          Flexible(
-                            child: CustomFormContainer(
-                              hintText: '09: 00 AM',
-                              leadingWidget: Icon(
-                                Icons.access_time_rounded,
-                                color: kColorPrimary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      kHeight20,
-                      CustomFormField(
-                        label: 'Select Day',
-                        child: CustomDropDownField(
-                          hintText: 'Specify the day',
-                          list: const [
-                            'Every day',
-                            'Weekend',
-                          ],
-                          onChanged: (value) => setState(
-                            () {
-                              daySelect = value;
-                            },
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: CustomFormField(
-                              label: 'From',
-                              child: displayStartTime(),
-                            ),
-                          ),
-                          kWidth20,
-                          Flexible(
-                            child: CustomFormField(
-                              label: 'To',
-                              child: displayEndTime(),
-                            ),
-                          ),
+                      ],
+                    ),
+                    kHeight20,
+                    CustomFormField(
+                      label: 'Select Day',
+                      child: CustomDropDownField(
+                        hintText: 'Specify the day',
+                        list: const [
+                          'Every day',
+                          'Weekend',
                         ],
+                        onChanged: (value) => setState(
+                          () {
+                            daySelect = value;
+                          },
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CustomFormField(
+                            label: 'From',
+                            child: displayStartTime(),
+                          ),
+                        ),
+                        kWidth20,
+                        Flexible(
+                          child: CustomFormField(
+                            label: 'To',
+                            child: displayEndTime(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
+                addVerticalSpace(8),
                 CustomElevatedButton(
                   callback: () async {
                     if (isClient && isTasker) {
