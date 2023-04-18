@@ -33,7 +33,7 @@ class SignUpHeaderSection extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
-                children: const [
+                children:  [
                   Text(
                     'Skip',
                     style: kSkipHelper,
@@ -49,13 +49,13 @@ class SignUpHeaderSection extends StatelessWidget {
             ),
           ),
         ),
-        const Text(
+         Text(
           'Register',
-          style: kHeading1,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
-        const Text(
+         Text(
           'Create your new account',
-          style: kHelper13,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );

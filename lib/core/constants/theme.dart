@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 final kDarkTheme = ThemeData(
+  primaryColor: kColorPrimarydark,
   useMaterial3: true,
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.black,
@@ -45,6 +46,7 @@ final kDarkTheme = ThemeData(
 );
 
 final kLightTheme = ThemeData(
+  primaryColor: kColorPrimary,
   cardColor: Colors.white,
   colorScheme:ColorScheme.light() ,
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(

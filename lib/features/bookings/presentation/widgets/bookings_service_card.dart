@@ -55,21 +55,21 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              // color: Theme.of(context).cardColor,
+              color: cardColor,
             ),
           ),
           Positioned(
             left: 5,
-            right: 5,
+            right: 0,
             child: Container(
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                // color: Theme.of(context).cardColor,
+                color: Theme.of(context).cardColor,
                 boxShadow:  [
                   BoxShadow(
                     offset: Offset(0.5, 0.5),
-                    // color: Theme.of(context).indicatorColor,
+                    color: Colors.black12,
                   ),
                 ],
               ),

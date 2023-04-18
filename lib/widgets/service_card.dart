@@ -44,12 +44,12 @@ class ServiceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
-                  title ?? 'Root Canal Treatment',
+                  title ??    '',
                   style: Theme.of(context).textTheme.headlineSmall,
                   overflow: TextOverflow.ellipsis,
                 ),
                 AutoSizeText(
-                  description ?? 'Carry Clinic',
+                  description ?? '',
                   style: kLightBlueText14,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -62,7 +62,7 @@ class ServiceCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconText(
-                        label: rating ?? '3.5 (300)',
+                        label: rating ?? '',
                         iconData: Icons.star_rate_rounded,
                         color: kColorAmber,
                         size: 13,

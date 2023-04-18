@@ -33,7 +33,6 @@ class AccountProfile extends StatefulWidget {
 }
 
 class _AccountProfileState extends State<AccountProfile> {
-  // AppTheme? currentTheme;
   final SecureStorage secureStorage = SecureStorage();
   bool isDark = false;
 

@@ -55,7 +55,6 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -63,9 +62,9 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
           color: Theme.of(context).appBarTheme.iconTheme?.color, //change your color here
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: const Text(
+        title:  Text(
           "Notifications",
-          // style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.displaySmall,
         ),
         actions: [],
       ),
