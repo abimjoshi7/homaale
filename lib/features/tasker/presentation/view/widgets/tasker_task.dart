@@ -1,3 +1,5 @@
+import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
@@ -34,6 +36,10 @@ class _TaskerTaskState extends State<TaskerTask> {
     required int index,
     required bool isApply,
   }) {
+    if (CacheHelper.isLoggedIn == false) {
+      notLoggedInPopUp(context);
+    }
+    if (!CacheHelper.isLoggedIn) return;
     context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: id));
     isApply
         ? Navigator.pushNamed(context, ApplyTaskPage.routeName)

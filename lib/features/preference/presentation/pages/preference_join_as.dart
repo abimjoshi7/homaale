@@ -78,7 +78,7 @@ class _PreferencesJoinAsState extends State<PreferencesJoinAs> {
                   kHeight10,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Row(
                         children: [
                           Image.asset('assets/x.png'),

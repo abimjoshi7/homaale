@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -41,9 +42,13 @@ class SignInScaffold extends StatelessWidget {
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(
+                              context
+                                  .read<SignInBloc>()
+                                  .add(SignInWithoutCredentials());
+                              Navigator.pushNamedAndRemoveUntil(
                                 context,
-                                Preference.routeName,
+                                Root.routeName,
+                                (route) => false,
                               );
                             },
                             child: Padding(
