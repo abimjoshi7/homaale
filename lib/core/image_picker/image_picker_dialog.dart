@@ -21,10 +21,10 @@ class ImagePickerDialog extends StatelessWidget {
           );
         return AlertDialog(
           title: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Text(
               'Select image source',
-              style: kPurpleText17,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
           titlePadding: EdgeInsets.zero,

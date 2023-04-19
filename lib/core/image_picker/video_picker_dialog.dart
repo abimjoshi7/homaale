@@ -23,9 +23,12 @@ class VideoPickerDialog extends StatelessWidget {
           );
         }
         return AlertDialog(
-          title: Text(
-            'Select video source',
-            style: kPurpleText16,
+          title: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              'Select video source',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           ),
           titlePadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.zero,
