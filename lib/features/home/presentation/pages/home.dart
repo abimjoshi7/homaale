@@ -1,5 +1,4 @@
 import 'package:cipher/features/categories/presentation/pages/sections/categories_section.dart';
-import 'package:cipher/features/chat/view/chat_listing.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -140,20 +139,12 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<SavedBloc>()
-        ..add(
+    super.initState();
+    context.read<SavedBloc>().add(
           SavedListLoaded(
             type: widget.type,
           ),
         );
-    });
-    super.initState();
-    // context.read<SavedBloc>().add(
-    //       SavedListLoaded(
-    //         type: widget.type,
-    //       ),
-    //     );
   }
 
   @override
@@ -168,32 +159,34 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
           );
         return GestureDetector(
           onTap: () async {
-            // if (!CacheHelper.isLoggedIn) {
-            //   notLoggedInPopUp(context);
-            // }
+            if (!CacheHelper.isLoggedIn) {
+              notLoggedInPopUp(context);
+            }
 
-            context.read<SavedBloc>().add(
-                  SavedAdded(
-                    savedAddReq: SavedAddReq(
-                      model: widget.type,
-                      objectId:
-                          widget.taskEntityServiceState.taskEntityService?.id,
-                    ),
+            await context.read<SavedBloc>()
+              ..add(
+                SavedAdded(
+                  savedAddReq: SavedAddReq(
+                    model: widget.type,
+                    objectId:
+                        widget.taskEntityServiceState.taskEntityService?.id,
                   ),
-                );
-            context.read<SavedBloc>().add(
-                  SavedListLoaded(
-                    type: widget.type,
-                  ),
-                );
-            setState(() {
-              isFavorite = state.savedModelRes?.result?.any(
-                (element) =>
-                    element.objectId! ==
-                    widget.taskEntityServiceState.taskEntityService?.id,
+                ),
+              )
+              ..add(
+                SavedListLoaded(
+                  type: widget.type,
+                ),
               );
-            });
-            print(isFavorite);
+            setState(
+              () {
+                isFavorite = state.savedModelRes?.result?.any(
+                  (element) =>
+                      element.objectId! ==
+                      widget.taskEntityServiceState.taskEntityService?.id,
+                );
+              },
+            );
           },
           child: Icon(
             isFavorite == true

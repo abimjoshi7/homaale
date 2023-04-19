@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';

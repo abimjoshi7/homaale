@@ -1,5 +1,7 @@
 import 'package:cipher/core/constants/iterable.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/saved/presentation/widgets/saved_card.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/widgets/custom_app_bar.dart';
@@ -22,17 +24,21 @@ class SavedPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: CustomFormField(
                 label: "Your collection",
-                child: Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                    ),
-                    itemCount: bookmarkTypeList.length,
-                    itemBuilder: (context, index) => SavedCard(
-                      label: bookmarkTypeList[index],
-                    ),
-                  ),
+                child: BlocBuilder<SavedBloc, SavedState>(
+                  builder: (context, state) {
+                    return Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                        ),
+                        itemCount: bookmarkTypeList.length,
+                        itemBuilder: (context, index) => SavedCard(
+                          label: bookmarkTypeList[index],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

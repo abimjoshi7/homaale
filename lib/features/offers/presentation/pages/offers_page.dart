@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/offers/presentation/widgets/offer_card.dart';
 import 'package:cipher/widgets/custom_app_bar.dart';
