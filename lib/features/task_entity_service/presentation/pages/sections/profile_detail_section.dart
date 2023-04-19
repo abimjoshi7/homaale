@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -134,67 +136,51 @@ class CustomFavoriteIcon extends StatefulWidget {
 }
 
 class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
-  bool? isFavorite;
   String? objectId;
 
   @override
   void initState() {
     super.initState();
-    context.read<SavedBloc>().add(
-          SavedListLoaded(
-            type: widget.type,
-          ),
-        );
+    context.read<SavedBloc>().add(SavedListLoaded(type: widget.type));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SavedBloc, SavedState>(
       builder: (context, state) {
-        if (state.theStates == TheStates.loading)
+        if (state.theStates == TheStates.loading) {
           return SizedBox(
-            height: 15,
             width: 15,
-            child: CircularProgressIndicator(),
+            height: 15,
+            child: CircularProgressIndicator(
+              color: kColorAmber,
+            ),
           );
-        return GestureDetector(
-          onTap: () async {
-            if (!CacheHelper.isLoggedIn) {
-              notLoggedInPopUp(context);
-            }
-
-            await context.read<SavedBloc>()
-              ..add(
-                SavedAdded(
-                  savedAddReq: SavedAddReq(
-                    model: widget.type,
-                    objectId:
-                        widget.taskEntityServiceState.taskEntityService?.id,
-                  ),
-                ),
-              )
-              ..add(
-                SavedListLoaded(
-                  type: widget.type,
-                ),
-              );
-            setState(
-              () {
-                isFavorite = state.savedModelRes?.result?.any(
-                  (element) =>
-                      element.objectId! ==
-                      widget.taskEntityServiceState.taskEntityService?.id,
-                );
-              },
-            );
-          },
-          child: Icon(
-            isFavorite == true
-                ? Icons.favorite
-                : Icons.favorite_border_outlined,
-            color: Colors.red,
-          ),
-        );
+        } else if (state.theStates == TheStates.success) {
+          var favItem = state.savedModelRes?.result
+              ?.where((element) => element.objectId == widget.taskEntityServiceState.taskEntityService?.id)
+              .toList();
+          return GestureDetector(
+            onTap: () {
+              if (!CacheHelper.isLoggedIn) {
+                notLoggedInPopUp(context);
+              }
+              context.read<SavedBloc>().add(
+                    SavedAdded(
+                      savedAddReq: SavedAddReq(
+                        model: widget.type,
+                        objectId: widget.taskEntityServiceState.taskEntityService?.id,
+                      ),
+                    ),
+                  );
+            },
+            child: Icon(
+              favItem?.isNotEmpty ?? false ? Icons.favorite : Icons.favorite_border_outlined,
+              color: Colors.red,
+            ),
+          );
+        }
+        return SizedBox();
       },
     );
   }

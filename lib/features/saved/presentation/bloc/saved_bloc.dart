@@ -19,19 +19,14 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
   ) : super(SavedState()) {
     on<SavedListLoaded>(
       (event, emit) async {
+        log('calledd');
+        emit(state.copyWith(theStates: TheStates.loading));
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
           await savedRepository.fetchSavedList(event.type).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    savedModelRes: SavedModelRes.fromJson(
-                      value,
-                    ),
+                    savedModelRes: SavedModelRes.fromJson(value),
                   ),
                 ),
               );
@@ -49,20 +44,19 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
 
     on<SavedAdded>(
       (event, emit) async {
+        emit(state.copyWith(theStates: TheStates.loading));
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
-          await savedRepository.addSaved(event.savedAddReq).then(
+          await savedRepository
+              .addSaved(event.savedAddReq)
+              .then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
                     savedAddRes: SavedAddRes.fromJson(value),
                   ),
                 ),
-              );
+              )
+              .whenComplete(() => add(SavedListLoaded(type: event.savedAddReq.model.toString())));
         } catch (e) {
           log("Saved Add Error: $e");
           emit(
