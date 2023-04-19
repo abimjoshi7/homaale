@@ -60,26 +60,6 @@ class _AccountProfileState extends State<AccountProfile> {
       ),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: addHorizontalSpace(45),
-            trailingWidget: IconButton(
-              icon: const Icon(
-                Icons.search,
-                size: 0,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  CompleteProfilePage.routeName,
-                );
-              },
-            ),
-            child: const Text(
-              'Profile',
-            ),
-          ),
-
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state.theStates == TheStates.initial)
@@ -346,7 +326,9 @@ class _AccountProfileState extends State<AccountProfile> {
                                 builder: (context) => AlertDialog(
                                   title: Text(
                                     "Logout",
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   ),
                                   content: Text(
                                     "Are you sure to logout?",

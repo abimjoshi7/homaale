@@ -2,7 +2,6 @@
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -33,26 +32,28 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_rounded,
-          size: 25.0,
-          color: Theme.of(context).appBarTheme.iconTheme?.color,
-        ),
-        onPressed: () => Navigator.pop(context),
-      ),
+      leading: leadingWidget ??
+          IconButton(
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              size: 25.0,
+              color: Theme.of(context).appBarTheme.iconTheme?.color,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
       actions: [
-        IconButton(
-          onPressed: () => Navigator.pushNamed(
-            context,
-            SearchPage.routeName,
-          ),
-          icon: Icon(
-            Icons.search_rounded,
-            color: Theme.of(context).appBarTheme.iconTheme?.color,
-            size: 25,
-          ),
-        ),
+        trailingWidget ??
+            IconButton(
+              onPressed: () => Navigator.pushNamed(
+                context,
+                SearchPage.routeName,
+              ),
+              icon: Icon(
+                Icons.search_rounded,
+                color: Theme.of(context).appBarTheme.iconTheme?.color,
+                size: 25,
+              ),
+            ),
       ],
       bottom: PreferredSize(
         child: Divider(),

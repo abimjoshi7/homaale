@@ -24,11 +24,12 @@ class CategoriesSection extends StatelessWidget {
               height: 100,
             ),
           );
-        } else if (state.theStates == TheStates.success && state.topCategory != null) {
+        } else if (state.theStates == TheStates.success &&
+            state.topCategory != null) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
-              height: 190,
+              height: 165,
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,15 +53,18 @@ class CategoriesSection extends StatelessWidget {
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.topCategory?.length,
+                      itemCount: state.topCategory?.sublist(0, 8).length,
                       padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          context.read<NestedCategoriesCubit>().getNestedCategory();
+                          context
+                              .read<NestedCategoriesCubit>()
+                              .getNestedCategory();
                           Navigator.pushNamed(
                             context,
                             CategoriesPage.routeName,
@@ -77,7 +81,8 @@ class CategoriesSection extends StatelessWidget {
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.topCategory?[index].icon?.toString() ?? kErrorSvg,
+                              state.topCategory?[index].icon?.toString() ??
+                                  kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,
