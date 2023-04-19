@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 final kDarkTheme = ThemeData(
   primaryColor: kColorPrimarydark,
-  useMaterial3: true,
+  // useMaterial3: true,
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.black,
     iconTheme: IconThemeData(
@@ -13,14 +13,14 @@ final kDarkTheme = ThemeData(
   textTheme: TextTheme(
     labelSmall: kLabelPrimarydark,
     labelMedium: kLabelPrimary2dak,
-    displaySmall: kHeading3dark,
+    displaySmall: kText13dark,
     displayMedium: kText14dark,
     displayLarge: kText17dark,
     headlineSmall:kPurpleText16dark ,
-    headlineMedium: kHelper13dark,
-    headlineLarge: kHeading1dark,
-    bodyMedium: kText14dark,
-    bodySmall: kBoldTextdark,
+    headlineMedium: kPurpleText17dark,
+    headlineLarge: kPurpleText19dark,
+    bodyMedium: kText15dark,
+    bodySmall: kText14dark,
     bodyLarge: kBoldTextdark),
   brightness: Brightness.dark,
   radioTheme: RadioThemeData(
@@ -59,16 +59,16 @@ final kLightTheme = ThemeData(
       )
   ),
   textTheme: TextTheme(
-      labelSmall: kLabelPrimary2,
-      labelMedium: kLabelPrimary,
+      labelSmall: kLabelPrimary,
+      labelMedium: kLabelPrimary2,
       displaySmall: kText13,
-      displayMedium: kText14,
+      displayMedium: kBoldText,
       displayLarge: kText17,
-      headlineSmall: kHeading3,
-      headlineMedium: kHelper13,
-      headlineLarge: kHeading1,
-      bodyMedium: kText14,
-      bodySmall: kBodyText1,
+      headlineSmall: kPurpleText16,
+      headlineMedium: kPurpleText17,
+      headlineLarge: kPurpleText19,
+      bodyMedium: kText15,
+      bodySmall: kText14,
       bodyLarge: kBoldText),
   brightness: Brightness.light,
   radioTheme: RadioThemeData(

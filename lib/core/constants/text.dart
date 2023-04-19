@@ -127,18 +127,18 @@ const kText13 = TextStyle(
 const kText13dark = TextStyle(
   fontSize: 12,
   color: Color(0xffffffff),
-  fontWeight: FontWeight.normal,
+  // fontWeight: FontWeight.normal,
 );
 
 const kText14 = TextStyle(
   fontSize: 14,
   color: Color(0xff495057),
-  fontWeight: FontWeight.w500,
+  // fontWeight: FontWeight.w500,
 );
 const kText14dark = TextStyle(
   fontSize: 14,
   color: Colors.white,
-  fontWeight: FontWeight.w500,
+  // fontWeight: FontWeight.w500,
 );
 
 const kText15 = TextStyle(
@@ -290,7 +290,7 @@ const kBoldText = TextStyle(
   color: Colors.black,
 );
 const kBoldTextdark = TextStyle(
-  fontWeight: FontWeight.bold,
+  // fontWeight: FontWeight.bold,
   fontSize: 14,
   color: Colors.white,
 );

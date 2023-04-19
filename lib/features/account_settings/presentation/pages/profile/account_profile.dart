@@ -58,26 +58,6 @@ class _AccountProfileState extends State<AccountProfile> {
       ),
       body: Column(
         children: [
-          // kHeight50,
-          // CustomHeader(
-          //   leadingWidget: addHorizontalSpace(45),
-          //   trailingWidget: IconButton(
-          //     icon: const Icon(
-          //       Icons.search,
-          //       size: 0,
-          //     ),
-          //     onPressed: () {
-          //       Navigator.pushNamed(
-          //         context,
-          //         CompleteProfilePage.routeName,
-          //       );
-          //     },
-          //   ),
-          //   child: const Text(
-          //     'Profile',
-          //   ),
-          // ),
-
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state.theStates == TheStates.initial)

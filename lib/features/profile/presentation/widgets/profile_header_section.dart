@@ -89,8 +89,6 @@ class ProfileHeaderSection extends StatelessWidget {
                         displayVerify(),
                       ],
                     ),
-                    kWidth5,
-                    displayVerify(),
                   ],
                 ),
                 kHeight5,

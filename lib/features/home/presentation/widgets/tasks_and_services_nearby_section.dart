@@ -29,7 +29,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.24,
+            height: MediaQuery.of(context).size.height * 0.25,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,7 +45,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: 5,
                     itemBuilder: (context, index) => SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.65,
+                      width: MediaQuery.of(context).size.width * 0.7,
                       child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(8),
@@ -55,12 +55,12 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: const [
+                                children:  [
                                   Text(
                                     'Greenhouse Cleaning',
-                                    style: kPurpleText13,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.favorite_border,
                                     color: Color(
                                       0xfffe5050,
