@@ -2,6 +2,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -19,7 +20,6 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
-
 
 final locator = GetIt.instance;
 
@@ -45,6 +45,8 @@ void init() {
   locator.registerFactory(() => PaymentTypeBloc());
   locator.registerFactory(() => NotificationBloc());
   locator.registerFactory(() => OrderIdCreateBloc());
+  locator.registerFactory(() => OrderItemRetriveBloc());
+
   locator.registerFactory(
     () => ChatBloc(
       chatRepository: locator(),

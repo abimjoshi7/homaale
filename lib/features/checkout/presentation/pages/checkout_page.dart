@@ -8,8 +8,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../locator.dart';
-import '../../../box/presentation/bloc/order_id_create_bloc.dart';
 import '../../../box/promo_code/presentation/pages/apply_promo_and_offer.dart';
 import '../../../payment/presentation/bloc/payment_type_event.dart';
 import '../../../payment/presentation/pages/payment_summary_page.dart';
@@ -24,22 +22,6 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-
-  final orderItemRetriveBloc = locator<OrderItemRetriveBloc>();
-  final orderIdCreateBloc = locator<OrderIdCreateBloc>();
-
-
-  @override
-  void initState() {
-    orderItemRetriveBloc.add(
-      OrderItemRetriveInitiated(
-          uuid: orderIdCreateBloc.state.orderIdCreate?.order ??
-              ""),
-    );
-
-
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     final orderID = ModalRoute.of(context)?.settings.arguments as String;
@@ -227,9 +209,10 @@ class TaskDisplayList extends StatelessWidget {
                                               size: 15,
                                             ),
                                           ),
-                                          Text(
-                                              state.orderItemRetriveList?.orderItem?[index].task?.assigner?.createdAt ??
-                                                  ""),
+                                          Text(Jiffy(state.orderItemRetriveList?.orderItem?[index].task?.assigner
+                                                      ?.createdAt ??
+                                                  DateTime.now().toString())
+                                              .yMMMMd),
                                           SizedBox(
                                             width: 10,
                                           ),

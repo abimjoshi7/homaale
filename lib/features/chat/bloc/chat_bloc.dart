@@ -38,7 +38,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             ChatPersonDetails(
               id: res['id'] as String,
               fullName: res['full_name'] as String,
-              profileImage: res['profile_image'] as String,
+              profileImage: res['profile_image'] == null ? kServiceImageNImg : res['profile_image'].toString(),
               lastMessage: decryptedMessage,
               groupName: item.groupName as String,
               date: item.date as String,

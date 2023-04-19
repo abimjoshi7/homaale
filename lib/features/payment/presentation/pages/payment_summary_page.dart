@@ -165,9 +165,6 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                       ),
                     ),
                     CommonBillingAddressContainer(),
-                    SizedBox(
-                      height: 200,
-                    ),
                   ],
                 ),
               ),
