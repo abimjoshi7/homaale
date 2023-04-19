@@ -596,7 +596,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           isApply: false,
                         ),
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.21,
+                          height: MediaQuery.of(context).size.height * 0.3,
                           child: TaskCard(
                             buttonLabel: item.createdBy?.id ==
                                     user.state.taskerProfile?.user?.id
@@ -604,7 +604,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                 : 'Apply Now',
                             startRate: '${item.budgetFrom ?? 0}',
                             endRate: '${item.budgetTo ?? 0}',
-                            budgetType: '${item.budgetType ?? 'budegetType'}',
+                            budgetType: '${item.budgetType ?? 'budgetType'}',
                             count: item.count?.toString() ?? '0',
                             imageUrl: item.createdBy?.profileImage ??
                                 kServiceImageNImg,
