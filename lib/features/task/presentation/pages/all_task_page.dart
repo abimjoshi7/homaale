@@ -430,8 +430,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                         showSearchBox: true,
                                         modalBottomSheetProps:
                                             ModalBottomSheetProps(
-                                          backgroundColor:
-                                              Theme.of(context).cardColor,
                                           useSafeArea: false,
                                         ),
                                       ),
