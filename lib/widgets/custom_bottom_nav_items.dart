@@ -27,13 +27,13 @@ class CustomBottomNavItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonShowCase(
-      showKey: showKey,
-      showCaseDec: showCaseDec,
-      showCaseTitle: showCaseTitle,
-      child: Column(
-        children: [
-          TextButton(
+    return Column(
+      children: [
+        CommonShowCase(
+          showKey: showKey,
+          showCaseDec: showCaseDec,
+          showCaseTitle: showCaseTitle,
+          child: TextButton(
             onPressed: onPressed,
             child: isActive
                 ? Icon(
@@ -47,14 +47,14 @@ class CustomBottomNavItems extends StatelessWidget {
                     size: 30,
                   ),
           ),
-          Text(
-            label,
-            style: TextStyle(
-              color: isActive ? kColorSecondary : kColorSilver,
-            ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: isActive ? kColorSecondary : kColorSilver,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

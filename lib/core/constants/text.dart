@@ -214,7 +214,7 @@ const kHeading3 = TextStyle(
 );
 
 const kHeading3dark = TextStyle(
-  color: kColorSecondary,
+  color: Colors.white,
   fontWeight: FontWeight.w600,
   fontSize: 14,
 );

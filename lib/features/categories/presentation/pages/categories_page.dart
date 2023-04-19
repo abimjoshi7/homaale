@@ -94,6 +94,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 ? Theme.of(context).cardColor
                                 : Theme.of(context).cardColor,
                             child: SizedBox(
+
                               height: 80,
                               child: CategoriesIcons(
                                 onTap: () async {
@@ -291,7 +292,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   children: <Widget>[
                     Container(
                       height: MediaQuery.of(context).size.height - 98,
-                      color: kColorLightSkyBlue,
+                      // color: kColorLightSkyBlue,
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: displaySideCategory(),
                     ),

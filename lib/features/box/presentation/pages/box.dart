@@ -63,11 +63,14 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.white,
+        iconTheme:  IconThemeData(
+                  color: Theme.of(context).appBarTheme.iconTheme?.color, //change your color here
+                ),
+                backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         title: Text(
           'Box',
-          // style: TextStyle(color: Colors.black),
+          style: Theme.of(context).textTheme.displaySmall,
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,

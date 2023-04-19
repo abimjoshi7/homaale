@@ -238,9 +238,9 @@ class Cipher extends StatelessWidget {
             ThemeData? displayTheme() {
               ThemeData? theme;
               if (state is ThemeLight) {
-                theme = state.themeData;
+                theme = kLightTheme;
               } else if (state is ThemeDark) {
-                theme = state.themeData;
+                theme = kDarkTheme;
               }
               return theme;
             }

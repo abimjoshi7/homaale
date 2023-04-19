@@ -128,7 +128,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
         }
 
         return ColoredBox(
-          color: kColorPrimary,
+          color: Theme.of(context).primaryColor,
           child: Column(
             children: <Widget>[
               kHeight50,
