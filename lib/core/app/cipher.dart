@@ -39,6 +39,7 @@ import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
@@ -81,10 +82,9 @@ class Cipher extends StatelessWidget {
               SignUpRepositories(),
             ),
           ),
-					BlocProvider(
-						create: (context) => NearbyTaskEntityServiceCubit(),
-					
-					),
+          BlocProvider(
+            create: (context) => NearbyTaskEntityServiceCubit(),
+          ),
           BlocProvider(
             create: (context) => locator<UserBloc>()
               ..add(
@@ -101,13 +101,17 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => locator<KycBloc>(),
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => locator<UploadBloc>(),
           ),
           BlocProvider(
             create: (context) => SupportHelpBloc(
@@ -198,7 +202,8 @@ class Cipher extends StatelessWidget {
           ),
 
           BlocProvider(
-            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) =>
+                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -233,7 +238,7 @@ class Cipher extends StatelessWidget {
             ),
           ),
         ],
-        child:BlocBuilder<ThemeBloc, ThemeState>(
+        child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
             ThemeData? displayTheme() {
               ThemeData? theme;
@@ -244,6 +249,7 @@ class Cipher extends StatelessWidget {
               }
               return theme;
             }
+
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: displayTheme(),

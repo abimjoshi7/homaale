@@ -3,19 +3,20 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/documents/presentation/cubit/image/image_upload_cubit.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class VideoPickerDialog extends StatelessWidget {
-  final ImageUploadCubit uploadCubit;
+  final UploadBloc uploadBloc;
   const VideoPickerDialog({
     Key? key,
-    required this.uploadCubit,
+    required this.uploadBloc,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ImageUploadCubit, ImageUploadState>(
+    return BlocBuilder<UploadBloc, UploadState>(
+      bloc: uploadBloc,
       builder: (context, state) {
-        if (state is ImageUploadLoading) {
+        if (state.theStates == TheStates.loading) {
           return Center(
             child: CircularProgressIndicator(
               color: kColorSecondary,
@@ -45,13 +46,20 @@ class VideoPickerDialog extends StatelessWidget {
                     color: kColorBlue,
                   ),
                   onTap: () async {
-                    await uploadCubit
-                        .uploadVideo(
-                          isCamera: true,
-                        )
-                        .whenComplete(
-                          () => Navigator.of(context).pop(),
+                    await Future.delayed(
+                      Duration.zero,
+                      () {
+                        uploadBloc.add(
+                          VideoUploaded(
+                            isCamera: true,
+                          ),
                         );
+                      },
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -63,13 +71,20 @@ class VideoPickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () async {
-                    await uploadCubit
-                        .uploadVideo(
-                          isCamera: false,
-                        )
-                        .whenComplete(
-                          () => Navigator.of(context).pop(),
+                    await Future.delayed(
+                      Duration.zero,
+                      () {
+                        uploadBloc.add(
+                          VideoUploaded(
+                            isCamera: false,
+                          ),
                         );
+                      },
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
+                      ),
+                    );
                   },
                 ),
               ),

@@ -5,6 +5,7 @@ import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,6 +29,7 @@ class _DetailsViewState extends State<DetailsView> {
 
   late final eventCache = locator<BookEventHandlerBloc>();
   late final imageCubit = locator<ImageUploadCubit>();
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   void dispose() {
@@ -170,7 +172,7 @@ class _DetailsViewState extends State<DetailsView> {
               children: [
                 Row(
                   children: [
-                     Text(
+                    Text(
                       'Maximum Image Size 20 MB',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
@@ -187,7 +189,7 @@ class _DetailsViewState extends State<DetailsView> {
                     showDialog(
                       context: context,
                       builder: (context) => ImagePickerDialog(
-                        uploadCubit: imageCubit,
+                        uploadBloc: uploadBloc,
                       ),
                     ).whenComplete(
                       () => eventCache.add(
@@ -228,7 +230,7 @@ class _DetailsViewState extends State<DetailsView> {
               children: [
                 Row(
                   children: [
-                     Text(
+                    Text(
                       'Maximum Video Size 20 MB',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
@@ -245,7 +247,7 @@ class _DetailsViewState extends State<DetailsView> {
                     showDialog(
                       context: context,
                       builder: (context) => VideoPickerDialog(
-                        uploadCubit: imageCubit,
+                        uploadBloc: uploadBloc,
                       ),
                     ).whenComplete(
                       () => eventCache.add(

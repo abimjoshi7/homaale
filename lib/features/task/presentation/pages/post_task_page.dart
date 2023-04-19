@@ -10,6 +10,7 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -58,6 +59,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final _key = GlobalKey<FormState>();
   late final ImageUploadCubit imageCubit;
   late final CategoriesBloc categoriesBloc;
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
@@ -324,6 +326,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               builder: (context, state) {
                                 if (state is CityLoadSuccess) {
                                   return DropdownSearch(
+                                    selectedItem: state.list
+                                        .firstWhere(
+                                          (element) => element.name!
+                                              .startsWith("Kathmandu"),
+                                        )
+                                        .name,
                                     items: List.generate(
                                       state.list.length,
                                       (index) => state.list[index].name,
@@ -570,6 +578,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               builder: (context, state) {
                                 if (state is CurrencyLoadSuccess) {
                                   return DropdownSearch(
+                                    selectedItem: state.currencyListRes
+                                        .firstWhere(
+                                          (element) => element.name!
+                                              .startsWith("Nepalese"),
+                                        )
+                                        .name,
                                     items: List.generate(
                                       state.currencyListRes.length,
                                       (index) =>
@@ -759,7 +773,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     showDialog(
                                       context: context,
                                       builder: (context) => ImagePickerDialog(
-                                        uploadCubit: imageCubit,
+                                        uploadBloc: uploadBloc,
                                       ),
                                     );
                                   },
@@ -778,10 +792,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       if (state is ImageUploadSuccess) {
                                         final fileList = List.generate(
                                           state.imagePathList?.length ?? 0,
-                                          (index) => File(state
-                                                  .imagePathList?[index]
-                                                  ?.path ??
-                                              ""),
+                                          (index) => File(
+                                            state.imagePathList?[index]?.path ??
+                                                "",
+                                          ),
                                         );
                                         return Container(
                                           width: double.infinity,
@@ -834,7 +848,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 showDialog(
                                   context: context,
                                   builder: (context) => VideoPickerDialog(
-                                    uploadCubit: imageCubit,
+                                    uploadBloc: uploadBloc,
                                   ),
                                 );
                               },
@@ -986,13 +1000,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         isActive: true,
                                         needsApproval: true,
                                         isEndorsed: true,
-                                        service: categoryId,
+                                        service: serviceId,
                                         event: "",
                                         city: cityCode ??
                                             int.parse(
                                               kCityCode,
                                             ),
-                                        currency: currencyCode ?? "NPR",
+                                        currency: currencyCode ?? kCurrencyCode,
                                         images: imageList ?? [],
                                         videos: fileList ?? [],
                                       );

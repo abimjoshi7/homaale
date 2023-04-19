@@ -7,6 +7,7 @@ import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,6 +29,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
   DateTime? issuedDate;
   final _key = GlobalKey<FormState>();
   final imageCubit = locator<ImageUploadCubit>();
+  final uploadBloc = locator<UploadBloc>();
   List<int>? imageList;
   List<int>? fileList;
 
@@ -258,7 +260,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                               showDialog(
                                 context: context,
                                 builder: (context) => ImagePickerDialog(
-                                  uploadCubit: imageCubit,
+                                  uploadBloc: uploadBloc,
                                 ),
                               );
                             },

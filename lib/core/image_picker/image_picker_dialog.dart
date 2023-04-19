@@ -1,19 +1,24 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/documents/presentation/cubit/image/image_upload_cubit.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class ImagePickerDialog extends StatelessWidget {
-  final ImageUploadCubit uploadCubit;
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
-  const ImagePickerDialog({super.key, required this.uploadCubit});
+class ImagePickerDialog extends StatelessWidget {
+  final UploadBloc uploadBloc;
+
+  const ImagePickerDialog({
+    Key? key,
+    required this.uploadBloc,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ImageUploadCubit, ImageUploadState>(
-      bloc: uploadCubit,
+    return BlocBuilder<UploadBloc, UploadState>(
+      bloc: uploadBloc,
       builder: (context, state) {
-        if (state is ImageUploadLoading)
+        if (state.theStates == TheStates.loading)
           return Center(
             child: CircularProgressIndicator(
               color: kColorSecondary,
@@ -42,14 +47,19 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorBlue,
                   ),
                   onTap: () async {
-                    await uploadCubit
-                        .uploadImage(
-                      isCamera: true,
-                    )
-                        .whenComplete(
+                    await Future.delayed(
+                      Duration.zero,
                       () {
-                        Navigator.of(context).pop();
+                        context.read<UploadBloc>().add(
+                              ImageUploaded(
+                                isCamera: true,
+                              ),
+                            );
                       },
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
+                      ),
                     );
                   },
                 ),
@@ -62,10 +72,17 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () async {
-                    await uploadCubit.uploadMultipleImage().whenComplete(
+                    await Future.delayed(
+                      Duration.zero,
                       () {
-                        Navigator.of(context).pop();
+                        context.read<UploadBloc>().add(
+                              MultipleImageUploaded(),
+                            );
                       },
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
+                      ),
                     );
                   },
                 ),

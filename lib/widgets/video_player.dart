@@ -54,10 +54,13 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 controller: chewieController,
               )
             : const Center(
-      child: CardLoading(height: 200,)
-    )
+                child: CardLoading(
+                height: 200,
+              ))
         : const Center(
-      child: CardLoading(height: 200,),
-    );
+            child: CardLoading(
+              height: 200,
+            ),
+          );
   }
 }

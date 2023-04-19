@@ -48,7 +48,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   }) async {
     try {
       emit(
-        ImageUploadLoading(),
+        VideoUploadLoading(),
       );
 
       final imagePath = await ImagePickHelper().pickVideoPath(
@@ -76,7 +76,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   Future<void> uploadMultipleImage() async {
     try {
       emit(
-        ImageUploadLoading(),
+        MulitpleImageUploadLoading(),
       );
       final imagePath = await ImagePickHelper().pickMultipleImages();
       final response = await DioHelper().postMultiFormData(
@@ -102,7 +102,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
   Future<void> uploadFile() async {
     try {
       emit(
-        ImageUploadLoading(),
+        FileUploadInitial(),
       );
 
       final filePath = await FilePickHelper.filePicker();
