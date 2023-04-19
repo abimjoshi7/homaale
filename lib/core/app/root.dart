@@ -58,6 +58,7 @@ class _RootState extends State<Root> {
       onFinish: () {
         CacheHelper.setCachedString(kShowcase, 'done');
       },
+      autoPlay: true,
       enableShowcase: enableShowcase,
       builder: Builder(
         builder: (context) => CalledRootClass(
@@ -263,14 +264,14 @@ class _CalledRootClassState extends State<CalledRootClass> {
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.1,
                         width: MediaQuery.of(context).size.width,
-                        color: kColorPrimary,
+                        color:  Theme.of(context).primaryColor,
                       ),
                     ),
                     SizedBox(
                       height: 102,
                       width: MediaQuery.of(context).size.width,
                       child: CustomPaint(
-                        painter: BottomNavCustomPainter(),
+                        painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 8.0,
@@ -428,7 +429,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                   height: 100,
                   width: MediaQuery.of(context).size.width,
                   child: CustomPaint(
-                    painter: FloatingOptionsCustomPainter(),
+                    painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

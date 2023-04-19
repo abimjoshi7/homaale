@@ -88,7 +88,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Task and Services Near Me'),
+            title:  Text('Task and Services Near Me',style: Theme.of(context).textTheme.bodySmall,),
             elevation: 2,
           ),
           body: GoogleMap(

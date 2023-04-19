@@ -5,7 +5,7 @@ final kDarkTheme = ThemeData(
   primaryColor: kColorPrimarydark,
   // useMaterial3: true,
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.black,
+    backgroundColor: kColorPrimarydark,
     iconTheme: IconThemeData(
       color: Colors.white,
     )
@@ -41,7 +41,7 @@ final kDarkTheme = ThemeData(
   ),
   indicatorColor: kColorSecondary,
   colorScheme:ColorScheme.dark() ,
-  cardColor: Colors.black,
+  cardColor: Color(0xff000000),
 
 );
 

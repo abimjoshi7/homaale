@@ -75,7 +75,6 @@ class CommonShowCase extends StatelessWidget {
       overlayOpacity: .75,
       showArrow: true,
       key: showKey,
-      targetPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       tooltipPosition: position != null ? position : TooltipPosition.top,
       title: showCaseTitle,
       titleAlignment: TextAlign.center,
@@ -83,7 +82,12 @@ class CommonShowCase extends StatelessWidget {
       tooltipBackgroundColor: Colors.transparent,
       textColor: Colors.white,
       targetShapeBorder: const CircleBorder(),
-      child: child,
+      child: Column(
+        children: [
+          SizedBox(height: 2,),
+          child,
+        ],
+      ),
     );
   }
 }

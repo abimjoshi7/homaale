@@ -33,30 +33,30 @@ class SectionHeading extends StatelessWidget {
           labelName,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
-        GestureDetector(
-          onTap: onTap,
-          child: Row(
-            children: [
-              CommonShowCase(
-                position: position,
-                showKey: showKey ?? GlobalKey(),
-                showCaseTitle: showCaseTitle,
-                showCaseDec: showCaseDec,
-                child: Text(
-                  'See all',
+        CommonShowCase(
+          position: position,
+          showKey: showKey ?? GlobalKey(),
+          showCaseTitle: showCaseTitle,
+          showCaseDec: showCaseDec,
+          child: GestureDetector(
+            onTap: onTap,
+            child: Row(
+              children: [
+                Text(
+                  ' See all',
                   style: TextStyle(
                     color: Color(0xff3eaeff),
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
                   ),
                 ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Color(0xff3eaeff),
-                size: 10,
-              )
-            ],
+                Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: Color(0xff3eaeff),
+                  size: 10,
+                )
+              ],
+            ),
           ),
         )
       ],
