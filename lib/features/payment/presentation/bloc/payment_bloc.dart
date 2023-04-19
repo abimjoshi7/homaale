@@ -11,13 +11,9 @@ class PaymentBloc extends Bloc<PaymentIntentEvent, PaymentIntentState> {
 
   PaymentBloc() : super(const PaymentIntentState()) {
     on<PaymentIntentInitiated>((event, emit) async {
+      emit(state.copyWith(theState: TheStates.loading));
       try {
-        emit(
-          state.copyWith(theState: TheStates.initial),
-        );
-        await repositories
-            .postPaymentIntent( event.provider,event.uuid)
-            .then(
+        await repositories.postPaymentIntent(event.provider, event.uuid).then(
               (value) => emit(
                 state.copyWith(
                   theState: TheStates.success,
