@@ -41,6 +41,7 @@ import 'package:cipher/features/services/presentation/pages/post_service_page.da
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
+import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -78,6 +79,12 @@ class AppRouter {
       case SignInPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SignInPage(),
+          settings: settings,
+        );
+
+      case SupportTicketPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SupportTicketPage(),
           settings: settings,
         );
       case ForgotPasswordPage.routeName:

@@ -1,8 +1,10 @@
 import 'package:cipher/core/constants/constants.dart';
+
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
-   
     as sets;
+
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
+import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
@@ -290,6 +292,23 @@ class _AccountProfileState extends State<AccountProfile> {
                           Icons.settings,
                         ),
                         label: 'Settings',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
+                      AccountListTileSection(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            SupportTicketPage.routeName,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.headphones,
+                          color: Color(0xff495057),
+                        ),
+                        label: 'Help & Support',
                         trailingWidget: const Icon(
                           Icons.arrow_forward_ios,
                           size: 16,
