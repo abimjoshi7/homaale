@@ -284,10 +284,9 @@ class _PostServicePageState extends State<PostServicePage> {
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your City',
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff9CA0C1),
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Color(0xffDEE2E6)),
@@ -303,9 +302,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle: TextStyle(
-                                        color: Colors.black,
-                                      ),
+                                      baseStyle:
+                                          Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -321,6 +319,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                       showSearchBox: true,
                                       modalBottomSheetProps:
                                           ModalBottomSheetProps(
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -370,10 +370,9 @@ class _PostServicePageState extends State<PostServicePage> {
                                             contentPadding:
                                                 const EdgeInsets.all(5),
                                             hintText: 'Enter Your Currency',
-                                            hintStyle: const TextStyle(
-                                              color: Color(0xff9CA0C1),
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                            hintStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                   color: Color(0xffDEE2E6)),
@@ -390,9 +389,9 @@ class _PostServicePageState extends State<PostServicePage> {
                                               ),
                                             ),
                                           ),
-                                          baseStyle: TextStyle(
-                                            color: Colors.black,
-                                          ),
+                                          baseStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
                                         ),
                                         clearButtonProps: ClearButtonProps(
                                           padding: EdgeInsets.zero,
@@ -408,6 +407,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                           showSearchBox: true,
                                           modalBottomSheetProps:
                                               ModalBottomSheetProps(
+                                            backgroundColor:
+                                                Theme.of(context).cardColor,
                                             useSafeArea: false,
                                           ),
                                         ),

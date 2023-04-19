@@ -143,10 +143,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Trimming & Cutting',
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff9CA0C1),
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        // const TextStyle(
+                                        //   color: Color(0xff9CA0C1),
+                                        //   fontWeight: FontWeight.w400,
+                                        // ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Color(0xffDEE2E6)),
@@ -162,9 +165,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle: TextStyle(
-                                        color: Colors.black,
-                                      ),
+                                      baseStyle:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      // TextStyle(
+                                      //   color: Colors.black,
+                                      // ),
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -180,6 +185,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       showSearchBox: true,
                                       modalBottomSheetProps:
                                           ModalBottomSheetProps(
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -332,12 +339,18 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     dropdownDecoratorProps:
                                         DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
+                                        labelStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your City',
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff9CA0C1),
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        // const TextStyle(
+                                        //   color: Color(0xff9CA0C1),
+                                        //   fontWeight: FontWeight.w400,
+                                        // ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Color(0xffDEE2E6)),
@@ -353,9 +366,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle: TextStyle(
-                                        color: Colors.black,
-                                      ),
+                                      baseStyle:
+                                          Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -371,6 +383,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       showSearchBox: true,
                                       modalBottomSheetProps:
                                           ModalBottomSheetProps(
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -575,10 +589,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your Currency',
-                                        hintStyle: const TextStyle(
-                                          color: Color(0xff9CA0C1),
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        // const TextStyle(
+                                        //   color: Color(0xff9CA0C1),
+                                        //   fontWeight: FontWeight.w400,
+                                        // ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                               color: Color(0xffDEE2E6)),
@@ -594,9 +611,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle: TextStyle(
-                                        color: Colors.black,
-                                      ),
+                                      baseStyle:
+                                          Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -612,6 +628,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       showSearchBox: true,
                                       modalBottomSheetProps:
                                           ModalBottomSheetProps(
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
