@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +68,7 @@ class ProfileDetailSection extends StatelessWidget {
             Row(
               children: <Widget>[
                 CustomFavoriteIcon(
-                  taskEntityServiceState: state,
+                  typeID: state.taskEntityService?.id ?? '',
                   type: "entityservice",
                 ),
                 kWidth10,
@@ -117,71 +118,6 @@ class ProfileDetailSection extends StatelessWidget {
                 'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
         addHorizontalSpace(10),
       ],
-    );
-  }
-}
-
-class CustomFavoriteIcon extends StatefulWidget {
-  const CustomFavoriteIcon({
-    Key? key,
-    required this.taskEntityServiceState,
-    required this.type,
-  }) : super(key: key);
-
-  final TaskEntityServiceState taskEntityServiceState;
-  final String type;
-
-  @override
-  State<CustomFavoriteIcon> createState() => _CustomFavoriteIconState();
-}
-
-class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
-  String? objectId;
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<SavedBloc>().add(SavedListLoaded(type: widget.type));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SavedBloc, SavedState>(
-      builder: (context, state) {
-        if (state.theStates == TheStates.loading) {
-          return SizedBox(
-            width: 15,
-            height: 15,
-            child: CircularProgressIndicator(
-              color: kColorAmber,
-            ),
-          );
-        } else if (state.theStates == TheStates.success) {
-          var favItem = state.savedModelRes?.result
-              ?.where((element) => element.objectId == widget.taskEntityServiceState.taskEntityService?.id)
-              .toList();
-          return GestureDetector(
-            onTap: () {
-              if (!CacheHelper.isLoggedIn) {
-                notLoggedInPopUp(context);
-              }
-              context.read<SavedBloc>().add(
-                    SavedAdded(
-                      savedAddReq: SavedAddReq(
-                        model: widget.type,
-                        objectId: widget.taskEntityServiceState.taskEntityService?.id,
-                      ),
-                    ),
-                  );
-            },
-            child: Icon(
-              favItem?.isNotEmpty ?? false ? Icons.favorite : Icons.favorite_border_outlined,
-              color: Colors.red,
-            ),
-          );
-        }
-        return SizedBox();
-      },
     );
   }
 }

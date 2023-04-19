@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,11 @@ class TaskerCard extends StatelessWidget {
     this.callbackLabel,
     this.buttonWidth,
     required this.onFavouriteTapped,
+    this.id,
   });
 
   final String? label;
+  final String? id;
   final String? designation;
   final String? happyClients;
   final String? rewardPercentage;
