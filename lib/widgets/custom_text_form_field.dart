@@ -26,12 +26,13 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.node,
     this.inputFormatters,
-    this.inputAction,
+    this.inputAction, this.hintStyle,
   }) : super(key: key);
   final bool? readOnly;
   final double theHeight;
   final double? theWidth;
   final String hintText;
+  final TextStyle? hintStyle;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
   final String? value;
@@ -77,7 +78,7 @@ class CustomTextFormField extends StatelessWidget {
           maxWidth: theWidth ?? MediaQuery.of(context).size.width,
         ),
         hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.bodySmall,
+        hintStyle:hintStyle ?? Theme.of(context).textTheme.bodySmall,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),

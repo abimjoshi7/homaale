@@ -245,8 +245,10 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   ),
                   child: CustomTextFormField(
                     readOnly: true,
-                    prefixWidget: Icon(Icons.search),
+                    prefixWidget: Icon(Icons.search,color: Colors.black45,),
                     hintText: 'Search here',
+                    hintStyle:TextStyle(color: Colors.black45),
+                    // Theme.of(context).textTheme.bodySmall,
                     onTap: () => Navigator.pushNamed(
                       context,
                       SearchPage.routeName,
