@@ -1,7 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,7 @@ class PersonalInformationPage extends StatefulWidget {
   const PersonalInformationPage({super.key});
 
   @override
-  State<PersonalInformationPage> createState() =>
-      _PersonalInformationPageState();
+  State<PersonalInformationPage> createState() => _PersonalInformationPageState();
 }
 
 class _PersonalInformationPageState extends State<PersonalInformationPage> {
@@ -64,21 +62,24 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
             children: [
               const CustomModalSheetDrawerIcon(),
               kHeight10,
-               Text(
+              Text(
                 'Personal Information',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomFormField(
-                    label: 'Email',
-                    child: CustomTextFormField(
-                      hintText: state.taskerProfile?.user?.email ?? '',
-                      onChanged: (p0) => setState(
-                        () {
-                          email = p0;
-                        },
+              Padding(
+                padding: kPadding20,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomFormField(
+                      label: 'Email',
+                      child: CustomTextFormField(
+                        hintText: state.taskerProfile?.user?.email ?? '',
+                        onChanged: (p0) => setState(
+                          () {
+                            email = p0;
+                          },
+                        ),
                       ),
                     ),
                     CustomFormField(
@@ -92,9 +93,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.asset('assets/nepalflag.png'),
-                               Text(
-                                '+977',
-                                  style: Theme.of(context).textTheme.headlineSmall                              ),
+                              Text('+977', style: Theme.of(context).textTheme.headlineSmall),
                               const Icon(Icons.arrow_drop_down)
                             ],
                           ),
@@ -103,39 +102,31 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                           () {
                             contact = p0;
                           },
-
                         ),
                       ),
-                      onChanged: (p0) => setState(
-                        () {
-                          contact = p0;
-                        },
-                      ),
                     ),
-                  ),
-                  CustomFormField(
-                    label: 'Date of birth',
-                    child: InkWell(
-                      onTap: () async {
-                        await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1800),
-                          lastDate: DateTime(2080),
-                        ).then(
-                          (value) => setState(
-                            () {
-                              dob = value;
-                            },
+                    CustomFormField(
+                      label: 'Date of birth',
+                      child: InkWell(
+                        onTap: () async {
+                          await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1800),
+                            lastDate: DateTime(2080),
+                          ).then(
+                            (value) => setState(
+                              () {
+                                dob = value;
+                              },
+                            ),
+                          );
+                        },
+                        child: CustomFormContainer(
+                          leadingWidget: const Icon(Icons.calendar_month),
+                          hintText: DateFormat('yyyy-MM-dd').format(
+                            dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
                           ),
-                        );
-                      },
-                      child: CustomFormContainer(
-                        leadingWidget: const Icon(Icons.calendar_month),
-                        hintText: DateFormat('yyyy-MM-dd').format(
-                          dob ??
-                              state.taskerProfile?.dateOfBirth ??
-                              DateTime.now(),
                         ),
                       ),
                     ),
@@ -157,7 +148,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                 isOther = !value;
                               });
                             },
-                            label:  Text(
+                            label: Text(
                               'Male',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
@@ -176,7 +167,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                 isOther = !value;
                               });
                             },
-                            label:  Text(
+                            label: Text(
                               'Female',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
@@ -195,26 +186,29 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                                 isFemale = !value;
                               });
                             },
-                            label:  Text(
+                            label: Text(
                               'Other',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             selectedColor: kColorPrimary,
-                  ),
-              
-                  CustomFormField(
-                    label: 'Bio',
-                    child: CustomTextFormField(
-                      maxLines: 3,
-                      hintText: bio ?? 'Enter Bio',
-                      onChanged: (p0) => setState(
-                        () {
-                          bio = p0;
-                        },
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    CustomFormField(
+                      label: 'Bio',
+                      child: CustomTextFormField(
+                        maxLines: 3,
+                        hintText: bio ?? 'Enter Bio',
+                        onChanged: (p0) => setState(
+                          () {
+                            bio = p0;
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               kHeight20,
               CustomElevatedButton(

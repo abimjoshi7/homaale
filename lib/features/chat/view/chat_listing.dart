@@ -133,13 +133,18 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                       state.rCl?[index].fullName?.toString() ?? '',
                                                       style: Theme.of(context).textTheme.headlineSmall,
                                                       overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
                                                   addVerticalSpace(4),
                                                   SizedBox(
                                                     width: MediaQuery.of(context).size.width * 0.79,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text(date,style: Theme.of(context).textTheme.bodySmall,),
+                                                        Text(
+                                                          date,
+                                                          style: Theme.of(context).textTheme.bodySmall,
+                                                        ),
                                                         Icon(
                                                           state.rCl?[index].isRead ?? false
                                                               ? Icons.check_circle_rounded

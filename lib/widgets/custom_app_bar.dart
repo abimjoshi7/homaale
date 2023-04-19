@@ -51,21 +51,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             Icons.search_rounded,
             color: Theme.of(context).appBarTheme.iconTheme?.color,
             size: 25,
-
           ),
-      actions: [
-        trailingWidget ??
-            IconButton(
-              onPressed: () => Navigator.pushNamed(
-                context,
-                SearchPage.routeName,
-              ),
-              icon: Icon(
-                Icons.search_rounded,
-                color: kColorGreyDark,
-                size: 25,
-              ),
-            )
+        ),
       ],
       bottom: PreferredSize(
         child: Divider(),

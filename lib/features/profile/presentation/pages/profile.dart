@@ -7,7 +7,7 @@ import 'package:cipher/features/profile/presentation/pages/documents/documents_p
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/tasks/tasks_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/widgets/custom_app_bar.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +26,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController =
-        TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
+    tabController = TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
     // context.read<ServicesBloc>().add(
     //       const MyCreatedServiceTaskLoadInitiated(
     //         isTask: true,
