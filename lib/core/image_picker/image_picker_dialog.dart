@@ -15,27 +15,8 @@ class ImagePickerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UploadBloc, UploadState>(
+    return BlocBuilder<UploadBloc, UploadState>(
       bloc: uploadBloc,
-      listener: (context, state) async {
-        if (state.theStates == TheStates.loading &&
-            state.imageFileList != null) {
-          await Future.delayed(
-            Duration.zero,
-            () {
-              uploadBloc.add(
-                ImageToFilestoreUploaded(
-                  list: state.imageFileList,
-                ),
-              );
-            },
-          ).whenComplete(
-            () => Navigator.pop(
-              context,
-            ),
-          );
-        }
-      },
       builder: (context, state) {
         if (state.theStates == TheStates.loading)
           return Center(
@@ -65,19 +46,10 @@ class ImagePickerDialog extends StatelessWidget {
                     Icons.camera_alt_outlined,
                     color: kColorBlue,
                   ),
-                  onTap: () async {
-                    await Future.delayed(
-                      Duration.zero,
-                      () {
-                        uploadBloc.add(
-                          ImageUploaded(
-                            isCamera: true,
-                          ),
-                        );
-                      },
-                    ).whenComplete(
-                      () => Navigator.pop(
-                        context,
+                  onTap: () {
+                    uploadBloc.add(
+                      ImageUploaded(
+                        isCamera: true,
                       ),
                     );
                   },
@@ -90,7 +62,7 @@ class ImagePickerDialog extends StatelessWidget {
                     Icons.photo_library_outlined,
                     color: kColorGreen,
                   ),
-                  onTap: () async {
+                  onTap: () {
                     uploadBloc.add(
                       MultipleImageUploaded(),
                     );

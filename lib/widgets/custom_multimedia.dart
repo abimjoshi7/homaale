@@ -61,7 +61,62 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                 },
                 child: BlocConsumer<UploadBloc, UploadState>(
                   bloc: widget.uploadBloc,
-                  listener: (context, state) {},
+                  listener: (context, state) async {
+                    if (state.theStates == TheStates.loading &&
+                        state.imageFileList != null) {
+                      await Future.delayed(
+                        Duration.zero,
+                        () {
+                          widget.uploadBloc.add(
+                            ImageToFilestoreUploaded(
+                              list: state.imageFileList,
+                            ),
+                          );
+                        },
+                      ).whenComplete(
+                        () => Navigator.pop(
+                          context,
+                        ),
+                      );
+                    }
+                    if (state.theStates == TheStates.loading &&
+                        state.videoFileList != null) {
+                      await Future.delayed(
+                        Duration.zero,
+                        () {
+                          widget.uploadBloc.add(
+                            VideoToFilestoreUploaded(
+                              list: state.videoFileList,
+                            ),
+                          );
+                        },
+                      ).whenComplete(
+                        () => Navigator.pop(
+                          context,
+                        ),
+                      );
+                    }
+                    if (state.isImageUploaded == true ||
+                        state.isVideoUploaded == true)
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: kColorPrimary,
+                          content: Text(
+                            "Upload completed successfully.",
+                          ),
+                        ),
+                      );
+                    if (state.isImageUploaded == false ||
+                        state.isVideoUploaded == false)
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: kColorPrimary,
+                          content: Text(
+                            "Upload cannot be completed. Please try again.",
+                          ),
+                        ),
+                      );
+                  },
                   builder: (context, state) {
                     if (state.imageFileList != null) {
                       return Container(
@@ -121,8 +176,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
             child: BlocBuilder<UploadBloc, UploadState>(
               bloc: widget.uploadBloc,
               builder: (context, state) {
-                if (state.theStates == TheStates.success &&
-                    state.isVideoUploaded == true)
+                if (state.videoFileList != null)
                   return Container(
                     color: Colors.grey.shade100,
                     width: double.infinity,

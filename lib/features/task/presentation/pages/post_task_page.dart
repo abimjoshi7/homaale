@@ -757,12 +757,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               CustomCheckBox(
                                 isChecked: isTermsAccepted,
                                 onTap: () {
-                                  print(uploadBloc.state);
-                                  // setState(
-                                  //   () {
-                                  //     isTermsAccepted = !isTermsAccepted;
-                                  //   },
-                                  // );
+                                  setState(
+                                    () {
+                                      isTermsAccepted = !isTermsAccepted;
+                                    },
+                                  );
                                 },
                               ),
                               addHorizontalSpace(10),
@@ -805,9 +804,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     content:
                                         'You have successfully posted a task',
                                     onTap: () {
-                                      Navigator.pushNamed(
+                                      Navigator.popUntil(
                                         context,
-                                        Root.routeName,
+                                        (route) => route.settings.name ==
+                                                Root.routeName
+                                            ? true
+                                            : false,
                                       );
                                     },
                                     isSuccess: true,
@@ -883,15 +885,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         isActive: true,
                                         needsApproval: true,
                                         isEndorsed: true,
-                                        service: serviceId,
+                                        service: categoryId,
                                         event: "",
                                         city: cityCode ??
                                             int.parse(
                                               kCityCode,
                                             ),
                                         currency: currencyCode ?? kCurrencyCode,
-                                        images: imageList ?? [],
-                                        videos: fileList ?? [],
+                                        images: uploadBloc
+                                                .state.uploadedImageList ??
+                                            [],
+                                        videos: uploadBloc
+                                                .state.uploadedVideoList ??
+                                            [],
                                       );
                                       context.read<TaskEntityServiceBloc>().add(
                                           TaskEntityServiceCreated(req: req));

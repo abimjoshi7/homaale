@@ -34,7 +34,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             (value) async {
               emit(
                 state.copyWith(
-                  imageFileList: [value],
+                  imageFileList: [
+                    value,
+                  ],
                 ),
               );
             },
@@ -70,7 +72,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              isMultipleImageUploaded: false,
               imageFileList: [],
             ),
           );
@@ -95,11 +96,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               .then(
                 (value) => emit(
                   state.copyWith(
-                    theStates: TheStates.success,
                     videoFileList: [
                       value,
                     ],
-                    isVideoUploaded: true,
                   ),
                 ),
               );
@@ -107,7 +106,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              isVideoUploaded: false,
               videoFileList: [],
             ),
           );
@@ -134,13 +132,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                     isImageUploaded: true,
                   ),
                 );
-              } else {
-                emit(
-                  state.copyWith(
-                    theStates: TheStates.failure,
-                    isImageUploaded: false,
-                  ),
-                );
               }
             },
           );
@@ -165,8 +156,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               if (value["status"] == "success" && value["data"] != null) {
                 emit(
                   state.copyWith(
-                    uploadedVideoList: value["data"] as List<int>,
+                    uploadedVideoList: List<int>.from(
+                      value["data"] as Iterable,
+                    ),
                     theStates: TheStates.success,
+                    isVideoUploaded: true,
                   ),
                 );
               }
@@ -177,7 +171,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isImageUploaded: false,
               uploadedImageList: [],
+              isVideoUploaded: true,
             ),
           );
         }

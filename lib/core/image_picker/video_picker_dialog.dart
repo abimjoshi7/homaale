@@ -81,18 +81,9 @@ class VideoPickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () async {
-                    await Future.delayed(
-                      Duration.zero,
-                      () {
-                        uploadBloc.add(
-                          VideoUploaded(
-                            isCamera: false,
-                          ),
-                        );
-                      },
-                    ).whenComplete(
-                      () => Navigator.pop(
-                        context,
+                    uploadBloc.add(
+                      VideoUploaded(
+                        isCamera: false,
                       ),
                     );
                   },

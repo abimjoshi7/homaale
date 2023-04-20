@@ -1,17 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -120,27 +116,87 @@ class _PostServicePageState extends State<PostServicePage> {
                               validator: validateNotEmpty,
                             ),
                           ),
-                          TheCategoriesDropdown(
-                            categoriesBloc: categoriesBloc,
-                            onChanged: (value) {
-                              categoriesBloc.state.categoryList?.forEach(
-                                (element) {
-                                  if (value == element.name) {
-                                    categoriesBloc.add(
-                                      TaskSubCategoryLoaded(
-                                        categoryId: element.id,
-                                        categoryName: element.name,
+                          CustomFormField(
+                            label: 'Category',
+                            isRequired: true,
+                            child: BlocBuilder<ServicesBloc, ServicesState>(
+                              builder: (context, state) {
+                                if (state.theStates == TheStates.success) {
+                                  return DropdownSearch(
+                                    items: List.generate(
+                                      state.serviceList?.length ?? 0,
+                                      (index) =>
+                                          state.serviceList?[index].title,
+                                    ),
+                                    onChanged: (value) {
+                                      for (final element
+                                          in state.serviceList!) {
+                                        if (value == element.title) {
+                                          setState(
+                                            () {
+                                              serviceId = element.id;
+                                            },
+                                          );
+                                        }
+                                      }
+                                    },
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.all(5),
+                                        hintText: 'Trimming & Cutting',
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        // const TextStyle(
+                                        //   color: Color(0xff9CA0C1),
+                                        //   fontWeight: FontWeight.w400,
+                                        // ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color(0xffDEE2E6)),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: kColorSecondary,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
                                       ),
-                                    );
-                                    setState(
-                                      () {
-                                        serviceId = element.id.toString();
-                                      },
-                                    );
-                                  }
-                                },
-                              );
-                            },
+                                      baseStyle:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      // TextStyle(
+                                      //   color: Colors.black,
+                                      // ),
+                                    ),
+                                    clearButtonProps: ClearButtonProps(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 16,
+                                      visualDensity: VisualDensity.compact,
+                                      alignment: Alignment.centerRight,
+                                      isVisible: true,
+                                      color: serviceId == null
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                    popupProps: PopupProps.modalBottomSheet(
+                                      showSearchBox: true,
+                                      modalBottomSheetProps:
+                                          ModalBottomSheetProps(
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
+                                        useSafeArea: false,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
                           ),
                           CustomFormField(
                             label: 'Highlights',
@@ -636,10 +692,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                     content:
                                         'You have successfully created a service',
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Root.routeName,
-                                      );
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          Root.routeName, (route) => false);
                                     },
                                     isSuccess: true,
                                   ),
