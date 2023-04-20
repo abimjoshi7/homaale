@@ -34,6 +34,7 @@ import 'package:cipher/features/payment/presentation/pages/payment_summary_page.
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/saved/presentation/pages/saved_collection_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
@@ -189,6 +190,11 @@ class AppRouter {
       case SavedPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SavedPage(),
+        );
+      case SavedCollectionPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SavedCollectionPage(),
+          settings: settings,
         );
       case Membership.routeName:
         return MaterialPageRoute(

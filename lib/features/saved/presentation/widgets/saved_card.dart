@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/saved/data/models/res/saved_model_res.dart' as sv;
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -13,7 +13,7 @@ class SavedCard extends StatelessWidget {
   }) : super(key: key);
 
   final String? label;
-  final Widget? child;
+  final List<sv.Result>? child;
   final int? index;
   final VoidCallback? onTap;
 
@@ -36,14 +36,20 @@ class SavedCard extends StatelessWidget {
               child: GridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 1.1,
                 ),
-                children: [
-                  ColoredBox(color: Colors.black),
-                  ColoredBox(color: Colors.amber),
-                  ColoredBox(color: Colors.blue),
-                  ColoredBox(color: Colors.green),
-                ],
+                children: child
+                        ?.map((e) => Image.network(
+                              e.data?.profileImage ?? kServiceImageNImg,
+                              errorBuilder: (context, error, stackTrace) => ColoredBox(color: Colors.grey),
+                              fit: BoxFit.fill,
+                            ))
+                        .toList() ??
+                    [
+                      ColoredBox(color: Colors.black),
+                      ColoredBox(color: Colors.amber),
+                      ColoredBox(color: Colors.blue),
+                      ColoredBox(color: Colors.green),
+                    ],
               ),
             ),
           ),
