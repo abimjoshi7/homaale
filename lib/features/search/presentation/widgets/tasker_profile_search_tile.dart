@@ -66,7 +66,7 @@ class TaskerProfileSearchTile extends StatelessWidget {
                 height: 15.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40.0),
-                  color: Colors.redAccent.withOpacity(0.9),
+                  color: Colors.lightBlueAccent.withOpacity(0.9),
                   shape: BoxShape.rectangle,
                 ),
                 child: Text(

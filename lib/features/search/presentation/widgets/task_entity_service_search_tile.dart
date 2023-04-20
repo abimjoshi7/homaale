@@ -62,11 +62,13 @@ class TaskEntityServiceSearchTile extends StatelessWidget {
                 height: 15.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40.0),
-                  color: Colors.lightBlueAccent.withOpacity(0.9),
+                  color: taskEntityService.isRequested ?? true
+                      ? Colors.redAccent.withOpacity(0.9)
+                      : Colors.greenAccent.withOpacity(0.9),
                   shape: BoxShape.rectangle,
                 ),
                 child: Text(
-                  'Service',
+                  taskEntityService.isRequested ?? true ? 'Task' : 'Service',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 10.0,
