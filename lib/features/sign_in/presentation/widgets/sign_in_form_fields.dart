@@ -167,6 +167,41 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           return const SizedBox();
         }
 
+        Widget buildPasswordField() {
+          if (state.theStates == TheStates.initial) {
+            return CustomFormField(
+              label: 'Password',
+              child: CustomTextFormField(
+                controller: passwordController,
+                obscureText: isObscure,
+                suffixWidget: InkWell(
+                  onTap: () {
+                    setState(
+                      () {
+                        isObscure = !isObscure;
+                      },
+                    );
+                  },
+                  child: Icon(
+                    color: kColorPrimary,
+                    isObscure
+                        ? Icons.visibility_rounded
+                        : Icons.visibility_off_rounded,
+                  ),
+                ),
+                onSaved: (p0) => setState(
+                  () {
+                    passwordController.text = p0!;
+                  },
+                ),
+                hintText: 'Enter your password here',
+                validator: validateNotEmpty,
+              ),
+            );
+          }
+          return CircularProgressIndicator();
+        }
+
         Widget loginButton() {
           if (state.theStates == TheStates.initial) {
             return CustomElevatedButton(
