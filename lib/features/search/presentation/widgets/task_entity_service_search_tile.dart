@@ -35,7 +35,7 @@ class TaskEntityServiceSearchTile extends StatelessWidget {
         children: <Widget>[
           Icon(
             CupertinoIcons.search,
-            color: kColorDarkGrey,
+            // color: kColorDarkGrey,
             size: 24,
           ),
           addHorizontalSpace(10.0),
@@ -44,9 +44,11 @@ class TaskEntityServiceSearchTile extends StatelessWidget {
             children: <Widget>[
               Text(
                 taskEntityService.title.toString(),
-                style: kText14.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
+                style: Theme.of(context).textTheme.bodySmall,
+
+                // style: kText14.copyWith(
+                //   fontWeight: FontWeight.w400,
+                // ),
               ),
               Text(
                 "${taskEntityService.createdBy!.fullName}",
@@ -78,7 +80,7 @@ class TaskEntityServiceSearchTile extends StatelessWidget {
       trailing: Icon(
         CupertinoIcons.arrow_up_left,
         size: 24,
-        color: kColorDarkGrey,
+        // color: kColorDarkGrey,
       ),
     );
   }

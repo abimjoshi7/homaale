@@ -39,10 +39,11 @@ class TaskCard extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        height: 205,
-        padding: kPadding10,
+        height: 203,
+        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -96,7 +97,7 @@ class TaskCard extends StatelessWidget {
                 children: <Widget>[
                   WidgetText(
                     label: StringUtils.capitalize(
-                      location ?? 'Buddhanagar',
+                      location ?? '',
                     ),
                     widget: const Icon(
                       Icons.location_on_outlined,
@@ -156,13 +157,8 @@ class TaskCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 3,
-              ),
-              child: Divider(),
-            ),
-            CustomElevatedButton(
+            Divider(),
+            CustomElevatedButton(theHeight: 35,
               theWidth: double.infinity,
               callback: callback ?? () {},
               mainColor: kColorGreen,

@@ -12,7 +12,7 @@ class SignUpBuildText extends StatelessWidget {
       (state.isPhoneNumber)
           ? 'Or Sign Up with Email instead'
           : 'Or Sign Up with Phone instead',
-      style: kHelper13,
+      style: Theme.of(context).textTheme.bodySmall,
     );
   }
 }

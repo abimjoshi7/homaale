@@ -33,17 +33,17 @@ class SocialLoginSection extends StatelessWidget {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Flexible(
+              children:  [
+                const Flexible(
                   child: CustomHorizontalDivider(),
                 ),
                 kWidth5,
                 Text(
                   'Or login with',
-                  style: kHelper13,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                kWidth5,
-                Flexible(
+                 kWidth5,
+                const Flexible(
                   child: CustomHorizontalDivider(),
                 ),
               ],

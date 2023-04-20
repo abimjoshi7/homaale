@@ -134,6 +134,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         textInputType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         hintText: 'Mobile Number',
+                        // hintStyle: TextStyle(color: Colors.black12),
                         prefixWidget: InkWell(
                           onTap: () {},
                           child: Padding(
@@ -146,7 +147,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                                   '+977',
                                   style: kBodyText1,
                                 ),
-                                const Icon(Icons.arrow_drop_down)
+                                 Icon(Icons.arrow_drop_down)
                               ],
                             ),
                           ),
@@ -258,7 +259,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                       );
                     },
                     child: Icon(
-                      color: kColorPrimary,
+                      color: Theme.of(context).indicatorColor,
                       isObscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
                     ),
                   ),
@@ -268,6 +269,8 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     },
                   ),
                   hintText: 'Enter your password here',
+                  hintStyle: Theme.of(context).textTheme.bodySmall,
+                  // TextStyle(color: Colors.black12),
                   validator: validateNotEmpty,
                 ),
               ),
@@ -285,8 +288,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         ),
                       ),
                       kWidth5,
-                      const Text(
+                       Text(
                         'Remember me',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -297,7 +301,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         ForgotPasswordPage.routeName,
                       );
                     },
-                    child: const Text('Forgot password?'),
+                    child:  Text('Forgot password?',
+                      style: Theme.of(context).textTheme.headlineSmall,
+
+                    ),
                   )
                 ],
               ),
@@ -369,13 +376,15 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               addVerticalSpace(8.0),
               if (state.theStates == TheStates.initial)
                 CustomTextButton(
-                  text: (state.isPhoneNumber) ? "Didn't get OTP ?" : "Didn't get verification email?",
+                  text: (state.isPhoneNumber) ? "Didn't get OTP ?"
+                      : "Didn't get verification email?",
                   voidCallback: () => Navigator.pushNamed(
                     context,
                     ResendVerificationPage.routeName,
                   ),
+                    // style :Theme.of(context).textTheme.bodySmall
                   style: kText13.copyWith(
-                    color: kColorPrimaryAccent,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.1,
                     wordSpacing: 0.1,

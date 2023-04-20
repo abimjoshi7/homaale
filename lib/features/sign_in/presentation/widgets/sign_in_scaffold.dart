@@ -99,8 +99,8 @@ class SignInScaffold extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     // height: MediaQuery.of(context).size.height * 0.8,
                     child: DecoratedBox(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                      decoration:  BoxDecoration(
+                        color:Theme.of(context).appBarTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(100),
                         ),

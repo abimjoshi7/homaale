@@ -23,7 +23,9 @@ class RecentSearchesList extends StatelessWidget {
         () => _isTilePressed = false,
       );
       return const Center(
-        child: CardLoading(height: 200,),
+        child: CardLoading(
+          height: 200,
+        ),
       );
     }
     if (recentSearchesList.isEmpty) {
@@ -50,9 +52,10 @@ class RecentSearchesList extends StatelessWidget {
               children: <Widget>[
                 Text(
                   'Recent Searches',
-                  style: kText15.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
+                  // style: kText15.copyWith(
+                  //   fontWeight: FontWeight.w400,
+                  // ),
                 ),
                 TextButton(
                   onPressed: () => context
@@ -96,7 +99,7 @@ class RecentSearchesList extends StatelessWidget {
                         addHorizontalSpace(5.0),
                         Text(
                           recentSearchesList[index].toString(),
-                          style: kText13,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),
@@ -108,7 +111,7 @@ class RecentSearchesList extends StatelessWidget {
                     icon: Icon(
                       CupertinoIcons.multiply,
                       size: 20,
-                      color: kColorLightGrey,
+                      // color: kColorLightGrey,
                     ),
                   ),
                 );
