@@ -36,3 +36,23 @@ class FileUploaded extends UploadEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ImageToFilestoreUploaded extends UploadEvent {
+  final List<XFile?>? list;
+
+  ImageToFilestoreUploaded({this.list});
+  @override
+  List<Object?> get props => [
+        list,
+      ];
+}
+
+class VideoToFilestoreUploaded extends UploadEvent {
+  final List<XFile> list;
+
+  VideoToFilestoreUploaded(this.list);
+  @override
+  List<Object?> get props => [
+        list,
+      ];
+}

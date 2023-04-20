@@ -757,11 +757,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               CustomCheckBox(
                                 isChecked: isTermsAccepted,
                                 onTap: () {
-                                  setState(
-                                    () {
-                                      isTermsAccepted = !isTermsAccepted;
-                                    },
-                                  );
+                                  print(uploadBloc.state);
+                                  // setState(
+                                  //   () {
+                                  //     isTermsAccepted = !isTermsAccepted;
+                                  //   },
+                                  // );
                                 },
                               ),
                               addHorizontalSpace(10),

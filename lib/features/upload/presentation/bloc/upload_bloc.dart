@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:dependencies/dependencies.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -32,8 +34,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             (value) async {
               emit(
                 state.copyWith(
-                  theStates: TheStates.success,
-                  isImageUploaded: true,
                   imageFileList: [value],
                 ),
               );
@@ -63,8 +63,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 (value) => emit(
                   state.copyWith(
                     imageFileList: value,
-                    theStates: TheStates.success,
-                    isMultipleImageUploaded: true,
                   ),
                 ),
               );
@@ -111,6 +109,75 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               theStates: TheStates.failure,
               isVideoUploaded: false,
               videoFileList: [],
+            ),
+          );
+        }
+      },
+    );
+
+    on<ImageToFilestoreUploaded>(
+      (event, emit) async {
+        try {
+          await repo
+              .fetchFileStore(
+            event.list,
+          )
+              .then(
+            (value) {
+              if (value["status"] == "success" && value["data"] != null) {
+                emit(
+                  state.copyWith(
+                    uploadedImageList: List<int>.from(
+                      value["data"] as Iterable,
+                    ),
+                    theStates: TheStates.success,
+                    isImageUploaded: true,
+                  ),
+                );
+              } else {
+                emit(
+                  state.copyWith(
+                    theStates: TheStates.failure,
+                    isImageUploaded: false,
+                  ),
+                );
+              }
+            },
+          );
+        } catch (e) {
+          log("UPLOAD TO FILESTORE ERROR: $e");
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+              isImageUploaded: false,
+              uploadedImageList: [],
+            ),
+          );
+        }
+      },
+    );
+
+    on<VideoToFilestoreUploaded>(
+      (event, emit) async {
+        try {
+          await repo.fetchFileStore(event.list).then(
+            (value) {
+              if (value["status"] == "success" && value["data"] != null) {
+                emit(
+                  state.copyWith(
+                    uploadedVideoList: value["data"] as List<int>,
+                    theStates: TheStates.success,
+                  ),
+                );
+              }
+            },
+          );
+        } catch (e) {
+          log("UPLOAD TO FILESTORE ERROR: $e");
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+              uploadedImageList: [],
             ),
           );
         }

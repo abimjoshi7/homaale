@@ -63,8 +63,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                   bloc: widget.uploadBloc,
                   listener: (context, state) {},
                   builder: (context, state) {
-                    if (state.theStates == TheStates.success &&
-                        state.imageFileList?.length != 0) {
+                    if (state.imageFileList != null) {
                       return Container(
                         width: double.infinity,
                         height: 120,
@@ -72,8 +71,9 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount:
-                              state.imageFileList?.sublist(0, 5).length ?? 0,
+                          itemCount: (state.imageFileList?.length ?? 0) >= 5
+                              ? 5
+                              : state.imageFileList?.length,
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 4,

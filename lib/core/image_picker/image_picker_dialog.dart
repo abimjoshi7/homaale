@@ -15,8 +15,27 @@ class ImagePickerDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UploadBloc, UploadState>(
+    return BlocConsumer<UploadBloc, UploadState>(
       bloc: uploadBloc,
+      listener: (context, state) async {
+        if (state.theStates == TheStates.loading &&
+            state.imageFileList != null) {
+          await Future.delayed(
+            Duration.zero,
+            () {
+              uploadBloc.add(
+                ImageToFilestoreUploaded(
+                  list: state.imageFileList,
+                ),
+              );
+            },
+          ).whenComplete(
+            () => Navigator.pop(
+              context,
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state.theStates == TheStates.loading)
           return Center(
@@ -72,17 +91,8 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () async {
-                    await Future.delayed(
-                      Duration.zero,
-                      () {
-                        uploadBloc.add(
-                          MultipleImageUploaded(),
-                        );
-                      },
-                    ).whenComplete(
-                      () => Navigator.pop(
-                        context,
-                      ),
+                    uploadBloc.add(
+                      MultipleImageUploaded(),
                     );
                   },
                 ),
