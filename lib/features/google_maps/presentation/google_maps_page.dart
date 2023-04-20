@@ -54,12 +54,12 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     super.initState();
     getUserLocation();
   }
-
-  @override
-  void dispose() {
-    // mapController.dispose();
-    super.dispose();
-  }
+//if google maps controller is implemented the uncomment this:
+  // @override
+  // void dispose() {
+  // mapController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
