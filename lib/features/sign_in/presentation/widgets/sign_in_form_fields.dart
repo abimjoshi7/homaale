@@ -280,35 +280,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               buildForm(),
-              CustomFormField(
-                label: 'Password',
-                child: CustomTextFormField(
-                  controller: passwordController,
-                  obscureText: isObscure,
-                  suffixWidget: InkWell(
-                    onTap: () {
-                      setState(
-                        () {
-                          isObscure = !isObscure;
-                        },
-                      );
-                    },
-                    child: Icon(
-                      color: Theme.of(context).indicatorColor,
-                      isObscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
-                    ),
-                  ),
-                  onSaved: (p0) => setState(
-                    () {
-                      passwordController.text = p0!;
-                    },
-                  ),
-                  hintText: 'Enter your password here',
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  // TextStyle(color: Colors.black12),
-                  validator: validateNotEmpty,
-                ),
-              ),
+              buildPasswordField(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

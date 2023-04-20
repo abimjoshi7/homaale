@@ -432,6 +432,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                           label: 'Post a Task',
                           icon: Icons.comment_bank_rounded,
                           callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
                             setState(() {
                               homeActive = pageIndex == 0;
                               boxActive = pageIndex == 1;
@@ -450,6 +454,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                           label: 'Post a Service',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
                             setState(() {
                               homeActive = pageIndex == 0;
                               boxActive = pageIndex == 1;
