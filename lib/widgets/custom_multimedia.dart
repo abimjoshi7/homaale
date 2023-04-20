@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_picker_dialog.dart';
+import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -49,26 +51,20 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
               ),
               addVerticalSpace(5),
               InkWell(
-                onTap: widget.imageCallback,
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) => ImagePickerDialog(
+                      uploadBloc: widget.uploadBloc,
+                    ),
+                  );
+                },
                 child: BlocConsumer<UploadBloc, UploadState>(
                   bloc: widget.uploadBloc,
-                  listener: (context, state) {
-                    // if (state is ImageUploadSuccess) {
-                    //   setState(() {
-                    //     imageList = List<int>.from(state.list);
-                    //   });
-                    // }
-                  },
+                  listener: (context, state) {},
                   builder: (context, state) {
                     if (state.theStates == TheStates.success &&
-                        state.isImageUploaded == true) {
-                      // final fileList = List.generate(
-                      //   state.imagePathList?.length ?? 0,
-                      //   (index) => File(state
-                      //           .imagePathList?[index]
-                      //           ?.path ??
-                      //       ""),
-                      // );
+                        state.imageFileList?.length != 0) {
                       return Container(
                         width: double.infinity,
                         height: 120,
@@ -76,7 +72,8 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: 1,
+                          itemCount:
+                              state.imageFileList?.sublist(0, 5).length ?? 0,
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 4,
@@ -89,7 +86,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                 ),
                                 child: Image.file(
                                   File(
-                                    state.imageFile?.path ?? "",
+                                    state.imageFileList?[index]?.path ?? "",
                                   ),
                                   fit: BoxFit.fitWidth,
                                 ),
@@ -113,13 +110,21 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
         CustomFormField(
           label: 'Videos',
           child: InkWell(
-            onTap: widget.videoCallback,
+            onTap: () async {
+              showDialog(
+                context: context,
+                builder: (context) => VideoPickerDialog(
+                  uploadBloc: widget.uploadBloc,
+                ),
+              );
+            },
             child: BlocBuilder<UploadBloc, UploadState>(
               bloc: widget.uploadBloc,
               builder: (context, state) {
                 if (state.theStates == TheStates.success &&
                     state.isVideoUploaded == true)
                   return Container(
+                    color: Colors.grey.shade100,
                     width: double.infinity,
                     height: 120,
                     child: ListView.builder(
@@ -138,7 +143,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                               10,
                             ),
                             child: VideoPlayerWidget(
-                              videoURL: state.videoFile?.path ?? "",
+                              videoURL: state.videoFileList?[index]?.path ?? "",
                             ),
                           ),
                         ),

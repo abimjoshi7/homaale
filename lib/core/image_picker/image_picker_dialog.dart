@@ -50,11 +50,11 @@ class ImagePickerDialog extends StatelessWidget {
                     await Future.delayed(
                       Duration.zero,
                       () {
-                        context.read<UploadBloc>().add(
-                              ImageUploaded(
-                                isCamera: true,
-                              ),
-                            );
+                        uploadBloc.add(
+                          ImageUploaded(
+                            isCamera: true,
+                          ),
+                        );
                       },
                     ).whenComplete(
                       () => Navigator.pop(
@@ -75,9 +75,9 @@ class ImagePickerDialog extends StatelessWidget {
                     await Future.delayed(
                       Duration.zero,
                       () {
-                        context.read<UploadBloc>().add(
-                              MultipleImageUploaded(),
-                            );
+                        uploadBloc.add(
+                          MultipleImageUploaded(),
+                        );
                       },
                     ).whenComplete(
                       () => Navigator.pop(

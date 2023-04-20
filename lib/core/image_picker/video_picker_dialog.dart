@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -46,19 +47,28 @@ class VideoPickerDialog extends StatelessWidget {
                     color: kColorBlue,
                   ),
                   onTap: () async {
-                    await Future.delayed(
-                      Duration.zero,
-                      () {
-                        uploadBloc.add(
-                          VideoUploaded(
-                            isCamera: true,
-                          ),
-                        );
-                      },
-                    ).whenComplete(
-                      () => Navigator.pop(
-                        context,
-                      ),
+                    //! Not working, package issue
+                    // await Future.delayed(
+                    //   Duration.zero,
+                    //   () {
+                    //     uploadBloc.add(
+                    //       VideoUploaded(
+                    //         isCamera: true,
+                    //       ),
+                    //     );
+                    //   },
+                    // ).whenComplete(
+                    //   () => Navigator.pop(
+                    //     context,
+                    //   ),
+                    // );
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                          heading: "Unavailable! Coming soon...",
+                          content: "Working on it.",
+                          onTap: () {},
+                          isSuccess: false),
                     );
                   },
                 ),

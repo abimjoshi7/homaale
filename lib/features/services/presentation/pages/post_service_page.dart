@@ -584,22 +584,6 @@ class _PostServicePageState extends State<PostServicePage> {
                           ),
                           CustomMultimedia(
                             uploadBloc: uploadBloc,
-                            imageCallback: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => ImagePickerDialog(
-                                  uploadBloc: uploadBloc,
-                                ),
-                              );
-                            },
-                            videoCallback: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => VideoPickerDialog(
-                                  uploadBloc: uploadBloc,
-                                ),
-                              );
-                            },
                           ),
                           Row(
                             children: [

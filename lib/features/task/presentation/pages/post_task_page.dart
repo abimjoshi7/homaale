@@ -59,7 +59,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final _key = GlobalKey<FormState>();
   late final ImageUploadCubit imageCubit;
   late final CategoriesBloc categoriesBloc;
-  final uploadBloc = locator<UploadBloc>();
+  late final UploadBloc uploadBloc;
 
   @override
   void initState() {
@@ -72,6 +72,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
           const ServicesLoadInitiated(),
         );
     super.initState();
+    uploadBloc = locator<UploadBloc>();
   }
 
   @override
@@ -84,9 +85,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
     addressController.dispose();
     imageCubit.close();
     categoriesBloc.close();
-    // locator.resetLazySingleton<ImageUploadCubit>(
-    //   instance: imageCubit,
-    // );
+    locator.resetLazySingleton<UploadBloc>(
+      instance: uploadBloc,
+    );
     super.dispose();
   }
 
@@ -749,126 +750,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           //     const Text('Yes, it is negotiable.'),
                           //   ],
                           // ),
-                          CustomFormField(
-                            label: 'Images',
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Text(
-                                      kImageLimit,
-                                      // style: kHelper13,
-                                    ),
-                                    addHorizontalSpace(5),
-                                    const Icon(
-                                      Icons.info_outline,
-                                      color: Colors.orange,
-                                    ),
-                                  ],
-                                ),
-                                addVerticalSpace(5),
-                                InkWell(
-                                  onTap: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => ImagePickerDialog(
-                                        uploadBloc: uploadBloc,
-                                      ),
-                                    );
-                                  },
-                                  child: BlocConsumer<ImageUploadCubit,
-                                      ImageUploadState>(
-                                    bloc: imageCubit,
-                                    listener: (context, state) {
-                                      if (state is ImageUploadSuccess) {
-                                        setState(() {
-                                          imageList =
-                                              List<int>.from(state.list);
-                                        });
-                                      }
-                                    },
-                                    builder: (context, state) {
-                                      if (state is ImageUploadSuccess) {
-                                        final fileList = List.generate(
-                                          state.imagePathList?.length ?? 0,
-                                          (index) => File(
-                                            state.imagePathList?[index]?.path ??
-                                                "",
-                                          ),
-                                        );
-                                        return Container(
-                                          width: double.infinity,
-                                          height: 100,
-                                          child: ListView.builder(
-                                            padding: EdgeInsets.zero,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: fileList.length,
-                                            itemBuilder: (context, index) =>
-                                                Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 4,
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  10,
-                                                ),
-                                                child: Image.file(
-                                                  fileList[index],
-                                                  fit: BoxFit.fitWidth,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }
-
-                                      if (state is ImageUploadInitial) {
-                                        return CustomDottedContainerStack(
-                                          theWidget: imageList == null
-                                              ? Text('Select Images')
-                                              : Text('Image Uploaded'),
-                                        );
-                                      }
-
-                                      return SizedBox.shrink();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomFormField(
-                            label: 'Videos',
-                            child: InkWell(
-                              onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => VideoPickerDialog(
-                                    uploadBloc: uploadBloc,
-                                  ),
-                                );
-                              },
-                              child: BlocListener<ImageUploadCubit,
-                                  ImageUploadState>(
-                                listener: (context, state) {
-                                  if (state is VideoUploadSuccess) {
-                                    setState(() {
-                                      fileList = List<int>.from(state.list);
-                                    });
-                                  }
-                                },
-                                child: CustomDottedContainerStack(
-                                  theWidget: fileList == null
-                                      ? Text('Select Videos')
-                                      : Text('File Uploaded'),
-                                ),
-                              ),
-                            ),
-                          ),
+                          CustomMultimedia(uploadBloc: uploadBloc),
                           addVerticalSpace(10),
                           Row(
                             children: [

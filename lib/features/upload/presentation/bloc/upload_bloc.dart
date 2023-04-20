@@ -30,14 +30,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           )
               .then(
             (value) async {
-              // await repo.uploadImage(
-              // 	value?.path ?? "",
-              // );
               emit(
                 state.copyWith(
                   theStates: TheStates.success,
                   isImageUploaded: true,
-                  imageFile: value,
+                  imageFileList: [value],
                 ),
               );
             },
@@ -47,6 +44,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             state.copyWith(
               theStates: TheStates.failure,
               isImageUploaded: false,
+              imageFileList: [],
             ),
           );
         }
@@ -75,6 +73,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             state.copyWith(
               theStates: TheStates.failure,
               isMultipleImageUploaded: false,
+              imageFileList: [],
             ),
           );
         }
@@ -99,7 +98,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    videoFile: value,
+                    videoFileList: [
+                      value,
+                    ],
                     isVideoUploaded: true,
                   ),
                 ),
@@ -109,6 +110,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             state.copyWith(
               theStates: TheStates.failure,
               isVideoUploaded: false,
+              videoFileList: [],
             ),
           );
         }
