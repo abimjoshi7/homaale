@@ -172,6 +172,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             return CustomFormField(
               label: 'Password',
               child: CustomTextFormField(
+                theWidth: MediaQuery.of(context).size.width * 0.88,
                 controller: passwordController,
                 obscureText: isObscure,
                 suffixWidget: InkWell(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 final kDarkTheme = ThemeData(
   primaryColor: kColorPrimarydark,
+  canvasColor: kColorLightSkyBluedark,
+
   // useMaterial3: true,
   appBarTheme: AppBarTheme(
     backgroundColor: kColorPrimarydark,
@@ -46,6 +48,7 @@ final kDarkTheme = ThemeData(
 );
 
 final kLightTheme = ThemeData(
+  canvasColor: kColorLightSkyBlue,
   primaryColor: kColorPrimary,
   cardColor: Colors.white,
   colorScheme:ColorScheme.light() ,

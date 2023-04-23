@@ -429,7 +429,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         AddPopupButton(
-                          label: 'Post a Task',
+                          label: '  Post a Task',
                           icon: Icons.comment_bank_rounded,
                           callback: () {
                             if (CacheHelper.isLoggedIn == false) {
@@ -449,7 +449,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                             );
                           },
                         ),
-                        addHorizontalSpace(100),
+                        addHorizontalSpace(70),
                         AddPopupButton(
                           label: 'Post a Service',
                           icon: Icons.home_repair_service_rounded,

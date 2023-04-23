@@ -60,7 +60,7 @@ class ServicesPage extends StatelessWidget {
                             child: state.serviceList?.length == 0
                                 ? Text(
                                     "No services available",
-                                    style: kText13,
+                                    style: Theme.of(context).textTheme.bodySmall,
                                   )
                                 : SizedBox(
                                     height: MediaQuery.of(context).size.height *
@@ -92,7 +92,7 @@ class ServicesPage extends StatelessWidget {
                                         child: Column(
                                           children: [
                                             Container(
-                                              height: 100,
+                                              height: 70,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(
@@ -144,6 +144,7 @@ class ServicesPage extends StatelessWidget {
                             child: SizedBox(
                               height: MediaQuery.of(context).size.height * 0.3,
                               child: GridView.builder(
+
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
@@ -171,7 +172,7 @@ class ServicesPage extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Container(
-                                        height: 100,
+                                        height: 60,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             10,

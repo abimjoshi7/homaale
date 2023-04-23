@@ -56,8 +56,11 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                     children: [
                       Row(
                         children: [
-                          Text(
-                            '${widget.taskerReviewsResponse?.result?[index].ratedBy?.fullName}',
+                          Expanded(
+                            child: Text(
+                              '${widget.taskerReviewsResponse?.result?[index].ratedBy?.fullName}',
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           const WidgetText(
                             label: '0',
@@ -76,7 +79,7 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                   trailing: Text(
                     Jiffy('${widget.taskerReviewsResponse?.result?[index].createdAt}')
                         .yMMMMd,
-                    style: kHelper13,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
