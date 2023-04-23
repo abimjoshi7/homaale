@@ -46,7 +46,7 @@ class SupportTicketCard extends StatelessWidget {
                 addHorizontalSpace(8.0),
                 Text(
                   'Ticket No. 1114',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 addHorizontalSpace(116.0),
                 OutlinedButton(
