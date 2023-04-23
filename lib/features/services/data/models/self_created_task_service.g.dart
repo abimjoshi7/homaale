@@ -60,8 +60,8 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           ?.map((e) => e as String)
           .toList(),
       budgetType: json['budgetType'] as String?,
-      budgetFrom: json['budgetFrom'] as int?,
-      budgetTo: json['budgetTo'] as int?,
+      budgetFrom: json['budgetFrom'] as String?,
+      budgetTo: json['budgetTo'] as String?,
       startDate: json['startDate'] == null
           ? null
           : DateTime.parse(json['startDate'] as String),
@@ -80,7 +80,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       isOnline: json['isOnline'] as bool?,
       isRequested: json['isRequested'] as bool?,
       discountType: json['discountType'] as String?,
-      discountValue: json['discountValue'] as num?,
+      discountValue: json['discountValue'] as String?,
       extraData: (json['extraData'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),

@@ -56,8 +56,8 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       budgetType: json['budget_type'] as String?,
-      budgetFrom: json['budget_from'] as num?,
-      budgetTo: json['budget_to'] as num?,
+      budgetFrom: json['budget_from'] as String?,
+      budgetTo: json['budget_to'] as String?,
       startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['start_date'] as String),
@@ -77,7 +77,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       isOnline: json['is_online'] as bool?,
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
-      discountValue: json['discount_value'] as num?,
+      discountValue: json['discount_value'] as String?,
       extraData: json['extra_data'] as List<dynamic>?,
       noOfReservation: json['no_of_reservation'] as num?,
       slug: json['slug'] as String?,

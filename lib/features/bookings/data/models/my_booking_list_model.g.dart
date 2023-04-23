@@ -59,8 +59,8 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       requirements: (json['requirements'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
-      budgetTo: (json['budget_to'] as num?)?.toDouble(),
+      budgetFrom: json['budget_from'] as String?,
+      budgetTo: json['budget_to'] as String?,
       startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['start_date'] as String),
@@ -225,8 +225,8 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       budgetType: json['budget_type'] as String?,
-      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
-      budgetTo: (json['budget_to'] as num?)?.toDouble(),
+      budgetFrom: json['budget_from'] as String?,
+      budgetTo: json['budget_to'] as String?,
       startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['start_date'] as String),
@@ -244,7 +244,7 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       isOnline: json['is_online'] as bool?,
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
-      discountValue: (json['discount_value'] as num?)?.toDouble(),
+      discountValue: json['discount_value'] as String?,
       noOfReservation: json['no_of_reservation'] as int?,
       slug: json['slug'] as String?,
       isActive: json['is_active'] as bool?,

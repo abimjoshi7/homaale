@@ -312,24 +312,24 @@ mixin _$OrderItem {
   String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  double? get amount => throw _privateConstructorUsedError;
-  double? get tax => throw _privateConstructorUsedError;
-  double? get vat => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
+  String? get tax => throw _privateConstructorUsedError;
+  String? get vat => throw _privateConstructorUsedError;
   @JsonKey(name: 'offer_value')
-  double? get offerValue => throw _privateConstructorUsedError;
-  double? get discount => throw _privateConstructorUsedError;
+  String? get offerValue => throw _privateConstructorUsedError;
+  String? get discount => throw _privateConstructorUsedError;
   @JsonKey(name: 'platform_charge')
-  double? get platformCharge => throw _privateConstructorUsedError;
+  String? get platformCharge => throw _privateConstructorUsedError;
   @JsonKey(name: 'platform_charge_discount')
-  double? get platformChargeDiscount => throw _privateConstructorUsedError;
+  String? get platformChargeDiscount => throw _privateConstructorUsedError;
   @JsonKey(name: 'equipment_charges')
-  double? get equipmentCharges => throw _privateConstructorUsedError;
+  String? get equipmentCharges => throw _privateConstructorUsedError;
   @JsonKey(name: 'revision_charges')
-  double? get revisionCharges => throw _privateConstructorUsedError;
+  String? get revisionCharges => throw _privateConstructorUsedError;
   @JsonKey(name: 'other_charges')
-  double? get otherCharges => throw _privateConstructorUsedError;
+  String? get otherCharges => throw _privateConstructorUsedError;
   @JsonKey(name: 'other_discounts')
-  double? get otherDiscounts => throw _privateConstructorUsedError;
+  String? get otherDiscounts => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_data')
   ExtraData? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_active')
@@ -353,17 +353,17 @@ abstract class $OrderItemCopyWith<$Res> {
       Task? task,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
-      double? amount,
-      double? tax,
-      double? vat,
-      @JsonKey(name: 'offer_value') double? offerValue,
-      double? discount,
-      @JsonKey(name: 'platform_charge') double? platformCharge,
-      @JsonKey(name: 'platform_charge_discount') double? platformChargeDiscount,
-      @JsonKey(name: 'equipment_charges') double? equipmentCharges,
-      @JsonKey(name: 'revision_charges') double? revisionCharges,
-      @JsonKey(name: 'other_charges') double? otherCharges,
-      @JsonKey(name: 'other_discounts') double? otherDiscounts,
+      String? amount,
+      String? tax,
+      String? vat,
+      @JsonKey(name: 'offer_value') String? offerValue,
+      String? discount,
+      @JsonKey(name: 'platform_charge') String? platformCharge,
+      @JsonKey(name: 'platform_charge_discount') String? platformChargeDiscount,
+      @JsonKey(name: 'equipment_charges') String? equipmentCharges,
+      @JsonKey(name: 'revision_charges') String? revisionCharges,
+      @JsonKey(name: 'other_charges') String? otherCharges,
+      @JsonKey(name: 'other_discounts') String? otherDiscounts,
       @JsonKey(name: 'extra_data') ExtraData? extraData,
       @JsonKey(name: 'is_active') bool? isActive,
       String? order,
@@ -426,47 +426,47 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       tax: freezed == tax
           ? _value.tax
           : tax // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       vat: freezed == vat
           ? _value.vat
           : vat // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       offerValue: freezed == offerValue
           ? _value.offerValue
           : offerValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       platformCharge: freezed == platformCharge
           ? _value.platformCharge
           : platformCharge // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       platformChargeDiscount: freezed == platformChargeDiscount
           ? _value.platformChargeDiscount
           : platformChargeDiscount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       equipmentCharges: freezed == equipmentCharges
           ? _value.equipmentCharges
           : equipmentCharges // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       revisionCharges: freezed == revisionCharges
           ? _value.revisionCharges
           : revisionCharges // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       otherCharges: freezed == otherCharges
           ? _value.otherCharges
           : otherCharges // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       otherDiscounts: freezed == otherDiscounts
           ? _value.otherDiscounts
           : otherDiscounts // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -523,17 +523,17 @@ abstract class _$$_OrderItemCopyWith<$Res> implements $OrderItemCopyWith<$Res> {
       Task? task,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
-      double? amount,
-      double? tax,
-      double? vat,
-      @JsonKey(name: 'offer_value') double? offerValue,
-      double? discount,
-      @JsonKey(name: 'platform_charge') double? platformCharge,
-      @JsonKey(name: 'platform_charge_discount') double? platformChargeDiscount,
-      @JsonKey(name: 'equipment_charges') double? equipmentCharges,
-      @JsonKey(name: 'revision_charges') double? revisionCharges,
-      @JsonKey(name: 'other_charges') double? otherCharges,
-      @JsonKey(name: 'other_discounts') double? otherDiscounts,
+      String? amount,
+      String? tax,
+      String? vat,
+      @JsonKey(name: 'offer_value') String? offerValue,
+      String? discount,
+      @JsonKey(name: 'platform_charge') String? platformCharge,
+      @JsonKey(name: 'platform_charge_discount') String? platformChargeDiscount,
+      @JsonKey(name: 'equipment_charges') String? equipmentCharges,
+      @JsonKey(name: 'revision_charges') String? revisionCharges,
+      @JsonKey(name: 'other_charges') String? otherCharges,
+      @JsonKey(name: 'other_discounts') String? otherDiscounts,
       @JsonKey(name: 'extra_data') ExtraData? extraData,
       @JsonKey(name: 'is_active') bool? isActive,
       String? order,
@@ -596,47 +596,47 @@ class __$$_OrderItemCopyWithImpl<$Res>
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       tax: freezed == tax
           ? _value.tax
           : tax // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       vat: freezed == vat
           ? _value.vat
           : vat // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       offerValue: freezed == offerValue
           ? _value.offerValue
           : offerValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       platformCharge: freezed == platformCharge
           ? _value.platformCharge
           : platformCharge // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       platformChargeDiscount: freezed == platformChargeDiscount
           ? _value.platformChargeDiscount
           : platformChargeDiscount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       equipmentCharges: freezed == equipmentCharges
           ? _value.equipmentCharges
           : equipmentCharges // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       revisionCharges: freezed == revisionCharges
           ? _value.revisionCharges
           : revisionCharges // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       otherCharges: freezed == otherCharges
           ? _value.otherCharges
           : otherCharges // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       otherDiscounts: freezed == otherDiscounts
           ? _value.otherDiscounts
           : otherDiscounts // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -695,34 +695,34 @@ class _$_OrderItem implements _OrderItem {
   @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
   @override
-  final double? amount;
+  final String? amount;
   @override
-  final double? tax;
+  final String? tax;
   @override
-  final double? vat;
+  final String? vat;
   @override
   @JsonKey(name: 'offer_value')
-  final double? offerValue;
+  final String? offerValue;
   @override
-  final double? discount;
+  final String? discount;
   @override
   @JsonKey(name: 'platform_charge')
-  final double? platformCharge;
+  final String? platformCharge;
   @override
   @JsonKey(name: 'platform_charge_discount')
-  final double? platformChargeDiscount;
+  final String? platformChargeDiscount;
   @override
   @JsonKey(name: 'equipment_charges')
-  final double? equipmentCharges;
+  final String? equipmentCharges;
   @override
   @JsonKey(name: 'revision_charges')
-  final double? revisionCharges;
+  final String? revisionCharges;
   @override
   @JsonKey(name: 'other_charges')
-  final double? otherCharges;
+  final String? otherCharges;
   @override
   @JsonKey(name: 'other_discounts')
-  final double? otherDiscounts;
+  final String? otherDiscounts;
   @override
   @JsonKey(name: 'extra_data')
   final ExtraData? extraData;
@@ -824,24 +824,24 @@ abstract class _OrderItem implements OrderItem {
           final String? createdAt,
       @JsonKey(name: 'updated_at')
           final DateTime? updatedAt,
-      final double? amount,
-      final double? tax,
-      final double? vat,
+      final String? amount,
+      final String? tax,
+      final String? vat,
       @JsonKey(name: 'offer_value')
-          final double? offerValue,
-      final double? discount,
+          final String? offerValue,
+      final String? discount,
       @JsonKey(name: 'platform_charge')
-          final double? platformCharge,
+          final String? platformCharge,
       @JsonKey(name: 'platform_charge_discount')
-          final double? platformChargeDiscount,
+          final String? platformChargeDiscount,
       @JsonKey(name: 'equipment_charges')
-          final double? equipmentCharges,
+          final String? equipmentCharges,
       @JsonKey(name: 'revision_charges')
-          final double? revisionCharges,
+          final String? revisionCharges,
       @JsonKey(name: 'other_charges')
-          final double? otherCharges,
+          final String? otherCharges,
       @JsonKey(name: 'other_discounts')
-          final double? otherDiscounts,
+          final String? otherDiscounts,
       @JsonKey(name: 'extra_data')
           final ExtraData? extraData,
       @JsonKey(name: 'is_active')
@@ -863,34 +863,34 @@ abstract class _OrderItem implements OrderItem {
   @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
   @override
-  double? get amount;
+  String? get amount;
   @override
-  double? get tax;
+  String? get tax;
   @override
-  double? get vat;
+  String? get vat;
   @override
   @JsonKey(name: 'offer_value')
-  double? get offerValue;
+  String? get offerValue;
   @override
-  double? get discount;
+  String? get discount;
   @override
   @JsonKey(name: 'platform_charge')
-  double? get platformCharge;
+  String? get platformCharge;
   @override
   @JsonKey(name: 'platform_charge_discount')
-  double? get platformChargeDiscount;
+  String? get platformChargeDiscount;
   @override
   @JsonKey(name: 'equipment_charges')
-  double? get equipmentCharges;
+  String? get equipmentCharges;
   @override
   @JsonKey(name: 'revision_charges')
-  double? get revisionCharges;
+  String? get revisionCharges;
   @override
   @JsonKey(name: 'other_charges')
-  double? get otherCharges;
+  String? get otherCharges;
   @override
   @JsonKey(name: 'other_discounts')
-  double? get otherDiscounts;
+  String? get otherDiscounts;
   @override
   @JsonKey(name: 'extra_data')
   ExtraData? get extraData;

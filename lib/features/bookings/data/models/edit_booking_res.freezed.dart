@@ -23,8 +23,8 @@ mixin _$EditBookingRes {
   String? get status => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<String>? get requirements => throw _privateConstructorUsedError;
-  int? get budgetFrom => throw _privateConstructorUsedError;
-  int? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
   String? get startTime => throw _privateConstructorUsedError;
@@ -55,8 +55,8 @@ abstract class $EditBookingResCopyWith<$Res> {
       {String? status,
       String? description,
       List<String>? requirements,
-      int? budgetFrom,
-      int? budgetTo,
+      String? budgetFrom,
+      String? budgetTo,
       DateTime? startDate,
       DateTime? endDate,
       String? startTime,
@@ -120,11 +120,11 @@ class _$EditBookingResCopyWithImpl<$Res, $Val extends EditBookingRes>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -193,8 +193,8 @@ abstract class _$$_EditBookingResCopyWith<$Res>
       {String? status,
       String? description,
       List<String>? requirements,
-      int? budgetFrom,
-      int? budgetTo,
+      String? budgetFrom,
+      String? budgetTo,
       DateTime? startDate,
       DateTime? endDate,
       String? startTime,
@@ -256,11 +256,11 @@ class __$$_EditBookingResCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -361,9 +361,9 @@ class _$_EditBookingRes implements _EditBookingRes {
   }
 
   @override
-  final int? budgetFrom;
+  final String? budgetFrom;
   @override
-  final int? budgetTo;
+  final String? budgetTo;
   @override
   final DateTime? startDate;
   @override
@@ -489,8 +489,8 @@ abstract class _EditBookingRes implements EditBookingRes {
       {final String? status,
       final String? description,
       final List<String>? requirements,
-      final int? budgetFrom,
-      final int? budgetTo,
+      final String? budgetFrom,
+      final String? budgetTo,
       final DateTime? startDate,
       final DateTime? endDate,
       final String? startTime,
@@ -515,9 +515,9 @@ abstract class _EditBookingRes implements EditBookingRes {
   @override
   List<String>? get requirements;
   @override
-  int? get budgetFrom;
+  String? get budgetFrom;
   @override
-  int? get budgetTo;
+  String? get budgetTo;
   @override
   DateTime? get startDate;
   @override

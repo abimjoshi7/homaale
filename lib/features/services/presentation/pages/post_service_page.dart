@@ -151,8 +151,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                     (index) => Padding(
                                       padding: const EdgeInsets.all(2),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             children: [
@@ -196,8 +195,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                       if (requirementController.text.isNotEmpty)
                                         setState(
                                           () {
-                                            requirementList.add(
-                                                requirementController.text);
+                                            requirementList.add(requirementController.text);
                                             requirementController.clear();
                                           },
                                         );
@@ -281,19 +279,14 @@ class _PostServicePageState extends State<PostServicePage> {
                                         cityCode = x.id;
                                       },
                                     ),
-                                    dropdownDecoratorProps:
-                                        DropDownDecoratorProps(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your City',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        hintStyle: Theme.of(context).textTheme.bodySmall,
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xffDEE2E6)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
@@ -304,8 +297,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      baseStyle: Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -313,16 +305,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                       visualDensity: VisualDensity.compact,
                                       alignment: Alignment.centerRight,
                                       isVisible: true,
-                                      color: cityCode == null
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: cityCode == null ? Colors.white : Colors.black,
                                     ),
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
-                                      modalBottomSheetProps:
-                                          ModalBottomSheetProps(
-                                        backgroundColor:
-                                            Theme.of(context).cardColor,
+                                      modalBottomSheetProps: ModalBottomSheetProps(
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -353,47 +341,35 @@ class _PostServicePageState extends State<PostServicePage> {
                                       return DropdownSearch(
                                         items: List.generate(
                                           state.currencyListRes.length,
-                                          (index) =>
-                                              state.currencyListRes[index].name,
+                                          (index) => state.currencyListRes[index].name,
                                         ),
                                         onChanged: (p0) => setState(
                                           () {
-                                            final x = state.currencyListRes
-                                                .firstWhere(
+                                            final x = state.currencyListRes.firstWhere(
                                               (element) => p0 == element.name,
                                             );
                                             currencyCode = x.code;
                                           },
                                         ),
-                                        dropdownDecoratorProps:
-                                            DropDownDecoratorProps(
-                                          dropdownSearchDecoration:
-                                              InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.all(5),
+                                        dropdownDecoratorProps: DropDownDecoratorProps(
+                                          dropdownSearchDecoration: InputDecoration(
+                                            contentPadding: const EdgeInsets.all(5),
                                             hintText: 'Enter Your Currency',
-                                            hintStyle: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            hintStyle: Theme.of(context).textTheme.bodySmall,
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xffDEE2E6)),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                              borderRadius: BorderRadius.circular(8),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                 color: kColorSecondary,
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(
+                                              borderRadius: BorderRadius.circular(
                                                 8,
                                               ),
                                             ),
                                           ),
-                                          baseStyle: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
+                                          baseStyle: Theme.of(context).textTheme.bodySmall,
                                         ),
                                         clearButtonProps: ClearButtonProps(
                                           padding: EdgeInsets.zero,
@@ -401,16 +377,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                           visualDensity: VisualDensity.compact,
                                           alignment: Alignment.centerRight,
                                           isVisible: true,
-                                          color: currencyCode == null
-                                              ? Colors.white
-                                              : Colors.black,
+                                          color: currencyCode == null ? Colors.white : Colors.black,
                                         ),
                                         popupProps: PopupProps.modalBottomSheet(
                                           showSearchBox: true,
-                                          modalBottomSheetProps:
-                                              ModalBottomSheetProps(
-                                            backgroundColor:
-                                                Theme.of(context).cardColor,
+                                          modalBottomSheetProps: ModalBottomSheetProps(
+                                            backgroundColor: Theme.of(context).cardColor,
                                             useSafeArea: false,
                                           ),
                                         ),
@@ -592,8 +564,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                       onTap: () async {
                                         showDialog(
                                           context: context,
-                                          builder: (context) =>
-                                              ImagePickerDialog(
+                                          builder: (context) => ImagePickerDialog(
                                             uploadCubit: imageCubit,
                                             imagePath: imagePath,
                                             imagePathList: imagePathList,
@@ -601,14 +572,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                         );
                                         setState(() {});
                                       },
-                                      child: BlocConsumer<ImageUploadCubit,
-                                          ImageUploadState>(
+                                      child: BlocConsumer<ImageUploadCubit, ImageUploadState>(
                                         bloc: imageCubit,
                                         listener: (context, state) {
                                           if (state is ImageUploadSuccess) {
                                             setState(() {
-                                              imageList =
-                                                  List<int>.from(state.list);
+                                              imageList = List<int>.from(state.list);
                                             });
                                           }
                                         },
@@ -616,10 +585,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                           if (state is ImageUploadSuccess) {
                                             final fileList = List.generate(
                                               state.imagePathList?.length ?? 0,
-                                              (index) => File(state
-                                                      .imagePathList?[index]
-                                                      ?.path ??
-                                                  ""),
+                                              (index) => File(state.imagePathList?[index]?.path ?? ""),
                                             );
                                             return Container(
                                               width: double.infinity,
@@ -627,18 +593,14 @@ class _PostServicePageState extends State<PostServicePage> {
                                               child: ListView.builder(
                                                 padding: EdgeInsets.zero,
                                                 shrinkWrap: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
+                                                scrollDirection: Axis.horizontal,
                                                 itemCount: fileList.length,
-                                                itemBuilder: (context, index) =>
-                                                    Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
+                                                itemBuilder: (context, index) => Padding(
+                                                  padding: const EdgeInsets.symmetric(
                                                     horizontal: 4,
                                                   ),
                                                   child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
+                                                    borderRadius: BorderRadius.circular(
                                                       10,
                                                     ),
                                                     child: Image.file(
@@ -653,9 +615,8 @@ class _PostServicePageState extends State<PostServicePage> {
 
                                           if (state is ImageUploadInitial) {
                                             return CustomDottedContainerStack(
-                                              theWidget: imageList == null
-                                                  ? Text('Select Images')
-                                                  : Text('Image Uploaded'),
+                                              theWidget:
+                                                  imageList == null ? Text('Select Images') : Text('Image Uploaded'),
                                             );
                                           }
 
@@ -679,8 +640,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                     );
                                     setState(() {});
                                   },
-                                  child: BlocListener<ImageUploadCubit,
-                                      ImageUploadState>(
+                                  child: BlocListener<ImageUploadCubit, ImageUploadState>(
                                     listener: (context, state) {
                                       if (state is VideoUploadSuccess) {
                                         setState(() {
@@ -689,9 +649,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                       }
                                     },
                                     child: CustomDottedContainerStack(
-                                      theWidget: fileList == null
-                                          ? Text('Select Videos')
-                                          : Text('File Uploaded'),
+                                      theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
                                     ),
                                   ),
                                 ),
@@ -737,17 +695,14 @@ class _PostServicePageState extends State<PostServicePage> {
                               ),
                             ],
                           ),
-                          BlocConsumer<TaskEntityServiceBloc,
-                              TaskEntityServiceState>(
+                          BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
                             listener: (context, state) {
-                              if (state.theStates == TheStates.success &&
-                                  state.isCreated == true) {
+                              if (state.theStates == TheStates.success && state.isCreated == true) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Success',
-                                    content:
-                                        'You have successfully created a service',
+                                    content: 'You have successfully created a service',
                                     onTap: () {
                                       Navigator.pushNamed(
                                         context,
@@ -758,14 +713,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                   ),
                                 );
                               }
-                              if (state.theStates == TheStates.failure &&
-                                  state.isCreated == false) {
+                              if (state.theStates == TheStates.failure && state.isCreated == false) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Failure',
-                                    content:
-                                        'Service cannot be added. Please try again.',
+                                    content: 'Service cannot be added. Please try again.',
                                     onTap: () {},
                                     isSuccess: false,
                                   ),
@@ -776,10 +729,8 @@ class _PostServicePageState extends State<PostServicePage> {
                               return CustomElevatedButton(
                                 callback: () async {
                                   if (isTermsAccepted) {
-                                    if (_key.currentState!.validate() &&
-                                        endPriceController.text.isNotEmpty) {
-                                      if (cityCode == null &&
-                                          currencyCode == null) {
+                                    if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
+                                      if (cityCode == null && currencyCode == null) {
                                         showDialog(
                                           context: context,
                                           builder: (context) => CustomToast(
@@ -796,9 +747,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         highlights: requirementList,
                                         budgetType: budgetType,
                                         budgetFrom: double.parse(
-                                          startPriceController.text.isEmpty
-                                              ? '0'
-                                              : startPriceController.text,
+                                          startPriceController.text.isEmpty ? '0' : startPriceController.text,
                                         ),
                                         budgetTo: double.parse(
                                           endPriceController.text,
@@ -816,10 +765,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                         isOnline: true,
                                         isRequested: false,
                                         discountType: "Percentage",
-                                        discountValue: discountController
-                                                .text.isNotEmpty
-                                            ? num.parse(discountController.text)
-                                            : 0,
+                                        discountValue:
+                                            discountController.text.isNotEmpty ? discountController.text : '0.0',
                                         extraData: [],
                                         noOfReservation: 0,
                                         isActive: true,
@@ -843,8 +790,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         context: context,
                                         builder: (context) => CustomToast(
                                           heading: 'Error',
-                                          content:
-                                              'Please provide necessary details.',
+                                          content: 'Please provide necessary details.',
                                           onTap: () {},
                                           isSuccess: false,
                                         ),
@@ -855,8 +801,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: "Failure",
-                                        content:
-                                            "Please accept the terms and condititons",
+                                        content: "Please accept the terms and condititons",
                                         onTap: () {},
                                         isSuccess: false,
                                       ),

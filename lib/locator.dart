@@ -42,6 +42,7 @@ void init() {
   locator.registerFactory(() => KycBloc(locator()));
   locator.registerFactory(() => CategoriesBloc(locator()));
   locator.registerFactory(() => SavedBloc(locator()));
+  locator.registerFactory(() => OrderItemRetriveBloc());
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 

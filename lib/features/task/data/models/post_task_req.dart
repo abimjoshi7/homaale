@@ -38,8 +38,8 @@ class PostTaskReq {
   final String? description;
   final List<String?>? highlights;
   final String? budgetType;
-  final num? budgetFrom;
-  final num? budgetTo;
+  final double? budgetFrom;
+  final double? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? startTime;
@@ -53,7 +53,7 @@ class PostTaskReq {
   final bool? isOnline;
   final bool? isRequested;
   final String? discountType;
-  final num? discountValue;
+  final String? discountValue;
   final List<String?>? extraData;
   final num? noOfReservation;
   final bool? isActive;
@@ -74,8 +74,8 @@ class PostTaskReq {
             ? null
             : json["highlights"] as List<String?>?,
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"] as num?,
-        budgetTo: json["budget_to"] as num?,
+        budgetFrom: json["budget_from"] as double?,
+        budgetTo: json["budget_to"] as double?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(
@@ -97,7 +97,7 @@ class PostTaskReq {
         isOnline: json["is_online"] as bool?,
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
-        discountValue: json["discount_value"] as num?,
+        discountValue: json["discount_value"] as String?,
         extraData: json["extra_data"] == null
             ? null
             : json["extra_data"] as List<String?>?,

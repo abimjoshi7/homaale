@@ -23,8 +23,8 @@ class EditBookingReq {
   final String? status;
   final String? description;
   final List<String>? requirements;
-  final num? budgetFrom;
-  final num? budgetTo;
+  final double? budgetFrom;
+  final double? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? startTime;
@@ -47,8 +47,8 @@ class EditBookingReq {
             : List<String>.from(
                 json["requirements"]!.map((x) => x) as Iterable,
               ),
-        budgetFrom: json["budget_from"] as num?,
-        budgetTo: json["budget_to"] as num?,
+        budgetFrom: json["budget_from"] as double?,
+        budgetTo: json["budget_to"] as double?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(

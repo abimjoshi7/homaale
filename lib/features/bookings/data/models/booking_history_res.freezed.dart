@@ -315,7 +315,7 @@ mixin _$Result {
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<String>? get requirements => throw _privateConstructorUsedError;
-  double? get charge => throw _privateConstructorUsedError;
+  String? get charge => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: 'estimated_time')
   int? get estimatedTime => throw _privateConstructorUsedError;
@@ -361,7 +361,7 @@ abstract class $ResultCopyWith<$Res> {
       String? title,
       String? description,
       List<String>? requirements,
-      double? charge,
+      String? charge,
       String? location,
       @JsonKey(name: 'estimated_time') int? estimatedTime,
       String? slug,
@@ -476,7 +476,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       charge: freezed == charge
           ? _value.charge
           : charge // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -604,7 +604,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       String? title,
       String? description,
       List<String>? requirements,
-      double? charge,
+      String? charge,
       String? location,
       @JsonKey(name: 'estimated_time') int? estimatedTime,
       String? slug,
@@ -720,7 +720,7 @@ class __$$_ResultCopyWithImpl<$Res>
       charge: freezed == charge
           ? _value.charge
           : charge // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -857,7 +857,7 @@ class _$_Result implements _Result {
   }
 
   @override
-  final double? charge;
+  final String? charge;
   @override
   final String? location;
   @override
@@ -1032,7 +1032,7 @@ abstract class _Result implements Result {
       final String? title,
       final String? description,
       final List<String>? requirements,
-      final double? charge,
+      final String? charge,
       final String? location,
       @JsonKey(name: 'estimated_time') final int? estimatedTime,
       final String? slug,
@@ -1079,7 +1079,7 @@ abstract class _Result implements Result {
   @override
   List<String>? get requirements;
   @override
-  double? get charge;
+  String? get charge;
   @override
   String? get location;
   @override
@@ -1995,9 +1995,9 @@ mixin _$EntityService {
   @JsonKey(name: 'budget_type')
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_to')
-  double? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
   List<Image>? get videos => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_by')
@@ -2018,8 +2018,8 @@ abstract class $EntityServiceCopyWith<$Res> {
   $Res call(
       {String? id,
       @JsonKey(name: 'budget_type') String? budgetType,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       List<Image>? images,
       List<Image>? videos,
       @JsonKey(name: 'created_by') Assignee? createdBy});
@@ -2060,11 +2060,11 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
@@ -2104,8 +2104,8 @@ abstract class _$$_EntityServiceCopyWith<$Res>
   $Res call(
       {String? id,
       @JsonKey(name: 'budget_type') String? budgetType,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       List<Image>? images,
       List<Image>? videos,
       @JsonKey(name: 'created_by') Assignee? createdBy});
@@ -2145,11 +2145,11 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
@@ -2190,10 +2190,10 @@ class _$_EntityService implements _EntityService {
   final String? budgetType;
   @override
   @JsonKey(name: 'budget_from')
-  final double? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  final double? budgetTo;
+  final String? budgetTo;
   final List<Image>? _images;
   @override
   List<Image>? get images {
@@ -2271,8 +2271,8 @@ abstract class _EntityService implements EntityService {
   const factory _EntityService(
           {final String? id,
           @JsonKey(name: 'budget_type') final String? budgetType,
-          @JsonKey(name: 'budget_from') final double? budgetFrom,
-          @JsonKey(name: 'budget_to') final double? budgetTo,
+          @JsonKey(name: 'budget_from') final String? budgetFrom,
+          @JsonKey(name: 'budget_to') final String? budgetTo,
           final List<Image>? images,
           final List<Image>? videos,
           @JsonKey(name: 'created_by') final Assignee? createdBy}) =
@@ -2288,10 +2288,10 @@ abstract class _EntityService implements EntityService {
   String? get budgetType;
   @override
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  double? get budgetTo;
+  String? get budgetTo;
   @override
   List<Image>? get images;
   @override

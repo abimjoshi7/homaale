@@ -679,9 +679,9 @@ mixin _$Data {
   @JsonKey(name: 'is_requested')
   bool? get isRequested => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_to')
-  double? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_endorsed')
@@ -756,8 +756,8 @@ abstract class $DataCopyWith<$Res> {
       List<dynamic>? images,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'is_requested') bool? isRequested,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       String? location,
       int? count,
       @JsonKey(name: 'is_endorsed') bool? isEndorsed,
@@ -1052,11 +1052,11 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -1269,8 +1269,8 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
       List<dynamic>? images,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'is_requested') bool? isRequested,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       String? location,
       int? count,
       @JsonKey(name: 'is_endorsed') bool? isEndorsed,
@@ -1571,11 +1571,11 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -1875,10 +1875,10 @@ class _$_Data implements _Data {
   final bool? isRequested;
   @override
   @JsonKey(name: 'budget_from')
-  final double? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  final double? budgetTo;
+  final String? budgetTo;
   @override
   final String? location;
   @override
@@ -2147,8 +2147,8 @@ abstract class _Data implements Data {
       final List<dynamic>? images,
       @JsonKey(name: 'budget_type') final String? budgetType,
       @JsonKey(name: 'is_requested') final bool? isRequested,
-      @JsonKey(name: 'budget_from') final double? budgetFrom,
-      @JsonKey(name: 'budget_to') final double? budgetTo,
+      @JsonKey(name: 'budget_from') final String? budgetFrom,
+      @JsonKey(name: 'budget_to') final String? budgetTo,
       final String? location,
       final int? count,
       @JsonKey(name: 'is_endorsed') final bool? isEndorsed,
@@ -2283,10 +2283,10 @@ abstract class _Data implements Data {
   bool? get isRequested;
   @override
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  double? get budgetTo;
+  String? get budgetTo;
   @override
   String? get location;
   @override

@@ -76,9 +76,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
       bloc: bookingsBloc,
       builder: (context, state) {
         if (state.states == TheStates.success) {
-          final myBookingList = isTask
-              ? state.myBookingListModelTask?.result
-              : state.myBookingListModelService?.result;
+          final myBookingList = isTask ? state.myBookingListModelTask?.result : state.myBookingListModelService?.result;
           return Padding(
             padding: kPadding10,
             child: Form(
@@ -110,8 +108,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             (index) => Padding(
                               padding: const EdgeInsets.all(2),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -149,10 +146,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         addVerticalSpace(5),
                         CustomTextFormField(
                           controller: requirementController,
-                          hintText: myBookingList?[selectedIndex]
-                                  .requirements!
-                                  .join(', ') ??
-                              'Add requirements',
+                          hintText: myBookingList?[selectedIndex].requirements!.join(', ') ?? 'Add requirements',
                           onFieldSubmitted: (p0) {
                             setState(() {
                               requirementList.add(p0!);
@@ -170,8 +164,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         String? x;
                         if (cityState is CityLoadSuccess) {
                           for (final element in cityState.list) {
-                            if (element.id ==
-                                myBookingList?[selectedIndex].city) {
+                            if (element.id == myBookingList?[selectedIndex].city) {
                               x = element.name;
                             }
                           }
@@ -219,9 +212,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               ),
                               CustomTextFormField(
                                 controller: startBudgetController,
-                                hintText: myBookingList?[selectedIndex]
-                                            .budgetFrom !=
-                                        null
+                                hintText: myBookingList?[selectedIndex].budgetFrom != null
                                     ? "${myBookingList?[selectedIndex].budgetFrom}"
                                     : 'Add starting Price',
                               ),
@@ -239,9 +230,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               ),
                               CustomTextFormField(
                                 controller: endBudgetController,
-                                hintText: myBookingList?[selectedIndex]
-                                            .budgetTo !=
-                                        null
+                                hintText: myBookingList?[selectedIndex].budgetTo != null
                                     ? "${myBookingList?[selectedIndex].budgetTo}"
                                     : 'Add end Price',
                               ),
@@ -282,10 +271,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                     },
                                     child: CustomFormContainer(
                                       hintText: DateFormat.yMMMMEEEEd().format(
-                                        startDate ??
-                                            myBookingList?[selectedIndex]
-                                                .startDate ??
-                                            DateTime.now(),
+                                        startDate ?? myBookingList?[selectedIndex].startDate ?? DateTime.now(),
                                       ),
                                     ),
                                   ),
@@ -322,10 +308,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                     },
                                     child: CustomFormContainer(
                                       hintText: DateFormat.yMMMMEEEEd().format(
-                                        endDate ??
-                                            myBookingList?[selectedIndex]
-                                                .endDate ??
-                                            DateTime.now(),
+                                        endDate ?? myBookingList?[selectedIndex].endDate ?? DateTime.now(),
                                       ),
                                     ),
                                   ),
@@ -366,8 +349,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   imagePath: imagePath,
                                 );
                           },
-                          child:
-                              BlocListener<ImageUploadCubit, ImageUploadState>(
+                          child: BlocListener<ImageUploadCubit, ImageUploadState>(
                             listener: (context, state) {
                               if (state is ImageUploadSuccess) {
                                 setState(() {
@@ -376,9 +358,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               }
                             },
                             child: CustomDottedContainerStack(
-                              theWidget: imageList == null
-                                  ? Text('Select Images')
-                                  : Text('Image Uploaded'),
+                              theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
                             ),
                           ),
                         ),
@@ -391,7 +371,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       children: [
                         Row(
                           children: [
-                             Text(
+                            Text(
                               'Maximum Video Size 20 MB',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
@@ -409,8 +389,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   imagePath: videoPath,
                                 );
                           },
-                          child:
-                              BlocListener<ImageUploadCubit, ImageUploadState>(
+                          child: BlocListener<ImageUploadCubit, ImageUploadState>(
                             listener: (context, state) {
                               if (state is VideoUploadSuccess) {
                                 setState(() {
@@ -419,9 +398,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               }
                             },
                             child: CustomDottedContainerStack(
-                              theWidget: fileList == null
-                                  ? Text('Select Videos')
-                                  : Text('File Uploaded'),
+                              theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
                             ),
                           ),
                         ),
@@ -454,9 +431,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               label: 'Start Time',
                               child: CustomFormContainer(
                                 hintText: startTime?.format(context) ??
-                                    myBookingList?[selectedIndex]
-                                        .startTime
-                                        .toString() ??
+                                    myBookingList?[selectedIndex].startTime.toString() ??
                                     '',
                                 callback: () async {
                                   await showTimePicker(
@@ -476,11 +451,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             child: CustomFormField(
                               label: 'End Time',
                               child: CustomFormContainer(
-                                hintText: endTime?.format(context) ??
-                                    myBookingList?[selectedIndex]
-                                        .endTime
-                                        .toString() ??
-                                    '',
+                                hintText:
+                                    endTime?.format(context) ?? myBookingList?[selectedIndex].endTime.toString() ?? '',
                                 callback: () async {
                                   await showTimePicker(
                                     context: context,
@@ -513,61 +485,35 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             requirements: requirementList.isNotEmpty
                                 ? requirementList
                                 : myBookingList?[selectedIndex].requirements,
-                            city: cityCode ??
-                                myBookingList?[selectedIndex].city?.toInt(),
+                            city: cityCode ?? myBookingList?[selectedIndex].city?.toInt(),
                             location: locationController.text.isNotEmpty
                                 ? locationController.text
                                 : myBookingList?[selectedIndex].location,
                             budgetTo: endBudgetController.text.isNotEmpty
                                 ? double.parse(endBudgetController.text)
-                                : myBookingList?[selectedIndex].budgetTo ?? 0.0,
+                                : double.parse(myBookingList?[selectedIndex].budgetTo ?? '0.0'),
                             budgetFrom: startBudgetController.text.isNotEmpty
                                 ? double.parse(startBudgetController.text)
-                                : myBookingList?[selectedIndex].budgetFrom ??
-                                    0.0,
+                                : double.parse(myBookingList?[selectedIndex].budgetFrom ?? '0.0'),
                             images: imageList ??
-                                List.generate(
-                                    myBookingList?[selectedIndex]
-                                            .images
-                                            ?.length ??
-                                        0,
-                                    (index) => myBookingList?[selectedIndex]
-                                        .images?[index]
-                                        .id),
+                                List.generate(myBookingList?[selectedIndex].images?.length ?? 0,
+                                    (index) => myBookingList?[selectedIndex].images?[index].id),
                             videos: fileList ??
-                                List.generate(
-                                    myBookingList?[selectedIndex]
-                                            .videos
-                                            ?.length ??
-                                        0,
-                                    (index) => myBookingList?[selectedIndex]
-                                        .videos?[index]
-                                        .id),
-                            startDate: startDate ??
-                                myBookingList?[selectedIndex].startDate,
-                            endDate: endDate ??
-                                myBookingList?[selectedIndex].endDate,
-                            startTime: startTime?.format(context) ??
-                                myBookingList?[selectedIndex].startTime,
-                            endTime: endTime?.format(context) ??
-                                myBookingList?[selectedIndex].endTime,
-                            createdBy: myBookingList?[selectedIndex]
-                                    .createdBy
-                                    ?.user
-                                    ?.id ??
-                                '',
-                            entityService: myBookingList?[selectedIndex]
-                                    .entityService
-                                    ?.id ??
-                                '',
+                                List.generate(myBookingList?[selectedIndex].videos?.length ?? 0,
+                                    (index) => myBookingList?[selectedIndex].videos?[index].id),
+                            startDate: startDate ?? myBookingList?[selectedIndex].startDate,
+                            endDate: endDate ?? myBookingList?[selectedIndex].endDate,
+                            startTime: startTime?.format(context) ?? myBookingList?[selectedIndex].startTime,
+                            endTime: endTime?.format(context) ?? myBookingList?[selectedIndex].endTime,
+                            createdBy: myBookingList?[selectedIndex].createdBy?.user?.id ?? '',
+                            entityService: myBookingList?[selectedIndex].entityService?.id ?? '',
                             isActive: myBookingList?[selectedIndex].isActive,
                             status: "pending",
                           );
 
                           bookingsBloc.add(
                             BookingEdited(
-                              id: myBookingList?[selectedIndex].id?.toInt() ??
-                                  0,
+                              id: myBookingList?[selectedIndex].id?.toInt() ?? 0,
                               req: req,
                               isTask: isTask,
                             ),

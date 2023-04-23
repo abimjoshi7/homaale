@@ -30,9 +30,7 @@ class TaxRes {
   Map<String, dynamic> toJson() => {
         "status": status,
         "details": details?.toJson(),
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -45,14 +43,14 @@ class Datum {
   });
 
   final String? name;
-  final num? taxableAmount;
-  final num? taxLiability;
+  final String? taxableAmount;
+  final String? taxLiability;
   final String? taxRate;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         name: json["name"] as String?,
-        taxableAmount: json["taxable_amount"] as num?,
-        taxLiability: json["tax_liability"] as num?,
+        taxableAmount: json["taxable_amount"] as String?,
+        taxLiability: json["tax_liability"] as String?,
         taxRate: json["tax_rate"] as String?,
       );
 
@@ -74,20 +72,20 @@ class Details {
     this.netTaxLiabilityMonthly,
   });
 
-  final num? annualGrossSalary;
-  final num? netTaxableIncome;
-  final num? netPayableTax;
+  final String? annualGrossSalary;
+  final String? netTaxableIncome;
+  final String? netPayableTax;
   final String? taxRate;
-  final num? netTaxLiabilityYearly;
-  final num? netTaxLiabilityMonthly;
+  final String? netTaxLiabilityYearly;
+  final String? netTaxLiabilityMonthly;
 
   factory Details.fromJson(Map<String, dynamic> json) => Details(
-        annualGrossSalary: json["annual gross salary"] as num?,
-        netTaxableIncome: json["net taxable income"] as num?,
-        netPayableTax: json["net payable tax"] as num?,
+        annualGrossSalary: json["annual gross salary"] as String?,
+        netTaxableIncome: json["net taxable income"] as String?,
+        netPayableTax: json["net payable tax"] as String?,
         taxRate: json["tax rate"] as String?,
-        netTaxLiabilityYearly: json["net tax liability yearly"] as num?,
-        netTaxLiabilityMonthly: json["net tax liability monthly"] as num?,
+        netTaxLiabilityYearly: json["net tax liability yearly"] as String?,
+        netTaxLiabilityMonthly: json["net tax liability monthly"] as String?,
       );
 
   Map<String, dynamic> toJson() => {

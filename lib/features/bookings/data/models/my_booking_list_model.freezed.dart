@@ -315,9 +315,9 @@ mixin _$Result {
   String? get description => throw _privateConstructorUsedError;
   List<String>? get requirements => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_from")
-  double? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_to")
-  double? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
   DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
@@ -357,8 +357,8 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: "updated_at") DateTime? updatedAt,
       String? description,
       List<String>? requirements,
-      @JsonKey(name: "budget_from") double? budgetFrom,
-      @JsonKey(name: "budget_to") double? budgetTo,
+      @JsonKey(name: "budget_from") String? budgetFrom,
+      @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "start_time") String? startTime,
@@ -452,11 +452,11 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -538,8 +538,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: "updated_at") DateTime? updatedAt,
       String? description,
       List<String>? requirements,
-      @JsonKey(name: "budget_from") double? budgetFrom,
-      @JsonKey(name: "budget_to") double? budgetTo,
+      @JsonKey(name: "budget_from") String? budgetFrom,
+      @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "start_time") String? startTime,
@@ -632,11 +632,11 @@ class __$$_ResultCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -760,10 +760,10 @@ class _$_Result implements _Result {
 
   @override
   @JsonKey(name: "budget_from")
-  final double? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  final double? budgetTo;
+  final String? budgetTo;
   @override
   @JsonKey(name: "start_date")
   final DateTime? startDate;
@@ -891,8 +891,8 @@ abstract class _Result implements Result {
       @JsonKey(name: "updated_at") final DateTime? updatedAt,
       final String? description,
       final List<String>? requirements,
-      @JsonKey(name: "budget_from") final double? budgetFrom,
-      @JsonKey(name: "budget_to") final double? budgetTo,
+      @JsonKey(name: "budget_from") final String? budgetFrom,
+      @JsonKey(name: "budget_to") final String? budgetTo,
       @JsonKey(name: "start_date") final DateTime? startDate,
       @JsonKey(name: "end_date") final DateTime? endDate,
       @JsonKey(name: "start_time") final String? startTime,
@@ -932,10 +932,10 @@ abstract class _Result implements Result {
   List<String>? get requirements;
   @override
   @JsonKey(name: "budget_from")
-  double? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  double? get budgetTo;
+  String? get budgetTo;
   @override
   @JsonKey(name: "start_date")
   DateTime? get startDate;
@@ -2118,9 +2118,9 @@ mixin _$EntityService {
   @JsonKey(name: "budget_type")
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_from")
-  double? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_to")
-  double? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
   DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
@@ -2147,7 +2147,7 @@ mixin _$EntityService {
   @JsonKey(name: "discount_type")
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_value")
-  double? get discountValue =>
+  String? get discountValue =>
       throw _privateConstructorUsedError; // @JsonKey(name: "extra_data") List<String>? extraData,
   @JsonKey(name: "no_of_reservation")
   int? get noOfReservation => throw _privateConstructorUsedError;
@@ -2187,8 +2187,8 @@ abstract class $EntityServiceCopyWith<$Res> {
       String? description,
       List<String>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
-      @JsonKey(name: "budget_from") double? budgetFrom,
-      @JsonKey(name: "budget_to") double? budgetTo,
+      @JsonKey(name: "budget_from") String? budgetFrom,
+      @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "start_time") String? startTime,
@@ -2202,7 +2202,7 @@ abstract class $EntityServiceCopyWith<$Res> {
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_value") double? discountValue,
+      @JsonKey(name: "discount_value") String? discountValue,
       @JsonKey(name: "no_of_reservation") int? noOfReservation,
       String? slug,
       @JsonKey(name: "is_active") bool? isActive,
@@ -2322,11 +2322,11 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -2382,7 +2382,7 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -2493,8 +2493,8 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       String? description,
       List<String>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
-      @JsonKey(name: "budget_from") double? budgetFrom,
-      @JsonKey(name: "budget_to") double? budgetTo,
+      @JsonKey(name: "budget_from") String? budgetFrom,
+      @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "start_time") String? startTime,
@@ -2508,7 +2508,7 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_value") double? discountValue,
+      @JsonKey(name: "discount_value") String? discountValue,
       @JsonKey(name: "no_of_reservation") int? noOfReservation,
       String? slug,
       @JsonKey(name: "is_active") bool? isActive,
@@ -2631,11 +2631,11 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -2691,7 +2691,7 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -2822,10 +2822,10 @@ class _$_EntityService implements _EntityService {
   final String? budgetType;
   @override
   @JsonKey(name: "budget_from")
-  final double? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  final double? budgetTo;
+  final String? budgetTo;
   @override
   @JsonKey(name: "start_date")
   final DateTime? startDate;
@@ -2866,7 +2866,7 @@ class _$_EntityService implements _EntityService {
   final String? discountType;
   @override
   @JsonKey(name: "discount_value")
-  final double? discountValue;
+  final String? discountValue;
 // @JsonKey(name: "extra_data") List<String>? extraData,
   @override
   @JsonKey(name: "no_of_reservation")
@@ -3028,8 +3028,8 @@ abstract class _EntityService implements EntityService {
       final String? description,
       final List<String>? highlights,
       @JsonKey(name: "budget_type") final String? budgetType,
-      @JsonKey(name: "budget_from") final double? budgetFrom,
-      @JsonKey(name: "budget_to") final double? budgetTo,
+      @JsonKey(name: "budget_from") final String? budgetFrom,
+      @JsonKey(name: "budget_to") final String? budgetTo,
       @JsonKey(name: "start_date") final DateTime? startDate,
       @JsonKey(name: "end_date") final DateTime? endDate,
       @JsonKey(name: "start_time") final String? startTime,
@@ -3043,7 +3043,7 @@ abstract class _EntityService implements EntityService {
       @JsonKey(name: "is_online") final bool? isOnline,
       @JsonKey(name: "is_requested") final bool? isRequested,
       @JsonKey(name: "discount_type") final String? discountType,
-      @JsonKey(name: "discount_value") final double? discountValue,
+      @JsonKey(name: "discount_value") final String? discountValue,
       @JsonKey(name: "no_of_reservation") final int? noOfReservation,
       final String? slug,
       @JsonKey(name: "is_active") final bool? isActive,
@@ -3086,10 +3086,10 @@ abstract class _EntityService implements EntityService {
   String? get budgetType;
   @override
   @JsonKey(name: "budget_from")
-  double? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  double? get budgetTo;
+  String? get budgetTo;
   @override
   @JsonKey(name: "start_date")
   DateTime? get startDate;
@@ -3129,7 +3129,7 @@ abstract class _EntityService implements EntityService {
   String? get discountType;
   @override
   @JsonKey(name: "discount_value")
-  double? get discountValue;
+  String? get discountValue;
   @override // @JsonKey(name: "extra_data") List<String>? extraData,
   @JsonKey(name: "no_of_reservation")
   int? get noOfReservation;

@@ -216,8 +216,7 @@ class OrderItemList with _$OrderItemList {
     List<Result>? result,
   }) = _OrderItemList;
 
-  factory OrderItemList.fromJson(Map<String, dynamic> json) =>
-      _$OrderItemListFromJson(json);
+  factory OrderItemList.fromJson(Map<String, dynamic> json) => _$OrderItemListFromJson(json);
 }
 
 @freezed
@@ -225,7 +224,7 @@ class Result with _$Result {
   const factory Result({
     String? id,
     String? title,
-    double? charge,
+    String? charge,
     @JsonKey(name: 'entity_service') EntityService? entityService,
     Assignee? assigner,
     Assignee? assignee,
@@ -263,8 +262,7 @@ class Assignee with _$Assignee {
     Badge? badge,
   }) = _Assignee;
 
-  factory Assignee.fromJson(Map<String, dynamic> json) =>
-      _$AssigneeFromJson(json);
+  factory Assignee.fromJson(Map<String, dynamic> json) => _$AssigneeFromJson(json);
 }
 
 @freezed
@@ -286,8 +284,7 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -306,8 +303,8 @@ class EntityService with _$EntityService {
     List<Rating>? rating,
     @JsonKey(name: 'budget_type') String? budgetType,
     @JsonKey(name: 'is_requested') bool? isRequested,
-    @JsonKey(name: 'budget_from') double? budgetFrom,
-    @JsonKey(name: 'budget_to') double? budgetTo,
+    @JsonKey(name: 'budget_from') String? budgetFrom,
+    @JsonKey(name: 'budget_to') String? budgetTo,
     String? location,
     int? count,
     @JsonKey(name: 'is_endorsed') bool? isEndorsed,
@@ -315,8 +312,7 @@ class EntityService with _$EntityService {
     List<dynamic>? videos,
   }) = _EntityService;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceFromJson(json);
+  factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
 }
 
 @freezed
@@ -339,8 +335,7 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 }
 
 @freezed
@@ -377,8 +372,7 @@ class Service with _$Service {
     List<dynamic>? images,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
 }
 
 @freezed
@@ -390,6 +384,5 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 }

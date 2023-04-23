@@ -55,8 +55,6 @@ mixin _$TaskerProfile {
   String? get experienceLevel => throw _privateConstructorUsedError;
   @JsonKey(name: "user_type")
   String? get userType => throw _privateConstructorUsedError;
-  @JsonKey(name: "hourly_rate")
-  num? get hourlyRate => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_visibility")
   String? get profileVisibility => throw _privateConstructorUsedError;
   @JsonKey(name: "task_preferences")
@@ -119,7 +117,6 @@ abstract class $TaskerProfileCopyWith<$Res> {
       @JsonKey(name: "active_hour_end") String? activeHourEnd,
       @JsonKey(name: "experience_level") String? experienceLevel,
       @JsonKey(name: "user_type") String? userType,
-      @JsonKey(name: "hourly_rate") num? hourlyRate,
       @JsonKey(name: "profile_visibility") String? profileVisibility,
       @JsonKey(name: "task_preferences") String? taskPreferences,
       @JsonKey(name: "address_line1") String? addressLine1,
@@ -183,7 +180,6 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
     Object? activeHourEnd = freezed,
     Object? experienceLevel = freezed,
     Object? userType = freezed,
-    Object? hourlyRate = freezed,
     Object? profileVisibility = freezed,
     Object? taskPreferences = freezed,
     Object? addressLine1 = freezed,
@@ -303,10 +299,6 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
           ? _value.userType
           : userType // ignore: cast_nullable_to_non_nullable
               as String?,
-      hourlyRate: freezed == hourlyRate
-          ? _value.hourlyRate
-          : hourlyRate // ignore: cast_nullable_to_non_nullable
-              as num?,
       profileVisibility: freezed == profileVisibility
           ? _value.profileVisibility
           : profileVisibility // ignore: cast_nullable_to_non_nullable
@@ -494,7 +486,6 @@ abstract class _$$_TaskerProfileCopyWith<$Res>
       @JsonKey(name: "active_hour_end") String? activeHourEnd,
       @JsonKey(name: "experience_level") String? experienceLevel,
       @JsonKey(name: "user_type") String? userType,
-      @JsonKey(name: "hourly_rate") num? hourlyRate,
       @JsonKey(name: "profile_visibility") String? profileVisibility,
       @JsonKey(name: "task_preferences") String? taskPreferences,
       @JsonKey(name: "address_line1") String? addressLine1,
@@ -564,7 +555,6 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
     Object? activeHourEnd = freezed,
     Object? experienceLevel = freezed,
     Object? userType = freezed,
-    Object? hourlyRate = freezed,
     Object? profileVisibility = freezed,
     Object? taskPreferences = freezed,
     Object? addressLine1 = freezed,
@@ -684,10 +674,6 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
           ? _value.userType
           : userType // ignore: cast_nullable_to_non_nullable
               as String?,
-      hourlyRate: freezed == hourlyRate
-          ? _value.hourlyRate
-          : hourlyRate // ignore: cast_nullable_to_non_nullable
-              as num?,
       profileVisibility: freezed == profileVisibility
           ? _value.profileVisibility
           : profileVisibility // ignore: cast_nullable_to_non_nullable
@@ -774,7 +760,6 @@ class _$_TaskerProfile implements _TaskerProfile {
       @JsonKey(name: "active_hour_end") this.activeHourEnd,
       @JsonKey(name: "experience_level") this.experienceLevel,
       @JsonKey(name: "user_type") this.userType,
-      @JsonKey(name: "hourly_rate") this.hourlyRate,
       @JsonKey(name: "profile_visibility") this.profileVisibility,
       @JsonKey(name: "task_preferences") this.taskPreferences,
       @JsonKey(name: "address_line1") this.addressLine1,
@@ -901,9 +886,6 @@ class _$_TaskerProfile implements _TaskerProfile {
   @JsonKey(name: "user_type")
   final String? userType;
   @override
-  @JsonKey(name: "hourly_rate")
-  final num? hourlyRate;
-  @override
   @JsonKey(name: "profile_visibility")
   final String? profileVisibility;
   @override
@@ -957,7 +939,7 @@ class _$_TaskerProfile implements _TaskerProfile {
 
   @override
   String toString() {
-    return 'TaskerProfile(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, userType: $userType, hourlyRate: $hourlyRate, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions)';
+    return 'TaskerProfile(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, userType: $userType, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions)';
   }
 
   @override
@@ -1006,8 +988,6 @@ class _$_TaskerProfile implements _TaskerProfile {
                 other.experienceLevel == experienceLevel) &&
             (identical(other.userType, userType) ||
                 other.userType == userType) &&
-            (identical(other.hourlyRate, hourlyRate) ||
-                other.hourlyRate == hourlyRate) &&
             (identical(other.profileVisibility, profileVisibility) ||
                 other.profileVisibility == profileVisibility) &&
             (identical(other.taskPreferences, taskPreferences) ||
@@ -1064,7 +1044,6 @@ class _$_TaskerProfile implements _TaskerProfile {
         activeHourEnd,
         experienceLevel,
         userType,
-        hourlyRate,
         profileVisibility,
         taskPreferences,
         addressLine1,
@@ -1131,8 +1110,6 @@ abstract class _TaskerProfile implements TaskerProfile {
           final String? experienceLevel,
       @JsonKey(name: "user_type")
           final String? userType,
-      @JsonKey(name: "hourly_rate")
-          final num? hourlyRate,
       @JsonKey(name: "profile_visibility")
           final String? profileVisibility,
       @JsonKey(name: "task_preferences")
@@ -1220,9 +1197,6 @@ abstract class _TaskerProfile implements TaskerProfile {
   @override
   @JsonKey(name: "user_type")
   String? get userType;
-  @override
-  @JsonKey(name: "hourly_rate")
-  num? get hourlyRate;
   @override
   @JsonKey(name: "profile_visibility")
   String? get profileVisibility;

@@ -48,9 +48,9 @@ mixin _$SingleTaskEntityService {
   @JsonKey(name: 'budget_type')
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_to')
-  double? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_date')
   String? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_date')
@@ -126,8 +126,8 @@ abstract class $SingleTaskEntityServiceCopyWith<$Res> {
       String? description,
       List<String>? highlights,
       @JsonKey(name: 'budget_type') String? budgetType,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       @JsonKey(name: 'start_date') String? startDate,
       @JsonKey(name: 'end_date') String? endDate,
       @JsonKey(name: 'start_time') String? startTime,
@@ -302,11 +302,11 @@ class _$SingleTaskEntityServiceCopyWithImpl<$Res,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -480,8 +480,8 @@ abstract class _$$_SingleTaskEntityServiceCopyWith<$Res>
       String? description,
       List<String>? highlights,
       @JsonKey(name: 'budget_type') String? budgetType,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       @JsonKey(name: 'start_date') String? startDate,
       @JsonKey(name: 'end_date') String? endDate,
       @JsonKey(name: 'start_time') String? startTime,
@@ -658,11 +658,11 @@ class __$$_SingleTaskEntityServiceCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -906,10 +906,10 @@ class _$_SingleTaskEntityService implements _SingleTaskEntityService {
   final String? budgetType;
   @override
   @JsonKey(name: 'budget_from')
-  final double? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  final double? budgetTo;
+  final String? budgetTo;
   @override
   @JsonKey(name: 'start_date')
   final String? startDate;
@@ -1159,8 +1159,8 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
       final String? description,
       final List<String>? highlights,
       @JsonKey(name: 'budget_type') final String? budgetType,
-      @JsonKey(name: 'budget_from') final double? budgetFrom,
-      @JsonKey(name: 'budget_to') final double? budgetTo,
+      @JsonKey(name: 'budget_from') final String? budgetFrom,
+      @JsonKey(name: 'budget_to') final String? budgetTo,
       @JsonKey(name: 'start_date') final String? startDate,
       @JsonKey(name: 'end_date') final String? endDate,
       @JsonKey(name: 'start_time') final String? startTime,
@@ -1236,10 +1236,10 @@ abstract class _SingleTaskEntityService implements SingleTaskEntityService {
   String? get budgetType;
   @override
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  double? get budgetTo;
+  String? get budgetTo;
   @override
   @JsonKey(name: 'start_date')
   String? get startDate;

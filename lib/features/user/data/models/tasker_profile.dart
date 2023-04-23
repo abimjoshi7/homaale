@@ -38,7 +38,6 @@ class TaskerProfile with _$TaskerProfile {
     @JsonKey(name: "active_hour_end") String? activeHourEnd,
     @JsonKey(name: "experience_level") String? experienceLevel,
     @JsonKey(name: "user_type") String? userType,
-    @JsonKey(name: "hourly_rate") num? hourlyRate,
     @JsonKey(name: "profile_visibility") String? profileVisibility,
     @JsonKey(name: "task_preferences") String? taskPreferences,
     @JsonKey(name: "address_line1") String? addressLine1,
@@ -54,8 +53,7 @@ class TaskerProfile with _$TaskerProfile {
     @JsonKey(name: "") List<dynamic>? securityQuestions,
   }) = _TaskerProfile;
 
-  factory TaskerProfile.fromJson(Map<String, dynamic> json) =>
-      _$TaskerProfileFromJson(json);
+  factory TaskerProfile.fromJson(Map<String, dynamic> json) => _$TaskerProfileFromJson(json);
 }
 
 @freezed
@@ -80,8 +78,7 @@ class ChargeCurrency with _$ChargeCurrency {
     String? symbol,
   }) = _ChargeCurrency;
 
-  factory ChargeCurrency.fromJson(Map<String, dynamic> json) =>
-      _$ChargeCurrencyFromJson(json);
+  factory ChargeCurrency.fromJson(Map<String, dynamic> json) => _$ChargeCurrencyFromJson(json);
 }
 
 @freezed
@@ -106,8 +103,7 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 }
 
 @freezed
@@ -117,8 +113,7 @@ class Language with _$Language {
     String? code,
   }) = _Language;
 
-  factory Language.fromJson(Map<String, dynamic> json) =>
-      _$LanguageFromJson(json);
+  factory Language.fromJson(Map<String, dynamic> json) => _$LanguageFromJson(json);
 }
 
 @freezed
@@ -135,8 +130,7 @@ class Experience with _$Experience {
     @JsonKey(name: "end_date") DateTime? endDate,
   }) = _Experience;
 
-  factory Experience.fromJson(Map<String, dynamic> json) =>
-      _$ExperienceFromJson(json);
+  factory Experience.fromJson(Map<String, dynamic> json) => _$ExperienceFromJson(json);
 }
 
 @freezed
@@ -152,8 +146,7 @@ class Education with _$Education {
     @JsonKey(name: "end_date") DateTime? endDate,
   }) = _Education;
 
-  factory Education.fromJson(Map<String, dynamic> json) =>
-      _$EducationFromJson(json);
+  factory Education.fromJson(Map<String, dynamic> json) => _$EducationFromJson(json);
 }
 
 @freezed
@@ -170,8 +163,7 @@ class Certificate with _$Certificate {
     @JsonKey(name: "expire_date") DateTime? expireDate,
   }) = _Certificate;
 
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) => _$CertificateFromJson(json);
 }
 
 @freezed
@@ -181,8 +173,7 @@ class Interest with _$Interest {
     String? name,
   }) = _Interest;
 
-  factory Interest.fromJson(Map<String, dynamic> json) =>
-      _$InterestFromJson(json);
+  factory Interest.fromJson(Map<String, dynamic> json) => _$InterestFromJson(json);
 }
 
 @freezed
@@ -197,8 +188,7 @@ class Portfolio with _$Portfolio {
     @JsonKey(name: "credential_url") String? credentialUrl,
   }) = _Portfolio;
 
-  factory Portfolio.fromJson(Map<String, dynamic> json) =>
-      _$PortfolioFromJson(json);
+  factory Portfolio.fromJson(Map<String, dynamic> json) => _$PortfolioFromJson(json);
 }
 
 @freezed

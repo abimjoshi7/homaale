@@ -123,12 +123,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   return DropdownSearch(
                                     items: List.generate(
                                       state.serviceList?.length ?? 0,
-                                      (index) =>
-                                          state.serviceList?[index].title,
+                                      (index) => state.serviceList?[index].title,
                                     ),
                                     onChanged: (value) {
-                                      for (final element
-                                          in state.serviceList!) {
+                                      for (final element in state.serviceList!) {
                                         if (value == element.title) {
                                           setState(
                                             () {
@@ -138,23 +136,18 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         }
                                       }
                                     },
-                                    dropdownDecoratorProps:
-                                        DropDownDecoratorProps(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Trimming & Cutting',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        hintStyle: Theme.of(context).textTheme.bodySmall,
                                         // const TextStyle(
                                         //   color: Color(0xff9CA0C1),
                                         //   fontWeight: FontWeight.w400,
                                         // ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xffDEE2E6)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
@@ -165,8 +158,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      baseStyle: Theme.of(context).textTheme.bodySmall,
                                       // TextStyle(
                                       //   color: Colors.black,
                                       // ),
@@ -177,16 +169,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       visualDensity: VisualDensity.compact,
                                       alignment: Alignment.centerRight,
                                       isVisible: true,
-                                      color: categoryId == null
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: categoryId == null ? Colors.white : Colors.black,
                                     ),
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
-                                      modalBottomSheetProps:
-                                          ModalBottomSheetProps(
-                                        backgroundColor:
-                                            Theme.of(context).cardColor,
+                                      modalBottomSheetProps: ModalBottomSheetProps(
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -207,8 +195,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     (index) => Padding(
                                       padding: const EdgeInsets.all(2),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             children: [
@@ -257,8 +244,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       if (requirementController.text.isNotEmpty)
                                         setState(
                                           () {
-                                            requirementList.add(
-                                                requirementController.text);
+                                            requirementList.add(requirementController.text);
                                             requirementController.clear();
                                           },
                                         );
@@ -310,8 +296,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             child: CustomTextFormField(
                               validator: validateNotEmpty,
                               controller: descriptionController,
-                              hintText:
-                                  'Describe your requirements in few words',
+                              hintText: 'Describe your requirements in few words',
                               maxLines: 3,
                             ),
                           ),
@@ -335,26 +320,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         cityCode = x.id;
                                       },
                                     ),
-                                    dropdownDecoratorProps:
-                                        DropDownDecoratorProps(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
-                                        labelStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        labelStyle: Theme.of(context).textTheme.bodySmall,
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your City',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        hintStyle: Theme.of(context).textTheme.bodySmall,
                                         // const TextStyle(
                                         //   color: Color(0xff9CA0C1),
                                         //   fontWeight: FontWeight.w400,
                                         // ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xffDEE2E6)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
@@ -365,8 +343,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      baseStyle: Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -374,16 +351,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       visualDensity: VisualDensity.compact,
                                       alignment: Alignment.centerRight,
                                       isVisible: true,
-                                      color: cityCode == null
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: cityCode == null ? Colors.white : Colors.black,
                                     ),
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
-                                      modalBottomSheetProps:
-                                          ModalBottomSheetProps(
-                                        backgroundColor:
-                                            Theme.of(context).cardColor,
+                                      modalBottomSheetProps: ModalBottomSheetProps(
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -424,9 +397,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             leadingWidget: const Icon(
                                               Icons.calendar_today_rounded,
                                             ),
-                                            hintText: startDate
-                                                    ?.toIso8601String()
-                                                    .substring(
+                                            hintText: startDate?.toIso8601String().substring(
                                                       0,
                                                       10,
                                                     ) ??
@@ -460,9 +431,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             leadingWidget: const Icon(
                                               Icons.calendar_today_rounded,
                                             ),
-                                            hintText: endDate
-                                                    ?.toIso8601String()
-                                                    .substring(
+                                            hintText: endDate?.toIso8601String().substring(
                                                       0,
                                                       10,
                                                     ) ??
@@ -509,9 +478,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             );
                                           },
                                           child: CustomFormContainer(
-                                            hintText:
-                                                startTime?.format(context) ??
-                                                    'hh:mm',
+                                            hintText: startTime?.format(context) ?? 'hh:mm',
                                           ),
                                         ),
                                       ),
@@ -531,9 +498,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             );
                                           },
                                           child: CustomFormContainer(
-                                            hintText:
-                                                endTime?.format(context) ??
-                                                    'hh:mm',
+                                            hintText: endTime?.format(context) ?? 'hh:mm',
                                           ),
                                         ),
                                       ),
@@ -571,35 +536,28 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   return DropdownSearch(
                                     items: List.generate(
                                       state.currencyListRes.length,
-                                      (index) =>
-                                          state.currencyListRes[index].name,
+                                      (index) => state.currencyListRes[index].name,
                                     ),
                                     onChanged: (p0) => setState(
                                       () {
-                                        final x =
-                                            state.currencyListRes.firstWhere(
+                                        final x = state.currencyListRes.firstWhere(
                                           (element) => p0 == element.name,
                                         );
                                         currencyCode = x.code;
                                       },
                                     ),
-                                    dropdownDecoratorProps:
-                                        DropDownDecoratorProps(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your Currency',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        hintStyle: Theme.of(context).textTheme.bodySmall,
                                         // const TextStyle(
                                         //   color: Color(0xff9CA0C1),
                                         //   fontWeight: FontWeight.w400,
                                         // ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xffDEE2E6)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
@@ -610,8 +568,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      baseStyle: Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -619,16 +576,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       visualDensity: VisualDensity.compact,
                                       alignment: Alignment.centerRight,
                                       isVisible: true,
-                                      color: currencyCode == null
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: currencyCode == null ? Colors.white : Colors.black,
                                     ),
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
-                                      modalBottomSheetProps:
-                                          ModalBottomSheetProps(
-                                        backgroundColor:
-                                            Theme.of(context).cardColor,
+                                      modalBottomSheetProps: ModalBottomSheetProps(
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -701,12 +654,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               ),
                               Flexible(
                                 child: CustomDropDownField(
-                                  list: const [
-                                    'Project',
-                                    'Hourly',
-                                    'Daily',
-                                    'Monthly'
-                                  ],
+                                  list: const ['Project', 'Hourly', 'Daily', 'Monthly'],
                                   hintText: 'Per project',
                                   onChanged: (value) {
                                     setState(
@@ -762,14 +710,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       ),
                                     );
                                   },
-                                  child: BlocConsumer<ImageUploadCubit,
-                                      ImageUploadState>(
+                                  child: BlocConsumer<ImageUploadCubit, ImageUploadState>(
                                     bloc: imageCubit,
                                     listener: (context, state) {
                                       if (state is ImageUploadSuccess) {
                                         setState(() {
-                                          imageList =
-                                              List<int>.from(state.list);
+                                          imageList = List<int>.from(state.list);
                                         });
                                       }
                                     },
@@ -777,10 +723,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                       if (state is ImageUploadSuccess) {
                                         final fileList = List.generate(
                                           state.imagePathList?.length ?? 0,
-                                          (index) => File(state
-                                                  .imagePathList?[index]
-                                                  ?.path ??
-                                              ""),
+                                          (index) => File(state.imagePathList?[index]?.path ?? ""),
                                         );
                                         return Container(
                                           width: double.infinity,
@@ -790,15 +733,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                             shrinkWrap: true,
                                             scrollDirection: Axis.horizontal,
                                             itemCount: fileList.length,
-                                            itemBuilder: (context, index) =>
-                                                Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                            itemBuilder: (context, index) => Padding(
+                                              padding: const EdgeInsets.symmetric(
                                                 horizontal: 4,
                                               ),
                                               child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
+                                                borderRadius: BorderRadius.circular(
                                                   10,
                                                 ),
                                                 child: Image.file(
@@ -813,9 +753,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
 
                                       if (state is ImageUploadInitial) {
                                         return CustomDottedContainerStack(
-                                          theWidget: imageList == null
-                                              ? Text('Select Images')
-                                              : Text('Image Uploaded'),
+                                          theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
                                         );
                                       }
 
@@ -837,8 +775,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   ),
                                 );
                               },
-                              child: BlocListener<ImageUploadCubit,
-                                  ImageUploadState>(
+                              child: BlocListener<ImageUploadCubit, ImageUploadState>(
                                 listener: (context, state) {
                                   if (state is VideoUploadSuccess) {
                                     setState(() {
@@ -847,9 +784,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   }
                                 },
                                 child: CustomDottedContainerStack(
-                                  theWidget: fileList == null
-                                      ? Text('Select Videos')
-                                      : Text('File Uploaded'),
+                                  theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
                                 ),
                               ),
                             ),
@@ -895,17 +830,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             ],
                           ),
                           addVerticalSpace(20),
-                          BlocConsumer<TaskEntityServiceBloc,
-                              TaskEntityServiceState>(
+                          BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
                             listener: (context, state) {
-                              if (state.theStates == TheStates.success &&
-                                  state.isCreated == true) {
+                              if (state.theStates == TheStates.success && state.isCreated == true) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Success',
-                                    content:
-                                        'You have successfully posted a task',
+                                    content: 'You have successfully posted a task',
                                     onTap: () {
                                       Navigator.pushNamed(
                                         context,
@@ -916,14 +848,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   ),
                                 );
                               }
-                              if (state.theStates == TheStates.failure &&
-                                  state.isCreated == false) {
+                              if (state.theStates == TheStates.failure && state.isCreated == false) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Failure',
-                                    content:
-                                        'Post cannot be posted. Please try again.',
+                                    content: 'Post cannot be posted. Please try again.',
                                     onTap: () {},
                                     isSuccess: false,
                                   ),
@@ -955,19 +885,16 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         description: descriptionController.text,
                                         highlights: requirementList,
                                         budgetType: budgetType,
-                                        budgetFrom: int.parse(
+                                        budgetFrom: double.parse(
                                           startPriceController.text,
                                         ),
-                                        budgetTo: int.parse(
+                                        budgetTo: double.parse(
                                           endPriceController.text.isEmpty
                                               ? startPriceController.text
                                               : endPriceController.text,
                                         ),
-                                        startDate: DateFormat("yyyy-MM-dd")
-                                            .format(
-                                                startDate ?? DateTime.now()),
-                                        endDate: DateFormat("yyyy-MM-dd")
-                                            .format(endDate ?? DateTime.now()),
+                                        startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
+                                        endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
                                         startTime: startTime?.format(context),
                                         endTime: endTime?.format(context),
                                         shareLocation: true,
@@ -979,7 +906,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         isOnline: true,
                                         isRequested: true,
                                         discountType: "Percentage",
-                                        discountValue: 0,
+                                        discountValue: '0.0',
                                         extraData: [],
                                         noOfReservation: 2147483647,
                                         isActive: true,
@@ -995,16 +922,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         images: imageList ?? [],
                                         videos: fileList ?? [],
                                       );
-                                      context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceCreated(req: req));
+                                      context.read<TaskEntityServiceBloc>().add(TaskEntityServiceCreated(req: req));
                                     }
                                   } else {
                                     showDialog(
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: 'Error',
-                                        content:
-                                            'Error validating form. Please verify the data and try again.',
+                                        content: 'Error validating form. Please verify the data and try again.',
                                         onTap: () {},
                                         isSuccess: false,
                                       ),
