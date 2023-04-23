@@ -23,6 +23,7 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
     final routeData = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final heading = routeData?['heading'] as String?;
     final data = routeData?['data'] as List<Result>?;
+
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: heading ?? '',
@@ -78,7 +79,7 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                     );
                   },
                   child: ServiceCard(
-                    location: '${e.data?.location == '' ? 'N/A' : e.data?.location ?? 'N/A'}',
+                    location: '${e.data?.location == '' ? 'Remote' : e.data?.location ?? 'Remote'}',
                     description: "${e.data?.createdBy?.fullName}",
                     title: '${e.data?.title}',
                     imagePath: kServiceImageNImg,

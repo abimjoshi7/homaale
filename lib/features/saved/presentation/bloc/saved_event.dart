@@ -5,14 +5,10 @@ part of 'saved_bloc.dart';
 abstract class SavedEvent extends Equatable {}
 
 class SavedListLoaded extends SavedEvent {
-  final String type;
-  SavedListLoaded({
-    required this.type,
-  });
+  final String? type;
+  SavedListLoaded({this.type});
   @override
-  List<Object?> get props => [
-        type,
-      ];
+  List<Object?> get props => [type];
 }
 
 class SavedAdded extends SavedEvent {

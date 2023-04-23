@@ -19,7 +19,6 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
   ) : super(SavedState()) {
     on<SavedListLoaded>(
       (event, emit) async {
-        log('calledd');
         emit(state.copyWith(theStates: TheStates.loading));
         try {
           await savedRepository.fetchSavedList(event.type).then(
@@ -35,7 +34,6 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              savedModelRes: SavedModelRes(),
             ),
           );
         }

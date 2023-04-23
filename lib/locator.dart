@@ -26,16 +26,6 @@ import 'package:dependencies/dependencies.dart';
 final locator = GetIt.instance;
 
 void init() {
-  //repositories
-  locator.registerLazySingleton(
-    () => KycRepositories(),
-  );
-  locator.registerLazySingleton(
-    () => CategoriesRepositories(),
-  );
-  locator.registerLazySingleton(() => ChatRepository());
-  locator.registerLazySingleton(() => SavedRepository());
-
   // bloc
   locator.registerFactory(() => TaskBloc());
   locator.registerFactory(() => ServicesBloc());
@@ -48,33 +38,23 @@ void init() {
   locator.registerFactory(() => PaymentTypeBloc());
   locator.registerFactory(() => NotificationBloc());
   locator.registerFactory(() => OrderIdCreateBloc());
-  locator.registerFactory(() => OrderItemRetriveBloc());
-
-  locator.registerFactory(
-    () => ChatBloc(
-      chatRepository: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => KycBloc(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => CategoriesBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => ChatBloc(chatRepository: locator()));
+  locator.registerFactory(() => KycBloc(locator()));
+  locator.registerFactory(() => CategoriesBloc(locator()));
+  locator.registerFactory(() => SavedBloc(locator()));
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
-  locator.registerLazySingleton(() => SavedBloc(locator()));
 
   //cubit
-  locator.registerFactory<ImageUploadCubit>(
-    () => ImageUploadCubit(),
-  );
+  locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
+
+  //repositories
+  locator.registerLazySingleton(() => KycRepositories());
+  locator.registerLazySingleton(() => CategoriesRepositories());
+  locator.registerLazySingleton(() => ChatRepository());
+  locator.registerLazySingleton(() => SavedRepository());
+
+  //other
   var firebaseInstance = FirebaseFirestore.instance;
-  locator.registerFactory<FirebaseFirestore>(
-    () => firebaseInstance,
-  );
+  locator.registerFactory<FirebaseFirestore>(() => firebaseInstance);
 }
