@@ -46,7 +46,7 @@ class TaskCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
+              width: MediaQuery.of(context).size.width * 0.7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -67,7 +67,7 @@ class TaskCard extends StatelessWidget {
                       ),
                       addHorizontalSpace(10),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * 0.3,
                         child: Text(
                           StringUtils.capitalize(
                             taskName ?? '',

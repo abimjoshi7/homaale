@@ -125,7 +125,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomTextFormField(
-                        theWidth: MediaQuery.of(context).size.width * 0.89,
+                        theWidth: MediaQuery.of(context).size.width * 0.88,
                         controller: phoneNumberController,
                         validator: validateNotEmpty,
                         onSaved: (p0) => setState(
