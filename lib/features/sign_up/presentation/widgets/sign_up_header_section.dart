@@ -72,7 +72,7 @@ class SignUpHeaderSection extends StatelessWidget {
             ),
           ),
         ),
-        const Text(
+         Text(
           'Register',
           style: Theme.of(context).textTheme.headlineLarge,
         ),
