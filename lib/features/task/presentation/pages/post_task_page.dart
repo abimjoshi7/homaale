@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
@@ -756,12 +757,15 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             children: [
                               CustomCheckBox(
                                 isChecked: isTermsAccepted,
-                                onTap: () {
-                                  setState(
-                                    () {
-                                      isTermsAccepted = !isTermsAccepted;
-                                    },
-                                  );
+                                onTap: () async {
+                                  final x = await ImagePickHelper()
+                                      .testPick1(context);
+                                  print(x);
+                                  // setState(
+                                  //   () {
+                                  //     isTermsAccepted = !isTermsAccepted;
+                                  //   },
+                                  // );
                                 },
                               ),
                               addHorizontalSpace(10),

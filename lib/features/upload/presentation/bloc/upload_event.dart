@@ -38,7 +38,7 @@ class FileUploaded extends UploadEvent {
 }
 
 class ImageToFilestoreUploaded extends UploadEvent {
-  final List<XFile?>? list;
+  final List<String>? list;
 
   ImageToFilestoreUploaded({this.list});
   @override
@@ -48,7 +48,7 @@ class ImageToFilestoreUploaded extends UploadEvent {
 }
 
 class VideoToFilestoreUploaded extends UploadEvent {
-  final List<XFile?>? list;
+  final List<String>? list;
 
   VideoToFilestoreUploaded({this.list});
   @override

@@ -69,7 +69,11 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                         () {
                           widget.uploadBloc.add(
                             ImageToFilestoreUploaded(
-                              list: state.imageFileList,
+                              list: state.imageFileList
+                                  ?.map(
+                                    (e) => e?.path ?? "",
+                                  )
+                                  .toList(),
                             ),
                           );
                         },
@@ -86,7 +90,11 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                         () {
                           widget.uploadBloc.add(
                             VideoToFilestoreUploaded(
-                              list: state.videoFileList,
+                              list: state.videoFileList
+                                  ?.map(
+                                    (e) => e?.path ?? "",
+                                  )
+                                  .toList(),
                             ),
                           );
                         },

@@ -1,14 +1,13 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import 'package:dependencies/dependencies.dart';
 
 class UploadRepository {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchFileStore(List<XFile?>? filePath) async {
+  Future<Map<String, dynamic>> fetchFileStore(List<String>? filePath) async {
     try {
       final response = await _dio.postMultiFormData(
-        pathList: filePath?.map((e) => e?.path ?? "").toList(),
+        pathList: filePath,
         url: 'task/filestore/',
         token: CacheHelper.accessToken,
       );
