@@ -84,6 +84,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
+                indicatorColor: Theme.of(context).indicatorColor,
+                indicatorSize: TabBarIndicatorSize.label,
                 labelPadding: kPadding10,
                 controller: _tabController,
                 tabs: [
@@ -139,7 +141,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          height: 200,
+                                          height: 192,
                                           margin: EdgeInsets.only(
                                               top: 20, left: 20, right: 20),
                                           child: Column(
@@ -535,7 +537,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                               ),
                               Text(
                                 ' For bulk payment, please choose items with same currency.',
-                                style: kPurpleText13,
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
                           ),
