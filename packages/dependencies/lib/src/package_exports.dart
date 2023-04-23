@@ -41,3 +41,4 @@ export 'package:dropdown_search/dropdown_search.dart';
 export 'package:cloud_firestore/cloud_firestore.dart' hide Filter;
 export 'package:tuple/tuple.dart';
 export 'package:showcaseview/showcaseview.dart';
+export 'package:decimal/decimal.dart';

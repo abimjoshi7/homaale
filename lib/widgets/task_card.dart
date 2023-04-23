@@ -40,7 +40,7 @@ class TaskCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         height: 203,
-        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -132,13 +132,13 @@ class TaskCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text(
-                            "Rs. ${startRate ?? '0'} - ",
+                            "Rs. ${Decimal.parse(startRate ?? '0')} - ",
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           Row(
                             children: <Widget>[
                               Text(
-                                endRate ?? '0',
+                                '${Decimal.parse(endRate ?? '0')}',
                                 style: Theme.of(context).textTheme.headlineSmall,
                               ),
                               Text(
@@ -158,7 +158,8 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             Divider(),
-            CustomElevatedButton(theHeight: 35,
+            CustomElevatedButton(
+              theHeight: 35,
               theWidth: double.infinity,
               callback: callback ?? () {},
               mainColor: kColorGreen,

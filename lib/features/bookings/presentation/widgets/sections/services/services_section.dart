@@ -26,15 +26,13 @@ class _ServicesSectionState extends State<ServicesSection> {
   List<Result> serviceList = [];
 
   //initialize page controller
-  final PagingController<int, Result> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
 
   @override
   void initState() {
     //so at event add list of records
     _pagingController.addPageRequestListener(
-      (pageKey) =>
-          bookingsBloc.add(BookingLoaded(isTask: false, page: pageKey)),
+      (pageKey) => bookingsBloc.add(BookingLoaded(isTask: false, page: pageKey)),
     );
     super.initState();
   }
@@ -50,9 +48,7 @@ class _ServicesSectionState extends State<ServicesSection> {
     return BlocListener<BookingsBloc, BookingsState>(
       bloc: bookingsBloc,
       listener: (context, state) {
-        if ((state.isUpdated ?? false) ||
-            (state.isCancelled ?? false) ||
-            (state.isRejected ?? false)) {
+        if ((state.isUpdated ?? false) || (state.isCancelled ?? false) || (state.isRejected ?? false)) {
           _pagingController.refresh();
         }
 
@@ -76,14 +72,15 @@ class _ServicesSectionState extends State<ServicesSection> {
         builder: (context, state) {
           return Column(
             children: [
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: PagedListView.separated(
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) => addVerticalSpace(16),
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, Result item, index) {
+                  builderDelegate: PagedChildBuilderDelegate(itemBuilder: (context, Result item, index) {
                     return widget.isCheckPending ?? false
                         ? item.status?.toLowerCase() == "pending"
                             ? BookingsServiceCard(
@@ -141,8 +138,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                             cancelTap: () {
                               if (item.status?.toLowerCase() == 'pending') {
                                 bookingsBloc.add(
-                                  BookingCancelled(
-                                      id: item.id ?? 0, isTask: false),
+                                  BookingCancelled(id: item.id ?? 0, isTask: false),
                                 );
                                 Navigator.pop(context);
                               } else {
@@ -163,10 +159,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                             deleteTap: () {
                               if (item.status?.toLowerCase() == 'pending') {
                                 bookingsBloc.add(
-                                  BookingRejected(
-                                      rejectReq:
-                                          RejectReq(booking: item.id ?? 0),
-                                      isTask: false),
+                                  BookingRejected(rejectReq: RejectReq(booking: item.id ?? 0), isTask: false),
                                 );
                                 Navigator.pop(context);
                               } else {
@@ -205,7 +198,7 @@ class _ServicesSectionState extends State<ServicesSection> {
     return Column(
       children: [
         Text(
-          "Rs. ${result.budgetFrom ?? '0'} - Rs. ${result.budgetTo ?? '0'}",
+          "Rs. ${Decimal.parse(result.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
           // style: kText17,
         ),
         const Text(
@@ -238,8 +231,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
+                  label: "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
                   color: kColorGreen,
                 ),
               ),

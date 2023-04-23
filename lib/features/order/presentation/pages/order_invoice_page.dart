@@ -111,7 +111,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 3,
                                   child: Text('Rs'
-                                      '   ${retriveState.orderItemRetriveList?.orderItem![index].amount ?? ""}'),
+                                      '   ${Decimal.parse(retriveState.orderItemRetriveList?.orderItem![index].amount ?? "0.0")}'),
                                 ),
                                 SizedBox(
                                   child: Text('Rs'
@@ -287,7 +287,7 @@ class OrderCard extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    dateTime ?? "",
+                                    Jiffy(dateTime ?? "").yMMMMd,
                                     // 'June 28, 2022 12:12 pm',
                                     style: kPurpleText16,
                                   )

@@ -203,7 +203,7 @@ class _TaskSectionState extends State<TaskSection> {
     return Column(
       children: [
         Text(
-          "Rs. ${result.budgetFrom ?? '0'} - Rs. ${result.budgetTo ?? '0'}",
+          "Rs. ${Decimal.parse(result.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
           // style: kText17,
         ),
         const Text(

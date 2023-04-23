@@ -192,7 +192,7 @@ class TaskDisplayList extends StatelessWidget {
                                             Padding(
                                               padding: const EdgeInsets.only(left: 100.0),
                                               child: Text('Rs  '
-                                                  '${state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? ""}'),
+                                                  '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? "0.0")}'),
                                             ),
                                           ],
                                         ),
@@ -293,7 +293,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                               ),
                               Text(
                                 'Rs '
-                                '${state.orderItemRetriveList?.orderItem?[index].amount.toString()}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? '0.0')}',
                                 style: kPurpleText16,
                               ),
                             ],
@@ -306,7 +306,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                               ),
                               Text(
                                 'Rs '
-                                '${state.orderItemRetriveList?.orderItem?[index].tax.toString()}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].tax.toString() ?? '0.0')}',
                                 style: kPurpleText16,
                               ),
                             ],
@@ -319,7 +319,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                               ),
                               Text(
                                 'Rs '
-                                '${state.orderItemRetriveList?.orderItem?[index].platformCharge.toString()}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformCharge.toString() ?? '0.0')}',
                                 style: kPurpleText16,
                               ),
                             ],
@@ -332,7 +332,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                               ),
                               Text(
                                 'Rs '
-                                '${state.orderItemRetriveList?.orderItem?[index].discount.toString()}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformChargeDiscount.toString() ?? '0.0')}',
                                 style: kPurpleText16,
                               ),
                             ],

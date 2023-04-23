@@ -98,7 +98,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                               maxLines: 1,
                                             ),
                                             Text('Rs '
-                                                '${state.orderItemRetriveList?.orderItem?[index].amount}'),
+                                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount ?? '0.0')}'),
                                           ],
                                         );
                                       }),

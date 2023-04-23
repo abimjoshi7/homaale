@@ -415,7 +415,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   ],
                                 ),
                                 addVerticalSpace(24),
-                                 Align(
+                                Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
                                     'Description',
@@ -427,7 +427,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   text: documentDescription,
                                 ),
                                 addVerticalSpace(24),
-                                 Align(
+                                Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
                                     'Requirements',
@@ -546,7 +546,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                     child: PriceBookFooterSection(
                       buttonLabel: getStatus('')["status"] as String,
                       buttonColor: getStatus('')["color"] as Color,
-                      price: "Rs. ${state.taskModel?.budgetTo}",
+                      price: "Rs. ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')}",
                       onPressed: () {
                         if (!CacheHelper.isLoggedIn) {
                           notLoggedInPopUp(context);
