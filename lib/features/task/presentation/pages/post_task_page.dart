@@ -248,7 +248,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 CustomTextFormField(
                                   controller: requirementController,
                                   hintText: 'Add requirements',
-                                  inputAction: TextInputAction.next,
                                   suffixWidget: IconButton(
                                     icon: Icon(
                                       Icons.add_box_outlined,

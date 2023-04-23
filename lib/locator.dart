@@ -13,6 +13,8 @@ import 'package:cipher/features/chat/repository/chat_repository.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
+import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -24,15 +26,6 @@ import 'package:dependencies/dependencies.dart';
 final locator = GetIt.instance;
 
 void init() {
-  //repositories
-  locator.registerLazySingleton(
-    () => KycRepositories(),
-  );
-  locator.registerLazySingleton(
-    () => CategoriesRepositories(),
-  );
-  locator.registerLazySingleton(() => ChatRepository());
-
   // bloc
   locator.registerFactory(() => TaskBloc());
   locator.registerFactory(() => ServicesBloc());
@@ -45,32 +38,23 @@ void init() {
   locator.registerFactory(() => PaymentTypeBloc());
   locator.registerFactory(() => NotificationBloc());
   locator.registerFactory(() => OrderIdCreateBloc());
-  locator.registerFactory(() => OrderItemRetriveBloc());
-
-  locator.registerFactory(
-    () => ChatBloc(
-      chatRepository: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => KycBloc(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => CategoriesBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory(() => ChatBloc(chatRepository: locator()));
+  locator.registerFactory(() => KycBloc(locator()));
+  locator.registerFactory(() => CategoriesBloc(locator()));
+  locator.registerFactory(() => SavedBloc(locator()));
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 
   //cubit
-  locator.registerFactory<ImageUploadCubit>(
-    () => ImageUploadCubit(),
-  );
+  locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
+
+  //repositories
+  locator.registerLazySingleton(() => KycRepositories());
+  locator.registerLazySingleton(() => CategoriesRepositories());
+  locator.registerLazySingleton(() => ChatRepository());
+  locator.registerLazySingleton(() => SavedRepository());
+
+  //other
   var firebaseInstance = FirebaseFirestore.instance;
-  locator.registerFactory<FirebaseFirestore>(
-    () => firebaseInstance,
-  );
+  locator.registerFactory<FirebaseFirestore>(() => firebaseInstance);
 }

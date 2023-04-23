@@ -7,9 +7,13 @@ import 'package:cipher/features/documents/presentation/cubit/image/image_upload_
 
 class VideoPickerDialog extends StatelessWidget {
   final ImageUploadCubit uploadCubit;
+  final XFile? imagePath;
+  final List<XFile>? imagePathList;
   const VideoPickerDialog({
     Key? key,
     required this.uploadCubit,
+    this.imagePath,
+    this.imagePathList,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -46,9 +50,7 @@ class VideoPickerDialog extends StatelessWidget {
                   ),
                   onTap: () async {
                     await uploadCubit
-                        .uploadVideo(
-                          isCamera: true,
-                        )
+                        .uploadVideo(isCamera: true, imagePath: imagePath)
                         .whenComplete(
                           () => Navigator.of(context).pop(),
                         );
@@ -64,9 +66,7 @@ class VideoPickerDialog extends StatelessWidget {
                   ),
                   onTap: () async {
                     await uploadCubit
-                        .uploadVideo(
-                          isCamera: false,
-                        )
+                        .uploadVideo(isCamera: false, imagePath: imagePath)
                         .whenComplete(
                           () => Navigator.of(context).pop(),
                         );

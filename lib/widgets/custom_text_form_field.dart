@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.node,
     this.inputFormatters,
-    this.inputAction, this.hintStyle,
+    this.inputAction = TextInputAction.next, this.hintStyle,
   }) : super(key: key);
   final bool? readOnly;
   final double theHeight;

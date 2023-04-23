@@ -230,6 +230,12 @@ const kHelper13dark = TextStyle(
   color: Colors.white,
 );
 
+const kHelper15 = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  color: Color(0xff495057),
+);
+
 const kSkipHelper = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.w400,

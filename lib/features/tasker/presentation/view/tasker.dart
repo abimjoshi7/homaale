@@ -1,4 +1,3 @@
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
@@ -240,11 +239,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                 CustomHeader(
                   leadingWidget: IconButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Root.routeName,
-                        (route) => false,
-                      );
+                      Navigator.pop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,

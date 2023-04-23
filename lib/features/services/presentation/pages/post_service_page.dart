@@ -11,7 +11,6 @@ import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -53,6 +52,9 @@ class _PostServicePageState extends State<PostServicePage> {
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
+  XFile? imagePath;
+  XFile? videoPath;
+  List<XFile?>? imagePathList;
   List<int>? imageList;
   List<int>? fileList;
   DateTime? startDate;
@@ -593,8 +595,11 @@ class _PostServicePageState extends State<PostServicePage> {
                                           builder: (context) =>
                                               ImagePickerDialog(
                                             uploadCubit: imageCubit,
+                                            imagePath: imagePath,
+                                            imagePathList: imagePathList,
                                           ),
                                         );
+                                        setState(() {});
                                       },
                                       child: BlocConsumer<ImageUploadCubit,
                                           ImageUploadState>(
@@ -669,8 +674,10 @@ class _PostServicePageState extends State<PostServicePage> {
                                       context: context,
                                       builder: (context) => VideoPickerDialog(
                                         uploadCubit: imageCubit,
+                                        imagePath: videoPath,
                                       ),
                                     );
+                                    setState(() {});
                                   },
                                   child: BlocListener<ImageUploadCubit,
                                       ImageUploadState>(

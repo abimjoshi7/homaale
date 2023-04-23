@@ -2,7 +2,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/services/widgets/services_text_card.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 

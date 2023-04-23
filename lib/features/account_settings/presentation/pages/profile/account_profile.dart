@@ -1,16 +1,17 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+   
     as sets;
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/chat/view/chat_listing.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/features/sign_in/presentation/pages/sign_in_page.dart';
+import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -218,6 +219,39 @@ class _AccountProfileState extends State<AccountProfile> {
                           size: 16,
                         ),
                       ),
+
+                      // AccountListTileSection(
+                      //   onTap: () {
+                      //     Navigator.pushNamed(context, SandboxPage.routeName);
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.reduce_capacity_sharp,
+                      //     color: Color(0xff495057),
+                      //   ),
+                      //   label: 'Sandbox',
+                      //   trailingWidget: const Icon(
+                      //     Icons.arrow_forward_ios,
+                      //     size: 16,
+                      //   ),
+                      // ),
+
+                      AccountListTileSection(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            SavedPage.routeName,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.favorite_border_outlined,
+                          color: Color(0xff495057),
+                        ),
+                        label: 'Saved',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -350,62 +384,18 @@ class _AccountProfileState extends State<AccountProfile> {
                             onTap: () async {
                               await showDialog(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(
-                                    "Logout",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  ),
-                                  content: Text(
-                                    "Are you sure to logout?",
-                                    // style: kText15,
-                                  ),
-                                  actions: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Flexible(
-                                          child: CustomElevatedButton(
-                                            callback: () {
-                                              Navigator.pop(context);
-                                            },
-                                            label: "Cancel",
-                                            mainColor: Colors.white,
-                                            textColor: kColorPrimary,
-                                            borderColor: kColorPrimary,
-                                          ),
-                                        ),
-                                        addHorizontalSpace(
-                                          10,
-                                        ),
-                                        Flexible(
-                                          child: CustomElevatedButton(
-                                            callback: () async {
-                                              context.read<SignInBloc>().add(
-                                                    SignOutInitiated(),
-                                                  );
-                                              await Navigator
-                                                  .pushNamedAndRemoveUntil(
-                                                context,
-                                                SignInPage.routeName,
-                                                (route) => false,
-                                              );
-                                            },
-                                            label: "Continue",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                builder: (context) => CustomLogout(),
                               );
                             },
                             icon: const Icon(Icons.logout_rounded),
                             label: 'Logout',
-                            trailingWidget: const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
+                            trailingWidget: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                              ),
                             ),
                           );
                         },

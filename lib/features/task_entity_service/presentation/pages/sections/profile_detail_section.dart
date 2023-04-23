@@ -1,10 +1,17 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
+import 'package:cipher/widgets/custom_favourite_icon.dart';
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class ProfileDetailSection extends StatelessWidget {
   final TaskEntityServiceState state;
@@ -60,16 +67,9 @@ class ProfileDetailSection extends StatelessWidget {
             ),
             Row(
               children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    if (!CacheHelper.isLoggedIn) {
-                      notLoggedInPopUp(context);
-                    }
-                  },
-                  child: const Icon(
-                    Icons.favorite_border_outlined,
-                    color: Colors.red,
-                  ),
+                CustomFavoriteIcon(
+                  typeID: state.taskEntityService?.id ?? '',
+                  type: "entityservice",
                 ),
                 kWidth10,
                 GestureDetector(

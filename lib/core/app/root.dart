@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -139,22 +139,16 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context
-                  .read<TaskerCertificationCubit>()
-                  .getTaskerCertification(),
+              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -173,24 +167,17 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     }
                 })
             .then(
-              (value) async => context
-                  .read<ServicesBloc>()
-                  .add(const EntityServiceInitiated()),
+              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
-
-            .then(
-              (value) async => {
-                if (CacheHelper.isLoggedIn)
-                  {
-                    context
-                        .read<NotificationBloc>()
-                        .add(MyNotificationListInitiated()),
-                  }
-              },
-            );
+            .then((value) async => {
+                  if (CacheHelper.isLoggedIn)
+                    {
+                      context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+                    }
+                });
       },
     );
   }
@@ -264,7 +251,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.1,
                         width: MediaQuery.of(context).size.width,
-                        color:  Theme.of(context).primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     SizedBox(

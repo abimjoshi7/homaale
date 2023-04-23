@@ -35,6 +35,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
         children: <Widget>[
           Expanded(
             child: TextFormField(
+              textInputAction: TextInputAction.next,
               textAlignVertical: TextAlignVertical.center,
               decoration: const InputDecoration(
                 border: InputBorder.none,
