@@ -17,10 +17,12 @@ class TasksRecommendationSection extends StatefulWidget {
   const TasksRecommendationSection({super.key});
 
   @override
-  State<TasksRecommendationSection> createState() => _TasksRecommendationSectionState();
+  State<TasksRecommendationSection> createState() =>
+      _TasksRecommendationSectionState();
 }
 
-class _TasksRecommendationSectionState extends State<TasksRecommendationSection> {
+class _TasksRecommendationSectionState
+    extends State<TasksRecommendationSection> {
   late final user = locator<UserBloc>();
   @override
   void initState() {
@@ -80,7 +82,7 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
               if (state.theState == TheStates.success) {
                 if (state.tasksList != null) {
                   return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.26,
+                    height: MediaQuery.of(context).size.height * 0.28,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,
@@ -94,29 +96,40 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
                             buttonLabel:
-                                state.tasksList?.result?[index].createdBy?.id == user.state.taskerProfile?.user?.id
+                                state.tasksList?.result?[index].createdBy?.id ==
+                                        user.state.taskerProfile?.user?.id
                                     ? 'View Details'
                                     : 'Apply Now',
-                            startRate: '${state.tasksList?.result?[index].budgetFrom ?? 0}',
-                            endRate: '${state.tasksList?.result?[index].budgetTo ?? 0}',
-                            budgetType: '${state.tasksList?.result?[index].budgetType}',
-                            count: state.tasksList?.result?[index].count.toString(),
-                            imageUrl: state.tasksList?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
-                            location: state.tasksList?.result?[index].location == ''
-                                ? 'Remote'
-                                : state.tasksList?.result?[index].location,
+                            startRate:
+                                '${state.tasksList?.result?[index].budgetFrom ?? 0}',
+                            endRate:
+                                '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                            budgetType:
+                                '${state.tasksList?.result?[index].budgetType}',
+                            count: state.tasksList?.result?[index].count
+                                .toString(),
+                            imageUrl: state.tasksList?.result?[index].createdBy
+                                    ?.profileImage ??
+                                kServiceImageNImg,
+                            location:
+                                state.tasksList?.result?[index].location == ''
+                                    ? 'Remote'
+                                    : state.tasksList?.result?[index].location,
                             endHour: Jiffy(
-                              state.tasksList?.result?[index].createdAt.toString(),
+                              state.tasksList?.result?[index].createdAt
+                                  .toString(),
                             ).jm,
                             endDate: Jiffy(
-                              state.tasksList?.result?[index].endDate.toString(),
+                              state.tasksList?.result?[index].endDate
+                                  .toString(),
                             ).yMMMMd,
                             taskName: state.tasksList?.result?[index].title,
                             callback: () => onTaskPressed(
                               state: state,
                               index: index,
-                              isApply:
-                                  state.tasksList?.result?[index].createdBy?.id != user.state.taskerProfile?.user?.id,
+                              isApply: state.tasksList?.result?[index].createdBy
+                                      ?.id !=
+                                  user.state.taskerProfile?.user?.id,
                             ),
                             onTapCallback: () {
                               if (!CacheHelper.isLoggedIn) {

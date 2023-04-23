@@ -35,10 +35,6 @@ class ContentClientWidget extends StatelessWidget {
           // style: kSubHeading,
         ),
         addVerticalSpace(20.0),
-        // HtmlRemover(
-        //   text: state.contentClient!.content.toString(),
-        //   textAlign: TextAlign.justify,
-        // ),
         Html(
           data: state.contentClient!.content.toString(),
           style: {

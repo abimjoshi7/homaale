@@ -17,7 +17,8 @@ class ResendVerificationBloc
 
         emit(ResendVerificationWithPhoneSuccess());
       } catch (e) {
-        emit(ResendVerificationFailure(error: e.toString()));
+        final err = await CacheHelper.getCachedString(kErrorLog);
+        emit(ResendVerificationFailure(error: 'Could not re-send OTP. $err'));
       }
     });
     on<ResendVerificationWithEmailInitiated>((event, emit) async {
@@ -27,7 +28,8 @@ class ResendVerificationBloc
         emit(ResendVerificationWithEmailSuccess());
       } catch (e) {
         final err = await CacheHelper.getCachedString(kErrorLog);
-        emit(ResendVerificationFailure(error: err));
+        emit(ResendVerificationFailure(
+            error: 'Could not re-send verification email. $err'));
       }
     });
   }

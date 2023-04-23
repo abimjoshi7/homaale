@@ -81,10 +81,9 @@ class Cipher extends StatelessWidget {
               SignUpRepositories(),
             ),
           ),
-					BlocProvider(
-						create: (context) => NearbyTaskEntityServiceCubit(),
-					
-					),
+          BlocProvider(
+            create: (context) => NearbyTaskEntityServiceCubit(),
+          ),
           BlocProvider(
             create: (context) => locator<UserBloc>()
               ..add(

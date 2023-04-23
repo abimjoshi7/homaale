@@ -139,16 +139,22 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context
+                  .read<TaskBloc>()
+                  .add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -167,7 +173,9 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     }
                 })
             .then(
-              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
+              (value) async => context
+                  .read<ServicesBloc>()
+                  .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
@@ -424,6 +432,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                           label: 'Post a Task',
                           icon: Icons.comment_bank_rounded,
                           callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
                             setState(() {
                               homeActive = pageIndex == 0;
                               boxActive = pageIndex == 1;
@@ -442,6 +454,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                           label: 'Post a Service',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
                             setState(() {
                               homeActive = pageIndex == 0;
                               boxActive = pageIndex == 1;

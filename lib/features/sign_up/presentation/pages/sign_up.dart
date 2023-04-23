@@ -95,6 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Future signUpSuccessDialogBox(BuildContext context, SignUpState state) {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => CustomToast(
         heading: 'Success',
         content: (!state.isPhoneNumber)
@@ -128,6 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
   ) async {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => CustomToast(
         heading: 'Failure',
         content: x ?? '',

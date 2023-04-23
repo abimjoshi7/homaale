@@ -1,7 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
+
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
-   
     as sets;
+
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
@@ -11,6 +12,7 @@ import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
@@ -39,7 +41,7 @@ class _AccountProfileState extends State<AccountProfile> {
       if (theme == 'light') {
         setState(() {
           isDark = true;
-         CacheHelper.setCachedString(kAppThemeMode, 'dark');
+          CacheHelper.setCachedString(kAppThemeMode, 'dark');
         });
       } else {
         setState(() {
@@ -297,6 +299,23 @@ class _AccountProfileState extends State<AccountProfile> {
                       ),
                       AccountListTileSection(
                         onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            SupportTicketPage.routeName,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.headphones,
+                          color: Color(0xff495057),
+                        ),
+                        label: 'Help & Support',
+                        trailingWidget: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                        ),
+                      ),
+                      AccountListTileSection(
+                        onTap: () {
                           setState(
                             () {
                               isDark = !isDark;
@@ -326,7 +345,7 @@ class _AccountProfileState extends State<AccountProfile> {
                                         ThemeChangeChanged(),
                                       );
                                   checkAppMode();
-                                isDark=value;
+                                  isDark = value;
                                 },
                               );
                             },

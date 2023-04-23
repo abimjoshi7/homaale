@@ -1,6 +1,9 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class SignUpHeaderSection extends StatelessWidget {
@@ -28,24 +31,44 @@ class SignUpHeaderSection extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back),
           ),
-          trailingWidget: Visibility(
-            visible: false,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children:  [
-                  Text(
-                    'Skip',
-                    style: kSkipHelper,
+          trailingWidget: Padding(
+            padding: addPadding(context, 0.020),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    context.read<SignInBloc>().add(SignInWithoutCredentials());
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Root.routeName,
+                      (route) => false,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                    ),
+                    child: Visibility(
+                      visible: true,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Skip',
+                            style: kSkipHelper.copyWith(color: kColorSilver),
+                          ),
+                          kWidth10,
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 12,
+                            color: kColorSilver,
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                  kWidth10,
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 12,
-                    color: Color(0xffdee2e6),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

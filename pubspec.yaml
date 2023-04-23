@@ -22,7 +22,7 @@ dependencies:
   dependencies:
     path: packages/dependencies
   encrypt: ^5.0.1
-  
+
   flutter:
     sdk: flutter
 
@@ -53,6 +53,7 @@ flutter:
     - assets/categories/
     - assets/services/
     - assets/bottomNavigationItems/
+    - assets/support/
 
   # fonts:
   #   - family: Schyler
