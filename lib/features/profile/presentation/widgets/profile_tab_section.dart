@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/colors.dart';
+
 class ProfileTabSection extends StatelessWidget {
   const ProfileTabSection({
     super.key,
@@ -11,6 +13,8 @@ class ProfileTabSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
+      indicatorColor:kColorSecondary,
+      indicatorSize: TabBarIndicatorSize.label,
       isScrollable: true,
       controller: tabController,
       tabs: const [

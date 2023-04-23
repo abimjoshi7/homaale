@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -93,7 +92,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 ? Theme.of(context).cardColor
                                 : Theme.of(context).cardColor,
                             child: SizedBox(
-
                               height: 80,
                               child: CategoriesIcons(
                                 onTap: () async {
@@ -252,7 +250,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                                             10,
                                                           ),
                                                         ),
-                                                        height: 90,
+                                                        height: 40,
                                                       ),
                                                       Flexible(
                                                         child: Text(
@@ -291,7 +289,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   children: <Widget>[
                     Container(
                       height: MediaQuery.of(context).size.height - 98,
-                      // color: kColorLightSkyBlue,
+                      color: Theme.of(context).canvasColor,
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: displaySideCategory(),
                     ),

@@ -210,22 +210,6 @@ class _AccountProfileState extends State<AccountProfile> {
                           size: 16,
                         ),
                       ),
-
-                      // AccountListTileSection(
-                      //   onTap: () {
-                      //     Navigator.pushNamed(context, SandboxPage.routeName);
-                      //   },
-                      //   icon: const Icon(
-                      //     Icons.reduce_capacity_sharp,
-                      //     color: Color(0xff495057),
-                      //   ),
-                      //   label: 'Sandbox',
-                      //   trailingWidget: const Icon(
-                      //     Icons.arrow_forward_ios,
-                      //     size: 16,
-                      //   ),
-                      // ),
-
                       AccountListTileSection(
                         onTap: () {
                           Navigator.pushNamed(
@@ -235,7 +219,7 @@ class _AccountProfileState extends State<AccountProfile> {
                         },
                         icon: const Icon(
                           Icons.favorite_border_outlined,
-                          color: Color(0xff495057),
+                          // color: Color(0xff495057),
                         ),
                         label: 'Saved',
                         trailingWidget: const Icon(
@@ -285,7 +269,7 @@ class _AccountProfileState extends State<AccountProfile> {
                         },
                         icon: const Icon(
                           Icons.headphones,
-                          color: Color(0xff495057),
+                          // color: Color(0xff495057),
                         ),
                         label: 'Help & Support',
                         trailingWidget: const Icon(
@@ -310,8 +294,7 @@ class _AccountProfileState extends State<AccountProfile> {
                         ),
                         label: 'Dark Mode',
                         trailingWidget: SizedBox(
-                          width: 50,
-                          height: 20,
+                          height:30,width:40,
                           child: CupertinoSwitch(
                             activeColor: kColorSecondary,
                             trackColor: Colors.grey.shade300,
@@ -385,13 +368,9 @@ class _AccountProfileState extends State<AccountProfile> {
                             },
                             icon: const Icon(Icons.logout_rounded),
                             label: 'Logout',
-                            trailingWidget: SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                              ),
+                            trailingWidget: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 16,
                             ),
                           );
                         },

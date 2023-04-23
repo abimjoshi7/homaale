@@ -82,7 +82,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
-                indicatorColor: Theme.of(context).indicatorColor,
+                indicatorColor:kColorSecondary,
                 indicatorSize: TabBarIndicatorSize.label,
                 labelPadding: kPadding10,
                 controller: _tabController,

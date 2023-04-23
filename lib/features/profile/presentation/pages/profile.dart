@@ -1,4 +1,3 @@
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
@@ -7,7 +6,6 @@ import 'package:cipher/features/profile/presentation/pages/documents/documents_p
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/tasks/tasks_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
