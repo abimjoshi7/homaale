@@ -60,16 +60,23 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                           .where((element) => element.isRequested == false)
                           .toList();
                       return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            'Nearby Services',
-                            style: kHeading3,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Text(
+                              'Nearby Services',
+                              style: kHeading3,
+                            ),
                           ),
                           buildNearbyServicesList(_serviceList),
                           addVerticalSpace(20),
-                          Text(
-                            'Nearby Tasks',
-                            style: kHeading3,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Text(
+                              'Nearby Tasks',
+                              style: kHeading3,
+                            ),
                           ),
                           SizedBox(
                             height: 260,
@@ -182,7 +189,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
-                                        children: [
+                                        children: <Widget>[
                                           const WidgetText(
                                             label: 'Save',
                                             widget: Icon(
