@@ -39,6 +39,7 @@ class _AccountProfileState extends State<AccountProfile> {
     setState(() {
       if (theme == 'light') {
         setState(() {
+					
           isDark = true;
           CacheHelper.setCachedString(kAppThemeMode, 'dark');
         });

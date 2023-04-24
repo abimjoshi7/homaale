@@ -293,7 +293,8 @@ const kRequirementsdark = TextStyle(
 const kBoldText = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 14,
-  color:Color(0xff495057),
+  fontFamily: "Poppins",
+  color: Color(0xff495057),
 );
 const kBoldTextdark = TextStyle(
   // fontWeight: FontWeight.bold,
