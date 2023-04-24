@@ -231,7 +231,7 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<SavedBloc>(),
           ),
         ],
-        child:BlocBuilder<ThemeBloc, ThemeState>(
+        child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
             ThemeData? displayTheme() {
               ThemeData? theme;
@@ -242,6 +242,7 @@ class Cipher extends StatelessWidget {
               }
               return theme;
             }
+
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: displayTheme(),

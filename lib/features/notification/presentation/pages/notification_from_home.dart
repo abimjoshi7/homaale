@@ -58,11 +58,11 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        iconTheme:  IconThemeData(
+        iconTheme: IconThemeData(
           color: Theme.of(context).appBarTheme.iconTheme?.color, //change your color here
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title:  Text(
+        title: Text(
           "Notifications",
           style: Theme.of(context).textTheme.displaySmall,
         ),
