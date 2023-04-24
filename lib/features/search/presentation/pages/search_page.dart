@@ -65,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
                           ? IconButton(
                               onPressed: () => Navigator.of(context).pop(),
                               icon: Icon(Icons.arrow_back_ios_rounded),
-                              iconSize: 28.0,
+                              iconSize: 20.0,
                               // color: kColorDarkGrey2,
                             )
                           : Container(),
@@ -74,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                           left: (_focusNode.hasFocus)
                               ? MediaQuery.of(context).size.width * 0.020
                               : 0,
-                          right: MediaQuery.of(context).size.width * 0.020,
+                          right: MediaQuery.of(context).size.width * 0.0020,
                         ),
                         child: AnimatedContainer(
                           height: MediaQuery.of(context).size.height * 0.051,
@@ -134,20 +134,20 @@ class _SearchPageState extends State<SearchPage> {
                                           .read<SearchBloc>()
                                           .add(SearchQueryCleared());
                                     }),
-                               // TODO:voice search implementation
-                               //  (_focusNode.hasFocus)
-                               //      ? IconButton(
-                               //          iconSize: 22.0,
-                               //          color: Color(0xff495057),
-                               //          icon: Icon(
-                               //            CupertinoIcons.mic,
-                               //            weight: 400,
-                               //          ),
-                               //          onPressed: () {
-                               //
-                               //          },
-                               //        )
-                               //      : SizedBox(),
+                                // TODO:voice search implementation
+                                //  (_focusNode.hasFocus)
+                                //      ? IconButton(
+                                //          iconSize: 22.0,
+                                //          color: Color(0xff495057),
+                                //          icon: Icon(
+                                //            CupertinoIcons.mic,
+                                //            weight: 400,
+                                //          ),
+                                //          onPressed: () {
+                                //
+                                //          },
+                                //        )
+                                //      : SizedBox(),
                               ],
                             ),
                           ),
