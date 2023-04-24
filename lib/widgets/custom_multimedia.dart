@@ -30,12 +30,95 @@ class CustomMultimedia extends StatefulWidget {
 class _CustomMultimediaState extends State<CustomMultimedia> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomFormField(
+    return BlocConsumer<UploadBloc, UploadState>(
+      bloc: widget.uploadBloc,
+      listener: (context, state) async {
+        if (state.theStates == TheStates.loading &&
+            state.imageFileList != null) {
+          await Future.delayed(
+            Duration.zero,
+            () {
+              widget.uploadBloc.add(
+                ImageToFilestoreUploaded(
+                  list: state.imageFileList,
+                ),
+              );
+            },
+          ).whenComplete(
+            () => Navigator.pop(
+              context,
+            ),
+          );
+        }
+        if (state.theStates == TheStates.loading &&
+            state.videoFileList != null) {
+          await Future.delayed(
+            Duration.zero,
+            () {
+              widget.uploadBloc.add(
+                VideoToFilestoreUploaded(
+                  list: state.videoFileList,
+                ),
+              );
+            },
+          ).whenComplete(
+            () => Navigator.pop(
+              context,
+            ),
+          );
+        }
+        if (state.isImageUploaded == true || state.isVideoUploaded == true)
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: kColorPrimary,
+              content: Text(
+                "Upload completed successfully.",
+              ),
+            ),
+          );
+        if (state.isImageUploaded == false || state.isVideoUploaded == false)
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: kColorPrimary,
+              content: Text(
+                "Upload cannot be completed. Please try again.",
+              ),
+            ),
+          );
+      },
+      builder: (context, state) {
+        return CustomFormField(
           label: 'Images',
+          rightSection: state.imageFileList == null
+              ? null
+              : InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ImagePickerDialog(
+                        uploadBloc: widget.uploadBloc,
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(
+                          4,
+                        ),
+                        child: Icon(
+                          Icons.add_circle_outline_sharp,
+                          size: 13,
+                        ),
+                      ),
+                      Text(
+                        "Add New",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
@@ -50,178 +133,174 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                 ],
               ),
               addVerticalSpace(5),
-              InkWell(
-                onTap: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) => ImagePickerDialog(
-                      uploadBloc: widget.uploadBloc,
+              state.imageFileList != null
+                  ? Container(
+                      width: double.infinity,
+                      height: 120,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: (state.imageFileList?.length ?? 0) >= 5
+                            ? 5
+                            : state.imageFileList?.length,
+                        itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                          ),
+                          child: SizedBox(
+                            width: 120,
+                            child: Stack(children: [
+                              Positioned.fill(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    10,
+                                  ),
+                                  child: Image.file(
+                                    File(
+                                      state.imageFileList?[index] ?? "",
+                                    ),
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 0.1,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () async {
+                                    await state.imageFileList?.removeAt(index);
+                                    setState(() {});
+                                  },
+                                  icon: Icon(
+                                    Icons.disabled_by_default_rounded,
+                                    color: kColorSilver.withOpacity(
+                                      0.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    )
+                  : InkWell(
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) => ImagePickerDialog(
+                            uploadBloc: widget.uploadBloc,
+                          ),
+                        );
+                      },
+                      child: CustomDottedContainerStack(
+                        theWidget: Text(
+                          'Select Images',
+                        ),
+                      ),
                     ),
-                  );
-                },
-                child: BlocConsumer<UploadBloc, UploadState>(
-                  bloc: widget.uploadBloc,
-                  listener: (context, state) async {
-                    if (state.theStates == TheStates.loading &&
-                        state.imageFileList != null) {
-                      await Future.delayed(
-                        Duration.zero,
-                        () {
-                          widget.uploadBloc.add(
-                            ImageToFilestoreUploaded(
-                              list: state.imageFileList
-                                  ?.map(
-                                    (e) => e?.path ?? "",
-                                  )
-                                  .toList(),
+              CustomFormField(
+                label: 'Videos',
+                rightSection: state.videoFileList == null
+                    ? null
+                    : InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => VideoPickerDialog(
+                              uploadBloc: widget.uploadBloc,
                             ),
                           );
                         },
-                      ).whenComplete(
-                        () => Navigator.pop(
-                          context,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(
+                                4,
+                              ),
+                              child: Icon(
+                                Icons.add_circle_outline_sharp,
+                                size: 13,
+                              ),
+                            ),
+                            Text(
+                              "Add New",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
                         ),
-                      );
-                    }
-                    if (state.theStates == TheStates.loading &&
-                        state.videoFileList != null) {
-                      await Future.delayed(
-                        Duration.zero,
-                        () {
-                          widget.uploadBloc.add(
-                            VideoToFilestoreUploaded(
-                              list: state.videoFileList
-                                  ?.map(
-                                    (e) => e?.path ?? "",
-                                  )
-                                  .toList(),
+                      ),
+                child: state.videoFileList == null
+                    ? InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => VideoPickerDialog(
+                              uploadBloc: widget.uploadBloc,
                             ),
                           );
                         },
-                      ).whenComplete(
-                        () => Navigator.pop(
-                          context,
-                        ),
-                      );
-                    }
-                    if (state.isImageUploaded == true ||
-                        state.isVideoUploaded == true)
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: kColorPrimary,
-                          content: Text(
-                            "Upload completed successfully.",
+                        child: CustomDottedContainerStack(
+                          theWidget: Text(
+                            'Select Videos',
                           ),
                         ),
-                      );
-                    if (state.isImageUploaded == false ||
-                        state.isVideoUploaded == false)
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: kColorPrimary,
-                          content: Text(
-                            "Upload cannot be completed. Please try again.",
-                          ),
-                        ),
-                      );
-                  },
-                  builder: (context, state) {
-                    if (state.imageFileList != null) {
-                      return Container(
+                      )
+                    : Container(
+                        color: Colors.grey.shade100,
                         width: double.infinity,
                         height: 120,
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: (state.imageFileList?.length ?? 0) >= 5
-                              ? 5
-                              : state.imageFileList?.length,
+                          itemCount: state.videoFileList?.length ?? 0,
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 4,
                             ),
                             child: SizedBox(
                               width: 120,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
-                                child: Image.file(
-                                  File(
-                                    state.imageFileList?[index]?.path ?? "",
+                              child: Stack(children: [
+                                Positioned.fill(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                      10,
+                                    ),
+                                    child: VideoPlayerWidget(
+                                      videoURL:
+                                          state.videoFileList?[index] ?? "",
+                                    ),
                                   ),
-                                  fit: BoxFit.fitWidth,
                                 ),
-                              ),
+                                Positioned(
+                                  right: 0.1,
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () async {
+                                      await state.videoFileList
+                                          ?.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    icon: Icon(
+                                      Icons.disabled_by_default_rounded,
+                                      color: kColorSilver.withOpacity(
+                                        0.5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
                             ),
                           ),
                         ),
-                      );
-                    }
-                    return CustomDottedContainerStack(
-                      theWidget: Text(
-                        'Select Images',
                       ),
-                    );
-                  },
-                ),
               ),
             ],
           ),
-        ),
-        CustomFormField(
-          label: 'Videos',
-          child: InkWell(
-            onTap: () async {
-              showDialog(
-                context: context,
-                builder: (context) => VideoPickerDialog(
-                  uploadBloc: widget.uploadBloc,
-                ),
-              );
-            },
-            child: BlocBuilder<UploadBloc, UploadState>(
-              bloc: widget.uploadBloc,
-              builder: (context, state) {
-                if (state.videoFileList != null)
-                  return Container(
-                    color: Colors.grey.shade100,
-                    width: double.infinity,
-                    height: 120,
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 1,
-                      itemBuilder: (context, index) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                        ),
-                        child: SizedBox(
-                          width: 120,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                            child: VideoPlayerWidget(
-                              videoURL: state.videoFileList?[index]?.path ?? "",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                return CustomDottedContainerStack(
-                  theWidget: Text(
-                    'Select Videos',
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

@@ -72,7 +72,6 @@ void init() {
   locator.registerLazySingleton(
     () => UploadBloc(
       locator(),
-      locator(),
     ),
   );
 

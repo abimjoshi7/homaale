@@ -17,14 +17,7 @@ class SimilarEntityServiceSection extends StatelessWidget {
         child: ListView.builder(
           padding: EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => ServiceCard(
-            callback: () async {
-              final x = await ImagePickHelper().testPick(context);
-              // print(x?.file);
-              // print("PATH ${x}");
-              print("PATH ${x}");
-            },
-          ),
+          itemBuilder: (context, index) => ServiceCard(),
           itemCount: 5,
         ),
       ),

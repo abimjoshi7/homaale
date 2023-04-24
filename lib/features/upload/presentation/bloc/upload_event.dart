@@ -17,18 +17,29 @@ class ImageUploaded extends UploadEvent {
 }
 
 class MultipleImageUploaded extends UploadEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-class VideoUploaded extends UploadEvent {
-  final bool isCamera;
-  VideoUploaded({
-    required this.isCamera,
+  final BuildContext context;
+  MultipleImageUploaded({
+    required this.context,
   });
   @override
   List<Object?> get props => [
-        isCamera,
+        context,
+      ];
+}
+
+class VideoUploaded extends UploadEvent {
+  final bool isVideo;
+  final bool? isCamera;
+  final BuildContext context;
+  VideoUploaded({
+    this.isVideo = true,
+    this.isCamera,
+    required this.context,
+  });
+  @override
+  List<Object?> get props => [
+        isVideo,
+        context,
       ];
 }
 

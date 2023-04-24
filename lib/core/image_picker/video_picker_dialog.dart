@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -46,29 +45,12 @@ class VideoPickerDialog extends StatelessWidget {
                     Icons.camera_alt_outlined,
                     color: kColorBlue,
                   ),
-                  onTap: () async {
-                    //! Not working, package issue
-                    // await Future.delayed(
-                    //   Duration.zero,
-                    //   () {
-                    //     uploadBloc.add(
-                    //       VideoUploaded(
-                    //         isCamera: true,
-                    //       ),
-                    //     );
-                    //   },
-                    // ).whenComplete(
-                    //   () => Navigator.pop(
-                    //     context,
-                    //   ),
-                    // );
-                    showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                          heading: "Unavailable! Coming soon...",
-                          content: "Working on it.",
-                          onTap: () {},
-                          isSuccess: false),
+                  onTap: () {
+                    uploadBloc.add(
+                      VideoUploaded(
+                        context: context,
+                        isCamera: true,
+                      ),
                     );
                   },
                 ),
@@ -80,9 +62,10 @@ class VideoPickerDialog extends StatelessWidget {
                     Icons.photo_library_outlined,
                     color: kColorGreen,
                   ),
-                  onTap: () async {
+                  onTap: () {
                     uploadBloc.add(
                       VideoUploaded(
+                        context: context,
                         isCamera: false,
                       ),
                     );

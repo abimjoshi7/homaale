@@ -5,8 +5,8 @@ class UploadState extends Equatable {
   final bool? isImageUploaded;
   final bool? isVideoUploaded;
   final bool? isFileUploaded;
-  final List<XFile?>? imageFileList;
-  final List<XFile?>? videoFileList;
+  final List<String>? imageFileList;
+  final List<String>? videoFileList;
   final List<int>? uploadedImageList;
   final List<int>? uploadedVideoList;
   const UploadState({
@@ -39,8 +39,8 @@ class UploadState extends Equatable {
     bool? isImageUploaded,
     bool? isVideoUploaded,
     bool? isFileUploaded,
-    List<XFile?>? imageFileList,
-    List<XFile?>? videoFileList,
+    List<String>? imageFileList,
+    List<String>? videoFileList,
     List<int>? uploadedImageList,
     List<int>? uploadedVideoList,
   }) {

@@ -19,22 +19,22 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
         ImageUploadLoading(),
       );
 
-      final imagePath = await ImagePickHelper().pickImagePath(
-        isCamera: isCamera,
-      );
-      final response = await DioHelper().postMultiFormData(
-        path: imagePath!.path,
-        url: 'task/filestore/',
-        token: CacheHelper.accessToken,
-      );
-      if (response['status'] == 'success') {
-        emit(
-          ImageUploadSuccess(
-            list: response['data'] as List<dynamic>,
-            imagePathList: [imagePath],
-          ),
-        );
-      }
+      // final imagePath = await MultimediaPickHelper().pickImagePath(
+      //   isCamera: isCamera,
+      // );
+      // final response = await DioHelper().postMultiFormData(
+      //   path: imagePath!.path,
+      //   url: 'task/filestore/',
+      //   token: CacheHelper.accessToken,
+      // );
+      // if (response['status'] == 'success') {
+      //   emit(
+      //     ImageUploadSuccess(
+      //       list: response['data'] as List<dynamic>,
+      //       imagePathList: [imagePath],
+      //     ),
+      //   );
+      // }
     } catch (e) {
       log(e.toString());
       emit(
@@ -51,21 +51,21 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
         VideoUploadLoading(),
       );
 
-      final imagePath = await ImagePickHelper().pickVideoPath(
-        isCamera: isCamera,
-      );
-      final response = await DioHelper().postMultiFormData(
-        path: imagePath!.path,
-        url: 'task/filestore/',
-        token: CacheHelper.accessToken,
-      );
-      if (response['status'] == 'success') {
-        emit(
-          VideoUploadSuccess(
-            list: response['data'] as List<dynamic>,
-          ),
-        );
-      }
+      //   final imagePath = await MultimediaPickHelper().pickVideoPath(
+      //     isCamera: isCamera,
+      //   );
+      //   final response = await DioHelper().postMultiFormData(
+      //     path: imagePath!.path,
+      //     url: 'task/filestore/',
+      //     token: CacheHelper.accessToken,
+      //   );
+      //   if (response['status'] == 'success') {
+      //     emit(
+      //       VideoUploadSuccess(
+      //         list: response['data'] as List<dynamic>,
+      //       ),
+      //     );
+      //   }
     } catch (e) {
       emit(
         VideoUploadFailure(),
@@ -78,20 +78,20 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       emit(
         MulitpleImageUploadLoading(),
       );
-      final imagePath = await ImagePickHelper().pickMultipleImages();
-      final response = await DioHelper().postMultiFormData(
-        pathList: imagePath.map((e) => e!.path).toList(),
-        url: 'task/filestore/',
-        token: CacheHelper.accessToken,
-      );
-      if (response['status'] == 'success') {
-        emit(
-          ImageUploadSuccess(
-            list: response['data'] as List<dynamic>,
-            imagePathList: imagePath.sublist(0, 5),
-          ),
-        );
-      }
+      // final imagePath = await MultimediaPickHelper().pickMultipleImages();
+      // final response = await DioHelper().postMultiFormData(
+      //   pathList: imagePath.map((e) => e!.path).toList(),
+      //   url: 'task/filestore/',
+      //   token: CacheHelper.accessToken,
+      // );
+      // if (response['status'] == 'success') {
+      //   emit(
+      //     ImageUploadSuccess(
+      //       list: response['data'] as List<dynamic>,
+      //       imagePathList: imagePath.sublist(0, 5),
+      //     ),
+      //   );
+      // }
     } catch (e) {
       emit(
         ImageUploadFailure(),

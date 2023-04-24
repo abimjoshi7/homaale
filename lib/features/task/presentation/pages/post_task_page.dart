@@ -758,14 +758,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               CustomCheckBox(
                                 isChecked: isTermsAccepted,
                                 onTap: () async {
-                                  final x = await ImagePickHelper()
-                                      .testPick1(context);
-                                  print(x);
-                                  // setState(
-                                  //   () {
-                                  //     isTermsAccepted = !isTermsAccepted;
-                                  //   },
-                                  // );
+                                  setState(
+                                    () {
+                                      isTermsAccepted = !isTermsAccepted;
+                                    },
+                                  );
                                 },
                               ),
                               addHorizontalSpace(10),

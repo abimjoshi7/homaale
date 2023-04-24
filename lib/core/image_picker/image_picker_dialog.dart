@@ -64,7 +64,9 @@ class ImagePickerDialog extends StatelessWidget {
                   ),
                   onTap: () {
                     uploadBloc.add(
-                      MultipleImageUploaded(),
+                      MultipleImageUploaded(
+                        context: context,
+                      ),
                     );
                   },
                 ),
