@@ -35,18 +35,18 @@ class _AccountProfileState extends State<AccountProfile> {
   bool isDark = false;
 
   void checkAppMode() async {
-    final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
+    final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'dark';
     setState(() {
-      if (theme == 'light') {
+      if (theme == 'dark') {
         setState(() {
 					
           isDark = true;
-          CacheHelper.setCachedString(kAppThemeMode, 'dark');
+          CacheHelper.setCachedString(kAppThemeMode, 'light');
         });
       } else {
         setState(() {
           isDark = false;
-          CacheHelper.setCachedString(kAppThemeMode, 'light');
+          CacheHelper.setCachedString(kAppThemeMode, 'dark');
         });
       }
     });

@@ -118,8 +118,11 @@ class InvoicePage extends StatelessWidget {
                       1: FlexColumnWidth(2),
                       2: FlexColumnWidth(2),
                     },
-                    children: const [
+                    children:  [
                       TableRow(
+                        decoration: BoxDecoration(
+                          color: kColorPrimaryAccent,
+                        ),
                         children: [
                           Text(
                             'Name',
@@ -137,9 +140,7 @@ class InvoicePage extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
-                        decoration: BoxDecoration(
-                          color: kColorPrimaryAccent,
-                        ),
+
                       ),
                       TableRow(
                         children: [

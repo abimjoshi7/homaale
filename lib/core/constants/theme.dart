@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 final kDarkTheme = ThemeData(
   primaryColor: kColorPrimarydark,
-  canvasColor: kColorLightSkyBluedark,
+  // canvasColor: kColorLightSkyBluedark,
 
   // useMaterial3: true,
 
@@ -52,7 +52,7 @@ final kDarkTheme = ThemeData(
 );
 
 final kLightTheme = ThemeData(
-  canvasColor: kColorLightSkyBlue,
+  // canvasColor: kColorLightSkyBlue,
   primaryColor: kColorPrimary,
   fontFamily: "Poppins",
   cardColor: Colors.white,
