@@ -46,9 +46,9 @@ class SupportTicketCard extends StatelessWidget {
                 addHorizontalSpace(8.0),
                 Text(
                   'Ticket No. 1114',
-                  style: kText15,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                addHorizontalSpace(187.5),
+                addHorizontalSpace(116.0),
                 OutlinedButton(
                   onPressed: null,
                   style: ButtonStyle(
@@ -89,27 +89,29 @@ class SupportTicketCard extends StatelessWidget {
             addVerticalSpace(4.0),
             Text(
               'Consumer support Consumer support',
-              style: kText14,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text.rich(TextSpan(
                     text: 'Last Update: ',
-                    style: kText14,
+                    style: Theme.of(context).textTheme.bodySmall,
                     children: <InlineSpan>[
                       TextSpan(
                         text: '2022-11-19',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       )
                     ])),
-                Icon(
-                  Icons.arrow_circle_right_outlined,
-                  size: 25.0,
+                Padding(
+                  padding: const EdgeInsets.only(right: 9.0),
+                  child: Icon(
+                    Icons.arrow_circle_right_outlined,
+                    size: 30.0,
+                  ),
                 )
               ],
             ),
