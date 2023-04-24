@@ -1,5 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
+import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
 import 'package:cipher/features/support/presentation/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/custom_app_bar.dart';
@@ -22,6 +26,8 @@ class _SupportTicketPageState extends State<SupportTicketPage>
       length: 2,
       vsync: this,
     );
+    context.read<SupportTicketBloc>().add(SupportTicketInitialEvent());
+    setState(() {});
   }
 
   @override
@@ -53,7 +59,7 @@ class _SupportTicketPageState extends State<SupportTicketPage>
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
               'If you are facing any trouble, create a Ticket so we can identify and solve the issue right away.',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
           ),
@@ -104,19 +110,46 @@ class _SupportTicketPageState extends State<SupportTicketPage>
           //   ),
           // ),
           // addVerticalSpace(24.0),
-          TabBar(
-            unselectedLabelColor: Colors.grey,
-            labelPadding: kPadding10,
-            controller: _tabController,
-            // isScrollable: true,
-            physics: BouncingScrollPhysics(),
-            tabs: [
-              Text(
-                'Active',
-                style: kText20,
-              ),
-              Text('Closed', style: kText20),
-            ],
+
+          BlocListener<SupportTicketBloc, SupportTicketState>(
+            listener: (context, state) {
+              if (state.theStates != TheStates.initial) return;
+              if (_tabController.index < 1) {
+                context.read<SupportTicketBloc>().add(
+                    SupportTicketFetchInitiated(
+                        supportTicketStatus: SupportTicketStatus.open.name));
+                setState(() {});
+              }
+              if (_tabController.index > 0) {
+                context.read<SupportTicketBloc>().add(
+                    SupportTicketFetchInitiated(
+                        supportTicketStatus: SupportTicketStatus.closed.name));
+                setState(() {});
+              }
+            },
+            child: TabBar(
+              unselectedLabelColor: Colors.grey,
+              labelPadding: kPadding10,
+              controller: _tabController,
+              indicatorColor: Colors.amber,
+              physics: BouncingScrollPhysics(),
+              tabs: [
+                Text(
+                  'Active',
+                  style: GoogleFonts.poppins(
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  'Closed',
+                  style: GoogleFonts.poppins(
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: Container(

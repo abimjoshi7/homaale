@@ -12,7 +12,7 @@ class DioHelper {
 
   static void init() {
     final options = BaseOptions(
-      baseUrl: sandbox,
+      baseUrl: baseIPSecondary,
       connectTimeout: const Duration(
         seconds: 20,
       ),
@@ -106,7 +106,7 @@ class DioHelper {
         ),
       );
       log('DIO POST ERROR: ${e.response?.data}');
-      rethrow ;
+      rethrow;
     }
   }
 

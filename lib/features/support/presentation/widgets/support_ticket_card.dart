@@ -48,7 +48,7 @@ class SupportTicketCard extends StatelessWidget {
                   'Ticket No. 1114',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                addHorizontalSpace(116.0),
+                addHorizontalSpace(115.0),
                 OutlinedButton(
                   onPressed: null,
                   style: ButtonStyle(
@@ -94,7 +94,8 @@ class SupportTicketCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text.rich(TextSpan(
+                Text.rich(
+                  TextSpan(
                     text: 'Last Update: ',
                     style: Theme.of(context).textTheme.bodySmall,
                     children: <InlineSpan>[
@@ -105,7 +106,9 @@ class SupportTicketCard extends StatelessWidget {
                             .bodySmall
                             ?.copyWith(fontWeight: FontWeight.bold),
                       )
-                    ])),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(right: 9.0),
                   child: Icon(

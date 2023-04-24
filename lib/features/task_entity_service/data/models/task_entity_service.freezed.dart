@@ -1744,8 +1744,6 @@ mixin _$CreatedBy {
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
-  @JsonKey(name: "user_type")
-  String? get userType => throw _privateConstructorUsedError;
   @JsonKey(name: "is_profile_verified")
   bool? get isProfileVerified => throw _privateConstructorUsedError;
   @JsonKey(name: "is_followed")
@@ -1778,7 +1776,6 @@ abstract class $CreatedByCopyWith<$Res> {
       String? bio,
       @JsonKey(name: "created_at") DateTime? createdAt,
       String? designation,
-      @JsonKey(name: "user_type") String? userType,
       @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
       @JsonKey(name: "is_followed") bool? isFollowed,
       @JsonKey(name: "is_following") bool? isFollowing,
@@ -1812,7 +1809,6 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
     Object? bio = freezed,
     Object? createdAt = freezed,
     Object? designation = freezed,
-    Object? userType = freezed,
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
@@ -1867,10 +1863,6 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as String?,
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
@@ -1923,7 +1915,6 @@ abstract class _$$_CreatedByCopyWith<$Res> implements $CreatedByCopyWith<$Res> {
       String? bio,
       @JsonKey(name: "created_at") DateTime? createdAt,
       String? designation,
-      @JsonKey(name: "user_type") String? userType,
       @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
       @JsonKey(name: "is_followed") bool? isFollowed,
       @JsonKey(name: "is_following") bool? isFollowing,
@@ -1956,7 +1947,6 @@ class __$$_CreatedByCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? createdAt = freezed,
     Object? designation = freezed,
-    Object? userType = freezed,
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
@@ -2011,10 +2001,6 @@ class __$$_CreatedByCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as String?,
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
@@ -2051,7 +2037,6 @@ class _$_CreatedBy implements _CreatedBy {
       this.bio,
       @JsonKey(name: "created_at") this.createdAt,
       this.designation,
-      @JsonKey(name: "user_type") this.userType,
       @JsonKey(name: "is_profile_verified") this.isProfileVerified,
       @JsonKey(name: "is_followed") this.isFollowed,
       @JsonKey(name: "is_following") this.isFollowing,
@@ -2091,9 +2076,6 @@ class _$_CreatedBy implements _CreatedBy {
   @override
   final String? designation;
   @override
-  @JsonKey(name: "user_type")
-  final String? userType;
-  @override
   @JsonKey(name: "is_profile_verified")
   final bool? isProfileVerified;
   @override
@@ -2107,7 +2089,7 @@ class _$_CreatedBy implements _CreatedBy {
 
   @override
   String toString() {
-    return 'CreatedBy(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, userType: $userType, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
+    return 'CreatedBy(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
   }
 
   @override
@@ -2135,8 +2117,6 @@ class _$_CreatedBy implements _CreatedBy {
                 other.createdAt == createdAt) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
-            (identical(other.userType, userType) ||
-                other.userType == userType) &&
             (identical(other.isProfileVerified, isProfileVerified) ||
                 other.isProfileVerified == isProfileVerified) &&
             (identical(other.isFollowed, isFollowed) ||
@@ -2162,7 +2142,6 @@ class _$_CreatedBy implements _CreatedBy {
       bio,
       createdAt,
       designation,
-      userType,
       isProfileVerified,
       isFollowed,
       isFollowing,
@@ -2196,7 +2175,6 @@ abstract class _CreatedBy implements CreatedBy {
       final String? bio,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       final String? designation,
-      @JsonKey(name: "user_type") final String? userType,
       @JsonKey(name: "is_profile_verified") final bool? isProfileVerified,
       @JsonKey(name: "is_followed") final bool? isFollowed,
       @JsonKey(name: "is_following") final bool? isFollowing,
@@ -2235,9 +2213,6 @@ abstract class _CreatedBy implements CreatedBy {
   DateTime? get createdAt;
   @override
   String? get designation;
-  @override
-  @JsonKey(name: "user_type")
-  String? get userType;
   @override
   @JsonKey(name: "is_profile_verified")
   bool? get isProfileVerified;
