@@ -6,13 +6,16 @@ abstract class UploadEvent extends Equatable {
 }
 
 class ImageUploaded extends UploadEvent {
-  final bool isCamera;
+  final bool isVideo;
+  final BuildContext context;
   ImageUploaded({
-    required this.isCamera,
+    required this.isVideo,
+    required this.context,
   });
   @override
   List<Object?> get props => [
-        isCamera,
+        isVideo,
+        context,
       ];
 }
 

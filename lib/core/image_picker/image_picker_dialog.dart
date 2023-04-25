@@ -49,7 +49,8 @@ class ImagePickerDialog extends StatelessWidget {
                   onTap: () {
                     uploadBloc.add(
                       ImageUploaded(
-                        isCamera: true,
+                        context: context,
+                        isVideo: false,
                       ),
                     );
                   },

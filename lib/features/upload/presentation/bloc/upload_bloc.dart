@@ -24,22 +24,20 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               theStates: TheStates.loading,
             ),
           );
-          //     .pickImage(
-          //   source: event.isCamera == false
-          //       ? ImageSource.camera
-          //       : ImageSource.gallery,
-          // )
-          //     .then(
-          //   (value) async {
-          //     emit(
-          //       state.copyWith(
-          //         imageFileList: [
-          //           value,
-          //         ],
-          //       ),
-          //     );
-          //   },
-          // );
+          await MultimediaPickHelper.captureMultimedia(
+            event.context,
+            event.isVideo,
+          ).then(
+            (value) async {
+              emit(
+                state.copyWith(
+                  imageFileList: [
+                    value?.path ?? "",
+                  ],
+                ),
+              );
+            },
+          );
         } catch (e) {
           emit(
             state.copyWith(

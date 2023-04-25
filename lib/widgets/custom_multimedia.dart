@@ -122,9 +122,15 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
             children: [
               Row(
                 children: [
-                  const Icon(
-                    Icons.info_outline,
-                    color: Colors.orange,
+                  InkWell(
+                    onTap: () {
+                      print(123);
+                      print(state.imageFileList);
+                    },
+                    child: const Icon(
+                      Icons.info_outline,
+                      color: Colors.orange,
+                    ),
                   ),
                   addHorizontalSpace(5),
                   const Text(
