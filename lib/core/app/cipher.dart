@@ -35,6 +35,8 @@ import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.
 import 'package:cipher/features/sign_up/presentation/bloc/resend_verification_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/support/data/repositories/support_repository.dart';
+import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -69,6 +71,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => TermsOfUseCubit(),
+          ),
+          BlocProvider(
+            create: (context) => SupportTicketBloc(SupportRepository()),
           ),
           BlocProvider(
             create: (context) => locator<CategoriesBloc>(),

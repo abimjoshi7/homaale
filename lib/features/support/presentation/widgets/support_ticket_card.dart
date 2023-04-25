@@ -1,12 +1,15 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/support/data/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
 
 class SupportTicketCard extends StatelessWidget {
   const SupportTicketCard({
     Key? key,
     required this.isTicketClosed,
+    required this.supportTicket,
   }) : super(key: key);
   final bool isTicketClosed;
+  final SupportTicketModel supportTicket;
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +48,10 @@ class SupportTicketCard extends StatelessWidget {
                 ),
                 addHorizontalSpace(8.0),
                 Text(
-                  'Ticket No. 1114',
+                  "Ticket No. ${supportTicket.id}",
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                addHorizontalSpace(116.0),
+                addHorizontalSpace(115.0),
                 OutlinedButton(
                   onPressed: null,
                   style: ButtonStyle(
@@ -83,29 +86,32 @@ class SupportTicketCard extends StatelessWidget {
             ),
             addVerticalSpace(20.0),
             Text(
-              'Billing Related Issue',
+              "${supportTicket.object}",
               style: kHeading3,
             ),
             addVerticalSpace(4.0),
             Text(
-              'Consumer support Consumer support',
+              "${supportTicket.type!.name}",
               style: Theme.of(context).textTheme.bodySmall,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text.rich(TextSpan(
+                Text.rich(
+                  TextSpan(
                     text: 'Last Update: ',
                     style: Theme.of(context).textTheme.bodySmall,
                     children: <InlineSpan>[
                       TextSpan(
-                        text: '2022-11-19',
+                        text: "${supportTicket.updatedAt}",
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
                             ?.copyWith(fontWeight: FontWeight.bold),
                       )
-                    ])),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(right: 9.0),
                   child: Icon(
