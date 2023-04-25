@@ -17,7 +17,6 @@ class NotificationFromHome extends StatefulWidget {
 
 class _NotificationFromHomeState extends State<NotificationFromHome> {
   ScrollController _scrollController = new ScrollController();
-  final notificationBloc = locator<NotificationBloc>();
 
   List<Result> notificationList = [];
 
@@ -26,24 +25,26 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
   @override
   void initState() {
-    notificationBloc.add(MyNotificationListInitiated(page: currentPage, isMarkAllRead: false, isRefetch: false));
+    context
+        .read<NotificationBloc>()
+        .add(MyNotificationListInitiated(page: currentPage, isMarkAllRead: false, isRefetch: false));
 
     Future.delayed(Duration(milliseconds: 1000), () {
       setState(() {
-        currentPage = notificationBloc.state.allNotificationList?.current ?? 1;
-        totalPages = notificationBloc.state.allNotificationList?.totalPages ?? 0;
-        notificationList = notificationBloc.state.allNotificationList?.result ?? [];
+        currentPage = context.read<NotificationBloc>().state.allNotificationList?.current ?? 1;
+        totalPages = context.read<NotificationBloc>().state.allNotificationList?.totalPages ?? 0;
+        notificationList = context.read<NotificationBloc>().state.allNotificationList?.result ?? [];
       });
 
       _scrollController.addListener(() async {
         if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
           if (currentPage != totalPages) {
             currentPage += 1;
-            notificationBloc.add(MyNotificationListInitiated(
-              page: currentPage,
-              isRefetch: true,
-              isMarkAllRead: false,
-            ));
+            context.read<NotificationBloc>().add(MyNotificationListInitiated(
+                  page: currentPage,
+                  isRefetch: true,
+                  isMarkAllRead: false,
+                ));
           }
         }
       });
@@ -58,18 +59,17 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        iconTheme:  IconThemeData(
+        iconTheme: IconThemeData(
           color: Theme.of(context).appBarTheme.iconTheme?.color, //change your color here
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title:  Text(
+        title: Text(
           "Notifications",
           style: Theme.of(context).textTheme.displaySmall,
         ),
         actions: [],
       ),
       body: BlocListener<NotificationBloc, NotificationState>(
-        bloc: notificationBloc,
         listener: (context, state) {
           if (state.isRefetch ?? false) {
             List<Result> newList = state.allNotificationList!.result!;
@@ -81,9 +81,9 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
           if (state.markAllRead ?? false) {
             setState(() {
-              currentPage = notificationBloc.state.allNotificationList?.current ?? 1;
-              totalPages = notificationBloc.state.allNotificationList?.totalPages ?? 0;
-              notificationList = notificationBloc.state.allNotificationList?.result ?? [];
+              currentPage = context.read<NotificationBloc>().state.allNotificationList?.current ?? 1;
+              totalPages = context.read<NotificationBloc>().state.allNotificationList?.totalPages ?? 0;
+              notificationList = context.read<NotificationBloc>().state.allNotificationList?.result ?? [];
             });
           }
         },
@@ -117,7 +117,9 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                 height: MediaQuery.of(context).size.height,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    notificationBloc.add(MyNotificationListInitiated(page: 1, isMarkAllRead: false, isRefetch: false));
+                    context
+                        .read<NotificationBloc>()
+                        .add(MyNotificationListInitiated(page: 1, isMarkAllRead: false, isRefetch: false));
                   },
                   child: ListView(
                     controller: _scrollController,
@@ -134,7 +136,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  notificationBloc.add(NotificationAllRead());
+                                  context.read<NotificationBloc>().add(NotificationAllRead());
                                 });
                               },
                               child: Text(

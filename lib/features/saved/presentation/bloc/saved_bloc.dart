@@ -14,9 +14,9 @@ part 'saved_state.dart';
 
 class SavedBloc extends Bloc<SavedEvent, SavedState> {
   final SavedRepository savedRepository;
-  SavedBloc(
-    this.savedRepository,
-  ) : super(SavedState()) {
+  SavedBloc({
+    required this.savedRepository,
+  }) : super(SavedState()) {
     on<SavedListLoaded>(
       (event, emit) async {
         emit(state.copyWith(theStates: TheStates.loading));

@@ -6,10 +6,10 @@ import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-
 import 'package:cipher/features/box/presentation/bloc/order_id_create_bloc.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/repository/chat_repository.dart';
+import 'package:cipher/features/notification/data/repositories/notification_repositories.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
@@ -26,36 +26,35 @@ import 'package:dependencies/dependencies.dart';
 final locator = GetIt.instance;
 
 void init() {
-  // bloc
-  locator.registerFactory(() => TaskBloc());
-  locator.registerFactory(() => ServicesBloc());
-  locator.registerFactory(() => EntityServiceBloc());
-  locator.registerFactory(() => TaskerCubit());
-  locator.registerFactory(() => UserBloc());
-  locator.registerFactory(() => TaskEntityServiceBloc());
-  locator.registerFactory(() => BookingsBloc());
-  locator.registerFactory(() => PaymentBloc());
-  locator.registerFactory(() => PaymentTypeBloc());
-  locator.registerFactory(() => NotificationBloc());
-  locator.registerFactory(() => OrderIdCreateBloc());
-  locator.registerFactory(() => ChatBloc(chatRepository: locator()));
-  locator.registerFactory(() => KycBloc(locator()));
-  locator.registerFactory(() => CategoriesBloc(locator()));
-  locator.registerFactory(() => SavedBloc(locator()));
-  locator.registerFactory(() => OrderItemRetriveBloc());
-
-  locator.registerLazySingleton(() => BookEventHandlerBloc());
-
-  //cubit
-  locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
-
   //repositories
-  locator.registerLazySingleton(() => KycRepositories());
-  locator.registerLazySingleton(() => CategoriesRepositories());
-  locator.registerLazySingleton(() => ChatRepository());
-  locator.registerLazySingleton(() => SavedRepository());
+  locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
+  locator.registerLazySingleton<CategoriesRepositories>(() => CategoriesRepositories());
+  locator.registerLazySingleton<ChatRepository>(() => ChatRepository());
+  locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
+  locator.registerLazySingleton<NotificationRepositories>(() => NotificationRepositories());
+  locator.registerLazySingleton<BookEventHandlerBloc>(() => BookEventHandlerBloc());
+
+  //bloc
+  locator.registerFactory<TaskBloc>(() => TaskBloc());
+  locator.registerFactory<ServicesBloc>(() => ServicesBloc());
+  locator.registerFactory<EntityServiceBloc>(() => EntityServiceBloc());
+  locator.registerFactory<TaskerCubit>(() => TaskerCubit());
+  locator.registerFactory<UserBloc>(() => UserBloc());
+  locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc());
+  locator.registerFactory<TaskerPortfolioCubit>(() => TaskerPortfolioCubit());
+  locator.registerFactory<BookingsBloc>(() => BookingsBloc());
+  locator.registerFactory<PaymentBloc>(() => PaymentBloc());
+  locator.registerFactory<PaymentTypeBloc>(() => PaymentTypeBloc());
+  locator.registerFactory<OrderIdCreateBloc>(() => OrderIdCreateBloc());
+  locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
+  locator.registerFactory<KycBloc>(() => KycBloc(locator()));
+  locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
+  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
+  locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
+  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;
-  locator.registerFactory<FirebaseFirestore>(() => firebaseInstance);
+  locator.registerSingleton<FirebaseFirestore>(firebaseInstance);
 }
