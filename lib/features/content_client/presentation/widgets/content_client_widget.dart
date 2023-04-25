@@ -34,10 +34,9 @@ class ContentClientWidget extends StatelessWidget {
         Html(
           data: state.contentClient!.content.toString(),
           style: {
-            "p":
-            Style(
-              textAlign: TextAlign.justify
-            ),
+            "p": Style(
+              textAlign: TextAlign.justify,
+            )
           },
         ),
       ],

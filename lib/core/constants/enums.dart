@@ -4,3 +4,9 @@ enum TheStates {
   success,
   failure,
 }
+
+enum SupportTicketStatus {
+  open,
+  assigned,
+  closed,
+}
