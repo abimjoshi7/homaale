@@ -138,18 +138,9 @@ class TaskerCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          if (CacheHelper.isLoggedIn == false) {
-                            notLoggedInPopUp(context);
-                          }
-                          if (CacheHelper.isLoggedIn == false) return;
-                          onFavouriteTapped();
-                        },
-                        child: const Icon(
-                          Icons.favorite_outline,
-                          color: Color(0xffFE5050),
-                        ),
+                      CustomFavoriteIcon(
+                        typeID: id ?? '',
+                        type: "user",
                       ),
                       SizedBox(
                         height: 30,
@@ -167,7 +158,9 @@ class TaskerCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                 ],
               ),
             ),

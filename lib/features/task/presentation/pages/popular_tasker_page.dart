@@ -18,7 +18,6 @@ class PopularTaskerPage extends StatefulWidget {
 }
 
 class _PopularTaskerPageState extends State<PopularTaskerPage> {
-  late final taskerCubit = locator<TaskerCubit>();
   List<Tasker> taskerList = [];
 
   //initialize page controller
@@ -30,16 +29,16 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
 
     //so at event add list of records
     _pagingController.addPageRequestListener(
-      (pageKey) => taskerCubit.loadTaskerList(
-        page: pageKey,
-      ),
+      (pageKey) => context.read<TaskerCubit>().loadTaskerList(
+            page: pageKey,
+          ),
     );
   }
 
   @override
   void dispose() {
     super.dispose();
-    taskerCubit.close();
+    context.read<TaskerCubit>().close();
     _pagingController.dispose();
   }
 
@@ -47,7 +46,6 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<TaskerCubit, TaskerState>(
-        bloc: taskerCubit,
         listener: (context, state) {
           if (state.states == TheStates.success) {
             taskerList = state.taskerListRes!.result!;
@@ -162,6 +160,7 @@ class _PopularTaskerPageState extends State<PopularTaskerPage> {
                             );
                           },
                           child: TaskerCard(
+                            id: item.user?.id.toString() ?? '',
                             networkImageUrl: item.profileImage,
                             label: "${item.user?.firstName} ${item.user?.lastName}",
                             designation: item.designation,
