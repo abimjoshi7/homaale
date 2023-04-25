@@ -449,9 +449,9 @@ class _CalledRootClassState extends State<CalledRootClass> {
                             );
                           },
                         ),
-                        addHorizontalSpace(70),
+                        addHorizontalSpace(50),
                         AddPopupButton(
-                          label: 'Post a Service',
+                          label: 'Post a Service ',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
                             if (CacheHelper.isLoggedIn == false) {

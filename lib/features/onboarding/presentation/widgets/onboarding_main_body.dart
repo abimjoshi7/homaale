@@ -30,7 +30,7 @@ class OnboardingMainBody extends StatelessWidget {
               mainImage,
             ),
           ),
-          kHeight50,
+          // kHeight50,
           Expanded(
             child: Container(
               height: MediaQuery.of(context).size.height * 0.306,
@@ -98,9 +98,9 @@ class OnboardingMainBody extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.29,
                             ),
                             if (selectedIndex == 3)
-                              const Text(
+                               Text(
                                 'Continue to Login',
-                                style: kPurpleText17,
+                                style: Theme.of(context).textTheme.headlineSmall,
                               )
                             else
                               const SizedBox(),
@@ -111,14 +111,14 @@ class OnboardingMainBody extends StatelessWidget {
                                 height:
                                     MediaQuery.of(context).size.height * 0.05,
                                 width:
-                                    MediaQuery.of(context).size.height * 0.05,
+                                    MediaQuery.of(context).size.height * 0.04,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: kColorPrimary,
                                 ),
                                 child: const Icon(
                                   Icons.arrow_forward,
-                                  size: 30,
+                                  size: 20,
                                   color: Colors.white,
                                 ),
                               ),

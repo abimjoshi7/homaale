@@ -223,7 +223,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                   backgroundColor: (getStatus(status ?? '')["color"] as Color).withOpacity(
                                     0.6,
                                   ),
-                                  label: Text(status?.toTitleCase() ?? ''),
+                                  label: Text(status?.toTitleCase() ?? '',style: TextStyle(color: Colors.white),),
                                 )
                               ],
                             ),

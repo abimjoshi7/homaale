@@ -82,7 +82,7 @@ class _TasksRecommendationSectionState
               if (state.theState == TheStates.success) {
                 if (state.tasksList != null) {
                   return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.28,
+                    height: MediaQuery.of(context).size.height * 0.3,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,

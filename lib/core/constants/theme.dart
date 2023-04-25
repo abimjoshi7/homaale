@@ -4,16 +4,11 @@ import 'package:flutter/material.dart';
 
 final kDarkTheme = ThemeData(
   primaryColor: kColorPrimarydark,
-  // canvasColor: kColorLightSkyBluedark,
-
-  // useMaterial3: true,
-
   appBarTheme: AppBarTheme(
       backgroundColor: kColorPrimarydark,
       iconTheme: IconThemeData(
         color: Colors.white,
       )),
-
   textTheme: GoogleFonts.poppinsTextTheme(
     TextTheme(
       labelSmall: kLabelPrimarydark,
@@ -48,11 +43,11 @@ final kDarkTheme = ThemeData(
   ),
   indicatorColor: kColorSecondary,
   colorScheme: ColorScheme.dark(),
-  cardColor: Color(0xff000000),
+  cardColor:
+  Color  (0xff000000),
 );
 
 final kLightTheme = ThemeData(
-  // canvasColor: kColorLightSkyBlue,
   primaryColor: kColorPrimary,
   fontFamily: "Poppins",
   cardColor: Colors.white,

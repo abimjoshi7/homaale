@@ -23,11 +23,7 @@ class ContentClientWidget extends StatelessWidget {
       children: <Widget>[
         AutoSizeText(
           contentClientTitle,
-          style: Theme.of(context).textTheme.bodySmall,
-          // style: kLabelPrimary.copyWith(
-          //   color: kColorPrimary,
-          //   fontWeight: FontWeight.w500,
-          // ),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
         addVerticalSpace(4),
         AutoSizeText(
@@ -38,8 +34,9 @@ class ContentClientWidget extends StatelessWidget {
         Html(
           data: state.contentClient!.content.toString(),
           style: {
-            "p": Style(
-              textAlign: TextAlign.justify,
+            "p":
+            Style(
+              textAlign: TextAlign.justify
             ),
           },
         ),

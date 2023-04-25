@@ -84,13 +84,15 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
             child: Container(
               padding: EdgeInsets.only(bottom: 10),
               width: MediaQuery.of(context).size.width,
-              color: _isShowVoucher ? Colors.blue.shade50 : Colors.grey.shade50,
+              color: _isShowVoucher
+                  ? Theme.of(context).cardColor
+                  : Colors.blue,
               child: Padding(
                 padding: const EdgeInsets.only(left: 25.0, top: 5),
                 child: Text(
                   'Add voucher or promo code ',
                   style: _isShowVoucher
-                      ? kPurpleText16
+                      ? Theme.of(context).textTheme.headlineSmall
                       : TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.blue),
                 ),

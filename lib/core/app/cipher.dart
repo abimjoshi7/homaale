@@ -100,7 +100,8 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => locator<KycBloc>(),
@@ -193,7 +194,8 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
           BlocProvider(
-            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) =>
+                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -231,7 +233,7 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<SavedBloc>(),
           ),
         ],
-        child:BlocBuilder<ThemeBloc, ThemeState>(
+        child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
             ThemeData? displayTheme() {
               ThemeData? theme;
@@ -242,6 +244,7 @@ class Cipher extends StatelessWidget {
               }
               return theme;
             }
+
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: displayTheme(),
