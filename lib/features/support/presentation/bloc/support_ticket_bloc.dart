@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/support/data/model/support_ticket_model.dart';
 import 'package:cipher/features/support/data/repositories/support_repository.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -18,20 +19,37 @@ class SupportTicketBloc extends Bloc<SupportTicketEvent, SupportTicketState> {
     on<SupportTicketFetchInitiated>(
       (event, emit) async {
         try {
-          final x = await _repo.fetchSupportTickets(
+          List<SupportTicketModel> _supportTicketList = [];
+
+          final _xList = await _repo.fetchSupportTickets(
             {
               "is_active": true,
               "status": event.supportTicketStatus,
             },
           );
-          log("Support Ticket Response: $x");
-          emit(
-            state.copyWith(
+          if (_xList != null) {
+            for (final supportTicket in _xList) {
+              _supportTicketList.add(
+                SupportTicketModel.fromJson(
+                    supportTicket as Map<String, dynamic>),
+              );
+            }
+            emit(state.copyWith(
               theStates: TheStates.success,
-              supportTicketList: x as List?,
-            ),
-          );
+              supportTicketList: _supportTicketList,
+              isTicketClosed:
+                  event.supportTicketStatus == "open" ? false : true,
+            ));
+          } else {
+            emit(state.copyWith(
+              theStates: TheStates.success,
+              supportTicketList: List.empty(),
+              isTicketClosed:
+                  event.supportTicketStatus == "open" ? false : true,
+            ));
+          }
         } catch (e) {
+          log("Support Ticket BLOC ERR: " + e.toString());
           emit(
             state.copyWith(
               theStates: TheStates.failure,

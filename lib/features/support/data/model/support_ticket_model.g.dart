@@ -9,7 +9,7 @@ part of 'support_ticket_model.dart';
 _$_SupportTicketModel _$$_SupportTicketModelFromJson(
         Map<String, dynamic> json) =>
     _$_SupportTicketModel(
-      id: json['id'] as String?,
+      id: json['id'] as int?,
       type: json['type'] == null
           ? null
           : SupportTicketType.fromJson(json['type'] as Map<String, dynamic>),
@@ -58,7 +58,7 @@ Map<String, dynamic> _$$_SupportTicketModelToJson(
 
 _$_SupportTicketType _$$_SupportTicketTypeFromJson(Map<String, dynamic> json) =>
     _$_SupportTicketType(
-      id: json['id'] as String?,
+      id: json['id'] as int?,
       name: json['name'] as String?,
     );
 

@@ -112,22 +112,30 @@ class _SupportTicketPageState extends State<SupportTicketPage>
           // addVerticalSpace(24.0),
 
           BlocListener<SupportTicketBloc, SupportTicketState>(
-            listener: (context, state) {
-              if (state.theStates != TheStates.initial) return;
-              if (_tabController.index < 1) {
-                context.read<SupportTicketBloc>().add(
-                    SupportTicketFetchInitiated(
-                        supportTicketStatus: SupportTicketStatus.open.name));
-                setState(() {});
-              }
-              if (_tabController.index > 0) {
-                context.read<SupportTicketBloc>().add(
-                    SupportTicketFetchInitiated(
-                        supportTicketStatus: SupportTicketStatus.closed.name));
-                setState(() {});
+            listener: (_, state) {
+              if (state.theStates == TheStates.initial) {
+                if (_tabController.index < 1) {
+                  context.read<SupportTicketBloc>().add(
+                      SupportTicketFetchInitiated(
+                          supportTicketStatus: SupportTicketStatus.open.name));
+                  setState(() {});
+                }
+                if (_tabController.index >= 1) {
+                  context.read<SupportTicketBloc>().add(
+                      SupportTicketFetchInitiated(
+                          supportTicketStatus:
+                              SupportTicketStatus.closed.name));
+                  setState(() {});
+                }
               }
             },
             child: TabBar(
+              onTap: (value) {
+                context
+                    .read<SupportTicketBloc>()
+                    .add(SupportTicketInitialEvent());
+                setState(() {});
+              },
               unselectedLabelColor: Colors.grey,
               labelPadding: kPadding10,
               controller: _tabController,
@@ -157,18 +165,10 @@ class _SupportTicketPageState extends State<SupportTicketPage>
               child: TabBarView(
                 controller: _tabController,
                 children: <Widget>[
-                  ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return SupportTicketCard(isTicketClosed: false);
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return SupportTicketCard(isTicketClosed: true);
-                    },
-                  )
+                  //active tab bar list
+                  SupportTicketList(),
+                  //closed tab bar list
+                  SupportTicketList(),
                 ],
               ),
             ),

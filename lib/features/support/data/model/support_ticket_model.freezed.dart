@@ -20,7 +20,7 @@ SupportTicketModel _$SupportTicketModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SupportTicketModel {
-  String? get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   SupportTicketType? get type => throw _privateConstructorUsedError;
   @JsonKey(name: "created_by")
   CreatedBy? get createdBy => throw _privateConstructorUsedError;
@@ -55,7 +55,7 @@ abstract class $SupportTicketModelCopyWith<$Res> {
       _$SupportTicketModelCopyWithImpl<$Res, SupportTicketModel>;
   @useResult
   $Res call(
-      {String? id,
+      {int? id,
       SupportTicketType? type,
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       User? user,
@@ -107,7 +107,7 @@ class _$SupportTicketModelCopyWithImpl<$Res, $Val extends SupportTicketModel>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -209,7 +209,7 @@ abstract class _$$_SupportTicketModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
+      {int? id,
       SupportTicketType? type,
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       User? user,
@@ -262,7 +262,7 @@ class __$$_SupportTicketModelCopyWithImpl<$Res>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -343,7 +343,7 @@ class _$_SupportTicketModel implements _SupportTicketModel {
       _$$_SupportTicketModelFromJson(json);
 
   @override
-  final String? id;
+  final int? id;
   @override
   final SupportTicketType? type;
   @override
@@ -456,7 +456,7 @@ class _$_SupportTicketModel implements _SupportTicketModel {
 
 abstract class _SupportTicketModel implements SupportTicketModel {
   const factory _SupportTicketModel(
-          {final String? id,
+          {final int? id,
           final SupportTicketType? type,
           @JsonKey(name: "created_by") final CreatedBy? createdBy,
           final User? user,
@@ -476,7 +476,7 @@ abstract class _SupportTicketModel implements SupportTicketModel {
       _$_SupportTicketModel.fromJson;
 
   @override
-  String? get id;
+  int? get id;
   @override
   SupportTicketType? get type;
   @override
@@ -522,7 +522,7 @@ SupportTicketType _$SupportTicketTypeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SupportTicketType {
-  String? get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -537,7 +537,7 @@ abstract class $SupportTicketTypeCopyWith<$Res> {
           SupportTicketType value, $Res Function(SupportTicketType) then) =
       _$SupportTicketTypeCopyWithImpl<$Res, SupportTicketType>;
   @useResult
-  $Res call({String? id, String? name});
+  $Res call({int? id, String? name});
 }
 
 /// @nodoc
@@ -560,7 +560,7 @@ class _$SupportTicketTypeCopyWithImpl<$Res, $Val extends SupportTicketType>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -577,7 +577,7 @@ abstract class _$$_SupportTicketTypeCopyWith<$Res>
       __$$_SupportTicketTypeCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? id, String? name});
+  $Res call({int? id, String? name});
 }
 
 /// @nodoc
@@ -598,7 +598,7 @@ class __$$_SupportTicketTypeCopyWithImpl<$Res>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -616,7 +616,7 @@ class _$_SupportTicketType implements _SupportTicketType {
       _$$_SupportTicketTypeFromJson(json);
 
   @override
-  final String? id;
+  final int? id;
   @override
   final String? name;
 
@@ -654,14 +654,14 @@ class _$_SupportTicketType implements _SupportTicketType {
 }
 
 abstract class _SupportTicketType implements SupportTicketType {
-  const factory _SupportTicketType({final String? id, final String? name}) =
+  const factory _SupportTicketType({final int? id, final String? name}) =
       _$_SupportTicketType;
 
   factory _SupportTicketType.fromJson(Map<String, dynamic> json) =
       _$_SupportTicketType.fromJson;
 
   @override
-  String? get id;
+  int? get id;
   @override
   String? get name;
   @override

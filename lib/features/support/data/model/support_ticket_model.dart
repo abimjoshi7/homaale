@@ -8,7 +8,7 @@ part 'support_ticket_model.g.dart';
 @freezed
 class SupportTicketModel with _$SupportTicketModel {
   const factory SupportTicketModel({
-    String? id,
+    int? id,
     SupportTicketType? type,
     @JsonKey(name: "created_by") CreatedBy? createdBy,
     User? user,
@@ -30,8 +30,10 @@ class SupportTicketModel with _$SupportTicketModel {
 
 @freezed
 class SupportTicketType with _$SupportTicketType {
-  const factory SupportTicketType({String? id, String? name}) =
-      _SupportTicketType;
+  const factory SupportTicketType({
+    int? id,
+    String? name,
+  }) = _SupportTicketType;
 
   factory SupportTicketType.fromJson(Map<String, dynamic> json) =>
       _$SupportTicketTypeFromJson(json);
