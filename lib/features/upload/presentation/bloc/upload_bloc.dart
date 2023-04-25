@@ -16,6 +16,21 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   UploadBloc(
     this.repo,
   ) : super(UploadState()) {
+    on<SetInitials>(
+      (event, emit) {
+        emit(state.copyWith(
+          imageFileList: [],
+          isFileUploaded: false,
+          isImageUploaded: false,
+          isVideoUploaded: false,
+          theStates: TheStates.initial,
+          uploadedImageList: [],
+          uploadedVideoList: [],
+          videoFileList: [],
+        ));
+      },
+    );
+
     on<ImageUploaded>(
       (event, emit) async {
         try {
@@ -31,7 +46,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             (value) async {
               emit(
                 state.copyWith(
+                  theStates: TheStates.success,
                   imageFileList: [
+                    ...state.imageFileList ?? [],
                     value?.path ?? "",
                   ],
                 ),
@@ -87,6 +104,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               emit(
                 state.copyWith(
                   imageFileList: list,
+                  theStates: TheStates.success,
                 ),
               );
             },
@@ -119,6 +137,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               (value) => emit(
                 state.copyWith(
                   videoFileList: [
+                    ...state.videoFileList ?? [],
                     value?.path ?? "",
                   ],
                 ),
@@ -154,6 +173,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 emit(
                   state.copyWith(
                     videoFileList: list,
+                    theStates: TheStates.success,
                   ),
                 );
               },
@@ -228,8 +248,38 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              uploadedImageList: [],
+              uploadedVideoList: [],
               isVideoUploaded: false,
+            ),
+          );
+        }
+      },
+    );
+
+    on<MultimediaRemoved>(
+      (event, emit) async {
+        if (event.isVideo == false) {
+          List<String> list = [
+            ...state.imageFileList ?? [],
+          ]..removeAt(
+              event.selectedIndex,
+            );
+
+          emit(
+            state.copyWith(
+              imageFileList: list,
+            ),
+          );
+        } else {
+          List<String> list = [
+            ...state.videoFileList ?? [],
+          ]..removeAt(
+              event.selectedIndex,
+            );
+
+          emit(
+            state.copyWith(
+              videoFileList: list,
             ),
           );
         }

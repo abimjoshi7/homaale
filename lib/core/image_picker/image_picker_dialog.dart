@@ -6,17 +6,13 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class ImagePickerDialog extends StatelessWidget {
-  final UploadBloc uploadBloc;
-
   const ImagePickerDialog({
     Key? key,
-    required this.uploadBloc,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
-      bloc: uploadBloc,
       builder: (context, state) {
         if (state.theStates == TheStates.loading)
           return Center(
@@ -47,10 +43,17 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorBlue,
                   ),
                   onTap: () {
-                    uploadBloc.add(
-                      ImageUploaded(
-                        context: context,
-                        isVideo: false,
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<UploadBloc>().add(
+                            ImageUploaded(
+                              context: context,
+                              isVideo: false,
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
                       ),
                     );
                   },
@@ -64,9 +67,16 @@ class ImagePickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () {
-                    uploadBloc.add(
-                      MultipleImageUploaded(
-                        context: context,
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<UploadBloc>().add(
+                            MultipleImageUploaded(
+                              context: context,
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
                       ),
                     );
                   },

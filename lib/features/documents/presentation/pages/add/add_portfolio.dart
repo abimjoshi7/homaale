@@ -259,9 +259,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
                             onTap: () async {
                               showDialog(
                                 context: context,
-                                builder: (context) => ImagePickerDialog(
-                                  uploadBloc: uploadBloc,
-                                ),
+                                builder: (context) => ImagePickerDialog(),
                               );
                             },
                             child: SizedBox(

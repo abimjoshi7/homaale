@@ -19,6 +19,12 @@ class ImageUploaded extends UploadEvent {
       ];
 }
 
+class SetInitials extends UploadEvent {
+  SetInitials();
+  @override
+  List<Object?> get props => [];
+}
+
 class MultipleImageUploaded extends UploadEvent {
   final BuildContext context;
   MultipleImageUploaded({
@@ -68,5 +74,19 @@ class VideoToFilestoreUploaded extends UploadEvent {
   @override
   List<Object?> get props => [
         list,
+      ];
+}
+
+class MultimediaRemoved extends UploadEvent {
+  final int selectedIndex;
+  final bool isVideo;
+  MultimediaRemoved({
+    required this.selectedIndex,
+    required this.isVideo,
+  });
+  @override
+  List<Object?> get props => [
+        selectedIndex,
+        isVideo,
       ];
 }

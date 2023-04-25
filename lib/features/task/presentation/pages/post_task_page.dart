@@ -1,13 +1,8 @@
-import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -16,7 +11,6 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class PostTaskPage extends StatefulWidget {
   static const routeName = '/post-task-page';
@@ -58,13 +52,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
-  late final ImageUploadCubit imageCubit;
   late final CategoriesBloc categoriesBloc;
-  late final UploadBloc uploadBloc;
 
   @override
   void initState() {
-    imageCubit = locator<ImageUploadCubit>();
     categoriesBloc = locator<CategoriesBloc>()
       ..add(
         CategoriesLoadInitiated(),
@@ -72,8 +63,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
     context.read<ServicesBloc>().add(
           const ServicesLoadInitiated(),
         );
+
     super.initState();
-    uploadBloc = locator<UploadBloc>();
   }
 
   @override
@@ -84,11 +75,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
     descriptionController.dispose();
     requirementController.dispose();
     addressController.dispose();
-    imageCubit.close();
     categoriesBloc.close();
-    locator.resetLazySingleton<UploadBloc>(
-      instance: uploadBloc,
-    );
     super.dispose();
   }
 
@@ -751,7 +738,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           //     const Text('Yes, it is negotiable.'),
                           //   ],
                           // ),
-                          CustomMultimedia(uploadBloc: uploadBloc),
+
+                          CustomMultimedia(),
                           addVerticalSpace(10),
                           Row(
                             children: [
@@ -851,57 +839,96 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                         ),
                                       );
                                     } else {
-                                      final req = TaskEntityServiceReq(
-                                        title: titleController.text,
-                                        description: descriptionController.text,
-                                        highlights: requirementList,
-                                        budgetType: budgetType,
-                                        budgetFrom: int.parse(
-                                          startPriceController.text,
-                                        ),
-                                        budgetTo: int.parse(
-                                          endPriceController.text.isEmpty
-                                              ? startPriceController.text
-                                              : endPriceController.text,
-                                        ),
-                                        startDate: DateFormat("yyyy-MM-dd")
-                                            .format(
-                                                startDate ?? DateTime.now()),
-                                        endDate: DateFormat("yyyy-MM-dd")
-                                            .format(endDate ?? DateTime.now()),
-                                        startTime: startTime?.format(context),
-                                        endTime: endTime?.format(context),
-                                        shareLocation: true,
-                                        isNegotiable: true,
-                                        location: addressController.text,
-                                        revisions: 0,
-                                        avatar: 2,
-                                        isProfessional: true,
-                                        isOnline: true,
-                                        isRequested: true,
-                                        discountType: "Percentage",
-                                        discountValue: 0,
-                                        extraData: [],
-                                        noOfReservation: 2147483647,
-                                        isActive: true,
-                                        needsApproval: true,
-                                        isEndorsed: true,
-                                        service: categoryId,
-                                        event: "",
-                                        city: cityCode ??
-                                            int.parse(
-                                              kCityCode,
+                                      context.read<UploadBloc>().add(
+                                            ImageToFilestoreUploaded(
+                                              list: context
+                                                  .read<UploadBloc>()
+                                                  .state
+                                                  .imageFileList,
                                             ),
-                                        currency: currencyCode ?? kCurrencyCode,
-                                        images: uploadBloc
-                                                .state.uploadedImageList ??
-                                            [],
-                                        videos: uploadBloc
-                                                .state.uploadedVideoList ??
-                                            [],
-                                      );
-                                      context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceCreated(req: req));
+                                          );
+                                      context.read<UploadBloc>().add(
+                                            VideoToFilestoreUploaded(
+                                              list: context
+                                                  .read<UploadBloc>()
+                                                  .state
+                                                  .videoFileList,
+                                            ),
+                                          );
+                                      if (context
+                                                  .read<UploadBloc>()
+                                                  .state
+                                                  .isImageUploaded ==
+                                              true ||
+                                          context
+                                                  .read<UploadBloc>()
+                                                  .state
+                                                  .isVideoUploaded ==
+                                              true) {
+                                        final req = TaskEntityServiceReq(
+                                          title: titleController.text,
+                                          description:
+                                              descriptionController.text,
+                                          highlights: requirementList,
+                                          budgetType: budgetType,
+                                          budgetFrom: int.parse(
+                                            startPriceController.text,
+                                          ),
+                                          budgetTo: int.parse(
+                                            endPriceController.text.isEmpty
+                                                ? startPriceController.text
+                                                : endPriceController.text,
+                                          ),
+                                          startDate: DateFormat("yyyy-MM-dd")
+                                              .format(
+                                                  startDate ?? DateTime.now()),
+                                          endDate: DateFormat("yyyy-MM-dd")
+                                              .format(
+                                                  endDate ?? DateTime.now()),
+                                          startTime: startTime?.format(context),
+                                          endTime: endTime?.format(context),
+                                          shareLocation: true,
+                                          isNegotiable: true,
+                                          location: addressController.text,
+                                          revisions: 0,
+                                          avatar: 2,
+                                          isProfessional: true,
+                                          isOnline: true,
+                                          isRequested: true,
+                                          discountType: "Percentage",
+                                          discountValue: 0,
+                                          extraData: [],
+                                          noOfReservation: 2147483647,
+                                          isActive: true,
+                                          needsApproval: true,
+                                          isEndorsed: true,
+                                          service: categoryId,
+                                          event: "",
+                                          city: cityCode ??
+                                              int.parse(
+                                                kCityCode,
+                                              ),
+                                          currency:
+                                              currencyCode ?? kCurrencyCode,
+                                          images: context
+                                                  .read<UploadBloc>()
+                                                  .state
+                                                  .uploadedImageList ??
+                                              [],
+                                          videos: context
+                                                  .read<UploadBloc>()
+                                                  .state
+                                                  .uploadedVideoList ??
+                                              [],
+                                        );
+                                        context
+                                            .read<TaskEntityServiceBloc>()
+                                            .add(
+                                              TaskEntityServiceCreated(
+                                                req: req,
+                                              ),
+                                            );
+                                      }
                                     }
                                   } else {
                                     showDialog(

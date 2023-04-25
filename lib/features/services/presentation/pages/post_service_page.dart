@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -8,11 +7,9 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
-import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -57,13 +54,10 @@ class _PostServicePageState extends State<PostServicePage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
-  late final ImageUploadCubit imageCubit;
-  final uploadBloc = locator<UploadBloc>();
   late final CategoriesBloc categoriesBloc;
 
   @override
   void initState() {
-    imageCubit = locator<ImageUploadCubit>();
     categoriesBloc = locator<CategoriesBloc>()
       ..add(
         CategoriesLoadInitiated(),
@@ -83,11 +77,7 @@ class _PostServicePageState extends State<PostServicePage> {
     requirementController.dispose();
     addressController.dispose();
     discountController.dispose();
-    imageCubit.close();
     categoriesBloc.close();
-    locator.resetLazySingleton<UploadBloc>(
-      instance: uploadBloc,
-    );
     super.dispose();
   }
 
@@ -639,9 +629,7 @@ class _PostServicePageState extends State<PostServicePage> {
                               // ),
                             ],
                           ),
-                          CustomMultimedia(
-                            uploadBloc: uploadBloc,
-                          ),
+                          CustomMultimedia(),
                           Row(
                             children: [
                               CustomCheckBox(

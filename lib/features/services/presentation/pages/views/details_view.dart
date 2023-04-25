@@ -188,9 +188,7 @@ class _DetailsViewState extends State<DetailsView> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => ImagePickerDialog(
-                        uploadBloc: uploadBloc,
-                      ),
+                      builder: (context) => ImagePickerDialog(),
                     ).whenComplete(
                       () => eventCache.add(
                         BookEventPicked(
@@ -246,9 +244,7 @@ class _DetailsViewState extends State<DetailsView> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => VideoPickerDialog(
-                        uploadBloc: uploadBloc,
-                      ),
+                      builder: (context) => VideoPickerDialog(),
                     ).whenComplete(
                       () => eventCache.add(
                         BookEventPicked(

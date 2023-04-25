@@ -6,15 +6,12 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class VideoPickerDialog extends StatelessWidget {
-  final UploadBloc uploadBloc;
   const VideoPickerDialog({
     Key? key,
-    required this.uploadBloc,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
-      bloc: uploadBloc,
       builder: (context, state) {
         if (state.theStates == TheStates.loading) {
           return Center(
@@ -46,10 +43,17 @@ class VideoPickerDialog extends StatelessWidget {
                     color: kColorBlue,
                   ),
                   onTap: () {
-                    uploadBloc.add(
-                      VideoUploaded(
-                        context: context,
-                        isCamera: true,
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<UploadBloc>().add(
+                            VideoUploaded(
+                              context: context,
+                              isCamera: true,
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
                       ),
                     );
                   },
@@ -63,10 +67,17 @@ class VideoPickerDialog extends StatelessWidget {
                     color: kColorGreen,
                   ),
                   onTap: () {
-                    uploadBloc.add(
-                      VideoUploaded(
-                        context: context,
-                        isCamera: false,
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<UploadBloc>().add(
+                            VideoUploaded(
+                              context: context,
+                              isCamera: false,
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
                       ),
                     );
                   },

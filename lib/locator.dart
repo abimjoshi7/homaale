@@ -69,7 +69,7 @@ void init() {
   );
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
-  locator.registerLazySingleton(
+  locator.registerFactory(
     () => UploadBloc(
       locator(),
     ),
