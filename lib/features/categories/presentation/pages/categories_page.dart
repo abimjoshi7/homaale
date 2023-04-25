@@ -89,8 +89,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         children: <Widget>[
                           ColoredBox(
                             color: selectedIndex == index
-                                ? Theme.of(context).cardColor
-                                : Theme.of(context).cardColor,
+                                ? Theme.of(context).primaryColor
+                                : Theme.of(context).primaryColor,
                             child: SizedBox(
                               height: 80,
                               child: CategoriesIcons(

@@ -30,7 +30,7 @@ class PriceBookFooterSection extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.09,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: bgColor ?? Theme.of(context).cardColor,
+        color: bgColor ?? Theme.of(context).primaryColor,
             //Color(0xffBCD4FA),
       ),
       child: Row(

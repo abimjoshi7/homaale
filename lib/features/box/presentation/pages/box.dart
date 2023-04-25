@@ -9,6 +9,7 @@ import 'package:cipher/widgets/custom_toast.dart';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../../../widgets/custom_app_bar.dart';
 import '../../../bookings/presentation/bloc/bookings_bloc.dart';
 import '../../../bookings/presentation/widgets/sections/services/services_section.dart';
 import '../../../checkout/presentation/pages/checkout_page.dart';
@@ -62,18 +63,10 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        elevation: 0,
-        title: Text(
-          'Box',
-          style: Theme.of(context).textTheme.displaySmall,
-        ),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        actions: [
-          Icon(Icons.search),
-        ],
+      appBar: CustomAppBar(
+        appBarTitle: 'Box',
+        leadingWidget: SizedBox(),
+        trailingWidget: SizedBox(),
       ),
       body: BlocBuilder<OrderItemListBloc, OrderItemListState>(
         builder: (context, state) {
@@ -257,15 +250,19 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                       Text(
                                                                         state.orderItemList?.result?[index].entityService?.city?.name ??
                                                                             "",
-                                                                        style:Theme.of(context).textTheme.bodySmall,
-
+                                                                        style: Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodySmall,
                                                                       ),
                                                                     ],
                                                                   ),
                                                                   Text(
                                                                     '${state.orderItemList?.result?[index].currency?.symbol}'
                                                                     '${Decimal.parse(state.orderItemList?.result?[index].charge.toString() ?? "0")}',
-                                                                    style: Theme.of(context).textTheme.bodySmall,
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodySmall,
                                                                   ),
                                                                 ],
                                                               ),
@@ -289,8 +286,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                           ),
                                                                           Text(
                                                                             '${state.orderItemList?.result![index].startDate ?? ""}',
-                                                                            style:Theme.of(context).textTheme.bodySmall,
-
+                                                                            style:
+                                                                                Theme.of(context).textTheme.bodySmall,
                                                                           ),
                                                                         ],
                                                                       ),
@@ -308,7 +305,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                           ),
                                                                           Text(
                                                                             '${state.orderItemList?.result![index].startTime?.replaceAll(':00', '')}',
-                                                                            style:Theme.of(context).textTheme.bodySmall,
+                                                                            style:
+                                                                                Theme.of(context).textTheme.bodySmall,
                                                                           ),
                                                                         ],
                                                                       ),
@@ -346,10 +344,12 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                         Text(
+                                                        Text(
                                                           'Booking:',
-                                                          style: Theme.of(context).textTheme.bodySmall,
-
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodySmall,
                                                         ),
                                                         addHorizontalSpace(5),
                                                         SizedBox(

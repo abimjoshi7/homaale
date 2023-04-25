@@ -65,7 +65,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Theme.of(context).cardColor,
+                color: Theme.of(context).primaryColor,
                 boxShadow:  [
                   BoxShadow(
                     offset: Offset(0.5, 0.5),

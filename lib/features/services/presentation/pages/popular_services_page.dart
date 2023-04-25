@@ -316,7 +316,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                         modalBottomSheetProps:
                                             ModalBottomSheetProps(
                                           backgroundColor:
-                                              Theme.of(context).cardColor,
+                                              Theme.of(context).primaryColor,
                                           useSafeArea: false,
                                         ),
                                       ),
@@ -332,7 +332,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                   Icon(Icons.keyboard_arrow_down_outlined),
                                 ],
                               ),
-                              backgroundColor: Theme.of(context).cardColor,
+                              backgroundColor: Theme.of(context).primaryColor,
                               side: const BorderSide(color: kColorGrey),
                               selected: false,
                               disabledColor: Colors.white,
@@ -396,7 +396,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                         modalBottomSheetProps:
                                             ModalBottomSheetProps(
                                           backgroundColor:
-                                              Theme.of(context).cardColor,
+                                              Theme.of(context).primaryColor,
                                           useSafeArea: false,
                                         ),
                                       ),

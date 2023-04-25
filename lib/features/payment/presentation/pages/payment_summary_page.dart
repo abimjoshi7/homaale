@@ -24,24 +24,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
   Widget build(BuildContext context) {
     final orderID = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: const Text(
-          'Payment Summary',
-          style: TextStyle(color: Colors.black, fontSize: 14),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar:CustomAppBar(appBarTitle: 'Payment Summary',),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(builder: (context, state) {
         return SingleChildScrollView(
           child: Column(
@@ -54,15 +37,15 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
-                      child: const Text(
+                      child:  Text(
                         'Booking Details',
-                        style: kPurpleText16,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(right: 30, top: 20),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(15)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,12 +98,12 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                   children: [
                                     Text(
                                       'Total',
-                                      style: kPurpleText16,
+                                      style: Theme.of(context).textTheme.headlineSmall,
                                     ),
                                     Text(
                                       'Rs '
                                       '${state.orderItemRetriveList?.grandTotal}',
-                                      style: kPurpleText16,
+                                      style: Theme.of(context).textTheme.headlineSmall,
                                     ),
                                   ],
                                 ),
@@ -132,9 +115,9 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0, top: 10),
-                      child: const Text(
+                      child:  Text(
                         'Payment Details',
-                        style: kPurpleText16,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
                     Container(
@@ -213,7 +196,7 @@ class CommonBillingAddressContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(left: 10, top: 10, right: 10),
-      decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
