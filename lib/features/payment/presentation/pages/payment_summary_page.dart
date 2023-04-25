@@ -213,14 +213,14 @@ class CommonBillingAddressContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(left: 10, top: 10, right: 10),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text(
+           Text(
             'Billing Details',
-            style: kPurpleText16,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           SizedBox(
             height: 10,
@@ -240,9 +240,9 @@ class CommonBillingAddressContainer extends StatelessWidget {
                 color: Colors.orangeAccent,
               ),
               addHorizontalSpace(10),
-              const Text(
+               Text(
                 'Same as task location',
-                style: kBodyText1,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),

@@ -25,12 +25,11 @@ class AddPopupButton extends StatelessWidget {
             backgroundColor: kColorPrimaryAccent,
             child: Icon(
               icon,
-              color: Theme.of(context).appBarTheme.iconTheme?.color,
+              color: Colors.white,
             ),
           ),
           Text(
             label,
-            // style: Theme.of(context).textTheme.bodySmall,
           style:  const TextStyle(color: kColorSilver),
           ),
           addVerticalSpace(16),

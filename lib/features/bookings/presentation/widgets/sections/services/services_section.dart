@@ -11,6 +11,8 @@ import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 
+import '../../../../../../core/constants/date_time_representation.dart';
+
 class ServicesSection extends StatefulWidget {
   final bool? isCheckPending;
   final BookingsBloc bloc;
@@ -26,13 +28,15 @@ class _ServicesSectionState extends State<ServicesSection> {
   List<Result> serviceList = [];
 
   //initialize page controller
-  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, Result> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
     //so at event add list of records
     _pagingController.addPageRequestListener(
-      (pageKey) => bookingsBloc.add(BookingLoaded(isTask: false, page: pageKey)),
+      (pageKey) =>
+          bookingsBloc.add(BookingLoaded(isTask: false, page: pageKey)),
     );
     super.initState();
   }
@@ -48,7 +52,9 @@ class _ServicesSectionState extends State<ServicesSection> {
     return BlocListener<BookingsBloc, BookingsState>(
       bloc: bookingsBloc,
       listener: (context, state) {
-        if ((state.isUpdated ?? false) || (state.isCancelled ?? false) || (state.isRejected ?? false)) {
+        if ((state.isUpdated ?? false) ||
+            (state.isCancelled ?? false) ||
+            (state.isRejected ?? false)) {
           _pagingController.refresh();
         }
 
@@ -80,7 +86,8 @@ class _ServicesSectionState extends State<ServicesSection> {
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) => addVerticalSpace(16),
                   padding: EdgeInsets.symmetric(horizontal: 8),
-                  builderDelegate: PagedChildBuilderDelegate(itemBuilder: (context, Result item, index) {
+                  builderDelegate: PagedChildBuilderDelegate(
+                      itemBuilder: (context, Result item, index) {
                     return widget.isCheckPending ?? false
                         ? item.status?.toLowerCase() == "pending"
                             ? BookingsServiceCard(
@@ -138,7 +145,8 @@ class _ServicesSectionState extends State<ServicesSection> {
                             cancelTap: () {
                               if (item.status?.toLowerCase() == 'pending') {
                                 bookingsBloc.add(
-                                  BookingCancelled(id: item.id ?? 0, isTask: false),
+                                  BookingCancelled(
+                                      id: item.id ?? 0, isTask: false),
                                 );
                                 Navigator.pop(context);
                               } else {
@@ -159,7 +167,10 @@ class _ServicesSectionState extends State<ServicesSection> {
                             deleteTap: () {
                               if (item.status?.toLowerCase() == 'pending') {
                                 bookingsBloc.add(
-                                  BookingRejected(rejectReq: RejectReq(booking: item.id ?? 0), isTask: false),
+                                  BookingRejected(
+                                      rejectReq:
+                                          RejectReq(booking: item.id ?? 0),
+                                      isTask: false),
                                 );
                                 Navigator.pop(context);
                               } else {
@@ -231,7 +242,8 @@ class _ServicesSectionState extends State<ServicesSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
+                  label:
+                      "${result.startTime?.replaceAll(":00", '') ?? '00:00'} ${result.endTime?.replaceAll(":00", '') ?? ''}",
                   color: kColorGreen,
                 ),
               ),

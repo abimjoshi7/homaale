@@ -82,34 +82,38 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
+                              children:  [
                                 Text(
                                   'Name',
-                                  style: kText15,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                                 Text(
                                   'Price',
-                                  style: kText15,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+
+                                  // style: kText15,
                                 ),
                                 Text(
                                   'Total',
-                                  style: kText15,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+
+                                  // style: kText15,
                                 ),
                               ],
                             ),
                             const Divider(),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 3,
+                                  width: MediaQuery.of(context).size.width / 4,
                                   child: Text(retriveState.orderItemRetriveList?.orderItem![index].task?.title ?? ""),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width / 3,
+                                  width: MediaQuery.of(context).size.width / 4,
                                   child: Text('Rs'
                                       '   ${Decimal.parse(retriveState.orderItemRetriveList?.orderItem![index].amount ?? "0.0")}'),
                                 ),
@@ -128,9 +132,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                   child: Text(
                                     retriveState.orderItemRetriveList?.orderItem![index].task?.assigner?.designation ??
                                         "",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                    ),
+                                    style: Theme.of(context).textTheme.bodySmall,
                                   ),
                                 )
                               ],

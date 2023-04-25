@@ -158,6 +158,7 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             Divider(),
+            SizedBox(height: 5),
             CustomElevatedButton(
               theHeight: 35,
               theWidth: double.infinity,
