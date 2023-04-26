@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'upload_bloc.dart';
 
 class UploadState extends Equatable {
@@ -9,8 +10,8 @@ class UploadState extends Equatable {
   final List<String>? videoFileList;
   final List<int>? uploadedImageList;
   final List<int>? uploadedVideoList;
-  const UploadState({
-    this.theStates = TheStates.initial,
+  UploadState({
+    this.theStates,
     this.isImageUploaded,
     this.isVideoUploaded,
     this.isFileUploaded,
@@ -18,6 +19,17 @@ class UploadState extends Equatable {
     this.videoFileList,
     this.uploadedImageList,
     this.uploadedVideoList,
+  });
+
+  const UploadState.initial({
+    this.imageFileList = const [],
+    this.isFileUploaded = false,
+    this.isImageUploaded = false,
+    this.isVideoUploaded = false,
+    this.theStates = TheStates.initial,
+    this.uploadedImageList = const [],
+    this.uploadedVideoList = const [],
+    this.videoFileList = const [],
   });
 
   @override

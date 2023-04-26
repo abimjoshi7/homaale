@@ -18,16 +18,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   ) : super(UploadState()) {
     on<SetInitials>(
       (event, emit) {
-        emit(state.copyWith(
-          imageFileList: [],
-          isFileUploaded: false,
-          isImageUploaded: false,
-          isVideoUploaded: false,
-          theStates: TheStates.initial,
-          uploadedImageList: [],
-          uploadedVideoList: [],
-          videoFileList: [],
-        ));
+        emit(
+          UploadState.initial(),
+        );
       },
     );
 
@@ -136,6 +129,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             ).then(
               (value) => emit(
                 state.copyWith(
+                  theStates: TheStates.success,
                   videoFileList: [
                     ...state.videoFileList ?? [],
                     value?.path ?? "",
@@ -172,8 +166,8 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
                 emit(
                   state.copyWith(
-                    videoFileList: list,
                     theStates: TheStates.success,
+                    videoFileList: list,
                   ),
                 );
               },

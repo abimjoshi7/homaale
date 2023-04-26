@@ -20,6 +20,7 @@ const kServiceImageNImg =
 
 //
 const kImageLimit = "Limited to 5 Images upto 5MB each";
+const kVideoLimit = "Limited to 2 Video upto 15MB each";
 
 //City code
 const kCityCode = "26064";

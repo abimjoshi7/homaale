@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
-import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -125,17 +124,9 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
               children: [
                 Row(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          SandboxPage.routeName,
-                        );
-                      },
-                      child: const Icon(
-                        Icons.info_outline,
-                        color: Colors.orange,
-                      ),
+                    const Icon(
+                      Icons.info_outline,
+                      color: Colors.orange,
                     ),
                     addHorizontalSpace(5),
                     const Text(
@@ -154,7 +145,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                           scrollDirection: Axis.horizontal,
                           itemCount: (state.imageFileList?.length ?? 0) >= 5
                               ? 5
-                              : state.imageFileList?.length,
+                              : state.imageFileList?.length ?? 0,
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 4,
@@ -244,73 +235,95 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                             ],
                           ),
                         ),
-                  child: state.videoFileList?.isEmpty ?? false
-                      ? InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => VideoPickerDialog(),
-                            );
-                          },
-                          child: CustomDottedContainerStack(
-                            theWidget: Text(
-                              'Select Videos',
-                            ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.info_outline,
+                            color: Colors.orange,
                           ),
-                        )
-                      : Container(
-                          color: Colors.grey.shade100,
-                          width: double.infinity,
-                          height: 120,
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.videoFileList?.length ?? 0,
-                            itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
+                          addHorizontalSpace(5),
+                          const Text(
+                            kVideoLimit,
+                          ),
+                        ],
+                      ),
+                      addVerticalSpace(5),
+                      state.videoFileList?.isEmpty ?? false
+                          ? InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => VideoPickerDialog(),
+                                );
+                              },
+                              child: CustomDottedContainerStack(
+                                theWidget: Text(
+                                  'Select Videos',
+                                ),
                               ),
-                              child: SizedBox(
-                                width: 120,
-                                child: Stack(
-                                  children: [
-                                    Positioned.fill(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                          10,
-                                        ),
-                                        child: VideoPlayerWidget(
-                                          videoURL:
-                                              state.videoFileList?[index] ?? "",
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0.1,
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero,
-                                        onPressed: () async {
-                                          context.read<UploadBloc>().add(
-                                                MultimediaRemoved(
-                                                    selectedIndex: index,
-                                                    isVideo: true),
-                                              );
-                                        },
-                                        icon: Icon(
-                                          Icons.disabled_by_default_rounded,
-                                          color: kColorSilver.withOpacity(
-                                            0.5,
+                            )
+                          : Container(
+                              color: Colors.grey.shade100,
+                              width: double.infinity,
+                              height: 120,
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    (state.videoFileList?.length ?? 0) >= 2
+                                        ? 2
+                                        : state.videoFileList?.length ?? 0,
+                                itemBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                  ),
+                                  child: SizedBox(
+                                    width: 120,
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                            child: VideoPlayerWidget(
+                                              videoURL:
+                                                  state.videoFileList?[index] ??
+                                                      "",
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        Positioned(
+                                          right: 0.1,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            onPressed: () async {
+                                              context.read<UploadBloc>().add(
+                                                    MultimediaRemoved(
+                                                      selectedIndex: index,
+                                                      isVideo: true,
+                                                    ),
+                                                  );
+                                            },
+                                            icon: Icon(
+                                              Icons.disabled_by_default_rounded,
+                                              color: kColorSilver.withOpacity(
+                                                0.5,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
+                    ],
+                  ),
                 ),
               ],
             ),
