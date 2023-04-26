@@ -26,7 +26,7 @@ class ListTileComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: readDate == null ? kColorBlue.withOpacity(0.2) :Theme.of(context).primaryColor ,
+      color: readDate == null ? kColorBlue.withOpacity(0.2) :Theme.of(context).cardColor ,
       child: ListTile(
         leading: Container(
           padding: const EdgeInsets.all(8),
@@ -75,30 +75,8 @@ class ListTileComponent extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: bgColor,
-            // statusTitle == "status completed" ||
-            //         statusTitle == "payment completed"
-            //     ? Colors.green
-            //     : statusTitle == "approval" || statusTitle == "Approved"
-            //         ? Colors.teal
-            //         : statusTitle == "booking"
-            //             ? Colors.blue
-            //             : statusTitle == "waiting"
-            //                 ? Colors.orange
-            //                 : Colors.red,
           ),
           child: Text(
-            // (statusTitle == "status completed" ||
-            //     statusTitle == "payment completed")
-            //     ? "Completed"
-            //     : (statusTitle == "approval")
-            //     ? "Approval"
-            //     : (statusTitle == "waiting")
-            //     ? "Waiting"
-            //     : (statusTitle == "rejected")
-            //     ? "Rejected"
-            //     : (statusTitle == "booking")
-            //     ? "Booking"
-            //     :
             statusTitle,
             style: const TextStyle(color: Colors.white),
           ),
