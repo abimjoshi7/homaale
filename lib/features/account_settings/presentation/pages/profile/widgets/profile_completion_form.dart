@@ -106,23 +106,26 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           ],
                         ),
                       ),
-                    ).then(
-                      (value) async => await ImagePickHelper()
-                          .pickImagePath(
-                        isCamera: isCamera,
-                      )
-                          .then(
-                        (value) {
-                          if (value != null) {
-                            setState(
-                              () {
-                                selectedImage = value;
-                              },
-                            );
-                          }
-                        },
-                      ),
-                    );
+                    )
+
+                        // .then(
+                        //   (value) async => await MultimediaPickHelper()
+                        //       .pickImagePath(
+                        //     isCamera: isCamera,
+                        //   )
+                        //       .then(
+                        //     (value) {
+                        //       if (value != null) {
+                        //         setState(
+                        //           () {
+                        //             selectedImage = value;
+                        //           },
+                        //         );
+                        //       }
+                        //     },
+                        //   ),
+                        // )
+                        ;
                   },
                   child: Column(
                     children: [

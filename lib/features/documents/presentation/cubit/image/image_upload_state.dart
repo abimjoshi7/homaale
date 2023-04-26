@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'image_upload_cubit.dart';
 
+@immutable
 abstract class ImageUploadState extends Equatable {
   const ImageUploadState();
 }
@@ -34,16 +35,7 @@ class ImageUploadFailure extends ImageUploadState {
   List<Object?> get props => [];
 }
 
-class VideoUploadSuccess extends ImageUploadState {
-  const VideoUploadSuccess({
-    required this.list,
-  });
-  final List<dynamic> list;
-  @override
-  List<Object?> get props => [list];
-}
-
-class VideoUploadFailure extends ImageUploadState {
+class MulitpleImageUploadLoading extends ImageUploadState {
   @override
   List<Object?> get props => [];
 }
@@ -58,6 +50,40 @@ class MultipleImageUploadSuccess extends ImageUploadState {
 }
 
 class MultipleImageUploadFailure extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
+class VideoUploadInitial extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
+class VideoUploadLoading extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
+class VideoUploadSuccess extends ImageUploadState {
+  const VideoUploadSuccess({
+    required this.list,
+  });
+  final List<dynamic> list;
+  @override
+  List<Object?> get props => [list];
+}
+
+class VideoUploadFailure extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FileUploadInitial extends ImageUploadState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FileUploadLoading extends ImageUploadState {
   @override
   List<Object?> get props => [];
 }

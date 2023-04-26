@@ -106,7 +106,7 @@ class DioHelper {
         ),
       );
       log('DIO POST ERROR: ${e.response?.data}');
-      rethrow ;
+      rethrow;
     }
   }
 
@@ -298,7 +298,7 @@ class DioHelper {
         );
       } else {
         formData = FormData.fromMap({});
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < (pathList?.length ?? 1); i++) {
           formData.files.addAll(
             [
               MapEntry(

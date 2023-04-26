@@ -7,27 +7,27 @@ import 'package:dependencies/dependencies.dart';
 class AppObserver implements BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
-    log('Current State: ${change.currentState}, Next State: ${change.nextState}');
+    log('CURRENT: ${change.currentState}, NEXT: ${change.nextState}');
   }
 
   @override
   void onClose(BlocBase bloc) {
-    log('Bloc closed!');
+    log('BLOC CLOSED!');
   }
 
   @override
   void onCreate(BlocBase bloc) {
-    log('Bloc created! $bloc');
+    log('BLOC CREATED! $bloc');
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    log('Error: $error');
+    log('BLOC ERROR: $error');
   }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
-    log('Event called: $event');
+    log('EVENT: $event');
   }
 
   @override

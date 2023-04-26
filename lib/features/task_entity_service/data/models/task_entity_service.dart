@@ -56,7 +56,8 @@ class TaskEntityService with _$TaskEntityService {
     dynamic avatar,
   }) = _TaskEntityService;
 
-  factory TaskEntityService.fromJson(Map<String, dynamic> json) => _$TaskEntityServiceFromJson(json);
+  factory TaskEntityService.fromJson(Map<String, dynamic> json) =>
+      _$TaskEntityServiceFromJson(json);
 }
 
 @freezed
@@ -79,7 +80,8 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) =>
+      _$CountryFromJson(json);
 }
 
 @freezed
@@ -97,14 +99,14 @@ class CreatedBy with _$CreatedBy {
     String? bio,
     @JsonKey(name: "created_at") DateTime? createdAt,
     String? designation,
-    @JsonKey(name: "user_type") String? userType,
     @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
     @JsonKey(name: "is_followed") bool? isFollowed,
     @JsonKey(name: "is_following") bool? isFollowing,
     Badge? badge,
   }) = _CreatedBy;
 
-  factory CreatedBy.fromJson(Map<String, dynamic> json) => _$CreatedByFromJson(json);
+  factory CreatedBy.fromJson(Map<String, dynamic> json) =>
+      _$CreatedByFromJson(json);
 }
 
 @freezed
@@ -127,7 +129,8 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -196,7 +199,8 @@ class Service with _$Service {
     List<dynamic>? images,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) =>
+      _$ServiceFromJson(json);
 }
 
 @freezed
@@ -208,5 +212,6 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }

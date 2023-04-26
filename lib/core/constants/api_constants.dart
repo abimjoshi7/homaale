@@ -19,6 +19,9 @@ const payment = "/payment/";
 const offer = "/offer/";
 const event = "/event/";
 
+//image upload
+const kFileStore = "task/filestore/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",

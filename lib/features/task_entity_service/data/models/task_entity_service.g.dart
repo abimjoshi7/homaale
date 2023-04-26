@@ -183,7 +183,6 @@ _$_CreatedBy _$$_CreatedByFromJson(Map<String, dynamic> json) => _$_CreatedBy(
           ? null
           : DateTime.parse(json['created_at'] as String),
       designation: json['designation'] as String?,
-      userType: json['user_type'] as String?,
       isProfileVerified: json['is_profile_verified'] as bool?,
       isFollowed: json['is_followed'] as bool?,
       isFollowing: json['is_following'] as bool?,
@@ -206,7 +205,6 @@ Map<String, dynamic> _$$_CreatedByToJson(_$_CreatedBy instance) =>
       'bio': instance.bio,
       'created_at': instance.createdAt?.toIso8601String(),
       'designation': instance.designation,
-      'user_type': instance.userType,
       'is_profile_verified': instance.isProfileVerified,
       'is_followed': instance.isFollowed,
       'is_following': instance.isFollowing,
