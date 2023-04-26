@@ -41,6 +41,7 @@ import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
@@ -113,6 +114,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => locator<UploadBloc>(),
           ),
           BlocProvider(
             create: (context) => SupportHelpBloc(

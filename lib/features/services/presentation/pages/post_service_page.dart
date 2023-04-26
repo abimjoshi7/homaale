@@ -1,13 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -61,12 +58,10 @@ class _PostServicePageState extends State<PostServicePage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
-  late final ImageUploadCubit imageCubit;
   late final CategoriesBloc categoriesBloc;
 
   @override
   void initState() {
-    imageCubit = locator<ImageUploadCubit>();
     categoriesBloc = locator<CategoriesBloc>()
       ..add(
         CategoriesLoadInitiated(),
@@ -86,7 +81,6 @@ class _PostServicePageState extends State<PostServicePage> {
     requirementController.dispose();
     addressController.dispose();
     discountController.dispose();
-    imageCubit.close();
     categoriesBloc.close();
     super.dispose();
   }
@@ -117,27 +111,87 @@ class _PostServicePageState extends State<PostServicePage> {
                               validator: validateNotEmpty,
                             ),
                           ),
-                          TheCategoriesDropdown(
-                            categoriesBloc: categoriesBloc,
-                            onChanged: (value) {
-                              categoriesBloc.state.categoryList?.forEach(
-                                (element) {
-                                  if (value == element.name) {
-                                    categoriesBloc.add(
-                                      TaskSubCategoryLoaded(
-                                        categoryId: element.id,
-                                        categoryName: element.name,
+                          CustomFormField(
+                            label: 'Category',
+                            isRequired: true,
+                            child: BlocBuilder<ServicesBloc, ServicesState>(
+                              builder: (context, state) {
+                                if (state.theStates == TheStates.success) {
+                                  return DropdownSearch(
+                                    items: List.generate(
+                                      state.serviceList?.length ?? 0,
+                                      (index) =>
+                                          state.serviceList?[index].title,
+                                    ),
+                                    onChanged: (value) {
+                                      for (final element
+                                          in state.serviceList!) {
+                                        if (value == element.title) {
+                                          setState(
+                                            () {
+                                              serviceId = element.id;
+                                            },
+                                          );
+                                        }
+                                      }
+                                    },
+                                    dropdownDecoratorProps:
+                                        DropDownDecoratorProps(
+                                      dropdownSearchDecoration: InputDecoration(
+                                        contentPadding: const EdgeInsets.all(5),
+                                        hintText: 'Trimming & Cutting',
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                        // const TextStyle(
+                                        //   color: Color(0xff9CA0C1),
+                                        //   fontWeight: FontWeight.w400,
+                                        // ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color(0xffDEE2E6)),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: kColorSecondary,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
                                       ),
-                                    );
-                                    setState(
-                                      () {
-                                        serviceId = element.id.toString();
-                                      },
-                                    );
-                                  }
-                                },
-                              );
-                            },
+                                      baseStyle:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      // TextStyle(
+                                      //   color: Colors.black,
+                                      // ),
+                                    ),
+                                    clearButtonProps: ClearButtonProps(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 16,
+                                      visualDensity: VisualDensity.compact,
+                                      alignment: Alignment.centerRight,
+                                      isVisible: true,
+                                      color: serviceId == null
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                    popupProps: PopupProps.modalBottomSheet(
+                                      showSearchBox: true,
+                                      modalBottomSheetProps:
+                                          ModalBottomSheetProps(
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
+                                        useSafeArea: false,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
                           ),
                           CustomFormField(
                             label: 'Highlights',
@@ -267,6 +321,12 @@ class _PostServicePageState extends State<PostServicePage> {
                               builder: (context, state) {
                                 if (state is CityLoadSuccess) {
                                   return DropdownSearch(
+                                    selectedItem: state.list
+                                        .firstWhere(
+                                          (element) => element.name!
+                                              .startsWith("Kathmandu"),
+                                        )
+                                        .name,
                                     items: List.generate(
                                       state.list.length,
                                       (index) => state.list[index].name,
@@ -339,6 +399,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                   builder: (context, state) {
                                     if (state is CurrencyLoadSuccess) {
                                       return DropdownSearch(
+                                        selectedItem: state.currencyListRes
+                                            .firstWhere(
+                                              (element) => element.name!
+                                                  .startsWith("Nepalese"),
+                                            )
+                                            .name,
                                         items: List.generate(
                                           state.currencyListRes.length,
                                           (index) => state.currencyListRes[index].name,
@@ -539,128 +605,12 @@ class _PostServicePageState extends State<PostServicePage> {
                               // ),
                             ],
                           ),
-                          Column(
-                            children: [
-                              CustomFormField(
-                                label: 'Images',
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.info_outline,
-                                          color: Colors.orange,
-                                        ),
-                                        addHorizontalSpace(5),
-                                        const Text(
-                                          kImageLimit,
-                                          // style: kHelper13,
-                                        ),
-                                      ],
-                                    ),
-                                    addVerticalSpace(5),
-                                    InkWell(
-                                      onTap: () async {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => ImagePickerDialog(
-                                            uploadCubit: imageCubit,
-                                            imagePath: imagePath,
-                                            imagePathList: imagePathList,
-                                          ),
-                                        );
-                                        setState(() {});
-                                      },
-                                      child: BlocConsumer<ImageUploadCubit, ImageUploadState>(
-                                        bloc: imageCubit,
-                                        listener: (context, state) {
-                                          if (state is ImageUploadSuccess) {
-                                            setState(() {
-                                              imageList = List<int>.from(state.list);
-                                            });
-                                          }
-                                        },
-                                        builder: (context, state) {
-                                          if (state is ImageUploadSuccess) {
-                                            final fileList = List.generate(
-                                              state.imagePathList?.length ?? 0,
-                                              (index) => File(state.imagePathList?[index]?.path ?? ""),
-                                            );
-                                            return Container(
-                                              width: double.infinity,
-                                              height: 100,
-                                              child: ListView.builder(
-                                                padding: EdgeInsets.zero,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.horizontal,
-                                                itemCount: fileList.length,
-                                                itemBuilder: (context, index) => Padding(
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 4,
-                                                  ),
-                                                  child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(
-                                                      10,
-                                                    ),
-                                                    child: Image.file(
-                                                      fileList[index],
-                                                      fit: BoxFit.fitWidth,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }
-
-                                          if (state is ImageUploadInitial) {
-                                            return CustomDottedContainerStack(
-                                              theWidget:
-                                                  imageList == null ? Text('Select Images') : Text('Image Uploaded'),
-                                            );
-                                          }
-
-                                          return SizedBox.shrink();
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              CustomFormField(
-                                label: 'Videos',
-                                child: InkWell(
-                                  onTap: () async {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => VideoPickerDialog(
-                                        uploadCubit: imageCubit,
-                                        imagePath: videoPath,
-                                      ),
-                                    );
-                                    setState(() {});
-                                  },
-                                  child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                                    listener: (context, state) {
-                                      if (state is VideoUploadSuccess) {
-                                        setState(() {
-                                          fileList = List<int>.from(state.list);
-                                        });
-                                      }
-                                    },
-                                    child: CustomDottedContainerStack(
-                                      theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          CustomMultimedia(),
                           Row(
                             children: [
                               CustomCheckBox(
                                 isChecked: isTermsAccepted,
-                                onTap: () {
+                                onTap: () async {
                                   setState(
                                     () {
                                       isTermsAccepted = !isTermsAccepted;
@@ -704,10 +654,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                     heading: 'Success',
                                     content: 'You have successfully created a service',
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Root.routeName,
-                                      );
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          Root.routeName, (route) => false);
                                     },
                                     isSuccess: true,
                                   ),
@@ -729,18 +677,20 @@ class _PostServicePageState extends State<PostServicePage> {
                               return CustomElevatedButton(
                                 callback: () async {
                                   if (isTermsAccepted) {
-                                    if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
-                                      if (cityCode == null && currencyCode == null) {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => CustomToast(
-                                            heading: 'Error',
-                                            content: 'Select city or currency',
-                                            onTap: () {},
-                                            isSuccess: false,
-                                          ),
-                                        );
-                                      }
+                                    if (_key.currentState!.validate() &&
+                                        endPriceController.text.isNotEmpty) {
+                                      // if (cityCode == null &&
+                                      //     currencyCode == null) {
+                                      //   showDialog(
+                                      //     context: context,
+                                      //     builder: (context) => CustomToast(
+                                      //       heading: 'Error',
+                                      //       content: 'Select city or currency',
+                                      //       onTap: () {},
+                                      //       isSuccess: false,
+                                      //     ),
+                                      //   );
+                                      // }
                                       final req = TaskEntityServiceReq(
                                         title: titleController.text,
                                         description: descriptionController.text,
@@ -775,7 +725,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         service: serviceId,
                                         event: "",
                                         city: cityCode ?? int.parse(kCityCode),
-                                        currency: currencyCode ?? "NPR",
+                                        currency: currencyCode ?? kCurrencyCode,
                                         images: imageList ?? [],
                                         videos: fileList ?? [],
                                       );
