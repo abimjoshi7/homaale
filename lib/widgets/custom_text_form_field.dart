@@ -26,7 +26,8 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.node,
     this.inputFormatters,
-    this.inputAction = TextInputAction.next, this.hintStyle,
+    this.inputAction = TextInputAction.next,
+    this.hintStyle,
   }) : super(key: key);
   final bool? readOnly;
   final double theHeight;
@@ -78,7 +79,7 @@ class CustomTextFormField extends StatelessWidget {
           maxWidth: theWidth ?? MediaQuery.of(context).size.width,
         ),
         hintText: hintText,
-        hintStyle:hintStyle ?? Theme.of(context).textTheme.bodySmall,
+        hintStyle: hintStyle ?? Theme.of(context).textTheme.displaySmall,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),
@@ -88,7 +89,7 @@ class CustomTextFormField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:  BorderSide(color: Color(0xffDEE2E6)),
+          borderSide: BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),
         ),
         prefixIcon: prefixWidget,

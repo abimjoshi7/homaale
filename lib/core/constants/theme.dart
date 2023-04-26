@@ -13,7 +13,7 @@ final kDarkTheme = ThemeData(
     TextTheme(
       labelSmall: kLabelPrimarydark,
       labelMedium: kLabelPrimary2dak,
-      displaySmall: kText13dark,
+      displaySmall: kHelper13,
       displayMedium: kText14dark,
       displayLarge: kText17dark,
       headlineSmall: kPurpleText16dark,
@@ -62,10 +62,10 @@ final kLightTheme = ThemeData(
       )),
   textTheme: GoogleFonts.poppinsTextTheme(
     TextTheme(
-      titleMedium:kPurpleText16 ,
+        titleMedium: kPurpleText16,
         labelSmall: kLabelPrimary,
         labelMedium: kLabelPrimary2,
-        displaySmall: kText13,
+        displaySmall: kHelper13,
         displayMedium: kBoldText,
         displayLarge: kText17,
         headlineSmall: kPurpleText16,
