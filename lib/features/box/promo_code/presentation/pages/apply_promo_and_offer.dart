@@ -87,8 +87,8 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
               padding: EdgeInsets.only(bottom: 10),
               width: MediaQuery.of(context).size.width,
               // color: _isShowVoucher
-              //     ? Theme.of(context).primaryColor
-              //     :  Theme.of(context).primaryColor,
+              //     ? Theme.of(context).cardColor
+              //     :  Theme.of(context).cardColor,
               child: Padding(
                 padding: const EdgeInsets.only(left: 25.0, top: 5),
                 child: Text(
@@ -193,7 +193,7 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor
+        color: Theme.of(context).cardColor
         //Colors.blue.shade50,
       ),
       child: Column(

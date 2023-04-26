@@ -349,7 +349,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                         modalBottomSheetProps:
                                             ModalBottomSheetProps(
                                           backgroundColor:
-                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).cardColor,
                                           useSafeArea: false,
                                         ),
                                       ),
@@ -431,7 +431,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                         modalBottomSheetProps:
                                             ModalBottomSheetProps(
                                           backgroundColor:
-                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).cardColor,
                                           useSafeArea: false,
                                         ),
                                       ),

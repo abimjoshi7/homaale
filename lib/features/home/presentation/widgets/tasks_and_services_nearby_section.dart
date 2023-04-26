@@ -66,16 +66,16 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Text(
                               'Nearby Services',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
-                          buildNearbyServicesList(_serviceList,context),
+                          buildNearbyServicesList(_serviceList, context),
                           addVerticalSpace(20),
                           Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Text(
                               'Nearby Tasks',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
                           SizedBox(
@@ -85,7 +85,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                               physics: NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.zero,
                               itemBuilder: (context, index) => Card(
-                                color: Theme.of(context).primaryColor,
+                                // color: Theme.of(context).cardColor,
                                 child: Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: Column(
@@ -96,7 +96,9 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                         children: <Widget>[
                                           Text(
                                             _taskList[index].title.toString(),
-                                            style: Theme.of(context).textTheme.bodySmall,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                           ),
                                           Text(
                                             _taskList[index]
@@ -114,7 +116,9 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                                 _taskList[index]
                                                     .budgetFrom
                                                     .toString(),
-                                            style: Theme.of(context).textTheme.bodySmall,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                           )
                                         ],
                                       ),
@@ -140,7 +144,9 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                                 _taskList[index]
                                                     .budgetType
                                                     .toString(),
-                                            style: Theme.of(context).textTheme.bodySmall,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                           ),
                                         ],
                                       ),
@@ -253,9 +259,10 @@ class TasksAndServicesNearbySection extends StatelessWidget {
     );
   }
 
-  Container buildNearbyServicesList(List<TaskEntityService> _serviceList,BuildContext context) {
+  Container buildNearbyServicesList(
+      List<TaskEntityService> _serviceList, BuildContext context) {
     return Container(
-      // color: Theme.of(context).primaryColor,
+      // color: Theme.of(context).cardColor,
       height: 100.0,
       width: double.infinity,
       child: ListView.separated(
@@ -264,7 +271,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
         itemBuilder: (context, index) => SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: Card(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).cardColor,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
@@ -275,7 +282,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         _serviceList[index].title.toString(),
-                        style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Icon(
                         Icons.favorite_border,

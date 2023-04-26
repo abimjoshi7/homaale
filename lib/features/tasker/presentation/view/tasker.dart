@@ -411,8 +411,8 @@ class TaskerProfileViewState extends State<TaskerProfileView>
             return Center(
               child: CardLoading(
                 // cardLoadingTheme: CardLoadingTheme(
-                //   colorOne: Theme.of(context).primaryColor,
-                //   colorTwo: Theme.of(context).primaryColor,
+                //   colorOne: Theme.of(context).cardColor,
+                //   colorTwo: Theme.of(context).cardColor,
                 // ),
                 height: 200,
               ),

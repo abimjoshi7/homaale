@@ -43,8 +43,8 @@ final kDarkTheme = ThemeData(
   ),
   indicatorColor: kColorSecondary,
   colorScheme: ColorScheme.dark(),
-  cardColor:
-  Color  (0xff000000),
+  cardColor: kColorPrimarydark,
+  // Color(0xff000000),
 );
 
 final kLightTheme = ThemeData(
@@ -62,6 +62,7 @@ final kLightTheme = ThemeData(
       )),
   textTheme: GoogleFonts.poppinsTextTheme(
     TextTheme(
+      titleMedium:kPurpleText16 ,
         labelSmall: kLabelPrimary,
         labelMedium: kLabelPrimary2,
         displaySmall: kText13,

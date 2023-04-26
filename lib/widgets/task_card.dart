@@ -37,7 +37,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         height: 203,
@@ -73,7 +73,7 @@ class TaskCard extends StatelessWidget {
                           StringUtils.capitalize(
                             taskName ?? '',
                           ),
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          style: Theme.of(context).textTheme.titleMedium,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -134,13 +134,13 @@ class TaskCard extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "Rs. ${Decimal.parse(startRate ?? '0')} - ",
-                            style: Theme.of(context).textTheme.headlineSmall,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Row(
                             children: <Widget>[
                               Text(
                                 '${Decimal.parse(endRate ?? '0')}',
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                               Text(
                                 '/ ${budgetType?.toLowerCase()}',

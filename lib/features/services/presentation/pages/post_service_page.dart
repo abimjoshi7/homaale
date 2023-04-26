@@ -310,7 +310,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
                                       modalBottomSheetProps: ModalBottomSheetProps(
-                                        backgroundColor: Theme.of(context).primaryColor,
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -382,7 +382,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         popupProps: PopupProps.modalBottomSheet(
                                           showSearchBox: true,
                                           modalBottomSheetProps: ModalBottomSheetProps(
-                                            backgroundColor: Theme.of(context).primaryColor,
+                                            backgroundColor: Theme.of(context).cardColor,
                                             useSafeArea: false,
                                           ),
                                         ),

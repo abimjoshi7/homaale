@@ -31,24 +31,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
     return LoadingWidget(
       isLoading: isLoading,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
-          centerTitle: true,
-          title: const Text(
-            'Invoice',
-            style: TextStyle(color: Colors.black),
-          ),
-          elevation: 1,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
+        appBar: CustomAppBar(appBarTitle: 'Invoice',trailingWidget: SizedBox(),),
         body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
           builder: (context, retriveState) {
             return SingleChildScrollView(
@@ -233,9 +216,9 @@ class OrderCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                 15,
               ),
-              color: const Color(0xffECECF2),
+              color: Theme.of(context).cardColor,
             ),
-            height: 180,
+            height: 200,
             child: Column(
               children: [
                 Padding(
@@ -245,11 +228,11 @@ class OrderCard extends StatelessWidget {
                     children: [
                       Text(
                         leadinglabel ?? 'Order Information',
-                        style: kLabelPrimary,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Text(
                         'Invoice#-0${trailingLabel ?? ''}',
-                        style: kLabelPrimary,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ],
                   ),
@@ -257,7 +240,7 @@ class OrderCard extends StatelessWidget {
                 Expanded(
                   child: Card(
                     margin: EdgeInsets.zero,
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: child ??
@@ -275,7 +258,7 @@ class OrderCard extends StatelessWidget {
                                   ),
                                   Text(
                                     serviceName ?? "",
-                                    style: kPurpleText16,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   )
                                 ],
                               ),
@@ -291,7 +274,7 @@ class OrderCard extends StatelessWidget {
                                   Text(
                                     Jiffy(dateTime ?? "").yMMMMd,
                                     // 'June 28, 2022 12:12 pm',
-                                    style: kPurpleText16,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   )
                                 ],
                               ),

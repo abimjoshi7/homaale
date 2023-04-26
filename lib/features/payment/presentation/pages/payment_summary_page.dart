@@ -24,8 +24,11 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
   Widget build(BuildContext context) {
     final orderID = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
-      appBar:CustomAppBar(appBarTitle: 'Payment Summary',),
-      body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(builder: (context, state) {
+      appBar: CustomAppBar(
+        appBarTitle: 'Payment Summary',
+      ),
+      body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
+          builder: (context, state) {
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +40,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
-                      child:  Text(
+                      child: Text(
                         'Booking Details',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
@@ -45,7 +48,9 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                     Container(
                       padding: EdgeInsets.all(10),
                       margin: EdgeInsets.only(right: 30, top: 20),
-                      decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(15)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,15 +72,23 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                   child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
-                                      itemCount: state.orderItemRetriveList?.orderItem?.length,
+                                      itemCount: state.orderItemRetriveList
+                                          ?.orderItem?.length,
                                       itemBuilder: (context, index) {
                                         return Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              state.orderItemRetriveList?.orderItem?[index].task?.title ?? "",
+                                              state
+                                                      .orderItemRetriveList
+                                                      ?.orderItem?[index]
+                                                      .task
+                                                      ?.title ??
+                                                  "",
                                               style: TextStyle(
-                                                textBaseline: TextBaseline.alphabetic,
+                                                textBaseline:
+                                                    TextBaseline.alphabetic,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               maxLines: 1,
@@ -94,16 +107,21 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Total',
-                                      style: Theme.of(context).textTheme.headlineSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
                                     ),
                                     Text(
                                       'Rs '
                                       '${state.orderItemRetriveList?.grandTotal}',
-                                      style: Theme.of(context).textTheme.headlineSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
                                     ),
                                   ],
                                 ),
@@ -115,7 +133,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0, top: 10),
-                      child:  Text(
+                      child: Text(
                         'Payment Details',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
@@ -123,23 +141,34 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                     Container(
                       padding: EdgeInsets.all(15),
                       margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(20)),
                       child: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
                         builder: (context, state) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Image.network(
-                                state.paymentType?.result![state.currentIndex ?? 0].logo ?? "",
+                                state
+                                        .paymentType
+                                        ?.result![state.currentIndex ?? 0]
+                                        .logo ??
+                                    "",
                                 height: 100,
-                                width: 120,
-                                scale: 1,
+                                width: 100,
+                                scale: 2,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 18.0),
                                 child: Text(
-                                  state.paymentType?.result![state.currentIndex ?? 0].name ?? "",
-                                  style: kPurpleText19,
+                                  state
+                                          .paymentType
+                                          ?.result![state.currentIndex ?? 0]
+                                          .name ??
+                                      "",
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                               ),
                             ],
@@ -196,12 +225,14 @@ class CommonBillingAddressContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(left: 10, top: 10, right: 10),
-      decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-           Text(
+          Text(
             'Billing Details',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
@@ -223,7 +254,7 @@ class CommonBillingAddressContainer extends StatelessWidget {
                 color: Colors.orangeAccent,
               ),
               addHorizontalSpace(10),
-               Text(
+              Text(
                 'Same as task location',
                 style: Theme.of(context).textTheme.bodySmall,
               ),

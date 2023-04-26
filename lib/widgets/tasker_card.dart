@@ -44,8 +44,7 @@ class TaskerCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       width: MediaQuery.of(context).size.width * 0.5,
       child: Card(
-        color: Theme.of(context).primaryColor,
-
+        color: Theme.of(context).cardColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -75,7 +74,7 @@ class TaskerCard extends StatelessWidget {
                           Flexible(
                             child: AutoSizeText(
                               label ?? '',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: Theme.of(context).textTheme.titleMedium,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

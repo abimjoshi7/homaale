@@ -174,7 +174,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
                                       modalBottomSheetProps: ModalBottomSheetProps(
-                                        backgroundColor: Theme.of(context).primaryColor,
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -356,7 +356,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
                                       modalBottomSheetProps: ModalBottomSheetProps(
-                                        backgroundColor: Theme.of(context).primaryColor,
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -581,7 +581,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
                                       modalBottomSheetProps: ModalBottomSheetProps(
-                                        backgroundColor: Theme.of(context).primaryColor,
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
