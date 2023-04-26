@@ -72,4 +72,17 @@ class UserRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> userActivitiesTimeline() async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        url: 'history/my-activities/',
+        token: CacheHelper.accessToken,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }
