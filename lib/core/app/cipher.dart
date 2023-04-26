@@ -6,7 +6,6 @@ import 'package:cipher/features/account_settings/presentation/pages/help_legal_p
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
@@ -24,6 +23,7 @@ import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -35,6 +35,8 @@ import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.
 import 'package:cipher/features/sign_up/presentation/bloc/resend_verification_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
+import 'package:cipher/features/support/data/repositories/support_repository.dart';
+import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -70,6 +72,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => TermsOfUseCubit(),
+          ),
+          BlocProvider(
+            create: (context) => SupportTicketBloc(SupportRepository()),
           ),
           BlocProvider(
             create: (context) => locator<CategoriesBloc>(),
@@ -195,12 +200,8 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<ChatBloc>(),
           ),
           BlocProvider(
-            create: (context) => TaxCalculatorCubit(),
-          ),
-          BlocProvider(
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
-
           BlocProvider(
             create: (context) =>
                 locator<NotificationBloc>()..add(MyNotificationListInitiated()),
@@ -236,6 +237,9 @@ class Cipher extends StatelessWidget {
             create: (context) => OffersBloc(
               OfferRepository(),
             ),
+          ),
+          BlocProvider(
+            create: (context) => locator<SavedBloc>(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

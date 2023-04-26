@@ -14,13 +14,15 @@ void main() async {
   );
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   Bloc.observer = AppObserver();
+
   DioHelper.init();
+
   // initialize locator
   init();
-  runApp(
-    const Cipher(),
-  );
+
+  runApp(const Cipher());
 }
 
 //TODO: no bookings after 3 times

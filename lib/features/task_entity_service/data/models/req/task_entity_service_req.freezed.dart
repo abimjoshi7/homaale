@@ -26,9 +26,9 @@ mixin _$TaskEntityServiceReq {
   @JsonKey(name: "budget_type")
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_from")
-  num? get budgetFrom => throw _privateConstructorUsedError;
+  double? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_to")
-  num? get budgetTo => throw _privateConstructorUsedError;
+  double? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
   String? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
@@ -54,7 +54,7 @@ mixin _$TaskEntityServiceReq {
   @JsonKey(name: "discount_type")
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_value")
-  num? get discountValue => throw _privateConstructorUsedError;
+  String? get discountValue => throw _privateConstructorUsedError;
   @JsonKey(name: "extra_data")
   List<String?>? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: "no_of_reservation")
@@ -90,8 +90,8 @@ abstract class $TaskEntityServiceReqCopyWith<$Res> {
       String? description,
       List<String?>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
-      @JsonKey(name: "budget_from") num? budgetFrom,
-      @JsonKey(name: "budget_to") num? budgetTo,
+      @JsonKey(name: "budget_from") double? budgetFrom,
+      @JsonKey(name: "budget_to") double? budgetTo,
       @JsonKey(name: "start_date") String? startDate,
       @JsonKey(name: "end_date") String? endDate,
       @JsonKey(name: "start_time") String? startTime,
@@ -105,7 +105,7 @@ abstract class $TaskEntityServiceReqCopyWith<$Res> {
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_value") num? discountValue,
+      @JsonKey(name: "discount_value") String? discountValue,
       @JsonKey(name: "extra_data") List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") int? noOfReservation,
       @JsonKey(name: "is_active") bool? isActive,
@@ -187,11 +187,11 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -247,7 +247,7 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -313,8 +313,8 @@ abstract class _$$_TaskEntityServiceReqCopyWith<$Res>
       String? description,
       List<String?>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
-      @JsonKey(name: "budget_from") num? budgetFrom,
-      @JsonKey(name: "budget_to") num? budgetTo,
+      @JsonKey(name: "budget_from") double? budgetFrom,
+      @JsonKey(name: "budget_to") double? budgetTo,
       @JsonKey(name: "start_date") String? startDate,
       @JsonKey(name: "end_date") String? endDate,
       @JsonKey(name: "start_time") String? startTime,
@@ -328,7 +328,7 @@ abstract class _$$_TaskEntityServiceReqCopyWith<$Res>
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_value") num? discountValue,
+      @JsonKey(name: "discount_value") String? discountValue,
       @JsonKey(name: "extra_data") List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") int? noOfReservation,
       @JsonKey(name: "is_active") bool? isActive,
@@ -407,11 +407,11 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -467,7 +467,7 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       extraData: freezed == extraData
           ? _value._extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -583,10 +583,10 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   final String? budgetType;
   @override
   @JsonKey(name: "budget_from")
-  final num? budgetFrom;
+  final double? budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  final num? budgetTo;
+  final double? budgetTo;
   @override
   @JsonKey(name: "start_date")
   final String? startDate;
@@ -626,7 +626,7 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   final String? discountType;
   @override
   @JsonKey(name: "discount_value")
-  final num? discountValue;
+  final String? discountValue;
   final List<String?>? _extraData;
   @override
   @JsonKey(name: "extra_data")
@@ -806,8 +806,8 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
       final String? description,
       final List<String?>? highlights,
       @JsonKey(name: "budget_type") final String? budgetType,
-      @JsonKey(name: "budget_from") final num? budgetFrom,
-      @JsonKey(name: "budget_to") final num? budgetTo,
+      @JsonKey(name: "budget_from") final double? budgetFrom,
+      @JsonKey(name: "budget_to") final double? budgetTo,
       @JsonKey(name: "start_date") final String? startDate,
       @JsonKey(name: "end_date") final String? endDate,
       @JsonKey(name: "start_time") final String? startTime,
@@ -821,7 +821,7 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
       @JsonKey(name: "is_online") final bool? isOnline,
       @JsonKey(name: "is_requested") final bool? isRequested,
       @JsonKey(name: "discount_type") final String? discountType,
-      @JsonKey(name: "discount_value") final num? discountValue,
+      @JsonKey(name: "discount_value") final String? discountValue,
       @JsonKey(name: "extra_data") final List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") final int? noOfReservation,
       @JsonKey(name: "is_active") final bool? isActive,
@@ -849,10 +849,10 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   String? get budgetType;
   @override
   @JsonKey(name: "budget_from")
-  num? get budgetFrom;
+  double? get budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  num? get budgetTo;
+  double? get budgetTo;
   @override
   @JsonKey(name: "start_date")
   String? get startDate;
@@ -892,7 +892,7 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   String? get discountType;
   @override
   @JsonKey(name: "discount_value")
-  num? get discountValue;
+  String? get discountValue;
   @override
   @JsonKey(name: "extra_data")
   List<String?>? get extraData;

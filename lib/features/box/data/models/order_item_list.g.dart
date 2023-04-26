@@ -33,7 +33,7 @@ Map<String, dynamic> _$$_OrderItemListToJson(_$_OrderItemList instance) =>
 _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       id: json['id'] as String?,
       title: json['title'] as String?,
-      charge: (json['charge'] as num?)?.toDouble(),
+      charge: json['charge'] as String?,
       entityService: json['entity_service'] == null
           ? null
           : EntityService.fromJson(
@@ -166,8 +166,8 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
           .toList(),
       budgetType: json['budget_type'] as String?,
       isRequested: json['is_requested'] as bool?,
-      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
-      budgetTo: (json['budget_to'] as num?)?.toDouble(),
+      budgetFrom: json['budget_from'] as String?,
+      budgetTo: json['budget_to'] as String?,
       location: json['location'] as String?,
       count: json['count'] as int?,
       isEndorsed: json['is_endorsed'] as bool?,

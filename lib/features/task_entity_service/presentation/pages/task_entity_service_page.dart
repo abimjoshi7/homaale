@@ -426,7 +426,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   child: PriceBookFooterSection(
                     buttonLabel: getStatus('')["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
-                    price: "Rs. ${state.taskEntityService?.budgetTo}",
+                    price: "Rs. ${Decimal.parse(state.taskEntityService?.budgetTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);

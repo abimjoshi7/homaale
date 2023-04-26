@@ -44,8 +44,8 @@ class PostTaskRes {
   final String? description;
   final Map<String, dynamic>? highlights;
   final String? budgetType;
-  final num? budgetFrom;
-  final num? budgetTo;
+  final String? budgetFrom;
+  final String? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? startTime;
@@ -59,7 +59,7 @@ class PostTaskRes {
   final bool? isOnline;
   final bool? isRequested;
   final String? discountType;
-  final num? discountValue;
+  final String? discountValue;
   final Map<String, dynamic>? extraData;
   final num? noOfReservation;
   final bool? isActive;
@@ -81,8 +81,8 @@ class PostTaskRes {
             ? null
             : json["highlights"] as Map<String, dynamic>,
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"] as num?,
-        budgetTo: json["budget_to"] as num?,
+        budgetFrom: json["budget_from"] as String?,
+        budgetTo: json["budget_to"] as String?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(
@@ -104,7 +104,7 @@ class PostTaskRes {
         isOnline: json["is_online"] as bool?,
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
-        discountValue: json["discount_value"] as num?,
+        discountValue: json["discount_value"] as String?,
         extraData: json["extra_data"] == null
             ? null
             : json["extra_data"] as Map<String, dynamic>?,

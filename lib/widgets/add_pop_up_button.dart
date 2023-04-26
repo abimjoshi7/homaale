@@ -23,11 +23,14 @@ class AddPopupButton extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundColor: kColorPrimaryAccent,
-            child: Icon(icon),
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
           ),
           Text(
             label,
-            style: const TextStyle(color: kColorSilver),
+          style:  const TextStyle(color: kColorSilver),
           ),
           addVerticalSpace(16),
         ],

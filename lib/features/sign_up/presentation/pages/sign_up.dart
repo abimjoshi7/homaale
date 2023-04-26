@@ -52,6 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
             onSaved: (value) =>
                 setState(() => phoneNumberController.text = '$value'),
             hintText: 'Mobile Number',
+            hintStyle: Theme.of(context).textTheme.bodySmall,
             prefixWidget: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -83,6 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
             validator: validateEmail,
             onSaved: (value) => setState(() => emailController.text = '$value'),
             hintText: 'Enter your email here',
+            hintStyle: Theme.of(context).textTheme.bodySmall,
           ),
         );
       }
@@ -93,6 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Future signUpSuccessDialogBox(BuildContext context, SignUpState state) {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => CustomToast(
         heading: 'Success',
         content: (!state.isPhoneNumber)
@@ -126,6 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
   ) async {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (_) => CustomToast(
         heading: 'Failure',
         content: x ?? '',
@@ -148,6 +152,8 @@ class _SignUpPageState extends State<SignUpPage> {
       isRequired: true,
       label: 'Password',
       child: CustomTextFormField(
+        hintText: 'Enter Password ',
+        hintStyle: Theme.of(context).textTheme.bodySmall,
         controller: passwordController,
         validator: validatePassword,
         textInputType: TextInputType.visiblePassword,
@@ -163,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
             });
           },
           child: Icon(
-            color: kColorPrimary,
+            color: Theme.of(context).indicatorColor,
             isObscure[0]
                 ? Icons.visibility_rounded
                 : Icons.visibility_off_rounded,
@@ -178,6 +184,8 @@ class _SignUpPageState extends State<SignUpPage> {
       isRequired: true,
       label: 'Confirm Password',
       child: CustomTextFormField(
+        hintText: "Confirm Password",
+        hintStyle: Theme.of(context).textTheme.bodySmall,
         controller: confirmPasswordController,
         textInputType: TextInputType.visiblePassword,
         onSaved: (value) => setState(
@@ -198,7 +206,7 @@ class _SignUpPageState extends State<SignUpPage> {
             });
           },
           child: Icon(
-            color: kColorPrimary,
+            color: Theme.of(context).indicatorColor,
             isObscure[1]
                 ? Icons.visibility_rounded
                 : Icons.visibility_off_rounded,
@@ -280,10 +288,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
                                       text: 'By signing up, you agree to our ',
-                                      style: kHeading3.copyWith(
-                                        wordSpacing: 0.5,
-                                        letterSpacing: 0.1,
-                                      ),
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      // style: kHeading3.copyWith(
+                                      //   wordSpacing: 0.5,
+                                      //   letterSpacing: 0.1,
+                                      // ),
                                       children: [
                                         TextSpan(
                                           text: 'terms of use ',

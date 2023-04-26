@@ -123,7 +123,7 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                       children: [
                                         const Text('Budget :'),
                                         Text(
-                                          '${state.taskModel?.budgetFrom ?? 0} to ${state.taskModel?.budgetTo ?? 0} ',
+                                          '${Decimal.parse(state.taskModel?.budgetFrom ?? '0.0')} to ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')} ',
                                         ),
                                       ],
                                     ),

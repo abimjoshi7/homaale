@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -60,6 +60,7 @@ class _RootState extends State<Root> {
       onFinish: () {
         CacheHelper.setCachedString(kShowcase, 'done');
       },
+      autoPlay: true,
       enableShowcase: enableShowcase,
       builder: Builder(
         builder: (context) => CalledRootClass(
@@ -140,22 +141,16 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async =>
-                  context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context
-                  .read<TaskerCertificationCubit>()
-                  .getTaskerCertification(),
+              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -174,9 +169,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     }
                 })
             .then(
-              (value) async => context
-                  .read<ServicesBloc>()
-                  .add(const EntityServiceInitiated()),
+              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
@@ -265,14 +258,14 @@ class _CalledRootClassState extends State<CalledRootClass> {
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.1,
                         width: MediaQuery.of(context).size.width,
-                        color: kColorPrimary,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     SizedBox(
                       height: 102,
                       width: MediaQuery.of(context).size.width,
                       child: CustomPaint(
-                        painter: BottomNavCustomPainter(),
+                        painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 8.0,
@@ -433,14 +426,18 @@ class _CalledRootClassState extends State<CalledRootClass> {
                   height: 100,
                   width: MediaQuery.of(context).size.width,
                   child: CustomPaint(
-                    painter: FloatingOptionsCustomPainter(),
+                    painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         AddPopupButton(
-                          label: 'Post a Task',
+                          label: '  Post a Task',
                           icon: Icons.comment_bank_rounded,
                           callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
                             setState(() {
                               homeActive = pageIndex == 0;
                               boxActive = pageIndex == 1;
@@ -454,11 +451,15 @@ class _CalledRootClassState extends State<CalledRootClass> {
                             );
                           },
                         ),
-                        addHorizontalSpace(100),
+                        addHorizontalSpace(50),
                         AddPopupButton(
-                          label: 'Post a Service',
+                          label: 'Post a Service ',
                           icon: Icons.home_repair_service_rounded,
                           callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            }
+                            if (CacheHelper.isLoggedIn == false) return;
                             setState(() {
                               homeActive = pageIndex == 0;
                               boxActive = pageIndex == 1;

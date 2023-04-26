@@ -56,6 +56,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             },
           );
         } catch (e) {
+          log('bookings loaded error:' + e.toString());
           emit(
             state.copyWith(
               states: TheStates.failure,

@@ -32,6 +32,7 @@ class _AddPortfolioState extends State<AddPortfolio> {
   final uploadBloc = locator<UploadBloc>();
   List<int>? imageList;
   List<int>? fileList;
+  File? file;
 
   @override
   void dispose() {
@@ -277,9 +278,9 @@ class _AddPortfolioState extends State<AddPortfolio> {
                           label: 'Documents',
                           child: InkWell(
                             onTap: () async {
-                              await context
-                                  .read<ImageUploadCubit>()
-                                  .uploadFile();
+                              await context.read<ImageUploadCubit>().uploadFile(
+                                    file,
+                                  );
                             },
                             child: SizedBox(
                               height: 150,

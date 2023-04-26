@@ -11,6 +11,8 @@ import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 
+import '../../../../../../core/constants/date_time_representation.dart';
+
 class ServicesSection extends StatefulWidget {
   final bool? isCheckPending;
   final BookingsBloc bloc;
@@ -76,7 +78,9 @@ class _ServicesSectionState extends State<ServicesSection> {
         builder: (context, state) {
           return Column(
             children: [
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: PagedListView.separated(
                   pagingController: _pagingController,
@@ -205,7 +209,7 @@ class _ServicesSectionState extends State<ServicesSection> {
     return Column(
       children: [
         Text(
-          "Rs. ${result.budgetFrom ?? '0'} - Rs. ${result.budgetTo ?? '0'}",
+          "Rs. ${Decimal.parse(result.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
           // style: kText17,
         ),
         const Text(
@@ -239,7 +243,7 @@ class _ServicesSectionState extends State<ServicesSection> {
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
                   label:
-                      "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
+                      "${result.startTime?.replaceAll(":00", '') ?? '00:00'} ${result.endTime?.replaceAll(":00", '') ?? ''}",
                   color: kColorGreen,
                 ),
               ),

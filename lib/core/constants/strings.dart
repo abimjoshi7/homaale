@@ -8,6 +8,7 @@ const kRememberCreds = 'user-creds';
 const kBookedMap = "booked_map";
 const kAESEncryptionKey = "Cipher-homaale";
 const kShowcase = "showcase";
+const kAppThemeMode = "mode";
 
 //links
 

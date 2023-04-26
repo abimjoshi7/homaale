@@ -17,8 +17,7 @@ class MyBookingListModel with _$MyBookingListModel {
     List<Result>? result,
   }) = _MyBookingListModel;
 
-  factory MyBookingListModel.fromJson(Map<String, dynamic> json) =>
-      _$MyBookingListModelFromJson(json);
+  factory MyBookingListModel.fromJson(Map<String, dynamic> json) => _$MyBookingListModelFromJson(json);
 }
 
 @freezed
@@ -34,8 +33,8 @@ class Result with _$Result {
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     String? description,
     List<String>? requirements,
-    @JsonKey(name: "budget_from") double? budgetFrom,
-    @JsonKey(name: "budget_to") double? budgetTo,
+    @JsonKey(name: "budget_from") String? budgetFrom,
+    @JsonKey(name: "budget_to") String? budgetTo,
     @JsonKey(name: "start_date") DateTime? startDate,
     @JsonKey(name: "end_date") DateTime? endDate,
     @JsonKey(name: "start_time") String? startTime,
@@ -66,8 +65,7 @@ class ResultCreatedBy with _$ResultCreatedBy {
     @JsonKey(name: "hourly_rate") double? hourlyRate,
   }) = _ResultCreatedBy;
 
-  factory ResultCreatedBy.fromJson(Map<String, dynamic> json) =>
-      _$ResultCreatedByFromJson(json);
+  factory ResultCreatedBy.fromJson(Map<String, dynamic> json) => _$ResultCreatedByFromJson(json);
 }
 
 @freezed
@@ -78,8 +76,7 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -130,8 +127,8 @@ class EntityService with _$EntityService {
     String? description,
     List<String>? highlights,
     @JsonKey(name: "budget_type") String? budgetType,
-    @JsonKey(name: "budget_from") double? budgetFrom,
-    @JsonKey(name: "budget_to") double? budgetTo,
+    @JsonKey(name: "budget_from") String? budgetFrom,
+    @JsonKey(name: "budget_to") String? budgetTo,
     @JsonKey(name: "start_date") DateTime? startDate,
     @JsonKey(name: "end_date") DateTime? endDate,
     @JsonKey(name: "start_time") String? startTime,
@@ -146,7 +143,7 @@ class EntityService with _$EntityService {
     @JsonKey(name: "is_online") bool? isOnline,
     @JsonKey(name: "is_requested") bool? isRequested,
     @JsonKey(name: "discount_type") String? discountType,
-    @JsonKey(name: "discount_value") double? discountValue,
+    @JsonKey(name: "discount_value") String? discountValue,
     // @JsonKey(name: "extra_data") List<String>? extraData,
     @JsonKey(name: "no_of_reservation") int? noOfReservation,
     String? slug,
@@ -158,8 +155,7 @@ class EntityService with _$EntityService {
     // dynamic? avatar,
   }) = _EntityService;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceFromJson(json);
+  factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
 }
 
 @freezed
@@ -198,8 +194,7 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 }
 
 @freezed
@@ -224,8 +219,7 @@ class EntityServiceCreatedBy with _$EntityServiceCreatedBy {
     Badge? badge,
   }) = _EntityServiceCreatedBy;
 
-  factory EntityServiceCreatedBy.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceCreatedByFromJson(json);
+  factory EntityServiceCreatedBy.fromJson(Map<String, dynamic> json) => _$EntityServiceCreatedByFromJson(json);
 }
 
 @freezed
@@ -263,8 +257,7 @@ class Service with _$Service {
     List<Image>? images,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
 }
 
 @freezed
@@ -276,6 +269,5 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 }

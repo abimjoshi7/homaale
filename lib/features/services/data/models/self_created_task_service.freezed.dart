@@ -309,8 +309,8 @@ mixin _$Result {
   String? get description => throw _privateConstructorUsedError;
   List<String>? get highlights => throw _privateConstructorUsedError;
   String? get budgetType => throw _privateConstructorUsedError;
-  int? get budgetFrom => throw _privateConstructorUsedError;
-  int? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   DateTime? get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
   String? get startTime => throw _privateConstructorUsedError;
@@ -325,7 +325,7 @@ mixin _$Result {
   bool? get isOnline => throw _privateConstructorUsedError;
   bool? get isRequested => throw _privateConstructorUsedError;
   String? get discountType => throw _privateConstructorUsedError;
-  num? get discountValue => throw _privateConstructorUsedError;
+  String? get discountValue => throw _privateConstructorUsedError;
   List<String>? get extraData => throw _privateConstructorUsedError;
   int? get noOfReservation => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
@@ -360,8 +360,8 @@ abstract class $ResultCopyWith<$Res> {
       String? description,
       List<String>? highlights,
       String? budgetType,
-      int? budgetFrom,
-      int? budgetTo,
+      String? budgetFrom,
+      String? budgetTo,
       DateTime? startDate,
       DateTime? endDate,
       String? startTime,
@@ -376,7 +376,7 @@ abstract class $ResultCopyWith<$Res> {
       bool? isOnline,
       bool? isRequested,
       String? discountType,
-      num? discountValue,
+      String? discountValue,
       List<String>? extraData,
       int? noOfReservation,
       String? slug,
@@ -502,11 +502,11 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -566,7 +566,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -675,8 +675,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       String? description,
       List<String>? highlights,
       String? budgetType,
-      int? budgetFrom,
-      int? budgetTo,
+      String? budgetFrom,
+      String? budgetTo,
       DateTime? startDate,
       DateTime? endDate,
       String? startTime,
@@ -691,7 +691,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       bool? isOnline,
       bool? isRequested,
       String? discountType,
-      num? discountValue,
+      String? discountValue,
       List<String>? extraData,
       int? noOfReservation,
       String? slug,
@@ -818,11 +818,11 @@ class __$$_ResultCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -882,7 +882,7 @@ class __$$_ResultCopyWithImpl<$Res>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       extraData: freezed == extraData
           ? _value._extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -1025,9 +1025,9 @@ class _$_Result implements _Result {
   @override
   final String? budgetType;
   @override
-  final int? budgetFrom;
+  final String? budgetFrom;
   @override
-  final int? budgetTo;
+  final String? budgetTo;
   @override
   final DateTime? startDate;
   @override
@@ -1057,7 +1057,7 @@ class _$_Result implements _Result {
   @override
   final String? discountType;
   @override
-  final num? discountValue;
+  final String? discountValue;
   final List<String>? _extraData;
   @override
   List<String>? get extraData {
@@ -1237,8 +1237,8 @@ abstract class _Result implements Result {
       final String? description,
       final List<String>? highlights,
       final String? budgetType,
-      final int? budgetFrom,
-      final int? budgetTo,
+      final String? budgetFrom,
+      final String? budgetTo,
       final DateTime? startDate,
       final DateTime? endDate,
       final String? startTime,
@@ -1253,7 +1253,7 @@ abstract class _Result implements Result {
       final bool? isOnline,
       final bool? isRequested,
       final String? discountType,
-      final num? discountValue,
+      final String? discountValue,
       final List<String>? extraData,
       final int? noOfReservation,
       final String? slug,
@@ -1293,9 +1293,9 @@ abstract class _Result implements Result {
   @override
   String? get budgetType;
   @override
-  int? get budgetFrom;
+  String? get budgetFrom;
   @override
-  int? get budgetTo;
+  String? get budgetTo;
   @override
   DateTime? get startDate;
   @override
@@ -1325,7 +1325,7 @@ abstract class _Result implements Result {
   @override
   String? get discountType;
   @override
-  num? get discountValue;
+  String? get discountValue;
   @override
   List<String>? get extraData;
   @override

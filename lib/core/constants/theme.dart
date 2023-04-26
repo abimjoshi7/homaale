@@ -1,27 +1,29 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 final kDarkTheme = ThemeData(
   primaryColor: kColorPrimarydark,
-  // useMaterial3: true,
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.black,
-    iconTheme: IconThemeData(
-      color: Colors.white,
-    )
+      backgroundColor: kColorPrimarydark,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      )),
+  textTheme: GoogleFonts.poppinsTextTheme(
+    TextTheme(
+      labelSmall: kLabelPrimarydark,
+      labelMedium: kLabelPrimary2dak,
+      displaySmall: kText13dark,
+      displayMedium: kText14dark,
+      displayLarge: kText17dark,
+      headlineSmall: kPurpleText16dark,
+      headlineMedium: kPurpleText17dark,
+      headlineLarge: kPurpleText19dark,
+      bodyMedium: kText15dark,
+      bodySmall: kText14dark,
+      bodyLarge: kBoldTextdark,
+    ),
   ),
-  textTheme: TextTheme(
-    labelSmall: kLabelPrimarydark,
-    labelMedium: kLabelPrimary2dak,
-    displaySmall: kText13dark,
-    displayMedium: kText14dark,
-    displayLarge: kText17dark,
-    headlineSmall:kPurpleText16dark ,
-    headlineMedium: kPurpleText17dark,
-    headlineLarge: kPurpleText19dark,
-    bodyMedium: kText15dark,
-    bodySmall: kText14dark,
-    bodyLarge: kBoldTextdark),
   brightness: Brightness.dark,
   radioTheme: RadioThemeData(
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -30,7 +32,7 @@ final kDarkTheme = ThemeData(
       vertical: VisualDensity.minimumDensity,
     ),
     fillColor: MaterialStateColor.resolveWith(
-          (states) => kColorSecondary,
+      (states) => kColorSecondary,
     ),
   ),
   tabBarTheme: const TabBarTheme(
@@ -40,15 +42,16 @@ final kDarkTheme = ThemeData(
     unselectedLabelColor: kColorGrey,
   ),
   indicatorColor: kColorSecondary,
-  colorScheme:ColorScheme.dark() ,
-  cardColor: Colors.black,
-
+  colorScheme: ColorScheme.dark(),
+  cardColor:
+  Color  (0xff000000),
 );
 
 final kLightTheme = ThemeData(
   primaryColor: kColorPrimary,
+  fontFamily: "Poppins",
   cardColor: Colors.white,
-  colorScheme:ColorScheme.light() ,
+  colorScheme: ColorScheme.light(),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: Colors.transparent,
   ),
@@ -56,20 +59,21 @@ final kLightTheme = ThemeData(
       backgroundColor: Colors.white,
       iconTheme: IconThemeData(
         color: Colors.black,
-      )
+      )),
+  textTheme: GoogleFonts.poppinsTextTheme(
+    TextTheme(
+        labelSmall: kLabelPrimary,
+        labelMedium: kLabelPrimary2,
+        displaySmall: kText13,
+        displayMedium: kBoldText,
+        displayLarge: kText17,
+        headlineSmall: kPurpleText16,
+        headlineMedium: kPurpleText17,
+        headlineLarge: kPurpleText19,
+        bodyMedium: kText15,
+        bodySmall: kText14,
+        bodyLarge: kBoldText),
   ),
-  textTheme: TextTheme(
-      labelSmall: kLabelPrimary,
-      labelMedium: kLabelPrimary2,
-      displaySmall: kText13,
-      displayMedium: kBoldText,
-      displayLarge: kText17,
-      headlineSmall: kPurpleText16,
-      headlineMedium: kPurpleText17,
-      headlineLarge: kPurpleText19,
-      bodyMedium: kText15,
-      bodySmall: kText14,
-      bodyLarge: kBoldText),
   brightness: Brightness.light,
   radioTheme: RadioThemeData(
     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -78,7 +82,7 @@ final kLightTheme = ThemeData(
       vertical: VisualDensity.minimumDensity,
     ),
     fillColor: MaterialStateColor.resolveWith(
-          (states) => kColorSecondary,
+      (states) => kColorSecondary,
     ),
   ),
   tabBarTheme: const TabBarTheme(

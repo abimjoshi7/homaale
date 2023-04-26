@@ -47,9 +47,9 @@ mixin _$TaskEntityService {
   @JsonKey(name: "budget_type")
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_from")
-  num? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_to")
-  num? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
   DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
@@ -79,7 +79,7 @@ mixin _$TaskEntityService {
   @JsonKey(name: "discount_type")
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_value")
-  num? get discountValue => throw _privateConstructorUsedError;
+  String? get discountValue => throw _privateConstructorUsedError;
   @JsonKey(name: "extra_data")
   List<dynamic>? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: "no_of_reservation")
@@ -127,8 +127,8 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       String? description,
       List<String>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
-      @JsonKey(name: "budget_from") num? budgetFrom,
-      @JsonKey(name: "budget_to") num? budgetTo,
+      @JsonKey(name: "budget_from") String? budgetFrom,
+      @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "start_time") dynamic startTime,
@@ -144,7 +144,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_value") num? discountValue,
+      @JsonKey(name: "discount_value") String? discountValue,
       @JsonKey(name: "extra_data") List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") num? noOfReservation,
       String? slug,
@@ -305,11 +305,11 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -373,7 +373,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -499,8 +499,8 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       String? description,
       List<String>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
-      @JsonKey(name: "budget_from") num? budgetFrom,
-      @JsonKey(name: "budget_to") num? budgetTo,
+      @JsonKey(name: "budget_from") String? budgetFrom,
+      @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "start_time") dynamic startTime,
@@ -516,7 +516,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "is_online") bool? isOnline,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_value") num? discountValue,
+      @JsonKey(name: "discount_value") String? discountValue,
       @JsonKey(name: "extra_data") List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") num? noOfReservation,
       String? slug,
@@ -680,11 +680,11 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
@@ -748,7 +748,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as String?,
       extraData: freezed == extraData
           ? _value._extraData
           : extraData // ignore: cast_nullable_to_non_nullable
@@ -942,10 +942,10 @@ class _$_TaskEntityService implements _TaskEntityService {
   final String? budgetType;
   @override
   @JsonKey(name: "budget_from")
-  final num? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  final num? budgetTo;
+  final String? budgetTo;
   @override
   @JsonKey(name: "start_date")
   final DateTime? startDate;
@@ -991,7 +991,7 @@ class _$_TaskEntityService implements _TaskEntityService {
   final String? discountType;
   @override
   @JsonKey(name: "discount_value")
-  final num? discountValue;
+  final String? discountValue;
   final List<dynamic>? _extraData;
   @override
   @JsonKey(name: "extra_data")
@@ -1199,8 +1199,8 @@ abstract class _TaskEntityService implements TaskEntityService {
       final String? description,
       final List<String>? highlights,
       @JsonKey(name: "budget_type") final String? budgetType,
-      @JsonKey(name: "budget_from") final num? budgetFrom,
-      @JsonKey(name: "budget_to") final num? budgetTo,
+      @JsonKey(name: "budget_from") final String? budgetFrom,
+      @JsonKey(name: "budget_to") final String? budgetTo,
       @JsonKey(name: "start_date") final DateTime? startDate,
       @JsonKey(name: "end_date") final DateTime? endDate,
       @JsonKey(name: "start_time") final dynamic startTime,
@@ -1216,7 +1216,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "is_online") final bool? isOnline,
       @JsonKey(name: "is_requested") final bool? isRequested,
       @JsonKey(name: "discount_type") final String? discountType,
-      @JsonKey(name: "discount_value") final num? discountValue,
+      @JsonKey(name: "discount_value") final String? discountValue,
       @JsonKey(name: "extra_data") final List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") final num? noOfReservation,
       final String? slug,
@@ -1277,10 +1277,10 @@ abstract class _TaskEntityService implements TaskEntityService {
   String? get budgetType;
   @override
   @JsonKey(name: "budget_from")
-  num? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: "budget_to")
-  num? get budgetTo;
+  String? get budgetTo;
   @override
   @JsonKey(name: "start_date")
   DateTime? get startDate;
@@ -1326,7 +1326,7 @@ abstract class _TaskEntityService implements TaskEntityService {
   String? get discountType;
   @override
   @JsonKey(name: "discount_value")
-  num? get discountValue;
+  String? get discountValue;
   @override
   @JsonKey(name: "extra_data")
   List<dynamic>? get extraData;
@@ -1744,8 +1744,6 @@ mixin _$CreatedBy {
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
-  @JsonKey(name: "user_type")
-  String? get userType => throw _privateConstructorUsedError;
   @JsonKey(name: "is_profile_verified")
   bool? get isProfileVerified => throw _privateConstructorUsedError;
   @JsonKey(name: "is_followed")
@@ -1778,7 +1776,6 @@ abstract class $CreatedByCopyWith<$Res> {
       String? bio,
       @JsonKey(name: "created_at") DateTime? createdAt,
       String? designation,
-      @JsonKey(name: "user_type") String? userType,
       @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
       @JsonKey(name: "is_followed") bool? isFollowed,
       @JsonKey(name: "is_following") bool? isFollowing,
@@ -1812,7 +1809,6 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
     Object? bio = freezed,
     Object? createdAt = freezed,
     Object? designation = freezed,
-    Object? userType = freezed,
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
@@ -1867,10 +1863,6 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as String?,
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
@@ -1923,7 +1915,6 @@ abstract class _$$_CreatedByCopyWith<$Res> implements $CreatedByCopyWith<$Res> {
       String? bio,
       @JsonKey(name: "created_at") DateTime? createdAt,
       String? designation,
-      @JsonKey(name: "user_type") String? userType,
       @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
       @JsonKey(name: "is_followed") bool? isFollowed,
       @JsonKey(name: "is_following") bool? isFollowing,
@@ -1956,7 +1947,6 @@ class __$$_CreatedByCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? createdAt = freezed,
     Object? designation = freezed,
-    Object? userType = freezed,
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
@@ -2011,10 +2001,6 @@ class __$$_CreatedByCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as String?,
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
@@ -2051,7 +2037,6 @@ class _$_CreatedBy implements _CreatedBy {
       this.bio,
       @JsonKey(name: "created_at") this.createdAt,
       this.designation,
-      @JsonKey(name: "user_type") this.userType,
       @JsonKey(name: "is_profile_verified") this.isProfileVerified,
       @JsonKey(name: "is_followed") this.isFollowed,
       @JsonKey(name: "is_following") this.isFollowing,
@@ -2091,9 +2076,6 @@ class _$_CreatedBy implements _CreatedBy {
   @override
   final String? designation;
   @override
-  @JsonKey(name: "user_type")
-  final String? userType;
-  @override
   @JsonKey(name: "is_profile_verified")
   final bool? isProfileVerified;
   @override
@@ -2107,7 +2089,7 @@ class _$_CreatedBy implements _CreatedBy {
 
   @override
   String toString() {
-    return 'CreatedBy(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, userType: $userType, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
+    return 'CreatedBy(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
   }
 
   @override
@@ -2135,8 +2117,6 @@ class _$_CreatedBy implements _CreatedBy {
                 other.createdAt == createdAt) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
-            (identical(other.userType, userType) ||
-                other.userType == userType) &&
             (identical(other.isProfileVerified, isProfileVerified) ||
                 other.isProfileVerified == isProfileVerified) &&
             (identical(other.isFollowed, isFollowed) ||
@@ -2162,7 +2142,6 @@ class _$_CreatedBy implements _CreatedBy {
       bio,
       createdAt,
       designation,
-      userType,
       isProfileVerified,
       isFollowed,
       isFollowing,
@@ -2196,7 +2175,6 @@ abstract class _CreatedBy implements CreatedBy {
       final String? bio,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       final String? designation,
-      @JsonKey(name: "user_type") final String? userType,
       @JsonKey(name: "is_profile_verified") final bool? isProfileVerified,
       @JsonKey(name: "is_followed") final bool? isFollowed,
       @JsonKey(name: "is_following") final bool? isFollowing,
@@ -2235,9 +2213,6 @@ abstract class _CreatedBy implements CreatedBy {
   DateTime? get createdAt;
   @override
   String? get designation;
-  @override
-  @JsonKey(name: "user_type")
-  String? get userType;
   @override
   @JsonKey(name: "is_profile_verified")
   bool? get isProfileVerified;

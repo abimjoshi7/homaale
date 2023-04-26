@@ -4,6 +4,9 @@ const taskerPath = "/tasker/";
 const careerPath = "/career/vacancy/";
 const localePath = "/locale/client/";
 
+// bookmark/saved
+const kBookmarkPath = "task/bookmark/";
+
 // * bookings
 const kBooking = "/task/entity/service-booking/";
 const kCreateBookingsApproval = "/task/entity/service-booking/approval/";

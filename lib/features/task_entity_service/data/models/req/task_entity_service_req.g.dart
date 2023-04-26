@@ -15,8 +15,8 @@ _$_TaskEntityServiceReq _$$_TaskEntityServiceReqFromJson(
           ?.map((e) => e as String?)
           .toList(),
       budgetType: json['budget_type'] as String?,
-      budgetFrom: json['budget_from'] as num?,
-      budgetTo: json['budget_to'] as num?,
+      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
+      budgetTo: (json['budget_to'] as num?)?.toDouble(),
       startDate: json['start_date'] as String?,
       endDate: json['end_date'] as String?,
       startTime: json['start_time'] as String?,
@@ -30,7 +30,7 @@ _$_TaskEntityServiceReq _$$_TaskEntityServiceReqFromJson(
       isOnline: json['is_online'] as bool?,
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
-      discountValue: json['discount_value'] as num?,
+      discountValue: json['discount_value'] as String?,
       extraData: (json['extra_data'] as List<dynamic>?)
           ?.map((e) => e as String?)
           .toList(),

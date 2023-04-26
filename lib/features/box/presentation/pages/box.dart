@@ -63,17 +63,14 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme:  IconThemeData(
-                  color: Theme.of(context).appBarTheme.iconTheme?.color, //change your color here
-                ),
-                backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         title: Text(
           'Box',
           style: Theme.of(context).textTheme.displaySmall,
         ),
         centerTitle: true,
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         actions: [
           Icon(Icons.search),
         ],
@@ -84,6 +81,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
+                indicatorColor: kColorSecondary,
+                indicatorSize: TabBarIndicatorSize.label,
                 labelPadding: kPadding10,
                 controller: _tabController,
                 tabs: [
@@ -117,6 +116,10 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
+                                          print({
+                                            state.orderItemList?.result![index]
+                                                .startTime
+                                          });
                                           if (selectedItems.contains(index)) {
                                             setState(() {
                                               selectedItems.remove(index);
@@ -139,9 +142,9 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          height: 200,
+                                          height: 180,
                                           margin: EdgeInsets.only(
-                                              top: 20, left: 20, right: 20),
+                                              top: 20, left: 20, right: 5),
                                           child: Column(
                                             children: [
                                               Padding(
@@ -216,7 +219,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                       context)
                                                                   .size
                                                                   .width *
-                                                              0.65,
+                                                              0.64,
                                                           child: Column(
                                                             children: [
                                                               Row(
@@ -232,12 +235,6 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                           ""
                                                                       // 'Trimming & Cutting',
                                                                       ),
-                                                                  // Icon(
-                                                                  //   Icons
-                                                                  //       .delete_outline_sharp,
-                                                                  //   color: Colors
-                                                                  //       .red,
-                                                                  // )
                                                                 ],
                                                               ),
                                                               addVerticalSpace(
@@ -260,19 +257,15 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                       Text(
                                                                         state.orderItemList?.result?[index].entityService?.city?.name ??
                                                                             "",
-                                                                        // 'Buddhanagar, Kathmandu',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                        ),
+                                                                        style:Theme.of(context).textTheme.bodySmall,
+
                                                                       ),
                                                                     ],
                                                                   ),
                                                                   Text(
                                                                     '${state.orderItemList?.result?[index].currency?.symbol}'
-                                                                    '  '
-                                                                    '${state.orderItemList?.result?[index].charge.toString() ?? "0"}',
+                                                                    '${Decimal.parse(state.orderItemList?.result?[index].charge.toString() ?? "0")}',
+                                                                    style: Theme.of(context).textTheme.bodySmall,
                                                                   ),
                                                                 ],
                                                               ),
@@ -295,12 +288,9 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                                 Colors.red,
                                                                           ),
                                                                           Text(
-                                                                            '  '
                                                                             '${state.orderItemList?.result![index].startDate ?? ""}',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 12,
-                                                                            ),
+                                                                            style:Theme.of(context).textTheme.bodySmall,
+
                                                                           ),
                                                                         ],
                                                                       ),
@@ -317,25 +307,19 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                                 Colors.blue,
                                                                           ),
                                                                           Text(
-                                                                            '  ${state.orderItemList?.result![index].startTime ?? ""}',
-                                                                            // '8:00 PM',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 12,
-                                                                            ),
+                                                                            '${state.orderItemList?.result![index].startTime?.replaceAll(':00', '')}',
+                                                                            style:Theme.of(context).textTheme.bodySmall,
                                                                           ),
                                                                         ],
                                                                       ),
                                                                     ],
                                                                   ),
                                                                   const Text(
-                                                                    '/ per project',
+                                                                    '/project',
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          kColorSilver,
+                                                                          10,
                                                                       fontStyle:
                                                                           FontStyle
                                                                               .italic,
@@ -354,7 +338,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                               const Divider(),
                                               Padding(
                                                 padding:
-                                                    const EdgeInsets.all(16.0),
+                                                    const EdgeInsets.all(8.0),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -362,23 +346,25 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        const Text(
+                                                         Text(
                                                           'Booking:',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                          ),
+                                                          style: Theme.of(context).textTheme.bodySmall,
+
                                                         ),
-                                                        addHorizontalSpace(4),
-                                                        Chip(
-                                                          backgroundColor:
-                                                              Colors.lightBlue
-                                                                  .shade50,
-                                                          label: Text(
-                                                            'Approved',
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              color: Colors
-                                                                  .lightBlue,
+                                                        addHorizontalSpace(5),
+                                                        SizedBox(
+                                                          height: 30,
+                                                          child: Chip(
+                                                            backgroundColor:
+                                                                Colors.lightBlue
+                                                                    .shade50,
+                                                            label: Text(
+                                                              'Approved',
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .lightBlue,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -387,7 +373,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                     const Text(
                                                       'Booking Details',
                                                       style: TextStyle(
-                                                        color: kColorSilver,
+                                                        // color: kColorSilver,
                                                         decoration:
                                                             TextDecoration
                                                                 .underline,
@@ -525,17 +511,19 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                           },
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16, bottom: 10),
+                          padding: const EdgeInsets.only(left: 10, bottom: 10),
                           child: Row(
                             children: [
                               Icon(
                                 Icons.info_outline,
                                 color: Colors.orangeAccent,
-                                size: 20,
+                                size: 25,
                               ),
-                              Text(
-                                ' For bulk payment, please choose items with same currency.',
-                                style: kPurpleText13,
+                              Expanded(
+                                child: Text(
+                                  ' For bulk payment, please choose items with same currency.',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
                               ),
                             ],
                           ),

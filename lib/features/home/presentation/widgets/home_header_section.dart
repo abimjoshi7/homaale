@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
@@ -11,12 +12,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/home.dart';
-
 class HomeHeaderSection extends StatefulWidget {
-  const HomeHeaderSection({
-    super.key,
-  });
+  const HomeHeaderSection({super.key});
 
   @override
   State<HomeHeaderSection> createState() => _HomeHeaderSectionState();
@@ -24,9 +21,9 @@ class HomeHeaderSection extends StatefulWidget {
 
 class _HomeHeaderSectionState extends State<HomeHeaderSection> {
   String? location;
-  late Widget? child;
-  @override
+  Widget? child;
 
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {},
@@ -79,8 +76,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     );
 
                     await Geolocator.getCurrentPosition().then((value) async {
-                      await CacheHelper.setCachedString(
-                          "CurrentUserLocation", jsonEncode(value));
+                      await CacheHelper.setCachedString("CurrentUserLocation", jsonEncode(value));
                       await placemarkFromCoordinates(
                         value.latitude,
                         value.longitude,
@@ -163,12 +159,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        return CommonShowCase(
-                          position: TooltipPosition.bottom,
-                          showKey: Home.notificationKey,
-                          showCaseTitle: 'Notifications',
-                          showCaseDec: 'See all notifications from here.',
-                          child: SizedBox(
+                        if (state.theStates == TheStates.success) {
+                          return SizedBox(
                             width: 50,
                             height: 40,
                             child: Stack(
@@ -176,21 +168,28 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                 Positioned(
                                   top: 5,
                                   child: InkWell(
-                                      onTap: () {
-                                        (CacheHelper.isLoggedIn)
-                                            ? Navigator.pushNamed(
-                                                context,
-                                                NotificationFromHome.routeName,
-                                              )
-                                            : null;
-                                      },
+                                    onTap: () {
+                                      (CacheHelper.isLoggedIn)
+                                          ? Navigator.pushNamed(
+                                              context,
+                                              NotificationFromHome.routeName,
+                                            )
+                                          : null;
+                                    },
+                                    child: CommonShowCase(
+                                      position: TooltipPosition.bottom,
+                                      showKey: Home.notificationKey,
+                                      showCaseTitle: 'Notifications',
+                                      showCaseDec: 'See all notifications from here.',
                                       child: Icon(
                                         (CacheHelper.isLoggedIn)
                                             ? Icons.notifications_none
                                             : Icons.notifications_off_outlined,
                                         color: Colors.white,
                                         size: 30,
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
                                   state.allNotificationList?.unreadCount != null &&
@@ -215,6 +214,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                       : SizedBox()
                               ],
                             ),
+                          );
+                        }
+                        return SizedBox(
+                          width: 50,
+                          height: 40,
+                          child: Icon(
+                            Icons.notifications_none,
+                            color: Colors.white,
+                            size: 30,
                           ),
                         );
                       },
@@ -233,8 +241,13 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   ),
                   child: CustomTextFormField(
                     readOnly: true,
-                    prefixWidget: Icon(Icons.search),
+                    prefixWidget: Icon(
+                      Icons.search,
+                      color: Colors.black45,
+                    ),
                     hintText: 'Search here',
+                    hintStyle: TextStyle(color: Colors.black45),
+                    // Theme.of(context).textTheme.bodySmall,
                     onTap: () => Navigator.pushNamed(
                       context,
                       SearchPage.routeName,

@@ -104,8 +104,8 @@ class Result {
   final String? description;
   final dynamic highlights;
   final String? budgetType;
-  final num? budgetFrom;
-  final num? budgetTo;
+  final String? budgetFrom;
+  final String? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final String? startTime;
@@ -185,8 +185,8 @@ class Result {
         //   ),
         // ),
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"] as num?,
-        budgetTo: json["budget_to"] as num?,
+        budgetFrom: json["budget_from"] as String?,
+        budgetTo: json["budget_to"] as String?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(

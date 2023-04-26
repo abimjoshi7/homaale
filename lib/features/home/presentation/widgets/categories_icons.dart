@@ -36,12 +36,9 @@ class CategoriesIcons extends StatelessWidget {
               padding: const EdgeInsets.all(
                 5,
               ),
-              child: AutoSizeText(
+              child: Text(
                 data,
-                // style: const TextStyle(
-                //   fontSize: 13,
-                //   fontWeight: FontWeight.w400,
-                // ),
+                style: Theme.of(context).textTheme.bodySmall,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),

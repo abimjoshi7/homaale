@@ -7,6 +7,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
+import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -48,6 +49,9 @@ class _PostServicePageState extends State<PostServicePage> {
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
+  XFile? imagePath;
+  XFile? videoPath;
+  List<XFile?>? imagePathList;
   List<int>? imageList;
   List<int>? fileList;
   DateTime? startDate;
@@ -201,8 +205,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                     (index) => Padding(
                                       padding: const EdgeInsets.all(2),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             children: [
@@ -246,8 +249,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                       if (requirementController.text.isNotEmpty)
                                         setState(
                                           () {
-                                            requirementList.add(
-                                                requirementController.text);
+                                            requirementList.add(requirementController.text);
                                             requirementController.clear();
                                           },
                                         );
@@ -337,19 +339,14 @@ class _PostServicePageState extends State<PostServicePage> {
                                         cityCode = x.id;
                                       },
                                     ),
-                                    dropdownDecoratorProps:
-                                        DropDownDecoratorProps(
+                                    dropdownDecoratorProps: DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
                                         contentPadding: const EdgeInsets.all(5),
                                         hintText: 'Enter Your City',
-                                        hintStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        hintStyle: Theme.of(context).textTheme.bodySmall,
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: Color(0xffDEE2E6)),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
@@ -360,8 +357,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                           ),
                                         ),
                                       ),
-                                      baseStyle:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      baseStyle: Theme.of(context).textTheme.bodySmall,
                                     ),
                                     clearButtonProps: ClearButtonProps(
                                       padding: EdgeInsets.zero,
@@ -369,16 +365,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                       visualDensity: VisualDensity.compact,
                                       alignment: Alignment.centerRight,
                                       isVisible: true,
-                                      color: cityCode == null
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: cityCode == null ? Colors.white : Colors.black,
                                     ),
                                     popupProps: PopupProps.modalBottomSheet(
                                       showSearchBox: true,
-                                      modalBottomSheetProps:
-                                          ModalBottomSheetProps(
-                                        backgroundColor:
-                                            Theme.of(context).cardColor,
+                                      modalBottomSheetProps: ModalBottomSheetProps(
+                                        backgroundColor: Theme.of(context).cardColor,
                                         useSafeArea: false,
                                       ),
                                     ),
@@ -415,47 +407,35 @@ class _PostServicePageState extends State<PostServicePage> {
                                             .name,
                                         items: List.generate(
                                           state.currencyListRes.length,
-                                          (index) =>
-                                              state.currencyListRes[index].name,
+                                          (index) => state.currencyListRes[index].name,
                                         ),
                                         onChanged: (p0) => setState(
                                           () {
-                                            final x = state.currencyListRes
-                                                .firstWhere(
+                                            final x = state.currencyListRes.firstWhere(
                                               (element) => p0 == element.name,
                                             );
                                             currencyCode = x.code;
                                           },
                                         ),
-                                        dropdownDecoratorProps:
-                                            DropDownDecoratorProps(
-                                          dropdownSearchDecoration:
-                                              InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.all(5),
+                                        dropdownDecoratorProps: DropDownDecoratorProps(
+                                          dropdownSearchDecoration: InputDecoration(
+                                            contentPadding: const EdgeInsets.all(5),
                                             hintText: 'Enter Your Currency',
-                                            hintStyle: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            hintStyle: Theme.of(context).textTheme.bodySmall,
                                             enabledBorder: OutlineInputBorder(
-                                              borderSide: const BorderSide(
-                                                  color: Color(0xffDEE2E6)),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                                              borderRadius: BorderRadius.circular(8),
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: const BorderSide(
                                                 color: kColorSecondary,
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(
+                                              borderRadius: BorderRadius.circular(
                                                 8,
                                               ),
                                             ),
                                           ),
-                                          baseStyle: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
+                                          baseStyle: Theme.of(context).textTheme.bodySmall,
                                         ),
                                         clearButtonProps: ClearButtonProps(
                                           padding: EdgeInsets.zero,
@@ -463,16 +443,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                           visualDensity: VisualDensity.compact,
                                           alignment: Alignment.centerRight,
                                           isVisible: true,
-                                          color: currencyCode == null
-                                              ? Colors.white
-                                              : Colors.black,
+                                          color: currencyCode == null ? Colors.white : Colors.black,
                                         ),
                                         popupProps: PopupProps.modalBottomSheet(
                                           showSearchBox: true,
-                                          modalBottomSheetProps:
-                                              ModalBottomSheetProps(
-                                            backgroundColor:
-                                                Theme.of(context).cardColor,
+                                          modalBottomSheetProps: ModalBottomSheetProps(
+                                            backgroundColor: Theme.of(context).cardColor,
                                             useSafeArea: false,
                                           ),
                                         ),
@@ -669,17 +645,14 @@ class _PostServicePageState extends State<PostServicePage> {
                               ),
                             ],
                           ),
-                          BlocConsumer<TaskEntityServiceBloc,
-                              TaskEntityServiceState>(
+                          BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
                             listener: (context, state) {
-                              if (state.theStates == TheStates.success &&
-                                  state.isCreated == true) {
+                              if (state.theStates == TheStates.success && state.isCreated == true) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Success',
-                                    content:
-                                        'You have successfully created a service',
+                                    content: 'You have successfully created a service',
                                     onTap: () {
                                       Navigator.pushNamedAndRemoveUntil(context,
                                           Root.routeName, (route) => false);
@@ -688,14 +661,12 @@ class _PostServicePageState extends State<PostServicePage> {
                                   ),
                                 );
                               }
-                              if (state.theStates == TheStates.failure &&
-                                  state.isCreated == false) {
+                              if (state.theStates == TheStates.failure && state.isCreated == false) {
                                 showDialog(
                                   context: context,
                                   builder: (context) => CustomToast(
                                     heading: 'Failure',
-                                    content:
-                                        'Service cannot be added. Please try again.',
+                                    content: 'Service cannot be added. Please try again.',
                                     onTap: () {},
                                     isSuccess: false,
                                   ),
@@ -726,9 +697,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         highlights: requirementList,
                                         budgetType: budgetType,
                                         budgetFrom: double.parse(
-                                          startPriceController.text.isEmpty
-                                              ? '0'
-                                              : startPriceController.text,
+                                          startPriceController.text.isEmpty ? '0' : startPriceController.text,
                                         ),
                                         budgetTo: double.parse(
                                           endPriceController.text,
@@ -746,10 +715,8 @@ class _PostServicePageState extends State<PostServicePage> {
                                         isOnline: true,
                                         isRequested: false,
                                         discountType: "Percentage",
-                                        discountValue: discountController
-                                                .text.isNotEmpty
-                                            ? num.parse(discountController.text)
-                                            : 0,
+                                        discountValue:
+                                            discountController.text.isNotEmpty ? discountController.text : '0.0',
                                         extraData: [],
                                         noOfReservation: 0,
                                         isActive: true,
@@ -773,8 +740,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                         context: context,
                                         builder: (context) => CustomToast(
                                           heading: 'Error',
-                                          content:
-                                              'Please provide necessary details.',
+                                          content: 'Please provide necessary details.',
                                           onTap: () {},
                                           isSuccess: false,
                                         ),
@@ -785,8 +751,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                       context: context,
                                       builder: (context) => CustomToast(
                                         heading: "Failure",
-                                        content:
-                                            "Please accept the terms and condititons",
+                                        content: "Please accept the terms and condititons",
                                         onTap: () {},
                                         isSuccess: false,
                                       ),

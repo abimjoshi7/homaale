@@ -41,18 +41,17 @@ _$_OrderItem _$$_OrderItemFromJson(Map<String, dynamic> json) => _$_OrderItem(
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      amount: (json['amount'] as num?)?.toDouble(),
-      tax: (json['tax'] as num?)?.toDouble(),
-      vat: (json['vat'] as num?)?.toDouble(),
-      offerValue: (json['offer_value'] as num?)?.toDouble(),
-      discount: (json['discount'] as num?)?.toDouble(),
-      platformCharge: (json['platform_charge'] as num?)?.toDouble(),
-      platformChargeDiscount:
-          (json['platform_charge_discount'] as num?)?.toDouble(),
-      equipmentCharges: (json['equipment_charges'] as num?)?.toDouble(),
-      revisionCharges: (json['revision_charges'] as num?)?.toDouble(),
-      otherCharges: (json['other_charges'] as num?)?.toDouble(),
-      otherDiscounts: (json['other_discounts'] as num?)?.toDouble(),
+      amount: json['amount'] as String?,
+      tax: json['tax'] as String?,
+      vat: json['vat'] as String?,
+      offerValue: json['offer_value'] as String?,
+      discount: json['discount'] as String?,
+      platformCharge: json['platform_charge'] as String?,
+      platformChargeDiscount: json['platform_charge_discount'] as String?,
+      equipmentCharges: json['equipment_charges'] as String?,
+      revisionCharges: json['revision_charges'] as String?,
+      otherCharges: json['other_charges'] as String?,
+      otherDiscounts: json['other_discounts'] as String?,
       extraData: json['extra_data'] == null
           ? null
           : ExtraData.fromJson(json['extra_data'] as Map<String, dynamic>),

@@ -304,9 +304,9 @@ mixin _$Result {
   String? get status => throw _privateConstructorUsedError;
   String? get currency => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom => throw _privateConstructorUsedError;
+  String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_to')
-  double? get budgetTo => throw _privateConstructorUsedError;
+  String? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_type')
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_by')
@@ -327,8 +327,8 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: 'created_at') String? createdAt,
       String? status,
       String? currency,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'created_by') CreatedBy? createdBy});
 
@@ -377,11 +377,11 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetType: freezed == budgetType
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
@@ -417,8 +417,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: 'created_at') String? createdAt,
       String? status,
       String? currency,
-      @JsonKey(name: 'budget_from') double? budgetFrom,
-      @JsonKey(name: 'budget_to') double? budgetTo,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'created_by') CreatedBy? createdBy});
 
@@ -465,11 +465,11 @@ class __$$_ResultCopyWithImpl<$Res>
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetTo: freezed == budgetTo
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       budgetType: freezed == budgetType
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
@@ -509,10 +509,10 @@ class _$_Result implements _Result {
   final String? currency;
   @override
   @JsonKey(name: 'budget_from')
-  final double? budgetFrom;
+  final String? budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  final double? budgetTo;
+  final String? budgetTo;
   @override
   @JsonKey(name: 'budget_type')
   final String? budgetType;
@@ -571,8 +571,8 @@ abstract class _Result implements Result {
       @JsonKey(name: 'created_at') final String? createdAt,
       final String? status,
       final String? currency,
-      @JsonKey(name: 'budget_from') final double? budgetFrom,
-      @JsonKey(name: 'budget_to') final double? budgetTo,
+      @JsonKey(name: 'budget_from') final String? budgetFrom,
+      @JsonKey(name: 'budget_to') final String? budgetTo,
       @JsonKey(name: 'budget_type') final String? budgetType,
       @JsonKey(name: 'created_by') final CreatedBy? createdBy}) = _$_Result;
 
@@ -589,10 +589,10 @@ abstract class _Result implements Result {
   String? get currency;
   @override
   @JsonKey(name: 'budget_from')
-  double? get budgetFrom;
+  String? get budgetFrom;
   @override
   @JsonKey(name: 'budget_to')
-  double? get budgetTo;
+  String? get budgetTo;
   @override
   @JsonKey(name: 'budget_type')
   String? get budgetType;

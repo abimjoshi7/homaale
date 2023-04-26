@@ -128,9 +128,10 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
 
                                     await CacheHelper.clearCachedData(kBookedMap).whenComplete(
                                       () {
-                                        Navigator.pushNamed(
+                                        Navigator.pushNamedAndRemoveUntil(
                                           context,
                                           Root.routeName,
+                                          (route) => false,
                                         );
                                       },
                                     );

@@ -1,10 +1,16 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/error/error_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/billing_payment_page/billing_payment_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/connected_account/connected_account_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/deactivate_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/help_legal_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
+import 'package:cipher/features/account_settings/presentation/pages/languages_page/languages_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/membership/membership.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/presentation/screens/pages.dart';
-import 'package:cipher/features/account_settings/presentation/pages/tax_calculator/tax_calculator.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
@@ -18,6 +24,7 @@ import 'package:cipher/features/event/presentation/pages/event_details_page.dart
 import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
+import 'package:cipher/features/notification/presentation/pages/notifications_page.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
 import 'package:cipher/features/order/presentation/pages/order_invoice_page.dart';
@@ -27,11 +34,14 @@ import 'package:cipher/features/payment/presentation/pages/payment_summary_page.
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/features/saved/presentation/pages/saved_collection_page.dart';
+import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
+import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
@@ -44,6 +54,7 @@ import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
+import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
@@ -68,6 +79,12 @@ class AppRouter {
       case SignInPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SignInPage(),
+          settings: settings,
+        );
+
+      case SupportTicketPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SupportTicketPage(),
           settings: settings,
         );
       case ForgotPasswordPage.routeName:
@@ -180,6 +197,11 @@ class AppRouter {
       case SavedPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SavedPage(),
+        );
+      case SavedCollectionPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const SavedCollectionPage(),
+          settings: settings,
         );
       case Membership.routeName:
         return MaterialPageRoute(

@@ -193,18 +193,16 @@ class _OrderTrackerState extends State<OrderTracker>
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Task Created Successfully',
-                        style: widget.headingTitleStyle ??
-                            const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
+                          text: 'Task Created Successfully',
+                          style: widget.headingTitleStyle ??
+                              Theme.of(context).textTheme.bodySmall),
                       TextSpan(
-                        text: ' Today',
-                        style: widget.headingDateTextStyle ??
-                            const TextStyle(fontSize: 16, color: Colors.grey),
-                      ),
+                          text: ' Today',
+                          style: widget.headingDateTextStyle ??
+                              Theme.of(context).textTheme.bodySmall
+
+                          // const TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
                     ],
                   ),
                 ),
@@ -295,7 +293,7 @@ class _OrderTrackerState extends State<OrderTracker>
                   ),
                 ),
                 const SizedBox(
-                  width: 20,
+                  width: 5,
                 ),
                 Text.rich(
                   TextSpan(
@@ -303,15 +301,12 @@ class _OrderTrackerState extends State<OrderTracker>
                       TextSpan(
                         text: 'Harry Smith has started the task ',
                         style: widget.headingTitleStyle ??
-                            const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            Theme.of(context).textTheme.bodySmall,
                       ),
                       TextSpan(
                         text: " Fri, 28th Mar '22",
                         style: widget.headingDateTextStyle ??
-                            const TextStyle(fontSize: 16, color: Colors.grey),
+                            Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -412,25 +407,20 @@ class _OrderTrackerState extends State<OrderTracker>
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: 'You confirmed Harry Smith for your task ',
-                            style: widget.headingTitleStyle ??
-                                const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
+                              text: 'You confirmed Harry Smith for your task ',
+                              style: widget.headingTitleStyle ??
+                                  Theme.of(context).textTheme.bodySmall),
                           TextSpan(
-                            text: 'Today',
-                            style: widget.headingDateTextStyle ??
-                                const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
-                                ),
-                          ),
+                              text: 'Today',
+                              style: widget.headingDateTextStyle ??
+                                  Theme.of(context).textTheme.bodySmall),
                         ],
                       ),
                     ),
-                    const Text('data')
+                    Text(
+                      'data',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
                   ],
                 ),
               ],

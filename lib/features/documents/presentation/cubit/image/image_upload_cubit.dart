@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
@@ -9,10 +10,14 @@ import 'package:dependencies/dependencies.dart';
 part 'image_upload_state.dart';
 
 class ImageUploadCubit extends Cubit<ImageUploadState> {
-  ImageUploadCubit() : super(ImageUploadInitial());
+  ImageUploadCubit()
+      : super(
+          ImageUploadInitial(),
+        );
 
   Future<void> uploadImage({
     bool isCamera = false,
+    required XFile? imagePath,
   }) async {
     try {
       emit(
@@ -36,7 +41,9 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       //   );
       // }
     } catch (e) {
-      log(e.toString());
+      log(
+        "Image upload failure: $e",
+      );
       emit(
         ImageUploadFailure(),
       );
@@ -45,6 +52,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
 
   Future<void> uploadVideo({
     bool isCamera = false,
+    required XFile? imagePath,
   }) async {
     try {
       emit(
@@ -67,13 +75,18 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       //     );
       //   }
     } catch (e) {
+      log(
+        "Video upload failure: $e",
+      );
       emit(
         VideoUploadFailure(),
       );
     }
   }
 
-  Future<void> uploadMultipleImage() async {
+  Future<void> uploadMultipleImage({
+    required List<XFile?>? imagePath,
+  }) async {
     try {
       emit(
         MulitpleImageUploadLoading(),
@@ -93,19 +106,24 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
       //   );
       // }
     } catch (e) {
+      log(
+        "Multiple images upload failure: $e",
+      );
       emit(
         ImageUploadFailure(),
       );
     }
   }
 
-  Future<void> uploadFile() async {
+  Future<void> uploadFile(
+    File? filePath,
+  ) async {
     try {
       emit(
         FileUploadInitial(),
       );
 
-      final filePath = await FilePickHelper.filePicker();
+      filePath = await FilePickHelper.filePicker();
       final response = await DioHelper().postMultiFormData(
         path: filePath!.path,
         url: 'task/filestore/',

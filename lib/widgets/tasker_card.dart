@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,11 @@ class TaskerCard extends StatelessWidget {
     this.callbackLabel,
     this.buttonWidth,
     required this.onFavouriteTapped,
+    this.id,
   });
 
   final String? label;
+  final String? id;
   final String? designation;
   final String? happyClients;
   final String? rewardPercentage;
@@ -39,14 +42,14 @@ class TaskerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.5,
-      width: MediaQuery.of(context).size.width * 0.4,
+      width: MediaQuery.of(context).size.width * 0.5,
       child: Card(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height * 0.08,
-              width: MediaQuery.of(context).size.width * 0.2,
+              width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -69,7 +72,7 @@ class TaskerCard extends StatelessWidget {
                         children: <Widget>[
                           Flexible(
                             child: AutoSizeText(
-                              label ?? 'Harry Smith',
+                              label ?? '',
                               style: Theme.of(context).textTheme.headlineSmall,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -91,27 +94,27 @@ class TaskerCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       WidgetText(
-                        label: happyClients ?? '200',
+                        label: happyClients ?? '0',
                         widget: const Icon(
                           Icons.emoji_emotions_outlined,
                           color: Color(0xffF98900),
-                          size: 16,
+                          // size: 16,
                         ),
                       ),
                       WidgetText(
-                        label: rewardPercentage ?? '200',
+                        label: rewardPercentage ?? '0',
                         widget: const Icon(
                           Icons.military_tech_rounded,
                           color: Color(0xff0693E3),
-                          size: 16,
+                          // size: 16,
                         ),
                       ),
                       WidgetText(
-                        label: distance ?? '200',
+                        label: distance ?? '0',
                         widget: const Icon(
                           Icons.airline_stops_sharp,
                           color: Color(0xffF98900),
-                          size: 16,
+                          // size: 16,
                         ),
                       ),
                     ],
@@ -121,7 +124,7 @@ class TaskerCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconText(
-                        label: ratings ?? '3.5 (100)',
+                        label: ratings ?? '',
                         iconData: Icons.star_rate_rounded,
                         size: 15,
                         color: kColorAmber,
@@ -164,6 +167,7 @@ class TaskerCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 5,),
                 ],
               ),
             ),

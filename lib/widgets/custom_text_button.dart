@@ -17,11 +17,13 @@ class CustomTextButton extends StatelessWidget {
       onTap: voidCallback,
       child: Text(
         text,
-        style: style ??
-            const TextStyle(
-              color: Color(0xff3d3f7d),
-              fontWeight: FontWeight.w400,
-            ),
+        style:style ?? Theme.of(context).textTheme.bodySmall,
+
+        // style: style ??
+        //     const TextStyle(
+        //       color: Color(0xff3d3f7d),
+        //       fontWeight: FontWeight.w400,
+        //     ),
       ),
     );
   }

@@ -3,6 +3,9 @@ import 'package:cipher/features/bookings/presentation/widgets/sections/sections.
 import 'package:cipher/features/bookings/presentation/widgets/sections/todos/task_section.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/colors.dart';
+import '../../../../../core/constants/paddings.dart';
+
 class MyBookingsTabSection extends StatefulWidget {
   final BookingsBloc bloc;
   const MyBookingsTabSection({super.key, required this.bloc});
@@ -40,8 +43,9 @@ class _MyBookingsTabSectionState extends State<MyBookingsTabSection>
         children: [
           TabBar(
             indicatorPadding: const EdgeInsets.symmetric(horizontal: 20),
-            labelPadding: const EdgeInsets.all(10),
+            labelPadding: kPadding10,
             controller: tabController,
+            indicatorColor: kColorSecondary,
             tabs: const [
               Text("ToDo's"),
               Text("Services"),

@@ -125,7 +125,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       CustomTextFormField(
-                        theWidth: MediaQuery.of(context).size.width * 0.89,
+                        theWidth: MediaQuery.of(context).size.width * 0.88,
                         controller: phoneNumberController,
                         validator: validateNotEmpty,
                         onSaved: (p0) => setState(
@@ -134,6 +134,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         textInputType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         hintText: 'Mobile Number',
+                        // hintStyle: TextStyle(color: Colors.black12),
                         prefixWidget: InkWell(
                           onTap: () {},
                           child: Padding(
@@ -146,7 +147,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                                   '+977',
                                   style: kBodyText1,
                                 ),
-                                const Icon(Icons.arrow_drop_down)
+                                 Icon(Icons.arrow_drop_down)
                               ],
                             ),
                           ),
@@ -164,6 +165,42 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           }
 
           return const SizedBox();
+        }
+
+        Widget buildPasswordField() {
+          if (state.theStates == TheStates.initial) {
+            return CustomFormField(
+              label: 'Password',
+              child: CustomTextFormField(
+                theWidth: MediaQuery.of(context).size.width * 0.88,
+                controller: passwordController,
+                obscureText: isObscure,
+                suffixWidget: InkWell(
+                  onTap: () {
+                    setState(
+                      () {
+                        isObscure = !isObscure;
+                      },
+                    );
+                  },
+                  child: Icon(
+                    color: kColorPrimary,
+                    isObscure
+                        ? Icons.visibility_rounded
+                        : Icons.visibility_off_rounded,
+                  ),
+                ),
+                onSaved: (p0) => setState(
+                  () {
+                    passwordController.text = p0!;
+                  },
+                ),
+                hintText: 'Enter your password here',
+                validator: validateNotEmpty,
+              ),
+            );
+          }
+          return CircularProgressIndicator();
         }
 
         Widget loginButton() {
@@ -244,33 +281,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               buildForm(),
-              CustomFormField(
-                label: 'Password',
-                child: CustomTextFormField(
-                  controller: passwordController,
-                  obscureText: isObscure,
-                  suffixWidget: InkWell(
-                    onTap: () {
-                      setState(
-                        () {
-                          isObscure = !isObscure;
-                        },
-                      );
-                    },
-                    child: Icon(
-                      color: kColorPrimary,
-                      isObscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
-                    ),
-                  ),
-                  onSaved: (p0) => setState(
-                    () {
-                      passwordController.text = p0!;
-                    },
-                  ),
-                  hintText: 'Enter your password here',
-                  validator: validateNotEmpty,
-                ),
-              ),
+              buildPasswordField(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -285,8 +296,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         ),
                       ),
                       kWidth5,
-                      const Text(
+                       Text(
                         'Remember me',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -297,7 +309,10 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         ForgotPasswordPage.routeName,
                       );
                     },
-                    child: const Text('Forgot password?'),
+                    child:  Text('Forgot password?',
+                      style: Theme.of(context).textTheme.headlineSmall,
+
+                    ),
                   )
                 ],
               ),
@@ -369,13 +384,15 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               addVerticalSpace(8.0),
               if (state.theStates == TheStates.initial)
                 CustomTextButton(
-                  text: (state.isPhoneNumber) ? "Didn't get OTP ?" : "Didn't get verification email?",
+                  text: (state.isPhoneNumber) ? "Didn't get OTP ?"
+                      : "Didn't get verification email?",
                   voidCallback: () => Navigator.pushNamed(
                     context,
                     ResendVerificationPage.routeName,
                   ),
+                    // style :Theme.of(context).textTheme.bodySmall
                   style: kText13.copyWith(
-                    color: kColorPrimaryAccent,
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.1,
                     wordSpacing: 0.1,

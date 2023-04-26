@@ -35,8 +35,8 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       createdAt: json['created_at'] as String?,
       status: json['status'] as String?,
       currency: json['currency'] as String?,
-      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
-      budgetTo: (json['budget_to'] as num?)?.toDouble(),
+      budgetFrom: json['budget_from'] as String?,
+      budgetTo: json['budget_to'] as String?,
       budgetType: json['budget_type'] as String?,
       createdBy: json['created_by'] == null
           ? null

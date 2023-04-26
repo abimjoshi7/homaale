@@ -13,8 +13,8 @@ _$_EditBookingRes _$$_EditBookingResFromJson(Map<String, dynamic> json) =>
       requirements: (json['requirements'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      budgetFrom: json['budgetFrom'] as int?,
-      budgetTo: json['budgetTo'] as int?,
+      budgetFrom: json['budgetFrom'] as String?,
+      budgetTo: json['budgetTo'] as String?,
       startDate: json['startDate'] == null
           ? null
           : DateTime.parse(json['startDate'] as String),

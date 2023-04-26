@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 class TaskModel {
   TaskModel({
     this.id,
@@ -67,8 +69,8 @@ class TaskModel {
   final String? description;
   final dynamic highlights;
   final String? budgetType;
-  final num? budgetFrom;
-  final num? budgetTo;
+  final String? budgetFrom;
+  final String? budgetTo;
   final DateTime? startDate;
   final DateTime? endDate;
   final dynamic startTime;
@@ -83,7 +85,7 @@ class TaskModel {
   final bool? isOnline;
   final bool? isRequested;
   final String? discountType;
-  final num? discountValue;
+  final String? discountValue;
   final dynamic extraData;
   final num? noOfReservation;
   final String? slug;
@@ -156,11 +158,10 @@ class TaskModel {
         deletedAt: json["deleted_at"],
         title: json["title"] as String?,
         description: json["description"] as String?,
-        highlights:
-            json["highlights"] == null ? null : json["highlights"] as dynamic,
+        highlights: json["highlights"] == null ? null : json["highlights"] as dynamic,
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"] as num?,
-        budgetTo: json["budget_to"] as num?,
+        budgetFrom: json["budget_from"] as String?,
+        budgetTo: json["budget_to"] as String?,
         startDate: json["start_date"] == null
             ? null
             : DateTime.parse(
@@ -183,9 +184,8 @@ class TaskModel {
         isOnline: json["is_online"] as bool?,
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
-        discountValue: json["discount_value"] as num?,
-        extraData:
-            json["extra_data"] == null ? null : json["extra_data"] as dynamic,
+        discountValue: json["discount_value"] as String?,
+        extraData: json["extra_data"] == null ? null : json["extra_data"] as dynamic,
         noOfReservation: json["no_of_reservation"] as num?,
         slug: json["slug"] as String?,
         isActive: json["is_active"] as bool?,
@@ -201,18 +201,12 @@ class TaskModel {
         "city": city?.toJson(),
         "created_by": createdBy?.toJson(),
         "service": service?.toJson(),
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "videos":
-            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "videos": videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
         "rating": rating,
         "count": count,
-        "offers": offers == null
-            ? []
-            : List<dynamic>.from(offers!.map((x) => x.toJson())),
-        "endorsements": endorsements == null
-            ? []
-            : List<dynamic>.from(endorsements!.map((x) => x)),
+        "offers": offers == null ? [] : List<dynamic>.from(offers!.map((x) => x.toJson())),
+        "endorsements": endorsements == null ? [] : List<dynamic>.from(endorsements!.map((x) => x)),
         "is_redeemable": isRedeemable,
         "event": event,
         "created_at": createdAt?.toIso8601String(),
@@ -552,8 +546,7 @@ class Service {
         "is_active": isActive,
         "is_verified": isVerified,
         "category": category?.toJson(),
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
       };
 }
 

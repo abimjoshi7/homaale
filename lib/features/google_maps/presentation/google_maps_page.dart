@@ -54,12 +54,12 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     super.initState();
     getUserLocation();
   }
-
-  @override
-  void dispose() {
-    // mapController.dispose();
-    super.dispose();
-  }
+//if google maps controller is implemented the uncomment this:
+  // @override
+  // void dispose() {
+  // mapController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +70,15 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
           for (final taskEntityService in state.nearbyTaskEntityServiceList!) {
             final marker = Marker(
               icon: taskEntityService.isRequested ?? true
-                  ? BitmapDescriptor.defaultMarkerWithHue(90)
+                  ? BitmapDescriptor.defaultMarkerWithHue(120)
                   : BitmapDescriptor.defaultMarker,
               markerId: MarkerId(taskEntityService.title.toString()),
               position: LatLng(taskEntityService.city!.latitude!.toDouble(),
                   taskEntityService.city!.longitude!.toDouble()),
               infoWindow: InfoWindow(
-                title: "${taskEntityService.title}",
+                title: taskEntityService.isRequested ?? true
+                    ? "Task:${taskEntityService.title}"
+                    : "Service:${taskEntityService.title}",
                 snippet:
                     "${taskEntityService.city!.name},${taskEntityService.city!.country!.name}",
               ),
@@ -87,10 +89,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Task and Services Near Me'),
-            elevation: 2,
-          ),
           body: GoogleMap(
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,

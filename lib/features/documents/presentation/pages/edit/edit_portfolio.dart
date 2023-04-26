@@ -27,6 +27,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
   Portfolio? portfolio;
   late String? imagePath;
   final ImageUploadCubit imageCubit = locator<ImageUploadCubit>();
+  File? file;
 
   @override
   void initState() {
@@ -315,7 +316,7 @@ class _EditPortfolioState extends State<EditPortfolio> {
                             isRequired: true,
                             child: InkWell(
                               onTap: () async {
-                                await imageCubit.uploadFile();
+                                await imageCubit.uploadFile(file);
                               },
                               child: SizedBox(
                                 height: 150,

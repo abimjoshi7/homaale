@@ -21,11 +21,12 @@ class SignInPage extends StatelessWidget {
                   onTap: () async {
                     DioHelper().refreshToken();
                   },
-                  child: const Text('Welcome', style: kHeading1),
+                  child:  Text('Welcome', style: Theme.of(context).textTheme.headlineSmall),
                 ),
-                const Text(
+                 Text(
                   'Login to your account',
-                  style: kHelper13,
+                  style:Theme.of(context).textTheme.bodySmall,
+                  // kHelper13,
                 ),
                 // addVerticalSpace(20),
                 SignInFormFields(),
@@ -45,8 +46,9 @@ class SignInPage extends StatelessWidget {
                           SignUpPage.routeName,
                         );
                       },
-                      child: const Text(
+                      child:  Text(
                         'Sign Up',
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ),
                   ],

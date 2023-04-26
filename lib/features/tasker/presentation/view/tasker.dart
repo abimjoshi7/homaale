@@ -1,4 +1,3 @@
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/dimensions.dart';
@@ -240,11 +239,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                 CustomHeader(
                   leadingWidget: IconButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Root.routeName,
-                        (route) => false,
-                      );
+                      Navigator.pop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,
@@ -278,7 +273,8 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                             children: [
                               Text(
                                 '${state.tasker?.user!.firstName!} ${state.tasker?.user!.lastName!}',
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                               kWidth5,
                               if (state.tasker?.isProfileVerified! == true)
@@ -316,34 +312,37 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                     ],
                   ),
                 ),
-                addVerticalSpace(40),
+                addVerticalSpace(30),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          buildTaskSuccessRate(),
-                          addHorizontalSpace(4),
-                          const Text('Success Rate'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          buildTaskHappyClients(),
-                          addHorizontalSpace(4),
-                          const Text('Happy Clients'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          buildTaskCompleted(),
-                          addHorizontalSpace(4),
-                          const Text('Task Completed'),
-                        ],
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            buildTaskSuccessRate(),
+                            addHorizontalSpace(4),
+                            const Text('Success Rate'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            buildTaskHappyClients(),
+                            addHorizontalSpace(4),
+                            const Text('Happy Clients'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            buildTaskCompleted(),
+                            addHorizontalSpace(4),
+                            const Text('Task Completed'),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 addVerticalSpace(20),
@@ -409,7 +408,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
               ],
             );
           } else {
-            return  Center(
+            return Center(
               child: CardLoading(
                 // cardLoadingTheme: CardLoadingTheme(
                 //   colorOne: Theme.of(context).cardColor,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 
 class WidgetText extends StatelessWidget {
-  const WidgetText({
+  const WidgetText( {
     Key? key,
     required this.widget,
     required this.label,

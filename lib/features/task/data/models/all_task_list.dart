@@ -406,8 +406,8 @@ class EntityService {
 
   final String? id;
   final String? budgetType;
-  final double? budgetFrom;
-  final double? budgetTo;
+  final String? budgetFrom;
+  final String? budgetTo;
   final List<Image>? images;
   final List<dynamic>? videos;
   final Assignee? createdBy;
@@ -415,8 +415,8 @@ class EntityService {
   factory EntityService.fromJson(Map<String, dynamic> json) => EntityService(
         id: json["id"] as String?,
         budgetType: json["budget_type"] as String?,
-        budgetFrom: json["budget_from"] as double?,
-        budgetTo: json["budget_to"] as double?,
+        budgetFrom: json["budget_from"] as String?,
+        budgetTo: json["budget_to"] as String?,
         images: json["images"] == null
             ? []
             : List<Image>.from(

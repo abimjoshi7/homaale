@@ -6,13 +6,15 @@ import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-
 import 'package:cipher/features/box/presentation/bloc/order_id_create_bloc.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/repository/chat_repository.dart';
+import 'package:cipher/features/notification/data/repositories/notification_repositories.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
+import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -36,21 +38,26 @@ void init() {
     () => CategoriesRepositories(),
   );
   locator.registerLazySingleton(() => ChatRepository());
-  locator.registerLazySingleton(() => UploadRepository());
 
-  // bloc
-  locator.registerFactory(() => TaskBloc());
-  locator.registerFactory(() => ServicesBloc());
-  locator.registerFactory(() => EntityServiceBloc());
-  locator.registerFactory(() => TaskerCubit());
-  locator.registerFactory(() => UserBloc());
-  locator.registerFactory(() => TaskEntityServiceBloc());
-  locator.registerFactory(() => BookingsBloc());
-  locator.registerFactory(() => PaymentBloc());
-  locator.registerFactory(() => PaymentTypeBloc());
-  locator.registerFactory(() => NotificationBloc());
-  locator.registerFactory(() => OrderIdCreateBloc());
-  locator.registerFactory(() => OrderItemRetriveBloc());
+  //bloc
+  locator.registerFactory<TaskBloc>(() => TaskBloc());
+  locator.registerFactory<ServicesBloc>(() => ServicesBloc());
+  locator.registerFactory<EntityServiceBloc>(() => EntityServiceBloc());
+  locator.registerFactory<TaskerCubit>(() => TaskerCubit());
+  locator.registerFactory<UserBloc>(() => UserBloc());
+  locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc());
+  locator.registerFactory<TaskerPortfolioCubit>(() => TaskerPortfolioCubit());
+  locator.registerFactory<BookingsBloc>(() => BookingsBloc());
+  locator.registerFactory<PaymentBloc>(() => PaymentBloc());
+  locator.registerFactory<PaymentTypeBloc>(() => PaymentTypeBloc());
+  locator.registerFactory<OrderIdCreateBloc>(() => OrderIdCreateBloc());
+  locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
+  locator.registerFactory<KycBloc>(() => KycBloc(locator()));
+  locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
+  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
+  locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
+  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
 
   locator.registerFactory(
     () => ChatBloc(
@@ -69,18 +76,11 @@ void init() {
   );
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
-  locator.registerFactory(
-    () => UploadBloc(
-      locator(),
-    ),
-  );
 
   //cubit
   locator.registerFactory<ImageUploadCubit>(
     () => ImageUploadCubit(),
   );
   var firebaseInstance = FirebaseFirestore.instance;
-  locator.registerFactory<FirebaseFirestore>(
-    () => firebaseInstance,
-  );
+  locator.registerSingleton<FirebaseFirestore>(firebaseInstance);
 }

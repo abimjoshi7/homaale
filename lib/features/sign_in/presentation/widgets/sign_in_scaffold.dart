@@ -1,6 +1,5 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +98,8 @@ class SignInScaffold extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     // height: MediaQuery.of(context).size.height * 0.8,
                     child: DecoratedBox(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+                      decoration:  BoxDecoration(
+                        color:Theme.of(context).appBarTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(100),
                         ),

@@ -20,10 +20,12 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 }
 
 class FloatingOptionsCustomPainter extends CustomPainter {
+  final Color color;
+  FloatingOptionsCustomPainter({required this.color});
   @override
   void paint(Canvas canvas, Size size) {
     final paint0 = Paint()
-      ..color = kColorPrimary
+      ..color = color
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 
@@ -101,10 +103,12 @@ class FloatingOptionsCustomPainter extends CustomPainter {
 }
 
 class BottomNavCustomPainter extends CustomPainter {
+  final Color color;
+  BottomNavCustomPainter({required this.color});
   @override
   void paint(Canvas canvas, Size size) {
     final paint0 = Paint()
-      ..color = kColorPrimary
+      ..color = color
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 

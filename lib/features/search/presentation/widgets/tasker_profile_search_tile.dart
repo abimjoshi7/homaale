@@ -40,7 +40,7 @@ class TaskerProfileSearchTile extends StatelessWidget {
         children: <Widget>[
           Icon(
             CupertinoIcons.search,
-            color: kColorDarkGrey,
+            // color: kColorDarkGrey,
             size: 24,
           ),
           addHorizontalSpace(10.0),
@@ -49,9 +49,10 @@ class TaskerProfileSearchTile extends StatelessWidget {
             children: <Widget>[
               Text(
                 taskerProfile.fullName.toString(),
-                style: kText14.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
+                style:Theme.of(context).textTheme.bodySmall,
+                // kText14.copyWith(
+                //   fontWeight: FontWeight.w400,
+                // ),
               ),
               Text(
                 "${taskerProfile.designation}",
@@ -65,7 +66,7 @@ class TaskerProfileSearchTile extends StatelessWidget {
                 height: 15.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40.0),
-                  color: Colors.redAccent.withOpacity(0.9),
+                  color: Colors.lightBlueAccent.withOpacity(0.9),
                   shape: BoxShape.rectangle,
                 ),
                 child: Text(
@@ -83,7 +84,7 @@ class TaskerProfileSearchTile extends StatelessWidget {
       trailing: Icon(
         CupertinoIcons.arrow_up_left,
         size: 24,
-        color: kColorDarkGrey,
+        // color: kColorDarkGrey,
       ),
     );
   }

@@ -45,8 +45,8 @@ _$_SingleTaskEntityService _$$_SingleTaskEntityServiceFromJson(
           ?.map((e) => e as String)
           .toList(),
       budgetType: json['budget_type'] as String?,
-      budgetFrom: (json['budget_from'] as num?)?.toDouble(),
-      budgetTo: (json['budget_to'] as num?)?.toDouble(),
+      budgetFrom: json['budget_from'] as String?,
+      budgetTo: json['budget_to'] as String?,
       startDate: json['start_date'] as String?,
       endDate: json['end_date'] as String?,
       startTime: json['start_time'] as String?,
