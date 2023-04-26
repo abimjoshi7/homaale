@@ -18,6 +18,17 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   KycBloc(
     this.repositories,
   ) : super(const KycState()) {
+    on<KycProfileInitiated>((event, emit) async {
+      List<Country> _countriesList = [];
+      final x = await repositories.getCountriesList();
+      log('kyc country test: $x');
+      for (final country in x) {
+        _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
+      }
+      emit(state.copyWith(
+        country: _countriesList,
+      ));
+    });
     on<KycInitiated>(
       (event, emit) async {
         try {

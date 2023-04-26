@@ -1,39 +1,33 @@
-class CreateKycReq {
-  CreateKycReq({
-    required this.fullName,
-    this.isCompany,
-    this.organizationName,
-    required this.address,
-    this.extraData,
-    this.company,
-    required this.country,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String? fullName;
-  final bool? isCompany;
-  final String? organizationName;
-  final String? address;
-  final Map<String, dynamic>? extraData;
-  final int? company;
-  final String? country;
+part 'create_kyc_req.freezed.dart';
+part 'create_kyc_req.g.dart';
 
-  factory CreateKycReq.fromJson(Map<String, dynamic> json) => CreateKycReq(
-        fullName: json["full_name"] as String?,
-        isCompany: json["is_company"] as bool?,
-        organizationName: json["organization_name"] as String?,
-        address: json["address"] as String?,
-        extraData: json["extra_data"] as Map<String, dynamic>,
-        company: json["company"] as int?,
-        country: json["country"] as String?,
-      );
+@freezed
+class CreateKycReq with _$CreateKycReq {
+  const factory CreateKycReq({
+    @JsonKey(name: "full_name") String? fullName,
+    String? logo,
+    @JsonKey(name: "is_company") bool? isCompany,
+    @JsonKey(name: "organization_name") String? organizationName,
+    String? address,
+    @JsonKey(name: "extra_data") ExtraData? extraData,
+    int? company,
+    String? country,
+  }) = _CreateKycReq;
 
-  Map<String, dynamic> toJson() => {
-        "full_name": fullName,
-        "is_company": isCompany,
-        "organization_name": organizationName,
-        "address": address,
-        "extra_data": extraData,
-        "company": company,
-        "country": country,
-      };
+  factory CreateKycReq.fromJson(Map<String, dynamic> json) =>
+      _$CreateKycReqFromJson(json);
+}
+
+@freezed
+class ExtraData with _$ExtraData {
+  const factory ExtraData({
+    String? additionalProp1,
+    String? additionalProp2,
+    String? additionalProp3,
+  }) = _ExtraData;
+
+  factory ExtraData.fromJson(Map<String, dynamic> json) =>
+      _$ExtraDataFromJson(json);
 }

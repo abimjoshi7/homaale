@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
     as sets;
@@ -174,7 +175,7 @@ class _AccountProfileState extends State<AccountProfile> {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            KycDetails.routeName,
+                            KycProfile.routeName,
                           );
                         },
                         child: const ProfileKycVerifySection(),

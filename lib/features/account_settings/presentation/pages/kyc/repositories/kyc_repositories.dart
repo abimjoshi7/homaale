@@ -2,6 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 
 class KycRepositories {
   final _dio = DioHelper();
@@ -14,6 +15,18 @@ class KycRepositories {
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List> getCountriesList() async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        url: "locale/client/country/options/",
+        token: CacheHelper.accessToken,
+      );
+      return x as List;
     } catch (e) {
       rethrow;
     }

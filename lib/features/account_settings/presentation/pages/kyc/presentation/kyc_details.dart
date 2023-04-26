@@ -151,7 +151,7 @@ class _KycDetailsState extends State<KycDetails> {
                 ),
               ),
               const Divider(),
-               Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   'KYC Details',
@@ -166,7 +166,7 @@ class _KycDetailsState extends State<KycDetails> {
                       16,
                     ),
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         CustomFormField(
                           label: 'Identify Type',
                           isRequired: true,
@@ -253,7 +253,7 @@ class _KycDetailsState extends State<KycDetails> {
                                               state.list!.first.issuedDate!,
                                             )
                                           : "No date available",
-                                  leadingWidget:  Icon(
+                                  leadingWidget: Icon(
                                     Icons.calendar_month_rounded,
                                     color: Theme.of(context).indicatorColor,
                                   ),
@@ -294,7 +294,7 @@ class _KycDetailsState extends State<KycDetails> {
                                               state.list!.first.validThrough!,
                                             )
                                           : "No date available",
-                                  leadingWidget:  Icon(
+                                  leadingWidget: Icon(
                                     Icons.calendar_month_rounded,
                                     color: Theme.of(context).indicatorColor,
                                   ),
@@ -395,7 +395,7 @@ class _KycDetailsState extends State<KycDetails> {
                                           address: issuedFromController.text,
                                           country: 'NP',
                                           isCompany: false,
-                                          extraData: {},
+                                          extraData: ExtraData(),
                                         ),
                                       ),
                                     );
