@@ -16,7 +16,7 @@ class NotableBannerSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             'Homaale Notable Quality',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         CarouselSliderHelper(

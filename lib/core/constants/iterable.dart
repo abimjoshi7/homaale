@@ -161,6 +161,16 @@ Map<String, dynamic> getStatus(String status) {
         "color": kColorGreen,
         "status": "In Progress",
       };
+      case "Initiated":
+      return {
+        "color": kColorDarkBlue,
+        "status": "Initiated",
+      };
+      case "Open":
+      return {
+        "color": kColorDarkBlue,
+        "status": "Open",
+      };
 
     default:
       return {

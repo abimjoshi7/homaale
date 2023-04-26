@@ -28,6 +28,7 @@ class ServiceCard extends StatelessWidget {
     return GestureDetector(
       onTap: callback,
       child: Card(
+        color: Theme.of(context).cardColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -51,7 +52,7 @@ class ServiceCard extends StatelessWidget {
                 children: [
                   AutoSizeText(
                     title ?? '',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
                   AutoSizeText(

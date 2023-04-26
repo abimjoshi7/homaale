@@ -31,7 +31,7 @@ class SectionHeading extends StatelessWidget {
       children: [
         Text(
           labelName,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         CommonShowCase(
           position: position,

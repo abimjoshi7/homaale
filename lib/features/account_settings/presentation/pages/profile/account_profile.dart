@@ -41,7 +41,7 @@ class _AccountProfileState extends State<AccountProfile> {
       if (theme == 'dark') {
         setState(() {
           isDark = true;
-          CacheHelper.setCachedString(kAppThemeMode, 'light');
+          CacheHelper.setCachedString(kAppThemeMode, 'dark');
         });
       } else {
         setState(() {
@@ -55,7 +55,6 @@ class _AccountProfileState extends State<AccountProfile> {
   @override
   void initState() {
     super.initState();
-    // checkAppMode();
   }
 
   @override
@@ -311,8 +310,7 @@ class _AccountProfileState extends State<AccountProfile> {
                             activeColor: kColorSecondary,
                             trackColor: Colors.grey.shade300,
                             value: isDark,
-                            onChanged:
-                                (value) {
+                            onChanged: (value) {
                               setState(
                                 () {
                                   context.read<ThemeBloc>().add(
