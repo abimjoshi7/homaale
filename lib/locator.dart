@@ -28,22 +28,20 @@ import 'package:dependencies/dependencies.dart';
 final locator = GetIt.instance;
 
 void init() {
-  //services
-  locator.registerLazySingleton(() => ImagePicker());
   //repositories
-  locator.registerLazySingleton(
-    () => KycRepositories(),
-  );
-  locator.registerLazySingleton(
-    () => CategoriesRepositories(),
-  );
-  locator.registerLazySingleton(() => ChatRepository());
-  locator.registerLazySingleton(
-    () => UploadRepository(),
-  );
+  locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
+  locator.registerLazySingleton<CategoriesRepositories>(
+      () => CategoriesRepositories());
+  locator.registerLazySingleton<ChatRepository>(() => ChatRepository());
+  locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
+  locator.registerLazySingleton<NotificationRepositories>(
+      () => NotificationRepositories());
+  locator.registerLazySingleton<BookEventHandlerBloc>(
+      () => BookEventHandlerBloc());
+  locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
 
   //bloc
-  locator..registerFactory<TaskBloc>(() => TaskBloc());
+  locator.registerFactory<TaskBloc>(() => TaskBloc());
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
   locator.registerFactory<EntityServiceBloc>(() => EntityServiceBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
@@ -61,12 +59,11 @@ void init() {
       .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
-  locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
   locator.registerFactory<NotificationBloc>(
       () => NotificationBloc(repo: locator()));
+  locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
 
-  locator.registerLazySingleton(() => BookEventHandlerBloc());
-
+  //other
   var firebaseInstance = FirebaseFirestore.instance;
   locator.registerSingleton<FirebaseFirestore>(firebaseInstance);
 }
