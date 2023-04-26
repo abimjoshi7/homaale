@@ -38,9 +38,12 @@ void init() {
     () => CategoriesRepositories(),
   );
   locator.registerLazySingleton(() => ChatRepository());
+  locator.registerLazySingleton(
+    () => UploadRepository(),
+  );
 
   //bloc
-  locator.registerFactory<TaskBloc>(() => TaskBloc());
+  locator..registerFactory<TaskBloc>(() => TaskBloc());
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
   locator.registerFactory<EntityServiceBloc>(() => EntityServiceBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
@@ -54,33 +57,16 @@ void init() {
   locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
   locator.registerFactory<KycBloc>(() => KycBloc(locator()));
   locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
-  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator
+      .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
-  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
-
-  locator.registerFactory(
-    () => ChatBloc(
-      chatRepository: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => KycBloc(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => CategoriesBloc(
-      locator(),
-    ),
-  );
+  locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
+  locator.registerFactory<NotificationBloc>(
+      () => NotificationBloc(repo: locator()));
 
   locator.registerLazySingleton(() => BookEventHandlerBloc());
 
-  //cubit
-  locator.registerFactory<ImageUploadCubit>(
-    () => ImageUploadCubit(),
-  );
   var firebaseInstance = FirebaseFirestore.instance;
   locator.registerSingleton<FirebaseFirestore>(firebaseInstance);
 }
