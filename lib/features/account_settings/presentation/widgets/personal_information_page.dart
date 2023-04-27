@@ -10,7 +10,8 @@ class PersonalInformationPage extends StatefulWidget {
   const PersonalInformationPage({super.key});
 
   @override
-  State<PersonalInformationPage> createState() => _PersonalInformationPageState();
+  State<PersonalInformationPage> createState() =>
+      _PersonalInformationPageState();
 }
 
 class _PersonalInformationPageState extends State<PersonalInformationPage> {
@@ -60,14 +61,14 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         if (state.theStates == TheStates.success) {
           return Column(
             children: [
-              const CustomModalSheetDrawerIcon(),
-              kHeight10,
               Text(
                 'Personal Information',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               Padding(
-                padding: kPadding20,
+                padding: EdgeInsets.all(
+                  8,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -93,7 +94,10 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.asset('assets/nepalflag.png'),
-                              Text('+977', style: Theme.of(context).textTheme.headlineSmall),
+                              Text('+977',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
                               const Icon(Icons.arrow_drop_down)
                             ],
                           ),
@@ -125,7 +129,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                         child: CustomFormContainer(
                           leadingWidget: const Icon(Icons.calendar_month),
                           hintText: DateFormat('yyyy-MM-dd').format(
-                            dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
+                            dob ??
+                                state.taskerProfile?.dateOfBirth ??
+                                DateTime.now(),
                           ),
                         ),
                       ),
