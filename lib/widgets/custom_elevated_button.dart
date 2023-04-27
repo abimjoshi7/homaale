@@ -11,6 +11,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.borderColor = Colors.transparent,
     this.theHeight = 48,
     this.theWidth = 366,
+    this.borderRadius,
   });
 
   final VoidCallback callback;
@@ -20,6 +21,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Color borderColor;
   final double theHeight;
   final double theWidth;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +32,15 @@ class CustomElevatedButton extends StatelessWidget {
         width: theWidth,
         decoration: BoxDecoration(
           color: mainColor,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(borderRadius ?? 10),
           border: Border.all(color: borderColor),
         ),
         child: Center(
           child: Text(
             label,
             style:
-            // Theme.of(context).textTheme.bodySmall
-            TextStyle(color: textColor),
+                // Theme.of(context).textTheme.bodySmall
+                TextStyle(color: textColor),
           ),
         ),
       ),

@@ -14,11 +14,7 @@ class NumberCountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       numberText,
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
-        color: textColor,
-      ),
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColor),
     );
   }
 }
