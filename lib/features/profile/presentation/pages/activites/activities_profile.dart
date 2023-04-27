@@ -28,7 +28,7 @@ class ActivitiesProfile extends StatelessWidget {
                       children: [
                         ListTile(
                           leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(
                                 decoration: BoxDecoration(
@@ -38,10 +38,12 @@ class ActivitiesProfile extends StatelessWidget {
                                 child: Icon(Icons.circle),
                               ),
                               Container(
-                                height: 30,
+                                height: 20,
                                 width: 2,
                                 color: Colors.blue,
                               ),
+                              Icon(Icons.circle,
+                                  size: 10, color: Colors.blueAccent),
                             ],
                           ),
                           title: Text(
@@ -52,9 +54,12 @@ class ActivitiesProfile extends StatelessWidget {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(state.activitiesTimeline?.result?[index]
-                                      .objectRepr ??
-                                  ""),
+                              Text(
+                                  state.activitiesTimeline?.result?[index]
+                                          .objectRepr ??
+                                      "",
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium),
                               if (state.activitiesTimeline!.result![index]
                                       .actionTime !=
                                   null)
