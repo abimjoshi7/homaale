@@ -35,7 +35,7 @@ class AccountProfile extends StatefulWidget {
 }
 
 class _AccountProfileState extends State<AccountProfile> {
-  bool isDark =false;
+  bool isDark = false;
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -53,7 +53,6 @@ class _AccountProfileState extends State<AccountProfile> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +91,7 @@ class _AccountProfileState extends State<AccountProfile> {
                           ),
                           Positioned(
                             left: 30,
-                            top: 30,
+                            top: 10,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -161,7 +160,9 @@ class _AccountProfileState extends State<AccountProfile> {
                         ),
                         child: CustomElevatedButton(
                           callback: () {
-                            context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
+                            context
+                                .read<ActivitiesTimelineBloc>()
+                                .add(ActivitiesLoaded());
 
                             Navigator.pushNamed(context, Profile.routeName);
                           },
