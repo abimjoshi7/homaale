@@ -205,7 +205,8 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
                       label: 'Bio',
                       child: CustomTextFormField(
                         maxLines: 3,
-                        hintText: bio ?? 'Enter Bio',
+                        hintText:
+                            bio ?? state.taskerProfile?.bio ?? 'Enter Bio',
                         onChanged: (p0) => setState(
                           () {
                             bio = p0;
