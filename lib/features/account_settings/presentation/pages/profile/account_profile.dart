@@ -23,6 +23,8 @@ import 'package:flutter/material.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
+import '../../../../user/presentation/bloc/activities_timeline_event.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -52,10 +54,6 @@ class _AccountProfileState extends State<AccountProfile> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +161,8 @@ class _AccountProfileState extends State<AccountProfile> {
                         ),
                         child: CustomElevatedButton(
                           callback: () {
+                            context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
+
                             Navigator.pushNamed(context, Profile.routeName);
                           },
                           label: 'View Profile',
