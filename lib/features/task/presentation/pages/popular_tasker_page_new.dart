@@ -55,16 +55,6 @@ class _TaskerListState extends State<TaskerList> {
             if (state.tasker.isEmpty) {
               return const Center(child: Text('no taskers'));
             }
-            // return ListView.builder(
-            //   itemBuilder: (BuildContext context, int index) {
-            //     return index >= state.tasker.length
-            //         ? const BottomLoader()
-            //         : TaskerListItem(tasker: state.tasker[index]);
-            //   },
-            //   itemCount: state.hasReachedMax ? state.tasker.length : state.tasker.length + 1,
-            //   controller: _scrollController,
-            // );
-
             return GridView.builder(
               padding: EdgeInsets.zero,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
