@@ -25,7 +25,6 @@ class AccountProfile extends StatefulWidget {
 
 class _AccountProfileState extends State<AccountProfile> {
   bool isDark = false;
-  bool isDark = false;
 
   @override
   void initState() {
@@ -179,7 +178,6 @@ class _AccountProfileState extends State<AccountProfile> {
                   trailingWidget: const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-
                   ),
                 );
               },
