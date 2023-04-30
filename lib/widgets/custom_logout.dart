@@ -21,7 +21,7 @@ class CustomLogout extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 70,
+            height: 40,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
@@ -45,35 +45,43 @@ class CustomLogout extends StatelessWidget {
       ),
       actions: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: CustomElevatedButton(
-                callback: () {
-                  Navigator.pop(context);
-                },
-                label: "Cancel",
-                mainColor: Colors.white,
-                textColor: kColorPrimary,
-                borderColor: kColorPrimary,
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: CustomElevatedButton(
+                  callback: () {
+                    Navigator.pop(context);
+                  },
+                  label: "Cancel",
+                  mainColor: Colors.white,
+                  textColor: kColorPrimary,
+                  borderColor: kColorPrimary,
+                ),
               ),
             ),
             addHorizontalSpace(
               10,
             ),
             Flexible(
-              child: CustomElevatedButton(
-                callback: () async {
-                  context.read<SignInBloc>().add(
-                        SignOutInitiated(),
-                      );
-                  await Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    SignInPage.routeName,
-                    (route) => false,
-                  );
-                },
-                label: "Yes, I'm sure",
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: CustomElevatedButton(
+                  callback: () async {
+                    context.read<SignInBloc>().add(
+                          SignOutInitiated(),
+                        );
+                    await Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SignInPage.routeName,
+                      (route) => false,
+                    );
+                  },
+                  label: "Yes, I'm sure",
+                ),
               ),
             ),
           ],

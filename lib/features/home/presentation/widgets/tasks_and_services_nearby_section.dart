@@ -94,11 +94,13 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text(
-                                            _taskList[index].title.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                          Expanded(
+                                            child: Text(
+                                              _taskList[index].title.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
                                           ),
                                           Text(
                                             _taskList[index]
@@ -163,7 +165,9 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                             label: (_taskList[index]
                                                     .location!
                                                     .isNotEmpty)
-                                                ? "${_taskList[index].location}, ${_taskList[index].city!.name}"
+                                                ? "${_taskList[index].location}"
+                                                    "\n"
+                                                    "${_taskList[index].city!.name}"
                                                 : 'Remote',
                                             widget: Icon(
                                               Icons.location_on_outlined,
