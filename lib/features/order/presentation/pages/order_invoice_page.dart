@@ -31,7 +31,10 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
     return LoadingWidget(
       isLoading: isLoading,
       child: Scaffold(
-        appBar: CustomAppBar(appBarTitle: 'Invoice',trailingWidget: SizedBox(),),
+        appBar: CustomAppBar(
+          appBarTitle: 'Invoice',
+          trailingWidget: SizedBox(),
+        ),
         body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
           builder: (context, retriveState) {
             return SingleChildScrollView(
@@ -42,30 +45,50 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                   ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: retriveState.orderItemRetriveList?.orderItem?.length,
+                      itemCount:
+                          retriveState.orderItemRetriveList?.orderItem?.length,
                       itemBuilder: (context, index) {
                         return OrderCard(
-                          trailingLabel: retriveState.orderItemRetriveList?.orderItem![index].task?.id!.substring(
-                                  0, min(retriveState.orderItemRetriveList!.orderItem![index].task!.id!.length, 3)) ??
+                          trailingLabel: retriveState.orderItemRetriveList
+                                  ?.orderItem![index].task?.id!
+                                  .substring(
+                                      0,
+                                      min(
+                                          retriveState
+                                              .orderItemRetriveList!
+                                              .orderItem![index]
+                                              .task!
+                                              .id!
+                                              .length,
+                                          3)) ??
                               "",
-                          serviceName: retriveState.orderItemRetriveList?.orderItem![index].task?.title,
-                          dateTime: retriveState.orderItemRetriveList?.orderItem![index].createdAt,
+                          serviceName: retriveState.orderItemRetriveList
+                              ?.orderItem![index].task?.title,
+                          dateTime: retriveState.orderItemRetriveList
+                              ?.orderItem![index].createdAt,
                         );
                       }),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: retriveState.orderItemRetriveList?.orderItem?.length,
+                    itemCount:
+                        retriveState.orderItemRetriveList?.orderItem?.length,
                     itemBuilder: (context, index) {
                       return OrderCard(
                         leadinglabel: 'Order Details ',
-                        trailingLabel: retriveState.orderItemRetriveList?.orderItem![index].task?.id!.substring(
-                            0, min(retriveState.orderItemRetriveList!.orderItem![index].task!.id!.length, 3)),
+                        trailingLabel: retriveState
+                            .orderItemRetriveList?.orderItem![index].task?.id!
+                            .substring(
+                                0,
+                                min(
+                                    retriveState.orderItemRetriveList!
+                                        .orderItem![index].task!.id!.length,
+                                    3)),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:  [
+                              children: [
                                 Text(
                                   'Name',
                                   style: Theme.of(context).textTheme.bodyLarge,
@@ -93,15 +116,19 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                               children: [
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 4,
-                                  child: Text(retriveState.orderItemRetriveList?.orderItem![index].task?.title ?? ""),
+                                  child: Text(retriveState.orderItemRetriveList
+                                          ?.orderItem![index].task?.title ??
+                                      ""),
                                 ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 4,
-                                  child: Text('Rs'
+                                  child: Text(
+                                      '${retriveState.orderItemRetriveList?.orderItem![index].task?.currency}'
                                       '   ${Decimal.parse(retriveState.orderItemRetriveList?.orderItem![index].amount ?? "0.0")}'),
                                 ),
                                 SizedBox(
-                                  child: Text('Rs'
+                                  child: Text(
+                                      '${retriveState.orderItemRetriveList?.orderItem![index].task?.currency}'
                                       '   ${retriveState.orderItemRetriveList?.grandTotal ?? ""}'),
                                 ),
                               ],
@@ -113,9 +140,15 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                   height: 40,
                                   width: MediaQuery.of(context).size.width / 3,
                                   child: Text(
-                                    retriveState.orderItemRetriveList?.orderItem![index].task?.assigner?.designation ??
+                                    retriveState
+                                            .orderItemRetriveList
+                                            ?.orderItem![index]
+                                            .task
+                                            ?.assigner
+                                            ?.designation ??
                                         "",
-                                    style: Theme.of(context).textTheme.bodySmall,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 )
                               ],
@@ -143,16 +176,20 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                 builder: (context, paymentTypeState) {
                   return BlocListener<PaymentBloc, PaymentIntentState>(
                     listener: (context, state) async {
+                      context.read<PaymentVerifyBloc>().add(
+                            PaymentVerifyInitiated(
+                              provider: paymentTypeState
+                                      .paymentType
+                                      ?.result![paymentTypeState.currentIndex!]
+                                      .slug ??
+                                  "",
+                              pidx: state.paymentIntent?.data?.pidx ?? "",
+                            ),
+                          );
                       if (state.theState == TheStates.success) {
                         setState(() => isLoading = false);
-                        context.read<PaymentVerifyBloc>().add(
-                              PaymentVerifyInitiated(
-                                provider:
-                                    paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug ?? "",
-                                pidx: state.paymentIntent?.data?.pidx ?? "",
-                              ),
-                            );
-                        await Navigator.pushNamed(context, PaymentOnGoingPage.routeName);
+                        await Navigator.pushNamed(
+                            context, PaymentOnGoingPage.routeName);
                       }
                     },
                     child: BlocBuilder<PaymentBloc, PaymentIntentState>(
@@ -162,9 +199,12 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                             setState(() => isLoading = true);
                             context.read<PaymentBloc>().add(
                                   PaymentIntentInitiated(
-                                    provider:
-                                        paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug ??
-                                            "",
+                                    provider: paymentTypeState
+                                            .paymentType
+                                            ?.result![
+                                                paymentTypeState.currentIndex!]
+                                            .slug ??
+                                        "",
                                     uuid: orderID,
                                   ),
                                 );
@@ -180,7 +220,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
               ),
               SizedBox(
                 height: 25,
-              )
+              ),
             ],
           ),
         ),
@@ -248,7 +288,8 @@ class OrderCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'Service Provider:',
@@ -258,12 +299,15 @@ class OrderCard extends StatelessWidget {
                                   ),
                                   Text(
                                     serviceName ?? "",
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   )
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Date/Time',
@@ -274,7 +318,9 @@ class OrderCard extends StatelessWidget {
                                   Text(
                                     Jiffy(dateTime ?? "").yMMMMd,
                                     // 'June 28, 2022 12:12 pm',
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   )
                                 ],
                               ),
