@@ -20,6 +20,7 @@ class WidgetText extends StatelessWidget {
     return GestureDetector(
       onTap: callback,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           widget,
           kWidth5,

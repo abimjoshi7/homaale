@@ -35,7 +35,7 @@ class _AccountProfileState extends State<AccountProfile> {
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
     setState(() {
-      if (theme == 'dark') {
+      if (theme == 'light') {
         setState(() {
           isDark = true;
           CacheHelper.setCachedString(kAppThemeMode, 'dark');
@@ -43,7 +43,7 @@ class _AccountProfileState extends State<AccountProfile> {
       } else {
         setState(() {
           isDark = false;
-          CacheHelper.setCachedString(kAppThemeMode, 'dark');
+          CacheHelper.setCachedString(kAppThemeMode, 'light');
         });
       }
     });
