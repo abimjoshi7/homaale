@@ -22,7 +22,7 @@ CreateKycReq _$CreateKycReqFromJson(Map<String, dynamic> json) {
 mixin _$CreateKycReq {
   @JsonKey(name: "full_name")
   String? get fullName => throw _privateConstructorUsedError;
-  String? get logo => throw _privateConstructorUsedError;
+  MultipartFile? get logo => throw _privateConstructorUsedError;
   @JsonKey(name: "is_company")
   bool? get isCompany => throw _privateConstructorUsedError;
   @JsonKey(name: "organization_name")
@@ -47,7 +47,7 @@ abstract class $CreateKycReqCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "full_name") String? fullName,
-      String? logo,
+      MultipartFile? logo,
       @JsonKey(name: "is_company") bool? isCompany,
       @JsonKey(name: "organization_name") String? organizationName,
       String? address,
@@ -88,7 +88,7 @@ class _$CreateKycReqCopyWithImpl<$Res, $Val extends CreateKycReq>
       logo: freezed == logo
           ? _value.logo
           : logo // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as MultipartFile?,
       isCompany: freezed == isCompany
           ? _value.isCompany
           : isCompany // ignore: cast_nullable_to_non_nullable
@@ -139,7 +139,7 @@ abstract class _$$_CreateKycReqCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "full_name") String? fullName,
-      String? logo,
+      MultipartFile? logo,
       @JsonKey(name: "is_company") bool? isCompany,
       @JsonKey(name: "organization_name") String? organizationName,
       String? address,
@@ -179,7 +179,7 @@ class __$$_CreateKycReqCopyWithImpl<$Res>
       logo: freezed == logo
           ? _value.logo
           : logo // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as MultipartFile?,
       isCompany: freezed == isCompany
           ? _value.isCompany
           : isCompany // ignore: cast_nullable_to_non_nullable
@@ -228,7 +228,7 @@ class _$_CreateKycReq implements _CreateKycReq {
   @JsonKey(name: "full_name")
   final String? fullName;
   @override
-  final String? logo;
+  final MultipartFile? logo;
   @override
   @JsonKey(name: "is_company")
   final bool? isCompany;
@@ -257,7 +257,7 @@ class _$_CreateKycReq implements _CreateKycReq {
             other is _$_CreateKycReq &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            (identical(other.logo, logo) || other.logo == logo) &&
+            const DeepCollectionEquality().equals(other.logo, logo) &&
             (identical(other.isCompany, isCompany) ||
                 other.isCompany == isCompany) &&
             (identical(other.organizationName, organizationName) ||
@@ -271,8 +271,16 @@ class _$_CreateKycReq implements _CreateKycReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fullName, logo, isCompany,
-      organizationName, address, extraData, company, country);
+  int get hashCode => Object.hash(
+      runtimeType,
+      fullName,
+      const DeepCollectionEquality().hash(logo),
+      isCompany,
+      organizationName,
+      address,
+      extraData,
+      company,
+      country);
 
   @JsonKey(ignore: true)
   @override
@@ -291,7 +299,7 @@ class _$_CreateKycReq implements _CreateKycReq {
 abstract class _CreateKycReq implements CreateKycReq {
   const factory _CreateKycReq(
       {@JsonKey(name: "full_name") final String? fullName,
-      final String? logo,
+      final MultipartFile? logo,
       @JsonKey(name: "is_company") final bool? isCompany,
       @JsonKey(name: "organization_name") final String? organizationName,
       final String? address,
@@ -306,7 +314,7 @@ abstract class _CreateKycReq implements CreateKycReq {
   @JsonKey(name: "full_name")
   String? get fullName;
   @override
-  String? get logo;
+  MultipartFile? get logo;
   @override
   @JsonKey(name: "is_company")
   bool? get isCompany;

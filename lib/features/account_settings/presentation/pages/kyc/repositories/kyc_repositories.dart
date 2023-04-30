@@ -1,19 +1,21 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 
 class KycRepositories {
   final _dio = DioHelper();
 
   Future<Map<String, dynamic>> createKyc(CreateKycReq createKycReq) async {
     try {
-      final x = await _dio.postDataWithCredential(
-        data: createKycReq.toJson(),
-        url: 'tasker/kyc/',
+      final x = await _dio.postFormData(
+        map: createKycReq.toJson(),
+        url: "tasker/kyc/",
         token: CacheHelper.accessToken,
       );
+
       return x as Map<String, dynamic>;
     } catch (e) {
       rethrow;

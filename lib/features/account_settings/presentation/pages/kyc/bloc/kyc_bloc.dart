@@ -37,18 +37,22 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               theStates: TheStates.loading,
             ),
           );
-          await repositories.createKyc(event.createKycReq!).then(
-                (value) => emit(
-                  state.copyWith(
-                    kycId: value["id"] as int,
-                  ),
-                ),
-              );
+          final res =
+              await repositories.createKyc(event.createKycReq!).then((value) {
+            emit(
+              state.copyWith(
+                theStates: TheStates.success,
+                // kycId: value["id"] as int,
+              ),
+            );
+            return value;
+          });
+          log("create kyc form: " + res.toString());
         } catch (e) {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              kycId: 0,
+              // kycId: 0,
             ),
           );
         }

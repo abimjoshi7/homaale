@@ -9,7 +9,7 @@ part of 'create_kyc_req.dart';
 _$_CreateKycReq _$$_CreateKycReqFromJson(Map<String, dynamic> json) =>
     _$_CreateKycReq(
       fullName: json['full_name'] as String?,
-      logo: json['logo'] as String?,
+      logo: json['logo'],
       isCompany: json['is_company'] as bool?,
       organizationName: json['organization_name'] as String?,
       address: json['address'] as String?,

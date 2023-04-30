@@ -34,7 +34,7 @@ class AccountProfile extends StatefulWidget {
 }
 
 class _AccountProfileState extends State<AccountProfile> {
-  bool isDark =false;
+  bool isDark = false;
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -187,10 +187,10 @@ class _AccountProfileState extends State<AccountProfile> {
                               visible: state.userLoginRes?.hasProfile ?? false,
                               child: AccountListTileSection(
                                 onTap: () async {
-                                  Navigator.pushNamed(
-                                    context,
-                                    KycDetails.routeName,
-                                  );
+                                  // Navigator.pushNamed(
+                                  //   context,
+                                  //   KycDetails.routeName,
+                                  // );
                                 },
                                 icon: const Icon(
                                   Icons.card_membership_rounded,
@@ -312,8 +312,7 @@ class _AccountProfileState extends State<AccountProfile> {
                             activeColor: kColorSecondary,
                             trackColor: Colors.grey.shade300,
                             value: isDark,
-                            onChanged:
-                                (value) {
+                            onChanged: (value) {
                               setState(
                                 () {
                                   context.read<ThemeBloc>().add(
