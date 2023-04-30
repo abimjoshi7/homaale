@@ -27,6 +27,7 @@ dependencies:
   flutter:
     sdk: flutter
   stream_transform: ^2.1.0
+  wechat_camera_picker: ^3.7.0
 
 dev_dependencies:
   build_runner: ^2.3.3

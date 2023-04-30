@@ -72,7 +72,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
                       date.day.toString(),

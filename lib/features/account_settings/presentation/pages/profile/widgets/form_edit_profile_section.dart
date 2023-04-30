@@ -105,23 +105,25 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ],
                           ),
                         ),
-                      ).then(
-                        (value) async => await ImagePickHelper()
-                            .pickImagePath(
-                          isCamera: isCamera,
-                        )
-                            .then(
-                          (value) {
-                            if (value != null) {
-                              setState(
-                                () {
-                                  selectedImage = value;
-                                },
-                              );
-                            }
-                          },
-                        ),
-                      );
+                      )
+                          // .then(
+                          //   (value) async => await MultimediaPickHelper()
+                          //       .(
+                          //     isCamera: isCamera,
+                          //   )
+                          //       .then(
+                          //     (value) {
+                          //       if (value != null) {
+                          //         setState(
+                          //           () {
+                          //             selectedImage = value;
+                          //           },
+                          //         );
+                          //       }
+                          //     },
+                          //   ),
+                          // )
+                          ;
                     },
                     child: Column(
                       children: [
@@ -132,8 +134,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  profilePicture ??
-                                    kServiceImageNImg,
+                                  profilePicture ?? kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -142,7 +143,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           ),
                         ),
                         kHeight15,
-                         Center(
+                        Center(
                           child: Text(
                             'Change profile photo',
                             style: Theme.of(context).textTheme.headlineSmall,
@@ -159,10 +160,11 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              children:  [
+                              children: [
                                 Text(
                                   'First name',
-                                  style: Theme.of(context).textTheme.headlineSmall,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 kWidth5,
                                 Text(
@@ -189,7 +191,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Text(
+                            Text(
                               'Middle name',
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
@@ -212,10 +214,11 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              children:  [
+                              children: [
                                 Text(
                                   'Last name',
-                                  style: Theme.of(context).textTheme.headlineSmall,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 kWidth5,
                                 Text(
@@ -243,7 +246,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
+                      Text(
                         'Designation',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
@@ -264,7 +267,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           Text(
+                          Text(
                             'Task Analytics',
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
@@ -334,7 +337,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           );
         } else {
           return const Center(
-            child: CardLoading(height: 200,),
+            child: CardLoading(
+              height: 200,
+            ),
           );
         }
       },

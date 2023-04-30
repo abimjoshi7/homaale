@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class ProfileStatsCard extends StatelessWidget {
@@ -15,30 +16,40 @@ class ProfileStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        height: 70,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              value,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(imagePath),
-                kWidth5,
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.bodySmall,
+    return SizedBox(
+      height: 100,
+      width: 180,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: AutoSizeText(
+                  value,
+                  style: Theme.of(context).textTheme.displayLarge,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ],
-            ),
-          ],
+              ),
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(imagePath),
+                    kWidth5,
+                    Flexible(
+                      child: AutoSizeText(
+                        label,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

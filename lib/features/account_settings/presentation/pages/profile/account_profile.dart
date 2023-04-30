@@ -22,6 +22,8 @@ import 'package:flutter/material.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
+import '../../../../user/presentation/bloc/activities_timeline_event.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -33,6 +35,7 @@ class AccountProfile extends StatefulWidget {
 
 class _AccountProfileState extends State<AccountProfile> {
   bool isDark = false;
+  bool isDark = false;
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -40,7 +43,7 @@ class _AccountProfileState extends State<AccountProfile> {
       if (theme == 'dark') {
         setState(() {
           isDark = true;
-          CacheHelper.setCachedString(kAppThemeMode, 'light');
+          CacheHelper.setCachedString(kAppThemeMode, 'dark');
         });
       } else {
         setState(() {
@@ -49,12 +52,6 @@ class _AccountProfileState extends State<AccountProfile> {
         });
       }
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // checkAppMode();
   }
 
   @override
@@ -165,6 +162,10 @@ class _AccountProfileState extends State<AccountProfile> {
                         ),
                         child: CustomElevatedButton(
                           callback: () {
+                            context
+                                .read<ActivitiesTimelineBloc>()
+                                .add(ActivitiesLoaded());
+
                             Navigator.pushNamed(context, Profile.routeName);
                           },
                           label: 'View Profile',
