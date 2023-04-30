@@ -41,8 +41,7 @@ class _RootState extends State<Root> {
   }
 
   void checkShowcase() async {
-    final showcase =
-        await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
     if (showcase == 'not-shown') {
       setState(() {
         enableShowcase = true;
@@ -178,9 +177,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
               (value) async => {
                 if (CacheHelper.isLoggedIn)
                   {
-                    context
-                        .read<NotificationBloc>()
-                        .add(MyNotificationListInitiated()),
+                    context.read<NotificationBloc>().add(MyNotificationListInitiated()),
                   }
               },
             );
@@ -219,8 +216,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context).startShowCase(
-          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
+      ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -299,8 +295,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Box',
-                                showCaseDec:
-                                    'Tap “Box” to view your Bookings Payments list. ',
+                                showCaseDec: 'Tap “Box” to view your Bookings Payments list. ',
                                 showKey: _two,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -325,8 +320,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Add',
-                                showCaseDec:
-                                    'Tap “Add” to add your tasks & services.',
+                                showCaseDec: 'Tap “Add” to add your tasks & services.',
                                 showKey: _three,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -385,8 +379,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Profile',
-                                showCaseDec:
-                                    'Tap “Profile” to setup your account.',
+                                showCaseDec: 'Tap “Profile” to setup your account.',
                                 showKey: _five,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -405,7 +398,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 },
                                 pageIndex: pageIndex,
                                 index: 3,
-                                label: 'Profile',
+                                label: 'Account',
                                 iconData: Icons.account_circle_outlined,
                                 isActive: profileActive,
                               ),
