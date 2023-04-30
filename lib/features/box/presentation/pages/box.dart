@@ -30,7 +30,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   List<String> selectedUuid = [];
 
   double sum = 0.0;
-
+  int currentIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -55,7 +55,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
             double.parse(
                 state.orderItemList?.result?[items].charge.toString() ?? "0.0");
       }
-      return 'Rs. $sum';
+      return ' $sum';
     }
     return "Rs. 0.0";
   }
@@ -109,10 +109,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
-                                          print({
-                                            state.orderItemList?.result![index]
-                                                .startTime
-                                          });
+                                          currentIndex = index;
                                           if (selectedItems.contains(index)) {
                                             setState(() {
                                               selectedItems.remove(index);
@@ -482,7 +479,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                           ),
                                         ),
                                         Text(
-                                          getTotalPrice(state),
+                                          '${state.orderItemList?.result?[currentIndex].currency?.symbol}' +
+                                              getTotalPrice(state),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),

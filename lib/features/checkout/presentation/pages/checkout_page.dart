@@ -54,7 +54,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ],
                   ),
                 ),
-                PromoCodeAddSection(orderId: orderID,),
+                PromoCodeAddSection(
+                  orderId: orderID,
+                ),
                 PaymentDetailsContainer(state: state),
                 Center(
                   child: CustomElevatedButton(
@@ -150,35 +152,29 @@ class TaskDisplayList extends StatelessWidget {
                                     margin: EdgeInsets.only(left: 5),
                                     height: 66,
                                     width: 58,
-                                    decoration:
-                                    BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                          16.0),
-                                      image:
-                                      DecorationImage(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      image: DecorationImage(
                                         image: NetworkImage(
-                                        //     (state
-                                        //     .orderItemRetriveList
-                                        //     ?.orderItem?[
-                                        // index]
-                                        //     .task?.entityServiceImages
-                                        //     ?.images
-                                        //     ?.length ==
-                                        //     0)
-                                        //     ? kServiceImageNImg
-                                        //     :state
-                                        //     .orderItemRetriveList
-                                        //     ?.orderItem?[
-                                        // index]
-                                        //     .task?.entityService
-                                        //     ?.images
-                                        //     ?.last
-                                        //     .media.toString() ??
+                                            //     (state
+                                            //     .orderItemRetriveList
+                                            //     ?.orderItem?[
+                                            // index]
+                                            //     .task?.entityServiceImages
+                                            //     ?.images
+                                            //     ?.length ==
+                                            //     0)
+                                            //     ? kServiceImageNImg
+                                            //     :state
+                                            //     .orderItemRetriveList
+                                            //     ?.orderItem?[
+                                            // index]
+                                            //     .task?.entityService
+                                            //     ?.images
+                                            //     ?.last
+                                            //     .media.toString() ??
                                             kServiceImageNImg),
-                                        fit: BoxFit
-                                            .cover,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
@@ -229,7 +225,8 @@ class TaskDisplayList extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   left: 100.0),
                                               child: Text(
-                                                'Rs  '
+                                                // 'Rs  '
+                                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? "0.0")}',
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -349,7 +346,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -364,7 +361,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].tax.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -378,7 +375,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 'Platform Charge',
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformCharge.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -392,7 +389,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 'Discount',
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformChargeDiscount.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -421,7 +418,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               Text(
-                'Rs '
+                '${state.orderItemRetriveList?.orderItem?[0].task?.currency} '
                 '${state.orderItemRetriveList?.grandTotal.toString()}',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
