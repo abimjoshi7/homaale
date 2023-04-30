@@ -7,7 +7,6 @@ import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class SavedPage extends StatefulWidget {
@@ -63,6 +62,7 @@ class _SavedPageState extends State<SavedPage> {
                         child: GridView.count(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
+                          childAspectRatio: 0.8,
                           children: loopList
                               .map((e) => InkWell(
                                     onTap: () {

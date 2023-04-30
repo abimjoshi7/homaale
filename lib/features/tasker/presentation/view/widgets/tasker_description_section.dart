@@ -35,8 +35,7 @@ class TaskerDescriptionSection extends StatelessWidget {
 
     Widget displayUsername() {
       if (contact != null && contact!.isNotEmpty) {
-        return WidgetText(
-            widget: Image.asset('assets/mail.png'), label: contact!);
+        return WidgetText(widget: Image.asset('assets/mail.png'), label: contact!);
       } else {
         return WidgetText(
           widget: Image.asset('assets/mail.png'),
@@ -68,9 +67,18 @@ class TaskerDescriptionSection extends StatelessWidget {
       if (skills != null && skills!.isNotEmpty) {
         final x = skills?.replaceAll(RegExp(r"[^\s\w]"), '');
         final skill = x?.split(' ');
-        return WidgetText(
-          widget: Image.asset('assets/sparkle.png'),
-          label: skill?.join(', ') ?? 'No skills added',
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset('assets/sparkle.png'),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Text(
+                skill?.join(', ') ?? 'No skills added',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+          ],
         );
       } else {
         return WidgetText(

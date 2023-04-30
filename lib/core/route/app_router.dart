@@ -55,6 +55,7 @@ import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
+import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
@@ -358,10 +359,14 @@ class AppRouter {
           builder: (context) => const SingleTaskPage(),
           settings: settings,
         );
-      case PopularTaskerPage.routeName:
+      // case PopularTaskerPage.routeName:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const PopularTaskerPage(),
+      //     settings: settings,
+      //   );
+      case PopularTaskerNew.routeName:
         return MaterialPageRoute(
-          builder: (context) => const PopularTaskerPage(),
-          settings: settings,
+          builder: (context) => const PopularTaskerNew(),
         );
       case OffersPage.routeName:
         return MaterialPageRoute(
