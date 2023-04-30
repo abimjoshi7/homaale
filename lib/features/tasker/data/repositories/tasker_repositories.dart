@@ -141,4 +141,21 @@ class TaskerRepositories {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> handleFollowUnFollow({required String id, required bool follow}) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: {
+          "user": id,
+          "follow": follow,
+        },
+        url: 'tasker/follow/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("All Tasker Fetch Error: $e");
+      rethrow;
+    }
+  }
 }

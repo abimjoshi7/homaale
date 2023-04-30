@@ -30,11 +30,14 @@ class SavedCard extends StatelessWidget {
             child: GridView.count(
               crossAxisCount: 2,
               children: child
-                      ?.map((e) => Image.network(
-                            e.data?.profileImage ?? kServiceImageNImg,
-                            errorBuilder: (context, error, stackTrace) => ColoredBox(color: Colors.grey),
-                            fit: BoxFit.fill,
-                          ))
+                      ?.map(
+                        (e) => Image.network(
+                          e.data?.profileImage ?? kServiceImageNImg,
+                          errorBuilder: (context, error, stackTrace) => ColoredBox(color: Colors.grey),
+                          fit: BoxFit.fill,
+                          height: 10,
+                        ),
+                      )
                       .toList() ??
                   [
                     ColoredBox(color: Colors.black),

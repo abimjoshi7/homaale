@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
-    as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
 
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
@@ -35,6 +34,7 @@ class AccountProfile extends StatefulWidget {
 }
 
 class _AccountProfileState extends State<AccountProfile> {
+  bool isDark = false;
   bool isDark = false;
 
   void checkAppMode() async {
@@ -79,56 +79,60 @@ class _AccountProfileState extends State<AccountProfile> {
                       bottom: MediaQuery.of(context).size.height * 0.15,
                     ),
                     children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.13,
-                            width: double.infinity,
-                            child: Image.asset(
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
                               'assets/—Pngtree—blue tech line shading for_4059122 1.png',
-                              fit: BoxFit.fitWidth,
                             ),
+                            fit: BoxFit.fitWidth,
                           ),
-                          Positioned(
-                            left: 30,
-                            top: 10,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        state.taskerProfile?.profileImage ??
-                                            kServiceImageNImg,
-                                      ),
-                                    ),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    state.taskerProfile?.profileImage ?? kServiceImageNImg,
                                   ),
-                                  width: 100,
-                                  height: 70,
                                 ),
-                                kWidth20,
-                                AccountUserInfoSection(
-                                  name:
-                                      '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                                  isVerified:
-                                      state.taskerProfile?.isProfileVerified ??
-                                          false,
-                                  designation: state.taskerProfile?.designation
-                                          ?.toString() ??
-                                      'Homaale User',
-                                  credentialId:
-                                      state.taskerProfile?.user?.phone ??
-                                          state.taskerProfile?.user?.email ??
-                                          '',
-                                ),
-                              ],
+                              ),
+                              width: 100,
+                              height: 70,
                             ),
-                          )
-                        ],
+                            AccountUserInfoSection(
+                              name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                              isVerified: state.taskerProfile?.isProfileVerified ?? false,
+                              designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
+                              credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            ),
+                          ],
+                        ),
                       ),
+                      // Stack(
+                      //   children: [
+                      //     SizedBox(
+                      //       height: MediaQuery.of(context).size.height * 0.13,
+                      //       width: double.infinity,
+                      //       child: Image.asset(
+                      //         'assets/—Pngtree—blue tech line shading for_4059122 1.png',
+                      //         fit: BoxFit.fitWidth,
+                      //       ),
+                      //     ),
+                      //     Positioned(
+                      //       left: 30,
+                      //       top: 30,
+                      //       child:
+                      //     )
+                      //   ],
+                      // ),
+                      kHeight10,
                       BlocProvider(
                         create: (context) => WalletBloc(),
                         child: Row(
@@ -137,23 +141,21 @@ class _AccountProfileState extends State<AccountProfile> {
                             ProfileStatsCard(
                               imagePath: 'assets/reward.png',
                               label: 'Reward Points',
-                              value:
-                                  state.taskerProfile?.points.toString() ?? '0',
+                              value: state.taskerProfile?.points.toString() ?? '0',
                             ),
                             BlocBuilder<WalletBloc, WalletState>(
                               builder: (context, walletState) {
                                 return ProfileStatsCard(
                                   imagePath: 'assets/wallet.png',
                                   label: 'Account Balance',
-                                  value:
-                                      "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                                  value: "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
                                 );
                               },
                             ),
                           ],
                         ),
                       ),
-                      // kHeight20,
+                      kHeight10,
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -209,8 +211,7 @@ class _AccountProfileState extends State<AccountProfile> {
 
                       AccountListTileSection(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, ChatListingPage.routeName);
+                          Navigator.pushNamed(context, ChatListingPage.routeName);
                         },
                         icon: const Icon(
                           Icons.chat_bubble_outline,
@@ -344,8 +345,7 @@ class _AccountProfileState extends State<AccountProfile> {
                       ),
                       AccountListTileSection(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, PrivacyPolicyPage.routeName);
+                          Navigator.pushNamed(context, PrivacyPolicyPage.routeName);
                         },
                         icon: const Icon(
                           Icons.policy_outlined,
@@ -358,8 +358,7 @@ class _AccountProfileState extends State<AccountProfile> {
                       ),
                       AccountListTileSection(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, TermsOfUsePage.routeName);
+                          Navigator.pushNamed(context, TermsOfUsePage.routeName);
                         },
                         icon: const Icon(
                           Icons.book_outlined,
