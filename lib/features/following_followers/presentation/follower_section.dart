@@ -54,17 +54,20 @@ class _FollowerListState extends State<FollowerList> {
               controller: _scrollController,
               physics: AlwaysScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                return index >= state.followerList.length
-                    ? const BottomLoader()
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: FollowFollowingWidget(
-                          name: state.followerList[index].fullName,
-                          designation: state.followerList[index].designation,
-                          profileImg: state.followerList[index].profileImage,
-                          showCallbackButton: false,
-                        ),
-                      );
+                if (index >= state.followerList.length) {
+                  context.read<FollowFollowerBloc>().add(FetchFollowerEvent());
+                  return const BottomLoader();
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: FollowFollowingWidget(
+                      name: state.followerList[index].fullName,
+                      designation: state.followerList[index].designation,
+                      profileImg: state.followerList[index].profileImage,
+                      showCallbackButton: false,
+                    ),
+                  );
+                }
               },
             );
           case FollowFollowerStatus.initial:

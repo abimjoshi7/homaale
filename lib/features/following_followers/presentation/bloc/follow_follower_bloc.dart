@@ -35,7 +35,7 @@ class FollowFollowerBloc extends Bloc<FollowFollwerEvent, FollowFollowerState> {
               followFollowerStatus: FollowFollowerStatus.success,
               followersResponseDto: follower,
               followerList: followerList,
-              followersHasReachedMax: followerList!.length < 10 ? true : false,
+              followersHasReachedMax: false,
             ));
           }
 
@@ -72,7 +72,7 @@ class FollowFollowerBloc extends Bloc<FollowFollwerEvent, FollowFollowerState> {
               followFollowerStatus: FollowFollowerStatus.success,
               followingResponseDto: following,
               followingList: followingList,
-              followingHasReachedMax: followingList!.length < 10 ? true : false,
+              followingHasReachedMax: false,
             ));
           }
 

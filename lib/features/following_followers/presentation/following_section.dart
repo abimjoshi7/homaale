@@ -52,24 +52,28 @@ class _FollowingListState extends State<FollowingList> {
             }
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 8),
+              physics: AlwaysScrollableScrollPhysics(),
               itemCount: state.followingHasReachedMax ? state.followingList.length : state.followingList.length + 1,
               controller: _scrollController,
               itemBuilder: (context, index) {
-                return index >= state.followingList.length
-                    ? const BottomLoader()
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: FollowFollowingWidget(
-                          name: state.followingList[index].fullName,
-                          designation: state.followingList[index].designation,
-                          profileImg: state.followingList[index].profileImage,
-                          showCallbackButton: true,
-                          callBackLabel: 'Unfollow',
-                          callback: () {
-                            context.read<FollowFollowerBloc>().add(HandleUnfollowEvent(state.followingList[index].id!));
-                          },
-                        ),
-                      );
+                if (index >= state.followingList.length) {
+                  context.read<FollowFollowerBloc>().add(FetchFollowingEvent());
+                  return const BottomLoader();
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: FollowFollowingWidget(
+                      name: state.followingList[index].fullName,
+                      designation: state.followingList[index].designation,
+                      profileImg: state.followingList[index].profileImage,
+                      showCallbackButton: true,
+                      callBackLabel: 'Unfollow',
+                      callback: () {
+                        context.read<FollowFollowerBloc>().add(HandleUnfollowEvent(state.followingList[index].id!));
+                      },
+                    ),
+                  );
+                }
               },
             );
           case FollowFollowerStatus.initial:
