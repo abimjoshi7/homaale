@@ -6,7 +6,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../home/presentation/pages/home.dart';
 
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
@@ -19,7 +18,7 @@ class CategoriesSection extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         if (state.theStates == TheStates.initial) {
-          return const Center(
+          return  Center(
             child: CardLoading(
               height: 100,
             ),

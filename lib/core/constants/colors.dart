@@ -6,7 +6,7 @@ import 'constants.dart';
 import 'iterable.dart';
 
 const kColorPrimary = Color(0xff211D4F);
-const kColorPrimarydark = Color(0xff495057);
+const kColorPrimarydark = Color(0xff212529);
 const kColorPrimaryAccent = Color(0xff5C6096);
 const kColorSecondary = Color(0xffFFCA6A);
 const kColorBlue = Color(0xff3EAEFF);

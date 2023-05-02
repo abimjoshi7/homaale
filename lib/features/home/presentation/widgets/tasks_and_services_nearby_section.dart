@@ -94,11 +94,13 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text(
-                                            _taskList[index].title.toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                          Expanded(
+                                            child: Text(
+                                              _taskList[index].title.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
                                           ),
                                           Text(
                                             _taskList[index]
@@ -127,17 +129,19 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                radius: 8,
-                                              ),
-                                              kWidth10,
-                                              Text(_taskList[index]
-                                                  .createdBy!
-                                                  .fullName
-                                                  .toString()),
-                                            ],
+                                          Expanded(
+                                            child: Row(
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 8,
+                                                ),
+                                                // kWidth10,
+                                                Text(_taskList[index]
+                                                    .createdBy!
+                                                    .fullName
+                                                    .toString()),
+                                              ],
+                                            ),
                                           ),
                                           Text(
                                             'Per ' +
@@ -159,16 +163,20 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          WidgetText(
-                                            label: (_taskList[index]
-                                                    .location!
-                                                    .isNotEmpty)
-                                                ? "${_taskList[index].location}, ${_taskList[index].city!.name}"
-                                                : 'Remote',
-                                            widget: Icon(
-                                              Icons.location_on_outlined,
-                                              color: Color(0xffFE5050),
-                                              size: 13,
+                                          Expanded(
+                                            child: WidgetText(
+                                              label: (_taskList[index]
+                                                      .location!
+                                                      .isNotEmpty)
+                                                  ? "${_taskList[index].location}"
+                                                      "\n"
+                                                      "${_taskList[index].city!.name}"
+                                                  : 'Remote',
+                                              widget: Icon(
+                                                Icons.location_on_outlined,
+                                                color: Color(0xffFE5050),
+                                                size: 13,
+                                              ),
                                             ),
                                           ),
                                           WidgetText(

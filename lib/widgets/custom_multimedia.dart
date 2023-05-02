@@ -93,6 +93,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
         builder: (context, state) {
           return CustomFormField(
             label: 'Images',
+            isRequired: true,
             rightSection: state.imageFileList?.isEmpty ?? false
                 ? null
                 : InkWell(
