@@ -3,7 +3,6 @@ import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/following_followers/data/repositories/follow_follower_repository.dart';
 import 'package:cipher/widgets/bottom_loader.dart';
 import 'package:cipher/widgets/follow_following_widget.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
