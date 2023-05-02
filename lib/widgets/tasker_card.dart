@@ -52,7 +52,7 @@ class TaskerCard extends StatelessWidget {
           children: <Widget>[
             addVerticalSpace(5),
             Container(
-              height: MediaQuery.of(context).size.height * 0.08,
+              height: MediaQuery.of(context).size.height * 0.07,
               width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -143,18 +143,9 @@ class TaskerCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            if (CacheHelper.isLoggedIn == false) {
-                              notLoggedInPopUp(context);
-                            }
-                            if (CacheHelper.isLoggedIn == false) return;
-                            onFavouriteTapped();
-                          },
-                          child: const Icon(
-                            Icons.favorite_outline,
-                            color: Color(0xffFE5050),
-                          ),
+                        CustomFavoriteIcon(
+                          typeID: id ?? '',
+                          type: "user",
                         ),
                         SizedBox(
                           height: 30,

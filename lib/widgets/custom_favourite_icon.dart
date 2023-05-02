@@ -48,7 +48,7 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                 );
           },
           child: Icon(
-            favItem?.isNotEmpty ?? false ? Icons.favorite : Icons.favorite_border_outlined,
+            favItem?.isNotEmpty ?? false ? Icons.bookmark : Icons.bookmark_outline,
             color: Colors.red,
           ),
         );

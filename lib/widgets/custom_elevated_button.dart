@@ -12,6 +12,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.theHeight = 48,
     this.theWidth = 366,
     this.borderRadius,
+    this.textStyle,
   });
 
   final VoidCallback callback;
@@ -22,6 +23,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double theHeight;
   final double theWidth;
   final double? borderRadius;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,7 @@ class CustomElevatedButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style:
-                // Theme.of(context).textTheme.bodySmall
-                TextStyle(color: textColor),
+            style: textStyle ?? TextStyle(color: textColor),
           ),
         ),
       ),
