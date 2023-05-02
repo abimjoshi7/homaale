@@ -22,6 +22,8 @@ CreateKycReq _$CreateKycReqFromJson(Map<String, dynamic> json) {
 mixin _$CreateKycReq {
   @JsonKey(name: "full_name")
   String? get fullName => throw _privateConstructorUsedError;
+  @JsonKey(name: "logo")
+  @MultipartFileConverter()
   MultipartFile? get logo => throw _privateConstructorUsedError;
   @JsonKey(name: "is_company")
   bool? get isCompany => throw _privateConstructorUsedError;
@@ -47,7 +49,7 @@ abstract class $CreateKycReqCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "full_name") String? fullName,
-      MultipartFile? logo,
+      @JsonKey(name: "logo") @MultipartFileConverter() MultipartFile? logo,
       @JsonKey(name: "is_company") bool? isCompany,
       @JsonKey(name: "organization_name") String? organizationName,
       String? address,
@@ -139,7 +141,7 @@ abstract class _$$_CreateKycReqCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "full_name") String? fullName,
-      MultipartFile? logo,
+      @JsonKey(name: "logo") @MultipartFileConverter() MultipartFile? logo,
       @JsonKey(name: "is_company") bool? isCompany,
       @JsonKey(name: "organization_name") String? organizationName,
       String? address,
@@ -213,7 +215,7 @@ class __$$_CreateKycReqCopyWithImpl<$Res>
 class _$_CreateKycReq implements _CreateKycReq {
   const _$_CreateKycReq(
       {@JsonKey(name: "full_name") this.fullName,
-      this.logo,
+      @JsonKey(name: "logo") @MultipartFileConverter() this.logo,
       @JsonKey(name: "is_company") this.isCompany,
       @JsonKey(name: "organization_name") this.organizationName,
       this.address,
@@ -228,6 +230,8 @@ class _$_CreateKycReq implements _CreateKycReq {
   @JsonKey(name: "full_name")
   final String? fullName;
   @override
+  @JsonKey(name: "logo")
+  @MultipartFileConverter()
   final MultipartFile? logo;
   @override
   @JsonKey(name: "is_company")
@@ -257,7 +261,7 @@ class _$_CreateKycReq implements _CreateKycReq {
             other is _$_CreateKycReq &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            const DeepCollectionEquality().equals(other.logo, logo) &&
+            (identical(other.logo, logo) || other.logo == logo) &&
             (identical(other.isCompany, isCompany) ||
                 other.isCompany == isCompany) &&
             (identical(other.organizationName, organizationName) ||
@@ -271,16 +275,8 @@ class _$_CreateKycReq implements _CreateKycReq {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      fullName,
-      const DeepCollectionEquality().hash(logo),
-      isCompany,
-      organizationName,
-      address,
-      extraData,
-      company,
-      country);
+  int get hashCode => Object.hash(runtimeType, fullName, logo, isCompany,
+      organizationName, address, extraData, company, country);
 
   @JsonKey(ignore: true)
   @override
@@ -298,12 +294,18 @@ class _$_CreateKycReq implements _CreateKycReq {
 
 abstract class _CreateKycReq implements CreateKycReq {
   const factory _CreateKycReq(
-      {@JsonKey(name: "full_name") final String? fullName,
-      final MultipartFile? logo,
-      @JsonKey(name: "is_company") final bool? isCompany,
-      @JsonKey(name: "organization_name") final String? organizationName,
+      {@JsonKey(name: "full_name")
+          final String? fullName,
+      @JsonKey(name: "logo")
+      @MultipartFileConverter()
+          final MultipartFile? logo,
+      @JsonKey(name: "is_company")
+          final bool? isCompany,
+      @JsonKey(name: "organization_name")
+          final String? organizationName,
       final String? address,
-      @JsonKey(name: "extra_data") final ExtraData? extraData,
+      @JsonKey(name: "extra_data")
+          final ExtraData? extraData,
       final int? company,
       final String? country}) = _$_CreateKycReq;
 
@@ -314,6 +316,8 @@ abstract class _CreateKycReq implements CreateKycReq {
   @JsonKey(name: "full_name")
   String? get fullName;
   @override
+  @JsonKey(name: "logo")
+  @MultipartFileConverter()
   MultipartFile? get logo;
   @override
   @JsonKey(name: "is_company")

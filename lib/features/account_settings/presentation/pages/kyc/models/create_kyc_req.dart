@@ -1,5 +1,4 @@
 import 'package:dependencies/dependencies.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_kyc_req.freezed.dart';
 part 'create_kyc_req.g.dart';
@@ -8,7 +7,7 @@ part 'create_kyc_req.g.dart';
 class CreateKycReq with _$CreateKycReq {
   const factory CreateKycReq({
     @JsonKey(name: "full_name") String? fullName,
-    MultipartFile? logo,
+    @JsonKey(name: "logo") @MultipartFileConverter() MultipartFile? logo,
     @JsonKey(name: "is_company") bool? isCompany,
     @JsonKey(name: "organization_name") String? organizationName,
     String? address,
@@ -31,4 +30,18 @@ class ExtraData with _$ExtraData {
 
   factory ExtraData.fromJson(Map<String, dynamic> json) =>
       _$ExtraDataFromJson(json);
+}
+
+class MultipartFileConverter
+    implements JsonConverter<MultipartFile?, MultipartFile?> {
+  const MultipartFileConverter();
+
+  @override
+  MultipartFile? fromJson(json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
+
+  @override
+  MultipartFile? toJson(MultipartFile? object) => object;
 }

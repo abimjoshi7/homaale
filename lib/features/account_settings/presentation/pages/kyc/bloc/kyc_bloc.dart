@@ -49,6 +49,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           });
           log("create kyc form: " + res.toString());
         } catch (e) {
+          log("kyc error: $e");
           emit(
             state.copyWith(
               theStates: TheStates.failure,

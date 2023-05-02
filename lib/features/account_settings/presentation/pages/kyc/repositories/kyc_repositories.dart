@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
@@ -8,15 +9,17 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/models/c
 class KycRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> createKyc(CreateKycReq createKycReq) async {
+  Future<Map<String, dynamic>?> createKyc(CreateKycReq createKycReq) async {
     try {
       final x = await _dio.postFormData(
         map: createKycReq.toJson(),
         url: "tasker/kyc/",
         token: CacheHelper.accessToken,
       );
-
-      return x as Map<String, dynamic>;
+      if (x != null) {
+        return x as Map<String, dynamic>;
+      }
+      return null;
     } catch (e) {
       rethrow;
     }

@@ -30,8 +30,8 @@ class _KycProfileState extends State<KycProfile> {
   @override
   void initState() {
     super.initState();
-    context.read<KycBloc>().add(KycProfileInitiated());
-    setState(() {});
+
+    // setState(() {});
   }
 
   @override
@@ -57,13 +57,25 @@ class _KycProfileState extends State<KycProfile> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 0),
               child: Text(
-                'KYC Details',
+                'General Details',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             BlocConsumer<KycBloc, KycState>(
-              listener: (_, state) {
-                // TODO: implement listener
+              listener: (_, state) async {
+                if (state.theStates == TheStates.success) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => CustomToast(
+                      heading: "Success",
+                      content: "Tasker Profile Filled Successfully.",
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      isSuccess: true,
+                    ),
+                  );
+                }
               },
               builder: (_, state) {
                 if (state.theStates == TheStates.loading) {
@@ -261,28 +273,23 @@ class _KycProfileState extends State<KycProfile> {
                                       _key.currentState!.save();
 
                                       if (!mounted) return;
+                                      final req = CreateKycReq(
+                                        logo: await MultipartFile.fromFile(
+                                            selectedImage!.path),
+                                        isCompany: _isCompany,
+                                        fullName: _fullNameController.text,
+                                        organizationName: _isCompany
+                                            ? _companyNameController.text
+                                            : null,
+                                        address: _addressController.text,
+                                        country: _countryController.text,
+                                      );
+
                                       context.read<KycBloc>().add(
                                             KycInitiated(
-                                              createKycReq: CreateKycReq(
-                                                logo: await MultipartFile
-                                                    .fromFile(
-                                                        selectedImage!.path),
-                                                isCompany: _isCompany,
-                                                fullName:
-                                                    _fullNameController.text,
-                                                organizationName: _isCompany
-                                                    ? _companyNameController
-                                                        .text
-                                                    : null,
-                                                address:
-                                                    _addressController.text,
-                                                country:
-                                                    _countryController.text,
-                                              ),
+                                              createKycReq: req,
                                             ),
                                           );
-                                    } else {
-                                      log('Form is not validated!');
                                     }
                                   },
                                   label: 'Next',

@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
@@ -173,6 +174,7 @@ class _AccountProfileState extends State<AccountProfile> {
                       // kHeight20,
                       InkWell(
                         onTap: () {
+                          context.read<KycBloc>().add(KycProfileInitiated());
                           Navigator.pushNamed(
                             context,
                             KycProfile.routeName,
