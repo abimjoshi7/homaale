@@ -3,6 +3,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
@@ -159,6 +160,19 @@ class _AccountProfileState extends State<AccountProfile> {
                 // color: Color(0xff495057),
               ),
               label: 'Terms of Use',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(context, ContactUsPage.routeName);
+              },
+              icon: const Icon(
+                Icons.contact_support_outlined,
+              ),
+              label: 'Contact us',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
