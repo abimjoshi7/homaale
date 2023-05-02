@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cipher/features/following_followers/data/repositories/follow_follower_repository.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/models/tasker_review_response.dart';
@@ -9,6 +10,7 @@ import 'package:dependencies/dependencies.dart';
 
 class TaskerCubit extends Cubit<TaskerState> {
   final repo = TaskerRepositories();
+  final followFollowingRepository = FollowFollowersRepositroy();
   TaskerCubit() : super(const TaskerState());
 
   Future loadTaskerList({int? page}) async {
@@ -108,7 +110,7 @@ class TaskerCubit extends Cubit<TaskerState> {
 
   Future handleFollowUnFollow({required String id, required bool follow, bool? fromAllPage}) async {
     try {
-      await repo.handleFollowUnFollow(id: id, follow: follow).then((val) {
+      await followFollowingRepository.handleFollowUnFollow(id: id, follow: follow).then((val) {
         if (val['status'] == 'success') {
           loadSingleTasker(id);
           loadSingleTaskerServices(id);
