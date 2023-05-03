@@ -51,9 +51,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
     if (selectedItems.isNotEmpty) {
       sum = 0.0;
       for (var items in selectedItems) {
-        sum = sum +
-            double.parse(
-                state.orderItemList?.result?[items].charge.toString() ?? "0.0");
+        sum = sum + double.parse(state.orderItemList?.result?[items].charge.toString() ?? "0.0");
       }
       return ' $sum';
     }
@@ -96,16 +94,13 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                     : TabBarView(
                         controller: _tabController,
                         children: [
-                          (state.theStates == TheStates.failure ||
-                                  state.orderItemList?.result!.length == 0)
+                          (state.theStates == TheStates.failure || state.orderItemList?.result!.length == 0)
                               ? Center(child: Text("Opps! Try Again."))
                               : SingleChildScrollView(
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        state.orderItemList?.result!.length ??
-                                            0,
+                                    itemCount: state.orderItemList?.result!.length ?? 0,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
                                         onTap: () {
@@ -123,81 +118,55 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                              color:
-                                                  selectedItems.contains(index)
-                                                      ? Color(0xffDEB988)
-                                                      : Colors.grey.shade300,
+                                              color: selectedItems.contains(index)
+                                                  ? Color(0xffDEB988)
+                                                  : Colors.grey.shade300,
                                               width: 1,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(20),
+                                            borderRadius: BorderRadius.circular(20),
                                           ),
-                                          height: 180,
-                                          margin: EdgeInsets.only(
-                                              top: 20, left: 20, right: 5),
+                                          margin: EdgeInsets.only(top: 20, left: 20, right: 5),
                                           child: Column(
                                             children: [
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
+                                                padding: const EdgeInsets.all(10.0),
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Stack(
                                                           children: [
                                                             Container(
                                                               height: 72,
                                                               width: 72,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            16.0),
-                                                                image:
-                                                                    DecorationImage(
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(16.0),
+                                                                image: DecorationImage(
                                                                   image: NetworkImage((state
                                                                               .orderItemList
-                                                                              ?.result?[
-                                                                                  index]
+                                                                              ?.result?[index]
                                                                               .entityService
                                                                               ?.images
                                                                               ?.length ==
                                                                           0)
                                                                       ? kServiceImageNImg
-                                                                      : state
-                                                                              .orderItemList
-                                                                              ?.result![index]
-                                                                              .entityService
-                                                                              ?.images
-                                                                              ?.last
-                                                                              .media ??
+                                                                      : state.orderItemList?.result![index]
+                                                                              .entityService?.images?.last.media ??
                                                                           kServiceImageNImg),
-                                                                  fit: BoxFit
-                                                                      .cover,
+                                                                  fit: BoxFit.cover,
                                                                 ),
                                                               ),
                                                             ),
                                                             Positioned(
                                                               left: 5,
                                                               top: 5,
-                                                              child: selectedItems
-                                                                      .contains(
-                                                                          index)
+                                                              child: selectedItems.contains(index)
                                                                   ? Icon(
-                                                                      Icons
-                                                                          .check_circle_outline,
-                                                                      color:
-                                                                          kColorSecondary,
+                                                                      Icons.check_circle_outline,
+                                                                      color: kColorSecondary,
                                                                     )
                                                                   : SizedBox(),
                                                             ),
@@ -205,70 +174,48 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                         ),
                                                         addHorizontalSpace(8),
                                                         SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.64,
+                                                          width: MediaQuery.of(context).size.width * 0.64,
                                                           child: Column(
                                                             children: [
                                                               Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
-                                                                  Text(state
-                                                                              .orderItemList
-                                                                              ?.result![index]
-                                                                              .entityService!
-                                                                              .title ??
+                                                                  Text(state.orderItemList?.result![index]
+                                                                              .entityService!.title ??
                                                                           ""
                                                                       // 'Trimming & Cutting',
                                                                       ),
                                                                 ],
                                                               ),
-                                                              addVerticalSpace(
-                                                                  8),
+                                                              addVerticalSpace(8),
                                                               Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
                                                                   Row(
                                                                     children: [
                                                                       Icon(
-                                                                        Icons
-                                                                            .location_on_outlined,
-                                                                        size:
-                                                                            16,
-                                                                        color: Colors
-                                                                            .red,
+                                                                        Icons.location_on_outlined,
+                                                                        size: 16,
+                                                                        color: Colors.red,
                                                                       ),
                                                                       Text(
-                                                                        state.orderItemList?.result?[index].entityService?.city?.name ??
+                                                                        state.orderItemList?.result?[index]
+                                                                                .entityService?.city?.name ??
                                                                             "",
-                                                                        style: Theme.of(context)
-                                                                            .textTheme
-                                                                            .bodySmall,
+                                                                        style: Theme.of(context).textTheme.bodySmall,
                                                                       ),
                                                                     ],
                                                                   ),
                                                                   Text(
                                                                     '${state.orderItemList?.result?[index].currency?.symbol}'
                                                                     '${Decimal.parse(state.orderItemList?.result?[index].charge.toString() ?? "0")}',
-                                                                    style: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .bodySmall,
+                                                                    style: Theme.of(context).textTheme.bodySmall,
                                                                   ),
                                                                 ],
                                                               ),
-                                                              addVerticalSpace(
-                                                                  8),
+                                                              addVerticalSpace(8),
                                                               Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
+                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                 children: [
                                                                   Row(
                                                                     children: [
@@ -276,10 +223,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                         children: [
                                                                           const Icon(
                                                                             Icons.calendar_month,
-                                                                            size:
-                                                                                20,
-                                                                            color:
-                                                                                Colors.red,
+                                                                            size: 20,
+                                                                            color: Colors.red,
                                                                           ),
                                                                           Text(
                                                                             '${state.orderItemList?.result![index].startDate ?? ""}',
@@ -295,10 +240,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                         children: [
                                                                           const Icon(
                                                                             Icons.watch_later_outlined,
-                                                                            size:
-                                                                                20,
-                                                                            color:
-                                                                                Colors.blue,
+                                                                            size: 20,
+                                                                            color: Colors.blue,
                                                                           ),
                                                                           Text(
                                                                             '${state.orderItemList?.result![index].startTime?.replaceAll(':00', '')}',
@@ -311,13 +254,9 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                                   ),
                                                                   const Text(
                                                                     '/project',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          10,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .italic,
+                                                                    style: TextStyle(
+                                                                      fontSize: 10,
+                                                                      fontStyle: FontStyle.italic,
                                                                     ),
                                                                   ),
                                                                 ],
@@ -332,35 +271,26 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                               ),
                                               const Divider(),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(8.0),
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Row(
                                                       children: [
                                                         Text(
                                                           'Booking:',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodySmall,
+                                                          style: Theme.of(context).textTheme.bodySmall,
                                                         ),
                                                         addHorizontalSpace(5),
                                                         SizedBox(
                                                           height: 30,
                                                           child: Chip(
-                                                            backgroundColor:
-                                                                Colors.lightBlue
-                                                                    .shade50,
+                                                            backgroundColor: Colors.lightBlue.shade50,
                                                             label: Text(
                                                               'Approved',
                                                               style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: Colors
-                                                                    .lightBlue,
+                                                                color: Colors.lightBlue,
                                                               ),
                                                             ),
                                                           ),
@@ -371,9 +301,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                                       'Booking Details',
                                                       style: TextStyle(
                                                         // color: kColorSilver,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .underline,
+                                                        decoration: TextDecoration.underline,
                                                       ),
                                                     ),
                                                   ],
@@ -418,38 +346,28 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
 
                                 for (var items in selectedItems) {
                                   setState(() {
-                                    selectedUuid.add(state
-                                            .orderItemList?.result?[items].id ??
-                                        "");
+                                    selectedUuid.add(state.orderItemList?.result?[items].id ?? "");
                                   });
                                 }
 
-                                orderIdCreateBloc.add(
-                                    OrderIdCreateInitiated(uuid: selectedUuid));
+                                orderIdCreateBloc.add(OrderIdCreateInitiated(uuid: selectedUuid));
 
                                 Future.delayed(
                                   const Duration(seconds: 1),
                                   () {
-                                    if (orderIdCreateBloc
-                                                .state.orderIdCreate?.order !=
-                                            null ||
-                                        (orderIdCreateBloc.state.orderIdCreate
-                                                ?.order?.isNotEmpty ??
-                                            false)) {
+                                    if (orderIdCreateBloc.state.orderIdCreate?.order != null ||
+                                        (orderIdCreateBloc.state.orderIdCreate?.order?.isNotEmpty ?? false)) {
                                       Navigator.pushNamed(
                                         context,
                                         CheckoutPage.routeName,
-                                        arguments: orderIdCreateBloc
-                                                .state.orderIdCreate?.order ??
-                                            "",
+                                        arguments: orderIdCreateBloc.state.orderIdCreate?.order ?? "",
                                       );
                                     } else {
                                       showDialog(
                                         context: context,
                                         builder: (context) => CustomToast(
                                           heading: 'Failed',
-                                          content:
-                                              'Payment failed, please try again!',
+                                          content: 'Payment failed, please try again!',
                                           onTap: () {
                                             Navigator.pop(context);
                                           },
@@ -461,16 +379,13 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                 );
                               },
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20.0),
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Total Price',
@@ -481,9 +396,7 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                         Text(
                                           '${state.orderItemList?.result?[currentIndex].currency?.symbol}' +
                                               getTotalPrice(state),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                         ),
                                       ],
                                     ),
@@ -497,10 +410,8 @@ class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
                                     ),
                                     child: Text(
                                       'Proceed to Payment ',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1),
+                                      style:
+                                          TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1),
                                     ),
                                   ),
                                 ],

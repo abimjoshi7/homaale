@@ -265,7 +265,7 @@ Map<String, dynamic> getNotificationStatus(
     case "followed":
       return {
         "color": kColorPrimary,
-        "status": "followed",
+        "status": "Followed",
         "message": "Your have followed $userName successfully .",
         'assets': 'assets/notification/payment.svg'
       };

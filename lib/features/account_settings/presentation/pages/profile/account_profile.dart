@@ -4,8 +4,10 @@ import 'package:cipher/features/account_settings/presentation/pages/settings/set
     as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/feedback/bloc/feedback_post_bloc.dart';
+import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
@@ -176,6 +178,13 @@ class _AccountProfileState extends State<AccountProfile>
                 Icons.feed_outlined,
               ),
               label: 'Feedback',
+              onTap: () {
+                Navigator.pushNamed(context, FaqPage.routeName);
+              },
+              icon: const Icon(
+                Icons.question_mark,
+              ),
+              label: 'FAQs',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
@@ -187,6 +196,19 @@ class _AccountProfileState extends State<AccountProfile>
                   widget: const FeedbackPage(),
                 );
               },
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(context, ContactUsPage.routeName);
+              },
+              icon: const Icon(
+                Icons.contact_support_outlined,
+              ),
+              label: 'Contact us',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
             ),
             BlocBuilder<SignInBloc, SignInState>(
               builder: (context, state) {

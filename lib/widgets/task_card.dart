@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
+    this.id,
     this.imageUrl,
     this.taskName,
     this.endDate,
@@ -21,6 +23,7 @@ class TaskCard extends StatelessWidget {
     this.buttonLabel,
   });
 
+  final String? id;
   final String? imageUrl;
   final String? taskName;
   final String? endDate;
@@ -80,13 +83,7 @@ class TaskCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  InkWell(
-                    onTap: onTapCallback,
-                    child: const Icon(
-                      Icons.favorite_border,
-                      color: Color(0xffFE5050),
-                    ),
-                  ),
+                  CustomFavoriteIcon(typeID: '$id', type: 'entityservice')
                 ],
               ),
             ),

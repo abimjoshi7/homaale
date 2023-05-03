@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
+import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
@@ -72,15 +73,20 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 BlocBuilder<UserBloc, UserState>(
                   builder: (context, state) {
                     if (state.theStates == TheStates.success) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          BuildLabelCount(
-                              count: state.taskerProfile?.followersCount?.toString() ?? '0', label: 'Followers'),
-                          addHorizontalSpace(16),
-                          BuildLabelCount(
-                              count: state.taskerProfile?.followingCount?.toString() ?? '0', label: 'Followings'),
-                        ],
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, FollowingFollowersPage.routeName);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BuildLabelCount(
+                                count: state.taskerProfile?.followersCount?.toString() ?? '0', label: 'Followers'),
+                            addHorizontalSpace(16),
+                            BuildLabelCount(
+                                count: state.taskerProfile?.followingCount?.toString() ?? '0', label: 'Followings'),
+                          ],
+                        ),
                       );
                     }
                     return SizedBox();
