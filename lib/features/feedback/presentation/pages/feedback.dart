@@ -1,8 +1,13 @@
+import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/feedback/bloc/feedback_bloc.dart';
+import 'package:cipher/features/feedback/bloc/feedback_post_bloc.dart';
+import 'package:cipher/features/feedback/bloc/feedback_post_state.dart';
 import 'package:cipher/features/feedback/bloc/feedback_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../../bloc/feedback_post_event.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({Key? key}) : super(key: key);
@@ -28,7 +33,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 'Feedback Form',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
+              addVerticalSpace(10),
               Text('Are you enjoying Homaale ? Send us Your Feedbacks.'),
+              addVerticalSpace(20),
               CustomFormField(
                 label: 'Subject',
                 isRequired: true,
@@ -48,8 +55,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   hintText: "Subject",
                 ),
               ),
+              addVerticalSpace(20),
               CustomFormField(
                 label: 'Your feedback',
+                isRequired: true,
                 child: CustomTextFormField(
                   controller: feedbackController,
                   hintText:
@@ -61,7 +70,21 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 height: 20,
               ),
               CustomElevatedButton(
-                callback: () {},
+                callback: () {
+                  context.read<FeedbackPostBloc>().add(FeedbackPost(
+                      subject: optionsName ?? "",
+                      description: feedbackController.text));
+                  Future.delayed(const Duration(seconds: 2), () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: BlocBuilder<FeedbackPostBloc, FeedbackPostState>(
+                          builder: (context, stateM) {
+                        return Text(stateM.feedbackPostModel?.message ?? "");
+                      }),
+                      duration: const Duration(seconds: 1),
+                    ));
+                    Navigator.pop(context);
+                  });
+                },
                 label: 'Submit',
               ),
             ],
