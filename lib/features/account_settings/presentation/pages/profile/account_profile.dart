@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+    as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
@@ -12,6 +13,10 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/cache/cache_helper.dart';
+import '../../../../../core/mixins/the_modal_bottom_sheet.dart';
+import '../../../../feedback/bloc/feedback_bloc.dart';
+import '../../../../feedback/bloc/feedback_event.dart';
+import '../../../../feedback/presentation/pages/feedback.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
 
@@ -23,7 +28,8 @@ class AccountProfile extends StatefulWidget {
   State<AccountProfile> createState() => _AccountProfileState();
 }
 
-class _AccountProfileState extends State<AccountProfile> {
+class _AccountProfileState extends State<AccountProfile>
+    with TheModalBottomSheet {
   bool isDark = false;
 
   @override
@@ -163,6 +169,23 @@ class _AccountProfileState extends State<AccountProfile> {
                 Icons.arrow_forward_ios,
                 size: 16,
               ),
+            ),
+            AccountListTileSection(
+              icon: const Icon(
+                Icons.feed_outlined,
+              ),
+              label: 'Feedback',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+              onTap: () {
+                context.read<FeedbackBloc>().add(FeedbackLoaded());
+                showCustomBottomSheet(
+                  context: context,
+                  widget: const FeedbackPage(),
+                );
+              },
             ),
             BlocBuilder<SignInBloc, SignInState>(
               builder: (context, state) {

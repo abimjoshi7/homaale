@@ -50,6 +50,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
+import '../../features/feedback/bloc/feedback_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 
@@ -82,6 +83,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => SignInBloc(),
+          ),
+          BlocProvider(
+            create: (context) => FeedbackBloc(),
           ),
           BlocProvider(
             create: (context) => ResendVerificationBloc(
