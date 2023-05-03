@@ -5,6 +5,7 @@ import 'package:cipher/features/account_settings/presentation/pages/settings/set
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
+import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
@@ -160,6 +161,19 @@ class _AccountProfileState extends State<AccountProfile> {
                 // color: Color(0xff495057),
               ),
               label: 'Terms of Use',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(context, FaqPage.routeName);
+              },
+              icon: const Icon(
+                Icons.question_mark,
+              ),
+              label: 'FAQs',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,

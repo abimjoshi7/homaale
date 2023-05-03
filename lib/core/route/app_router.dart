@@ -23,6 +23,7 @@ import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
+import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
 import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -383,6 +384,10 @@ class AppRouter {
       case ContactUsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ContactUsPage(),
+        );
+      case FaqPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const FaqPage(),
         );
       case ServiceBookingPage.routeName:
         return MaterialPageRoute(
