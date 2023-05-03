@@ -387,6 +387,7 @@ class DioHelper {
         ),
       );
       log('DIO POST FORM DATA ERROR: ${e.response?.data}');
+      rethrow;
     }
   }
 

@@ -174,7 +174,7 @@ class _AccountProfileState extends State<AccountProfile> {
                       // kHeight20,
                       InkWell(
                         onTap: () {
-                          context.read<KycBloc>().add(KycProfileInitiated());
+                         
                           Navigator.pushNamed(
                             context,
                             KycProfile.routeName,

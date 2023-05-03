@@ -21,6 +21,7 @@ _$_KycModel _$$_KycModelFromJson(Map<String, dynamic> json) => _$_KycModel(
           ? null
           : DateTime.parse(json['updated_at'] as String),
       fullName: json['full_name'] as String?,
+      logo: json['logo'] as String?,
       isCompany: json['is_company'] as bool?,
       organizationName: json['organization_name'] as String?,
       address: json['address'] as String?,
@@ -42,6 +43,7 @@ Map<String, dynamic> _$$_KycModelToJson(_$_KycModel instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'full_name': instance.fullName,
+      'logo': instance.logo,
       'is_company': instance.isCompany,
       'organization_name': instance.organizationName,
       'address': instance.address,

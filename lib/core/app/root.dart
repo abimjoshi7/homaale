@@ -168,9 +168,9 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
                     {
-                      context.read<KycBloc>().add(
-                            KycModelLoaded(),
-                          ),
+                      // context.read<KycBloc>().add(
+                      //       KycModelLoaded(),
+                      //     ),
                     }
                 })
             .then(

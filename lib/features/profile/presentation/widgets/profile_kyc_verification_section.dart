@@ -10,13 +10,13 @@ class ProfileKycVerifySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<KycBloc>()
-      ..add(
-        KycModelLoaded(),
-      )
-      ..add(
-        KycDocumentLoaded(),
-      );
+    // context.read<KycBloc>()
+    //   ..add(
+    //     KycModelLoaded(),
+    //   )
+    //   ..add(
+    //     KycDocumentLoaded(),
+    //   );
     return BlocBuilder<KycBloc, KycState>(
       builder: (context, state) {
         return Visibility(

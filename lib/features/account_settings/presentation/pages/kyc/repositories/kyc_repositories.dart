@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
@@ -52,13 +50,16 @@ class KycRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> getKyc() async {
+  Future<Map<String, dynamic>?> getKyc() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/my-kyc/',
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      if (x != null) {
+        return x as Map<String, dynamic>;
+      }
+      return null;
     } catch (e) {
       rethrow;
     }

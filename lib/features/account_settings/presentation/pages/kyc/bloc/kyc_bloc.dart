@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
@@ -17,18 +18,32 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   final KycRepositories repositories;
   KycBloc(
     this.repositories,
-  ) : super(const KycState()) {
+  ) : super(const KycState(theStates: TheStates.initial)) {
     on<KycProfileInitiated>((event, emit) async {
       List<Country> _countriesList = [];
-      final x = await repositories.getCountriesList();
-      log('kyc country test: $x');
-      for (final country in x) {
-        _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
+      final kycRes = await repositories.getKyc();
+      log("RES: $kycRes");
+      if (kycRes != null) {
+        emit(
+          state.copyWith(
+            theStates: TheStates.initial,
+            kycModel: KycModel.fromJson(kycRes),
+          ),
+        );
       }
-      emit(state.copyWith(
-        country: _countriesList,
-      ));
+      if (kycRes == null) {
+        final _countries = await repositories.getCountriesList();
+
+        for (final country in _countries) {
+          _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
+        }
+        emit(state.copyWith(
+          theStates: TheStates.initial,
+          country: _countriesList,
+        ));
+      }
     });
+
     on<KycInitiated>(
       (event, emit) async {
         try {
@@ -37,23 +52,21 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               theStates: TheStates.loading,
             ),
           );
-          final res =
-              await repositories.createKyc(event.createKycReq!).then((value) {
+          final res = await repositories.createKyc(event.createKycReq!);
+          if (res != null) {
             emit(
               state.copyWith(
-                theStates: TheStates.success,
-                // kycId: value["id"] as int,
+                isCreated: true,
               ),
             );
-            return value;
-          });
-          log("create kyc form: " + res.toString());
+          }
         } catch (e) {
           log("kyc error: $e");
+          final String? err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              // kycId: 0,
+              errMsg: err,
             ),
           );
         }
@@ -103,7 +116,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               (value) => emit(
                 state.copyWith(
                   theStates: TheStates.success,
-                  kycModel: KycModel.fromJson(value),
+                  kycModel: KycModel.fromJson(value!),
                 ),
               ),
             );

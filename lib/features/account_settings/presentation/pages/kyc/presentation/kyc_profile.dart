@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
@@ -26,12 +27,10 @@ class _KycProfileState extends State<KycProfile> {
   final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-
-    // setState(() {});
+    context.read<KycBloc>().add(KycProfileInitiated());
   }
 
   @override
@@ -40,7 +39,8 @@ class _KycProfileState extends State<KycProfile> {
     _companyNameController.dispose();
     _countryController.dispose();
     _addressController.dispose();
-    _key.currentState!.dispose();
+    // _key.currentState!.dispose();
+
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _KycProfileState extends State<KycProfile> {
                 if (state.theStates == TheStates.success) {
                   await showDialog(
                     context: context,
-                    builder: (context) => CustomToast(
+                    builder: (_) => CustomToast(
                       heading: "Success",
                       content: "Tasker Profile Filled Successfully.",
                       onTap: () {
@@ -76,10 +76,22 @@ class _KycProfileState extends State<KycProfile> {
                     ),
                   );
                 }
+                if (state.theStates == TheStates.failure) {
+                  await showDialog(
+                    context: context,
+                    builder: (_) => CustomToast(
+                      heading: "Failure",
+                      content: state.errMsg?.toString().toTitleCase() ??
+                          "Something Went Wrong. Please Try Again.",
+                      onTap: () {},
+                      isSuccess: false,
+                    ),
+                  );
+                }
               },
               builder: (_, state) {
                 if (state.theStates == TheStates.loading) {
-                  return CardLoading(height: 500);
+                  return CardLoading(height: 500.0);
                 }
                 return Expanded(
                   child: Form(
@@ -241,11 +253,7 @@ class _KycProfileState extends State<KycProfile> {
                               // },
                             ),
                           ),
-
                           buildCountryDropDownField(state),
-
-                          // return CardLoading(height: 50.0);
-
                           Visibility(
                             visible: true,
                             child: Center(
@@ -253,6 +261,8 @@ class _KycProfileState extends State<KycProfile> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: CustomElevatedButton(
                                   callback: () async {
+                                    if (state.theStates != TheStates.initial)
+                                      return;
                                     if (selectedImage == null ||
                                         _countryController.text.isEmpty) {
                                       await showDialog(
@@ -270,7 +280,7 @@ class _KycProfileState extends State<KycProfile> {
                                     if (_key.currentState!.validate() &&
                                         _countryController.text.isNotEmpty &&
                                         selectedImage != null) {
-                                      _key.currentState!.save();
+                                      // _key.currentState!.save();
 
                                       if (!mounted) return;
                                       final req = CreateKycReq(
@@ -317,8 +327,6 @@ class _KycProfileState extends State<KycProfile> {
         isRequired: true,
         child: CustomDropDownField<String>(
             list: state.country!.map((country) => country.name!).toList(),
-            // ??
-            // [],
             hintText: 'Select Country',
             onChanged: (value) {
               setState(

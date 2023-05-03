@@ -42,16 +42,16 @@ class _KycDetailsState extends State<KycDetails> {
 
   @override
   void initState() {
-    kycBloc
-      ..add(
-        KycDocumentLoaded(),
-      )
-      ..add(
-        KycModelLoaded(),
-      )
-      ..add(
-        KycDocTypeLoaded(),
-      );
+    // kycBloc
+    //   ..add(
+    //     KycDocumentLoaded(),
+    //   )
+    //   ..add(
+    //     KycModelLoaded(),
+    //   )
+    //   ..add(
+    //     KycDocTypeLoaded(),
+    //   );
     super.initState();
   }
 
