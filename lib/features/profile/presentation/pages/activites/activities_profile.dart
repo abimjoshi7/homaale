@@ -1,4 +1,3 @@
-import 'package:cipher/features/profile/presentation/pages/activites/custom_activity_tracker.dart';
 import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
