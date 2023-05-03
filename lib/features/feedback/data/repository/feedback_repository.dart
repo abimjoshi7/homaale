@@ -28,22 +28,6 @@ class FeedbackRepository {
 
   Future<Map<String, dynamic>> PostFeedback(
       String subject, String description) async {
-    // try {
-    //   final res = await _dio.postDataWithCredential(
-    //     url: 'support/feedback/',
-    //     token: CacheHelper.accessToken,
-    //     data: {
-    //       'subject': subject,
-    //       'description': description,
-    //     },
-    //   );
-    //   final model = List<Feedback>.from(
-    //     res.map((e) => Feedback.fromJson(e as Map<String, dynamic>)).toList()
-    //         as Iterable,
-    //   );
-    //   return model;
-    // }
-
     try {
       final res = await _dio.postDataWithCredential(
         data: {'subject': subject, 'description': description},

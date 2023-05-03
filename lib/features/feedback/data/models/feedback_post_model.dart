@@ -1,23 +1,3 @@
-// class FeedbackPostModel {
-//   FeedbackPostModel({
-//      this.status,
-//      this.message,
-//   });
-//
-//   final String? status;
-//   final String? message;
-//
-//   factory FeedbackPostModel.fromJson(Map<String, dynamic> json) => FeedbackPostModel(
-//     status: json["status"] as String,
-//     message: json["message"] as String,
-//   );
-//
-//   Map<String, dynamic> toJson() => {
-//     "status": status,
-//     "message": message,
-//   };
-// }
-
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
