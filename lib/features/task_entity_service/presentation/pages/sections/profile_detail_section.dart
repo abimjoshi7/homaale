@@ -37,7 +37,8 @@ class ProfileDetailSection extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: NetworkImage(
-                        state.taskEntityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                        state.taskEntityService?.createdBy?.profileImage ??
+                            kDefaultAvatarNImg,
                       ),
                     ),
                   ),
@@ -71,7 +72,6 @@ class ProfileDetailSection extends StatelessWidget {
                   typeID: state.taskEntityService?.id ?? '',
                   type: "entityservice",
                 ),
-                kWidth10,
                 GestureDetector(
                   onTap: () {
                     if (!CacheHelper.isLoggedIn) {
@@ -81,12 +81,39 @@ class ProfileDetailSection extends StatelessWidget {
                     final box = context.findRenderObject() as RenderBox?;
                     Share.share(
                       "Share this Hommale with friends.",
-                      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                      sharePositionOrigin:
+                          box!.localToGlobal(Offset.zero) & box.size,
                     );
                   },
                   child: const Icon(
                     Icons.share,
                     color: Colors.blue,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (!CacheHelper.isLoggedIn) {
+                      notLoggedInPopUp(context);
+                    }
+                    if (!CacheHelper.isLoggedIn) return;
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<TaskEntityServiceBloc>().add(
+                            TaskEntityServiceDeleted(
+                              id: state.taskEntityService?.id ?? "",
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Root.routeName,
+                        (route) => false,
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.delete,
+                    color: kColorSilver,
                   ),
                 ),
               ],
@@ -98,7 +125,8 @@ class ProfileDetailSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconText(
-              label: state.taskEntityService?.rating?.first.rating.toString() ?? '4.5',
+              label: state.taskEntityService?.rating?.first.rating.toString() ??
+                  '4.5',
               iconData: Icons.star_outlined,
               color: kColorAmber,
               size: 18,

@@ -14,12 +14,6 @@ class ImagePickerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
       builder: (context, state) {
-        if (state.theStates == TheStates.loading)
-          return Center(
-            child: CircularProgressIndicator(
-              color: kColorSecondary,
-            ),
-          );
         return AlertDialog(
           title: Padding(
             padding: const EdgeInsets.all(12.0),

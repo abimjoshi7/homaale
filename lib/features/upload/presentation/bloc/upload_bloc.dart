@@ -39,7 +39,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             (value) async {
               emit(
                 state.copyWith(
-                  theStates: TheStates.success,
                   imageFileList: [
                     ...state.imageFileList ?? [],
                     value?.path ?? "",
@@ -97,7 +96,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               emit(
                 state.copyWith(
                   imageFileList: list,
-                  theStates: TheStates.success,
                 ),
               );
             },
@@ -186,6 +184,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<ImageToFilestoreUploaded>(
       (event, emit) async {
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
         try {
           await repo
               .fetchFileStore(
@@ -199,12 +202,17 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                     uploadedImageList: List<int>.from(
                       value["data"] as Iterable,
                     ),
-                    theStates: TheStates.success,
                     isImageUploaded: true,
                   ),
                 );
               }
             },
+          ).whenComplete(
+            () => emit(
+              state.copyWith(
+                theStates: TheStates.success,
+              ),
+            ),
           );
         } catch (e) {
           log("UPLOAD TO FILESTORE ERROR: $e");
@@ -221,6 +229,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<VideoToFilestoreUploaded>(
       (event, emit) async {
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
         try {
           await repo.fetchFileStore(event.list).then(
             (value) {
@@ -230,12 +243,17 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                     uploadedVideoList: List<int>.from(
                       value["data"] as Iterable,
                     ),
-                    theStates: TheStates.success,
                     isVideoUploaded: true,
                   ),
                 );
               }
             },
+          ).whenComplete(
+            () => emit(
+              state.copyWith(
+                theStates: TheStates.success,
+              ),
+            ),
           );
         } catch (e) {
           log("UPLOAD TO FILESTORE ERROR: $e");

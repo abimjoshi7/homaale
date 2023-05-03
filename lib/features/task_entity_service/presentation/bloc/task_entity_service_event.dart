@@ -17,6 +17,31 @@ class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
       ];
 }
 
+class TaskEntityServiceEdited extends TaskEntityServiceEvent {
+  final String? id;
+  final TaskEntityServiceReq? taskEntityServiceReq;
+  const TaskEntityServiceEdited({
+    this.id,
+    this.taskEntityServiceReq,
+  });
+  @override
+  List<Object?> get props => [
+        id,
+        taskEntityServiceReq,
+      ];
+}
+
+class TaskEntityServiceDeleted extends TaskEntityServiceEvent {
+  final String id;
+  const TaskEntityServiceDeleted({
+    required this.id,
+  });
+  @override
+  List<Object?> get props => [
+        id,
+      ];
+}
+
 class TaskEntityServiceApprovePeople extends TaskEntityServiceEvent {
   final ApproveReq approveReq;
 

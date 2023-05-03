@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 class TasksRecommendationSection extends StatefulWidget {
   static final taskRecoSection = GlobalKey();
 
-  const TasksRecommendationSection({super.key});
+  const
+	TasksRecommendationSection({super.key});
 
   @override
   State<TasksRecommendationSection> createState() =>
