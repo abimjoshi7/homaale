@@ -99,7 +99,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           }),
                           duration: const Duration(seconds: 1),
                         ));
-                        // Navigator.pop(context);
+                        Navigator.pop(context);
                       });
                     }
                   },
