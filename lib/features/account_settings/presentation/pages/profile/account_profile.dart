@@ -178,13 +178,6 @@ class _AccountProfileState extends State<AccountProfile>
                 Icons.feed_outlined,
               ),
               label: 'Feedback',
-              onTap: () {
-                Navigator.pushNamed(context, FaqPage.routeName);
-              },
-              icon: const Icon(
-                Icons.question_mark,
-              ),
-              label: 'FAQs',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
@@ -196,6 +189,19 @@ class _AccountProfileState extends State<AccountProfile>
                   widget: const FeedbackPage(),
                 );
               },
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(context, FaqPage.routeName);
+              },
+              icon: const Icon(
+                Icons.question_mark,
+              ),
+              label: 'FAQs',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
             ),
             AccountListTileSection(
               onTap: () {
