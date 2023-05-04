@@ -2239,7 +2239,6 @@ mixin _$Badge {
   num? get id => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  String? get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2251,7 +2250,7 @@ abstract class $BadgeCopyWith<$Res> {
   factory $BadgeCopyWith(Badge value, $Res Function(Badge) then) =
       _$BadgeCopyWithImpl<$Res, Badge>;
   @useResult
-  $Res call({num? id, String? image, String? title, String? url});
+  $Res call({num? id, String? image, String? title});
 }
 
 /// @nodoc
@@ -2270,7 +2269,6 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
     Object? id = freezed,
     Object? image = freezed,
     Object? title = freezed,
-    Object? url = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -2285,10 +2283,6 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      url: freezed == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 }
@@ -2299,7 +2293,7 @@ abstract class _$$_BadgeCopyWith<$Res> implements $BadgeCopyWith<$Res> {
       __$$_BadgeCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({num? id, String? image, String? title, String? url});
+  $Res call({num? id, String? image, String? title});
 }
 
 /// @nodoc
@@ -2314,7 +2308,6 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
     Object? id = freezed,
     Object? image = freezed,
     Object? title = freezed,
-    Object? url = freezed,
   }) {
     return _then(_$_Badge(
       id: freezed == id
@@ -2329,10 +2322,6 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      url: freezed == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -2340,7 +2329,7 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
 /// @nodoc
 @JsonSerializable()
 class _$_Badge implements _Badge {
-  const _$_Badge({this.id, this.image, this.title, this.url});
+  const _$_Badge({this.id, this.image, this.title});
 
   factory _$_Badge.fromJson(Map<String, dynamic> json) =>
       _$$_BadgeFromJson(json);
@@ -2351,12 +2340,10 @@ class _$_Badge implements _Badge {
   final String? image;
   @override
   final String? title;
-  @override
-  final String? url;
 
   @override
   String toString() {
-    return 'Badge(id: $id, image: $image, title: $title, url: $url)';
+    return 'Badge(id: $id, image: $image, title: $title)';
   }
 
   @override
@@ -2366,13 +2353,12 @@ class _$_Badge implements _Badge {
             other is _$_Badge &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.url, url) || other.url == url));
+            (identical(other.title, title) || other.title == title));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, image, title, url);
+  int get hashCode => Object.hash(runtimeType, id, image, title);
 
   @JsonKey(ignore: true)
   @override
@@ -2390,10 +2376,7 @@ class _$_Badge implements _Badge {
 
 abstract class _Badge implements Badge {
   const factory _Badge(
-      {final num? id,
-      final String? image,
-      final String? title,
-      final String? url}) = _$_Badge;
+      {final num? id, final String? image, final String? title}) = _$_Badge;
 
   factory _Badge.fromJson(Map<String, dynamic> json) = _$_Badge.fromJson;
 
@@ -2403,8 +2386,6 @@ abstract class _Badge implements Badge {
   String? get image;
   @override
   String? get title;
-  @override
-  String? get url;
   @override
   @JsonKey(ignore: true)
   _$$_BadgeCopyWith<_$_Badge> get copyWith =>

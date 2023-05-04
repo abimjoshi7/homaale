@@ -22,6 +22,7 @@ class SupportTicketModel with _$SupportTicketModel {
     String? reason,
     @JsonKey(name: "object_id") String? objectId,
     @JsonKey(name: "is_resolved") bool? isResolved,
+    String? description,
   }) = _SupportTicketModel;
 
   factory SupportTicketModel.fromJson(Map<String, dynamic> json) =>
@@ -33,6 +34,7 @@ class SupportTicketType with _$SupportTicketType {
   const factory SupportTicketType({
     int? id,
     String? name,
+    String? slug,
   }) = _SupportTicketType;
 
   factory SupportTicketType.fromJson(Map<String, dynamic> json) =>
