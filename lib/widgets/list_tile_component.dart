@@ -45,7 +45,7 @@ class ListTileComponent extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0, left: 8),
           child: Text(
             "$statusDetails",
-            style: const TextStyle(fontSize: 14),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         subtitle: Column(
