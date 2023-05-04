@@ -35,6 +35,7 @@ _$_SupportTicketModel _$$_SupportTicketModelFromJson(
       reason: json['reason'] as String?,
       objectId: json['object_id'] as String?,
       isResolved: json['is_resolved'] as bool?,
+      description: json['description'] as String?,
     );
 
 Map<String, dynamic> _$$_SupportTicketModelToJson(
@@ -54,12 +55,14 @@ Map<String, dynamic> _$$_SupportTicketModelToJson(
       'reason': instance.reason,
       'object_id': instance.objectId,
       'is_resolved': instance.isResolved,
+      'description': instance.description,
     };
 
 _$_SupportTicketType _$$_SupportTicketTypeFromJson(Map<String, dynamic> json) =>
     _$_SupportTicketType(
       id: json['id'] as int?,
       name: json['name'] as String?,
+      slug: json['slug'] as String?,
     );
 
 Map<String, dynamic> _$$_SupportTicketTypeToJson(
@@ -67,4 +70,5 @@ Map<String, dynamic> _$$_SupportTicketTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'slug': instance.slug,
     };

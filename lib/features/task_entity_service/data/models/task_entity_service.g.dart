@@ -215,14 +215,12 @@ _$_Badge _$$_BadgeFromJson(Map<String, dynamic> json) => _$_Badge(
       id: json['id'] as num?,
       image: json['image'] as String?,
       title: json['title'] as String?,
-      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$$_BadgeToJson(_$_Badge instance) => <String, dynamic>{
       'id': instance.id,
       'image': instance.image,
       'title': instance.title,
-      'url': instance.url,
     };
 
 _$_Currency _$$_CurrencyFromJson(Map<String, dynamic> json) => _$_Currency(
