@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +42,6 @@ class _KycProfileState extends State<KycProfile> {
     _countryController.dispose();
     _addressController.dispose();
     // _key.currentState!.dispose();
-
     super.dispose();
   }
 
@@ -57,7 +58,7 @@ class _KycProfileState extends State<KycProfile> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 0),
               child: Text(
-                'General Details',
+                'General Information',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
@@ -70,7 +71,11 @@ class _KycProfileState extends State<KycProfile> {
                       heading: "Success",
                       content: "Tasker Profile Filled Successfully.",
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          KycDetails.routeName,
+                          (route) => false,
+                        );
                       },
                       isSuccess: true,
                     ),
@@ -103,38 +108,40 @@ class _KycProfileState extends State<KycProfile> {
                             label: "Passport Size Photo",
                             isRequired: true,
                             child: InkWell(
-                              onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: WidgetText(
-                                        callback: () {
-                                          setState(
-                                            () => isCamera = false,
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        widget: Icon(Icons.image_search),
-                                        label: "Gallery"),
-                                  ),
-                                ).then(
-                                  (value) async => await ImagePickHelper()
-                                      .pickImagePath(
-                                    isCamera: false,
-                                  )
-                                      .then(
-                                    (value) {
-                                      if (value != null) {
-                                        setState(
-                                          () {
-                                            selectedImage = value;
+                              onTap: (state.kycModel != null)
+                                  ? null
+                                  : () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          content: WidgetText(
+                                              callback: () {
+                                                setState(
+                                                  () => isCamera = false,
+                                                );
+                                                Navigator.pop(context);
+                                              },
+                                              widget: Icon(Icons.image_search),
+                                              label: "Gallery"),
+                                        ),
+                                      ).then(
+                                        (value) async => await ImagePickHelper()
+                                            .pickImagePath(
+                                          isCamera: false,
+                                        )
+                                            .then(
+                                          (value) {
+                                            if (value != null) {
+                                              setState(
+                                                () {
+                                                  selectedImage = value;
+                                                },
+                                              );
+                                            }
                                           },
-                                        );
-                                      }
+                                        ),
+                                      );
                                     },
-                                  ),
-                                );
-                              },
                               child: Column(
                                 children: <Widget>[
                                   Center(
@@ -146,16 +153,19 @@ class _KycProfileState extends State<KycProfile> {
                                           0.25,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(16),
-                                        child: selectedImage == null
-                                            ? const Placeholder(
-                                                color: kColorSecondary,
-                                              )
-                                            : Image.file(
-                                                fit: BoxFit.cover,
-                                                File(
-                                                  selectedImage?.path ?? '',
-                                                ),
-                                              ),
+                                        child: (state.kycModel != null)
+                                            ? Image.network(
+                                                state.kycModel!.logo!)
+                                            : selectedImage == null
+                                                ? const Placeholder(
+                                                    color: kColorSecondary,
+                                                  )
+                                                : Image.file(
+                                                    fit: BoxFit.cover,
+                                                    File(
+                                                      selectedImage?.path ?? '',
+                                                    ),
+                                                  ),
                                       ),
                                     ),
                                   ),
@@ -167,23 +177,26 @@ class _KycProfileState extends State<KycProfile> {
                             label: 'User Type',
                             isRequired: true,
                             child: CustomDropDownField(
-                              initialValue: _userType[0],
+                              initialValue: state.kycModel!.isCompany!
+                                  ? _userType[1]
+                                  : _userType[0],
                               list: _userType,
-                              selectedIndex: 0,
                               hintText: 'Select User Type',
-                              onChanged: (value) {
-                                if (value == _userType.last) {
-                                  setState(
-                                    () => _isCompany = true,
-                                  );
-                                }
-                                if (value == _userType.first) {
-                                  setState(
-                                    () => _isCompany = false,
-                                  );
-                                }
-                                log("Is Company? : $_isCompany");
-                              },
+                              onChanged: (state.kycModel != null)
+                                  ? null
+                                  : (value) {
+                                      if (value == _userType.last) {
+                                        setState(
+                                          () => _isCompany = true,
+                                        );
+                                      }
+                                      if (value == _userType.first) {
+                                        setState(
+                                          () => _isCompany = false,
+                                        );
+                                      }
+                                      log("Is Company? : $_isCompany");
+                                    },
                             ),
                           ),
                           CustomFormField(
@@ -194,20 +207,13 @@ class _KycProfileState extends State<KycProfile> {
                             child: CustomTextFormField(
                               controller: _fullNameController,
                               validator: validateNotEmpty,
-                              // onChanged: (p0) {
-                              //   setState(
-                              //     () => {
-                              //       // _fullNameController.text = p0.toString(),
-                              //     },
-                              //   );
-                              // },
-                              // readOnly: state.kycModel != null,
-                              // hintText: state.kycModel?.fullName?.length == 0
-                              //     ? ""
-                              //     : state.kycModel?.fullName ?? "",
-                              // onFieldSubmitted: (p0) {
-                              //   print(kycBloc.state);
-                              // },
+                              readOnly: state.kycModel != null,
+                              hintText: state.kycModel?.fullName?.length == 0
+                                  ? ""
+                                  : state.kycModel?.fullName ?? "",
+                              hintStyle: (state.kycModel != null)
+                                  ? TextStyle(color: Colors.grey.shade500)
+                                  : null,
                             ),
                           ),
                           _isCompany
@@ -217,19 +223,16 @@ class _KycProfileState extends State<KycProfile> {
                                   child: CustomTextFormField(
                                     controller: _companyNameController,
                                     validator: validateNotEmpty,
-                                    // onChanged: (p0) {
-                                    //   setState(() => {
-                                    //         // _companyNameController.text =
-                                    //         //     p0.toString(),
-                                    //       });
-                                    // },
-                                    // readOnly: state.kycModel != null,
-                                    // hintText: state.kycModel?.fullName?.length == 0
-                                    //     ? ""
-                                    //     : state.kycModel?.fullName ?? "",
-                                    // onFieldSubmitted: (p0) {
-                                    //   print(kycBloc.state);
-                                    // },
+                                    readOnly: state.kycModel != null,
+                                    hintText: state.kycModel?.organizationName
+                                                ?.length ==
+                                            0
+                                        ? ""
+                                        : state.kycModel?.organizationName ??
+                                            "",
+                                    hintStyle: (state.kycModel != null)
+                                        ? TextStyle(color: Colors.grey.shade500)
+                                        : null,
                                   ),
                                 )
                               : SizedBox.shrink(),
@@ -239,18 +242,13 @@ class _KycProfileState extends State<KycProfile> {
                             child: CustomTextFormField(
                               controller: _addressController,
                               validator: validateNotEmpty,
-                              // onChanged: (p0) {
-                              //   setState(() {
-                              //     // _addressController.text = p0.toString();
-                              //   });
-                              // },
-                              // readOnly: state.kycModel != null,
-                              // hintText: state.kycModel?.fullName?.length == 0
-                              //     ? ""
-                              //     : state.kycModel?.fullName ?? "",
-                              // onFieldSubmitted: (p0) {
-                              //   print(kycBloc.state);
-                              // },
+                              readOnly: state.kycModel != null,
+                              hintText: state.kycModel?.address?.length == 0
+                                  ? ""
+                                  : state.kycModel?.address ?? "",
+                              hintStyle: (state.kycModel != null)
+                                  ? TextStyle(color: Colors.grey.shade500)
+                                  : null,
                             ),
                           ),
                           buildCountryDropDownField(state),
@@ -294,7 +292,6 @@ class _KycProfileState extends State<KycProfile> {
                                         address: _addressController.text,
                                         country: _countryController.text,
                                       );
-
                                       context.read<KycBloc>().add(
                                             KycInitiated(
                                               createKycReq: req,
@@ -302,7 +299,7 @@ class _KycProfileState extends State<KycProfile> {
                                           );
                                     }
                                   },
-                                  label: 'Next',
+                                  label: 'Continue',
                                 ),
                               ),
                             ),
@@ -328,17 +325,20 @@ class _KycProfileState extends State<KycProfile> {
         child: CustomDropDownField<String>(
             list: state.country!.map((country) => country.name!).toList(),
             hintText: 'Select Country',
-            onChanged: (value) {
-              setState(
-                () => _countryController.text = state.country!
-                    .where(
-                      (e) => e.name!.contains(value.toString()),
-                    )
-                    .first
-                    .code
-                    .toString(),
-              );
-            }),
+            initialValue: state.kycModel!.country!.name,
+            onChanged: (state.kycModel != null)
+                ? null
+                : (value) {
+                    setState(
+                      () => _countryController.text = state.country!
+                          .where(
+                            (e) => e.name!.contains(value.toString()),
+                          )
+                          .first
+                          .code
+                          .toString(),
+                    );
+                  }),
       );
     }
     return CardLoading(height: 50.0);

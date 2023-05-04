@@ -42,6 +42,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
       ),
       iconSize: 14,
       isExpanded: true,
+			
       // focusColor: kColorGrey,
       value: widget.initialValue,
       decoration: InputDecoration(

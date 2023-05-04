@@ -143,7 +143,7 @@ class _KycDetailsState extends State<KycDetails> {
           resizeToAvoidBottomInset: false,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               kHeight50,
               CustomHeader(
                 child: const Text(
@@ -154,7 +154,7 @@ class _KycDetailsState extends State<KycDetails> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
-                  'KYC Details',
+                  'Identity Information',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),

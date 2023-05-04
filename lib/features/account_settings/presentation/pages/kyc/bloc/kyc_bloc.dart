@@ -22,21 +22,21 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycProfileInitiated>((event, emit) async {
       List<Country> _countriesList = [];
       final kycRes = await repositories.getKyc();
+      final _countries = await repositories.getCountriesList();
+      for (final country in _countries) {
+        _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
+      }
       log("RES: $kycRes");
       if (kycRes != null) {
         emit(
           state.copyWith(
             theStates: TheStates.initial,
             kycModel: KycModel.fromJson(kycRes),
+            country: _countriesList,
           ),
         );
       }
       if (kycRes == null) {
-        final _countries = await repositories.getCountriesList();
-
-        for (final country in _countries) {
-          _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
-        }
         emit(state.copyWith(
           theStates: TheStates.initial,
           country: _countriesList,
