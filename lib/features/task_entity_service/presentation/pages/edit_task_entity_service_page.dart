@@ -1,121 +1,106 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
-import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
+import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
-class PostServicePage extends StatefulWidget {
-  static const routeName = '/add-service-page';
-  const PostServicePage({super.key});
+class EditTaskEntityServiceForm extends StatefulWidget {
+  final TaskEntityService service;
+  const EditTaskEntityServiceForm({
+    Key? key,
+    required this.service,
+  }) : super(key: key);
 
   @override
-  State<PostServicePage> createState() => _PostServicePageState();
+  State<EditTaskEntityServiceForm> createState() =>
+      _EditTaskEntityServiceFormState();
 }
 
-class _PostServicePageState extends State<PostServicePage> {
-  final startPriceController = TextEditingController();
-  final endPriceController = TextEditingController();
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final requirementController = TextEditingController();
-  final addressController = TextEditingController();
-  final discountController = TextEditingController();
-  String? serviceId;
-  String? dateType = 'Fixed';
-  String? priceType = 'Fixed';
-  String? serviceType = 'Remote';
-  String? budgetType = 'Project';
-  String? currencyCode;
-  bool isDiscounted = false;
-  bool isSpecified = true;
-  bool isAddressVisible = false;
-  bool isBudgetVariable = false;
-  bool isCustomDate = false;
-  bool isTermsAccepted = false;
-  bool isNegotiable = false;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
-  List<int> selectedWeekDay = [];
-  List<Widget> widgetList = [];
-  List<String> requirementList = [];
-  XFile? imagePath;
-  XFile? videoPath;
-  List<XFile?>? imagePathList;
-  List<int>? imageList;
-  List<int>? fileList;
-  DateTime? startDate;
-  DateTime? endDate;
-  int? cityCode;
+class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
   final _key = GlobalKey<FormState>();
+  late TextEditingController titleController;
+  late TextEditingController requirementController;
+  late TextEditingController descriptionController;
+  late TextEditingController discountController;
+  late TextEditingController addressController;
+  late TextEditingController startPriceController;
+  late TextEditingController endPriceController;
+
+  final List<String> requirementList = [];
+
+  String? budgetType;
+  String? serviceId;
+  String? priceType;
+  String? currencyCode;
+  String? serviceType;
+
+  bool isTermsAccepted = false;
+  bool isDiscounted = false;
+  bool isBudgetVariable = false;
+  bool isAddressVisible = false;
+
+  int? cityCode;
 
   @override
   void initState() {
-    context.read<CategoriesBloc>().add(
-          CategoriesLoadInitiated(),
-        );
-    context.read<ServicesBloc>().add(
-          const ServicesLoadInitiated(),
-        );
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    startPriceController.dispose();
-    endPriceController.dispose();
-    titleController.dispose();
-    descriptionController.dispose();
-    requirementController.dispose();
-    addressController.dispose();
-    discountController.dispose();
-    super.dispose();
+    titleController = TextEditingController(
+      text: widget.service.title,
+    );
+    requirementController = TextEditingController(
+      text: widget.service.highlights?.join(","),
+    );
+    descriptionController = TextEditingController(
+      text: widget.service.description,
+    );
+    discountController = TextEditingController(
+      text: widget.service.discountValue,
+    );
+    addressController = TextEditingController(
+      text: widget.service.location,
+    );
+    startPriceController = TextEditingController(
+      text: widget.service.budgetFrom,
+    );
+    endPriceController = TextEditingController(
+      text: widget.service.budgetTo,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a service"),
-      body: Column(
-        children: [
-          Expanded(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.92,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
             child: Form(
               key: _key,
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          _buildTitle(),
-                          _buildCategory(),
-                          _buildHighlights(),
-                          _buildServiceType(),
-                          _buildCity(),
-                          _buildDescription(),
-                          _buildCurrency(),
-                          CustomMultimedia(),
-                          _buildTerms(context),
-                          _buildButton(),
-                        ],
-                      ),
-                    ),
-                  ),
+              child: Column(
+                children: [
+                  _buildTitle(),
+                  _buildCategory(),
+                  _buildHighlights(),
+                  _buildServiceType(),
+                  _buildCity(),
+                  _buildDescription(),
+                  _buildCurrency(),
+                  CustomMultimedia(),
+                  _buildTerms(context),
+                  _buildButton(),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -231,8 +216,8 @@ class _PostServicePageState extends State<PostServicePage> {
                   );
 
                   context.read<TaskEntityServiceBloc>().add(
-                        TaskEntityServiceCreated(
-                          req: req,
+                        TaskEntityServiceEdited(
+                          taskEntityServiceReq: req,
                         ),
                       );
                 }

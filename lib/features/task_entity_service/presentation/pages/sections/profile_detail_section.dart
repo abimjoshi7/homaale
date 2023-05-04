@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +17,7 @@ import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
-class ProfileDetailSection extends StatelessWidget {
+class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
   final TaskEntityServiceState state;
   const ProfileDetailSection({
     Key? key,
@@ -72,48 +76,137 @@ class ProfileDetailSection extends StatelessWidget {
                   typeID: state.taskEntityService?.id ?? '',
                   type: "entityservice",
                 ),
-                GestureDetector(
-                  onTap: () {
-                    if (!CacheHelper.isLoggedIn) {
-                      notLoggedInPopUp(context);
-                    }
-                    if (!CacheHelper.isLoggedIn) return;
-                    final box = context.findRenderObject() as RenderBox?;
-                    Share.share(
-                      "Share this Hommale with friends.",
-                      sharePositionOrigin:
-                          box!.localToGlobal(Offset.zero) & box.size,
-                    );
-                  },
-                  child: const Icon(
-                    Icons.share,
-                    color: Colors.blue,
-                  ),
+                addHorizontalSpace(
+                  8,
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () {
-                    if (!CacheHelper.isLoggedIn) {
-                      notLoggedInPopUp(context);
-                    }
-                    if (!CacheHelper.isLoggedIn) return;
-                    Future.delayed(
-                      Duration.zero,
-                      () => context.read<TaskEntityServiceBloc>().add(
-                            TaskEntityServiceDeleted(
-                              id: state.taskEntityService?.id ?? "",
+                    showCustomBottomSheet(
+                      context: context,
+                      widget: Column(
+                        children: [
+                          ListTile(
+                            leading: const Icon(
+                              Icons.share,
+                              color: Colors.blue,
+                            ),
+                            title: Text(
+                              "Share",
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                            onTap: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                              final box =
+                                  context.findRenderObject() as RenderBox?;
+                              Share.share(
+                                "Share this Hommale with friends.",
+                                sharePositionOrigin:
+                                    box!.localToGlobal(Offset.zero) & box.size,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.report,
+                              color: kColorSecondary,
+                            ),
+                            title: Text(
+                              'Report',
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                            onTap: () {
+                              log(
+                                context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id ??
+                                    "",
+                              );
+                              log(
+                                state.taskEntityService?.createdBy?.id ?? "",
+                              );
+                            },
+                          ),
+                          Offstage(
+                            offstage: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id !=
+                                state.taskEntityService?.createdBy?.id,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  onTap: () {
+                                    showCustomBottomSheet(
+                                      context: context,
+                                      widget: EditTaskEntityServiceForm(
+                                        service: state.taskEntityService ??
+                                            TaskEntityService(),
+                                      ),
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.edit_outlined,
+                                    color: kColorOrange,
+                                  ),
+                                  title: Text(
+                                    "Update",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.delete,
+                                    color: kColorSilver,
+                                  ),
+                                  title: Text(
+                                    "Remove",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
+                                  ),
+                                  onTap: () {
+                                    if (!CacheHelper.isLoggedIn) {
+                                      notLoggedInPopUp(context);
+                                    }
+                                    if (!CacheHelper.isLoggedIn) return;
+                                    Future.delayed(
+                                      Duration.zero,
+                                      () => context
+                                          .read<TaskEntityServiceBloc>()
+                                          .add(
+                                            TaskEntityServiceDeleted(
+                                              id: state.taskEntityService?.id ??
+                                                  "",
+                                            ),
+                                          ),
+                                    ).whenComplete(
+                                      () => Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        Root.routeName,
+                                        (route) => false,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                    ).whenComplete(
-                      () => Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Root.routeName,
-                        (route) => false,
+                        ],
                       ),
                     );
                   },
-                  child: const Icon(
-                    Icons.delete,
-                    color: kColorSilver,
+                  child: Icon(
+                    Icons.more_vert_rounded,
                   ),
                 ),
               ],
