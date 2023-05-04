@@ -31,23 +31,9 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
     return LoadingWidget(
       isLoading: isLoading,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
-          centerTitle: true,
-          title: const Text(
-            'Invoice',
-            style: TextStyle(color: Colors.black),
-          ),
-          elevation: 1,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+        appBar: CustomAppBar(
+          appBarTitle: 'Invoice',
+          trailingWidget: SizedBox(),
         ),
         body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
           builder: (context, retriveState) {
@@ -59,30 +45,50 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                   ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: retriveState.orderItemRetriveList?.orderItem?.length,
+                      itemCount:
+                          retriveState.orderItemRetriveList?.orderItem?.length,
                       itemBuilder: (context, index) {
                         return OrderCard(
-                          trailingLabel: retriveState.orderItemRetriveList?.orderItem![index].task?.id!.substring(
-                                  0, min(retriveState.orderItemRetriveList!.orderItem![index].task!.id!.length, 3)) ??
+                          trailingLabel: retriveState.orderItemRetriveList
+                                  ?.orderItem![index].task?.id!
+                                  .substring(
+                                      0,
+                                      min(
+                                          retriveState
+                                              .orderItemRetriveList!
+                                              .orderItem![index]
+                                              .task!
+                                              .id!
+                                              .length,
+                                          3)) ??
                               "",
-                          serviceName: retriveState.orderItemRetriveList?.orderItem![index].task?.title,
-                          dateTime: retriveState.orderItemRetriveList?.orderItem![index].createdAt,
+                          serviceName: retriveState.orderItemRetriveList
+                              ?.orderItem![index].task?.title,
+                          dateTime: retriveState.orderItemRetriveList
+                              ?.orderItem![index].createdAt,
                         );
                       }),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: retriveState.orderItemRetriveList?.orderItem?.length,
+                    itemCount:
+                        retriveState.orderItemRetriveList?.orderItem?.length,
                     itemBuilder: (context, index) {
                       return OrderCard(
                         leadinglabel: 'Order Details ',
-                        trailingLabel: retriveState.orderItemRetriveList?.orderItem![index].task?.id!.substring(
-                            0, min(retriveState.orderItemRetriveList!.orderItem![index].task!.id!.length, 3)),
+                        trailingLabel: retriveState
+                            .orderItemRetriveList?.orderItem![index].task?.id!
+                            .substring(
+                                0,
+                                min(
+                                    retriveState.orderItemRetriveList!
+                                        .orderItem![index].task!.id!.length,
+                                    3)),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:  [
+                              children: [
                                 Text(
                                   'Name',
                                   style: Theme.of(context).textTheme.bodyLarge,
@@ -110,15 +116,19 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                               children: [
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 4,
-                                  child: Text(retriveState.orderItemRetriveList?.orderItem![index].task?.title ?? ""),
+                                  child: Text(retriveState.orderItemRetriveList
+                                          ?.orderItem![index].task?.title ??
+                                      ""),
                                 ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width / 4,
-                                  child: Text('Rs'
+                                  child: Text(
+                                      '${retriveState.orderItemRetriveList?.orderItem![index].task?.currency}'
                                       '   ${Decimal.parse(retriveState.orderItemRetriveList?.orderItem![index].amount ?? "0.0")}'),
                                 ),
                                 SizedBox(
-                                  child: Text('Rs'
+                                  child: Text(
+                                      '${retriveState.orderItemRetriveList?.orderItem![index].task?.currency}'
                                       '   ${retriveState.orderItemRetriveList?.grandTotal ?? ""}'),
                                 ),
                               ],
@@ -130,9 +140,15 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                   height: 40,
                                   width: MediaQuery.of(context).size.width / 3,
                                   child: Text(
-                                    retriveState.orderItemRetriveList?.orderItem![index].task?.assigner?.designation ??
+                                    retriveState
+                                            .orderItemRetriveList
+                                            ?.orderItem![index]
+                                            .task
+                                            ?.assigner
+                                            ?.designation ??
                                         "",
-                                    style: Theme.of(context).textTheme.bodySmall,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 )
                               ],
@@ -160,16 +176,20 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                 builder: (context, paymentTypeState) {
                   return BlocListener<PaymentBloc, PaymentIntentState>(
                     listener: (context, state) async {
+                      context.read<PaymentVerifyBloc>().add(
+                            PaymentVerifyInitiated(
+                              provider: paymentTypeState
+                                      .paymentType
+                                      ?.result![paymentTypeState.currentIndex!]
+                                      .slug ??
+                                  "",
+                              pidx: state.paymentIntent?.data?.pidx ?? "",
+                            ),
+                          );
                       if (state.theState == TheStates.success) {
                         setState(() => isLoading = false);
-                        context.read<PaymentVerifyBloc>().add(
-                              PaymentVerifyInitiated(
-                                provider:
-                                    paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug ?? "",
-                                pidx: state.paymentIntent?.data?.pidx ?? "",
-                              ),
-                            );
-                        await Navigator.pushNamed(context, PaymentOnGoingPage.routeName);
+                        await Navigator.pushNamed(
+                            context, PaymentOnGoingPage.routeName);
                       }
                     },
                     child: BlocBuilder<PaymentBloc, PaymentIntentState>(
@@ -179,9 +199,12 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                             setState(() => isLoading = true);
                             context.read<PaymentBloc>().add(
                                   PaymentIntentInitiated(
-                                    provider:
-                                        paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug ??
-                                            "",
+                                    provider: paymentTypeState
+                                            .paymentType
+                                            ?.result![
+                                                paymentTypeState.currentIndex!]
+                                            .slug ??
+                                        "",
                                     uuid: orderID,
                                   ),
                                 );
@@ -197,7 +220,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
               ),
               SizedBox(
                 height: 25,
-              )
+              ),
             ],
           ),
         ),
@@ -233,9 +256,9 @@ class OrderCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                 15,
               ),
-              color: const Color(0xffECECF2),
+              color: Theme.of(context).cardColor,
             ),
-            height: 180,
+            height: 200,
             child: Column(
               children: [
                 Padding(
@@ -245,11 +268,11 @@ class OrderCard extends StatelessWidget {
                     children: [
                       Text(
                         leadinglabel ?? 'Order Information',
-                        style: kLabelPrimary,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Text(
                         'Invoice#-0${trailingLabel ?? ''}',
-                        style: kLabelPrimary,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                     ],
                   ),
@@ -257,7 +280,7 @@ class OrderCard extends StatelessWidget {
                 Expanded(
                   child: Card(
                     margin: EdgeInsets.zero,
-                    color: Colors.white,
+                    color: Theme.of(context).cardColor,
                     child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: child ??
@@ -265,7 +288,8 @@ class OrderCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'Service Provider:',
@@ -275,12 +299,15 @@ class OrderCard extends StatelessWidget {
                                   ),
                                   Text(
                                     serviceName ?? "",
-                                    style: kPurpleText16,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   )
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Date/Time',
@@ -291,7 +318,9 @@ class OrderCard extends StatelessWidget {
                                   Text(
                                     Jiffy(dateTime ?? "").yMMMMd,
                                     // 'June 28, 2022 12:12 pm',
-                                    style: kPurpleText16,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   )
                                 ],
                               ),

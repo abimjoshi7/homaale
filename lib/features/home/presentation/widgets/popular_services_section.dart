@@ -26,7 +26,7 @@ class PopularServicesSection extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 SectionHeading(
-                  labelName: 'Popular services',
+                  labelName: 'Trending services',
                   onTap: () async {
                     Navigator.pushNamed(
                       context,
@@ -34,8 +34,8 @@ class PopularServicesSection extends StatelessWidget {
                     );
                   },
                   showKey: pServiceKey,
-                  showCaseTitle: 'Popular Service',
-                  showCaseDec: 'See All Popular Service from here.',
+                  showCaseTitle: 'Trending Service',
+                  showCaseDec: 'See All Trending Service from here.',
                 ),
                 SizedBox(
                   height: 250,

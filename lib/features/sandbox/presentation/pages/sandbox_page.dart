@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -19,12 +20,32 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class SandboxPage extends StatelessWidget {
+class SandboxPage extends StatefulWidget {
   static const routeName = '/sandbox-page';
   const SandboxPage({super.key});
 
   @override
+  State<SandboxPage> createState() => _SandboxPageState();
+}
+
+class _SandboxPageState extends State<SandboxPage> {
+  late ScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = ScrollController();
+    _controller.animateTo(
+      5,
+      duration: Duration.zero,
+      curve: Curves.bounceIn,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final kWidth = MediaQuery.of(context).size.width;
+    final kHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +83,9 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    await context.read<TaskerEducationCubit>().getTaskerEducation();
+                    await context
+                        .read<TaskerEducationCubit>()
+                        .getTaskerEducation();
                     if (state is TaskerGetEducationSuccess) {
                       log(state.taskerEducationRes.first.id.toString());
                     }
@@ -111,10 +134,8 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    log("123");
-                    print(123);
-                    final x = await KycRepositories().getKyc();
-                    print(x);
+                    print(MediaQuery.of(context).size.height);
+                    print(MediaQuery.of(context).size.width);
                   },
                   label: 'Get Kyc',
                 );
@@ -122,6 +143,7 @@ class SandboxPage extends StatelessWidget {
             ),
           ),
           kHeight20,
+
           // Center(
           //   child: BlocBuilder<CategoriesBloc, CategoriesState>(
           //     builder: (context, state) {
@@ -141,7 +163,9 @@ class SandboxPage extends StatelessWidget {
               builder: (context, state) {
                 return CustomElevatedButton(
                   callback: () async {
-                    final x = await CategoriesRepositories().fetchNestedCategory().then(
+                    final x = await CategoriesRepositories()
+                        .fetchNestedCategory()
+                        .then(
                           (value) => value.map(
                             (e) => NestedCategory.fromJson(e),
                           ),
@@ -164,7 +188,8 @@ class SandboxPage extends StatelessWidget {
                 return CustomElevatedButton(
                   callback: () async {
                     // final x =
-                    await BookingRepositories().approveBooking(ApproveReq(booking: 468));
+                    await BookingRepositories()
+                        .approveBooking(ApproveReq(booking: 468));
                     // print(x['result'].toJson());
                     // print(123);
                   },
@@ -209,19 +234,34 @@ class SandboxPage extends StatelessWidget {
           //     },
           //   ),
           // ),
+          // addVerticalSpace(20),
+          // Center(
+          //   child: BlocBuilder<TaskBloc, TaskState>(
+          //     builder: (context, state) {
+          //       return CustomElevatedButton(
+          //         callback: () async {
+          //           // context.read<TaskerBloc>().add(TaskerAllLoadInitiated());
+          //         },
+          //         label: 'Get All Taskers',
+          //       );
+          //     },
+          //   ),
+          // ),
           addVerticalSpace(20),
-          Center(
-            child: BlocBuilder<TaskBloc, TaskState>(
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  callback: () async {
-                    // context.read<TaskerBloc>().add(TaskerAllLoadInitiated());
-                  },
-                  label: 'Get All Taskers',
-                );
-              },
+          Container(
+            color: Colors.blueGrey,
+            height: 100,
+            width: kWidth,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, index) => Container(
+                color: randomColorGenerator(),
+                width: kWidth * 0.5,
+              ),
+              itemCount: 10,
             ),
-          ),
+          )
         ],
       ),
     );

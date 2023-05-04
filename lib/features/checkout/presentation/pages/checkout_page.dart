@@ -29,23 +29,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
         .read<OrderItemRetriveBloc>()
         .add(OrderItemRetriveInitiated(uuid: orderID));
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.grey.shade50,
-        centerTitle: true,
-        title:  Text(
-          'Checkout',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        elevation: 1,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+      appBar: CustomAppBar(
+        appBarTitle: 'Checkout',
       ),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
         builder: (context, state) {
@@ -69,7 +54,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ],
                   ),
                 ),
-                PromoCodeAddSection(),
+                PromoCodeAddSection(
+                  orderId: orderID,
+                ),
                 PaymentDetailsContainer(state: state),
                 Center(
                   child: CustomElevatedButton(
@@ -152,7 +139,7 @@ class TaskDisplayList extends StatelessWidget {
                           margin:
                               EdgeInsets.only(left: 10, right: 10, bottom: 10),
                           decoration: BoxDecoration(
-                              color:Theme.of(context).cardColor,
+                              color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -161,17 +148,34 @@ class TaskDisplayList extends StatelessWidget {
                               Row(
                                 children: [
                                   Container(
-                                    height: 70,
-                                    width: 60,
+                                    padding: EdgeInsets.all(5),
+                                    margin: EdgeInsets.only(left: 5),
+                                    height: 66,
+                                    width: 58,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepOrange,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            //     (state
+                                            //     .orderItemRetriveList
+                                            //     ?.orderItem?[
+                                            // index]
+                                            //     .task?.entityServiceImages
+                                            //     ?.images
+                                            //     ?.length ==
+                                            //     0)
+                                            //     ? kServiceImageNImg
+                                            //     :state
+                                            //     .orderItemRetriveList
+                                            //     ?.orderItem?[
+                                            // index]
+                                            //     .task?.entityService
+                                            //     ?.images
+                                            //     ?.last
+                                            //     .media.toString() ??
+                                            kServiceImageNImg),
+                                        fit: BoxFit.cover,
                                       ),
-                                    ),
-                                    child: Image.network(
-                                      kServiceImageNImg,
-                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   Column(
@@ -221,7 +225,8 @@ class TaskDisplayList extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   left: 100.0),
                                               child: Text(
-                                                'Rs  '
+                                                // 'Rs  '
+                                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? "0.0")}',
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -317,7 +322,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                       padding: EdgeInsets.all(20),
                       margin: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color:Theme.of(context).cardColor,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Column(
@@ -341,7 +346,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -356,7 +361,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].tax.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -370,7 +375,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 'Platform Charge',
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformCharge.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -384,7 +389,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                                 'Discount',
                               ),
                               Text(
-                                'Rs '
+                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformChargeDiscount.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
@@ -410,10 +415,10 @@ class PaymentDetailsContainer extends StatelessWidget {
             children: [
               Text(
                 'Total Amount',
-                style:Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Text(
-                'Rs '
+                '${state.orderItemRetriveList?.orderItem?[0].task?.currency} '
                 '${state.orderItemRetriveList?.grandTotal.toString()}',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),

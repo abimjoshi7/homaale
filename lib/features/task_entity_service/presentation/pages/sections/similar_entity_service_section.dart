@@ -1,3 +1,4 @@
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class SimilarEntityServiceSection extends StatelessWidget {
         child: ListView.builder(
           padding: EdgeInsets.zero,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => const ServiceCard(),
+          itemBuilder: (context, index) => ServiceCard(),
           itemCount: 5,
         ),
       ),

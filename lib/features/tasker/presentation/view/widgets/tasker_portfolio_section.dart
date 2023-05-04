@@ -1,8 +1,7 @@
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/constants/text.dart';
-import 'package:cipher/features/tasker/data/models/tasker_list_res.dart'
-    as tsklst;
+import 'package:cipher/features/tasker/data/models/tasker_list_res.dart' as tsklst;
 import 'package:flutter/material.dart';
 
 class TaskerPortfolioSection extends StatelessWidget {
@@ -40,11 +39,10 @@ class TaskerPortfolioSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.13,
+                            height: MediaQuery.of(context).size.height * 0.11,
                             width: MediaQuery.of(context).size.width * 0.54,
                             child: Image.network(
-                              portfolio[index].images?.first.media.toString() ??
-                                  kServiceImageNImg,
+                              portfolio[index].images?.first.media.toString() ?? kServiceImageNImg,
                               fit: BoxFit.cover,
                             ),
                           ),

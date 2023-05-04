@@ -1,12 +1,17 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
+import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/tasks/tasks_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/widgets/label_count.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -47,8 +52,55 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           const CustomHorizontalDivider(),
           kHeight10,
           const ProfileHeaderSection(),
+          kHeight10,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomElevatedButton(
+                  theWidth: MediaQuery.of(context).size.width * 0.45,
+                  theHeight: 40,
+                  borderRadius: 10,
+                  label: 'Edit Profile',
+                  callback: () {
+                    Navigator.pushNamed(
+                      context,
+                      EditProfilePage.routeName,
+                    );
+                  },
+                ),
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (context, state) {
+                    if (state.theStates == TheStates.success) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, FollowingFollowersPage.routeName);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BuildLabelCount(
+                                count: state.taskerProfile?.followersCount?.toString() ?? '0', label: 'Followers'),
+                            addHorizontalSpace(16),
+                            BuildLabelCount(
+                                count: state.taskerProfile?.followingCount?.toString() ?? '0', label: 'Followings'),
+                          ],
+                        ),
+                      );
+                    }
+                    return SizedBox();
+                  },
+                )
+              ],
+            ),
+          ),
+          kHeight10,
           ProfileRewardBalanceSection(user: user),
+          kHeight10,
+          Divider(height: 0.3),
           const ProfileStatsSection(),
+          Divider(height: 0.3),
           InkWell(
             onTap: () {
               Navigator.pushNamed(

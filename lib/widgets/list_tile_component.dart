@@ -45,7 +45,7 @@ class ListTileComponent extends StatelessWidget {
           padding: const EdgeInsets.only(top: 16.0, left: 8),
           child: Text(
             "$statusDetails",
-            style: const TextStyle(fontSize: 14),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         subtitle: Column(
@@ -75,30 +75,8 @@ class ListTileComponent extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: bgColor,
-            // statusTitle == "status completed" ||
-            //         statusTitle == "payment completed"
-            //     ? Colors.green
-            //     : statusTitle == "approval" || statusTitle == "Approved"
-            //         ? Colors.teal
-            //         : statusTitle == "booking"
-            //             ? Colors.blue
-            //             : statusTitle == "waiting"
-            //                 ? Colors.orange
-            //                 : Colors.red,
           ),
           child: Text(
-            // (statusTitle == "status completed" ||
-            //     statusTitle == "payment completed")
-            //     ? "Completed"
-            //     : (statusTitle == "approval")
-            //     ? "Approval"
-            //     : (statusTitle == "waiting")
-            //     ? "Waiting"
-            //     : (statusTitle == "rejected")
-            //     ? "Rejected"
-            //     : (statusTitle == "booking")
-            //     ? "Booking"
-            //     :
             statusTitle,
             style: const TextStyle(color: Colors.white),
           ),
