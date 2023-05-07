@@ -115,7 +115,6 @@ class Badge with _$Badge {
     num? id,
     String? image,
     String? title,
-    String? url,
   }) = _Badge;
 
   factory Badge.fromJson(Map<String, dynamic> json) => _$BadgeFromJson(json);

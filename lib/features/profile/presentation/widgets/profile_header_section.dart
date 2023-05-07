@@ -2,7 +2,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
-import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -79,16 +78,12 @@ class ProfileHeaderSection extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          '${state2.taskerProfile?.user?.firstName ?? ''} ${state2.taskerProfile?.user?.lastName ?? ''}',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        kWidth5,
-                        displayVerify(),
-                      ],
+                    Text(
+                      '${state2.taskerProfile?.user?.firstName ?? ''} ${state2.taskerProfile?.user?.lastName ?? ''}',
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
+                    kWidth5,
+                    displayVerify(),
                   ],
                 ),
                 kHeight5,
@@ -114,9 +109,7 @@ class ProfileHeaderSection extends StatelessWidget {
                 kHeight5,
                 Row(
                   children: List.generate(
-                    (state2.taskerProfile?.rating?.avgRating as double?)
-                            ?.round() ??
-                        5,
+                    (state2.taskerProfile?.rating?.avgRating as double?)?.round() ?? 5,
                     (index) => const Icon(
                       Icons.star_rate_rounded,
                       color: Colors.amber,
@@ -126,6 +119,10 @@ class ProfileHeaderSection extends StatelessWidget {
               ],
             ),
             trailing: PopupMenuButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.black,
+              ),
               itemBuilder: (context) => <PopupMenuItem<dynamic>>[
                 displayPopupMenu(),
               ],

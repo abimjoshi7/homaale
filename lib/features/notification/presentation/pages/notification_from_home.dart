@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/notification/data/models/all_notification_list.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/list_tile_component.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';

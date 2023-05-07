@@ -112,7 +112,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     },
                   ),
                   textInputType: TextInputType.emailAddress,
-                  hintText: 'sample@email.com',
+                  hintText: 'sample@gmail.com',
                   validator: validateNotEmpty,
                 ),
               );
@@ -134,7 +134,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         textInputType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         hintText: 'Mobile Number',
-                        // hintStyle: TextStyle(color: Colors.black12),
                         prefixWidget: InkWell(
                           onTap: () {},
                           child: Padding(
@@ -196,6 +195,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   },
                 ),
                 hintText: 'Enter your password here',
+                hintStyle:Theme.of(context).textTheme.bodySmall,
                 validator: validateNotEmpty,
               ),
             );

@@ -93,7 +93,8 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                               ),
                                               maxLines: 1,
                                             ),
-                                            Text('Rs '
+                                            Text(
+                                                '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
                                                 '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount ?? '0.0')}'),
                                           ],
                                         );
@@ -117,7 +118,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                           .headlineSmall,
                                     ),
                                     Text(
-                                      'Rs '
+                                      '${state.orderItemRetriveList?.orderItem?[0].task?.currency} '
                                       '${state.orderItemRetriveList?.grandTotal}',
                                       style: Theme.of(context)
                                           .textTheme

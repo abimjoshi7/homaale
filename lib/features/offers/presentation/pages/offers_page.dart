@@ -54,6 +54,7 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
                     TabBar(
                       labelPadding: kPadding10,
                       controller: _tabController,
+                      indicatorColor: kColorSecondary,
                       tabs: const [
                         Text('All'),
                         Text('Coupons'),
@@ -79,9 +80,9 @@ class _OffersPageState extends State<OffersPage> with TickerProviderStateMixin {
                               state: state,
                             ),
                           ),
-                          Text('data'),
-                          Text('data'),
-                          Text('data'),
+                          Center(child: Text('No Offers available.')),
+                          Center(child: Text('No Offers available.')),
+                          Center(child: Text('No Offers available.')),
                         ],
                       ),
                     ),

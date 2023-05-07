@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 
 class WidgetText extends StatelessWidget {
-  const WidgetText( {
+  const WidgetText({
     Key? key,
     required this.widget,
     required this.label,
@@ -20,11 +20,13 @@ class WidgetText extends StatelessWidget {
     return GestureDetector(
       onTap: callback,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           widget,
           kWidth5,
           Text(
             label,
+            maxLines: label.length,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],

@@ -20,15 +20,12 @@ class AccountUserInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // kHeight20,
         Row(
           children: [
             Text(
               name,
               style: Theme.of(context).textTheme.headlineSmall,
-              // style: kPurpleText16,
             ),
-            kWidth5,
             if (isVerified == true)
               const Icon(
                 Icons.verified,
@@ -36,13 +33,8 @@ class AccountUserInfoSection extends StatelessWidget {
               ),
           ],
         ),
-        kHeight5,
         Text(designation == '' ? 'Hoomale User' : designation),
-        kHeight5,
-        Text(
-          credentialId,
-          // style: kHelper13,
-        ),
+        Text(credentialId),
       ],
     );
   }

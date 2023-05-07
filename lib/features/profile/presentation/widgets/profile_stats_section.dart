@@ -22,40 +22,39 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.taskAssigned
-                              ?.toInt()
-                              .toString() ??
-                          '',
+                      numberText: state.taskerProfile?.stats?.taskAssigned?.toInt().toString() ?? '',
                       textColor: kColorBlue,
                     ),
-                    const Text('Task Created'),
+                    Text(
+                      'Task Created',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ],
                 ),
                 Column(
                   children: [
                     NumberCountText(
-                      numberText:
-                          state.taskerProfile?.stats?.taskInProgress == null
-                              ? '0'
-                              : state.taskerProfile?.stats?.taskInProgress
-                                      ?.toInt()
-                                      .toString() ??
-                                  '',
+                      numberText: state.taskerProfile?.stats?.taskInProgress == null
+                          ? '0'
+                          : state.taskerProfile?.stats?.taskInProgress?.toInt().toString() ?? '',
                       textColor: kColorAmber,
                     ),
-                    const Text('Task in Progress')
+                    Text(
+                      'Task in Progress',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
                   ],
                 ),
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.successRate
-                              ?.toInt()
-                              .toString() ??
-                          '',
+                      numberText: state.taskerProfile?.stats?.successRate?.toInt().toString() ?? '',
                       textColor: kColorGreen,
                     ),
-                    const Text('Success Rate'),
+                    Text(
+                      'Success Rate',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ],
                 ),
               ],

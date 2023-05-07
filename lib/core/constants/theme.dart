@@ -71,9 +71,9 @@ final kLightTheme = ThemeData(
         headlineSmall: kPurpleText16,
         headlineMedium: kPurpleText17,
         headlineLarge: kPurpleText19,
-        bodyMedium: kText15,
-        bodySmall: kText14,
-        bodyLarge: kBoldText),
+        bodyMedium: kText14,
+        bodySmall: kText13,
+        bodyLarge: kText15),
   ),
   brightness: Brightness.light,
   radioTheme: RadioThemeData(
@@ -95,4 +95,7 @@ final kLightTheme = ThemeData(
     space: 0,
     thickness: 1.2,
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: kText13,
+  )
 );
