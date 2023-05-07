@@ -36,3 +36,4 @@ export '../features/sign_in/presentation/widgets/sign_in_scaffold.dart';
 export './custom_app_bar.dart';
 export './custom_multimedia.dart';
 export './custom_logout.dart';
+export 'form/custom_requirement_hightlight.dart';

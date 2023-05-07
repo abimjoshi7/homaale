@@ -17,7 +17,8 @@ import 'package:dependencies/dependencies.dart';
 part 'task_entity_service_event.dart';
 part 'task_entity_service_state.dart';
 
-class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc
+    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final repo = TaskEntityServiceRepository();
   final servicesRepo = ServicesRepositories();
   final bookingRepo = BookingRepositories();
@@ -85,9 +86,12 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               .then(
                 (value) => emit(
                   state.copyWith(
-                      theStates: TheStates.success,
-                      isCreated: true,
-                      taskEntityServiceRes: TaskEntityServiceRes.fromJson(value)),
+                    theStates: TheStates.success,
+                    isCreated: true,
+                    taskEntityServiceRes: TaskEntityServiceRes.fromJson(
+                      value,
+                    ),
+                  ),
                 ),
               )
               .whenComplete(
@@ -107,6 +111,53 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
         }
       },
     );
+
+    on<TaskEntityServiceEdited>((event, emit) async {
+      try {
+        await repo
+            .editTaskEntityService(
+              event.id ?? "",
+              event.taskEntityServiceReq ?? TaskEntityServiceReq(),
+            )
+            .whenComplete(
+              () => emit(
+                state.copyWith(
+                  isEdited: true,
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            isEdited: false,
+          ),
+        );
+        rethrow;
+      }
+    });
+
+    on<TaskEntityServiceDeleted>((event, emit) async {
+      try {
+        await repo
+            .deleteTaskEntityService(
+              event.id,
+            )
+            .whenComplete(
+              () => emit(
+                state.copyWith(
+                  isDeleted: true,
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            isDeleted: false,
+          ),
+        );
+        rethrow;
+      }
+    });
 
     on<TaskEntityServiceApprovePeople>(
       (event, emit) async {

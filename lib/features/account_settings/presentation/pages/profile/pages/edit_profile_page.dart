@@ -15,37 +15,6 @@ class EditProfilePage extends StatelessWidget {
       appBar: CustomAppBar(appBarTitle: "Edit Profile"),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon:  Icon(
-                Icons.arrow_back,
-                color: Theme.of(context).appBarTheme.iconTheme?.color,
-              ),
-            ),
-            trailingWidget: IconButton(
-              icon:  Icon(
-                Icons.search,
-                color: Theme.of(context).appBarTheme.iconTheme?.color,
-              ),
-              onPressed: () {},
-            ),
-            child: const Text(
-              'Edit Profile',
-              // style: TextStyle(
-              //   fontSize: 14,
-              //   fontWeight: FontWeight.w500,
-              //   color: Color(
-              //     0xff212529,
-              //   ),
-              // ),
-            ),
-          ),
-          const Divider(),
-
           const Expanded(
             child: FormEditProfileSection(),
           ),
@@ -63,7 +32,6 @@ class EditProfilePage extends StatelessWidget {
               );
             },
           ),
-          kHeight10,
         ],
       ),
     );

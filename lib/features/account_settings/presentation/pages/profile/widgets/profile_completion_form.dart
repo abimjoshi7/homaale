@@ -865,10 +865,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   label: 'Task Preferences',
                   isRequired: true,
                   child: CustomDropDownField<String>(
-                    list: const [
-                      'Long-Term Tasks',
-                      'Short-Term Tasks',
-                    ],
+                    list: kTaskPrefList,
                     onChanged: (value) => setState(
                       () {
                         taskPreferencesController.text = value!;

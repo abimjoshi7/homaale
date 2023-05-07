@@ -66,11 +66,12 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
           return Padding(
-            padding: kPadding20,
+            padding: const EdgeInsets.all(8.0),
             child: Form(
               key: _key,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
                     onTap: () async {
@@ -142,7 +143,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             height: 100,
                           ),
                         ),
-                        kHeight15,
+                        addVerticalSpace(
+                          16,
+                        ),
                         Center(
                           child: Text(
                             'Change profile photo',
@@ -152,7 +155,6 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       ],
                     ),
                   ),
-                  kHeight50,
                   Row(
                     children: [
                       Flexible(
@@ -242,7 +244,6 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       ),
                     ],
                   ),
-                  kHeight20,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -261,29 +262,29 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Task Analytics',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          Switch(
-                            value: false,
-                            onChanged: (value) {},
-                          )
-                        ],
-                      ),
-                      Text(
-                        'Do you want to enable task analytics in profile?',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                  kHeight50,
+                  // ! TO BE IMPLEMENTED
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text(
+                  //           'Task Analytics',
+                  //           style: Theme.of(context).textTheme.headlineSmall,
+                  //         ),
+                  //         Switch(
+                  //           value: false,
+                  //           onChanged: (value) {},
+                  //         )
+                  //       ],
+                  //     ),
+                  //     Text(
+                  //       'Do you want to enable task analytics in profile?',
+                  //       style: Theme.of(context).textTheme.bodySmall,
+                  //     ),
+                  //   ],
+                  // ),
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {

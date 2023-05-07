@@ -11,6 +11,7 @@ import 'package:cipher/features/services/presentation/pages/sections/service_det
 import 'package:cipher/features/services/presentation/pages/views/details_view.dart';
 import 'package:cipher/features/services/presentation/pages/views/schedule_view.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -88,7 +89,8 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                           physics: const NeverScrollableScrollPhysics(),
                           controller: _pageController,
                           itemCount: widgetList.length,
-                          itemBuilder: (context, index) => widgetList[index % widgetList.length],
+                          itemBuilder: (context, index) =>
+                              widgetList[index % widgetList.length],
                         ),
                       ),
                     ],
@@ -112,7 +114,8 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                             final error = await CacheHelper.getCachedString(
                               kErrorLog,
                             );
-                            if (bookingState.states == TheStates.success && bookingState.isBooked == true) {
+                            if (bookingState.states == TheStates.success &&
+                                bookingState.isBooked == true) {
                               showDialog(
                                 context: context,
                                 builder: (context) => CustomToast(
@@ -122,11 +125,15 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                                     final chatBloc = locator<ChatBloc>();
 
                                     chatBloc.add(HandleUserCreationChat(
-                                      userID: userBloc.state.taskerProfile?.user?.id,
-                                      taskerID: state.taskEntityService?.createdBy?.id,
+                                      userID: userBloc
+                                          .state.taskerProfile?.user?.id,
+                                      taskerID: state
+                                          .taskEntityService?.createdBy?.id,
                                     ));
 
-                                    await CacheHelper.clearCachedData(kBookedMap).whenComplete(
+                                    await CacheHelper.clearCachedData(
+                                            kBookedMap)
+                                        .whenComplete(
                                       () {
                                         Navigator.pushNamedAndRemoveUntil(
                                           context,
@@ -140,12 +147,14 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                                 ),
                               );
                             }
-                            if (bookingState.states == TheStates.failure && bookingState.isBooked == false) {
+                            if (bookingState.states == TheStates.failure &&
+                                bookingState.isBooked == false) {
                               showDialog(
                                 context: context,
                                 builder: (context) => CustomToast(
                                   heading: 'Failure',
-                                  content: error ?? 'Something went wrong. Please try again later.',
+                                  content: error ??
+                                      'Something went wrong. Please try again later.',
                                   onTap: () async {},
                                   isSuccess: false,
                                 ),
@@ -199,9 +208,12 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
   Widget showBookButton(TaskEntityServiceState state, BuildContext context) {
     return BlocListener<EventBloc, EventState>(
       listener: (context, eventState) {
-        if (eventState.theStates == TheStates.success && eventState.isLoaded == true) {
+        if (eventState.theStates == TheStates.success &&
+            eventState.isLoaded == true) {
           final req = BookEntityServiceReq(
-            location: state.taskEntityService!.location!.isEmpty ? "Remote" : state.taskEntityService?.location,
+            location: state.taskEntityService!.location!.isEmpty
+                ? "Remote"
+                : state.taskEntityService?.location,
             entityService: state.taskEntityService?.id,
             budgetTo: eventCache.state.budget,
             requirements: eventCache.state.requirements == null
@@ -214,22 +226,15 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
             startTime: eventCache.state.startTime,
             endTime: eventCache.state.endTime,
             description: eventCache.state.description,
-            images: eventCache.state.images == null
-                ? []
-                : List<int>.from(
-                    eventCache.state.images as Iterable,
-                  ),
-            videos: eventCache.state.videos == null
-                ? []
-                : List<int>.from(
-                    eventCache.state.videos as Iterable,
-                  ),
+            images: context.read<UploadBloc>().state.uploadedImageList ?? [],
+            videos: context.read<UploadBloc>().state.uploadedVideoList ?? [],
           );
           context.read<BookingsBloc>().add(
                 BookingCreated(req),
               );
         }
-        if (eventState.theStates == TheStates.failure && eventState.isLoaded == false) {
+        if (eventState.theStates == TheStates.failure &&
+            eventState.isLoaded == false) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -253,7 +258,9 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
           } else {
             if (state.taskEntityService?.event == null) {
               final req = BookEntityServiceReq(
-                location: state.taskEntityService!.location!.isEmpty ? "Remote" : state.taskEntityService?.location,
+                location: state.taskEntityService!.location!.isEmpty
+                    ? "Remote"
+                    : state.taskEntityService?.location,
                 entityService: state.taskEntityService?.id,
                 budgetTo: eventCache.state.budget,
                 requirements: eventCache.state.requirements == null

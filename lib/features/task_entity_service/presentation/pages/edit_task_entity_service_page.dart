@@ -1,151 +1,106 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
-import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
+import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
-class PostServicePage extends StatefulWidget {
-  static const routeName = '/add-service-page';
-  const PostServicePage({super.key});
+class EditTaskEntityServiceForm extends StatefulWidget {
+  final TaskEntityService service;
+  const EditTaskEntityServiceForm({
+    Key? key,
+    required this.service,
+  }) : super(key: key);
 
   @override
-  State<PostServicePage> createState() => _PostServicePageState();
+  State<EditTaskEntityServiceForm> createState() =>
+      _EditTaskEntityServiceFormState();
 }
 
-class _PostServicePageState extends State<PostServicePage> {
-  final startPriceController = TextEditingController();
-  final endPriceController = TextEditingController();
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final requirementController = TextEditingController();
-  final addressController = TextEditingController();
-  final discountController = TextEditingController();
-  String? serviceId;
-  String? dateType = 'Fixed';
-  String? priceType = 'Fixed';
-  String? serviceType = 'Remote';
-  String? budgetType = 'Project';
-  String? currencyCode;
-  bool isDiscounted = false;
-  bool isSpecified = true;
-  bool isAddressVisibile = false;
-  bool isBudgetVariable = false;
-  bool isCustomDate = false;
-  bool isTermsAccepted = false;
-  bool isNegotiable = false;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
-  List<int> selectedWeekDay = [];
-  List<Widget> widgetList = [];
-  List<String> requirementList = [];
-  XFile? imagePath;
-  XFile? videoPath;
-  List<XFile?>? imagePathList;
-  List<int>? imageList;
-  List<int>? fileList;
-  DateTime? startDate;
-  DateTime? endDate;
-  int? cityCode;
+class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
   final _key = GlobalKey<FormState>();
-  late final UploadBloc uploadBloc;
+  late TextEditingController titleController;
+  late TextEditingController requirementController;
+  late TextEditingController descriptionController;
+  late TextEditingController discountController;
+  late TextEditingController addressController;
+  late TextEditingController startPriceController;
+  late TextEditingController endPriceController;
+
+  final List<String> requirementList = [];
+
+  String? budgetType;
+  String? serviceId;
+  String? priceType;
+  String? currencyCode;
+  String? serviceType;
+
+  bool isTermsAccepted = false;
+  bool isDiscounted = false;
+  bool isBudgetVariable = false;
+  bool isAddressVisible = false;
+
+  int? cityCode;
 
   @override
   void initState() {
-    uploadBloc = context.read<UploadBloc>();
-    context.read<CategoriesBloc>().add(
-          CategoriesLoadInitiated(),
-        );
-    context.read<ServicesBloc>().add(
-          const ServicesLoadInitiated(),
-        );
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    startPriceController.dispose();
-    endPriceController.dispose();
-    titleController.dispose();
-    descriptionController.dispose();
-    requirementController.dispose();
-    addressController.dispose();
-    discountController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _uploadFile() async {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => Center(
-        child: CircularProgressIndicator(),
-      ),
+    titleController = TextEditingController(
+      text: widget.service.title,
     );
-
-    uploadBloc
-      ..add(
-        VideoToFilestoreUploaded(
-          list: uploadBloc.state.videoFileList,
-        ),
-      )
-      ..add(
-        ImageToFilestoreUploaded(
-          list: uploadBloc.state.imageFileList,
-        ),
-      );
-
-    await Future.delayed(
-      Duration(
-        seconds: 15,
-      ),
+    requirementController = TextEditingController(
+      text: widget.service.highlights?.join(","),
+    );
+    descriptionController = TextEditingController(
+      text: widget.service.description,
+    );
+    discountController = TextEditingController(
+      text: widget.service.discountValue,
+    );
+    addressController = TextEditingController(
+      text: widget.service.location,
+    );
+    startPriceController = TextEditingController(
+      text: widget.service.budgetFrom,
+    );
+    endPriceController = TextEditingController(
+      text: widget.service.budgetTo,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a service"),
-      body: Column(
-        children: [
-          Expanded(
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.92,
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
             child: Form(
               key: _key,
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          _buildTitle(),
-                          _buildCategory(),
-                          _buildHighlights(),
-                          _buildServiceType(),
-                          _buildCity(),
-                          _buildDescription(),
-                          _buildCurrency(),
-                          CustomMultimedia(),
-                          _buildTerms(context),
-                          _buildButton(),
-                        ],
-                      ),
-                    ),
-                  ),
+              child: Column(
+                children: [
+                  _buildTitle(),
+                  _buildCategory(),
+                  _buildHighlights(),
+                  _buildServiceType(),
+                  _buildCity(),
+                  _buildDescription(),
+                  _buildCurrency(),
+                  CustomMultimedia(),
+                  _buildTerms(context),
+                  _buildButton(),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -186,13 +141,34 @@ class _PostServicePageState extends State<PostServicePage> {
       builder: (context, state) {
         return CustomElevatedButton(
           callback: () async {
-            if (serviceId != null) {
-              if (isTermsAccepted) {
-                if (_key.currentState!.validate() &&
-                    endPriceController.text.isNotEmpty) {
-                  if (uploadBloc.state.imageFileList?.length != 0 ||
-                      uploadBloc.state.videoFileList?.length != 0)
-                    await _uploadFile();
+            if (isTermsAccepted) {
+              if (_key.currentState!.validate() &&
+                  endPriceController.text.isNotEmpty) {
+                // if (cityCode == null &&
+                //     currencyCode == null) {
+                //   showDialog(
+                //     context: context,
+                //     builder: (context) => CustomToast(
+                //       heading: 'Error',
+                //       content: 'Select city or currency',
+                //       onTap: () {},
+                //       isSuccess: false,
+                //     ),
+                //   );
+                // }
+                await context.read<UploadBloc>()
+                  ..add(
+                    ImageToFilestoreUploaded(
+                      list: context.read<UploadBloc>().state.imageFileList,
+                    ),
+                  )
+                  ..add(
+                    VideoToFilestoreUploaded(
+                      list: context.read<UploadBloc>().state.videoFileList,
+                    ),
+                  );
+                if (context.read<UploadBloc>().state.theStates !=
+                    TheStates.loading) {
                   final req = TaskEntityServiceReq(
                     title: titleController.text,
                     description: descriptionController.text,
@@ -240,27 +216,17 @@ class _PostServicePageState extends State<PostServicePage> {
                   );
 
                   context.read<TaskEntityServiceBloc>().add(
-                        TaskEntityServiceCreated(
-                          req: req,
+                        TaskEntityServiceEdited(
+                          taskEntityServiceReq: req,
                         ),
                       );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomToast(
-                      heading: 'Error',
-                      content: 'Please provide necessary details.',
-                      onTap: () {},
-                      isSuccess: false,
-                    ),
-                  );
                 }
               } else {
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
-                    heading: "Failure",
-                    content: "Please accept the terms and condititons",
+                    heading: 'Error',
+                    content: 'Please provide necessary details.',
                     onTap: () {},
                     isSuccess: false,
                   ),
@@ -271,7 +237,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 context: context,
                 builder: (context) => CustomToast(
                   heading: "Failure",
-                  content: "Please choose a category",
+                  content: "Please accept the terms and condititons",
                   onTap: () {},
                   isSuccess: false,
                 ),
@@ -639,7 +605,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     groupValue: serviceType,
                     onChanged: (value) => setState(
                       () {
-                        isAddressVisibile = false;
+                        isAddressVisible = false;
                         serviceType = value;
                       },
                     ),
@@ -655,7 +621,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     groupValue: serviceType,
                     onChanged: (value) => setState(
                       () {
-                        isAddressVisibile = true;
+                        isAddressVisible = true;
                         serviceType = value;
                       },
                     ),
@@ -667,7 +633,7 @@ class _PostServicePageState extends State<PostServicePage> {
           ),
           addVerticalSpace(5),
           Visibility(
-            visible: isAddressVisibile,
+            visible: isAddressVisible,
             child: const CustomTextFormField(
               hintText: 'Default Address',
             ),
@@ -777,7 +743,7 @@ class _PostServicePageState extends State<PostServicePage> {
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Choose a category',
+                  hintText: 'Trimming & Cutting',
                   hintStyle: Theme.of(context).textTheme.bodySmall,
                   // const TextStyle(
                   //   color: Color(0xff9CA0C1),
