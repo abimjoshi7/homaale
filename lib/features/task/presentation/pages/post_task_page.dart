@@ -889,7 +889,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Trimming & Cutting',
+                  hintText: 'Choose a category',
                   hintStyle: Theme.of(context).textTheme.bodySmall,
                   // const TextStyle(
                   //   color: Color(0xff9CA0C1),
