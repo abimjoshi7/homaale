@@ -12,7 +12,7 @@ const colorList = <Color>[
   Color(0xff9977D9),
 ];
 
-final categoriesNameList = <String>[
+const kCategoriesNameList = <String>[
   'Beauty',
   'Fitness',
   'Household',
@@ -31,7 +31,7 @@ final categoriesNameList = <String>[
   'Marketing',
 ];
 
-final categoriesAssetPath = <String>[
+const kCategoriesAssetPath = <String>[
   'assets/categories/self_care.png',
   'assets/categories/fitness_center.png',
   'assets/categories/cleaning_services.png',
@@ -50,7 +50,7 @@ final categoriesAssetPath = <String>[
   'assets/categories/medication_liquid.png',
 ];
 
-List<String> bottomNavItemImagePath = [
+const kBottomNavItemImagePath = [
   'assets/bottomNavigationItems/home.png',
   'assets/bottomNavigationItems/2.png',
   'assets/bottomNavigationItems/3.png',
@@ -58,7 +58,7 @@ List<String> bottomNavItemImagePath = [
   'assets/bottomNavigationItems/4.png',
 ];
 
-List<String> bottomNavItemName = [
+const kBottomNavItemName = [
   'Home',
   'Search',
   'Add',
@@ -66,7 +66,7 @@ List<String> bottomNavItemName = [
   'Account',
 ];
 
-List<String> weekNames = [
+const kWeekNames = [
   'Sun',
   'Mon',
   'Tue',
@@ -76,14 +76,22 @@ List<String> weekNames = [
   'Sat',
 ];
 
-const bookmarkTypeList = [
+const kTaskPrefList = [
+  'Part-Time',
+  'Full-Time',
+  'Freelance',
+  'Remote',
+  'On-site',
+];
+
+const kBookmarkTypeList = [
   "All",
   "Users",
   "Services",
   "Taskers",
 ];
 
-List<Widget> notableBannerList = [
+List<Widget> kNotableBannerList = [
   Padding(
     padding: const EdgeInsets.all(5),
     child: Image.asset(
@@ -124,11 +132,12 @@ List<Widget> offerBanner = [
   ),
 ];
 
-List<String> bookingDropDownStrings = [
+const kBookingDropDownStrings = [
   "All",
   "Tasks",
   "Services",
 ];
+
 Map<String, dynamic> getStatus(String status) {
   switch (status) {
     case "cancelled":

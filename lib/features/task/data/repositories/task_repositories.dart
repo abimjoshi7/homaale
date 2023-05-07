@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/task/data/models/apply_task_req.dart';
 import 'package:cipher/features/task/data/models/post_task_req.dart';
@@ -99,7 +100,7 @@ class TaskRepositories {
     try {
       final res = await _dio.postDataWithCredential(
         data: postTaskReq.toJson(),
-        url: 'task/entity/service/',
+        url: kTaskEntityService,
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/api_constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
@@ -12,7 +14,7 @@ class TaskEntityServiceRepository {
     try {
       final res = await _dio.postDataWithCredential(
         data: taskEntityServiceReq.toJson(),
-        url: kTaskEntityServicePath,
+        url: kTaskEntityService,
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
@@ -27,12 +29,12 @@ class TaskEntityServiceRepository {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
-          url: '$kTaskEntityServicePath$serviceId',
+          url: '$kTaskEntityService$serviceId',
         );
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
-          url: '$kTaskEntityServicePath$serviceId',
+          url: '$kTaskEntityService$serviceId',
           token: CacheHelper.accessToken,
         );
         return res as Map<String, dynamic>;
@@ -41,6 +43,37 @@ class TaskEntityServiceRepository {
       // log(
       //   e.toString(),
       // );
+      rethrow;
+    }
+  }
+
+  Future editTaskEntityService(
+    String id,
+    TaskEntityServiceReq req,
+  ) async {
+    try {
+      await _dio.patchDataWithCredential(
+        data: req.toJson(),
+        url: kTaskEntityService + "$id/",
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      log("Edit TES error: $e");
+      rethrow;
+    }
+  }
+
+  Future deleteTaskEntityService(
+    String id,
+  ) async {
+    try {
+      await _dio.deleteDataWithCredential(
+        sid: id,
+        url: kTaskEntityService,
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      log("Delete TES error: $e");
       rethrow;
     }
   }
