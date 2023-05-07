@@ -37,6 +37,7 @@ import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
+import 'package:cipher/features/rating_reviews/presentation/rating_reviews.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_collection_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
@@ -388,6 +389,10 @@ class AppRouter {
       case FaqPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const FaqPage(),
+        );
+      case RatingReviewsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const RatingReviewsPage(),
         );
       case ServiceBookingPage.routeName:
         return MaterialPageRoute(

@@ -70,13 +70,13 @@ class _HistorySectionState extends State<HistorySection> {
                   return BookingsServiceCard(
                     callback: () {
                       context.read<BookingsBloc>().add(
-                            BookingSingleLoaded(
-                              int.parse(item.id ?? '0'),
-                            ),
+                            BookingSingleLoaded(item.booking ?? 0),
                           );
+
                       Navigator.pushNamed(
                         context,
                         BookedServicePage.routeName,
+                        arguments: {'status': item.status},
                       );
                     },
                     hidePopupButton: true,

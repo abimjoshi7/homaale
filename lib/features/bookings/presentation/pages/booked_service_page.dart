@@ -1,9 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -22,6 +24,8 @@ class _BookedServicePageState extends State<BookedServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final status = args != null ? args['status'] : '';
     return Scaffold(
       body: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
@@ -251,14 +255,13 @@ class _BookedServicePageState extends State<BookedServicePage> {
                               happyClients: booking.createdBy?.stats?.happyClients?.toString() ?? '0',
                               successRate: booking.createdBy?.stats?.successRate?.toString() ?? '0',
                             ),
-                            // RatingReviewSection(),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: SimilarEntityServiceSection(),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 8.0),
+                      //   child: SimilarEntityServiceSection(),
+                      // ),
                     ],
                   ),
                 ),

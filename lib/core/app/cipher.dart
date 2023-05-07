@@ -23,6 +23,7 @@ import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -107,8 +108,7 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) =>
-                TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => locator<KycBloc>(),
@@ -201,11 +201,13 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<ChatBloc>(),
           ),
           BlocProvider(
+            create: (context) => locator<RatingReviewsBloc>(),
+          ),
+          BlocProvider(
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
           BlocProvider(
-            create: (context) =>
-                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
