@@ -39,7 +39,7 @@ class _PostServicePageState extends State<PostServicePage> {
   String? currencyCode;
   bool isDiscounted = false;
   bool isSpecified = true;
-  bool isAddressVisible = false;
+  bool isAddressVisibile = false;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
@@ -58,9 +58,11 @@ class _PostServicePageState extends State<PostServicePage> {
   DateTime? endDate;
   int? cityCode;
   final _key = GlobalKey<FormState>();
+  late final UploadBloc uploadBloc;
 
   @override
   void initState() {
+    uploadBloc = context.read<UploadBloc>();
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
@@ -80,6 +82,34 @@ class _PostServicePageState extends State<PostServicePage> {
     addressController.dispose();
     discountController.dispose();
     super.dispose();
+  }
+
+  Future<void> _uploadFile() async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    uploadBloc
+      ..add(
+        VideoToFilestoreUploaded(
+          list: uploadBloc.state.videoFileList,
+        ),
+      )
+      ..add(
+        ImageToFilestoreUploaded(
+          list: uploadBloc.state.imageFileList,
+        ),
+      );
+
+    await Future.delayed(
+      Duration(
+        seconds: 15,
+      ),
+    );
   }
 
   @override
@@ -156,34 +186,13 @@ class _PostServicePageState extends State<PostServicePage> {
       builder: (context, state) {
         return CustomElevatedButton(
           callback: () async {
-            if (isTermsAccepted) {
-              if (_key.currentState!.validate() &&
-                  endPriceController.text.isNotEmpty) {
-                // if (cityCode == null &&
-                //     currencyCode == null) {
-                //   showDialog(
-                //     context: context,
-                //     builder: (context) => CustomToast(
-                //       heading: 'Error',
-                //       content: 'Select city or currency',
-                //       onTap: () {},
-                //       isSuccess: false,
-                //     ),
-                //   );
-                // }
-                await context.read<UploadBloc>()
-                  ..add(
-                    ImageToFilestoreUploaded(
-                      list: context.read<UploadBloc>().state.imageFileList,
-                    ),
-                  )
-                  ..add(
-                    VideoToFilestoreUploaded(
-                      list: context.read<UploadBloc>().state.videoFileList,
-                    ),
-                  );
-                if (context.read<UploadBloc>().state.theStates !=
-                    TheStates.loading) {
+            if (serviceId != null) {
+              if (isTermsAccepted) {
+                if (_key.currentState!.validate() &&
+                    endPriceController.text.isNotEmpty) {
+                  if (uploadBloc.state.imageFileList?.length != 0 ||
+                      uploadBloc.state.videoFileList?.length != 0)
+                    await _uploadFile();
                   final req = TaskEntityServiceReq(
                     title: titleController.text,
                     description: descriptionController.text,
@@ -235,13 +244,23 @@ class _PostServicePageState extends State<PostServicePage> {
                           req: req,
                         ),
                       );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomToast(
+                      heading: 'Error',
+                      content: 'Please provide necessary details.',
+                      onTap: () {},
+                      isSuccess: false,
+                    ),
+                  );
                 }
               } else {
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
-                    heading: 'Error',
-                    content: 'Please provide necessary details.',
+                    heading: "Failure",
+                    content: "Please accept the terms and condititons",
                     onTap: () {},
                     isSuccess: false,
                   ),
@@ -252,7 +271,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 context: context,
                 builder: (context) => CustomToast(
                   heading: "Failure",
-                  content: "Please accept the terms and condititons",
+                  content: "Please choose a category",
                   onTap: () {},
                   isSuccess: false,
                 ),
@@ -620,7 +639,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     groupValue: serviceType,
                     onChanged: (value) => setState(
                       () {
-                        isAddressVisible = false;
+                        isAddressVisibile = false;
                         serviceType = value;
                       },
                     ),
@@ -636,7 +655,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     groupValue: serviceType,
                     onChanged: (value) => setState(
                       () {
-                        isAddressVisible = true;
+                        isAddressVisibile = true;
                         serviceType = value;
                       },
                     ),
@@ -648,7 +667,7 @@ class _PostServicePageState extends State<PostServicePage> {
           ),
           addVerticalSpace(5),
           Visibility(
-            visible: isAddressVisible,
+            visible: isAddressVisibile,
             child: const CustomTextFormField(
               hintText: 'Default Address',
             ),
@@ -758,7 +777,7 @@ class _PostServicePageState extends State<PostServicePage> {
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Trimming & Cutting',
+                  hintText: 'Choose a category',
                   hintStyle: Theme.of(context).textTheme.bodySmall,
                   // const TextStyle(
                   //   color: Color(0xff9CA0C1),

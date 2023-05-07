@@ -127,7 +127,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             ).then(
               (value) => emit(
                 state.copyWith(
-                  theStates: TheStates.success,
                   videoFileList: [
                     ...state.videoFileList ?? [],
                     value?.path ?? "",
@@ -164,7 +163,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
                 emit(
                   state.copyWith(
-                    theStates: TheStates.success,
                     videoFileList: list,
                   ),
                 );
@@ -184,11 +182,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<ImageToFilestoreUploaded>(
       (event, emit) async {
-        emit(
-          state.copyWith(
-            theStates: TheStates.loading,
-          ),
-        );
+        // emit(
+        //   state.copyWith(
+        //     theStates: TheStates.loading,
+        //   ),
+        // );
         try {
           await repo
               .fetchFileStore(
@@ -207,12 +205,15 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 );
               }
             },
-          ).whenComplete(
-            () => emit(
-              state.copyWith(
-                theStates: TheStates.success,
-              ),
-            ),
+          ).then(
+            (_) {
+              if (state.isImageUploaded == true)
+                emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                  ),
+                );
+            },
           );
         } catch (e) {
           log("UPLOAD TO FILESTORE ERROR: $e");
@@ -229,11 +230,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<VideoToFilestoreUploaded>(
       (event, emit) async {
-        emit(
-          state.copyWith(
-            theStates: TheStates.loading,
-          ),
-        );
+        // emit(
+        //   state.copyWith(
+        //     theStates: TheStates.loading,
+        //   ),
+        // );
         try {
           await repo.fetchFileStore(event.list).then(
             (value) {
@@ -248,12 +249,15 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 );
               }
             },
-          ).whenComplete(
-            () => emit(
-              state.copyWith(
-                theStates: TheStates.success,
-              ),
-            ),
+          ).then(
+            (_) {
+              if (state.isVideoUploaded == true)
+                emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                  ),
+                );
+            },
           );
         } catch (e) {
           log("UPLOAD TO FILESTORE ERROR: $e");
