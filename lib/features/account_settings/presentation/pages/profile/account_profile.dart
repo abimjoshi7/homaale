@@ -6,7 +6,6 @@ import 'package:cipher/features/account_settings/presentation/pages/settings/set
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
-import 'package:cipher/features/feedback/bloc/feedback_post_bloc.dart';
 import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
@@ -20,6 +19,7 @@ import '../../../../../core/mixins/the_modal_bottom_sheet.dart';
 import '../../../../feedback/bloc/feedback_bloc.dart';
 import '../../../../feedback/bloc/feedback_event.dart';
 import '../../../../feedback/presentation/pages/feedback.dart';
+import '../../../../support/presentation/widgets/report_page.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
 
@@ -188,6 +188,19 @@ class _AccountProfileState extends State<AccountProfile>
                   context: context,
                   widget: const FeedbackPage(),
                 );
+              },
+            ),
+            AccountListTileSection(
+              icon: const Icon(
+                Icons.report,
+              ),
+              label: 'Help & Legal',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, CommonReportPage.routeName);
               },
             ),
             AccountListTileSection(
