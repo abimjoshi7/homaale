@@ -22,6 +22,9 @@ const event = "/event/";
 //image upload
 const kFileStore = "task/filestore/";
 
+// transactions
+const kTransactionPath = "/payment/transaction/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",
