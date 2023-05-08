@@ -59,7 +59,7 @@ class _KycProfileState extends State<KycProfile> {
               padding: EdgeInsets.symmetric(horizontal: 0),
               child: Text(
                 'General Information',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
             BlocConsumer<KycBloc, KycState>(
@@ -177,9 +177,11 @@ class _KycProfileState extends State<KycProfile> {
                             label: 'User Type',
                             isRequired: true,
                             child: CustomDropDownField(
-                              initialValue: state.kycModel!.isCompany!
-                                  ? _userType[1]
-                                  : _userType[0],
+                              initialValue: (state.kycModel != null)
+                                  ? state.kycModel!.isCompany ?? true
+                                      ? _userType[1]
+                                      : _userType[0]
+                                  : null,
                               list: _userType,
                               hintText: 'Select User Type',
                               onChanged: (state.kycModel != null)
@@ -261,6 +263,7 @@ class _KycProfileState extends State<KycProfile> {
                                   callback: () async {
                                     if (state.theStates != TheStates.initial)
                                       return;
+                                    if (state.theStates != null) return;
                                     if (selectedImage == null ||
                                         _countryController.text.isEmpty) {
                                       await showDialog(
@@ -325,7 +328,7 @@ class _KycProfileState extends State<KycProfile> {
         child: CustomDropDownField<String>(
             list: state.country!.map((country) => country.name!).toList(),
             hintText: 'Select Country',
-            initialValue: state.kycModel!.country!.name,
+            initialValue: state.kycModel!.country!.name ?? null,
             onChanged: (state.kycModel != null)
                 ? null
                 : (value) {

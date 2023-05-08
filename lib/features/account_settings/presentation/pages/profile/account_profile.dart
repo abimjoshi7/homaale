@@ -174,7 +174,6 @@ class _AccountProfileState extends State<AccountProfile> {
                       // kHeight20,
                       InkWell(
                         onTap: () {
-                         
                           Navigator.pushNamed(
                             context,
                             KycProfile.routeName,
@@ -189,10 +188,10 @@ class _AccountProfileState extends State<AccountProfile> {
                               visible: state.userLoginRes?.hasProfile ?? false,
                               child: AccountListTileSection(
                                 onTap: () async {
-                                  // Navigator.pushNamed(
-                                  //   context,
-                                  //   KycDetails.routeName,
-                                  // );
+                                  Navigator.pushNamed(
+                                    context,
+                                    KycDetails.routeName,
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.card_membership_rounded,

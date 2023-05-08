@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
 import 'package:dependencies/dependencies.dart';
@@ -72,35 +73,32 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         }
       },
     );
-
     on<KycAdded>(
       (event, emit) async {
         try {
-          await repositories
-              .addKyc(event.addKycReq!)
-              .then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    kycId: null,
-                    isCreated: true,
-                  ),
-                ),
-              )
-              .whenComplete(
-                () => emit(
-                  state.copyWith(
-                    isCreated: false,
-                  ),
-                ),
-              );
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
+          await repositories.addKyc(event.addKycReq!);
+
+          emit(
+            state.copyWith(
+              theStates: TheStates.success,
+              isCreated: false,
+            ),
+          );
         } catch (e) {
+          final err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
               isCreated: false,
+              errMsg: err,
             ),
           );
+          log("KYC added bloc called.");
         }
       },
     );
@@ -178,12 +176,18 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           );
           await repositories.fetchKycDocType().then(
             (value) {
-              if (value.isNotEmpty)
-                emit(
-                  state.copyWith(
-                    isDocLoaded: true,
-                  ),
-                );
+              if (value.isEmpty) return;
+              List<KycDocType> _docTypeList = [];
+              for (final kycDocType in value) {
+                _docTypeList.add(KycDocType.fromJson(kycDocType));
+              }
+              emit(
+                state.copyWith(
+                  theStates: TheStates.initial,
+                  isDocLoaded: true,
+                  docTypeList: _docTypeList,
+                ),
+              );
             },
           );
         } catch (e) {

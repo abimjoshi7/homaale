@@ -14,7 +14,7 @@ class AddKycReq {
   });
 
   final int? kyc;
-  final String? documentType;
+  final int? documentType;
   final String? documentId;
   final MultipartFile? file;
   final String? issuerOrganization;
@@ -24,7 +24,7 @@ class AddKycReq {
 
   factory AddKycReq.fromJson(Map<String, dynamic> json) => AddKycReq(
         kyc: json["kyc"] as int?,
-        documentType: json["document_type"] as String?,
+        documentType: json["document_type"] as int?,
         documentId: json["document_id"] as String?,
         file: json["file"] as MultipartFile,
         issuerOrganization: json["issuer_organization"] as String?,
