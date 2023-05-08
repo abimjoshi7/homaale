@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'views/views.dart';
 
-class MyTransactions extends StatelessWidget {
-  static const routeName = "/my-transactions";
-  const MyTransactions({super.key});
+class MyTransactionsPage extends StatelessWidget {
+  static const routeName = "/my-transactions-page";
+  const MyTransactionsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

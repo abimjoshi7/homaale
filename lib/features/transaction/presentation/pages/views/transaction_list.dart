@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/transaction/presentation/widgets/transaction_card.dart';
@@ -69,6 +66,9 @@ class _TransactionListState extends State<TransactionList> {
       ),
       child: BlocConsumer<TransactionBloc, TransactionState>(
         listener: (context, state) {
+          if (state.theStates == TheStates.loading) {
+            _controller.refresh();
+          }
           if (state.theStates == TheStates.failure) {
             _controller.error = 'Error';
           }
