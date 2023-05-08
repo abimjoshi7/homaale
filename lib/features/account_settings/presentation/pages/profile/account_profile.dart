@@ -11,6 +11,7 @@ import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
+import 'package:cipher/features/transaction/presentation/pages/my_transactions.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,6 +83,22 @@ class _AccountProfileState extends State<AccountProfile>
                 Icons.settings,
               ),
               label: 'Settings',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  MyTransactions.routeName,
+                );
+              },
+              icon: const Icon(
+                Icons.wifi_protected_setup_sharp,
+              ),
+              label: 'Transactions',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,

@@ -60,6 +60,7 @@ import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
+import 'package:cipher/features/transaction/presentation/pages/my_transactions.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
@@ -415,6 +416,11 @@ class AppRouter {
       case EventDetailsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const EventDetailsPage(),
+          settings: settings,
+        );
+      case MyTransactions.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const MyTransactions(),
           settings: settings,
         );
       default:
