@@ -3,46 +3,49 @@ part of 'bookings_bloc.dart';
 enum BookingType { all, task, service }
 
 class BookingsState extends Equatable {
-  final TheStates? states;
-  final booking.Result? result;
-  final booking.MyBookingListModel? myBookingListModelTask;
-  final booking.MyBookingListModel? myBookingListModelService;
-  final BookingHistoryRes? bookingHistoryRes;
-  final BookingType? bookingType;
-  final EditBookingRes? editBookingRes;
-  final bool? isLoaded;
-  final bool? isBooked;
-  final bool? isUpdated;
-  final bool? isApproved;
-  final bool? isCancelled;
-  final bool? isDeleted;
-  final bool? isRejected;
+  final TheStates states;
+  final booking.Result result;
+  final BookingHistoryRes myBookingListModelTask;
+  final BookingHistoryRes myBookingListModelService;
+  final booking.MyBookingListModel myBookingListModel;
+  final BookingHistoryRes bookingHistoryRes;
+  final BookingType bookingType;
+  final EditBookingRes editBookingRes;
+  final bool isLoaded;
+  final bool isBooked;
+  final bool isUpdated;
+  final bool isApproved;
+  final bool isCancelled;
+  final bool isDeleted;
+  final bool isRejected;
 
   const BookingsState({
     this.states = TheStates.initial,
-    this.result,
-    this.myBookingListModelTask,
-    this.myBookingListModelService,
+    this.result = const booking.Result(),
+    this.myBookingListModelTask = const BookingHistoryRes(),
+    this.myBookingListModelService = const BookingHistoryRes(),
     this.bookingType = BookingType.all,
-    this.editBookingRes,
-    this.isLoaded,
-    this.isBooked,
-    this.isUpdated,
-    this.bookingHistoryRes,
-    this.isApproved,
-    this.isCancelled,
+    this.editBookingRes = const EditBookingRes(),
+    this.bookingHistoryRes = const BookingHistoryRes(),
+    this.myBookingListModel = const booking.MyBookingListModel(),
+    this.isLoaded = false,
+    this.isBooked = false,
+    this.isUpdated = false,
+    this.isApproved = false,
+    this.isCancelled = false,
     this.isDeleted = false,
-    this.isRejected,
+    this.isRejected = false,
   });
 
   BookingsState copyWith({
     TheStates? states,
     booking.Result? result,
-    booking.MyBookingListModel? myBookingListModelTask,
-    booking.MyBookingListModel? myBookingListModelService,
+    BookingHistoryRes? myBookingListModelTask,
+    BookingHistoryRes? myBookingListModelService,
     BookingType? bookingType,
     BookingHistoryRes? bookingHistoryRes,
     EditBookingRes? editBookingRes,
+    booking.MyBookingListModel? myBookingListModel,
     bool? isLoaded,
     bool? isBooked,
     bool? isUpdated,
@@ -54,6 +57,7 @@ class BookingsState extends Equatable {
     return BookingsState(
       states: states ?? this.states,
       result: result ?? this.result,
+      myBookingListModel: myBookingListModel ?? this.myBookingListModel,
       myBookingListModelTask: myBookingListModelTask ?? this.myBookingListModelTask,
       myBookingListModelService: myBookingListModelService ?? this.myBookingListModelService,
       bookingHistoryRes: bookingHistoryRes ?? this.bookingHistoryRes,
@@ -77,6 +81,7 @@ class BookingsState extends Equatable {
       myBookingListModelTask,
       myBookingListModelService,
       bookingHistoryRes,
+      myBookingListModel,
       bookingType,
       editBookingRes,
       isLoaded,

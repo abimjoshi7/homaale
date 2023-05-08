@@ -19,6 +19,16 @@ class BookingLoaded extends BookingsEvent {
   List<Object?> get props => [isTask, status, page];
 }
 
+class MyBookingLoaded extends BookingsEvent {
+  final int? page;
+  const MyBookingLoaded({
+    this.page,
+  });
+
+  @override
+  List<Object?> get props => [page];
+}
+
 class BookingSingleLoaded extends BookingsEvent {
   final int id;
 

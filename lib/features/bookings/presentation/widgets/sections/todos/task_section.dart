@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
+import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
@@ -44,15 +44,15 @@ class _TaskSectionState extends State<TaskSection> {
     return BlocListener<BookingsBloc, BookingsState>(
       bloc: bookingsBloc,
       listener: (context, state) {
-        if ((state.isUpdated ?? false) || (state.isCancelled ?? false) || (state.isRejected ?? false)) {
+        if ((state.isUpdated) || (state.isCancelled) || (state.isRejected)) {
           _pagingController.refresh();
         }
 
         if (state.states == TheStates.success) {
-          todoList = state.myBookingListModelTask!.result!;
+          todoList = state.myBookingListModelTask.result!;
 
-          final lastPage = state.myBookingListModelTask!.totalPages!;
-          final next = 1 + state.myBookingListModelTask!.current!;
+          final lastPage = state.myBookingListModelTask.totalPages!;
+          final next = 1 + state.myBookingListModelTask.current!;
 
           if (next > lastPage) {
             _pagingController.appendLastPage(todoList);
@@ -76,76 +76,19 @@ class _TaskSectionState extends State<TaskSection> {
                   builderDelegate: PagedChildBuilderDelegate(
                     itemBuilder: (context, Result item, index) => BookingsServiceCard(
                       callback: () {
-                        BlocProvider.of<BookingsBloc>(context).add(
-                          BookingSingleLoaded(item.id ?? 0),
-                        );
-                        Navigator.pushNamed(
-                          context,
-                          BookedServicePage.routeName,
-                        );
+                        // BlocProvider.of<BookingsBloc>(context).add(
+                        //   BookingSingleLoaded(item. ?? 0),
+                        // );
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   BookedServicePage.routeName,
+                        // );
                       },
-                      editTap: () async {
-                        if (item.status?.toLowerCase() == 'pending') {
-                          Navigator.pop(context);
-                          showEditForm(context, index);
-                        } else {
-                          Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomToast(
-                                heading: 'Warning',
-                                content: 'The task is already ${item.status?.toLowerCase()}. Cannot be edited!',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                isSuccess: true),
-                          );
-                        }
-                      },
-                      deleteTap: () {
-                        if (item.status?.toLowerCase() == 'pending') {
-                          bookingsBloc.add(
-                            BookingRejected(rejectReq: RejectReq(booking: item.id ?? 0), isTask: true),
-                          );
-                          Navigator.pop(context);
-                        } else {
-                          Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomToast(
-                                heading: 'Warning',
-                                content: 'The task is already ${item.status?.toLowerCase()}. Cannot be removed!',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                isSuccess: true),
-                          );
-                        }
-                      },
-                      cancelTap: () {
-                        if (item.status?.toLowerCase() == 'pending') {
-                          bookingsBloc.add(
-                            BookingCancelled(id: item.id ?? 0, isTask: true),
-                          );
-                          Navigator.pop(context);
-                        } else {
-                          Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomToast(
-                                heading: 'Warning',
-                                content: 'The task is already ${item.status?.toLowerCase()}. Cannot be cancelled!',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                isSuccess: true),
-                          );
-                        }
-                      },
-                      serviceName: item.entityService?.title,
-                      providerName: "${item.createdBy?.user?.firstName} ${item.createdBy?.user?.lastName}",
+                      serviceName: item.title,
+                      providerName: "${item.assigner?.firstName} ${item.assigner?.lastName}",
                       mainContentWidget: showBookingDetails(item),
                       status: item.status,
+                      hidePopupButton: true,
                       bottomRightWidget: displayPrice(item),
                     ),
                   ),
@@ -171,7 +114,7 @@ class _TaskSectionState extends State<TaskSection> {
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
                   label: DateFormat.yMMMEd().format(
-                    result.createdAt ?? DateTime.now(),
+                    DateTime.parse(result.createdAt ?? DateTime.now().toString()),
                   ),
                   color: kColorBlue,
                 ),
@@ -203,7 +146,7 @@ class _TaskSectionState extends State<TaskSection> {
     return Column(
       children: [
         Text(
-          "Rs. ${Decimal.parse(result.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
+          "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",
           // style: kText17,
         ),
         const Text(
@@ -211,31 +154,6 @@ class _TaskSectionState extends State<TaskSection> {
           // style: kHelper13,
         ),
       ],
-    );
-  }
-
-  Future<dynamic> showEditForm(BuildContext context, int index) {
-    return Future.delayed(
-      Duration.zero,
-      () async => showModalBottomSheet(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.7,
-        ),
-        isScrollControlled: true,
-        context: context,
-        builder: (context) => Column(
-          children: [
-            CustomModalSheetDrawerIcon(),
-            Expanded(
-              child: EditMyOrdersForm(
-                selectedIndex: index,
-                isTask: true,
-                bookingsBloc: bookingsBloc,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -40,7 +40,25 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchMyBookingsList({bool? isTask, String? status, int? page}) async {
+  // API to show waiting list in box view
+  Future<Map<String, dynamic>> fetchMyBookingsList({int? page}) async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        query: {
+          "page": page,
+          "is_accepted": false,
+          "status": "pending",
+        },
+        url: kMyBookingList,
+        token: CacheHelper.accessToken,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchBookingsList({bool? isTask, String? status, int? page}) async {
     try {
       final x = await _dio.getDatawithCredential(
         query: {
@@ -48,7 +66,7 @@ class BookingRepositories {
           "is_requested": isTask,
           "status": status,
         },
-        url: kMyBookingList,
+        url: 'task/entity/service/task/list/',
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;

@@ -23,7 +23,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         try {
           emit(state.copyWith(states: TheStates.initial));
           await repositories
-              .fetchMyBookingsList(
+              .fetchBookingsList(
             isTask: event.isTask,
             status: event.status,
             page: event.page,
@@ -34,7 +34,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 emit(
                   state.copyWith(
                     states: TheStates.success,
-                    myBookingListModelTask: booking.MyBookingListModel.fromJson(value),
+                    myBookingListModelTask: BookingHistoryRes.fromJson(value),
                     isLoaded: true,
                     isUpdated: false,
                     isCancelled: false,
@@ -45,7 +45,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
                 emit(
                   state.copyWith(
                     states: TheStates.success,
-                    myBookingListModelService: booking.MyBookingListModel.fromJson(value),
+                    myBookingListModelService: BookingHistoryRes.fromJson(value),
                     isLoaded: true,
                     isUpdated: false,
                     isCancelled: false,
@@ -57,6 +57,36 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           );
         } catch (e) {
           log('bookings loaded error:' + e.toString());
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+              isLoaded: false,
+            ),
+          );
+        }
+      },
+    );
+
+    on<MyBookingLoaded>(
+      (event, emit) async {
+        try {
+          emit(state.copyWith(states: TheStates.initial));
+          await repositories.fetchMyBookingsList(page: event.page).then(
+            (value) {
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  myBookingListModel: booking.MyBookingListModel.fromJson(value),
+                  isLoaded: true,
+                  isUpdated: false,
+                  isCancelled: false,
+                  isRejected: false,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          log('my bookings loaded error:' + e.toString());
           emit(
             state.copyWith(
               states: TheStates.failure,
@@ -131,7 +161,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
             },
           ).whenComplete(
-            () => add(BookingLoaded(isTask: event.isTask, page: 1)),
+            () => add(MyBookingLoaded(page: 1)),
           );
         } catch (e) {
           emit(
@@ -181,8 +211,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             },
           ).whenComplete(
             () => add(
-              BookingLoaded(
-                isTask: event.isTask,
+              MyBookingLoaded(
                 page: 1,
               ),
             ),
@@ -214,8 +243,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               )
               .whenComplete(
                 () => add(
-                  BookingLoaded(
-                    isTask: event.isTask,
+                  MyBookingLoaded(
                     page: 1,
                   ),
                 ),
@@ -246,8 +274,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               )
               .whenComplete(
                 () => add(
-                  BookingLoaded(
-                    isTask: event.isTask,
+                  MyBookingLoaded(
                     page: 1,
                   ),
                 ),

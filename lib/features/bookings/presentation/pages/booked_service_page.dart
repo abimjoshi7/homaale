@@ -36,7 +36,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
               ),
             );
           } else if (state.states == TheStates.success) {
-            final booking = state.result!;
+            final booking = state.result;
             final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
 
             return Column(

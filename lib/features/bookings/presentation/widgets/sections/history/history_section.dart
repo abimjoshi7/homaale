@@ -44,10 +44,10 @@ class _HistorySectionState extends State<HistorySection> {
       bloc: bookingsBloc,
       listener: (context, state) {
         if (state.states == TheStates.success) {
-          historyList = state.bookingHistoryRes!.result!;
+          historyList = state.bookingHistoryRes.result!;
 
-          final lastPage = state.bookingHistoryRes!.totalPages!;
-          final next = 1 + state.bookingHistoryRes!.current!;
+          final lastPage = state.bookingHistoryRes.totalPages!;
+          final next = 1 + state.bookingHistoryRes.current!;
 
           if (next > lastPage) {
             _pagingController.appendLastPage(historyList);
