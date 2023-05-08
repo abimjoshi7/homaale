@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/dio/types/either.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
@@ -21,26 +22,33 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     this.repositories,
   ) : super(const KycState(theStates: TheStates.initial)) {
     on<KycProfileInitiated>((event, emit) async {
-      List<Country> _countriesList = [];
-      final kycRes = await repositories.getKyc();
-      final _countries = await repositories.getCountriesList();
-      for (final country in _countries) {
-        _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
-      }
-      log("RES: $kycRes");
-      if (kycRes != null) {
-        emit(
-          state.copyWith(
+      if (state.kycModel == null) {
+        List<Country> _countriesList = [];
+        final kycRes = await repositories.getKyc();
+        final _countries = await repositories.getCountriesList();
+        for (final country in _countries) {
+          _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
+        }
+        log("RES: $kycRes");
+        if (kycRes != null) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+              kycModel: KycModel.fromJson(kycRes),
+              country: _countriesList,
+            ),
+          );
+        }
+        if (kycRes == null) {
+          emit(state.copyWith(
             theStates: TheStates.initial,
-            kycModel: KycModel.fromJson(kycRes),
             country: _countriesList,
-          ),
-        );
-      }
-      if (kycRes == null) {
+          ));
+        }
+      } else {
         emit(state.copyWith(
           theStates: TheStates.initial,
-          country: _countriesList,
+          isCreated: false,
         ));
       }
     });
@@ -57,6 +65,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           if (res != null) {
             emit(
               state.copyWith(
+                theStates: TheStates.success,
                 isCreated: true,
               ),
             );
@@ -67,6 +76,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isCreated: false,
               errMsg: err,
             ),
           );
@@ -86,7 +96,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           emit(
             state.copyWith(
               theStates: TheStates.success,
-              isCreated: false,
+              isCreated: true,
             ),
           );
         } catch (e) {
@@ -143,11 +153,12 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           );
           await repositories.getKycDocument().then(
             (value) {
+              // log("kyc doc: $value");
               emit(
                 state.copyWith(
                   list: value
                       .map(
-                        (e) => KycListRes.fromJson(e),
+                        (e) => KycListRes.fromJson(e as Map<String, dynamic>),
                       )
                       .toList(),
                 ),

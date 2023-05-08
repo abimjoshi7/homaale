@@ -7,6 +7,7 @@ import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -64,14 +65,18 @@ class _KycProfileState extends State<KycProfile> {
             ),
             BlocConsumer<KycBloc, KycState>(
               listener: (_, state) async {
-                if (state.theStates == TheStates.success) {
+                if (state.theStates == TheStates.success &&
+                    state.isCreated == true) {
                   await showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (_) => CustomToast(
                       heading: "Success",
                       content: "Tasker Profile Filled Successfully.",
-                      onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
+                      onTap: () async {
+                        context.read<KycBloc>().add(KycProfileInitiated());
+
+                        await Navigator.pushNamedAndRemoveUntil(
                           context,
                           KycDetails.routeName,
                           (route) => false,
@@ -81,7 +86,8 @@ class _KycProfileState extends State<KycProfile> {
                     ),
                   );
                 }
-                if (state.theStates == TheStates.failure) {
+                if (state.theStates == TheStates.failure &&
+                    state.isCreated == false) {
                   await showDialog(
                     context: context,
                     builder: (_) => CustomToast(
@@ -181,7 +187,9 @@ class _KycProfileState extends State<KycProfile> {
                                   ? state.kycModel!.isCompany ?? true
                                       ? _userType[1]
                                       : _userType[0]
-                                  : null,
+                                  : _isCompany
+                                      ? _userType[1]
+                                      : _userType[0],
                               list: _userType,
                               hintText: 'Select User Type',
                               onChanged: (state.kycModel != null)
@@ -261,9 +269,11 @@ class _KycProfileState extends State<KycProfile> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: CustomElevatedButton(
                                   callback: () async {
-                                    if (state.theStates != TheStates.initial)
-                                      return;
-                                    if (state.theStates != null) return;
+                                    log("state test: ${state.theStates}");
+                                    // if (state.theStates != TheStates.initial)
+                                    //   return;
+                                    // if (state.theStates != null) return;
+
                                     if (selectedImage == null ||
                                         _countryController.text.isEmpty) {
                                       await showDialog(
@@ -328,7 +338,16 @@ class _KycProfileState extends State<KycProfile> {
         child: CustomDropDownField<String>(
             list: state.country!.map((country) => country.name!).toList(),
             hintText: 'Select Country',
-            initialValue: state.kycModel!.country!.name ?? null,
+            selectedIndex: (state.kycModel != null)
+                ? state.country!.indexOf(state.country!
+                    .firstWhere((e) => e == state.kycModel!.country!))
+                : _countryController.text.isNotEmpty
+                    ? state.country!.indexOf(
+                        state.country!.firstWhere(
+                          (e) => e.code!.contains(_countryController.text),
+                        ),
+                      )
+                    : null,
             onChanged: (state.kycModel != null)
                 ? null
                 : (value) {

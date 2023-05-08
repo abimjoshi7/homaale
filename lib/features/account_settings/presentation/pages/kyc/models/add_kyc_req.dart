@@ -1,4 +1,3 @@
-
 import 'package:dependencies/dependencies.dart';
 
 class AddKycReq {
@@ -41,8 +40,9 @@ class AddKycReq {
         "issuer_organization": issuerOrganization,
         "issued_date":
             "${issuedDate!.year.toString().padLeft(4, '0')}-${issuedDate!.month.toString().padLeft(2, '0')}-${issuedDate!.day.toString().padLeft(2, '0')}",
-        "valid_through":
-            "${validThrough!.year.toString().padLeft(4, '0')}-${validThrough!.month.toString().padLeft(2, '0')}-${validThrough!.day.toString().padLeft(2, '0')}",
+        "valid_through": (validThrough != null)
+            ? "${validThrough!.year.toString().padLeft(4, '0')}-${validThrough!.month.toString().padLeft(2, '0')}-${validThrough!.day.toString().padLeft(2, '0')}"
+            : null,
         "is_company": isCompany,
       };
 }

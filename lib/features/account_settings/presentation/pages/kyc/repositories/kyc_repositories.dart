@@ -77,13 +77,13 @@ class KycRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getKycDocument() async {
+  Future<List<dynamic>> getKycDocument() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/kyc-document/',
         token: CacheHelper.accessToken,
       );
-      return List<Map<String, dynamic>>.from(x as Iterable);
+      return x as List<dynamic>;
     } catch (e) {
       rethrow;
     }

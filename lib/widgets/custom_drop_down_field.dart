@@ -42,9 +42,11 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
       ),
       iconSize: 14,
       isExpanded: true,
-			
+
       // focusColor: kColorGrey,
-      value: widget.initialValue,
+      value: widget.selectedIndex != null
+          ? widget.list[widget.selectedIndex!]
+          : widget.initialValue,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(5),
         hintText: widget.hintText,

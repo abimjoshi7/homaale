@@ -37,9 +37,9 @@ class _KycDetailsState extends State<KycDetails> {
       ..add(
         KycModelLoaded(),
       )
-      // ..add(
-      //   KycDocumentLoaded(),
-      // )
+      ..add(
+        KycDocumentLoaded(),
+      )
       ..add(
         KycDocTypeLoaded(),
       );
@@ -50,7 +50,7 @@ class _KycDetailsState extends State<KycDetails> {
     identityTypeController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
-    // file?.delete();
+    file?.delete();
     super.dispose();
   }
 
@@ -68,8 +68,9 @@ class _KycDetailsState extends State<KycDetails> {
       listener: (context, state) async {
         if (state.theStates == TheStates.success && state.isCreated == true) {
           await showDialog(
+            barrierDismissible: false,
             context: context,
-            builder: (context) => CustomToast(
+            builder: (_) => CustomToast(
               heading: "Success",
               content: "Kyc document uploaded successfully",
               onTap: () {
@@ -90,7 +91,7 @@ class _KycDetailsState extends State<KycDetails> {
           //     );
           await showDialog(
             context: context,
-            builder: (context) => CustomToast(
+            builder: (_) => CustomToast(
               heading: "Failure",
               content: state.errMsg ?? "Kyc document cannot be uploaded",
               onTap: () {},
@@ -141,24 +142,30 @@ class _KycDetailsState extends State<KycDetails> {
                             label: 'Identity number',
                             isRequired: true,
                             child: CustomTextFormField(
-                              // readOnly: state.list?.length != 0,
-                              // hintText: state.list?.length == 0
-                              //     ? ""
-                              //     : state.list?.first.documentId ?? "",
+                              readOnly: state.list?.length != 0,
+                              hintText: state.list?.length == 0
+                                  ? ""
+                                  : state.list?.first.documentId ?? "",
                               validator: validateNotEmpty,
                               controller: identityNumberController,
+                              hintStyle: (state.list?.length != 0)
+                                  ? TextStyle(color: Colors.grey.shade500)
+                                  : null,
                             ),
                           ),
                           CustomFormField(
                             label: 'Issuer Organization',
                             isRequired: true,
                             child: CustomTextFormField(
-                              // readOnly: state.list?.length != 0,
-                              // hintText: state.list?.length == 0
-                              //     ? ""
-                              //     : state.list?.first.issuerOrganization ?? "",
+                              readOnly: state.list?.length != 0,
+                              hintText: state.list?.length == 0
+                                  ? ""
+                                  : state.list?.first.issuerOrganization ?? "",
                               validator: validateNotEmpty,
                               controller: issuedFromController,
+                              hintStyle: (state.list?.length != 0)
+                                  ? TextStyle(color: Colors.grey.shade500)
+                                  : null,
                             ),
                           ),
                           Row(
@@ -168,40 +175,43 @@ class _KycDetailsState extends State<KycDetails> {
                                   label: 'Issued Date',
                                   isRequired: true,
                                   child: CustomFormContainer(
-                                    hintText:
-                                        // state.list?.length == 0
-                                        //     ?
-                                        issuedDate != null
+                                    hintText: state.list?.length == 0
+                                        ? issuedDate != null
                                             ? DateFormat("yyyy-MM-dd").format(
                                                 issuedDate!,
                                               )
                                             : "yyyy-mm-dd"
-                                    // : state.list?.first.issuedDate != null
-                                    //     ? DateFormat("yyyy-MM-dd").format(
-                                    //         state.list!.first.issuedDate!,
-                                    //       )
-                                    //     : "No date available"
-                                    ,
+                                        : state.list?.first.issuedDate != null
+                                            ? DateFormat("yyyy-MM-dd").format(
+                                                state.list!.first.issuedDate!,
+                                              )
+                                            : "No Date",
                                     leadingWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: () async {
-                                      await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(1950),
-                                        lastDate: DateTime(
-                                          2080,
-                                        ),
-                                      ).then(
-                                        (value) => setState(
-                                          () {
-                                            issuedDate = value;
-                                          },
-                                        ),
-                                      );
-                                    },
+                                    hintStyle: (state.list?.length != 0)
+                                        ? TextStyle(color: Colors.grey.shade500)
+                                        : null,
+                                    callback:
+                                        state.list?.first.issuedDate != null
+                                            ? null
+                                            : () async {
+                                                await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(1950),
+                                                  lastDate: DateTime(
+                                                    2080,
+                                                  ),
+                                                ).then(
+                                                  (value) => setState(
+                                                    () {
+                                                      issuedDate = value;
+                                                    },
+                                                  ),
+                                                );
+                                              },
                                   ),
                                 ),
                               ),
@@ -210,47 +220,49 @@ class _KycDetailsState extends State<KycDetails> {
                                 child: CustomFormField(
                                   label: 'Valid Till',
                                   child: CustomFormContainer(
-                                    hintText:
-                                        // state.list?.length == 0
-                                        //     ?
-                                        expiryDate != null
+                                    hintText: state.list?.length == 0
+                                        ? expiryDate != null
                                             ? DateFormat("yyyy-MM-dd").format(
                                                 expiryDate!,
                                               )
                                             : "yyyy-mm-dd"
-                                    // : state.list?.first.validThrough != null
-                                    //     ? DateFormat("yyyy-MM-dd").format(
-                                    //         state.list!.first.validThrough!,
-                                    //       )
-                                    //     : "No date available"
-                                    ,
+                                        : state.list?.first.validThrough != null
+                                            ? DateFormat("yyyy-MM-dd").format(
+                                                state.list!.first.validThrough!,
+                                              )
+                                            : "No Date",
                                     leadingWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: !hasDocExpiryDate
+                                    callback: state.list?.first.issuedDate !=
+                                            null
                                         ? null
-                                        : () async {
-                                            await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1950),
-                                              lastDate: DateTime(
-                                                2080,
-                                              ),
-                                            ).then(
-                                              (value) => setState(
-                                                () {
-                                                  expiryDate = value;
-                                                },
-                                              ),
-                                            );
-                                          },
-                                    hintStyle: TextStyle(
-                                      color: !hasDocExpiryDate
-                                          ? Colors.grey.shade400
-                                          : kHelper13.color,
-                                    ),
+                                        : !hasDocExpiryDate
+                                            ? null
+                                            : () async {
+                                                await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(1950),
+                                                  lastDate: DateTime(
+                                                    2080,
+                                                  ),
+                                                ).then(
+                                                  (value) => setState(
+                                                    () {
+                                                      expiryDate = value;
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                    hintStyle: (state.list?.length != 0)
+                                        ? TextStyle(color: Colors.grey.shade500)
+                                        : TextStyle(
+                                            color: !hasDocExpiryDate
+                                                ? Colors.grey.shade400
+                                                : kHelper13.color,
+                                            overflow: TextOverflow.ellipsis),
                                   ),
                                 ),
                               ),
@@ -261,14 +273,24 @@ class _KycDetailsState extends State<KycDetails> {
                             child: Row(
                               children: <Widget>[
                                 CustomCheckBox(
-                                  isChecked: hasDocExpiryDate ? false : true,
-                                  onTap: () {
-                                    setState(
-                                      () {
-                                        hasDocExpiryDate = !hasDocExpiryDate;
-                                      },
-                                    );
-                                  },
+                                  isChecked: state.list?.first.issuedDate !=
+                                          null
+                                      ? state.list?.first.validThrough != null
+                                          ? false
+                                          : true
+                                      : hasDocExpiryDate
+                                          ? false
+                                          : true,
+                                  onTap: state.list?.first.issuedDate != null
+                                      ? null
+                                      : () {
+                                          setState(
+                                            () {
+                                              hasDocExpiryDate =
+                                                  !hasDocExpiryDate;
+                                            },
+                                          );
+                                        },
                                 ),
                                 addHorizontalSpace(10),
                                 Flexible(
@@ -300,30 +322,33 @@ class _KycDetailsState extends State<KycDetails> {
                                   ],
                                 ),
                                 InkWell(
-                                  onTap: () async {
-                                    await FilePickHelper.filePicker().then(
-                                      (value) => setState(
-                                        () {
-                                          file = value;
+                                  onTap: state.list?.length != 0
+                                      ? null
+                                      : () async {
+                                          await FilePickHelper.filePicker()
+                                              .then(
+                                            (value) => setState(
+                                              () {
+                                                file = value;
+                                              },
+                                            ),
+                                          );
                                         },
-                                      ),
-                                    );
-                                  },
                                   child: file == null
-                                      // ? state.list?.length == 0
-                                      ? CustomDottedContainerStack()
-                                      // : ConstrainedBox(
-                                      //     constraints:
-                                      //         BoxConstraints.expand(
-                                      //       height: 200,
-                                      //       width: double.maxFinite,
-                                      //     ),
-                                      //     child: Image.network(
-                                      //       state.list?.first.file ??
-                                      //           kNoImageNImg,
-                                      //       fit: BoxFit.cover,
-                                      //     ),
-                                      //   )
+                                      ? state.list?.length == 0
+                                          ? CustomDottedContainerStack()
+                                          : ConstrainedBox(
+                                              constraints:
+                                                  BoxConstraints.expand(
+                                                height: 200,
+                                                width: double.maxFinite,
+                                              ),
+                                              child: Image.network(
+                                                state.list?.first.file ??
+                                                    kNoImageNImg,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            )
                                       : ConstrainedBox(
                                           constraints: BoxConstraints.expand(
                                             height: 200,
@@ -365,7 +390,7 @@ class _KycDetailsState extends State<KycDetails> {
                                           file!.path,
                                         ),
                                       );
-                                      log("Add KYC Req: ${state.theStates}");
+
                                       context.read<KycBloc>().add(
                                             KycAdded(addKycReq: x),
                                           );
@@ -396,19 +421,28 @@ class _KycDetailsState extends State<KycDetails> {
         isRequired: true,
         child: CustomDropDownField<String>(
           list: state.docTypeList!.map((e) => e.name!).toList(),
-          onChanged: (value) {
-            setState(
-              () {
-                identityTypeController.text = state.docTypeList!
-                    .where(
-                      (e) => e.name!.contains(value.toString()),
-                    )
-                    .first
-                    .id
-                    .toString();
-              },
-            );
-          },
+          selectedIndex: state.list?.first.issuedDate != null
+              ? state.docTypeList!.indexWhere(
+                  (e) => e.name!.contains(
+                    state.list!.first.documentType!.name.toString(),
+                  ),
+                )
+              : null,
+          onChanged: state.list?.first.issuedDate != null
+              ? null
+              : (value) {
+                  setState(
+                    () {
+                      identityTypeController.text = state.docTypeList!
+                          .where(
+                            (e) => e.name!.contains(value.toString()),
+                          )
+                          .first
+                          .id
+                          .toString();
+                    },
+                  );
+                },
           hintText: "Choose document type",
         ),
       );
