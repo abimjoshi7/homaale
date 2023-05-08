@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/transaction/presentation/widgets/transaction_card.dart';
@@ -6,10 +9,21 @@ import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class TransactionList extends StatelessWidget {
+class TransactionList extends StatefulWidget {
   const TransactionList({
     super.key,
   });
+
+  @override
+  State<TransactionList> createState() => _TransactionListState();
+}
+
+class _TransactionListState extends State<TransactionList> {
+  List<Transactions> list = [];
+
+  final PagingController<int, Transactions> _controller = PagingController(
+    firstPageKey: 1,
+  );
 
   Color _buildColor(Transactions transactions, UserState user) {
     if (transactions.receiver!.fullName!
@@ -30,12 +44,48 @@ class TransactionList extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller.addPageRequestListener(
+      (pageKey) => context.read<TransactionBloc>().add(
+            TransactionLoaded(
+              pageNumber: pageKey,
+            ),
+          ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4),
-      child: BlocBuilder<TransactionBloc, TransactionState>(
+      padding: const EdgeInsets.all(
+        8,
+      ),
+      child: BlocConsumer<TransactionBloc, TransactionState>(
+        listener: (context, state) {
+          if (state.theStates == TheStates.failure) {
+            _controller.error = 'Error';
+          }
+
+          if (state.theStates == TheStates.success) {
+            list = state.res!.result!;
+            final lastPage = state.res!.totalPages!;
+            final next = 1 + state.res!.current!;
+
+            if (next > lastPage) {
+              _controller.appendLastPage(list);
+            } else {
+              _controller.appendPage(list, next);
+            }
+          }
+        },
         builder: (context, state) {
-          final transactions = state.res?.result;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,29 +94,32 @@ class TransactionList extends StatelessWidget {
                 style: kHelper13,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) => TransactionCard(
-                    leadingWidget: Image.network(
-                        transactions?[index].paymentMethod?.logo ?? ""),
-                    actionName:
-                        transactions?[index].transactionType?.toCapitalized(),
-                    actionFrom: transactions?[index].paymentMethod?.name,
-                    price: transactions?[index].amount,
-                    priceColor: _buildColor(
-                      transactions?[index] ?? Transactions(),
-                      context.read<UserBloc>().state,
+                child: PagedListView(
+                  pagingController: _controller,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, Transactions item, index) =>
+                        TransactionCard(
+                      leadingWidget: Image.network(
+                        item.paymentMethod?.logo ?? kNoImageNImg,
+                      ),
+                      actionName: item.transactionType?.toCapitalized(),
+                      actionFrom: item.paymentMethod?.name,
+                      price: item.amount,
+                      priceColor: _buildColor(
+                        item,
+                        context.read<UserBloc>().state,
+                      ),
+                      priceIcon: _buildIcon(
+                        item,
+                        context.read<UserBloc>().state,
+                      ),
+                      time: "${DateFormat.yMMMd().format(
+                        item.createdAt ?? DateTime.now(),
+                      )}  ${DateFormat.jm().format(
+                        item.createdAt ?? DateTime.now(),
+                      )}",
                     ),
-                    priceIcon: _buildIcon(
-                      transactions?[index] ?? Transactions(),
-                      context.read<UserBloc>().state,
-                    ),
-                    time: "${DateFormat.yMMMd().format(
-                      transactions?[index].createdAt ?? DateTime.now(),
-                    )} ${DateFormat.jm().format(
-                      transactions?[index].createdAt ?? DateTime.now(),
-                    )}",
                   ),
-                  itemCount: state.res?.result?.length ?? 0,
                 ),
               )
             ],

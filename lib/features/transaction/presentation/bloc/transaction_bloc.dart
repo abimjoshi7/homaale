@@ -17,7 +17,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<TransactionLoaded>(
       (event, emit) async {
         try {
-          await repo.getTransactions().then(
+          await repo.getTransactions(event.pageNumber).then(
                 (value) => emit(
                   state.copyWith(
                     res: TransactionsRes.fromJson(

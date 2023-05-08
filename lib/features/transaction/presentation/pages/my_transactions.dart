@@ -1,14 +1,7 @@
-import 'package:cipher/core/constants/colors.dart';
-import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/transaction_card.dart';
 import 'views/views.dart';
 
 class MyTransactions extends StatelessWidget {

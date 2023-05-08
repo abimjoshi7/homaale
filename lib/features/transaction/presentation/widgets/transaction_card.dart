@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -43,17 +44,38 @@ class TransactionCard extends StatelessWidget {
             ),
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context
+                        .read<ThemeBloc>()
+                        .state
+                        .toString()
+                        .contains("ThemeLight") ==
+                    true
+                ? Colors.white
+                : Colors.black,
             borderRadius: BorderRadius.circular(
               8,
             ),
             border: Border.all(
-              color: Colors.white60,
+              color: context
+                          .read<ThemeBloc>()
+                          .state
+                          .toString()
+                          .contains("ThemeLight") ==
+                      true
+                  ? Colors.white60
+                  : Colors.black87,
             ),
             boxShadow: [
               BoxShadow(
                 offset: Offset(0.2, 2),
-                color: Colors.black12,
+                color: context
+                            .read<ThemeBloc>()
+                            .state
+                            .toString()
+                            .contains("ThemeLight") ==
+                        true
+                    ? Colors.black12
+                    : Colors.white12,
                 spreadRadius: 1.5,
                 blurRadius: 0.5,
               ),
