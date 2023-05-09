@@ -75,7 +75,7 @@ class TabFilterSection extends StatelessWidget {
               child: CustomDropDownField(
                 borderRadius: 20,
                 onChanged: stringCallback,
-                list: bookingDropDownStrings,
+                list: kBookingDropDownStrings,
               ),
             ),
             const Padding(

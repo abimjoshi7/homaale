@@ -106,23 +106,26 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           ],
                         ),
                       ),
-                    ).then(
-                      (value) async => await ImagePickHelper()
-                          .pickImagePath(
-                        isCamera: isCamera,
-                      )
-                          .then(
-                        (value) {
-                          if (value != null) {
-                            setState(
-                              () {
-                                selectedImage = value;
-                              },
-                            );
-                          }
-                        },
-                      ),
-                    );
+                    )
+
+                        // .then(
+                        //   (value) async => await MultimediaPickHelper()
+                        //       .pickImagePath(
+                        //     isCamera: isCamera,
+                        //   )
+                        //       .then(
+                        //     (value) {
+                        //       if (value != null) {
+                        //         setState(
+                        //           () {
+                        //             selectedImage = value;
+                        //           },
+                        //         );
+                        //       }
+                        //     },
+                        //   ),
+                        // )
+                        ;
                   },
                   child: Column(
                     children: [
@@ -862,10 +865,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   label: 'Task Preferences',
                   isRequired: true,
                   child: CustomDropDownField<String>(
-                    list: const [
-                      'Long-Term Tasks',
-                      'Short-Term Tasks',
-                    ],
+                    list: kTaskPrefList,
                     onChanged: (value) => setState(
                       () {
                         taskPreferencesController.text = value!;

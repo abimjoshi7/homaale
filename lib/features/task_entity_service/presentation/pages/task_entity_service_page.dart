@@ -7,6 +7,7 @@ import 'package:cipher/features/bookings/presentation/pages/service_booking_page
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
@@ -143,7 +144,20 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                         ],
                         AdditionalInfoSection(),
-                        RatingReviewSection(),
+                        BlocBuilder<RatingReviewsBloc, RatingReviewState>(
+                          builder: (context, ratingBloc) {
+                            switch (ratingBloc.status) {
+                              case RatingStatus.success:
+                                return RatingReviewSection(
+                                  reviews: ratingBloc.ratingResponseDto,
+                                );
+                              case RatingStatus.failure:
+                                return SizedBox();
+                              default:
+                                return SizedBox();
+                            }
+                          },
+                        ),
                         if (mediaList.isNotEmpty) ...[
                           addVerticalSpace(10),
                           Text(
@@ -192,9 +206,11 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                 viewportFraction: 0.8,
                                 enableInfiniteScroll: false,
                                 onPageChanged: (index, reason) {
-                                  setState(() {
-                                    _imageIndex = index;
-                                  });
+                                  setState(
+                                    () {
+                                      _imageIndex = index;
+                                    },
+                                  );
                                 },
                               ),
                             ),
@@ -220,7 +236,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             ),
                           ),
                         ],
-                        SimilarEntityServiceSection(),
+                        // SimilarEntityServiceSection(),
                         addVerticalSpace(16),
                         if ((state.taskEntityService?.isBooked ?? false) &&
                             user.state.taskerProfile?.user?.id != state.taskEntityService?.createdBy?.id) ...[

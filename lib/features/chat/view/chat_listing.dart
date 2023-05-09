@@ -103,7 +103,7 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                           );
                                         },
                                         child: Container(
-                                          height: 105,
+                                          height: 108,
                                           width: MediaQuery.of(context).size.width,
                                           padding: EdgeInsets.all(16.0),
                                           child: Row(
@@ -153,6 +153,14 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                                           color: kColorBlue,
                                                         )
                                                       ],
+                                                    ),
+                                                  ),
+                                                  addVerticalSpace(4),
+                                                  SizedBox(
+                                                    width: MediaQuery.of(context).size.width * 0.79,
+                                                    child: Text(
+                                                      '${state.rCl?[index].lastMessage ?? 'Start Conversation'}',
+                                                      style: Theme.of(context).textTheme.bodySmall,
                                                     ),
                                                   ),
                                                 ],

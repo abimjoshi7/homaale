@@ -12,15 +12,15 @@ class NotableBannerSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-         Padding(
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             'Homaale Notable Quality',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         CarouselSliderHelper(
-          list: notableBannerList,
+          list: kNotableBannerList,
         ),
       ],
     );

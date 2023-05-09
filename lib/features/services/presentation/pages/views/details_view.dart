@@ -5,6 +5,7 @@ import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,6 +29,7 @@ class _DetailsViewState extends State<DetailsView> {
 
   late final eventCache = locator<BookEventHandlerBloc>();
   late final imageCubit = locator<ImageUploadCubit>();
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   void dispose() {
@@ -163,122 +165,121 @@ class _DetailsViewState extends State<DetailsView> {
           ),
         ),
         SliverToBoxAdapter(
-          child: CustomFormField(
-            label: 'Images',
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                     Text(
-                      'Maximum Image Size 20 MB',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    addHorizontalSpace(5),
-                    const Icon(
-                      Icons.info_outline,
-                      color: Colors.orange,
-                    ),
-                  ],
-                ),
-                addVerticalSpace(5),
-                InkWell(
-                  onTap: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) => ImagePickerDialog(
-                        uploadCubit: imageCubit,
-                      ),
-                    ).whenComplete(
-                      () => eventCache.add(
-                        BookEventPicked(
-                          req: BookEntityServiceReq(
-                            images: imageList,
-                            endDate: DateTime.parse(eventCache.state.endDate!),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                    listener: (context, state) async {
-                      if (state is ImageUploadSuccess) {
-                        setState(
-                          () async {
-                            imageList = List<int>.from(state.list);
-                          },
-                        );
-                      }
-                    },
-                    child: CustomDottedContainerStack(
-                      theWidget: imageList == null
-                          ? Text('Select Images')
-                          : Text('Image Uploaded'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: CustomFormField(
-            label: 'Videos',
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                     Text(
-                      'Maximum Video Size 20 MB',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    addHorizontalSpace(5),
-                    const Icon(
-                      Icons.info_outline,
-                      color: Colors.orange,
-                    ),
-                  ],
-                ),
-                addVerticalSpace(5),
-                InkWell(
-                  onTap: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) => VideoPickerDialog(
-                        uploadCubit: imageCubit,
-                      ),
-                    ).whenComplete(
-                      () => eventCache.add(
-                        BookEventPicked(
-                          req: BookEntityServiceReq(
-                            videos: fileList,
-                            endDate: DateTime.parse(eventCache.state.endDate!),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                    listener: (context, state) async {
-                      if (state is VideoUploadSuccess) {
-                        setState(
-                          () {
-                            fileList = List<int>.from(state.list);
-                          },
-                        );
-                      }
-                    },
-                    child: CustomDottedContainerStack(
-                      theWidget: fileList == null
-                          ? Text('Select Videos')
-                          : Text('File Uploaded'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+          child: CustomMultimedia(),
+        )
+        // SliverToBoxAdapter(
+        //   child: CustomFormField(
+        //     label: 'Images',
+        //     child: Column(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Row(
+        //           children: [
+        //             Text(
+        //               'Maximum Image Size 20 MB',
+        //               style: Theme.of(context).textTheme.bodySmall,
+        //             ),
+        //             addHorizontalSpace(5),
+        //             const Icon(
+        //               Icons.info_outline,
+        //               color: Colors.orange,
+        //             ),
+        //           ],
+        //         ),
+        //         addVerticalSpace(5),
+        //         InkWell(
+        //           onTap: () async {
+        //             showDialog(
+        //               context: context,
+        //               builder: (context) => ImagePickerDialog(),
+        //             ).whenComplete(
+        //               () => eventCache.add(
+        //                 BookEventPicked(
+        //                   req: BookEntityServiceReq(
+        //                     images: imageList,
+        //                     endDate: DateTime.parse(eventCache.state.endDate!),
+        //                   ),
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //           child: BlocListener<ImageUploadCubit, ImageUploadState>(
+        //             listener: (context, state) async {
+        //               if (state is ImageUploadSuccess) {
+        //                 setState(
+        //                   () async {
+        //                     imageList = List<int>.from(state.list);
+        //                   },
+        //                 );
+        //               }
+        //             },
+        //             child: CustomDottedContainerStack(
+        //               theWidget: imageList == null
+        //                   ? Text('Select Images')
+        //                   : Text('Image Uploaded'),
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        // SliverToBoxAdapter(
+        //   child: CustomFormField(
+        //     label: 'Videos',
+        //     child: Column(
+        //       children: [
+        //         Row(
+        //           children: [
+        //             Text(
+        //               'Maximum Video Size 20 MB',
+        //               style: Theme.of(context).textTheme.bodySmall,
+        //             ),
+        //             addHorizontalSpace(5),
+        //             const Icon(
+        //               Icons.info_outline,
+        //               color: Colors.orange,
+        //             ),
+        //           ],
+        //         ),
+        //         addVerticalSpace(5),
+        //         InkWell(
+        //           onTap: () async {
+        //             showDialog(
+        //               context: context,
+        //               builder: (context) => VideoPickerDialog(),
+        //             ).whenComplete(
+        //               () => eventCache.add(
+        //                 BookEventPicked(
+        //                   req: BookEntityServiceReq(
+        //                     videos: fileList,
+        //                     endDate: DateTime.parse(eventCache.state.endDate!),
+        //                   ),
+        //                 ),
+        //               ),
+        //             );
+        //           },
+        //           child: BlocListener<ImageUploadCubit, ImageUploadState>(
+        //             listener: (context, state) async {
+        //               if (state is VideoUploadSuccess) {
+        //                 setState(
+        //                   () {
+        //                     fileList = List<int>.from(state.list);
+        //                   },
+        //                 );
+        //               }
+        //             },
+        //             child: CustomDottedContainerStack(
+        //               theWidget: fileList == null
+        //                   ? Text('Select Videos')
+        //                   : Text('File Uploaded'),
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

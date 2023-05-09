@@ -13,7 +13,7 @@ final kDarkTheme = ThemeData(
     TextTheme(
       labelSmall: kLabelPrimarydark,
       labelMedium: kLabelPrimary2dak,
-      displaySmall: kText13dark,
+      displaySmall: kHelper13,
       displayMedium: kText14dark,
       displayLarge: kText17dark,
       headlineSmall: kPurpleText16dark,
@@ -43,8 +43,8 @@ final kDarkTheme = ThemeData(
   ),
   indicatorColor: kColorSecondary,
   colorScheme: ColorScheme.dark(),
-  cardColor:
-  Color  (0xff000000),
+  cardColor: kColorPrimarydark,
+  // Color(0xff000000),
 );
 
 final kLightTheme = ThemeData(
@@ -62,17 +62,18 @@ final kLightTheme = ThemeData(
       )),
   textTheme: GoogleFonts.poppinsTextTheme(
     TextTheme(
+        titleMedium: kPurpleText16,
         labelSmall: kLabelPrimary,
         labelMedium: kLabelPrimary2,
-        displaySmall: kText13,
+        displaySmall: kHelper13,
         displayMedium: kBoldText,
         displayLarge: kText17,
         headlineSmall: kPurpleText16,
         headlineMedium: kPurpleText17,
         headlineLarge: kPurpleText19,
-        bodyMedium: kText15,
-        bodySmall: kText14,
-        bodyLarge: kBoldText),
+        bodyMedium: kText14,
+        bodySmall: kText13,
+        bodyLarge: kText15),
   ),
   brightness: Brightness.light,
   radioTheme: RadioThemeData(
@@ -94,4 +95,7 @@ final kLightTheme = ThemeData(
     space: 0,
     thickness: 1.2,
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: kText13,
+  )
 );

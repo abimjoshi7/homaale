@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_from_home.dart';
@@ -155,7 +156,19 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   }
                   return ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    leading: child,
+                    leading: InkWell(
+                      onTap: () {
+                        if (CacheHelper.isLoggedIn) {
+                          Navigator.pushNamed(
+                            context,
+                            AccountView.routeName,
+                          );
+                        } else {
+                          return;
+                        }
+                      },
+                      child: child,
+                    ),
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {

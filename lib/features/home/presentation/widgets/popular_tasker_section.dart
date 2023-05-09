@@ -3,8 +3,10 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
+import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
+import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -27,21 +29,21 @@ class PopularTaskerSection extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                PopularTaskerPage.routeName,
+                PopularTaskerNew.routeName,
               );
             },
           ),
           BlocBuilder<TaskerCubit, TaskerState>(
             builder: (context, state) {
-              if (state.states == TheStates.initial) {
+              if (state.status == TaskerStatus.initial) {
                 return const Center(
                   child: CardLoading(
                     height: 200,
                   ),
                 );
               }
-              if (state.states == TheStates.success) {
-                final data = state.taskerListRes?.result;
+              if (state.status == TaskerStatus.success) {
+                final data = state.taskerListRes.result;
                 return SizedBox(
                   height: MediaQuery.of(context).size.height * 0.27,
                   width: double.infinity,
@@ -75,11 +77,24 @@ class PopularTaskerSection extends StatelessWidget {
                         happyClients: data?[index].stats?.happyClients.toString(),
                         ratings:
                             "${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
+                        callbackLabel: data?[index].isFollowed ?? false ? 'Following' : 'Follow',
+                        isFollowed: data?[index].isFollowed ?? false,
                         callback: () {
                           if (CacheHelper.isLoggedIn == false) {
                             notLoggedInPopUp(context);
+                          } else {
+                            if (data?[index].isFollowed ?? false) {
+                              context
+                                  .read<TaskerCubit>()
+                                  .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: false);
+                            } else {
+                              context
+                                  .read<TaskerCubit>()
+                                  .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: true);
+                            }
+
+
                           }
-                          if (CacheHelper.isLoggedIn == false) return;
                         },
                         onFavouriteTapped: () {
                           if (CacheHelper.isLoggedIn == false) {
@@ -89,7 +104,7 @@ class PopularTaskerSection extends StatelessWidget {
                       ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,
-                    itemCount: state.taskerListRes?.result?.length ?? 1,
+                    itemCount: state.taskerListRes.result?.length ?? 1,
                   ),
                 );
               }

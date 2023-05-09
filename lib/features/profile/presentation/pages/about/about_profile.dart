@@ -11,9 +11,8 @@ class AboutProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: kPadding10,
+        padding: const EdgeInsets.all(8.0),
         child: Wrap(
-          runSpacing: 8,
           children: const [
             DescriptionView(),
             SkillsView(),

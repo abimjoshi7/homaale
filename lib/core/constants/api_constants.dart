@@ -1,5 +1,6 @@
-const kTaskEntityServicePath = "/task/entity/service/";
-// const blogPath = "/blog/";
+// * Task Entity Service
+const kTaskEntityService = "/task/entity/service/";
+const kMyTaskEntityServices = 'task/entity/my-entity-services/';
 const taskerPath = "/tasker/";
 const careerPath = "/career/vacancy/";
 const localePath = "/locale/client/";
@@ -13,11 +14,13 @@ const kCreateBookingsApproval = "/task/entity/service-booking/approval/";
 const kCreateBookingsDecline = "/task/entity/service-booking/reject/";
 const kCreateBookingsCancel = "/task/entity/service-booking/cancel/";
 const kMyBookingList = "/task/entity/service-mybooking/";
-const tasks = "/task/entity/service/";
 const support = "/support/";
 const payment = "/payment/";
 const offer = "/offer/";
 const event = "/event/";
+
+//image upload
+const kFileStore = "task/filestore/";
 
 Map<String, Object> kUrls = {
   "user": {
@@ -29,21 +32,21 @@ Map<String, Object> kUrls = {
     'activity': "/history/my-activities/",
   },
   "task": {
-    'list': kTaskEntityServicePath,
+    'list': kTaskEntityService,
     'myBookings': '$kMyBookingList?is_requested=false',
-    'service': '$kTaskEntityServicePath?is_requested=false',
-    'service_per_user': '$kTaskEntityServicePath?is_requested=false&user=',
-    'task': '$kTaskEntityServicePath?is_requested=true',
-    'my_task': '$tasks?is_requested=true',
+    'service': '$kTaskEntityService?is_requested=false',
+    'service_per_user': '$kTaskEntityService?is_requested=false&user=',
+    'task': '$kTaskEntityService?is_requested=true',
+    // 'my_task': '$tasks?is_requested=true',
     'requested_task': '$kMyBookingList?is_requested=true',
-    'taskApplicantsNumber': '${tasks}tasker-count',
-    'approvedTaskList': '${tasks}task/list/',
+    // 'taskApplicantsNumber': '${tasks}tasker-count',
+    // 'approvedTaskList': '${tasks}task/list/',
     'application': "/task/application",
     'assigneeDetail': "task/asignee-task-detail/",
     'assignerDetail': "task/assigner-task-detail/",
     'assignerApplication': "task",
     'heroCategory': "task/hero-category",
-    'status': '${kTaskEntityServicePath}task/status/',
+    'status': '${kTaskEntityService}task/status/',
   },
   "profile": {
     'portfolio': '${taskerPath}portfolio/',
@@ -67,10 +70,7 @@ Map<String, Object> kUrls = {
     'list': '${taskerPath}my-following/',
   },
   "follow": '${taskerPath}follow/',
-  "category": {
-    'list': '/task/task-category/nested/',
-    'name': "/task/category/"
-  },
+  "category": {'list': '/task/task-category/nested/', 'name': "/task/category/"},
   'career': {'list': '${careerPath}list/', 'detail': '${careerPath}detail/'},
   // 'blog': {'list': blogPath, 'detail': '${blogPath}detail/'},
   'wishlist': {

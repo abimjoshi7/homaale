@@ -66,221 +66,223 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
           return Padding(
-            padding: kPadding20,
+            padding: const EdgeInsets.all(8.0),
             child: Form(
               key: _key,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Expanded(
+                    child: Column(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                content: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    WidgetText(
+                                        callback: () {
+                                          setState(
+                                            () {
+                                              isCamera = true;
+                                            },
+                                          );
+                                          Navigator.pop(context);
+                                        },
+                                        widget: Icon(Icons.camera_alt_outlined),
+                                        label: "Camera"),
+                                    WidgetText(
+                                        callback: () {
+                                          setState(
+                                            () {
+                                              isCamera = false;
+                                            },
+                                          );
+                                          Navigator.pop(context);
+                                        },
+                                        widget: Icon(Icons.camera_alt_outlined),
+                                        label: "Gallery"),
+                                  ],
+                                ),
+                              ),
+                            )
+                                // .then(
+                                //   (value) async => await MultimediaPickHelper()
+                                //       .(
+                                //     isCamera: isCamera,
+                                //   )
+                                //       .then(
+                                //     (value) {
+                                //       if (value != null) {
+                                //         setState(
+                                //           () {
+                                //             selectedImage = value;
+                                //           },
+                                //         );
+                                //       }
+                                //     },
+                                //   ),
+                                // )
+                                ;
+                          },
+                          child: Column(
                             children: [
-                              WidgetText(
-                                  callback: () {
-                                    setState(
-                                      () {
-                                        isCamera = true;
-                                      },
-                                    );
-                                    Navigator.pop(context);
-                                  },
-                                  widget: Icon(Icons.camera_alt_outlined),
-                                  label: "Camera"),
-                              WidgetText(
-                                  callback: () {
-                                    setState(
-                                      () {
-                                        isCamera = false;
-                                      },
-                                    );
-                                    Navigator.pop(context);
-                                  },
-                                  widget: Icon(Icons.camera_alt_outlined),
-                                  label: "Gallery"),
+                              Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        profilePicture ?? kServiceImageNImg,
+                                      ),
+                                    ),
+                                  ),
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              ),
+                              addVerticalSpace(
+                                16,
+                              ),
+                              Center(
+                                child: Text(
+                                  'Change profile photo',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ).then(
-                        (value) async => await ImagePickHelper()
-                            .pickImagePath(
-                          isCamera: isCamera,
-                        )
-                            .then(
-                          (value) {
-                            if (value != null) {
-                              setState(
-                                () {
-                                  selectedImage = value;
-                                },
-                              );
-                            }
-                          },
+                        addVerticalSpace(
+                          32,
                         ),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  profilePicture ??
-                                    kServiceImageNImg,
-                                ),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'First name',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
+                                      ),
+                                      kWidth5,
+                                      Text(
+                                        '*',
+                                        style: TextStyle(color: Colors.red),
+                                      )
+                                    ],
+                                  ),
+                                  kHeight5,
+                                  CustomTextFormField(
+                                    hintText:
+                                        state.taskerProfile?.user?.firstName ??
+                                            '',
+                                    onSaved: (p0) => setState(
+                                      () {
+                                        firstName = p0;
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            width: 100,
-                            height: 100,
-                          ),
-                        ),
-                        kHeight15,
-                         Center(
-                          child: Text(
-                            'Change profile photo',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  kHeight50,
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children:  [
-                                Text(
-                                  'First name',
-                                  style: Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                kWidth5,
-                                Text(
-                                  '*',
-                                  style: TextStyle(color: Colors.red),
-                                )
-                              ],
+                            kWidth10,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Middle name',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  kHeight5,
+                                  CustomTextFormField(
+                                    hintText:
+                                        state.taskerProfile?.user?.middleName ??
+                                            '',
+                                    onSaved: (p0) => setState(
+                                      () {
+                                        middleName = p0;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            kHeight5,
-                            CustomTextFormField(
-                              hintText:
-                                  state.taskerProfile?.user?.firstName ?? '',
-                              onSaved: (p0) => setState(
-                                () {
-                                  firstName = p0;
-                                },
+                            kWidth10,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Last name',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
+                                      ),
+                                      kWidth5,
+                                      Text(
+                                        '*',
+                                        style: TextStyle(color: Colors.red),
+                                      )
+                                    ],
+                                  ),
+                                  kHeight5,
+                                  CustomTextFormField(
+                                    hintText:
+                                        state.taskerProfile?.user?.lastName ??
+                                            '',
+                                    onSaved: (p0) => setState(
+                                      () {
+                                        lastName = p0;
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      kWidth10,
-                      Flexible(
-                        child: Column(
+                        addVerticalSpace(
+                          32,
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Text(
-                              'Middle name',
+                            Text(
+                              'Designation',
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             kHeight5,
                             CustomTextFormField(
-                              hintText:
-                                  state.taskerProfile?.user?.middleName ?? '',
+                              hintText: state.taskerProfile?.designation ?? '',
                               onSaved: (p0) => setState(
                                 () {
-                                  middleName = p0;
+                                  designation = p0;
                                 },
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      kWidth10,
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children:  [
-                                Text(
-                                  'Last name',
-                                  style: Theme.of(context).textTheme.headlineSmall,
-                                ),
-                                kWidth5,
-                                Text(
-                                  '*',
-                                  style: TextStyle(color: Colors.red),
-                                )
-                              ],
-                            ),
-                            kHeight5,
-                            CustomTextFormField(
-                              hintText:
-                                  state.taskerProfile?.user?.lastName ?? '',
-                              onSaved: (p0) => setState(
-                                () {
-                                  lastName = p0;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  kHeight20,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                       Text(
-                        'Designation',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      kHeight5,
-                      CustomTextFormField(
-                        hintText: state.taskerProfile?.designation ?? '',
-                        onSaved: (p0) => setState(
-                          () {
-                            designation = p0;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                           Text(
-                            'Task Analytics',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          Switch(
-                            value: false,
-                            onChanged: (value) {},
-                          )
-                        ],
-                      ),
-                      Text(
-                        'Do you want to enable task analytics in profile?',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                  kHeight50,
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
@@ -307,7 +309,33 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       },
                       label: 'Save',
                     ),
-                  )
+                  ),
+                  addVerticalSpace(
+                    16,
+                  ),
+                  // ! TO BE IMPLEMENTED
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       children: [
+                  //         Text(
+                  //           'Task Analytics',
+                  //           style: Theme.of(context).textTheme.headlineSmall,
+                  //         ),
+                  //         Switch(
+                  //           value: false,
+                  //           onChanged: (value) {},
+                  //         )
+                  //       ],
+                  //     ),
+                  //     Text(
+                  //       'Do you want to enable task analytics in profile?',
+                  //       style: Theme.of(context).textTheme.bodySmall,
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -334,7 +362,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           );
         } else {
           return const Center(
-            child: CardLoading(height: 200,),
+            child: CardLoading(
+              height: 200,
+            ),
           );
         }
       },

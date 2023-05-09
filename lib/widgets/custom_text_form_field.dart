@@ -54,6 +54,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       // autovalidateMode: autoValidateMode,
+      style: Theme.of(context).textTheme.bodySmall,
       readOnly: readOnly ?? false,
       focusNode: node,
       controller: controller,
@@ -77,7 +78,7 @@ class CustomTextFormField extends StatelessWidget {
           maxWidth: theWidth ?? MediaQuery.of(context).size.width,
         ),
         hintText: hintText,
-        hintStyle: hintStyle ?? Theme.of(context).textTheme.bodySmall,
+        hintStyle:hintStyle ??Theme.of(context).textTheme.bodySmall,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),

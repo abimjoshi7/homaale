@@ -76,6 +76,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
               ),
               child: AutoSizeText(
                 value.toString(),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           );

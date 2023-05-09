@@ -1,8 +1,8 @@
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 
 class BookingsCalenderSection extends StatefulWidget {
@@ -14,8 +14,7 @@ class BookingsCalenderSection extends StatefulWidget {
   });
 
   @override
-  State<BookingsCalenderSection> createState() =>
-      _BookingsCalenderSectionState();
+  State<BookingsCalenderSection> createState() => _BookingsCalenderSectionState();
 }
 
 class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
@@ -36,8 +35,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                        '${DateFormat('MMMM').format(DateTime.now())}, ${DateTime.now().year}'),
+                    Text('${DateFormat('MMMM').format(DateTime.now())}, ${DateTime.now().year}'),
                     IconButton(
                       onPressed: null,
                       icon: const Icon(
@@ -57,11 +55,10 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                 eventLoader: (date) {
                   var list = [];
                   var res = <Result>[
-                    ...?state.myBookingListModelTask?.result,
-                    ...?state.myBookingListModelService?.result
+                    ...?state.bookingList.result,
                   ];
                   for (var item in res) {
-                    if (date.day == item.createdAt?.day) {
+                    if (date.day == DateTime.parse(item.createdAt!).day) {
                       list.add(date);
                     }
                   }
@@ -71,9 +68,8 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                   selectedBuilder: (context, date, events) => Container(
                     margin: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(10.0)),
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(10.0)),
                     child: Text(
                       date.day.toString(),
                       style: TextStyle(color: Colors.white),

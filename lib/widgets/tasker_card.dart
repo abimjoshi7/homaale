@@ -22,6 +22,7 @@ class TaskerCard extends StatelessWidget {
     this.buttonWidth,
     required this.onFavouriteTapped,
     this.id,
+    this.isFollowed,
   });
 
   final String? label;
@@ -37,6 +38,7 @@ class TaskerCard extends StatelessWidget {
   final double? buttonWidth;
   final VoidCallback callback;
   final VoidCallback onFavouriteTapped;
+  final bool? isFollowed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +46,13 @@ class TaskerCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       width: MediaQuery.of(context).size.width * 0.5,
       child: Card(
+        color: Theme.of(context).cardColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
+            addVerticalSpace(5),
             Container(
-              height: MediaQuery.of(context).size.height * 0.08,
+              height: MediaQuery.of(context).size.height * 0.07,
               width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -60,7 +64,6 @@ class TaskerCard extends StatelessWidget {
                 ),
               ),
             ),
-            // addVerticalSpace(10),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +76,7 @@ class TaskerCard extends StatelessWidget {
                           Flexible(
                             child: AutoSizeText(
                               label ?? '',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                              style: Theme.of(context).textTheme.titleMedium,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -86,88 +89,87 @@ class TaskerCard extends StatelessWidget {
                       ),
                       Text(
                         designation ?? 'Homaale User',
+                        textAlign: TextAlign.center,
                         style: kLightBlueText14,
                       ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      WidgetText(
-                        label: happyClients ?? '0',
-                        widget: const Icon(
-                          Icons.emoji_emotions_outlined,
-                          color: Color(0xffF98900),
-                          // size: 16,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        WidgetText(
+                          label: happyClients ?? '0',
+                          widget: const Icon(
+                            Icons.emoji_emotions_outlined,
+                            color: Color(0xffF98900),
+                            // size: 16,
+                          ),
                         ),
-                      ),
-                      WidgetText(
-                        label: rewardPercentage ?? '0',
-                        widget: const Icon(
-                          Icons.military_tech_rounded,
-                          color: Color(0xff0693E3),
-                          // size: 16,
+                        WidgetText(
+                          label: rewardPercentage ?? '0',
+                          widget: const Icon(
+                            Icons.military_tech_rounded,
+                            color: Color(0xff0693E3),
+                            // size: 16,
+                          ),
                         ),
-                      ),
-                      WidgetText(
-                        label: distance ?? '0',
-                        widget: const Icon(
-                          Icons.airline_stops_sharp,
-                          color: Color(0xffF98900),
-                          // size: 16,
+                        WidgetText(
+                          label: distance ?? '0',
+                          widget: const Icon(
+                            Icons.airline_stops_sharp,
+                            color: Color(0xffF98900),
+                            // size: 16,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconText(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconText(
                         label: ratings ?? '',
                         iconData: Icons.star_rate_rounded,
                         size: 15,
                         color: kColorAmber,
                       ),
-                      // Text(
-                      //   rate ?? 'Rs 2,000/hr',
-                      //   style: kPurpleText16,
-                      // )
-                    ],
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          if (CacheHelper.isLoggedIn == false) {
-                            notLoggedInPopUp(context);
-                          }
-                          if (CacheHelper.isLoggedIn == false) return;
-                          onFavouriteTapped();
-                        },
-                        child: const Icon(
-                          Icons.favorite_outline,
-                          color: Color(0xffFE5050),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CustomFavoriteIcon(
+                          typeID: id ?? '',
+                          type: "user",
                         ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                        width: buttonWidth ?? 80,
-                        child: CustomElevatedButton(
-                          callback: () {
-                            if (!CacheHelper.isLoggedIn) {
-                              notLoggedInPopUp(context);
-                            }
-                            if (!CacheHelper.isLoggedIn) return;
-                            callback();
-                          },
-                          label: callbackLabel ?? 'Hire Me',
+                        SizedBox(
+                          height: 30,
+                          width: buttonWidth ?? 80,
+                          child: CustomElevatedButton(
+                            borderColor: kColorPrimary,
+                            mainColor: isFollowed ?? false ? Colors.white : kColorPrimary,
+                            textColor: isFollowed ?? false ? kColorPrimary : Colors.white,
+                            callback: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                              callback();
+                            },
+                            label: callbackLabel ?? 'Hire Me',
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                 ],
               ),
             ),

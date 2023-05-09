@@ -24,6 +24,7 @@ import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -37,11 +38,14 @@ import 'package:cipher/features/sign_up/presentation/bloc/resend_verification_bl
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/support/data/repositories/support_repository.dart';
+import 'package:cipher/features/support/presentation/bloc/post_support_ticket_bloc.dart';
 import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
@@ -49,7 +53,10 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
+import '../../features/feedback/bloc/feedback_bloc.dart';
+import '../../features/feedback/bloc/feedback_post_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
+import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 
 class Cipher extends StatelessWidget {
@@ -83,6 +90,18 @@ class Cipher extends StatelessWidget {
             create: (context) => SignInBloc(),
           ),
           BlocProvider(
+            create: (context) => FeedbackBloc(),
+          ),
+          BlocProvider(
+            create: (context) => PostSupportTicketBloc(),
+          ),
+          BlocProvider(
+            create: (context) => SupportTicketTypeOptionsBloc(),
+          ),
+          BlocProvider(
+            create: (context) => FeedbackPostBloc(),
+          ),
+          BlocProvider(
             create: (context) => ResendVerificationBloc(
               SignUpRepositories(),
             ),
@@ -106,14 +125,16 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) =>
-                TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => KycBloc(KycRepositories()),
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => locator<UploadBloc>(),
           ),
           BlocProvider(
             create: (context) => SupportHelpBloc(
@@ -169,9 +190,9 @@ class Cipher extends StatelessWidget {
               ),
           ),
           BlocProvider(create: (context) => ThemeBloc()),
-          // BlocProvider(
-          //   create: (context) => HeroCategoryCubit(),
-          // ),
+          BlocProvider(
+            create: (context) => ActivitiesTimelineBloc(),
+          ),
           BlocProvider(
             create: (context) => NestedCategoriesCubit(),
           ),
@@ -197,11 +218,13 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<ChatBloc>(),
           ),
           BlocProvider(
+            create: (context) => locator<RatingReviewsBloc>(),
+          ),
+          BlocProvider(
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
           BlocProvider(
-            create: (context) =>
-                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),

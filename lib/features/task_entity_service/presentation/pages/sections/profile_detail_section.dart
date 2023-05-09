@@ -1,6 +1,10 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
+
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
+import 'package:cipher/features/support/presentation/widgets/report_page.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
-import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
-class ProfileDetailSection extends StatelessWidget {
+import '../../../../support/presentation/bloc/support_ticket_type_options_bloc.dart';
+import '../../../../support/presentation/bloc/support_ticket_type_options_event.dart';
+
+class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
   final TaskEntityServiceState state;
   const ProfileDetailSection({
     Key? key,
@@ -37,7 +42,8 @@ class ProfileDetailSection extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: NetworkImage(
-                        state.taskEntityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                        state.taskEntityService?.createdBy?.profileImage ??
+                            kDefaultAvatarNImg,
                       ),
                     ),
                   ),
@@ -71,22 +77,138 @@ class ProfileDetailSection extends StatelessWidget {
                   typeID: state.taskEntityService?.id ?? '',
                   type: "entityservice",
                 ),
-                kWidth10,
-                GestureDetector(
+                addHorizontalSpace(
+                  8,
+                ),
+                InkWell(
                   onTap: () {
-                    if (!CacheHelper.isLoggedIn) {
-                      notLoggedInPopUp(context);
-                    }
-                    if (!CacheHelper.isLoggedIn) return;
-                    final box = context.findRenderObject() as RenderBox?;
-                    Share.share(
-                      "Share this Hommale with friends.",
-                      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                    showCustomBottomSheet(
+                      context: context,
+                      widget: Column(
+                        children: [
+                          ListTile(
+                            leading: const Icon(
+                              Icons.share,
+                              color: Colors.blue,
+                            ),
+                            title: Text(
+                              "Share",
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                            onTap: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                              final box =
+                                  context.findRenderObject() as RenderBox?;
+                              Share.share(
+                                "Share this Hommale with friends.",
+                                sharePositionOrigin:
+                                    box!.localToGlobal(Offset.zero) & box.size,
+                              );
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.report,
+                              color: kColorSecondary,
+                            ),
+                            title: Text(
+                              'Report',
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                            onTap: () {
+                              context
+                                  .read<SupportTicketTypeOptionsBloc>()
+                                  .add(SupportTicketTypeOptionsLoaded(target: 'task'));
+                              Navigator.pushNamed(
+                                context,
+                                CommonReportPage.routeName,
+                                arguments: {
+                                  'isType': 'isTask',
+                                  'model': 'task',
+                                  'objectId':
+                                      state.taskEntityService?.createdBy?.id
+                                },
+                              );
+                            },
+                          ),
+                          Offstage(
+                            offstage: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id !=
+                                state.taskEntityService?.createdBy?.id,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  onTap: () {
+                                    showCustomBottomSheet(
+                                      context: context,
+                                      widget: EditTaskEntityServiceForm(
+                                        service: state.taskEntityService ??
+                                            TaskEntityService(),
+                                      ),
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.edit_outlined,
+                                    color: kColorOrange,
+                                  ),
+                                  title: Text(
+                                    "Update",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
+                                  ),
+                                ),
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.delete,
+                                    color: kColorSilver,
+                                  ),
+                                  title: Text(
+                                    "Remove",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
+                                  ),
+                                  onTap: () {
+                                    if (!CacheHelper.isLoggedIn) {
+                                      notLoggedInPopUp(context);
+                                    }
+                                    if (!CacheHelper.isLoggedIn) return;
+                                    Future.delayed(
+                                      Duration.zero,
+                                      () => context
+                                          .read<TaskEntityServiceBloc>()
+                                          .add(
+                                            TaskEntityServiceDeleted(
+                                              id: state.taskEntityService?.id ??
+                                                  "",
+                                            ),
+                                          ),
+                                    ).whenComplete(
+                                      () => Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        Root.routeName,
+                                        (route) => false,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
-                  child: const Icon(
-                    Icons.share,
-                    color: Colors.blue,
+                  child: Icon(
+                    Icons.more_vert_rounded,
                   ),
                 ),
               ],
@@ -98,7 +220,8 @@ class ProfileDetailSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconText(
-              label: state.taskEntityService?.rating?.first.rating.toString() ?? '4.5',
+              label: state.taskEntityService?.rating?.first.rating.toString() ??
+                  '4.5',
               iconData: Icons.star_outlined,
               color: kColorAmber,
               size: 18,

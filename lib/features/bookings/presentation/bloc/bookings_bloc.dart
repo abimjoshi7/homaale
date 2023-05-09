@@ -4,7 +4,7 @@ import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
-import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
@@ -23,36 +23,22 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         try {
           emit(state.copyWith(states: TheStates.initial));
           await repositories
-              .fetchMyBookingsList(
-            isTask: event.isTask,
+              .fetchBookingsList(
             status: event.status,
             page: event.page,
           )
               .then(
             (value) {
-              if (event.isTask!) {
-                emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    myBookingListModelTask: booking.MyBookingListModel.fromJson(value),
-                    isLoaded: true,
-                    isUpdated: false,
-                    isCancelled: false,
-                    isRejected: false,
-                  ),
-                );
-              } else {
-                emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    myBookingListModelService: booking.MyBookingListModel.fromJson(value),
-                    isLoaded: true,
-                    isUpdated: false,
-                    isCancelled: false,
-                    isRejected: false,
-                  ),
-                );
-              }
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  bookingList: BookingsResponseDto.fromJson(value),
+                  isLoaded: true,
+                  isUpdated: false,
+                  isCancelled: false,
+                  isRejected: false,
+                ),
+              );
             },
           );
         } catch (e) {
@@ -67,18 +53,60 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       },
     );
 
+    on<MyBookingLoaded>(
+      (event, emit) async {
+        try {
+          emit(state.copyWith(states: TheStates.initial));
+          await repositories.fetchMyBookingsList(page: event.page).then(
+            (value) {
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  myBookingListModel: booking.MyBookingListModel.fromJson(value),
+                  isLoaded: true,
+                  isUpdated: false,
+                  isCancelled: false,
+                  isRejected: false,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          log('my bookings loaded error:' + e.toString());
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+              isLoaded: false,
+            ),
+          );
+        }
+      },
+    );
+
     on<BookingSingleLoaded>(
       (event, emit) async {
         try {
           emit(state.copyWith(states: TheStates.initial));
-          await repositories.fetchSingleBooking(id: event.id).then(
-                (value) => emit(
-                  state.copyWith(
-                    states: TheStates.success,
-                    result: booking.Result.fromJson(value),
+          if (event.id is int) {
+            await repositories.fetchSingleBooking(id: event.id as int).then(
+                  (value) => emit(
+                    state.copyWith(
+                      states: TheStates.success,
+                      result: booking.Result.fromJson(value),
+                    ),
                   ),
-                ),
-              );
+                );
+          } else {
+            // Might need to update fromJson model in future
+            await repositories.fetchBooking(id: event.id as String).then(
+                  (value) => emit(
+                    state.copyWith(
+                      states: TheStates.success,
+                      bookingRes: Result.fromJson(value),
+                    ),
+                  ),
+                );
+          }
         } catch (e) {
           emit(
             state.copyWith(
@@ -131,7 +159,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               );
             },
           ).whenComplete(
-            () => add(BookingLoaded(isTask: event.isTask, page: 1)),
+            () => add(MyBookingLoaded(page: 1)),
           );
         } catch (e) {
           emit(
@@ -181,8 +209,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             },
           ).whenComplete(
             () => add(
-              BookingLoaded(
-                isTask: event.isTask,
+              MyBookingLoaded(
                 page: 1,
               ),
             ),
@@ -214,8 +241,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               )
               .whenComplete(
                 () => add(
-                  BookingLoaded(
-                    isTask: event.isTask,
+                  MyBookingLoaded(
                     page: 1,
                   ),
                 ),
@@ -246,12 +272,39 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               )
               .whenComplete(
                 () => add(
-                  BookingLoaded(
-                    isTask: event.isTask,
+                  MyBookingLoaded(
                     page: 1,
                   ),
                 ),
               );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              states: TheStates.failure,
+              isRejected: false,
+            ),
+          );
+        }
+      },
+    );
+
+    on<BookingStatusUpdate>(
+      (event, emit) async {
+        try {
+          await repositories.updateStatus(status: event.status, id: event.id).then(
+            (value) {
+              print(value);
+              emit(
+                state.copyWith(
+                  states: TheStates.success,
+                ),
+              );
+            },
+          ).whenComplete(
+            () => add(
+              BookingSingleLoaded(event.id),
+            ),
+          );
         } catch (e) {
           emit(
             state.copyWith(
@@ -272,7 +325,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  bookingHistoryRes: BookingHistoryRes.fromJson(value),
+                  bookingHistoryRes: BookingsResponseDto.fromJson(value),
                   isLoaded: true,
                   isUpdated: false,
                   isCancelled: false,

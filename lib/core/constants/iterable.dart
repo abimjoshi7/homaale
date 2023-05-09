@@ -12,7 +12,7 @@ const colorList = <Color>[
   Color(0xff9977D9),
 ];
 
-final categoriesNameList = <String>[
+const kCategoriesNameList = <String>[
   'Beauty',
   'Fitness',
   'Household',
@@ -31,7 +31,7 @@ final categoriesNameList = <String>[
   'Marketing',
 ];
 
-final categoriesAssetPath = <String>[
+const kCategoriesAssetPath = <String>[
   'assets/categories/self_care.png',
   'assets/categories/fitness_center.png',
   'assets/categories/cleaning_services.png',
@@ -50,7 +50,7 @@ final categoriesAssetPath = <String>[
   'assets/categories/medication_liquid.png',
 ];
 
-List<String> bottomNavItemImagePath = [
+const kBottomNavItemImagePath = [
   'assets/bottomNavigationItems/home.png',
   'assets/bottomNavigationItems/2.png',
   'assets/bottomNavigationItems/3.png',
@@ -58,7 +58,7 @@ List<String> bottomNavItemImagePath = [
   'assets/bottomNavigationItems/4.png',
 ];
 
-List<String> bottomNavItemName = [
+const kBottomNavItemName = [
   'Home',
   'Search',
   'Add',
@@ -66,7 +66,7 @@ List<String> bottomNavItemName = [
   'Account',
 ];
 
-List<String> weekNames = [
+const kWeekNames = [
   'Sun',
   'Mon',
   'Tue',
@@ -76,14 +76,22 @@ List<String> weekNames = [
   'Sat',
 ];
 
-const bookmarkTypeList = [
+const kTaskPrefList = [
+  'Part-Time',
+  'Full-Time',
+  'Freelance',
+  'Remote',
+  'On-site',
+];
+
+const kBookmarkTypeList = [
   "All",
   "Users",
   "Services",
   "Taskers",
 ];
 
-List<Widget> notableBannerList = [
+List<Widget> kNotableBannerList = [
   Padding(
     padding: const EdgeInsets.all(5),
     child: Image.asset(
@@ -124,11 +132,12 @@ List<Widget> offerBanner = [
   ),
 ];
 
-List<String> bookingDropDownStrings = [
+const kBookingDropDownStrings = [
   "All",
   "Tasks",
   "Services",
 ];
+
 Map<String, dynamic> getStatus(String status) {
   switch (status) {
     case "cancelled":
@@ -161,6 +170,16 @@ Map<String, dynamic> getStatus(String status) {
         "color": kColorGreen,
         "status": "In Progress",
       };
+    case "Initiated":
+      return {
+        "color": kColorDarkBlue,
+        "status": "Initiated",
+      };
+    case "Open":
+      return {
+        "color": kColorDarkBlue,
+        "status": "Open",
+      };
 
     default:
       return {
@@ -170,34 +189,95 @@ Map<String, dynamic> getStatus(String status) {
   }
 }
 
+Map<String, dynamic> getBookingStatus(String status) {
+  switch (status) {
+    case "Open":
+      return {
+        "color": kColorAmber,
+        "status": "Start Task",
+      };
+    case "Initiated":
+      return {
+        "color": kColorGrey,
+        "status": "Payment pending",
+      };
+    case "On Progress":
+      return {
+        "color": kColorGreen,
+        "status": "Mark as complete",
+      };
+    default:
+      return {
+        "color": kColorPrimary,
+        "status": "Apply",
+      };
+  }
+}
+
+Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
+  switch (status) {
+    case "Initiated":
+      return {
+        "buttonLabel": isAssignee ? "Payment pending" : "Proceed to orders",
+        "color": isAssignee ? kColorGrey : kColorBlue,
+        "status": "Open",
+      };
+    case "Open":
+      return {
+        "buttonLabel": isAssignee ? "Start Task" : "Waiting for tasker to start",
+        "color": isAssignee ? kColorAmber : kColorGrey,
+        "status": "On Progress",
+      };
+    case "On Progress":
+      return {
+        "buttonLabel": isAssignee ? "Mark as Completed" : "Your task is in progress",
+        "color": isAssignee ? kColorAmber : kColorGrey,
+        "status": "Completed",
+      };
+    case "Completed":
+      return {
+        "buttonLabel": isAssignee ? "Waiting for the client to approve" : "Close task",
+        "color": isAssignee ? kColorGrey : kColorAmber,
+        "status": "Closed",
+      };
+    case "Closed":
+      return {
+        "buttonLabel": "Close task",
+        "color": isAssignee ? kColorGrey : kColorAmber,
+        "status": "Closed",
+      };
+
+    default:
+      return {
+        "buttonLabel": status,
+        "color": kColorAmber,
+        "status": status,
+      };
+  }
+}
+
 Map<String, dynamic> getNotificationStatus(
-    {required String status,
-    required bool isRequested,
-    String? userName,
-    String? serviceName}) {
+    {required String status, required bool isRequested, String? userName, String? serviceName}) {
   switch (status) {
     case "declined":
       return {
         "color": Colors.red.shade200,
         "status": "Declined",
-        "message":
-            "Your ${isRequested ? 'task' : 'service'} $serviceName has been declined.",
+        "message": "Your ${isRequested ? 'task' : 'service'} $serviceName has been declined.",
         'assets': 'assets/notification/declined.svg'
       };
     case "completed":
       return {
         "color": kColorGreen,
         "status": "Completed",
-        "message":
-            "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed successfully.",
+        "message": "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed successfully.",
         'assets': 'assets/notification/completed_task.svg'
       };
     case "pending":
       return {
         "color": kColorAmber,
         "status": "Waiting",
-        "message":
-            "The ${isRequested ? 'task' : 'service'} $serviceName has been booked. Waiting for approval.",
+        "message": "The ${isRequested ? 'task' : 'service'} $serviceName has been booked. Waiting for approval.",
         'assets': 'assets/notification/completed_task.svg'
       };
     case "completed_task":
@@ -211,15 +291,13 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
-        "message":
-            "The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
+        "message": "The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
       };
     case "approval":
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
-        "message":
-            "The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
+        "message": "The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
       };
     case "booking":
       return {
@@ -231,41 +309,42 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": Colors.red.shade800,
         "status": "Create",
-        "message":
-            "You have successfully created a ${isRequested ? 'task' : 'service'} $serviceName.",
+        "message": "You have successfully created a ${isRequested ? 'task' : 'service'} $serviceName.",
         'assets': 'assets/notification/service_created.svg'
       };
     case "waiting":
       return {
         "color": kColorAmber,
         "status": "Waiting",
-        "message":
-            "You have successfully applied for ${isRequested ? 'task' : 'service'} $serviceName.",
+        "message": "You have successfully applied for ${isRequested ? 'task' : 'service'} $serviceName.",
         'assets': 'assets/notification/waiting.svg'
       };
     case "rejected":
       return {
         "color": Colors.red.shade800,
         "status": "Rejected",
-        "message":
-            "The ${isRequested ? 'task' : 'service'} $serviceName has been rejected.",
+        "message": "The ${isRequested ? 'task' : 'service'} $serviceName has been rejected.",
       };
     case "cancelled":
       return {
         "color": Colors.red.shade800,
         "status": "Cancelled",
-        "message":
-            " has cancelled the ${isRequested ? 'task' : 'service'} completion.",
+        "message": " has cancelled the ${isRequested ? 'task' : 'service'} completion.",
       };
     case "payment completed":
       return {
         "color": kColorGreen,
         "status": "Completed",
-        "message":
-            "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed successfully .",
+        "message": "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed successfully .",
         'assets': 'assets/notification/payment.svg'
       };
-
+    case "followed":
+      return {
+        "color": kColorPrimary,
+        "status": "Followed",
+        "message": "Your have followed $userName successfully .",
+        'assets': 'assets/notification/payment.svg'
+      };
     default:
       return {
         "color": kColorPrimary,

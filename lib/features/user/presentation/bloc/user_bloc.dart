@@ -80,6 +80,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
+                    isEdited: true,
                   ),
                 ),
               )
@@ -92,6 +93,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
+              isEdited: false,
             ),
           );
           add(

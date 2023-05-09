@@ -121,13 +121,13 @@ const kPurpleText19dark = TextStyle(
 const kText13 = TextStyle(
   fontSize: 13,
   color: Color(0xff495057),
-  fontWeight: FontWeight.normal,
+  // fontWeight: FontWeight.normal,
 );
 
 const kText13dark = TextStyle(
   fontSize: 12,
   color: Color(0xffffffff),
-  // fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.normal,
 );
 
 const kText14 = TextStyle(
@@ -222,7 +222,7 @@ const kHeading3dark = TextStyle(
 const kHelper13 = TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.w400,
-  color: Color(0xff495057),
+  color: kColorSilver,
 );
 const kHelper13dark = TextStyle(
   fontSize: 13,

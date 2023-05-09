@@ -14,14 +14,16 @@ class CustomLogout extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       actionsPadding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 0,
         vertical: 8,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment:CrossAxisAlignment.start ,
         children: [
           Container(
-            height: 70,
+            height: 40,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
@@ -32,7 +34,7 @@ class CustomLogout extends StatelessWidget {
           ),
           Text(
             "Hope to see you back soon",
-            style: kPurpleText19,
+            style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
           addVerticalSpace(8),
@@ -45,35 +47,43 @@ class CustomLogout extends StatelessWidget {
       ),
       actions: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Flexible(
-              child: CustomElevatedButton(
-                callback: () {
-                  Navigator.pop(context);
-                },
-                label: "Cancel",
-                mainColor: Colors.white,
-                textColor: kColorPrimary,
-                borderColor: kColorPrimary,
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: CustomElevatedButton(
+                  callback: () {
+                    Navigator.pop(context);
+                  },
+                  label: "Cancel",
+                  mainColor: Colors.white,
+                  textColor: kColorPrimary,
+                  borderColor: kColorPrimary,
+                ),
               ),
             ),
             addHorizontalSpace(
               10,
             ),
             Flexible(
-              child: CustomElevatedButton(
-                callback: () async {
-                  context.read<SignInBloc>().add(
-                        SignOutInitiated(),
-                      );
-                  await Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    SignInPage.routeName,
-                    (route) => false,
-                  );
-                },
-                label: "Yes, I'm sure",
+              child: SizedBox(
+                height: 40,
+                width: 100,
+                child: CustomElevatedButton(
+                  callback: () async {
+                    context.read<SignInBloc>().add(
+                          SignOutInitiated(),
+                        );
+                    await Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SignInPage.routeName,
+                      (route) => false,
+                    );
+                  },
+                  label: "Yes, I'm sure",
+                ),
               ),
             ),
           ],

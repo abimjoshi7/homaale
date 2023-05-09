@@ -9,17 +9,35 @@ class TaskEntityServiceState extends Equatable {
   final TaskEntityServiceRes? taskEntityServiceRes;
   final bool? isLoaded;
   final bool? isCreated;
+  final bool? isEdited;
+  final bool? isDeleted;
   final bool? rejectSuccess;
   final bool? rejectFail;
-
   const TaskEntityServiceState({
-    this.theStates = TheStates.initial,
+    this.theStates,
     this.taskEntityService,
     this.applicantModel,
+    this.approveSuccess,
+    this.approveFail,
+    this.taskEntityServiceRes,
+    this.isLoaded,
+    this.isCreated,
+    this.isEdited,
+    this.isDeleted,
+    this.rejectSuccess,
+    this.rejectFail,
+  });
+
+  const TaskEntityServiceState.init({
+    this.theStates = TheStates.initial,
+    this.taskEntityService = null,
+    this.applicantModel = null,
     this.approveSuccess = false,
     this.approveFail = false,
-    this.taskEntityServiceRes,
+    this.taskEntityServiceRes = null,
     this.isLoaded = false,
+    this.isEdited = false,
+    this.isDeleted = false,
     this.isCreated = false,
     this.rejectSuccess = false,
     this.rejectFail = false,
@@ -34,6 +52,8 @@ class TaskEntityServiceState extends Equatable {
     TaskEntityServiceRes? taskEntityServiceRes,
     bool? isLoaded,
     bool? isCreated,
+    bool? isEdited,
+    bool? isDeleted,
     bool? rejectSuccess,
     bool? rejectFail,
   }) {
@@ -46,6 +66,8 @@ class TaskEntityServiceState extends Equatable {
       taskEntityServiceRes: taskEntityServiceRes ?? this.taskEntityServiceRes,
       isLoaded: isLoaded ?? this.isLoaded,
       isCreated: isCreated ?? this.isCreated,
+      isEdited: isEdited ?? this.isEdited,
+      isDeleted: isDeleted ?? this.isDeleted,
       rejectSuccess: rejectSuccess ?? this.rejectSuccess,
       rejectFail: rejectFail ?? this.rejectFail,
     );
@@ -56,12 +78,14 @@ class TaskEntityServiceState extends Equatable {
     return [
       theStates,
       taskEntityService,
-      taskEntityServiceRes,
-      isLoaded,
-      isCreated,
       applicantModel,
       approveSuccess,
       approveFail,
+      taskEntityServiceRes,
+      isLoaded,
+      isCreated,
+      isEdited,
+      isDeleted,
       rejectSuccess,
       rejectFail,
     ];

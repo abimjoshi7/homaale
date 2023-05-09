@@ -1,21 +1,23 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class EditMyOrdersForm extends StatefulWidget with TheModalBottomSheet {
-  final int selectedIndex;
+  final Result result;
   final bool isTask;
   final BookingsBloc bookingsBloc;
 
   const EditMyOrdersForm({
     super.key,
-    required this.selectedIndex,
+    required this.result,
     required this.isTask,
     required this.bookingsBloc,
   });
@@ -47,13 +49,13 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
   XFile? imagePath;
   XFile? videoPath;
 
-  late int selectedIndex;
+  late Result result;
   late bool isTask;
   late BookingsBloc bookingsBloc;
 
   @override
   void initState() {
-    selectedIndex = widget.selectedIndex;
+    result = widget.result;
     isTask = widget.isTask;
     bookingsBloc = widget.bookingsBloc;
     super.initState();
@@ -76,7 +78,6 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
       bloc: bookingsBloc,
       builder: (context, state) {
         if (state.states == TheStates.success) {
-          final myBookingList = isTask ? state.myBookingListModelTask?.result : state.myBookingListModelService?.result;
           return Padding(
             padding: kPadding10,
             child: Form(
@@ -89,7 +90,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                     child: CustomTextFormField(
                       controller: problemDescController,
                       validator: validateNotEmpty,
-                      hintText: myBookingList?[selectedIndex].description ?? '',
+                      hintText: result.description ?? '',
                     ),
                   ),
                   CustomFormField(
@@ -108,7 +109,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             (index) => Padding(
                               padding: const EdgeInsets.all(2),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -146,7 +148,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         addVerticalSpace(5),
                         CustomTextFormField(
                           controller: requirementController,
-                          hintText: myBookingList?[selectedIndex].requirements!.join(', ') ?? 'Add requirements',
+                          hintText: result.requirements!.join(', '),
                           onFieldSubmitted: (p0) {
                             setState(() {
                               requirementList.add(p0!);
@@ -164,7 +166,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                         String? x;
                         if (cityState is CityLoadSuccess) {
                           for (final element in cityState.list) {
-                            if (element.id == myBookingList?[selectedIndex].city) {
+                            if (element.id == result.city) {
                               x = element.name;
                             }
                           }
@@ -194,7 +196,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                     isRequired: true,
                     child: CustomTextFormField(
                       controller: locationController,
-                      hintText: myBookingList?[selectedIndex].location ?? '',
+                      hintText: result.location ?? '',
                       validator: validateNotEmpty,
                     ),
                   ),
@@ -212,9 +214,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               ),
                               CustomTextFormField(
                                 controller: startBudgetController,
-                                hintText: myBookingList?[selectedIndex].budgetFrom != null
-                                    ? "${myBookingList?[selectedIndex].budgetFrom}"
-                                    : 'Add starting Price',
+                                hintText: result.budgetFrom != null ? "${result.budgetFrom}" : 'Add starting Price',
                               ),
                             ],
                           ),
@@ -230,9 +230,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                               ),
                               CustomTextFormField(
                                 controller: endBudgetController,
-                                hintText: myBookingList?[selectedIndex].budgetTo != null
-                                    ? "${myBookingList?[selectedIndex].budgetTo}"
-                                    : 'Add end Price',
+                                hintText: result.budgetTo != null ? "${result.budgetTo}" : 'Add end Price',
                               ),
                             ],
                           ),
@@ -271,7 +269,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                     },
                                     child: CustomFormContainer(
                                       hintText: DateFormat.yMMMMEEEEd().format(
-                                        startDate ?? myBookingList?[selectedIndex].startDate ?? DateTime.now(),
+                                        startDate ?? result.startDate ?? DateTime.now(),
                                       ),
                                     ),
                                   ),
@@ -308,7 +306,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                     },
                                     child: CustomFormContainer(
                                       hintText: DateFormat.yMMMMEEEEd().format(
-                                        endDate ?? myBookingList?[selectedIndex].endDate ?? DateTime.now(),
+                                        endDate ?? result.endDate ?? DateTime.now(),
                                       ),
                                     ),
                                   ),
@@ -320,91 +318,92 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       ],
                     ),
                   ),
-                  CustomFormField(
-                    label: 'Images',
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              'Maximum Image Size 20 MB',
-                              style: kHelper13,
-                            ),
-                            addHorizontalSpace(5),
-                            const Icon(
-                              Icons.info_outline,
-                              color: Colors.orange,
-                            ),
-                          ],
-                        ),
-                        addVerticalSpace(5),
-                        InkWell(
-                          onTap: () async {
-                            showBottomSheet(
-                              context: context,
-                              builder: (context) => Dialog(),
-                            );
-                            await context.read<ImageUploadCubit>().uploadImage(
-                                  imagePath: imagePath,
-                                );
-                          },
-                          child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                            listener: (context, state) {
-                              if (state is ImageUploadSuccess) {
-                                setState(() {
-                                  imageList = List<int>.from(state.list);
-                                });
-                              }
-                            },
-                            child: CustomDottedContainerStack(
-                              theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomFormField(
-                    label: 'Videos',
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Maximum Video Size 20 MB',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            addHorizontalSpace(5),
-                            const Icon(
-                              Icons.info_outline,
-                              color: Colors.orange,
-                            ),
-                          ],
-                        ),
-                        addVerticalSpace(5),
-                        InkWell(
-                          onTap: () async {
-                            await context.read<ImageUploadCubit>().uploadVideo(
-                                  imagePath: videoPath,
-                                );
-                          },
-                          child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                            listener: (context, state) {
-                              if (state is VideoUploadSuccess) {
-                                setState(() {
-                                  fileList = List<int>.from(state.list);
-                                });
-                              }
-                            },
-                            child: CustomDottedContainerStack(
-                              theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  CustomMultimedia(),
+                  // CustomFormField(
+                  //   label: 'Images',
+                  //   child: Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           const Text(
+                  //             'Maximum Image Size 20 MB',
+                  //             style: kHelper13,
+                  //           ),
+                  //           addHorizontalSpace(5),
+                  //           const Icon(
+                  //             Icons.info_outline,
+                  //             color: Colors.orange,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       addVerticalSpace(5),
+                  //       InkWell(
+                  //         onTap: () async {
+                  //           showBottomSheet(
+                  //             context: context,
+                  //             builder: (context) => Dialog(),
+                  //           );
+                  //           await context.read<ImageUploadCubit>().uploadImage(
+                  //                 imagePath: imagePath,
+                  //               );
+                  //         },
+                  //         child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                  //           listener: (context, state) {
+                  //             if (state is ImageUploadSuccess) {
+                  //               setState(() {
+                  //                 imageList = List<int>.from(state.list);
+                  //               });
+                  //             }
+                  //           },
+                  //           child: CustomDottedContainerStack(
+                  //             theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // CustomFormField(
+                  //   label: 'Videos',
+                  //   child: Column(
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Text(
+                  //             'Maximum Video Size 20 MB',
+                  //             style: Theme.of(context).textTheme.bodySmall,
+                  //           ),
+                  //           addHorizontalSpace(5),
+                  //           const Icon(
+                  //             Icons.info_outline,
+                  //             color: Colors.orange,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       addVerticalSpace(5),
+                  //       InkWell(
+                  //         onTap: () async {
+                  //           await context.read<ImageUploadCubit>().uploadVideo(
+                  //                 imagePath: videoPath,
+                  //               );
+                  //         },
+                  //         child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                  //           listener: (context, state) {
+                  //             if (state is VideoUploadSuccess) {
+                  //               setState(() {
+                  //                 fileList = List<int>.from(state.list);
+                  //               });
+                  //             }
+                  //           },
+                  //           child: CustomDottedContainerStack(
+                  //             theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Row(
                     children: [
                       CustomCheckBox(
@@ -430,9 +429,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             child: CustomFormField(
                               label: 'Start Time',
                               child: CustomFormContainer(
-                                hintText: startTime?.format(context) ??
-                                    myBookingList?[selectedIndex].startTime.toString() ??
-                                    '',
+                                hintText: startTime?.format(context) ?? result.startTime.toString(),
                                 callback: () async {
                                   await showTimePicker(
                                     context: context,
@@ -451,8 +448,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             child: CustomFormField(
                               label: 'End Time',
                               child: CustomFormContainer(
-                                hintText:
-                                    endTime?.format(context) ?? myBookingList?[selectedIndex].endTime.toString() ?? '',
+                                hintText: endTime?.format(context) ?? result.endTime.toString(),
                                 callback: () async {
                                   await showTimePicker(
                                     context: context,
@@ -479,41 +475,34 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       callback: () {
                         if (_formKey.currentState!.validate()) {
                           final req = EditBookingReq(
-                            description: problemDescController.text.isNotEmpty
-                                ? problemDescController.text
-                                : myBookingList?[selectedIndex].description,
-                            requirements: requirementList.isNotEmpty
-                                ? requirementList
-                                : myBookingList?[selectedIndex].requirements,
-                            city: cityCode ?? myBookingList?[selectedIndex].city?.toInt(),
-                            location: locationController.text.isNotEmpty
-                                ? locationController.text
-                                : myBookingList?[selectedIndex].location,
+                            description:
+                                problemDescController.text.isNotEmpty ? problemDescController.text : result.description,
+                            requirements: requirementList.isNotEmpty ? requirementList : result.requirements,
+                            city: cityCode ?? result.city?.toInt(),
+                            location: locationController.text.isNotEmpty ? locationController.text : result.location,
                             budgetTo: endBudgetController.text.isNotEmpty
                                 ? double.parse(endBudgetController.text)
-                                : double.parse(myBookingList?[selectedIndex].budgetTo ?? '0.0'),
+                                : double.parse(result.entityService?.budgetTo ?? '0.0'),
                             budgetFrom: startBudgetController.text.isNotEmpty
                                 ? double.parse(startBudgetController.text)
-                                : double.parse(myBookingList?[selectedIndex].budgetFrom ?? '0.0'),
+                                : double.parse(result.entityService?.budgetFrom ?? '0.0'),
                             images: imageList ??
-                                List.generate(myBookingList?[selectedIndex].images?.length ?? 0,
-                                    (index) => myBookingList?[selectedIndex].images?[index].id),
+                                List.generate(result.images?.length ?? 0, (index) => result.images?[index].id),
                             videos: fileList ??
-                                List.generate(myBookingList?[selectedIndex].videos?.length ?? 0,
-                                    (index) => myBookingList?[selectedIndex].videos?[index].id),
-                            startDate: startDate ?? myBookingList?[selectedIndex].startDate,
-                            endDate: endDate ?? myBookingList?[selectedIndex].endDate,
-                            startTime: startTime?.format(context) ?? myBookingList?[selectedIndex].startTime,
-                            endTime: endTime?.format(context) ?? myBookingList?[selectedIndex].endTime,
-                            createdBy: myBookingList?[selectedIndex].createdBy?.user?.id ?? '',
-                            entityService: myBookingList?[selectedIndex].entityService?.id ?? '',
-                            isActive: myBookingList?[selectedIndex].isActive,
+                                List.generate(result.videos?.length ?? 0, (index) => result.videos?[index].id),
+                            startDate: startDate ?? result.startDate,
+                            endDate: endDate ?? result.endDate,
+                            startTime: startTime?.format(context) ?? result.startTime,
+                            endTime: endTime?.format(context) ?? result.endTime,
+                            createdBy: result.createdBy?.user?.id ?? '',
+                            entityService: result.entityService?.id ?? '',
+                            isActive: result.isActive,
                             status: "pending",
                           );
 
                           bookingsBloc.add(
                             BookingEdited(
-                              id: myBookingList?[selectedIndex].id?.toInt() ?? 0,
+                              id: result.id!,
                               req: req,
                               isTask: isTask,
                             ),

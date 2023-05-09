@@ -3,29 +3,16 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/documents/presentation/cubit/image/image_upload_cubit.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class VideoPickerDialog extends StatelessWidget {
-  final ImageUploadCubit uploadCubit;
-  final XFile? imagePath;
-  final List<XFile>? imagePathList;
   const VideoPickerDialog({
     Key? key,
-    required this.uploadCubit,
-    this.imagePath,
-    this.imagePathList,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ImageUploadCubit, ImageUploadState>(
+    return BlocBuilder<UploadBloc, UploadState>(
       builder: (context, state) {
-        if (state is ImageUploadLoading) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: kColorSecondary,
-            ),
-          );
-        }
         return AlertDialog(
           title: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -48,12 +35,20 @@ class VideoPickerDialog extends StatelessWidget {
                     Icons.camera_alt_outlined,
                     color: kColorBlue,
                   ),
-                  onTap: () async {
-                    await uploadCubit
-                        .uploadVideo(isCamera: true, imagePath: imagePath)
-                        .whenComplete(
-                          () => Navigator.of(context).pop(),
-                        );
+                  onTap: () {
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<UploadBloc>().add(
+                            VideoUploaded(
+                              context: context,
+                              isCamera: true,
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -64,12 +59,20 @@ class VideoPickerDialog extends StatelessWidget {
                     Icons.photo_library_outlined,
                     color: kColorGreen,
                   ),
-                  onTap: () async {
-                    await uploadCubit
-                        .uploadVideo(isCamera: false, imagePath: imagePath)
-                        .whenComplete(
-                          () => Navigator.of(context).pop(),
-                        );
+                  onTap: () {
+                    Future.delayed(
+                      Duration.zero,
+                      () => context.read<UploadBloc>().add(
+                            VideoUploaded(
+                              context: context,
+                              isCamera: false,
+                            ),
+                          ),
+                    ).whenComplete(
+                      () => Navigator.pop(
+                        context,
+                      ),
+                    );
                   },
                 ),
               ),

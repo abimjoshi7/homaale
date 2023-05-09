@@ -14,6 +14,7 @@ import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -111,7 +112,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
   final GlobalKey _five = GlobalKey();
   final GlobalKey _six = Home.notificationKey;
   final GlobalKey _seven = CategoriesSection.catKey;
-  final GlobalKey _eight = PopularServicesSection.pServiceKey;
+  final GlobalKey _eight = TrendingServicesSection.pServiceKey;
   final GlobalKey _nine = TasksRecommendationSection.taskRecoSection;
 
   final scrollController = ScrollController();
@@ -181,14 +182,14 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context
-                          .read<NotificationBloc>()
-                          .add(MyNotificationListInitiated()),
-                    }
-                });
+            .then(
+              (value) async => {
+                if (CacheHelper.isLoggedIn)
+                  {
+                    context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+                  }
+              },
+            );
       },
     );
   }
@@ -417,7 +418,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 },
                                 pageIndex: pageIndex,
                                 index: 3,
-                                label: 'Profile',
+                                label: 'Account',
                                 iconData: Icons.account_circle_outlined,
                                 isActive: profileActive,
                               ),

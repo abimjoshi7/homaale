@@ -26,23 +26,8 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     final orderID = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        centerTitle: true,
-        title: const Text(
-          'Select Payment Method',
-          style: TextStyle(color: Colors.black, fontSize: 14),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+      appBar: CustomAppBar(
+        appBarTitle: 'Select Payment Method',
       ),
       body: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
         builder: (context, state) {
@@ -59,14 +44,15 @@ class _PaymentPageState extends State<PaymentPage> {
                     children: [
                       Text(
                         'Payment Methods',
-                        style: kPurpleText16,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       if (state.theState == TheStates.initial)
                         const Center(
                             child: CardLoading(
                           height: 200,
                         )),
-                      if (state.theState == TheStates.success && state.paymentType!.result != null)
+                      if (state.theState == TheStates.success &&
+                          state.paymentType!.result != null)
                         ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.paymentType?.result!.length,
@@ -75,8 +61,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               radio: Builder(
                                 builder: (BuildContext context) {
                                   return Radio(
-                                    groupValue: state.paymentType?.result![index],
-                                    value: state.paymentType?.result![currentIndex],
+                                    groupValue:
+                                        state.paymentType?.result![index],
+                                    value: state
+                                        .paymentType?.result![currentIndex],
                                     onChanged: (newValue) {
                                       setState(
                                         () {
@@ -87,8 +75,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                   );
                                 },
                               ),
-                              walletAssets: state.paymentType?.result![index].logo ?? "",
-                              walletName: state.paymentType?.result![index].name ?? "",
+                              walletAssets:
+                                  state.paymentType?.result![index].logo ?? "",
+                              walletName:
+                                  state.paymentType?.result![index].name ?? "",
                               walletCardNo:
                                   // state
                                   //         .paymentType?.result![index].id
@@ -125,7 +115,8 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 CustomElevatedButton(
                   callback: () {
-                    context.read<PaymentTypeBloc>().add(PaymentTypeCurrentIndex(currentIndex: currentIndex));
+                    context.read<PaymentTypeBloc>().add(
+                        PaymentTypeCurrentIndex(currentIndex: currentIndex));
                     Navigator.pushNamed(
                       context,
                       PaymentSummaryPage.routeName,

@@ -13,6 +13,8 @@ import 'package:cipher/features/notification/data/repositories/notification_repo
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
+import 'package:cipher/features/rating_reviews/data/repositories/rating_reviews_repository.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -20,6 +22,8 @@ import 'package:cipher/features/services/presentation/manager/services_bloc.dart
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
+import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -33,6 +37,8 @@ void init() {
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
   locator.registerLazySingleton<NotificationRepositories>(() => NotificationRepositories());
   locator.registerLazySingleton<BookEventHandlerBloc>(() => BookEventHandlerBloc());
+  locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
+  locator.registerLazySingleton<RatingReviewsRepositroy>(() => RatingReviewsRepositroy());
 
   //bloc
   locator.registerFactory<TaskBloc>(() => TaskBloc());
@@ -53,6 +59,8 @@ void init() {
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
   locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
+  locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
+  locator.registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

@@ -413,7 +413,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                         dropdownSearchDecoration:
                                             InputDecoration(
                                           hintText: 'Location',
-                                              hintStyle:
+                                          hintStyle:
                                               TextStyle(color: Colors.black),
                                           border: InputBorder.none,
                                           suffixIconColor: locationSelected
@@ -430,8 +430,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                         showSearchBox: true,
                                         modalBottomSheetProps:
                                             ModalBottomSheetProps(
-                                          backgroundColor:
-                                              Theme.of(context).cardColor,
                                           useSafeArea: false,
                                         ),
                                       ),
