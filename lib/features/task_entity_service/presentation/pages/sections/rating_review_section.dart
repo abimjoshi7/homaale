@@ -1,11 +1,20 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/widgets.dart';
+import 'package:cipher/core/constants/date_time_representation.dart';
+import 'package:cipher/features/rating_reviews/data/models/rating_response_dto.dart';
+import 'package:cipher/features/rating_reviews/presentation/rating_reviews.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/widgets.dart';
+
 class RatingReviewSection extends StatelessWidget {
+  final bool? canUserWriteReview;
+  final RatingResponseDto? reviews;
+
   const RatingReviewSection({
-    super.key,
-  });
+    Key? key,
+    this.canUserWriteReview,
+    this.reviews,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,110 +34,119 @@ class RatingReviewSection extends StatelessWidget {
           ),
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                // vertical: 8,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children:  <Widget>[
-                            Text(
-                              'Reviews ',
-                             style: Theme.of(context).textTheme.headlineSmall,                            ),
-                            Text('(0)')
-                          ],
-                        ),
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            'Rating ',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          Text('(${reviews?.result?.length ?? 0})')
+                        ],
                       ),
-                      Flexible(
-                        child: CustomDropDownField(
-                          list: const [
-                            'Most Relevant',
-                            'Most Popular',
-                          ],
-                          hintText: 'Specify',
-                          onChanged: (value) {},
-                        ),
-                      )
+                      canUserWriteReview ?? false
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: TextButton(
+                                onPressed: () async {
+                                  await showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        const CustomModalSheetDrawerIcon(),
+                                        kHeight10,
+                                        const Text(
+                                          'Rating & Review',
+                                          style: kText17,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            children: const [
+                                              CustomFormField(
+                                                label: 'Task Description',
+                                                isRequired: true,
+                                                child: CustomTextFormField(),
+                                              ),
+                                              CustomFormField(
+                                                label: 'Ratings',
+                                                isRequired: true,
+                                                child: CustomTextFormField(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        CustomElevatedButton(
+                                          callback: () {},
+                                          label: 'Submit Now',
+                                        ),
+                                        kHeight20,
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Give your review',
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        color: kColorPrimary,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
                     ],
                   ),
-                  const ListTile(
-                    leading: CircleAvatar(),
-                    title: Text('Elena'),
-                    trailing: Text(
-                      '3 days ago',
-                      style: kHelper13,
+                  ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemCount: reviews!.result!.length > 3 ? 3 : reviews!.result!.length,
+                    itemBuilder: (context, index) => ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(reviews?.result?[index].ratedBy?.profileImage ?? ''),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      title: Text('${reviews?.result?[index].review}'),
+                      trailing: Text(
+                        getVerboseDateTimeRepresentation(
+                            DateTime.parse(reviews?.result?[index].createdAt ?? DateTime.now().toString())),
+                        style: kHelper13,
+                      ),
                     ),
-                  )
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, RatingReviewsPage.routeName);
+                    },
+                    child: Text(
+                      'See all review',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: kColorPrimary,
+                          ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
         ),
-        // Align(
-        //   alignment: Alignment.centerLeft,
-        //   child: TextButton(
-        //     onPressed: () async {
-        //       if (!CacheHelper.isLoggedIn) {
-        //         notLoggedInPopUp(context);
-        //       }
-        //       if (!CacheHelper.isLoggedIn) return;
-        //       await showModalBottomSheet(
-        //         context: context,
-        //         builder: (context) => Column(
-        //           mainAxisSize: MainAxisSize.min,
-        //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //           children: [
-        //             const CustomModalSheetDrawerIcon(),
-        //             kHeight10,
-        //             const Text(
-        //               'Rating & Review',
-        //               style: kText17,
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.all(10),
-        //               child: Column(
-        //                 children: const [
-        //                   CustomFormField(
-        //                     label: 'Name',
-        //                     isRequired: true,
-        //                     child: CustomTextFormField(),
-        //                   ),
-        //                   CustomFormField(
-        //                     label: 'Email',
-        //                     isRequired: true,
-        //                     child: CustomTextFormField(),
-        //                   ),
-        //                   CustomFormField(
-        //                     label: 'Task Description',
-        //                     isRequired: true,
-        //                     child: CustomTextFormField(),
-        //                   ),
-        //                   CustomFormField(
-        //                     label: 'Ratings',
-        //                     isRequired: true,
-        //                     child: CustomTextFormField(),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             CustomElevatedButton(
-        //               callback: () {},
-        //               label: 'Submit Now',
-        //             ),
-        //             kHeight20,
-        //           ],
-        //         ),
-        //       );
-        //     },
-        //     child: const Text('Write a Review'),
-        //   ),
-        // ),
       ],
     );
   }

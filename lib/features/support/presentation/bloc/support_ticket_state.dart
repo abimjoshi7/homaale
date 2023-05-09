@@ -6,25 +6,22 @@ part of 'support_ticket_bloc.dart';
 class SupportTicketState extends Equatable {
   final TheStates? theStates;
   final List<SupportTicketModel>? supportTicketList;
-  final bool isTicketClosed;
   SupportTicketState({
     this.theStates = TheStates.initial,
     this.supportTicketList,
-    this.isTicketClosed = false,
   });
 
   SupportTicketState copyWith({
     TheStates? theStates,
     List<SupportTicketModel>? supportTicketList,
-    bool? isTicketClosed,
+    String? status,
   }) {
     return SupportTicketState(
       theStates: theStates ?? this.theStates,
       supportTicketList: supportTicketList ?? this.supportTicketList,
-      isTicketClosed: isTicketClosed ?? this.isTicketClosed,
     );
   }
 
   @override
-  List<Object?> get props => [theStates, supportTicketList, isTicketClosed];
+  List<Object?> get props => [theStates, supportTicketList];
 }

@@ -14,6 +14,7 @@ import 'package:cipher/features/account_settings/presentation/pages/profile/prof
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
@@ -37,6 +38,7 @@ import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_summary_page.dart';
 import 'package:cipher/features/preference/presentation/pages/preference.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
+import 'package:cipher/features/rating_reviews/presentation/rating_reviews.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_collection_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
@@ -65,6 +67,7 @@ import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
+import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {
@@ -179,6 +182,11 @@ class AppRouter {
       case AccountProfile.routeName:
         return MaterialPageRoute(
           builder: (context) => const AccountProfile(),
+        );
+        case CommonReportPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CommonReportPage(),
+          settings: settings,
         );
       case AccountView.routeName:
         return MaterialPageRoute(
@@ -390,6 +398,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const FaqPage(),
         );
+      case RatingReviewsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const RatingReviewsPage(),
+        );
       case ServiceBookingPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const ServiceBookingPage(),
@@ -412,6 +424,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const BookedServicePage(),
           settings: settings,
+        );
+      case BookingItemDetailPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingItemDetailPage(),
         );
       case EventDetailsPage.routeName:
         return MaterialPageRoute(

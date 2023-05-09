@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'booking_history_res.dart';
+part of 'bookings_response_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BookingHistoryRes _$$_BookingHistoryResFromJson(Map<String, dynamic> json) =>
-    _$_BookingHistoryRes(
+_$_BookingsResponseDto _$$_BookingsResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_BookingsResponseDto(
       totalPages: json['total_pages'] as int?,
       count: json['count'] as int?,
       current: json['current'] as int?,
@@ -19,8 +20,8 @@ _$_BookingHistoryRes _$$_BookingHistoryResFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_BookingHistoryResToJson(
-        _$_BookingHistoryRes instance) =>
+Map<String, dynamic> _$$_BookingsResponseDtoToJson(
+        _$_BookingsResponseDto instance) =>
     <String, dynamic>{
       'total_pages': instance.totalPages,
       'count': instance.count,
@@ -46,6 +47,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       currency: json['currency'] == null
           ? null
           : Currency.fromJson(json['currency'] as Map<String, dynamic>),
+      isRated: json['is_rated'] as bool?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       isActive: json['is_active'] as bool?,
@@ -86,6 +88,7 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'assignee': instance.assignee,
       'entity_service': instance.entityService,
       'currency': instance.currency,
+      'is_rated': instance.isRated,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
       'is_active': instance.isActive,

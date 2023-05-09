@@ -74,10 +74,7 @@ Map<String, Object> kUrls = {
     'list': '${taskerPath}my-following/',
   },
   "follow": '${taskerPath}follow/',
-  "category": {
-    'list': '/task/task-category/nested/',
-    'name': "/task/category/"
-  },
+  "category": {'list': '/task/task-category/nested/', 'name': "/task/category/"},
   'career': {'list': '${careerPath}list/', 'detail': '${careerPath}detail/'},
   // 'blog': {'list': blogPath, 'detail': '${blogPath}detail/'},
   'wishlist': {
