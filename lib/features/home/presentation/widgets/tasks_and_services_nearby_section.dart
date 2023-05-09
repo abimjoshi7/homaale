@@ -45,20 +45,15 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                 ),
                 addVerticalSpace(20),
 
-                BlocBuilder<NearbyTaskEntityServiceCubit,
-                    NearbyTaskEntityServiceState>(
+                BlocBuilder<NearbyTaskEntityServiceCubit, NearbyTaskEntityServiceState>(
                   builder: (_, state) {
                     if (state.theStates == TheStates.success) {
                       if (state.nearbyTaskEntityServiceList == null) ;
-                      List<TaskEntityService> _taskList = state
-                          .nearbyTaskEntityServiceList!
-                          .where((element) => element.isRequested == true)
-                          .toList();
+                      List<TaskEntityService> _taskList =
+                          state.nearbyTaskEntityServiceList!.where((element) => element.isRequested == true).toList();
 
-                      List<TaskEntityService> _serviceList = state
-                          .nearbyTaskEntityServiceList!
-                          .where((element) => element.isRequested == false)
-                          .toList();
+                      List<TaskEntityService> _serviceList =
+                          state.nearbyTaskEntityServiceList!.where((element) => element.isRequested == false).toList();
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -91,43 +86,27 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                   child: Column(
                                     children: <Widget>[
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Expanded(
                                             child: Text(
                                               _taskList[index].title.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
+                                              style: Theme.of(context).textTheme.bodySmall,
                                             ),
                                           ),
                                           Text(
-                                            _taskList[index]
-                                                    .currency!
-                                                    .symbol
-                                                    .toString() +
-                                                _taskList[index]
-                                                    .budgetTo
-                                                    .toString() +
+                                            _taskList[index].currency!.symbol.toString() +
+                                                _taskList[index].budgetTo.toString() +
                                                 ' - ' +
-                                                _taskList[index]
-                                                    .currency!
-                                                    .symbol
-                                                    .toString() +
-                                                _taskList[index]
-                                                    .budgetFrom
-                                                    .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                                _taskList[index].currency!.symbol.toString() +
+                                                _taskList[index].budgetFrom.toString(),
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           )
                                         ],
                                       ),
                                       kHeight10,
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Expanded(
                                             child: Row(
@@ -136,21 +115,13 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                                   radius: 8,
                                                 ),
                                                 // kWidth10,
-                                                Text(_taskList[index]
-                                                    .createdBy!
-                                                    .fullName
-                                                    .toString()),
+                                                Text(_taskList[index].createdBy!.fullName.toString()),
                                               ],
                                             ),
                                           ),
                                           Text(
-                                            'Per ' +
-                                                _taskList[index]
-                                                    .budgetType
-                                                    .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            'Per ' + _taskList[index].budgetType.toString(),
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           ),
                                         ],
                                       ),
@@ -160,14 +131,11 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                       ),
                                       kHeight10,
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Expanded(
                                             child: WidgetText(
-                                              label: (_taskList[index]
-                                                      .location!
-                                                      .isNotEmpty)
+                                              label: (_taskList[index].location!.isNotEmpty)
                                                   ? "${_taskList[index].location}"
                                                       "\n"
                                                       "${_taskList[index].city!.name}"
@@ -180,8 +148,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                             ),
                                           ),
                                           WidgetText(
-                                            label: DateFormat.yMMMd().format(
-                                                _taskList[index].endDate!),
+                                            label: DateFormat.yMMMd().format(_taskList[index].endDate!),
                                             widget: Icon(
                                               Icons.calendar_today,
                                               color: Color(0xffF06700),
@@ -189,9 +156,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                             ),
                                           ),
                                           WidgetText(
-                                            label: _taskList[index]
-                                                .startTime
-                                                .toString(),
+                                            label: _taskList[index].startTime.toString(),
                                             widget: Icon(
                                               Icons.access_time_filled_outlined,
                                               color: Color(0xff3EAEFF),
@@ -203,13 +168,12 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                       kHeight10,
                                       const Divider(),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: <Widget>[
                                           const WidgetText(
                                             label: 'Save',
                                             widget: Icon(
-                                              Icons.favorite_border_outlined,
+                                              Icons.bookmark_border,
                                               size: 19,
                                               color: Color(0xffFE5050),
                                             ),
@@ -223,8 +187,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                                             ),
                                           ),
                                           WidgetText(
-                                            label:
-                                                "${_taskList[index].viewsCount ?? 0}",
+                                            label: "${_taskList[index].viewsCount ?? 0}",
                                             widget: Icon(
                                               Icons.supervisor_account_outlined,
                                               size: 19,
@@ -267,8 +230,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
     );
   }
 
-  Container buildNearbyServicesList(
-      List<TaskEntityService> _serviceList, BuildContext context) {
+  Container buildNearbyServicesList(List<TaskEntityService> _serviceList, BuildContext context) {
     return Container(
       // color: Theme.of(context).cardColor,
       height: 100.0,
@@ -316,9 +278,8 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       WidgetText(
-                        label: (_serviceList[index].location!.isNotEmpty)
-                            ? "${_serviceList[index].location}"
-                            : 'Remote',
+                        label:
+                            (_serviceList[index].location!.isNotEmpty) ? "${_serviceList[index].location}" : 'Remote',
                         widget: Icon(
                           Icons.location_on_outlined,
                           size: 12,

@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
-import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -61,13 +61,14 @@ class _HistorySectionState extends State<HistorySection> {
       },
       child: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
-          return PagedListView.separated(
-              pagingController: _pagingController,
-              separatorBuilder: (context, index) => addVerticalSpace(16),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, Result item, index) {
-                  return BookingsServiceCard(
+          return PagedListView(
+            pagingController: _pagingController,
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            builderDelegate: PagedChildBuilderDelegate(
+              itemBuilder: (context, Result item, index) {
+                return Container(
+                  margin: EdgeInsets.only(bottom: 16),
+                  child: BookingsServiceCard(
                     callback: () {
                       context.read<BookingsBloc>().add(
                             BookingSingleLoaded(item.booking ?? 0),
@@ -86,9 +87,11 @@ class _HistorySectionState extends State<HistorySection> {
                     mainContentWidget: showBookingDetail(item),
                     status: item.status,
                     bottomRightWidget: displayPrice(item),
-                  );
-                },
-              ));
+                  ),
+                );
+              },
+            ),
+          );
         },
       ),
     );

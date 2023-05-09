@@ -1,4 +1,4 @@
-import 'package:cipher/features/bookings/data/models/booking_history_res.dart';
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -55,8 +55,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                 eventLoader: (date) {
                   var list = [];
                   var res = <Result>[
-                    ...?state.myBookingListModelTask.result,
-                    ...?state.myBookingListModelService.result
+                    ...?state.bookingList.result,
                   ];
                   for (var item in res) {
                     if (date.day == DateTime.parse(item.createdAt!).day) {

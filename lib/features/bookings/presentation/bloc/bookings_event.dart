@@ -6,17 +6,15 @@ abstract class BookingsEvent extends Equatable {
 }
 
 class BookingLoaded extends BookingsEvent {
-  final bool? isTask;
   final String? status;
   final int? page;
   const BookingLoaded({
-    this.isTask,
     this.status,
     this.page,
   });
 
   @override
-  List<Object?> get props => [isTask, status, page];
+  List<Object?> get props => [status, page];
 }
 
 class MyBookingLoaded extends BookingsEvent {
@@ -30,7 +28,7 @@ class MyBookingLoaded extends BookingsEvent {
 }
 
 class BookingSingleLoaded extends BookingsEvent {
-  final int id;
+  final dynamic id;
 
   const BookingSingleLoaded(
     this.id,
@@ -128,4 +126,15 @@ class BookingCancelled extends BookingsEvent {
         id,
         isTask,
       ];
+}
+
+class BookingStatusUpdate extends BookingsEvent {
+  final String id;
+  final String status;
+  const BookingStatusUpdate({
+    required this.id,
+    required this.status,
+  });
+  @override
+  List<Object?> get props => [id, status];
 }

@@ -26,12 +26,28 @@ class BookingRepositories {
     }
   }
 
+  // API to show waiting list items details of box view
   Future<Map<String, dynamic>> fetchSingleBooking({
     required int id,
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
         url: "$kBooking/$id",
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // API to show items details of bookings view
+  Future<Map<String, dynamic>> fetchBooking({
+    required String id,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: "task/entity/service/task/$id",
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
@@ -156,6 +172,23 @@ class BookingRepositories {
       return res as Map<String, dynamic>;
     } catch (e) {
       log('booking api error : ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> updateStatus({required String status, required String id}) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: {
+          "status": status,
+          "task": id,
+        },
+        url: 'task/entity/service/task/status/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log('booking status update api error : ${e.toString()}');
       rethrow;
     }
   }
