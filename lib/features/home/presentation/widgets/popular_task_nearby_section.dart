@@ -99,7 +99,7 @@ class PopularTaskNearbySection extends StatelessWidget {
                           const WidgetText(
                             label: 'Save',
                             widget: Icon(
-                              Icons.favorite_border_outlined,
+                              Icons.bookmark_border,
                               size: 19,
                               color: Color(0xffFE5050),
                             ),

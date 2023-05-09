@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'booking_history_res.dart';
+part of 'bookings_response_dto.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-BookingHistoryRes _$BookingHistoryResFromJson(Map<String, dynamic> json) {
-  return _BookingHistoryRes.fromJson(json);
+BookingsResponseDto _$BookingsResponseDtoFromJson(Map<String, dynamic> json) {
+  return _BookingsResponseDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$BookingHistoryRes {
+mixin _$BookingsResponseDto {
   @JsonKey(name: 'total_pages')
   int? get totalPages => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
@@ -32,15 +32,15 @@ mixin _$BookingHistoryRes {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $BookingHistoryResCopyWith<BookingHistoryRes> get copyWith =>
+  $BookingsResponseDtoCopyWith<BookingsResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BookingHistoryResCopyWith<$Res> {
-  factory $BookingHistoryResCopyWith(
-          BookingHistoryRes value, $Res Function(BookingHistoryRes) then) =
-      _$BookingHistoryResCopyWithImpl<$Res, BookingHistoryRes>;
+abstract class $BookingsResponseDtoCopyWith<$Res> {
+  factory $BookingsResponseDtoCopyWith(
+          BookingsResponseDto value, $Res Function(BookingsResponseDto) then) =
+      _$BookingsResponseDtoCopyWithImpl<$Res, BookingsResponseDto>;
   @useResult
   $Res call(
       {@JsonKey(name: 'total_pages') int? totalPages,
@@ -53,9 +53,9 @@ abstract class $BookingHistoryResCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BookingHistoryResCopyWithImpl<$Res, $Val extends BookingHistoryRes>
-    implements $BookingHistoryResCopyWith<$Res> {
-  _$BookingHistoryResCopyWithImpl(this._value, this._then);
+class _$BookingsResponseDtoCopyWithImpl<$Res, $Val extends BookingsResponseDto>
+    implements $BookingsResponseDtoCopyWith<$Res> {
+  _$BookingsResponseDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -107,11 +107,11 @@ class _$BookingHistoryResCopyWithImpl<$Res, $Val extends BookingHistoryRes>
 }
 
 /// @nodoc
-abstract class _$$_BookingHistoryResCopyWith<$Res>
-    implements $BookingHistoryResCopyWith<$Res> {
-  factory _$$_BookingHistoryResCopyWith(_$_BookingHistoryRes value,
-          $Res Function(_$_BookingHistoryRes) then) =
-      __$$_BookingHistoryResCopyWithImpl<$Res>;
+abstract class _$$_BookingsResponseDtoCopyWith<$Res>
+    implements $BookingsResponseDtoCopyWith<$Res> {
+  factory _$$_BookingsResponseDtoCopyWith(_$_BookingsResponseDto value,
+          $Res Function(_$_BookingsResponseDto) then) =
+      __$$_BookingsResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -125,11 +125,11 @@ abstract class _$$_BookingHistoryResCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BookingHistoryResCopyWithImpl<$Res>
-    extends _$BookingHistoryResCopyWithImpl<$Res, _$_BookingHistoryRes>
-    implements _$$_BookingHistoryResCopyWith<$Res> {
-  __$$_BookingHistoryResCopyWithImpl(
-      _$_BookingHistoryRes _value, $Res Function(_$_BookingHistoryRes) _then)
+class __$$_BookingsResponseDtoCopyWithImpl<$Res>
+    extends _$BookingsResponseDtoCopyWithImpl<$Res, _$_BookingsResponseDto>
+    implements _$$_BookingsResponseDtoCopyWith<$Res> {
+  __$$_BookingsResponseDtoCopyWithImpl(_$_BookingsResponseDto _value,
+      $Res Function(_$_BookingsResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -143,7 +143,7 @@ class __$$_BookingHistoryResCopyWithImpl<$Res>
     Object? pageSize = freezed,
     Object? result = freezed,
   }) {
-    return _then(_$_BookingHistoryRes(
+    return _then(_$_BookingsResponseDto(
       totalPages: freezed == totalPages
           ? _value.totalPages
           : totalPages // ignore: cast_nullable_to_non_nullable
@@ -178,8 +178,8 @@ class __$$_BookingHistoryResCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BookingHistoryRes implements _BookingHistoryRes {
-  const _$_BookingHistoryRes(
+class _$_BookingsResponseDto implements _BookingsResponseDto {
+  const _$_BookingsResponseDto(
       {@JsonKey(name: 'total_pages') this.totalPages,
       this.count,
       this.current,
@@ -189,8 +189,8 @@ class _$_BookingHistoryRes implements _BookingHistoryRes {
       final List<Result>? result})
       : _result = result;
 
-  factory _$_BookingHistoryRes.fromJson(Map<String, dynamic> json) =>
-      _$$_BookingHistoryResFromJson(json);
+  factory _$_BookingsResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_BookingsResponseDtoFromJson(json);
 
   @override
   @JsonKey(name: 'total_pages')
@@ -218,14 +218,14 @@ class _$_BookingHistoryRes implements _BookingHistoryRes {
 
   @override
   String toString() {
-    return 'BookingHistoryRes(totalPages: $totalPages, count: $count, current: $current, next: $next, previous: $previous, pageSize: $pageSize, result: $result)';
+    return 'BookingsResponseDto(totalPages: $totalPages, count: $count, current: $current, next: $next, previous: $previous, pageSize: $pageSize, result: $result)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BookingHistoryRes &&
+            other is _$_BookingsResponseDto &&
             (identical(other.totalPages, totalPages) ||
                 other.totalPages == totalPages) &&
             (identical(other.count, count) || other.count == count) &&
@@ -246,30 +246,30 @@ class _$_BookingHistoryRes implements _BookingHistoryRes {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BookingHistoryResCopyWith<_$_BookingHistoryRes> get copyWith =>
-      __$$_BookingHistoryResCopyWithImpl<_$_BookingHistoryRes>(
+  _$$_BookingsResponseDtoCopyWith<_$_BookingsResponseDto> get copyWith =>
+      __$$_BookingsResponseDtoCopyWithImpl<_$_BookingsResponseDto>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BookingHistoryResToJson(
+    return _$$_BookingsResponseDtoToJson(
       this,
     );
   }
 }
 
-abstract class _BookingHistoryRes implements BookingHistoryRes {
-  const factory _BookingHistoryRes(
+abstract class _BookingsResponseDto implements BookingsResponseDto {
+  const factory _BookingsResponseDto(
       {@JsonKey(name: 'total_pages') final int? totalPages,
       final int? count,
       final int? current,
       final String? next,
       final String? previous,
       @JsonKey(name: 'page_size') final int? pageSize,
-      final List<Result>? result}) = _$_BookingHistoryRes;
+      final List<Result>? result}) = _$_BookingsResponseDto;
 
-  factory _BookingHistoryRes.fromJson(Map<String, dynamic> json) =
-      _$_BookingHistoryRes.fromJson;
+  factory _BookingsResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_BookingsResponseDto.fromJson;
 
   @override
   @JsonKey(name: 'total_pages')
@@ -289,7 +289,7 @@ abstract class _BookingHistoryRes implements BookingHistoryRes {
   List<Result>? get result;
   @override
   @JsonKey(ignore: true)
-  _$$_BookingHistoryResCopyWith<_$_BookingHistoryRes> get copyWith =>
+  _$$_BookingsResponseDtoCopyWith<_$_BookingsResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -305,6 +305,8 @@ mixin _$Result {
   @JsonKey(name: 'entity_service')
   EntityService? get entityService => throw _privateConstructorUsedError;
   Currency? get currency => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_rated')
+  bool? get isRated => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
@@ -354,6 +356,7 @@ abstract class $ResultCopyWith<$Res> {
       Assignee? assignee,
       @JsonKey(name: 'entity_service') EntityService? entityService,
       Currency? currency,
+      @JsonKey(name: 'is_rated') bool? isRated,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
       @JsonKey(name: 'is_active') bool? isActive,
@@ -401,6 +404,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? assignee = freezed,
     Object? entityService = freezed,
     Object? currency = freezed,
+    Object? isRated = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? isActive = freezed,
@@ -445,6 +449,10 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as Currency?,
+      isRated: freezed == isRated
+          ? _value.isRated
+          : isRated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -597,6 +605,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       Assignee? assignee,
       @JsonKey(name: 'entity_service') EntityService? entityService,
       Currency? currency,
+      @JsonKey(name: 'is_rated') bool? isRated,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'updated_at') String? updatedAt,
       @JsonKey(name: 'is_active') bool? isActive,
@@ -645,6 +654,7 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? assignee = freezed,
     Object? entityService = freezed,
     Object? currency = freezed,
+    Object? isRated = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? isActive = freezed,
@@ -689,6 +699,10 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as Currency?,
+      isRated: freezed == isRated
+          ? _value.isRated
+          : isRated // ignore: cast_nullable_to_non_nullable
+              as bool?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -790,6 +804,7 @@ class _$_Result implements _Result {
       this.assignee,
       @JsonKey(name: 'entity_service') this.entityService,
       this.currency,
+      @JsonKey(name: 'is_rated') this.isRated,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt,
       @JsonKey(name: 'is_active') this.isActive,
@@ -831,6 +846,9 @@ class _$_Result implements _Result {
   final EntityService? entityService;
   @override
   final Currency? currency;
+  @override
+  @JsonKey(name: 'is_rated')
+  final bool? isRated;
   @override
   @JsonKey(name: 'created_at')
   final String? createdAt;
@@ -919,7 +937,7 @@ class _$_Result implements _Result {
 
   @override
   String toString() {
-    return 'Result(id: $id, assigner: $assigner, assignee: $assignee, entityService: $entityService, currency: $currency, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, status: $status, title: $title, description: $description, requirements: $requirements, charge: $charge, location: $location, estimatedTime: $estimatedTime, slug: $slug, startDate: $startDate, endDate: $endDate, completedOn: $completedOn, startTime: $startTime, endTime: $endTime, extraData: $extraData, isPaid: $isPaid, booking: $booking, city: $city, images: $images, videos: $videos)';
+    return 'Result(id: $id, assigner: $assigner, assignee: $assignee, entityService: $entityService, currency: $currency, isRated: $isRated, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, status: $status, title: $title, description: $description, requirements: $requirements, charge: $charge, location: $location, estimatedTime: $estimatedTime, slug: $slug, startDate: $startDate, endDate: $endDate, completedOn: $completedOn, startTime: $startTime, endTime: $endTime, extraData: $extraData, isPaid: $isPaid, booking: $booking, city: $city, images: $images, videos: $videos)';
   }
 
   @override
@@ -936,6 +954,7 @@ class _$_Result implements _Result {
                 other.entityService == entityService) &&
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
+            (identical(other.isRated, isRated) || other.isRated == isRated) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -980,6 +999,7 @@ class _$_Result implements _Result {
         assignee,
         entityService,
         currency,
+        isRated,
         createdAt,
         updatedAt,
         isActive,
@@ -1025,6 +1045,7 @@ abstract class _Result implements Result {
       final Assignee? assignee,
       @JsonKey(name: 'entity_service') final EntityService? entityService,
       final Currency? currency,
+      @JsonKey(name: 'is_rated') final bool? isRated,
       @JsonKey(name: 'created_at') final String? createdAt,
       @JsonKey(name: 'updated_at') final String? updatedAt,
       @JsonKey(name: 'is_active') final bool? isActive,
@@ -1061,6 +1082,9 @@ abstract class _Result implements Result {
   EntityService? get entityService;
   @override
   Currency? get currency;
+  @override
+  @JsonKey(name: 'is_rated')
+  bool? get isRated;
   @override
   @JsonKey(name: 'created_at')
   String? get createdAt;

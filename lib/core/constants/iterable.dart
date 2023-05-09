@@ -189,6 +189,73 @@ Map<String, dynamic> getStatus(String status) {
   }
 }
 
+Map<String, dynamic> getBookingStatus(String status) {
+  switch (status) {
+    case "Open":
+      return {
+        "color": kColorAmber,
+        "status": "Start Task",
+      };
+    case "Initiated":
+      return {
+        "color": kColorGrey,
+        "status": "Payment pending",
+      };
+    case "On Progress":
+      return {
+        "color": kColorGreen,
+        "status": "Mark as complete",
+      };
+    default:
+      return {
+        "color": kColorPrimary,
+        "status": "Apply",
+      };
+  }
+}
+
+Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
+  switch (status) {
+    case "Initiated":
+      return {
+        "buttonLabel": isAssignee ? "Payment pending" : "Proceed to orders",
+        "color": isAssignee ? kColorGrey : kColorBlue,
+        "status": "Open",
+      };
+    case "Open":
+      return {
+        "buttonLabel": isAssignee ? "Start Task" : "Waiting for tasker to start",
+        "color": isAssignee ? kColorAmber : kColorGrey,
+        "status": "On Progress",
+      };
+    case "On Progress":
+      return {
+        "buttonLabel": isAssignee ? "Mark as Completed" : "Your task is in progress",
+        "color": isAssignee ? kColorAmber : kColorGrey,
+        "status": "Completed",
+      };
+    case "Completed":
+      return {
+        "buttonLabel": isAssignee ? "Waiting for the client to approve" : "Close task",
+        "color": isAssignee ? kColorGrey : kColorAmber,
+        "status": "Closed",
+      };
+    case "Closed":
+      return {
+        "buttonLabel": "Close task",
+        "color": isAssignee ? kColorGrey : kColorAmber,
+        "status": "Closed",
+      };
+
+    default:
+      return {
+        "buttonLabel": status,
+        "color": kColorAmber,
+        "status": status,
+      };
+  }
+}
+
 Map<String, dynamic> getNotificationStatus(
     {required String status, required bool isRequested, String? userName, String? serviceName}) {
   switch (status) {

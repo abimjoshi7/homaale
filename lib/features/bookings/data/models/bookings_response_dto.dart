@@ -2,12 +2,12 @@
 
 import 'package:dependencies/dependencies.dart';
 
-part 'booking_history_res.freezed.dart';
-part 'booking_history_res.g.dart';
+part 'bookings_response_dto.freezed.dart';
+part 'bookings_response_dto.g.dart';
 
 @freezed
-class BookingHistoryRes with _$BookingHistoryRes {
-  const factory BookingHistoryRes({
+class BookingsResponseDto with _$BookingsResponseDto {
+  const factory BookingsResponseDto({
     @JsonKey(name: 'total_pages') int? totalPages,
     int? count,
     int? current,
@@ -15,10 +15,9 @@ class BookingHistoryRes with _$BookingHistoryRes {
     String? previous,
     @JsonKey(name: 'page_size') int? pageSize,
     List<Result>? result,
-  }) = _BookingHistoryRes;
+  }) = _BookingsResponseDto;
 
-  factory BookingHistoryRes.fromJson(Map<String, dynamic> json) =>
-      _$BookingHistoryResFromJson(json);
+  factory BookingsResponseDto.fromJson(Map<String, dynamic> json) => _$BookingsResponseDtoFromJson(json);
 }
 
 @freezed
@@ -29,6 +28,7 @@ class Result with _$Result {
     Assignee? assignee,
     @JsonKey(name: 'entity_service') EntityService? entityService,
     Currency? currency,
+    @JsonKey(name: 'is_rated') bool? isRated,
     @JsonKey(name: 'created_at') String? createdAt,
     @JsonKey(name: 'updated_at') String? updatedAt,
     @JsonKey(name: 'is_active') bool? isActive,
@@ -78,8 +78,7 @@ class Assignee with _$Assignee {
     Badge? badge,
   }) = _Assignee;
 
-  factory Assignee.fromJson(Map<String, dynamic> json) =>
-      _$AssigneeFromJson(json);
+  factory Assignee.fromJson(Map<String, dynamic> json) => _$AssigneeFromJson(json);
 }
 
 @freezed
@@ -101,8 +100,7 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -117,8 +115,7 @@ class EntityService with _$EntityService {
     @JsonKey(name: 'created_by') Assignee? createdBy,
   }) = _EntityService;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceFromJson(json);
+  factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
 }
 
 @freezed

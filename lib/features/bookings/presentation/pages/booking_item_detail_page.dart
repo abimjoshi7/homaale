@@ -1,24 +1,24 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
-import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bm;
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class BookedServicePage extends StatefulWidget {
-  static const routeName = '/booked-service-page';
-  const BookedServicePage({super.key});
+class BookingItemDetailPage extends StatefulWidget {
+  static const routeName = '/booking-item-detail-page';
+  const BookingItemDetailPage({super.key});
 
   @override
-  State<BookedServicePage> createState() => _BookedServicePageState();
+  State<BookingItemDetailPage> createState() => _BookingItemDetailPageState();
 }
 
-class _BookedServicePageState extends State<BookedServicePage> {
+class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
   int _imageIndex = 0;
 
   @override
@@ -33,8 +33,9 @@ class _BookedServicePageState extends State<BookedServicePage> {
               ),
             );
           } else if (state.states == TheStates.success) {
-            final booking = state.result;
+            final booking = state.bookingRes;
             final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
+            final isAssignee = booking.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id;
 
             return Column(
               children: [
@@ -42,7 +43,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                   50,
                 ),
                 CustomHeader(
-                  label: booking.entityService?.title,
+                  label: StringUtils.capitalize(booking.title!),
                 ),
                 Divider(),
                 Expanded(
@@ -78,7 +79,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                         SizedBox(
                                           width: MediaQuery.of(context).size.width * 0.6,
                                           child: Text(
-                                            '${booking.entityService?.title ?? ''}',
+                                            '${StringUtils.capitalize(booking.title ?? '')}',
                                             style: Theme.of(context).textTheme.headlineSmall,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -119,36 +120,21 @@ class _BookedServicePageState extends State<BookedServicePage> {
                             addVerticalSpace(16),
                             Row(
                               children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    Text(booking.entityService?.viewsCount?.toString() ?? '0.0 (0)')
-                                  ],
+                                const Icon(
+                                  Icons.location_on_outlined,
+                                  color: Colors.red,
                                 ),
-                                addHorizontalSpace(16),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on_outlined,
-                                      color: Colors.red,
-                                    ),
-                                    Text(
-                                        '${booking.entityService?.city?.name ?? 'Kathmandu'}, ${booking.entityService?.city?.country?.name ?? 'Nepal'}')
-                                  ],
-                                ),
+                                Text('${booking.location ?? 'Nepal'}')
                               ],
                             ),
                             addVerticalSpace(16),
                             ShowMoreTextWidget(
-                                text: Bidi.stripHtmlIfNeeded(booking.entityService?.description ??
+                                text: Bidi.stripHtmlIfNeeded(booking.description ??
                                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
-                            if (booking.entityService?.highlights?.isNotEmpty ?? false) ...[
+                            if (booking.requirements?.isNotEmpty ?? false) ...[
                               addVerticalSpace(10),
                               RequirementSection(
-                                requirementList: booking.entityService?.highlights,
+                                requirementList: booking.requirements,
                               ),
                             ],
                             if (mediaList.isNotEmpty) ...[
@@ -233,6 +219,46 @@ class _BookedServicePageState extends State<BookedServicePage> {
                         fit: BoxFit.fill,
                       ),
                       addVerticalSpace(10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Date & Time',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            addVerticalSpace(4),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.calendar_month,
+                                      color: Colors.amber,
+                                    ),
+                                    Text('${Jiffy(booking.startDate).MMMd} - ${Jiffy(booking.endDate).MMMd}')
+                                  ],
+                                ),
+                                addVerticalSpace(8),
+                                if (booking.startTime != null && booking.endTime != null) ...[
+                                  addHorizontalSpace(8),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.alarm_on,
+                                        color: kColorBlue,
+                                      ),
+                                      Text('${booking.startTime} - ${booking.endTime}')
+                                    ],
+                                  )
+                                ],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      addVerticalSpace(10),
                       const Visibility(
                         visible: false,
                         child: Padding(
@@ -241,23 +267,82 @@ class _BookedServicePageState extends State<BookedServicePage> {
                         ),
                       ),
                       addVerticalSpace(10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          children: [
-                            AdditionalInfoSection(
-                              date: '${Jiffy(booking.startDate).yMMMd} . ${booking.startTime}',
-                              location: booking.entityService?.location,
-                              views: booking.entityService?.viewsCount?.toString() ?? '0',
-                              happyClients: booking.createdBy?.stats?.happyClients?.toString() ?? '0',
-                              successRate: booking.createdBy?.stats?.successRate?.toString() ?? '0',
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
+                booking.status == 'Closed'
+                    ? booking.isRated ?? false
+                        ? Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: kColorLightSkyBlue,
+                            height: 100,
+                            child: Center(child: Text('Your task is completed')),
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: kColorLightSkyBlue,
+                            height: 100,
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Text('Your task is completed'),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: kColorPrimary,
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minHeight: 30,
+                                        minWidth: 100,
+                                      ),
+                                      child: AutoSizeText(
+                                        textAlign: TextAlign.center,
+                                        'Review Task',
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                    : PriceBookFooterSection(
+                        buttonLabel: statusToUpdate('${booking.status}', isAssignee)["buttonLabel"] as String,
+                        buttonColor: statusToUpdate('${booking.status}', isAssignee)["color"] as Color,
+                        price: booking.entityService?.budgetFrom != null
+                            ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
+                            : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
+                        onPressed: () {
+                          var taskToUpdate = statusToUpdate('${booking.status}', isAssignee)["status"] as String;
+
+                          if (booking.status == 'Initiated') {
+                            return;
+                          }
+
+                          if (booking.status == 'Completed') {
+                            if (isAssignee) {
+                              return;
+                            } else {
+                              context.read<BookingsBloc>().add(
+                                    BookingStatusUpdate(
+                                      id: booking.id!,
+                                      status: taskToUpdate,
+                                    ),
+                                  );
+                            }
+                          } else {
+                            context.read<BookingsBloc>().add(
+                                  BookingStatusUpdate(
+                                    id: booking.id!,
+                                    status: taskToUpdate,
+                                  ),
+                                );
+                          }
+                        },
+                      ),
               ],
             );
           }

@@ -305,7 +305,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                             if (!CacheHelper.isLoggedIn) return;
                                           },
                                           child: const Icon(
-                                            Icons.favorite_border_outlined,
+                                            Icons.bookmark_border,
                                             color: Colors.red,
                                           ),
                                         ),
