@@ -4,6 +4,7 @@ import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -108,7 +109,8 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                             (index) => Padding(
                               padding: const EdgeInsets.all(2),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -316,91 +318,92 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       ],
                     ),
                   ),
-                  CustomFormField(
-                    label: 'Images',
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              'Maximum Image Size 20 MB',
-                              style: kHelper13,
-                            ),
-                            addHorizontalSpace(5),
-                            const Icon(
-                              Icons.info_outline,
-                              color: Colors.orange,
-                            ),
-                          ],
-                        ),
-                        addVerticalSpace(5),
-                        InkWell(
-                          onTap: () async {
-                            showBottomSheet(
-                              context: context,
-                              builder: (context) => Dialog(),
-                            );
-                            await context.read<ImageUploadCubit>().uploadImage(
-                                  imagePath: imagePath,
-                                );
-                          },
-                          child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                            listener: (context, state) {
-                              if (state is ImageUploadSuccess) {
-                                setState(() {
-                                  imageList = List<int>.from(state.list);
-                                });
-                              }
-                            },
-                            child: CustomDottedContainerStack(
-                              theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomFormField(
-                    label: 'Videos',
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Maximum Video Size 20 MB',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            addHorizontalSpace(5),
-                            const Icon(
-                              Icons.info_outline,
-                              color: Colors.orange,
-                            ),
-                          ],
-                        ),
-                        addVerticalSpace(5),
-                        InkWell(
-                          onTap: () async {
-                            await context.read<ImageUploadCubit>().uploadVideo(
-                                  imagePath: videoPath,
-                                );
-                          },
-                          child: BlocListener<ImageUploadCubit, ImageUploadState>(
-                            listener: (context, state) {
-                              if (state is VideoUploadSuccess) {
-                                setState(() {
-                                  fileList = List<int>.from(state.list);
-                                });
-                              }
-                            },
-                            child: CustomDottedContainerStack(
-                              theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  CustomMultimedia(),
+                  // CustomFormField(
+                  //   label: 'Images',
+                  //   child: Column(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           const Text(
+                  //             'Maximum Image Size 20 MB',
+                  //             style: kHelper13,
+                  //           ),
+                  //           addHorizontalSpace(5),
+                  //           const Icon(
+                  //             Icons.info_outline,
+                  //             color: Colors.orange,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       addVerticalSpace(5),
+                  //       InkWell(
+                  //         onTap: () async {
+                  //           showBottomSheet(
+                  //             context: context,
+                  //             builder: (context) => Dialog(),
+                  //           );
+                  //           await context.read<ImageUploadCubit>().uploadImage(
+                  //                 imagePath: imagePath,
+                  //               );
+                  //         },
+                  //         child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                  //           listener: (context, state) {
+                  //             if (state is ImageUploadSuccess) {
+                  //               setState(() {
+                  //                 imageList = List<int>.from(state.list);
+                  //               });
+                  //             }
+                  //           },
+                  //           child: CustomDottedContainerStack(
+                  //             theWidget: imageList == null ? Text('Select Images') : Text('Image Uploaded'),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // CustomFormField(
+                  //   label: 'Videos',
+                  //   child: Column(
+                  //     children: [
+                  //       Row(
+                  //         children: [
+                  //           Text(
+                  //             'Maximum Video Size 20 MB',
+                  //             style: Theme.of(context).textTheme.bodySmall,
+                  //           ),
+                  //           addHorizontalSpace(5),
+                  //           const Icon(
+                  //             Icons.info_outline,
+                  //             color: Colors.orange,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       addVerticalSpace(5),
+                  //       InkWell(
+                  //         onTap: () async {
+                  //           await context.read<ImageUploadCubit>().uploadVideo(
+                  //                 imagePath: videoPath,
+                  //               );
+                  //         },
+                  //         child: BlocListener<ImageUploadCubit, ImageUploadState>(
+                  //           listener: (context, state) {
+                  //             if (state is VideoUploadSuccess) {
+                  //               setState(() {
+                  //                 fileList = List<int>.from(state.list);
+                  //               });
+                  //             }
+                  //           },
+                  //           child: CustomDottedContainerStack(
+                  //             theWidget: fileList == null ? Text('Select Videos') : Text('File Uploaded'),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Row(
                     children: [
                       CustomCheckBox(

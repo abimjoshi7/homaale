@@ -14,11 +14,13 @@ class CustomLogout extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       actionsPadding: EdgeInsets.symmetric(
-        horizontal: 30,
+        horizontal: 0,
         vertical: 8,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment:CrossAxisAlignment.start ,
         children: [
           Container(
             height: 40,
@@ -32,7 +34,7 @@ class CustomLogout extends StatelessWidget {
           ),
           Text(
             "Hope to see you back soon",
-            style: kPurpleText19,
+            style: Theme.of(context).textTheme.headlineSmall,
             textAlign: TextAlign.center,
           ),
           addVerticalSpace(8),
@@ -45,7 +47,7 @@ class CustomLogout extends StatelessWidget {
       ),
       actions: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Flexible(
               child: SizedBox(

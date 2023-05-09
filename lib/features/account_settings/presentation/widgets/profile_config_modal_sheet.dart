@@ -23,9 +23,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
         if (state.theStates == TheStates.success) {
           return Column(
             children: [
-              const CustomModalSheetDrawerIcon(),
-               Text(
-
+              Text(
                 'Profile Configuration',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
@@ -51,10 +49,7 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                   CustomFormField(
                     label: 'Task Preferences',
                     child: CustomDropDownField(
-                      list: const [
-                        'Short term tasks',
-                        'Long term tasks',
-                      ],
+                      list: kTaskPrefList,
                       hintText:
                           state.taskerProfile?.taskPreferences ?? 'Choose one',
                       onChanged: (value) => setState(

@@ -28,7 +28,9 @@ class DescriptionView extends StatelessWidget {
                 state.taskerProfile?.bio ?? '',
               ),
               Wrap(
+                direction: Axis.vertical,
                 runSpacing: 4,
+                spacing: 2,
                 children: [
                   WidgetText(
                     widget: const Icon(

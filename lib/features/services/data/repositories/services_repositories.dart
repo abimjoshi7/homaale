@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 
 class ServicesRepositories {
@@ -11,7 +12,7 @@ class ServicesRepositories {
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: 'task/entity/my-entity-services/',
+        url: kMyTaskEntityServices,
         query: {
           "is_requested": isTask,
         },
@@ -24,7 +25,8 @@ class ServicesRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchServiceCategoryList([int? categoryId]) async {
+  Future<List<Map<String, dynamic>>> fetchServiceCategoryList(
+      [int? categoryId]) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
@@ -66,7 +68,7 @@ class ServicesRepositories {
     try {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
-          url: 'task/entity/service/',
+          url: kTaskEntityService,
           query: {
             'is_requested': false,
             'page': page,
@@ -78,7 +80,7 @@ class ServicesRepositories {
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
-          url: 'task/entity/service/',
+          url: kTaskEntityService,
           query: {
             'is_requested': false,
             'page': page,
