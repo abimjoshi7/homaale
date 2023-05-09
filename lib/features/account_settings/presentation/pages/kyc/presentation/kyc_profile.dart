@@ -75,11 +75,9 @@ class _KycProfileState extends State<KycProfile> {
                       content: "Tasker Profile Filled Successfully.",
                       onTap: () async {
                         context.read<KycBloc>().add(KycProfileInitiated());
-
-                        await Navigator.pushNamedAndRemoveUntil(
+                        await Navigator.pushNamed(
                           context,
                           KycDetails.routeName,
-                          (route) => false,
                         );
                       },
                       isSuccess: true,

@@ -6,6 +6,7 @@ import 'package:cipher/features/account_settings/presentation/pages/deactivate/d
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/help_legal_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/languages_page/languages_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/membership/membership.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
@@ -82,7 +83,6 @@ class AppRouter {
           builder: (context) => const SignInPage(),
           settings: settings,
         );
-
       case SupportTicketPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SupportTicketPage(),
@@ -198,6 +198,10 @@ class AppRouter {
       case KycProfile.routeName:
         return MaterialPageRoute(
           builder: (context) => const KycProfile(),
+        );
+      case KycView.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const KycView(),
         );
       case SavedPage.routeName:
         return MaterialPageRoute(

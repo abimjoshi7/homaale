@@ -1,26 +1,33 @@
-import 'dart:developer';
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class KycDetails extends StatefulWidget {
+class KycDetails extends StatelessWidget {
   const KycDetails({super.key});
 
   static const routeName = '/kyc-details';
 
   @override
-  State<KycDetails> createState() => _KycDetailsState();
+  Widget build(BuildContext context) {
+    return KycDetailMainView();
+  }
 }
 
-class _KycDetailsState extends State<KycDetails> {
+class KycDetailMainView extends StatefulWidget {
+  const KycDetailMainView({super.key});
+
+  @override
+  State<KycDetailMainView> createState() => _KycDetailMainViewState();
+}
+
+class _KycDetailMainViewState extends State<KycDetailMainView> {
   bool hasDocExpiryDate = true;
   final identityTypeController = TextEditingController();
   final identityNumberController = TextEditingController();
@@ -34,12 +41,12 @@ class _KycDetailsState extends State<KycDetails> {
   void initState() {
     super.initState();
     context.read<KycBloc>()
-      ..add(
-        KycModelLoaded(),
-      )
-      ..add(
-        KycDocumentLoaded(),
-      )
+      // ..add(
+      //   KycModelLoaded(),
+      // )
+      // ..add(
+      //   KycDocumentLoaded(),
+      // )
       ..add(
         KycDocTypeLoaded(),
       );
@@ -57,15 +64,7 @@ class _KycDetailsState extends State<KycDetails> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<KycBloc, KycState>(
-      listenWhen: (previous, current) {
-        if (previous.kycId == null && current.kycId != null) {
-          return true;
-          // if (current.theStates == TheStates.success &&
-          //     current.list?.length != 0) return true;
-        }
-        return previous.theStates == TheStates.loading;
-      },
-      listener: (context, state) async {
+      listener: (_, state) async {
         if (state.theStates == TheStates.success && state.isCreated == true) {
           await showDialog(
             barrierDismissible: false,
@@ -74,10 +73,10 @@ class _KycDetailsState extends State<KycDetails> {
               heading: "Success",
               content: "Kyc document uploaded successfully",
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
+                context.read<KycBloc>().add(KycProfileInitiated());
+                Navigator.pushNamed(
                   context,
                   Root.routeName,
-                  (route) => false,
                 );
               },
               isSuccess: true,
@@ -175,17 +174,17 @@ class _KycDetailsState extends State<KycDetails> {
                                   label: 'Issued Date',
                                   isRequired: true,
                                   child: CustomFormContainer(
-                                    hintText: state.list?.length == 0
-                                        ? issuedDate != null
+                                    hintText: state.list!.isNotEmpty
+                                        // ? state.list?.first.issuedDate != null
+                                        ? DateFormat("yyyy-MM-dd").format(
+                                            state.list!.first.issuedDate!,
+                                          )
+                                        // : "No Date"
+                                        : issuedDate != null
                                             ? DateFormat("yyyy-MM-dd").format(
                                                 issuedDate!,
                                               )
-                                            : "yyyy-mm-dd"
-                                        : state.list?.first.issuedDate != null
-                                            ? DateFormat("yyyy-MM-dd").format(
-                                                state.list!.first.issuedDate!,
-                                              )
-                                            : "No Date",
+                                            : "yyyy-mm-dd",
                                     leadingWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
@@ -193,25 +192,24 @@ class _KycDetailsState extends State<KycDetails> {
                                     hintStyle: (state.list?.length != 0)
                                         ? TextStyle(color: Colors.grey.shade500)
                                         : null,
-                                    callback:
-                                        state.list?.first.issuedDate != null
-                                            ? null
-                                            : () async {
-                                                await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(1950),
-                                                  lastDate: DateTime(
-                                                    2080,
-                                                  ),
-                                                ).then(
-                                                  (value) => setState(
-                                                    () {
-                                                      issuedDate = value;
-                                                    },
-                                                  ),
-                                                );
-                                              },
+                                    callback: state.list?.length != 0
+                                        ? null
+                                        : () async {
+                                            await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1950),
+                                              lastDate: DateTime(
+                                                2080,
+                                              ),
+                                            ).then(
+                                              (value) => setState(
+                                                () {
+                                                  issuedDate = value;
+                                                },
+                                              ),
+                                            );
+                                          },
                                   ),
                                 ),
                               ),
@@ -220,23 +218,22 @@ class _KycDetailsState extends State<KycDetails> {
                                 child: CustomFormField(
                                   label: 'Valid Till',
                                   child: CustomFormContainer(
-                                    hintText: state.list?.length == 0
-                                        ? expiryDate != null
-                                            ? DateFormat("yyyy-MM-dd").format(
-                                                expiryDate!,
-                                              )
-                                            : "yyyy-mm-dd"
-                                        : state.list?.first.validThrough != null
+                                    hintText: state.list?.length != 0
+                                        ? state.list?.first.validThrough != null
                                             ? DateFormat("yyyy-MM-dd").format(
                                                 state.list!.first.validThrough!,
                                               )
-                                            : "No Date",
+                                            : "No Date"
+                                        : expiryDate != null
+                                            ? DateFormat("yyyy-MM-dd").format(
+                                                expiryDate!,
+                                              )
+                                            : "yyyy-mm-dd",
                                     leadingWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: state.list?.first.issuedDate !=
-                                            null
+                                    callback: state.list?.length != 0
                                         ? null
                                         : !hasDocExpiryDate
                                             ? null
@@ -273,15 +270,14 @@ class _KycDetailsState extends State<KycDetails> {
                             child: Row(
                               children: <Widget>[
                                 CustomCheckBox(
-                                  isChecked: state.list?.first.issuedDate !=
-                                          null
+                                  isChecked: state.list?.length != 0
                                       ? state.list?.first.validThrough != null
                                           ? false
                                           : true
                                       : hasDocExpiryDate
                                           ? false
                                           : true,
-                                  onTap: state.list?.first.issuedDate != null
+                                  onTap: state.list?.length != 0
                                       ? null
                                       : () {
                                           setState(
@@ -415,20 +411,20 @@ class _KycDetailsState extends State<KycDetails> {
   }
 
   Widget buildIdentityTypeDropdown(KycState state) {
-    if (state.docTypeList != null) {
+    if (state.docTypeList?.length != 0) {
       return CustomFormField(
         label: 'Identity Type',
         isRequired: true,
         child: CustomDropDownField<String>(
-          list: state.docTypeList!.map((e) => e.name!).toList(),
-          selectedIndex: state.list?.first.issuedDate != null
+          list: state.docTypeList?.map((e) => e.name!).toList() ?? [],
+          selectedIndex: state.list?.length != 0
               ? state.docTypeList!.indexWhere(
                   (e) => e.name!.contains(
                     state.list!.first.documentType!.name.toString(),
                   ),
                 )
               : null,
-          onChanged: state.list?.first.issuedDate != null
+          onChanged: state.list?.length != 0
               ? null
               : (value) {
                   setState(

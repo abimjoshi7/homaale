@@ -57,7 +57,13 @@ class _AccountProfileState extends State<AccountProfile> {
   @override
   void initState() {
     super.initState();
-    // checkAppMode();
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
   }
 
   @override
@@ -172,15 +178,7 @@ class _AccountProfileState extends State<AccountProfile> {
                         ),
                       ),
                       // kHeight20,
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            KycProfile.routeName,
-                          );
-                        },
-                        child: const ProfileKycVerifySection(),
-                      ),
+                      const ProfileKycVerifySection(),
                       BlocBuilder<SignInBloc, SignInState>(
                         builder: (context, state) {
                           if (state.theStates == TheStates.success) {

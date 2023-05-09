@@ -45,7 +45,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             country: _countriesList,
           ));
         }
-      } else {
+      } 
+			else {
         emit(state.copyWith(
           theStates: TheStates.initial,
           isCreated: false,
@@ -120,14 +121,14 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             theStates: TheStates.loading,
           ),
         );
-        await repositories.getKyc().then(
-              (value) => emit(
-                state.copyWith(
-                  theStates: TheStates.success,
-                  kycModel: KycModel.fromJson(value!),
-                ),
-              ),
-            );
+        await repositories.getKyc().then((value) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.success,
+              kycModel: KycModel.fromJson(value!),
+            ),
+          );
+        });
       },
     );
 

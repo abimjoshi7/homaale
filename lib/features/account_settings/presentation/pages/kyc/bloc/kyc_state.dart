@@ -23,6 +23,7 @@ class KycState extends Equatable {
     this.docTypeList,
     this.errMsg,
   });
+
   @override
   List<Object?> get props {
     return [
