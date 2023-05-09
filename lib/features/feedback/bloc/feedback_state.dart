@@ -23,28 +23,3 @@ class feedbackLoadFailure extends FeedbackState {
   @override
   List<Object?> get props => [];
 }
-
-// class FeedbackState extends Equatable {
-//   final TheStates? theStates;
-//   final Feedback? feedback;
-//   const FeedbackState({
-//     this.theStates = TheStates.initial,
-//     this.feedback,
-//   });
-//
-//   FeedbackState copyWith({
-//     TheStates? theStates,
-//     Feedback? feedback,
-//   }) {
-//     return FeedbackState(
-//       theStates: theStates ?? this.theStates,
-//       feedback: feedback ?? this.feedback,
-//     );
-//   }
-//
-//   @override
-//   List<Object?> get props => [
-//         theStates,
-//         feedback,
-//       ];
-// }

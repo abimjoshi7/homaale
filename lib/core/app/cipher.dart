@@ -37,6 +37,7 @@ import 'package:cipher/features/sign_up/presentation/bloc/resend_verification_bl
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/support/data/repositories/support_repository.dart';
+import 'package:cipher/features/support/presentation/bloc/post_support_ticket_bloc.dart';
 import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -54,6 +55,7 @@ import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.da
 import '../../features/feedback/bloc/feedback_bloc.dart';
 import '../../features/feedback/bloc/feedback_post_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
+import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 
 class Cipher extends StatelessWidget {
@@ -88,6 +90,12 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => FeedbackBloc(),
+          ),
+          BlocProvider(
+            create: (context) => PostSupportTicketBloc(),
+          ),
+          BlocProvider(
+            create: (context) => SupportTicketTypeOptionsBloc(),
           ),
           BlocProvider(
             create: (context) => FeedbackPostBloc(),

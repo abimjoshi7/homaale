@@ -66,6 +66,7 @@ import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
+import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {
@@ -180,6 +181,11 @@ class AppRouter {
       case AccountProfile.routeName:
         return MaterialPageRoute(
           builder: (context) => const AccountProfile(),
+        );
+        case CommonReportPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CommonReportPage(),
+          settings: settings,
         );
       case AccountView.routeName:
         return MaterialPageRoute(

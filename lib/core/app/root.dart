@@ -111,7 +111,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
   final GlobalKey _five = GlobalKey();
   final GlobalKey _six = Home.notificationKey;
   final GlobalKey _seven = CategoriesSection.catKey;
-  final GlobalKey _eight = PopularServicesSection.pServiceKey;
+  final GlobalKey _eight = TrendingServicesSection.pServiceKey;
   final GlobalKey _nine = TasksRecommendationSection.taskRecoSection;
 
   final scrollController = ScrollController();

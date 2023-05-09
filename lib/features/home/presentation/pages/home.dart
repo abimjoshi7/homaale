@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
                     HeaderOfferSection(),
                     // DealsOfTheDaySection(),
                     CategoriesSection(),
-                    PopularServicesSection(),
+                    TrendingServicesSection(),
                     TasksRecommendationSection(),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -35,15 +35,12 @@ class Home extends StatelessWidget {
                         width: double.infinity,
                       ),
                     ),
-
                     PopularTaskerSection(),
                     SizedBox(height: 10),
-
                     NotableBannerSection(),
                     // RecentlyLaunchedServicesSection(),
                     TasksAndServicesNearbySection(),
                     SizedBox(height: 120),
-
                     // const PopularTaskerNearbySection(),
                     // const TaskRecommendationSection(),
                     // PopularTaskNearbySection()
