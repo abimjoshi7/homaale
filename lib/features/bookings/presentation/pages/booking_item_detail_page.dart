@@ -270,40 +270,79 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                     ],
                   ),
                 ),
-                PriceBookFooterSection(
-                  buttonLabel: statusToUpdate('${booking.status}', isAssignee)["buttonLabel"] as String,
-                  buttonColor: statusToUpdate('${booking.status}', isAssignee)["color"] as Color,
-                  price: booking.entityService?.budgetFrom != null
-                      ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
-                      : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
-                  onPressed: () {
-                    var taskToUpdate = statusToUpdate('${booking.status}', isAssignee)["status"] as String;
-
-                    if (booking.status == 'Initiated') {
-                      return;
-                    }
-
-                    if (booking.status == 'Completed') {
-                      if (isAssignee) {
-                        return;
-                      } else {
-                        context.read<BookingsBloc>().add(
-                              BookingStatusUpdate(
-                                id: booking.id!,
-                                status: taskToUpdate,
+                booking.status == 'Closed'
+                    ? booking.isRated ?? false
+                        ? Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: kColorLightSkyBlue,
+                            height: 100,
+                            child: Center(child: Text('Your task is completed')),
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: kColorLightSkyBlue,
+                            height: 100,
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Text('Your task is completed'),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: kColorPrimary,
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minHeight: 30,
+                                        minWidth: 100,
+                                      ),
+                                      child: AutoSizeText(
+                                        textAlign: TextAlign.center,
+                                        'Review Task',
+                                        style: Theme.of(context).textTheme.bodySmall,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                      }
-                    } else {
-                      context.read<BookingsBloc>().add(
-                            BookingStatusUpdate(
-                              id: booking.id!,
-                              status: taskToUpdate,
                             ),
-                          );
-                    }
-                  },
-                ),
+                          )
+                    : PriceBookFooterSection(
+                        buttonLabel: statusToUpdate('${booking.status}', isAssignee)["buttonLabel"] as String,
+                        buttonColor: statusToUpdate('${booking.status}', isAssignee)["color"] as Color,
+                        price: booking.entityService?.budgetFrom != null
+                            ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
+                            : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
+                        onPressed: () {
+                          var taskToUpdate = statusToUpdate('${booking.status}', isAssignee)["status"] as String;
+
+                          if (booking.status == 'Initiated') {
+                            return;
+                          }
+
+                          if (booking.status == 'Completed') {
+                            if (isAssignee) {
+                              return;
+                            } else {
+                              context.read<BookingsBloc>().add(
+                                    BookingStatusUpdate(
+                                      id: booking.id!,
+                                      status: taskToUpdate,
+                                    ),
+                                  );
+                            }
+                          } else {
+                            context.read<BookingsBloc>().add(
+                                  BookingStatusUpdate(
+                                    id: booking.id!,
+                                    status: taskToUpdate,
+                                  ),
+                                );
+                          }
+                        },
+                      ),
               ],
             );
           }
