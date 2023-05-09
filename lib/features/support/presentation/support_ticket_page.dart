@@ -1,8 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
+import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
-import 'package:cipher/features/support/presentation/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -16,165 +13,140 @@ class SupportTicketPage extends StatefulWidget {
   State<SupportTicketPage> createState() => _SupportTicketPageState();
 }
 
-class _SupportTicketPageState extends State<SupportTicketPage>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
+class _SupportTicketPageState extends State<SupportTicketPage> {
+  // late TabController _tabController;
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-    );
+    // _tabController = TabController(
+    //   length: 2,
+    //   vsync: this,
+    // );
     context.read<SupportTicketBloc>().add(SupportTicketInitialEvent());
-    setState(() {});
+    // setState(() {});
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _tabController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Support'),
-      body: Column(
-        children: <Widget>[
-          const Divider(
-            thickness: 0.5,
-            color: Color(0xffCED4DA),
-          ),
-          addVerticalSpace(16),
-          Container(
-            height: 145.43,
-            width: 150.0,
-            child: Image.asset(
-              "assets/support/support_img.png",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Text(
-              'If you are facing any trouble, create a Ticket so we can identify and solve the issue right away.',
-              style: Theme.of(context).textTheme.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          addVerticalSpace(24.0),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       CustomOutlinedButton(
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: <Widget>[
-          //             Icon(
-          //               Icons.add,
-          //               color: Color(0xff868E96),
-          //               size: 24.0,
-          //             ),
-          //             addHorizontalSpace(8.0),
-          //             Text(
-          //               'Create Ticket',
-          //               style:
-          //                   TextStyle(color: Color(0xff868E96), fontSize: 14),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //       addHorizontalSpace(26.0),
-          //       CustomOutlinedButton(
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: <Widget>[
-          //             Icon(
-          //               Icons.phone_in_talk_rounded,
-          //               color: Color(0xff868E96),
-          //               size: 24.0,
-          //             ),
-          //             addHorizontalSpace(8.0),
-          //             Text(
-          //               'Call Support',
-          //               style:
-          //                   TextStyle(color: Color(0xff868E96), fontSize: 14),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // addVerticalSpace(24.0),
+      appBar: CustomAppBar(appBarTitle: 'Support Ticket'),
+      body: BlocBuilder<SupportTicketBloc, SupportTicketState>(
+          builder: (context, state) {
+        return state.supportTicketList == null
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/support/support_img.png",
+                      fit: BoxFit.contain,
+                    ),
+                    Text('No support Ticket Found.'),
+                  ],
+                ),
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                // physics: NeverScrollableScrollPhysics(),
+                itemCount: state.supportTicketList?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return BillingTicketDisplayCard(
+                    status: state.supportTicketList![index].status ?? "",
+                    statusDetails:
+                        state.supportTicketList![index].description ?? "",
+                    timeStatus: state.supportTicketList![index].createdAt,
+                  );
+                });
+      }),
+    );
+  }
+}
 
-          BlocListener<SupportTicketBloc, SupportTicketState>(
-            listener: (_, state) {
-              if (state.theStates == TheStates.initial) {
-                if (_tabController.index < 1) {
-                  context.read<SupportTicketBloc>().add(
-                      SupportTicketFetchInitiated(
-                          supportTicketStatus: SupportTicketStatus.open.name));
-                  setState(() {});
-                }
-                if (_tabController.index >= 1) {
-                  context.read<SupportTicketBloc>().add(
-                      SupportTicketFetchInitiated(
-                          supportTicketStatus:
-                              SupportTicketStatus.closed.name));
-                  setState(() {});
-                }
-              }
-            },
-            child: TabBar(
-              onTap: (value) {
-                context
-                    .read<SupportTicketBloc>()
-                    .add(SupportTicketInitialEvent());
-                setState(() {});
-              },
-              unselectedLabelColor: Colors.grey,
-              labelPadding: kPadding10,
-              controller: _tabController,
-              indicatorColor: Colors.amber,
-              physics: BouncingScrollPhysics(),
-              tabs: [
-                Text(
-                  'Active',
-                  style: GoogleFonts.poppins(
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.w500,
+class BillingTicketDisplayCard extends StatelessWidget {
+  final String status;
+  final String statusDetails;
+  final DateTime? timeStatus;
+  const BillingTicketDisplayCard(
+      {Key? key,
+      required this.status,
+      required this.statusDetails,
+      this.timeStatus})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Card(
+          margin: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(
+                    "assets/homaale_logo_title.png",
+                    fit: BoxFit.contain,
+                    height: 50,
+                    width: 50,
                   ),
-                ),
-                Text(
-                  'Closed',
-                  style: GoogleFonts.poppins(
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.w500,
+                  Text(
+                    'Billing Related Issue',
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  //active tab bar list
-                  SupportTicketList(),
-                  //closed tab bar list
-                  SupportTicketList(),
+                  Container(
+                    height: 20,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: status == 'open'
+                          ? Colors.green
+                          : status == 'assigned'
+                              ? Colors.orange
+                              : Colors.red,
+                      borderRadius: BorderRadius.circular(5),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        status,
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          )
-        ],
-      ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
+                child: Text(
+                  statusDetails,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              addVerticalSpace(5),
+              if (timeStatus != null)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+                  child: Text(
+                    getVerboseDateTimeRepresentation(timeStatus!),
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.grey),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -29,7 +29,7 @@ mixin _$PostSupportTicket {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'object_id')
   String? get objectId => throw _privateConstructorUsedError;
-  int? get type => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
   List<dynamic>? get attachment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +51,7 @@ abstract class $PostSupportTicketCopyWith<$Res> {
       String? reason,
       String? description,
       @JsonKey(name: 'object_id') String? objectId,
-      int? type,
+      String? type,
       List<dynamic>? attachment});
 }
 
@@ -105,7 +105,7 @@ class _$PostSupportTicketCopyWithImpl<$Res, $Val extends PostSupportTicket>
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       attachment: freezed == attachment
           ? _value.attachment
           : attachment // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$$_PostSupportTicketCopyWith<$Res>
       String? reason,
       String? description,
       @JsonKey(name: 'object_id') String? objectId,
-      int? type,
+      String? type,
       List<dynamic>? attachment});
 }
 
@@ -181,7 +181,7 @@ class __$$_PostSupportTicketCopyWithImpl<$Res>
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       attachment: freezed == attachment
           ? _value._attachment
           : attachment // ignore: cast_nullable_to_non_nullable
@@ -223,7 +223,7 @@ class _$_PostSupportTicket implements _PostSupportTicket {
   @JsonKey(name: 'object_id')
   final String? objectId;
   @override
-  final int? type;
+  final String? type;
   final List<dynamic>? _attachment;
   @override
   List<dynamic>? get attachment {
@@ -295,7 +295,7 @@ abstract class _PostSupportTicket implements PostSupportTicket {
       final String? reason,
       final String? description,
       @JsonKey(name: 'object_id') final String? objectId,
-      final int? type,
+      final String? type,
       final List<dynamic>? attachment}) = _$_PostSupportTicket;
 
   factory _PostSupportTicket.fromJson(Map<String, dynamic> json) =
@@ -317,7 +317,7 @@ abstract class _PostSupportTicket implements PostSupportTicket {
   @JsonKey(name: 'object_id')
   String? get objectId;
   @override
-  int? get type;
+  String? get type;
   @override
   List<dynamic>? get attachment;
   @override

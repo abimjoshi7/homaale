@@ -37,15 +37,15 @@ class SupportTicketBloc extends Bloc<SupportTicketEvent, SupportTicketState> {
             emit(state.copyWith(
               theStates: TheStates.success,
               supportTicketList: _supportTicketList,
-              isTicketClosed:
-                  event.supportTicketStatus == "open" ? false : true,
+              status:
+                 "",
             ));
           } else {
             emit(state.copyWith(
               theStates: TheStates.success,
               supportTicketList: List.empty(),
-              isTicketClosed:
-                  event.supportTicketStatus == "open" ? false : true,
+              status:
+                  "",
             ));
           }
         } catch (e) {

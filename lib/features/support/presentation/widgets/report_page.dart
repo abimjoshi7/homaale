@@ -31,7 +31,8 @@ class _CommonReportPageState extends State<CommonReportPage> {
   final specifyController = TextEditingController();
   final detailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  int? typeId;
+  String? typeSlug;
+
   @override
   Widget build(BuildContext context) {
     final routeData =
@@ -39,8 +40,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
     final isType = routeData?['isType'] as String?;
     final model = routeData?['model'] as String?;
     final objectId = routeData?['objectId'] as String?;
-    print(objectId);
-    print("model : $model");
+
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: 'Report',
@@ -70,12 +70,12 @@ class _CommonReportPageState extends State<CommonReportPage> {
                                   (element) => p0 == element.name,
                                 );
                                 typeOfProblemController.text = options.name!;
+                                typeSlug = options.slug;
                               },
                             ),
                             list: List.generate(
                               state.list.length,
                               (index) {
-                                typeId = state.list[index].id;
                                 return state.list[index].name;
                               },
                             ),
@@ -120,25 +120,26 @@ class _CommonReportPageState extends State<CommonReportPage> {
                     ),
                   ),
                   addVerticalSpace(10),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.info,
-                        color: Colors.orange,
-                        size: 20,
-                      ),
-                      addHorizontalSpace(5),
-                      Expanded(
-                        child: Text(
-                          'If you are trying to report  any Tasker, '
-                          'go to Tasker profile and report.',
-                          style: TextStyle(color: Colors.orange),
+                  if (isType == null)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(
+                          Icons.info,
+                          color: Colors.orange,
+                          size: 20,
                         ),
-                      ),
-                    ],
-                  ),
+                        addHorizontalSpace(5),
+                        Expanded(
+                          child: Text(
+                            'If you are trying to report  any Tasker, '
+                            'go to Tasker profile and report.',
+                            style: TextStyle(color: Colors.orange),
+                          ),
+                        ),
+                      ],
+                    ),
                   addVerticalSpace(20),
                   CustomElevatedButton(
                     mainColor: Colors.white,
@@ -160,7 +161,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
                                   .add(PostSupportTicketLoadWithOutModel(
                                     description: detailController.text,
                                     reason: specifyController.text,
-                                    type: typeId ?? 0,
+                                    typeSlug: typeSlug ?? '',
                                   ))
                               : context
                                   .read<PostSupportTicketBloc>()
@@ -169,8 +170,9 @@ class _CommonReportPageState extends State<CommonReportPage> {
                                     reason: specifyController.text,
                                     objectId: objectId ?? "",
                                     model: model,
-                                    type: typeId ?? 0,
+                                    typeSlug: typeSlug ?? '',
                                   ));
+                          print(typeSlug);
                           Future.delayed(const Duration(seconds: 1), () {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: TheStates.success == stateP.theState

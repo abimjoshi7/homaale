@@ -28,7 +28,7 @@ class SupportTicketList extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return SupportTicketCard(
                   supportTicket: state.supportTicketList![index],
-                  isTicketClosed: state.isTicketClosed,
+                  isTicketClosed: true,
                 );
               },
             );

@@ -13,7 +13,7 @@ class PostSupportTicket with _$PostSupportTicket {
     String? reason,
     String? description,
     @JsonKey(name: 'object_id') String? objectId,
-    int? type,
+    String? type,
     List<dynamic>? attachment,
   }) = _PostSupportTicket;
 

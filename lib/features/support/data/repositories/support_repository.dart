@@ -8,11 +8,10 @@ import '../model/support_ticket_type_options.dart';
 class SupportRepository {
   final _dioHelper = DioHelper();
 
-  Future fetchSupportTickets(Map<String, dynamic> queryParams) async {
+  Future fetchSupportTickets() async {
     final res = await _dioHelper.getDatawithCredential(
       url: '/support/support-ticket/',
       token: CacheHelper.accessToken,
-      query: queryParams,
     );
     return res['result'];
   }
@@ -39,7 +38,7 @@ class SupportRepository {
   }
 
   Future<Map<String, dynamic>> PostSupportTicketReport(String? model,
-      String description, String reason, String? objectId, int type) async {
+      String description, String reason, String? objectId, String typeSlug) async {
     try {
       final res = await _dioHelper.postDataWithCredential(
         data: {
@@ -47,7 +46,7 @@ class SupportRepository {
           'description': description,
           'reason': reason,
           'object_id': objectId,
-          'type': type
+          'type': typeSlug
         },
         url: 'support/support-ticket/',
         token: CacheHelper.accessToken,
@@ -60,10 +59,10 @@ class SupportRepository {
   }
 
   Future<Map<String, dynamic>> PostSupportTicketReportWithOutModel(
-      String description, String reason, int type) async {
+      String description, String reason, String typeSlug) async {
     try {
       final res = await _dioHelper.postDataWithCredential(
-        data: {'description': description, 'reason': reason, 'type': type},
+        data: {'description': description, 'reason': reason, 'type': typeSlug},
         url: 'support/support-ticket/',
         token: CacheHelper.accessToken,
       );

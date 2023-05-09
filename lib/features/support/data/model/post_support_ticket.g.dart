@@ -18,7 +18,7 @@ _$_PostSupportTicket _$$_PostSupportTicketFromJson(Map<String, dynamic> json) =>
       reason: json['reason'] as String?,
       description: json['description'] as String?,
       objectId: json['object_id'] as String?,
-      type: json['type'] as int?,
+      type: json['type'] as String?,
       attachment: json['attachment'] as List<dynamic>?,
     );
 

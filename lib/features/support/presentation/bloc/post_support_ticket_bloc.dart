@@ -21,7 +21,7 @@ class PostSupportTicketBloc
           event.description,
           event.objectId,
           event.reason,
-          event.type,
+          event.typeSlug,
         ).then(
           (value) => emit(
             state.copyWith(
@@ -44,7 +44,7 @@ class PostSupportTicketBloc
         await repositories.PostSupportTicketReportWithOutModel(
           event.description,
           event.reason,
-          event.type,
+          event.typeSlug,
         ).then(
           (value) => emit(
             state.copyWith(

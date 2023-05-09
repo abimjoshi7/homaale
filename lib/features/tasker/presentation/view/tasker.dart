@@ -186,7 +186,8 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                     onTap: () {
                                       context
                                           .read<SupportTicketTypeOptionsBloc>()
-                                          .add(SupportTicketTypeOptionsLoaded(target: 'user'));
+                                          .add(SupportTicketTypeOptionsLoaded(
+                                              target: 'user'));
                                       Navigator.pushNamed(
                                         context,
                                         CommonReportPage.routeName,
