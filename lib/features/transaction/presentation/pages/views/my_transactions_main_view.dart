@@ -137,6 +137,14 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
                                     state.transactions?[index].createdAt ??
                                         DateTime.now(),
                                   )}",
+                                  paymentMethod: state
+                                      .transactions?[index].paymentMethod?.type,
+                                  transactionId: state.transactions?[index].id,
+                                  sender: state
+                                      .transactions?[index].sender?.fullName,
+                                  reciever: state
+                                      .transactions?[index].receiver?.fullName,
+                                  status: state.transactions?[index].status,
                                 );
                               }
                             },
