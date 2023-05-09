@@ -17,9 +17,11 @@ class SupportRepository {
     return res['result'];
   }
 
-  Future<List<SupportTicketTypeOptions>> fetchFeedback() async {
+  Future<List<SupportTicketTypeOptions>> fetchSupportTicketOptions(
+      {required String target}) async {
     try {
       final res = await _dioHelper.getDatawithCredential(
+        query: {'target': target},
         url: 'support/support-ticket-type/options/',
         token: CacheHelper.accessToken,
       );
@@ -36,18 +38,32 @@ class SupportRepository {
     }
   }
 
-  Future<Map<String, dynamic>> PostSupportTicketReport(
-      String model,
-      String description, String reason, String objectId, int type) async {
+  Future<Map<String, dynamic>> PostSupportTicketReport(String? model,
+      String description, String reason, String? objectId, int type) async {
     try {
       final res = await _dioHelper.postDataWithCredential(
         data: {
-          'model': model ?? "",
+          'model': model,
           'description': description,
           'reason': reason,
           'object_id': objectId,
           'type': type
         },
+        url: 'support/support-ticket/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Feedback details error: $e");
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> PostSupportTicketReportWithOutModel(
+      String description, String reason, int type) async {
+    try {
+      final res = await _dioHelper.postDataWithCredential(
+        data: {'description': description, 'reason': reason, 'type': type},
         url: 'support/support-ticket/',
         token: CacheHelper.accessToken,
       );

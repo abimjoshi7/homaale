@@ -183,6 +183,7 @@ class AppRouter {
         case CommonReportPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CommonReportPage(),
+          settings: settings,
         );
       case AccountView.routeName:
         return MaterialPageRoute(

@@ -8,6 +8,8 @@ import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
+import 'package:cipher/features/support/presentation/bloc/support_ticket_type_options_event.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -200,6 +202,9 @@ class _AccountProfileState extends State<AccountProfile>
                 size: 16,
               ),
               onTap: () {
+                context
+                    .read<SupportTicketTypeOptionsBloc>()
+                    .add(SupportTicketTypeOptionsLoaded(target: ''));
                 Navigator.pushNamed(context, CommonReportPage.routeName);
               },
             ),

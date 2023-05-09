@@ -17,9 +17,32 @@ class PostSupportTicketBloc
           state.copyWith(theState: TheStates.initial),
         );
         await repositories.PostSupportTicketReport(
-          event.model,
+          event.model ?? "user",
           event.description,
           event.objectId,
+          event.reason,
+          event.type,
+        ).then(
+          (value) => emit(
+            state.copyWith(
+              theState: TheStates.success,
+              postSupportTicket: PostSupportTicket.fromJson(value),
+            ),
+          ),
+        );
+      } catch (e) {
+        emit(
+          state.copyWith(theState: TheStates.failure),
+        );
+      }
+    });
+    on<PostSupportTicketLoadWithOutModel>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(theState: TheStates.initial),
+        );
+        await repositories.PostSupportTicketReportWithOutModel(
+          event.description,
           event.reason,
           event.type,
         ).then(

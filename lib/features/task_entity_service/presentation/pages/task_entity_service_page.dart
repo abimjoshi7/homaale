@@ -254,7 +254,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             ),
                           ),
                         ],
-                        SimilarEntityServiceSection(),
+                        // SimilarEntityServiceSection(),
                         addVerticalSpace(16),
                         if ((state.taskEntityService?.isBooked ?? false) &&
                             user.state.taskerProfile?.user?.id !=

@@ -5,6 +5,8 @@ abstract class SupportTicketTypeOptionsEvent extends Equatable {
 }
 
 class SupportTicketTypeOptionsLoaded extends SupportTicketTypeOptionsEvent {
+  final String? target;
+  const SupportTicketTypeOptionsLoaded({this.target});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [target];
 }

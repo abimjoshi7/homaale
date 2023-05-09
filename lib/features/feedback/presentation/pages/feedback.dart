@@ -38,11 +38,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   'Feedback Form',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                addVerticalSpace(10),
-                Expanded(
-                    child: Text(
-                        'Are you enjoying Homaale ? Send us Your Feedbacks.')),
-                addVerticalSpace(20),
+                SizedBox(
+                  height: 30,
+                  child: Text(
+                      'Are you enjoying Homaale ? Send us Your Feedbacks.'),
+                ),
                 CustomFormField(
                   label: 'Subject',
                   isRequired: true,
@@ -79,9 +79,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     hintStyle: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                addVerticalSpace(20),
                 CustomElevatedButton(
                   callback: () {
                     if (_formKey.currentState!.validate()) {

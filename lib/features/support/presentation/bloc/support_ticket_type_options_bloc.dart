@@ -15,7 +15,9 @@ class SupportTicketTypeOptionsBloc
             SupportTicketTypeOptionsLoading(),
           );
 
-          await respositories.fetchFeedback().then(
+          await respositories
+              .fetchSupportTicketOptions(target: event.target ?? '')
+              .then(
             (value) {
               if (value.isNotEmpty) {
                 emit(
