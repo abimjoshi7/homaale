@@ -413,7 +413,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                         dropdownSearchDecoration:
                                             InputDecoration(
                                           hintText: 'Location',
-                                              hintStyle:
+                                          hintStyle:
                                               TextStyle(color: Colors.black),
                                           border: InputBorder.none,
                                           suffixIconColor: locationSelected
