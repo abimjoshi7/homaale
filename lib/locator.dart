@@ -41,7 +41,6 @@ void init() {
   locator.registerLazySingleton<BookEventHandlerBloc>(
       () => BookEventHandlerBloc());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
-  locator.registerLazySingleton<TransactionRepository>(() => TransactionRepository());
 
   //bloc
   locator.registerFactory<TaskBloc>(() => TaskBloc());
@@ -65,7 +64,6 @@ void init() {
   locator.registerFactory<NotificationBloc>(
       () => NotificationBloc(repo: locator()));
   locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
-  locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

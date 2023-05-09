@@ -6,14 +6,14 @@ abstract class TransactionEvent extends Equatable {
 }
 
 class TransactionLoaded extends TransactionEvent {
-  final int pageNumber;
+  final int? pageNumber;
   final DateTime? dateAfter;
   final DateTime? dateBefore;
   final String? status;
   final String? transactionType;
   final int? paymentMethod;
   TransactionLoaded({
-    required this.pageNumber,
+    this.pageNumber,
     this.dateAfter,
     this.dateBefore,
     this.status,
@@ -28,5 +28,48 @@ class TransactionLoaded extends TransactionEvent {
         status,
         transactionType,
         paymentMethod,
+      ];
+
+  TransactionLoaded copyWith({
+    int? pageNumber,
+    DateTime? dateAfter,
+    DateTime? dateBefore,
+    String? status,
+    String? transactionType,
+    int? paymentMethod,
+  }) {
+    return TransactionLoaded(
+      pageNumber: pageNumber ?? this.pageNumber,
+      dateAfter: dateAfter ?? this.dateAfter,
+      dateBefore: dateBefore ?? this.dateBefore,
+      status: status ?? this.status,
+      transactionType: transactionType ?? this.transactionType,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+    );
+  }
+}
+
+class TransactionStatusChanged extends TransactionEvent {
+  final String? status;
+  TransactionStatusChanged({
+    this.status,
+  });
+  @override
+  List<Object?> get props => [
+        status,
+      ];
+}
+
+class TransactionDateChanged extends TransactionEvent {
+  final DateTime? beforeDate;
+  final DateTime? afterDate;
+  TransactionDateChanged({
+    this.beforeDate,
+    this.afterDate,
+  });
+  @override
+  List<Object?> get props => [
+        beforeDate,
+        afterDate,
       ];
 }
