@@ -85,9 +85,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         }
 
         if (state.theStates == TheStates.failure && state.isCreated == false) {
-          // context.read<KycBloc>().add(
-          //       KycModelDeleted(),
-          //     );
           await showDialog(
             context: context,
             builder: (_) => CustomToast(
