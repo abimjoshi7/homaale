@@ -26,7 +26,6 @@ import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
-import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
 import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -57,7 +56,6 @@ import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
-import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
@@ -67,6 +65,8 @@ import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculat
 import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
+import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
+import '../../features/faq_and_data_deletion/faq_page.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
 import '../../features/support/presentation/widgets/report_page.dart';
@@ -184,7 +184,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const AccountProfile(),
         );
-        case CommonReportPage.routeName:
+      case CommonReportPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CommonReportPage(),
           settings: settings,
@@ -406,6 +406,10 @@ class AppRouter {
       case FaqPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const FaqPage(),
+        );
+      case DataDeletionPolicy.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const DataDeletionPolicy(),
         );
       case RatingReviewsPage.routeName:
         return MaterialPageRoute(
