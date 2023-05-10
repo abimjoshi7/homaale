@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
@@ -25,6 +26,18 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +93,9 @@ class _AccountViewState extends State<AccountView> {
                           AccountUserInfoSection(
                             name:
                                 '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified:
-                                state.taskerProfile?.isProfileVerified ?? false,
+                            isVerified: state.taskerProfile!.isProfileVerified!
+                                ? true
+                                : false,
                             designation:
                                 state.taskerProfile?.designation?.toString() ??
                                     'Homaale User',
@@ -147,7 +161,7 @@ class _AccountViewState extends State<AccountView> {
                   builder: (context, state) {
                     if (state.theStates == TheStates.success) {
                       return Visibility(
-                        visible: state.userLoginRes!.hasProfile! ? true : false,
+                        visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
                           onTap: () async {
                             Navigator.pushNamed(

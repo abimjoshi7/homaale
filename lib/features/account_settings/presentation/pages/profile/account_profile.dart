@@ -57,17 +57,7 @@ class _AccountProfileState extends State<AccountProfile>
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<KycBloc>()
-      ..add(
-        KycModelLoaded(),
-      )
-      ..add(
-        KycDocumentLoaded(),
-      );
-  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -408,7 +408,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   }
 
   Widget buildIdentityTypeDropdown(KycState state) {
-    if (state.docTypeList?.length != 0) {
+    if (state.docTypeList?.length != 0 && state.docTypeList != null) {
       return CustomFormField(
         label: 'Identity Type',
         isRequired: true,

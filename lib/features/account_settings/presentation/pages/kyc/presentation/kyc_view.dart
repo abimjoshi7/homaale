@@ -8,7 +8,7 @@ class KycView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Text("shalom"),
+        child: Center(child: Text("Coming Soon")),
       ),
     );
   }
