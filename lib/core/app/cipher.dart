@@ -125,7 +125,8 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) =>
+                TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
             create: (context) => KycBloc(KycRepositories()),
@@ -224,7 +225,8 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
           BlocProvider(
-            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) =>
+                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -252,11 +254,6 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => PaymentVerifyBloc(),
-          ),
-          BlocProvider(
-            create: (context) => OffersBloc(
-              OfferRepository(),
-            ),
           ),
           BlocProvider(
             create: (context) => locator<SavedBloc>(),

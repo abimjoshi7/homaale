@@ -73,9 +73,9 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           ? null
           : DateTime.parse(json['end_date'] as String),
       isConsumable: json['is_consumable'] as bool?,
-      discount: (json['discount'] as num?)?.toDouble(),
+      discount: json['discount'] as String?,
       discountType: json['discount_type'] as String?,
-      discountLimit: (json['discount_limit'] as num?)?.toDouble(),
+      discountLimit: json['discount_limit'] as String?,
       quantity: json['quantity'],
       isCommon: json['is_common'] as bool?,
       organizations: json['organizations'] as List<dynamic>?,
@@ -167,10 +167,14 @@ _$_Free _$$_FreeFromJson(Map<String, dynamic> json) => _$_Free(
       location: json['location'] as String?,
       count: json['count'] as int?,
       isEndorsed: json['is_endorsed'] as bool?,
-      startDate: json['start_date'],
-      endDate: json['end_date'],
-      startTime: json['start_time'],
-      endTime: json['end_time'],
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
+      startTime: json['start_time'] as String?,
+      endTime: json['end_time'] as String?,
       videos: (json['videos'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -196,8 +200,8 @@ Map<String, dynamic> _$$_FreeToJson(_$_Free instance) => <String, dynamic>{
       'location': instance.location,
       'count': instance.count,
       'is_endorsed': instance.isEndorsed,
-      'start_date': instance.startDate,
-      'end_date': instance.endDate,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
       'start_time': instance.startTime,
       'end_time': instance.endTime,
       'videos': instance.videos,
