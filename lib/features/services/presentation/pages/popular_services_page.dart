@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -22,8 +23,7 @@ class PopularServicesPage extends StatefulWidget {
 
 class _PopularServicesPageState extends State<PopularServicesPage> {
   late final entityServiceBloc = locator<EntityServiceBloc>();
-  final PagingController<int, EntityService> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, EntityService> _pagingController = PagingController(firstPageKey: 1);
 
   List<EntityService> serviceList = [];
   List<String>? items = [];
@@ -167,8 +167,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
         isBudgetSort: sortType == SortType.budget));
   }
 
-  void onBudgetDateSort(
-      {required SortType sortType, required bool isAscending}) {
+  void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
     if (sortType == SortType.date) {
       if (isAscending) {
         setState(() {
@@ -217,9 +216,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       body: BlocListener<EntityServiceBloc, EntityServiceState>(
         bloc: entityServiceBloc,
         listener: (context, state) {
-          if ((state.isFilter ?? false) ||
-              (state.isDateSort ?? false) ||
-              (state.isBudgetSort ?? false)) {
+          if ((state.isFilter ?? false) || (state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
             _pagingController.refresh();
             entityServiceBloc.add(ResetFilterSort());
           }
@@ -279,8 +276,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                       items: items ?? [''],
                                       onChanged: (value) {
                                         setState(() {
-                                          categorySelected =
-                                              value != null ? true : false;
+                                          categorySelected = value != null ? true : false;
                                         });
                                         onFilterCategory(category: value);
                                       },
@@ -290,33 +286,23 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                         visualDensity: VisualDensity.compact,
                                         alignment: Alignment.centerRight,
                                         isVisible: categorySelected,
-                                        color: categorySelected
-                                            ? Colors.white
-                                            : Colors.black,
+                                        color: categorySelected ? Colors.white : Colors.black,
                                       ),
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
                                           hintText: 'Category',
-                                          hintStyle:TextStyle(color: Colors.black),
+                                          hintStyle: TextStyle(color: Colors.black),
                                           border: InputBorder.none,
-                                          suffixIconColor: categorySelected
-                                              ? Colors.white
-                                              : Colors.black,
+                                          suffixIconColor: categorySelected ? Colors.white : Colors.black,
                                         ),
                                         baseStyle: TextStyle(
-                                          color: categorySelected
-                                              ? Colors.white
-                                              : Colors.black,
+                                          color: categorySelected ? Colors.white : Colors.black,
                                         ),
                                       ),
                                       popupProps: PopupProps.modalBottomSheet(
                                         showSearchBox: true,
-                                        modalBottomSheetProps:
-                                            ModalBottomSheetProps(
-                                          backgroundColor:
-                                              Theme.of(context).cardColor,
+                                        modalBottomSheetProps: ModalBottomSheetProps(
+                                          backgroundColor: Theme.of(context).cardColor,
                                           useSafeArea: false,
                                         ),
                                       ),
@@ -345,7 +331,6 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                               width: 170,
                               padding: EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
-
                                 color: locationSelected ? kColorAmber : Colors.white,
                                 borderRadius: BorderRadius.circular(30.0),
                                 border: Border.all(color: kColorGrey),
@@ -354,13 +339,10 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                 children: [
                                   Expanded(
                                     child: DropdownSearch<String?>(
-                                      items: state.list
-                                          .map((e) => e.name)
-                                          .toList(),
+                                      items: state.list.map((e) => e.name).toList(),
                                       onChanged: (value) {
                                         setState(() {
-                                          locationSelected =
-                                              value != null ? true : false;
+                                          locationSelected = value != null ? true : false;
                                         });
                                         onFilterLocation(location: value);
                                       },
@@ -370,33 +352,23 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                         visualDensity: VisualDensity.compact,
                                         alignment: Alignment.centerRight,
                                         isVisible: locationSelected,
-                                        color: locationSelected
-                                            ? Colors.white
-                                            : Colors.black,
+                                        color: locationSelected ? Colors.white : Colors.black,
                                       ),
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
+                                      dropdownDecoratorProps: DropDownDecoratorProps(
+                                        dropdownSearchDecoration: InputDecoration(
                                           hintText: 'Location',
                                           hintStyle: TextStyle(color: Colors.black),
                                           border: InputBorder.none,
-                                          suffixIconColor: locationSelected
-                                              ? Colors.white
-                                              : Colors.black,
+                                          suffixIconColor: locationSelected ? Colors.white : Colors.black,
                                         ),
                                         baseStyle: TextStyle(
-                                          color: locationSelected
-                                              ? Colors.white
-                                              : Colors.black,
+                                          color: locationSelected ? Colors.white : Colors.black,
                                         ),
                                       ),
                                       popupProps: PopupProps.modalBottomSheet(
                                         showSearchBox: true,
-                                        modalBottomSheetProps:
-                                            ModalBottomSheetProps(
-                                          backgroundColor:
-                                              Theme.of(context).cardColor,
+                                        modalBottomSheetProps: ModalBottomSheetProps(
+                                          backgroundColor: Theme.of(context).cardColor,
                                           useSafeArea: false,
                                         ),
                                       ),
@@ -411,8 +383,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                 children: [
                                   Text(
                                     'Location',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
+                                    style: Theme.of(context).textTheme.bodySmall,
                                   ),
                                   Icon(Icons.keyboard_arrow_down_outlined),
                                 ],
@@ -432,16 +403,13 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                             budgetSelected = true;
                             sortBudgetIsAscending = !sortBudgetIsAscending;
                           });
-                          onBudgetDateSort(
-                              sortType: SortType.budget,
-                              isAscending: sortBudgetIsAscending);
+                          onBudgetDateSort(sortType: SortType.budget, isAscending: sortBudgetIsAscending);
                         },
                         child: Container(
                           width: budgetSelected ? 110 : 95,
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
-                              color:
-                                  budgetSelected ? kColorAmber : Colors.white,
+                              color: budgetSelected ? kColorAmber : Colors.white,
                               borderRadius: BorderRadius.circular(30.0),
                               border: Border.all(color: kColorGrey)),
                           child: Row(
@@ -449,18 +417,14 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                               Text(
                                 'Budget',
                                 style: TextStyle(
-                                  color: budgetSelected
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: budgetSelected ? Colors.white : Colors.black,
                                 ),
                               ),
                               Icon(
                                 sortBudgetIsAscending
                                     ? Icons.keyboard_arrow_up_outlined
                                     : Icons.keyboard_arrow_down_outlined,
-                                color: budgetSelected
-                                    ? Colors.white
-                                    : Colors.black,
+                                color: budgetSelected ? Colors.white : Colors.black,
                               ),
                               if (budgetSelected) ...[
                                 Spacer(),
@@ -469,15 +433,12 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                     setState(() {
                                       budgetSelected = false;
                                     });
-                                    onBudgetDateClear(
-                                        sortType: SortType.budget);
+                                    onBudgetDateClear(sortType: SortType.budget);
                                   },
                                   child: Icon(
                                     Icons.close,
                                     size: 16,
-                                    color: budgetSelected
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color: budgetSelected ? Colors.white : Colors.black,
                                   ),
                                 )
                               ]
@@ -492,9 +453,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                             dateSelected = true;
                             sortDateIsAscending = !sortDateIsAscending;
                           });
-                          onBudgetDateSort(
-                              sortType: SortType.date,
-                              isAscending: sortDateIsAscending);
+                          onBudgetDateSort(sortType: SortType.date, isAscending: sortDateIsAscending);
                         },
                         child: Container(
                           width: dateSelected ? 95 : 77,
@@ -508,17 +467,14 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                               Text(
                                 'Date',
                                 style: TextStyle(
-                                  color: dateSelected
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: dateSelected ? Colors.white : Colors.black,
                                 ),
                               ),
                               Icon(
                                 sortDateIsAscending
                                     ? Icons.keyboard_arrow_up_outlined
                                     : Icons.keyboard_arrow_down_outlined,
-                                color:
-                                    dateSelected ? Colors.white : Colors.black,
+                                color: dateSelected ? Colors.white : Colors.black,
                               ),
                               if (dateSelected) ...[
                                 Spacer(),
@@ -532,9 +488,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                                   child: Icon(
                                     Icons.close,
                                     size: 16,
-                                    color: dateSelected
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color: dateSelected ? Colors.white : Colors.black,
                                   ),
                                 )
                               ]
@@ -550,14 +504,17 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                   child: PagedGridView(
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, EntityService item, index) =>
-                          Padding(
+                      itemBuilder: (context, EntityService item, index) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: () {
                             context.read<TaskEntityServiceBloc>().add(
                                   TaskEntityServiceSingleLoaded(id: item.id!),
                                 );
+
+                            context.read<RatingReviewsBloc>().add(SetToInitial(
+                                  id: item.id!,
+                                ));
 
                             Navigator.pushNamed(
                               context,
@@ -566,20 +523,15 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                           },
                           child: ServiceCard(
                             title: item.title,
-                            imagePath: item.images?.length == 0
-                                ? kServiceImageNImg
-                                : item.images?.first.media,
+                            imagePath: item.images?.length == 0 ? kServiceImageNImg : item.images?.first.media,
                             rating: item.rating?.first.rating.toString(),
-                            description:
-                                "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
-                            location:
-                                item.location == '' ? "Remote" : item.location,
+                            description: "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
+                            location: item.location == '' ? "Remote" : item.location,
                           ),
                         ),
                       ),
                     ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.9,
                     ),

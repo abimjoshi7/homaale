@@ -17,3 +17,10 @@ class FetchRatingsReviews extends RatingReviewEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class SubmitRatingReviewEvent extends RatingReviewEvent {
+  final RatingRequestDto ratingRequestDto;
+  const SubmitRatingReviewEvent({required this.ratingRequestDto});
+  @override
+  List<Object?> get props => [ratingRequestDto];
+}
