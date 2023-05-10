@@ -1,4 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
     as sets;
@@ -38,12 +40,6 @@ class _AccountProfileState extends State<AccountProfile>
     with TheModalBottomSheet {
   bool isDark = false;
 
-  @override
-  void initState() {
-    super.initState();
-    checkAppMode();
-  }
-
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
     setState(() {
@@ -59,6 +55,18 @@ class _AccountProfileState extends State<AccountProfile>
         });
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
   }
 
   @override

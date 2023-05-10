@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:cipher/core/constants/constants.dart';
-
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     Key? key,

@@ -37,8 +37,12 @@ class SupportRepository {
     }
   }
 
-  Future<Map<String, dynamic>> PostSupportTicketReport(String? model,
-      String description, String reason, String? objectId, String typeSlug) async {
+  Future<Map<String, dynamic>> PostSupportTicketReport(
+      String? model,
+      String description,
+      String reason,
+      String? objectId,
+      String typeSlug) async {
     try {
       final res = await _dioHelper.postDataWithCredential(
         data: {

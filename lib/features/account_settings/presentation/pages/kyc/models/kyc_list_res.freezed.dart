@@ -21,12 +21,12 @@ KycListRes _$KycListResFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$KycListRes {
   int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "document_type")
+  KycDocType? get documentType => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_at")
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "document_type")
-  int? get documentType => throw _privateConstructorUsedError;
   @JsonKey(name: "document_id")
   String? get documentId => throw _privateConstructorUsedError;
   String? get file => throw _privateConstructorUsedError;
@@ -57,9 +57,9 @@ abstract class $KycListResCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
+      @JsonKey(name: "document_type") KycDocType? documentType,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
-      @JsonKey(name: "document_type") int? documentType,
       @JsonKey(name: "document_id") String? documentId,
       String? file,
       @JsonKey(name: "issuer_organization") String? issuerOrganization,
@@ -69,6 +69,8 @@ abstract class $KycListResCopyWith<$Res> {
       @JsonKey(name: "is_company") bool? isCompany,
       String? comment,
       int? kyc});
+
+  $KycDocTypeCopyWith<$Res>? get documentType;
 }
 
 /// @nodoc
@@ -85,9 +87,9 @@ class _$KycListResCopyWithImpl<$Res, $Val extends KycListRes>
   @override
   $Res call({
     Object? id = freezed,
+    Object? documentType = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
-    Object? documentType = freezed,
     Object? documentId = freezed,
     Object? file = freezed,
     Object? issuerOrganization = freezed,
@@ -103,6 +105,10 @@ class _$KycListResCopyWithImpl<$Res, $Val extends KycListRes>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      documentType: freezed == documentType
+          ? _value.documentType
+          : documentType // ignore: cast_nullable_to_non_nullable
+              as KycDocType?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -111,10 +117,6 @@ class _$KycListResCopyWithImpl<$Res, $Val extends KycListRes>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      documentType: freezed == documentType
-          ? _value.documentType
-          : documentType // ignore: cast_nullable_to_non_nullable
-              as int?,
       documentId: freezed == documentId
           ? _value.documentId
           : documentId // ignore: cast_nullable_to_non_nullable
@@ -153,6 +155,18 @@ class _$KycListResCopyWithImpl<$Res, $Val extends KycListRes>
               as int?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $KycDocTypeCopyWith<$Res>? get documentType {
+    if (_value.documentType == null) {
+      return null;
+    }
+
+    return $KycDocTypeCopyWith<$Res>(_value.documentType!, (value) {
+      return _then(_value.copyWith(documentType: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -165,9 +179,9 @@ abstract class _$$_KycListResCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
+      @JsonKey(name: "document_type") KycDocType? documentType,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
-      @JsonKey(name: "document_type") int? documentType,
       @JsonKey(name: "document_id") String? documentId,
       String? file,
       @JsonKey(name: "issuer_organization") String? issuerOrganization,
@@ -177,6 +191,9 @@ abstract class _$$_KycListResCopyWith<$Res>
       @JsonKey(name: "is_company") bool? isCompany,
       String? comment,
       int? kyc});
+
+  @override
+  $KycDocTypeCopyWith<$Res>? get documentType;
 }
 
 /// @nodoc
@@ -191,9 +208,9 @@ class __$$_KycListResCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? documentType = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
-    Object? documentType = freezed,
     Object? documentId = freezed,
     Object? file = freezed,
     Object? issuerOrganization = freezed,
@@ -209,6 +226,10 @@ class __$$_KycListResCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      documentType: freezed == documentType
+          ? _value.documentType
+          : documentType // ignore: cast_nullable_to_non_nullable
+              as KycDocType?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -217,10 +238,6 @@ class __$$_KycListResCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      documentType: freezed == documentType
-          ? _value.documentType
-          : documentType // ignore: cast_nullable_to_non_nullable
-              as int?,
       documentId: freezed == documentId
           ? _value.documentId
           : documentId // ignore: cast_nullable_to_non_nullable
@@ -266,9 +283,9 @@ class __$$_KycListResCopyWithImpl<$Res>
 class _$_KycListRes implements _KycListRes {
   const _$_KycListRes(
       {this.id,
+      @JsonKey(name: "document_type") this.documentType,
       @JsonKey(name: "created_at") this.createdAt,
       @JsonKey(name: "updated_at") this.updatedAt,
-      @JsonKey(name: "document_type") this.documentType,
       @JsonKey(name: "document_id") this.documentId,
       this.file,
       @JsonKey(name: "issuer_organization") this.issuerOrganization,
@@ -285,14 +302,14 @@ class _$_KycListRes implements _KycListRes {
   @override
   final int? id;
   @override
+  @JsonKey(name: "document_type")
+  final KycDocType? documentType;
+  @override
   @JsonKey(name: "created_at")
   final DateTime? createdAt;
   @override
   @JsonKey(name: "updated_at")
   final DateTime? updatedAt;
-  @override
-  @JsonKey(name: "document_type")
-  final int? documentType;
   @override
   @JsonKey(name: "document_id")
   final String? documentId;
@@ -320,7 +337,7 @@ class _$_KycListRes implements _KycListRes {
 
   @override
   String toString() {
-    return 'KycListRes(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, documentType: $documentType, documentId: $documentId, file: $file, issuerOrganization: $issuerOrganization, issuedDate: $issuedDate, validThrough: $validThrough, isVerified: $isVerified, isCompany: $isCompany, comment: $comment, kyc: $kyc)';
+    return 'KycListRes(id: $id, documentType: $documentType, createdAt: $createdAt, updatedAt: $updatedAt, documentId: $documentId, file: $file, issuerOrganization: $issuerOrganization, issuedDate: $issuedDate, validThrough: $validThrough, isVerified: $isVerified, isCompany: $isCompany, comment: $comment, kyc: $kyc)';
   }
 
   @override
@@ -329,12 +346,12 @@ class _$_KycListRes implements _KycListRes {
         (other.runtimeType == runtimeType &&
             other is _$_KycListRes &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.documentType, documentType) ||
+                other.documentType == documentType) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.documentType, documentType) ||
-                other.documentType == documentType) &&
             (identical(other.documentId, documentId) ||
                 other.documentId == documentId) &&
             (identical(other.file, file) || other.file == file) &&
@@ -357,9 +374,9 @@ class _$_KycListRes implements _KycListRes {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      documentType,
       createdAt,
       updatedAt,
-      documentType,
       documentId,
       file,
       issuerOrganization,
@@ -387,9 +404,9 @@ class _$_KycListRes implements _KycListRes {
 abstract class _KycListRes implements KycListRes {
   const factory _KycListRes(
       {final int? id,
+      @JsonKey(name: "document_type") final KycDocType? documentType,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       @JsonKey(name: "updated_at") final DateTime? updatedAt,
-      @JsonKey(name: "document_type") final int? documentType,
       @JsonKey(name: "document_id") final String? documentId,
       final String? file,
       @JsonKey(name: "issuer_organization") final String? issuerOrganization,
@@ -406,14 +423,14 @@ abstract class _KycListRes implements KycListRes {
   @override
   int? get id;
   @override
+  @JsonKey(name: "document_type")
+  KycDocType? get documentType;
+  @override
   @JsonKey(name: "created_at")
   DateTime? get createdAt;
   @override
   @JsonKey(name: "updated_at")
   DateTime? get updatedAt;
-  @override
-  @JsonKey(name: "document_type")
-  int? get documentType;
   @override
   @JsonKey(name: "document_id")
   String? get documentId;

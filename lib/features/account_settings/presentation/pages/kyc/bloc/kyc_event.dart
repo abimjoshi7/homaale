@@ -47,3 +47,8 @@ class KycDocTypeLoaded extends KycEvent {
   @override
   List<Object?> get props => [];
 }
+
+class KycProfileInitiated extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}
