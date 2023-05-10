@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/extensions.dart';
+import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
@@ -21,7 +22,7 @@ class KycProfile extends StatefulWidget {
 }
 
 class _KycProfileState extends State<KycProfile> {
-  XFile? selectedImage;
+  File? selectedImage;
   bool isCamera = false;
   bool _isCompany = false;
   final List<String> _userType = ['Individual', 'Organization'];
@@ -129,20 +130,14 @@ class _KycProfileState extends State<KycProfile> {
                                               label: "Gallery"),
                                         ),
                                       ).then(
-                                        (value) async => await ImagePickHelper()
-                                            .pickImagePath(
-                                          isCamera: false,
-                                        )
-                                            .then(
-                                          (value) {
-                                            if (value != null) {
-                                              setState(
-                                                () {
-                                                  selectedImage = value;
-                                                },
-                                              );
-                                            }
-                                          },
+                                        (value) async =>
+                                            await FilePickHelper.filePicker()
+                                                .then(
+                                          (value) => setState(
+                                            () {
+                                              selectedImage = value;
+                                            },
+                                          ),
                                         ),
                                       );
                                     },
