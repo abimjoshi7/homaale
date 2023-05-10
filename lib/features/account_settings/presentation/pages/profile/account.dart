@@ -68,7 +68,8 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -77,10 +78,16 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
-                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            name:
+                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified:
+                                state.taskerProfile?.isProfileVerified ?? false,
+                            designation:
+                                state.taskerProfile?.designation?.toString() ??
+                                    'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ??
+                                state.taskerProfile?.user?.email ??
+                                '',
                           ),
                         ],
                       ),
@@ -102,7 +109,8 @@ class _AccountViewState extends State<AccountView> {
                           return ProfileStatsCard(
                             imagePath: 'assets/wallet.png',
                             label: 'Account Balance',
-                            value: "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                            value:
+                                "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
                           );
                         },
                       ),
@@ -116,7 +124,9 @@ class _AccountViewState extends State<AccountView> {
                   ),
                   child: CustomElevatedButton(
                     callback: () {
-                      context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
+                      context
+                          .read<ActivitiesTimelineBloc>()
+                          .add(ActivitiesLoaded());
 
                       Navigator.pushNamed(context, Profile.routeName);
                     },
@@ -137,7 +147,7 @@ class _AccountViewState extends State<AccountView> {
                   builder: (context, state) {
                     if (state.theStates == TheStates.success) {
                       return Visibility(
-                        visible: state.userLoginRes?.hasProfile ?? false,
+                        visible: state.userLoginRes!.hasProfile! ? true : false,
                         child: AccountListTileSection(
                           onTap: () async {
                             Navigator.pushNamed(
