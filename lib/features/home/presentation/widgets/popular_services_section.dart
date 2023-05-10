@@ -10,10 +10,10 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class PopularServicesSection extends StatelessWidget {
+class TrendingServicesSection extends StatelessWidget {
   static final pServiceKey = GlobalKey();
 
-  const PopularServicesSection({
+  const TrendingServicesSection({
     super.key,
   });
 

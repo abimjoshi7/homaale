@@ -1,7 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
+import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -12,10 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
-import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+
+import '../../../../support/presentation/bloc/support_ticket_type_options_bloc.dart';
+import '../../../../support/presentation/bloc/support_ticket_type_options_event.dart';
 
 class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
   final TaskEntityServiceState state;
@@ -108,29 +107,41 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               );
                             },
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.report,
-                              color: kColorSecondary,
-                            ),
-                            title: Text(
-                              'Report',
-                              style: Theme.of(context).textTheme.headlineLarge,
-                            ),
-                            onTap: () {
-                              log(
+                          Visibility(
+                            visible: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id !=
+                                state.taskEntityService?.createdBy?.id,
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.report,
+                                color: kColorSecondary,
+                              ),
+                              title: Text(
+                                'Report',
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
+                              ),
+                              onTap: () {
                                 context
-                                        .read<UserBloc>()
-                                        .state
-                                        .taskerProfile
-                                        ?.user
-                                        ?.id ??
-                                    "",
-                              );
-                              log(
-                                state.taskEntityService?.createdBy?.id ?? "",
-                              );
-                            },
+                                    .read<SupportTicketTypeOptionsBloc>()
+                                    .add(SupportTicketTypeOptionsLoaded(
+                                        target: 'task'));
+                                Navigator.pushNamed(
+                                  context,
+                                  CommonReportPage.routeName,
+                                  arguments: {
+                                    'isType': 'isTask',
+                                    'model': 'task',
+                                    'objectId':
+                                        state.taskEntityService?.createdBy?.id
+                                  },
+                                );
+                              },
+                            ),
                           ),
                           Offstage(
                             offstage: context

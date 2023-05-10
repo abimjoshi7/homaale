@@ -5,6 +5,8 @@ import 'package:cipher/features/account_settings/presentation/pages/connected_ac
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/deactivate_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/help_legal_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/languages_page/languages_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/membership/membership.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
@@ -24,7 +26,6 @@ import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
-import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
 import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -55,17 +56,20 @@ import 'package:cipher/features/sign_up/presentation/pages/pages.dart';
 import 'package:cipher/features/splash/presentation/pages/splash_page.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
-import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/posted_task_view_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
+import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
+import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
+import '../../features/faq_and_data_deletion/faq_page.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
+import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
   Route<dynamic> onGenerate(RouteSettings settings) {
@@ -88,7 +92,6 @@ class AppRouter {
           builder: (context) => const SignInPage(),
           settings: settings,
         );
-
       case SupportTicketPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const SupportTicketPage(),
@@ -181,6 +184,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const AccountProfile(),
         );
+      case CommonReportPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const CommonReportPage(),
+          settings: settings,
+        );
       case AccountView.routeName:
         return MaterialPageRoute(
           builder: (context) => const AccountView(),
@@ -204,6 +212,14 @@ class AppRouter {
       case KycDetails.routeName:
         return MaterialPageRoute(
           builder: (context) => const KycDetails(),
+        );
+      case KycProfile.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const KycProfile(),
+        );
+      case KycView.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const KycView(),
         );
       case SavedPage.routeName:
         return MaterialPageRoute(
@@ -391,6 +407,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const FaqPage(),
         );
+      case DataDeletionPolicy.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const DataDeletionPolicy(),
+        );
       case RatingReviewsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const RatingReviewsPage(),
@@ -425,6 +445,11 @@ class AppRouter {
       case EventDetailsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const EventDetailsPage(),
+          settings: settings,
+        );
+      case MyTransactionsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const MyTransactionsPage(),
           settings: settings,
         );
       default:

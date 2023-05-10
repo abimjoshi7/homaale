@@ -41,7 +41,8 @@ class _RootState extends State<Root> {
   }
 
   void checkShowcase() async {
-    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    final showcase =
+        await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
     if (showcase == 'not-shown') {
       setState(() {
         enableShowcase = true;
@@ -111,7 +112,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
   final GlobalKey _five = GlobalKey();
   final GlobalKey _six = Home.notificationKey;
   final GlobalKey _seven = CategoriesSection.catKey;
-  final GlobalKey _eight = PopularServicesSection.pServiceKey;
+  final GlobalKey _eight = TrendingServicesSection.pServiceKey;
   final GlobalKey _nine = TasksRecommendationSection.taskRecoSection;
 
   final scrollController = ScrollController();
@@ -140,16 +141,22 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context
+                  .read<TaskBloc>()
+                  .add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -162,13 +169,15 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
                     {
-                      context.read<KycBloc>().add(
-                            KycModelLoaded(),
-                          ),
+                      // context.read<KycBloc>().add(
+                      //       KycModelLoaded(),
+                      //     ),
                     }
                 })
             .then(
-              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
+              (value) async => context
+                  .read<ServicesBloc>()
+                  .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
@@ -192,17 +201,23 @@ class _CalledRootClassState extends State<CalledRootClass> {
       (timeStamp) async {
         if (CacheHelper.hasProfile == false) {
           await showDialog(
+            barrierDismissible: false,
             context: context,
-            builder: (context) => CustomToast(
-              heading: 'Welcome To Homaale',
-              content: 'Get started by completing your profile',
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  CompleteProfilePage.routeName,
-                );
+            builder: (context) => WillPopScope(
+              onWillPop: () async {
+                return false;
               },
-              isSuccess: true,
+              child: CustomToast(
+                heading: 'Welcome To Homaale',
+                content: 'Get started by completing your profile',
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    CompleteProfilePage.routeName,
+                  );
+                },
+                isSuccess: true,
+              ),
             ),
           );
         }
@@ -216,7 +231,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
+      ShowCaseWidget.of(context).startShowCase(
+          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -261,7 +277,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       height: 102,
                       width: MediaQuery.of(context).size.width,
                       child: CustomPaint(
-                        painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
+                        painter: BottomNavCustomPainter(
+                            color: Theme.of(context).primaryColor),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 8.0,
@@ -295,7 +312,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Box',
-                                showCaseDec: 'Tap “Box” to view your Bookings Payments list. ',
+                                showCaseDec:
+                                    'Tap “Box” to view your Bookings Payments list. ',
                                 showKey: _two,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -320,7 +338,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Add',
-                                showCaseDec: 'Tap “Add” to add your tasks & services.',
+                                showCaseDec:
+                                    'Tap “Add” to add your tasks & services.',
                                 showKey: _three,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -379,7 +398,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Profile',
-                                showCaseDec: 'Tap “Profile” to setup your account.',
+                                showCaseDec:
+                                    'Tap “Profile” to setup your account.',
                                 showKey: _five,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -419,7 +439,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                   height: 100,
                   width: MediaQuery.of(context).size.width,
                   child: CustomPaint(
-                    painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
+                    painter: FloatingOptionsCustomPainter(
+                        color: Theme.of(context).primaryColor),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

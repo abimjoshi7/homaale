@@ -16,7 +16,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   Bloc.observer = AppObserver();
-
+ 
   DioHelper.init();
 
   // initialize locator

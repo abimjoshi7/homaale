@@ -29,7 +29,6 @@ class PopularTaskerSection extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                // PopularTaskerPage.routeName,
                 PopularTaskerNew.routeName,
               );
             },
@@ -94,7 +93,7 @@ class PopularTaskerSection extends StatelessWidget {
                                   .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: true);
                             }
 
-                          
+
                           }
                         },
                         onFavouriteTapped: () {

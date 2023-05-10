@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
     as sets;
@@ -6,20 +7,24 @@ import 'package:cipher/features/account_settings/presentation/pages/settings/set
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
-import 'package:cipher/features/feedback/bloc/feedback_post_bloc.dart';
-import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
+import 'package:cipher/features/support/presentation/bloc/support_ticket_type_options_event.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
+import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/mixins/the_modal_bottom_sheet.dart';
+import '../../../../faq_and_data_deletion/data_deletion_policy.dart';
+import '../../../../faq_and_data_deletion/faq_page.dart';
 import '../../../../feedback/bloc/feedback_bloc.dart';
 import '../../../../feedback/bloc/feedback_event.dart';
 import '../../../../feedback/presentation/pages/feedback.dart';
+import '../../../../support/presentation/widgets/report_page.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
 
@@ -34,12 +39,6 @@ class AccountProfile extends StatefulWidget {
 class _AccountProfileState extends State<AccountProfile>
     with TheModalBottomSheet {
   bool isDark = false;
-
-  @override
-  void initState() {
-    super.initState();
-    checkAppMode();
-  }
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -57,6 +56,8 @@ class _AccountProfileState extends State<AccountProfile>
       }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +83,22 @@ class _AccountProfileState extends State<AccountProfile>
                 Icons.settings,
               ),
               label: 'Settings',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  MyTransactionsPage.routeName,
+                );
+              },
+              icon: const Icon(
+                Icons.wifi_protected_setup_sharp,
+              ),
+              label: 'Transactions',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
@@ -174,6 +191,19 @@ class _AccountProfileState extends State<AccountProfile>
               ),
             ),
             AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(context, DataDeletionPolicy.routeName);
+              },
+              icon: const Icon(
+                Icons.policy,
+              ),
+              label: 'Data Deletion Policy',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
               icon: const Icon(
                 Icons.feed_outlined,
               ),
@@ -191,6 +221,22 @@ class _AccountProfileState extends State<AccountProfile>
               },
             ),
             AccountListTileSection(
+              icon: const Icon(
+                Icons.report,
+              ),
+              label: 'Help & Legal',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+              onTap: () {
+                context
+                    .read<SupportTicketTypeOptionsBloc>()
+                    .add(SupportTicketTypeOptionsLoaded(target: ''));
+                Navigator.pushNamed(context, CommonReportPage.routeName);
+              },
+            ),
+            AccountListTileSection(
               onTap: () {
                 Navigator.pushNamed(context, FaqPage.routeName);
               },
@@ -203,6 +249,7 @@ class _AccountProfileState extends State<AccountProfile>
                 size: 16,
               ),
             ),
+
             AccountListTileSection(
               onTap: () {
                 Navigator.pushNamed(context, ContactUsPage.routeName);

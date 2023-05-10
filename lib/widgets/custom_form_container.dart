@@ -10,6 +10,7 @@ class CustomFormContainer extends StatelessWidget {
     this.leadingWidget = const SizedBox.shrink(),
     this.isMedia = false,
     this.callback,
+    this.hintStyle,
   });
 
   final String hintText;
@@ -17,6 +18,7 @@ class CustomFormContainer extends StatelessWidget {
   final Widget leadingWidget;
   final bool isMedia;
   final VoidCallback? callback;
+  final TextStyle? hintStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class CustomFormContainer extends StatelessWidget {
                   kWidth10,
                   Text(
                     hintText,
-                    // style: kHelper13,
+                    style: hintStyle ?? null,
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),

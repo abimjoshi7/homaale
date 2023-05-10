@@ -18,7 +18,6 @@ class FeedbackPage extends StatefulWidget {
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
-  String? optionsName;
   final subjectController = TextEditingController();
   final feedbackController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -38,11 +37,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   'Feedback Form',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                addVerticalSpace(10),
-                Expanded(
-                    child: Text(
-                        'Are you enjoying Homaale ? Send us Your Feedbacks.')),
-                addVerticalSpace(20),
+                SizedBox(
+                  height: 30,
+                  child: Text(
+                      'Are you enjoying Homaale ? Send us Your Feedbacks.'),
+                ),
                 CustomFormField(
                   label: 'Subject',
                   isRequired: true,
@@ -79,15 +78,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     hintStyle: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                addVerticalSpace(20),
                 CustomElevatedButton(
                   callback: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       context.read<FeedbackPostBloc>().add(FeedbackPost(
-                          subject: optionsName ?? "",
+                          subject: subjectController.text ?? "",
                           description: feedbackController.text));
                       Future.delayed(const Duration(seconds: 2), () {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -110,7 +107,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           ),
         );
       } else {
-        return const SizedBox.shrink();
+        return const CardLoading(height: 100);
       }
     });
   }

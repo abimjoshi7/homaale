@@ -22,6 +22,13 @@ const event = "/event/";
 //image upload
 const kFileStore = "task/filestore/";
 
+//offers
+const kOffersPath = "offer/serviceoffer/all/";
+
+//transactions
+const kTransactionPath = "/payment/transaction/";
+const kTransactionDownloadPath = "/payment/transaction-csv/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",
@@ -70,7 +77,10 @@ Map<String, Object> kUrls = {
     'list': '${taskerPath}my-following/',
   },
   "follow": '${taskerPath}follow/',
-  "category": {'list': '/task/task-category/nested/', 'name': "/task/category/"},
+  "category": {
+    'list': '/task/task-category/nested/',
+    'name': "/task/category/"
+  },
   'career': {'list': '${careerPath}list/', 'detail': '${careerPath}detail/'},
   // 'blog': {'list': blogPath, 'detail': '${blogPath}detail/'},
   'wishlist': {

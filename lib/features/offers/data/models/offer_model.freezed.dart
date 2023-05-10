@@ -332,11 +332,11 @@ mixin _$Result {
   DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "is_consumable")
   bool? get isConsumable => throw _privateConstructorUsedError;
-  double? get discount => throw _privateConstructorUsedError;
+  String? get discount => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_type")
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_limit")
-  double? get discountLimit => throw _privateConstructorUsedError;
+  String? get discountLimit => throw _privateConstructorUsedError;
   dynamic get quantity => throw _privateConstructorUsedError;
   @JsonKey(name: "is_common")
   bool? get isCommon => throw _privateConstructorUsedError;
@@ -374,9 +374,9 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "is_consumable") bool? isConsumable,
-      double? discount,
+      String? discount,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_limit") double? discountLimit,
+      @JsonKey(name: "discount_limit") String? discountLimit,
       dynamic quantity,
       @JsonKey(name: "is_common") bool? isCommon,
       List<dynamic>? organizations,
@@ -513,7 +513,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       discountType: freezed == discountType
           ? _value.discountType
           : discountType // ignore: cast_nullable_to_non_nullable
@@ -521,7 +521,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       discountLimit: freezed == discountLimit
           ? _value.discountLimit
           : discountLimit // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -617,9 +617,9 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "is_consumable") bool? isConsumable,
-      double? discount,
+      String? discount,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_limit") double? discountLimit,
+      @JsonKey(name: "discount_limit") String? discountLimit,
       dynamic quantity,
       @JsonKey(name: "is_common") bool? isCommon,
       List<dynamic>? organizations,
@@ -757,7 +757,7 @@ class __$$_ResultCopyWithImpl<$Res>
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       discountType: freezed == discountType
           ? _value.discountType
           : discountType // ignore: cast_nullable_to_non_nullable
@@ -765,7 +765,7 @@ class __$$_ResultCopyWithImpl<$Res>
       discountLimit: freezed == discountLimit
           ? _value.discountLimit
           : discountLimit // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -916,13 +916,13 @@ class _$_Result implements _Result {
   @JsonKey(name: "is_consumable")
   final bool? isConsumable;
   @override
-  final double? discount;
+  final String? discount;
   @override
   @JsonKey(name: "discount_type")
   final String? discountType;
   @override
   @JsonKey(name: "discount_limit")
-  final double? discountLimit;
+  final String? discountLimit;
   @override
   final dynamic quantity;
   @override
@@ -1084,11 +1084,11 @@ abstract class _Result implements Result {
           final DateTime? endDate,
       @JsonKey(name: "is_consumable")
           final bool? isConsumable,
-      final double? discount,
+      final String? discount,
       @JsonKey(name: "discount_type")
           final String? discountType,
       @JsonKey(name: "discount_limit")
-          final double? discountLimit,
+          final String? discountLimit,
       final dynamic quantity,
       @JsonKey(name: "is_common")
           final bool? isCommon,
@@ -1149,13 +1149,13 @@ abstract class _Result implements Result {
   @JsonKey(name: "is_consumable")
   bool? get isConsumable;
   @override
-  double? get discount;
+  String? get discount;
   @override
   @JsonKey(name: "discount_type")
   String? get discountType;
   @override
   @JsonKey(name: "discount_limit")
-  double? get discountLimit;
+  String? get discountLimit;
   @override
   dynamic get quantity;
   @override
@@ -1480,13 +1480,13 @@ mixin _$Free {
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
-  dynamic get startDate => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
-  dynamic get endDate => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "start_time")
-  dynamic get startTime => throw _privateConstructorUsedError;
+  String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: "end_time")
-  dynamic get endTime => throw _privateConstructorUsedError;
+  String? get endTime => throw _privateConstructorUsedError;
   List<Image>? get videos => throw _privateConstructorUsedError;
   @JsonKey(name: "is_bookmarked")
   bool? get isBookmarked => throw _privateConstructorUsedError;
@@ -1520,10 +1520,10 @@ abstract class $FreeCopyWith<$Res> {
       String? location,
       int? count,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
-      @JsonKey(name: "start_date") dynamic startDate,
-      @JsonKey(name: "end_date") dynamic endDate,
-      @JsonKey(name: "start_time") dynamic startTime,
-      @JsonKey(name: "end_time") dynamic endTime,
+      @JsonKey(name: "start_date") DateTime? startDate,
+      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_time") String? startTime,
+      @JsonKey(name: "end_time") String? endTime,
       List<Image>? videos,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked});
 
@@ -1647,19 +1647,19 @@ class _$FreeCopyWithImpl<$Res, $Val extends Free>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       videos: freezed == videos
           ? _value.videos
           : videos // ignore: cast_nullable_to_non_nullable
@@ -1745,10 +1745,10 @@ abstract class _$$_FreeCopyWith<$Res> implements $FreeCopyWith<$Res> {
       String? location,
       int? count,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
-      @JsonKey(name: "start_date") dynamic startDate,
-      @JsonKey(name: "end_date") dynamic endDate,
-      @JsonKey(name: "start_time") dynamic startTime,
-      @JsonKey(name: "end_time") dynamic endTime,
+      @JsonKey(name: "start_date") DateTime? startDate,
+      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_time") String? startTime,
+      @JsonKey(name: "end_time") String? endTime,
       List<Image>? videos,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked});
 
@@ -1872,19 +1872,19 @@ class __$$_FreeCopyWithImpl<$Res> extends _$FreeCopyWithImpl<$Res, _$_Free>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       videos: freezed == videos
           ? _value._videos
           : videos // ignore: cast_nullable_to_non_nullable
@@ -1993,16 +1993,16 @@ class _$_Free implements _Free {
   final bool? isEndorsed;
   @override
   @JsonKey(name: "start_date")
-  final dynamic startDate;
+  final DateTime? startDate;
   @override
   @JsonKey(name: "end_date")
-  final dynamic endDate;
+  final DateTime? endDate;
   @override
   @JsonKey(name: "start_time")
-  final dynamic startTime;
+  final String? startTime;
   @override
   @JsonKey(name: "end_time")
-  final dynamic endTime;
+  final String? endTime;
   final List<Image>? _videos;
   @override
   List<Image>? get videos {
@@ -2055,10 +2055,12 @@ class _$_Free implements _Free {
             (identical(other.count, count) || other.count == count) &&
             (identical(other.isEndorsed, isEndorsed) ||
                 other.isEndorsed == isEndorsed) &&
-            const DeepCollectionEquality().equals(other.startDate, startDate) &&
-            const DeepCollectionEquality().equals(other.endDate, endDate) &&
-            const DeepCollectionEquality().equals(other.startTime, startTime) &&
-            const DeepCollectionEquality().equals(other.endTime, endTime) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime) &&
+            (identical(other.endTime, endTime) || other.endTime == endTime) &&
             const DeepCollectionEquality().equals(other._videos, _videos) &&
             (identical(other.isBookmarked, isBookmarked) ||
                 other.isBookmarked == isBookmarked));
@@ -2086,10 +2088,10 @@ class _$_Free implements _Free {
         location,
         count,
         isEndorsed,
-        const DeepCollectionEquality().hash(startDate),
-        const DeepCollectionEquality().hash(endDate),
-        const DeepCollectionEquality().hash(startTime),
-        const DeepCollectionEquality().hash(endTime),
+        startDate,
+        endDate,
+        startTime,
+        endTime,
         const DeepCollectionEquality().hash(_videos),
         isBookmarked
       ]);
@@ -2128,10 +2130,10 @@ abstract class _Free implements Free {
       final String? location,
       final int? count,
       @JsonKey(name: "is_endorsed") final bool? isEndorsed,
-      @JsonKey(name: "start_date") final dynamic startDate,
-      @JsonKey(name: "end_date") final dynamic endDate,
-      @JsonKey(name: "start_time") final dynamic startTime,
-      @JsonKey(name: "end_time") final dynamic endTime,
+      @JsonKey(name: "start_date") final DateTime? startDate,
+      @JsonKey(name: "end_date") final DateTime? endDate,
+      @JsonKey(name: "start_time") final String? startTime,
+      @JsonKey(name: "end_time") final String? endTime,
       final List<Image>? videos,
       @JsonKey(name: "is_bookmarked") final bool? isBookmarked}) = _$_Free;
 
@@ -2183,16 +2185,16 @@ abstract class _Free implements Free {
   bool? get isEndorsed;
   @override
   @JsonKey(name: "start_date")
-  dynamic get startDate;
+  DateTime? get startDate;
   @override
   @JsonKey(name: "end_date")
-  dynamic get endDate;
+  DateTime? get endDate;
   @override
   @JsonKey(name: "start_time")
-  dynamic get startTime;
+  String? get startTime;
   @override
   @JsonKey(name: "end_time")
-  dynamic get endTime;
+  String? get endTime;
   @override
   List<Image>? get videos;
   @override

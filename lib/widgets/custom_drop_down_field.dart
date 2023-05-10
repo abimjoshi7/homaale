@@ -15,6 +15,7 @@ class CustomDropDownField<T> extends StatefulWidget {
     this.selectedIndex,
     this.borderRadius,
     this.initialValue,
+    this.validator,
   }) : super(key: key);
   final List<T> list;
   final Widget? theChild;
@@ -24,6 +25,7 @@ class CustomDropDownField<T> extends StatefulWidget {
   final int? selectedIndex;
   final double? borderRadius;
   final T? initialValue;
+  final String? Function(T?)? validator;
 
   @override
   State<CustomDropDownField<T>> createState() => _CustomDropDownTextformState();
@@ -34,20 +36,28 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
       iconEnabledColor: kColorSilver,
+      validator: widget.validator,
       icon: const Icon(
         Icons.keyboard_arrow_down_rounded,
       ),
       iconSize: 14,
       isExpanded: true,
+
       // focusColor: kColorGrey,
-      value: widget.initialValue,
+      value: widget.selectedIndex != null
+          ? widget.list[widget.selectedIndex!]
+          : widget.initialValue,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(5),
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodySmall,
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: kColorGrey,
+          ),
+          borderRadius: BorderRadius.circular(
+            widget.borderRadius ?? 8,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(

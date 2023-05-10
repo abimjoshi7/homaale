@@ -3,6 +3,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
+import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart'
     as tsk;
@@ -19,6 +20,8 @@ import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 import '../../../../widgets/applicants_information_dialog.dart';
+import '../../../support/presentation/bloc/support_ticket_type_options_bloc.dart';
+import '../../../support/presentation/bloc/support_ticket_type_options_event.dart';
 
 class SingleTaskPage extends StatefulWidget {
   const SingleTaskPage({super.key});
@@ -353,40 +356,82 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                         title: Text('Share'),
                                                       ),
                                                     ),
-                                                    const ListTile(
-                                                      leading:
-                                                          Icon(Icons.report),
-                                                      title: Text('Report'),
-                                                    ),
-                                                    ListTile(
-                                                      onTap: () {
-                                                        Future.delayed(
-                                                          Duration.zero,
-                                                          () => context
+                                                    Visibility(
+                                                      visible: context
+                                                              .read<UserBloc>()
+                                                              .state
+                                                              .taskerProfile
+                                                              ?.user
+                                                              ?.id !=
+                                                          state.taskModel
+                                                              ?.createdBy?.id,
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          context
                                                               .read<
-                                                                  tsk.TaskEntityServiceBloc>()
-                                                              .add(
-                                                                tsk.TaskEntityServiceDeleted(
-                                                                  id: state
-                                                                          .taskModel
-                                                                          ?.id ??
-                                                                      "",
-                                                                ),
-                                                              ),
-                                                        ).whenComplete(
-                                                          () => Navigator
-                                                              .pushNamedAndRemoveUntil(
-                                                            context,
-                                                            Root.routeName,
-                                                            (route) => false,
-                                                          ),
-                                                        );
-                                                      },
-                                                      leading: Icon(
-                                                        Icons
-                                                            .delete_forever_rounded,
+                                                                  SupportTicketTypeOptionsBloc>()
+                                                              .add(SupportTicketTypeOptionsLoaded(
+                                                                  target:
+                                                                      'entityservice'));
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              CommonReportPage
+                                                                  .routeName,
+                                                              arguments: {
+                                                                'isType':
+                                                                    'isService',
+                                                                'model':
+                                                                    'entityservice',
+                                                                'objectId': state
+                                                                        .taskModel
+                                                                        ?.id ??
+                                                                    "",
+                                                              });
+                                                        },
+                                                        leading:
+                                                            Icon(Icons.report),
+                                                        title: Text('Report'),
                                                       ),
-                                                      title: Text('Delete'),
+                                                    ),
+                                                    Visibility(
+                                                      visible: context
+                                                              .read<UserBloc>()
+                                                              .state
+                                                              .taskerProfile
+                                                              ?.user
+                                                              ?.id ==
+                                                          state.taskModel
+                                                              ?.createdBy?.id,
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          Future.delayed(
+                                                            Duration.zero,
+                                                            () => context
+                                                                .read<
+                                                                    tsk.TaskEntityServiceBloc>()
+                                                                .add(
+                                                                  tsk.TaskEntityServiceDeleted(
+                                                                    id: state
+                                                                            .taskModel
+                                                                            ?.id ??
+                                                                        "",
+                                                                  ),
+                                                                ),
+                                                          ).whenComplete(
+                                                            () => Navigator
+                                                                .pushNamedAndRemoveUntil(
+                                                              context,
+                                                              Root.routeName,
+                                                              (route) => false,
+                                                            ),
+                                                          );
+                                                        },
+                                                        leading: Icon(
+                                                          Icons
+                                                              .delete_forever_rounded,
+                                                        ),
+                                                        title: Text('Delete'),
+                                                      ),
                                                     ),
                                                     addVerticalSpace(16)
                                                   ],

@@ -6,6 +6,7 @@ import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
+import 'package:flutter/services.dart';
 
 class OfferCard extends StatelessWidget {
   const OfferCard({
@@ -24,8 +25,9 @@ class OfferCard extends StatelessWidget {
           Expanded(
             child: Card(
               child: Image.network(
-                  fit: BoxFit.cover,
-                  state.offerModel?.result?[index].image ?? kNoImageNImg),
+                fit: BoxFit.cover,
+                state.offerModel?.result?[index].image ?? kNoImageNImg,
+              ),
             ),
           ),
           Flexible(
@@ -55,20 +57,29 @@ class OfferCard extends StatelessWidget {
                           style: kLightBlueText12,
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            12,
+                      InkWell(
+                        onLongPress: () {
+                          Clipboard.setData(
+                            ClipboardData(
+                              text: state.offerModel?.result?[index].code,
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              12,
+                            ),
+                            color: kColorSecondary.withOpacity(
+                              0.6,
+                            ),
                           ),
-                          color: kColorSecondary.withOpacity(
-                            0.6,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6),
-                          child: Text(
-                            "CODE",
-                            style: kText13,
+                          child: Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: Text(
+                              state.offerModel?.result?[index].code ?? "",
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
                           ),
                         ),
                       )

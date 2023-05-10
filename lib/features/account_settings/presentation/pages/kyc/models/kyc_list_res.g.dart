@@ -9,13 +9,15 @@ part of 'kyc_list_res.dart';
 _$_KycListRes _$$_KycListResFromJson(Map<String, dynamic> json) =>
     _$_KycListRes(
       id: json['id'] as int?,
+      documentType: json['document_type'] == null
+          ? null
+          : KycDocType.fromJson(json['document_type'] as Map<String, dynamic>),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
-      documentType: json['document_type'] as int?,
       documentId: json['document_id'] as String?,
       file: json['file'] as String?,
       issuerOrganization: json['issuer_organization'] as String?,
@@ -34,9 +36,9 @@ _$_KycListRes _$$_KycListResFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_KycListResToJson(_$_KycListRes instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'document_type': instance.documentType,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
-      'document_type': instance.documentType,
       'document_id': instance.documentId,
       'file': instance.file,
       'issuer_organization': instance.issuerOrganization,

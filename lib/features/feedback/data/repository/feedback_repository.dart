@@ -14,14 +14,13 @@ class FeedbackRepository {
         url: 'support/feedback/category/options/',
         token: CacheHelper.accessToken,
       );
-      // return res as Map<String, dynamic>;
       final model = List<Feedback>.from(
         res.map((e) => Feedback.fromJson(e as Map<String, dynamic>)).toList()
             as Iterable,
       );
       return model;
     } catch (e) {
-      log("Person details in chat error: $e");
+      log("Support details error: $e");
       rethrow;
     }
   }
@@ -36,7 +35,7 @@ class FeedbackRepository {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
-      log("Person details in chat error: $e");
+      log("Feedback details error: $e");
       rethrow;
     }
   }
