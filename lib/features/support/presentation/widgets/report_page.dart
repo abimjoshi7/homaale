@@ -81,7 +81,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
                             ),
                             hintText: "Subject",
                           )
-                        : const SizedBox.shrink(),
+                        : const CardLoading(height: 100),
                   ),
                   addVerticalSpace(10),
                   typeOfProblemController.text == 'Other' || isType != null
