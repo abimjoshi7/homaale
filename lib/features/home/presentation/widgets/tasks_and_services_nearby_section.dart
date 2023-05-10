@@ -266,7 +266,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Icon(
-                        Icons.favorite_border,
+                        Icons.bookmark_border,
                         color: Color(
                           0xfffe5050,
                         ),

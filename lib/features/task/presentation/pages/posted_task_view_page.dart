@@ -93,7 +93,7 @@ class PostedTaskViewPage extends StatelessWidget {
                                 IconButton(
                                   onPressed: () {},
                                   icon: Icon(
-                                    Icons.favorite_outline,
+                                    Icons.bookmark_border,
                                     color: Colors.red,
                                   ),
                                 ),
