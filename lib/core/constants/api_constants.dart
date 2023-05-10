@@ -19,9 +19,12 @@ const payment = "/payment/";
 const offer = "/offer/";
 const event = "/event/";
 
-//image upload
+// image upload
 const kFileStore = "task/filestore/";
 
+// wallet
+const kMyWallet = "wallet/mywallet/";
+const kWalletHistory = "/wallet/wallethistory/";
 // transactions
 const kTransactionPath = "/payment/transaction/";
 const kTransactionDownloadPath = "/payment/transaction-csv/";
@@ -74,7 +77,10 @@ Map<String, Object> kUrls = {
     'list': '${taskerPath}my-following/',
   },
   "follow": '${taskerPath}follow/',
-  "category": {'list': '/task/task-category/nested/', 'name': "/task/category/"},
+  "category": {
+    'list': '/task/task-category/nested/',
+    'name': "/task/category/"
+  },
   'career': {'list': '${careerPath}list/', 'detail': '${careerPath}detail/'},
   // 'blog': {'list': blogPath, 'detail': '${blogPath}detail/'},
   'wishlist': {
