@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
@@ -32,7 +33,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
               ),
             );
           } else if (state.states == TheStates.success) {
-            final booking = state.result!;
+            final booking = state.result;
             final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
 
             return Column(
@@ -94,7 +95,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                 Row(
                                   children: [
                                     const Icon(
-                                      Icons.favorite_border_outlined,
+                                      Icons.bookmark_border,
                                       color: Colors.red,
                                     ),
                                     kWidth10,
@@ -251,43 +252,11 @@ class _BookedServicePageState extends State<BookedServicePage> {
                               happyClients: booking.createdBy?.stats?.happyClients?.toString() ?? '0',
                               successRate: booking.createdBy?.stats?.successRate?.toString() ?? '0',
                             ),
-                            // RatingReviewSection(),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: SimilarEntityServiceSection(),
-                      ),
                     ],
                   ),
-                ),
-                PriceBookFooterSection(
-                  price: "Rs. ${booking.budgetTo}",
-                  bgColor: (getStatus(booking.status ?? '')["color"] as Color).withOpacity(
-                    0.3,
-                  ),
-                  buttonLabel: getStatus(booking.status ?? '')["status"] as String,
-                  buttonColor: getStatus(booking.status ?? '')["color"] as Color,
-                  onPressed: () {
-                    final status = getStatus(booking.status ?? '')["status"];
-                    print(status);
-                    switch (status) {
-                      case "cancelled":
-
-                      case "closed":
-
-                      case "approved":
-
-                      case "pending":
-
-                      case "rejected":
-
-                      case "On Progess":
-
-                      default:
-                    }
-                  },
                 ),
               ],
             );

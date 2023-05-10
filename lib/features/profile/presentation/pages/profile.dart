@@ -29,7 +29,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController = TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
+    tabController =
+        TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
     // context.read<ServicesBloc>().add(
     //       const MyCreatedServiceTaskLoadInitiated(
     //         isTask: true,
@@ -114,7 +115,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: [
+              children: <Widget>[
                 AboutProfile(),
                 ServicesProfile(),
                 TasksProfile(),

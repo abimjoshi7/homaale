@@ -32,7 +32,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.99,
+            height: MediaQuery.of(context).size.height * 0.35,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,197 +62,23 @@ class TasksAndServicesNearbySection extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              'Nearby Services',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                          buildNearbyServicesList(_serviceList, context),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 10.0),
+                          //   child: Text(
+                          //     'Nearby Services',
+                          //     style: Theme.of(context).textTheme.titleMedium,
+                          //   ),
+                          // ),
+                          // buildNearbyServicesList(_serviceList, context),
                           addVerticalSpace(20),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Text(
-                              'Nearby Tasks',
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 300,
-                            width: double.infinity,
-                            child: ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              itemBuilder: (context, index) => Card(
-                                // color: Theme.of(context).cardColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Text(
-                                              _taskList[index].title.toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                          ),
-                                          Text(
-                                            _taskList[index]
-                                                    .currency!
-                                                    .symbol
-                                                    .toString() +
-                                                _taskList[index]
-                                                    .budgetTo
-                                                    .toString() +
-                                                ' - ' +
-                                                _taskList[index]
-                                                    .currency!
-                                                    .symbol
-                                                    .toString() +
-                                                _taskList[index]
-                                                    .budgetFrom
-                                                    .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
-                                          )
-                                        ],
-                                      ),
-                                      kHeight10,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Row(
-                                              children: <Widget>[
-                                                CircleAvatar(
-                                                  radius: 8,
-                                                ),
-                                                // kWidth10,
-                                                Text(_taskList[index]
-                                                    .createdBy!
-                                                    .fullName
-                                                    .toString()),
-                                              ],
-                                            ),
-                                          ),
-                                          Text(
-                                            'Per ' +
-                                                _taskList[index]
-                                                    .budgetType
-                                                    .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
-                                          ),
-                                        ],
-                                      ),
-                                      kHeight10,
-                                      Text(
-                                        "${_taskList[index].description ?? ''}",
-                                      ),
-                                      kHeight10,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: WidgetText(
-                                              label: (_taskList[index]
-                                                      .location!
-                                                      .isNotEmpty)
-                                                  ? "${_taskList[index].location}"
-                                                      "\n"
-                                                      "${_taskList[index].city!.name}"
-                                                  : 'Remote',
-                                              widget: Icon(
-                                                Icons.location_on_outlined,
-                                                color: Color(0xffFE5050),
-                                                size: 13,
-                                              ),
-                                            ),
-                                          ),
-                                          WidgetText(
-                                            label: DateFormat.yMMMd().format(
-                                                _taskList[index].endDate!),
-                                            widget: Icon(
-                                              Icons.calendar_today,
-                                              color: Color(0xffF06700),
-                                              size: 13,
-                                            ),
-                                          ),
-                                          WidgetText(
-                                            label: _taskList[index]
-                                                .startTime
-                                                .toString(),
-                                            widget: Icon(
-                                              Icons.access_time_filled_outlined,
-                                              color: Color(0xff3EAEFF),
-                                              size: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      kHeight10,
-                                      const Divider(),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: <Widget>[
-                                          const WidgetText(
-                                            label: 'Save',
-                                            widget: Icon(
-                                              Icons.favorite_border_outlined,
-                                              size: 19,
-                                              color: Color(0xffFE5050),
-                                            ),
-                                          ),
-                                          const WidgetText(
-                                            label: 'Share',
-                                            widget: Icon(
-                                              Icons.share,
-                                              size: 19,
-                                              color: Color(0xff3EAEFF),
-                                            ),
-                                          ),
-                                          WidgetText(
-                                            label:
-                                                "${_taskList[index].viewsCount ?? 0}",
-                                            widget: Icon(
-                                              Icons.supervisor_account_outlined,
-                                              size: 19,
-                                              color: Color(0xff2D2D66),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 35,
-                                            width: 100,
-                                            child: CustomElevatedButton(
-                                              callback: () {},
-                                              label: 'Apply Now',
-                                              mainColor: const Color(
-                                                0xff38C675,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      kHeight5
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              separatorBuilder: (context, index) => kHeight10,
-                              itemCount: 5,
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 10.0),
+                          //   child: Text(
+                          //     'Nearby Tasks',
+                          //     style: Theme.of(context).textTheme.titleMedium,
+                          //   ),
+                          // ),
+                          // buildNearbyTaskList(_taskList),
                         ],
                       );
                     }
@@ -263,6 +89,153 @@ class TasksAndServicesNearbySection extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  SizedBox buildNearbyTaskList(List<TaskEntityService> _taskList) {
+    return SizedBox(
+      height: 300,
+      width: double.infinity,
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        itemBuilder: (context, index) => Card(
+          // color: Theme.of(context).cardColor,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        _taskList[index].title.toString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                    Text(
+                      _taskList[index].currency!.symbol.toString() +
+                          _taskList[index].budgetTo.toString() +
+                          ' - ' +
+                          _taskList[index].currency!.symbol.toString() +
+                          _taskList[index].budgetFrom.toString(),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
+                  ],
+                ),
+                kHeight10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 8,
+                          ),
+                          // kWidth10,
+                          Text(_taskList[index].createdBy!.fullName.toString()),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'Per ' + _taskList[index].budgetType.toString(),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+                kHeight10,
+                Text(
+                  "${_taskList[index].description ?? ''}",
+                ),
+                kHeight10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: WidgetText(
+                        label: (_taskList[index].location!.isNotEmpty)
+                            ? "${_taskList[index].location}"
+                                "\n"
+                                "${_taskList[index].city!.name}"
+                            : 'Remote',
+                        widget: Icon(
+                          Icons.location_on_outlined,
+                          color: Color(0xffFE5050),
+                          size: 13,
+                        ),
+                      ),
+                    ),
+                    WidgetText(
+                      label:
+                          DateFormat.yMMMd().format(_taskList[index].endDate!),
+                      widget: Icon(
+                        Icons.calendar_today,
+                        color: Color(0xffF06700),
+                        size: 13,
+                      ),
+                    ),
+                    WidgetText(
+                      label: _taskList[index].startTime.toString(),
+                      widget: Icon(
+                        Icons.access_time_filled_outlined,
+                        color: Color(0xff3EAEFF),
+                        size: 13,
+                      ),
+                    ),
+                  ],
+                ),
+                kHeight10,
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    const WidgetText(
+                      label: 'Save',
+                      widget: Icon(
+                        Icons.bookmark_border,
+                        size: 19,
+                        color: Color(0xffFE5050),
+                      ),
+                    ),
+                    const WidgetText(
+                      label: 'Share',
+                      widget: Icon(
+                        Icons.share,
+                        size: 19,
+                        color: Color(0xff3EAEFF),
+                      ),
+                    ),
+                    WidgetText(
+                      label: "${_taskList[index].viewsCount ?? 0}",
+                      widget: Icon(
+                        Icons.supervisor_account_outlined,
+                        size: 19,
+                        color: Color(0xff2D2D66),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 35,
+                      width: 100,
+                      child: CustomElevatedButton(
+                        callback: () {},
+                        label: 'Apply Now',
+                        mainColor: const Color(
+                          0xff38C675,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                kHeight5
+              ],
+            ),
+          ),
+        ),
+        separatorBuilder: (context, index) => kHeight10,
+        itemCount: 5,
       ),
     );
   }

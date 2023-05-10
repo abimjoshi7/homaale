@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_is_empty
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -51,6 +52,9 @@ class TrendingServicesSection extends StatelessWidget {
                                 id: state.service?.result?[index].id ?? '',
                               ),
                             );
+                        context.read<RatingReviewsBloc>().add(SetToInitial(
+                              id: state.service?.result?[index].id ?? '',
+                            ));
                         Navigator.pushNamed(
                           context,
                           TaskEntityServicePage.routeName,

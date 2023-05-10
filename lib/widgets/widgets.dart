@@ -1,4 +1,5 @@
 export './add_pop_up_button.dart';
+export './bottom_loader.dart';
 export './custom_bottom_nav_items.dart';
 export './custom_bottom_navigation_bar.dart';
 export './custom_check_box.dart';

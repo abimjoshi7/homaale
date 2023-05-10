@@ -26,6 +26,7 @@ class BookingRepositories {
     }
   }
 
+  // API to show waiting list items details of box view
   Future<Map<String, dynamic>> fetchSingleBooking({
     required int id,
   }) async {
@@ -40,7 +41,40 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchMyBookingsList({bool? isTask, String? status, int? page}) async {
+  // API to show items details of bookings view
+  Future<Map<String, dynamic>> fetchBooking({
+    required String id,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: "task/entity/service/task/$id",
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // API to show waiting list in box view
+  Future<Map<String, dynamic>> fetchMyBookingsList({int? page}) async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        query: {
+          "page": page,
+          "is_accepted": false,
+          "status": "pending",
+        },
+        url: kMyBookingList,
+        token: CacheHelper.accessToken,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchBookingsList({bool? isTask, String? status, int? page}) async {
     try {
       final x = await _dio.getDatawithCredential(
         query: {
@@ -48,7 +82,7 @@ class BookingRepositories {
           "is_requested": isTask,
           "status": status,
         },
-        url: kMyBookingList,
+        url: 'task/entity/service/task/list/',
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
@@ -138,6 +172,23 @@ class BookingRepositories {
       return res as Map<String, dynamic>;
     } catch (e) {
       log('booking api error : ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> updateStatus({required String status, required String id}) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: {
+          "status": status,
+          "task": id,
+        },
+        url: 'task/entity/service/task/status/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log('booking status update api error : ${e.toString()}');
       rethrow;
     }
   }

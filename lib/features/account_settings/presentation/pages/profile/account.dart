@@ -182,7 +182,7 @@ class _AccountViewState extends State<AccountView> {
                     );
                   },
                   icon: const Icon(
-                    Icons.favorite_border_outlined,
+                    Icons.bookmark_border,
                   ),
                   label: 'Saved',
                   trailingWidget: const Icon(

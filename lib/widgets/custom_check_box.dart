@@ -5,11 +5,11 @@ class CustomCheckBox extends StatelessWidget {
   const CustomCheckBox({
     super.key,
     this.isChecked = false,
-    required this.onTap,
+    this.onTap,
     this.boxColor = kColorSecondary,
   });
   final bool isChecked;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Color boxColor;
 
   @override
