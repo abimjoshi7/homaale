@@ -6,22 +6,26 @@ import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
+
 class TasksRecommendationSection extends StatefulWidget {
   static final taskRecoSection = GlobalKey();
 
-  const
-	TasksRecommendationSection({super.key});
+  const TasksRecommendationSection({super.key});
 
   @override
-  State<TasksRecommendationSection> createState() => _TasksRecommendationSectionState();
+  State<TasksRecommendationSection> createState() =>
+      _TasksRecommendationSectionState();
 }
 
-class _TasksRecommendationSectionState extends State<TasksRecommendationSection> {
+class _TasksRecommendationSectionState
+    extends State<TasksRecommendationSection> {
   late final user = locator<UserBloc>();
   @override
   void initState() {
@@ -50,7 +54,20 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
         notLoggedInPopUp(context);
       }
       if (CacheHelper.isLoggedIn) {
-        Navigator.pushNamed(context, ApplyTaskPage.routeName);
+        context
+                    .read<UserSuspendBloc>()
+                    .state
+                    .userAccountSuspension
+                    ?.isSuspended ==
+                true
+            ? showDialog(
+                context: context,
+                builder: (context) => AccountSuspendCustomToast(
+                  heading: 'ACCOUNT SUSPENDED',
+                  content: 'User is suspended',
+                ),
+              )
+            : Navigator.pushNamed(context, ApplyTaskPage.routeName);
       }
     }
     if (!isApply) {
@@ -96,29 +113,40 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                           child: TaskCard(
                             id: state.tasksList?.result?[index].id,
                             buttonLabel:
-                                state.tasksList?.result?[index].createdBy?.id == user.state.taskerProfile?.user?.id
+                                state.tasksList?.result?[index].createdBy?.id ==
+                                        user.state.taskerProfile?.user?.id
                                     ? 'View Details'
                                     : 'Apply Now',
-                            startRate: '${state.tasksList?.result?[index].budgetFrom ?? 0}',
-                            endRate: '${state.tasksList?.result?[index].budgetTo ?? 0}',
-                            budgetType: '${state.tasksList?.result?[index].budgetType}',
-                            count: state.tasksList?.result?[index].count.toString(),
-                            imageUrl: state.tasksList?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
-                            location: state.tasksList?.result?[index].location == ''
-                                ? 'Remote'
-                                : state.tasksList?.result?[index].location,
+                            startRate:
+                                '${state.tasksList?.result?[index].budgetFrom ?? 0}',
+                            endRate:
+                                '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                            budgetType:
+                                '${state.tasksList?.result?[index].budgetType}',
+                            count: state.tasksList?.result?[index].count
+                                .toString(),
+                            imageUrl: state.tasksList?.result?[index].createdBy
+                                    ?.profileImage ??
+                                kServiceImageNImg,
+                            location:
+                                state.tasksList?.result?[index].location == ''
+                                    ? 'Remote'
+                                    : state.tasksList?.result?[index].location,
                             endHour: Jiffy(
-                              state.tasksList?.result?[index].createdAt.toString(),
+                              state.tasksList?.result?[index].createdAt
+                                  .toString(),
                             ).jm,
                             endDate: Jiffy(
-                              state.tasksList?.result?[index].endDate.toString(),
+                              state.tasksList?.result?[index].endDate
+                                  .toString(),
                             ).yMMMMd,
                             taskName: state.tasksList?.result?[index].title,
                             callback: () => onTaskPressed(
                               state: state,
                               index: index,
-                              isApply:
-                                  state.tasksList?.result?[index].createdBy?.id != user.state.taskerProfile?.user?.id,
+                              isApply: state.tasksList?.result?[index].createdBy
+                                      ?.id !=
+                                  user.state.taskerProfile?.user?.id,
                             ),
                             onTapCallback: () {
                               if (!CacheHelper.isLoggedIn) {

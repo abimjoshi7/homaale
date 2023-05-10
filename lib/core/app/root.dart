@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
@@ -14,12 +13,15 @@ import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
-import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/categories/presentation/pages/sections/categories_section.dart';
+import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../features/user_suspend/presentation/bloc/user_suspend_event.dart';
+import '../../features/user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../network_info/network_info.dart';
 
 class Root extends StatefulWidget {
@@ -183,10 +185,18 @@ class _CalledRootClassState extends State<CalledRootClass> {
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
+              (value) async => context.read<UserSuspendBloc>().add(
+                  UserSuspendLoaded(
+                      userId:
+                          '${context.read<UserBloc>().state.taskerProfile?.user?.id}')),
+            )
+            .then(
               (value) async => {
                 if (CacheHelper.isLoggedIn)
                   {
-                    context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+                    context
+                        .read<NotificationBloc>()
+                        .add(MyNotificationListInitiated()),
                   }
               },
             );
@@ -431,68 +441,94 @@ class _CalledRootClassState extends State<CalledRootClass> {
                 );
               }),
             ),
-            Visibility(
-              visible: addActive,
-              child: Positioned(
-                bottom: 85,
-                child: SizedBox(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width,
-                  child: CustomPaint(
-                    painter: FloatingOptionsCustomPainter(
-                        color: Theme.of(context).primaryColor),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        AddPopupButton(
-                          label: '  Post a Task',
-                          icon: Icons.comment_bank_rounded,
-                          callback: () {
-                            if (CacheHelper.isLoggedIn == false) {
-                              notLoggedInPopUp(context);
-                            }
-                            if (CacheHelper.isLoggedIn == false) return;
-                            setState(() {
-                              homeActive = pageIndex == 0;
-                              boxActive = pageIndex == 1;
-                              addActive = false;
-                              bookingsActive = pageIndex == 2;
-                              profileActive = pageIndex == 3;
-                            });
-                            Navigator.pushNamed(
-                              context,
-                              PostTaskPage.routeName,
-                            );
-                          },
-                        ),
-                        addHorizontalSpace(50),
-                        AddPopupButton(
-                          label: 'Post a Service ',
-                          icon: Icons.home_repair_service_rounded,
-                          callback: () {
-                            if (CacheHelper.isLoggedIn == false) {
-                              notLoggedInPopUp(context);
-                            }
-                            if (CacheHelper.isLoggedIn == false) return;
-                            setState(() {
-                              homeActive = pageIndex == 0;
-                              boxActive = pageIndex == 1;
-                              addActive = false;
-                              bookingsActive = pageIndex == 2;
-                              profileActive = pageIndex == 3;
-                            });
-                            Navigator.pushNamed(
-                              context,
-                              PostServicePage.routeName,
-                            );
-                          },
-                        )
-                      ],
+            BlocBuilder<UserSuspendBloc, UserSuspendState>(
+                builder: (context, stateUS) {
+              print(
+                  "isSuspended: ${stateUS.userAccountSuspension?.isSuspended}");
+              return Visibility(
+                visible: addActive,
+                child: Positioned(
+                  bottom: 85,
+                  child: SizedBox(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width,
+                    child: CustomPaint(
+                      painter: FloatingOptionsCustomPainter(
+                          color: Theme.of(context).primaryColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          AddPopupButton(
+                            label: '  Post a Task',
+                            icon: Icons.comment_bank_rounded,
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                              setState(() {
+                                homeActive = pageIndex == 0;
+                                boxActive = pageIndex == 1;
+                                addActive = false;
+                                bookingsActive = pageIndex == 2;
+                                profileActive = pageIndex == 3;
+                              });
+                              (stateUS.userAccountSuspension?.isSuspended ==
+                                      false)
+                                  ? Navigator.pushNamed(
+                                      context,
+                                      PostTaskPage.routeName,
+                                    )
+                                  : showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AccountSuspendCustomToast(
+                                        heading: 'ACCOUNT SUSPENDED',
+                                        content: 'User is suspended',
+                                      ),
+                                    );
+                            },
+                          ),
+                          addHorizontalSpace(50),
+                          AddPopupButton(
+                            label: 'Post a Service ',
+                            icon: Icons.home_repair_service_rounded,
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                              setState(() {
+                                homeActive = pageIndex == 0;
+                                boxActive = pageIndex == 1;
+                                addActive = false;
+                                bookingsActive = pageIndex == 2;
+                                profileActive = pageIndex == 3;
+                              });
+
+                              (stateUS.userAccountSuspension?.isSuspended ==
+                                      false)
+                                  ? Navigator.pushNamed(
+                                      context,
+                                      PostServicePage.routeName,
+                                    )
+                                  : showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AccountSuspendCustomToast(
+                                        heading: 'ACCOUNT SUSPENDED',
+                                        content: 'User is suspended',
+                                      ),
+                                    );
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),
