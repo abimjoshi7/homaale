@@ -35,7 +35,8 @@ class AccountProfile extends StatefulWidget {
   State<AccountProfile> createState() => _AccountProfileState();
 }
 
-class _AccountProfileState extends State<AccountProfile> {
+class _AccountProfileState extends State<AccountProfile>
+    with TheModalBottomSheet {
   bool isDark = false;
 
   void checkAppMode() async {
