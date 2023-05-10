@@ -42,7 +42,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
         bloc: bookingsBloc,
         builder: (context, state) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.74,
+            height: MediaQuery.of(context).size.height * 0.9,
             width: double.infinity,
             child: Column(
               children: [
