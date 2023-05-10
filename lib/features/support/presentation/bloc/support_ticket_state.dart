@@ -1,27 +1,30 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-part of 'support_ticket_bloc.dart';
+import 'package:cipher/features/support/data/model/support_ticket_model.dart';
+import 'package:dependencies/dependencies.dart';
 
-@immutable
-class SupportTicketState extends Equatable {
+import '../../../../core/constants/enums.dart';
+
+class GetSupportTicketState extends Equatable {
   final TheStates? theStates;
-  final List<SupportTicketModel>? supportTicketList;
-  SupportTicketState({
-    this.theStates = TheStates.initial,
+  final SupportTicketModel? supportTicketList;
+  const GetSupportTicketState({
+    this.theStates,
     this.supportTicketList,
   });
 
-  SupportTicketState copyWith({
+  GetSupportTicketState copyWith({
     TheStates? theStates,
-    List<SupportTicketModel>? supportTicketList,
-    String? status,
+    SupportTicketModel? supportTicketList,
   }) {
-    return SupportTicketState(
+    return GetSupportTicketState(
       theStates: theStates ?? this.theStates,
       supportTicketList: supportTicketList ?? this.supportTicketList,
     );
   }
 
   @override
-  List<Object?> get props => [theStates, supportTicketList];
+  List<Object?> get props => [
+        theStates,
+        supportTicketList,
+      ];
 }

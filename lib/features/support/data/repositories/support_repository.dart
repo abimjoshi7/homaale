@@ -8,12 +8,17 @@ import '../model/support_ticket_type_options.dart';
 class SupportRepository {
   final _dioHelper = DioHelper();
 
-  Future fetchSupportTickets() async {
-    final res = await _dioHelper.getDatawithCredential(
-      url: '/support/support-ticket/',
-      token: CacheHelper.accessToken,
-    );
-    return res['result'];
+  Future<Map<String, dynamic>> fetchSupportTickets() async {
+    try {
+      final res = await _dioHelper.getDatawithCredential(
+        url: 'support/support-ticket/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Support Ticket Fetch Error: $e");
+      rethrow;
+    }
   }
 
   Future<List<SupportTicketTypeOptions>> fetchSupportTicketOptions(

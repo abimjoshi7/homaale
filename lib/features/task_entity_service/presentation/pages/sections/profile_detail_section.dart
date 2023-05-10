@@ -1,5 +1,3 @@
-
-
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
@@ -119,9 +117,9 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               style: Theme.of(context).textTheme.headlineLarge,
                             ),
                             onTap: () {
-                              context
-                                  .read<SupportTicketTypeOptionsBloc>()
-                                  .add(SupportTicketTypeOptionsLoaded(target: 'task'));
+                              context.read<SupportTicketTypeOptionsBloc>().add(
+                                  SupportTicketTypeOptionsLoaded(
+                                      target: 'task'));
                               Navigator.pushNamed(
                                 context,
                                 CommonReportPage.routeName,

@@ -24,7 +24,7 @@ class OrderItemListBloc extends Bloc<OrderItemListEvent, OrderItemListState> {
             );
           });
         } catch (e) {
-          log("notification parse error$e");
+          log("Item parse error$e");
           emit(state.copyWith(theStates: TheStates.failure));
         }
       },
