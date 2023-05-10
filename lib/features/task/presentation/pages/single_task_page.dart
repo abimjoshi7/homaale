@@ -356,62 +356,82 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                         title: Text('Share'),
                                                       ),
                                                     ),
-                                                    ListTile(
-                                                      onTap: () {
-                                                        context
-                                                            .read<
-                                                                SupportTicketTypeOptionsBloc>()
-                                                            .add(SupportTicketTypeOptionsLoaded(
-                                                                target:
-                                                                    'entityservice'));
-                                                        Navigator.pushNamed(
-                                                            context,
-                                                            CommonReportPage
-                                                                .routeName,
-                                                            arguments: {
-                                                              'isType':
-                                                                  'isService',
-                                                              'model':
-                                                                  'entityservice',
-                                                              'objectId': state
-                                                                      .taskModel
-                                                                      ?.id ??
-                                                                  "",
-                                                            });
-                                                      },
-                                                      leading:
-                                                          Icon(Icons.report),
-                                                      title: Text('Report'),
-                                                    ),
-                                                    ListTile(
-                                                      onTap: () {
-                                                        Future.delayed(
-                                                          Duration.zero,
-                                                          () => context
+                                                    Visibility(
+                                                      visible: context
+                                                              .read<UserBloc>()
+                                                              .state
+                                                              .taskerProfile
+                                                              ?.user
+                                                              ?.id !=
+                                                          state.taskModel
+                                                              ?.createdBy?.id,
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          context
                                                               .read<
-                                                                  tsk.TaskEntityServiceBloc>()
-                                                              .add(
-                                                                tsk.TaskEntityServiceDeleted(
-                                                                  id: state
-                                                                          .taskModel
-                                                                          ?.id ??
-                                                                      "",
-                                                                ),
-                                                              ),
-                                                        ).whenComplete(
-                                                          () => Navigator
-                                                              .pushNamedAndRemoveUntil(
-                                                            context,
-                                                            Root.routeName,
-                                                            (route) => false,
-                                                          ),
-                                                        );
-                                                      },
-                                                      leading: Icon(
-                                                        Icons
-                                                            .delete_forever_rounded,
+                                                                  SupportTicketTypeOptionsBloc>()
+                                                              .add(SupportTicketTypeOptionsLoaded(
+                                                                  target:
+                                                                      'entityservice'));
+                                                          Navigator.pushNamed(
+                                                              context,
+                                                              CommonReportPage
+                                                                  .routeName,
+                                                              arguments: {
+                                                                'isType':
+                                                                    'isService',
+                                                                'model':
+                                                                    'entityservice',
+                                                                'objectId': state
+                                                                        .taskModel
+                                                                        ?.id ??
+                                                                    "",
+                                                              });
+                                                        },
+                                                        leading:
+                                                            Icon(Icons.report),
+                                                        title: Text('Report'),
                                                       ),
-                                                      title: Text('Delete'),
+                                                    ),
+                                                    Visibility(
+                                                      visible: context
+                                                              .read<UserBloc>()
+                                                              .state
+                                                              .taskerProfile
+                                                              ?.user
+                                                              ?.id ==
+                                                          state.taskModel
+                                                              ?.createdBy?.id,
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          Future.delayed(
+                                                            Duration.zero,
+                                                            () => context
+                                                                .read<
+                                                                    tsk.TaskEntityServiceBloc>()
+                                                                .add(
+                                                                  tsk.TaskEntityServiceDeleted(
+                                                                    id: state
+                                                                            .taskModel
+                                                                            ?.id ??
+                                                                        "",
+                                                                  ),
+                                                                ),
+                                                          ).whenComplete(
+                                                            () => Navigator
+                                                                .pushNamedAndRemoveUntil(
+                                                              context,
+                                                              Root.routeName,
+                                                              (route) => false,
+                                                            ),
+                                                          );
+                                                        },
+                                                        leading: Icon(
+                                                          Icons
+                                                              .delete_forever_rounded,
+                                                        ),
+                                                        title: Text('Delete'),
+                                                      ),
                                                     ),
                                                     addVerticalSpace(16)
                                                   ],
