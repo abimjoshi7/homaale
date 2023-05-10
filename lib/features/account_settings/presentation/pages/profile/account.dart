@@ -30,6 +30,7 @@ class AccountView extends StatefulWidget {
 class _AccountViewState extends State<AccountView> {
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,9 +86,8 @@ class _AccountViewState extends State<AccountView> {
                           AccountUserInfoSection(
                             name:
                                 '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile!.isProfileVerified!
-                                ? true
-                                : false,
+                            isVerified:
+                                state.taskerProfile?.isProfileVerified ?? false,
                             designation:
                                 state.taskerProfile?.designation?.toString() ??
                                     'Homaale User',
