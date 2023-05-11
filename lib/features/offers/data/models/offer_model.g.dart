@@ -50,7 +50,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           : Country.fromJson(json['country'] as Map<String, dynamic>),
       free: json['free'] == null
           ? null
-          : Free.fromJson(json['free'] as Map<String, dynamic>),
+          : ServiceElement.fromJson(json['free'] as Map<String, dynamic>),
       offerRule: json['offer_rule'] == null
           ? null
           : OfferRule.fromJson(json['offer_rule'] as Map<String, dynamic>),
@@ -134,7 +134,8 @@ Map<String, dynamic> _$$_OfferRuleToJson(_$_OfferRule instance) =>
       'has_quantity': instance.hasQuantity,
     };
 
-_$_Free _$$_FreeFromJson(Map<String, dynamic> json) => _$_Free(
+_$_ServiceElement _$$_ServiceElementFromJson(Map<String, dynamic> json) =>
+    _$_ServiceElement(
       id: json['id'] as String?,
       slug: json['slug'] as String?,
       createdAt: json['created_at'] == null
@@ -181,7 +182,8 @@ _$_Free _$$_FreeFromJson(Map<String, dynamic> json) => _$_Free(
       isBookmarked: json['is_bookmarked'] as bool?,
     );
 
-Map<String, dynamic> _$$_FreeToJson(_$_Free instance) => <String, dynamic>{
+Map<String, dynamic> _$$_ServiceElementToJson(_$_ServiceElement instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'slug': instance.slug,
       'created_at': instance.createdAt?.toIso8601String(),

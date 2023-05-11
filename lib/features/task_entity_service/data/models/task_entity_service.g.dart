@@ -320,6 +320,7 @@ _$_Service _$$_ServiceFromJson(Map<String, dynamic> json) => _$_Service(
           ? null
           : Category.fromJson(json['category'] as Map<String, dynamic>),
       images: json['images'] as List<dynamic>?,
+      required_documents: json['required_documents'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$$_ServiceToJson(_$_Service instance) =>
@@ -330,6 +331,7 @@ Map<String, dynamic> _$$_ServiceToJson(_$_Service instance) =>
       'id_verified': instance.isVerified,
       'category': instance.category,
       'images': instance.images,
+      'required_documents': instance.required_documents,
     };
 
 _$_Category _$$_CategoryFromJson(Map<String, dynamic> json) => _$_Category(

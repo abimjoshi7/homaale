@@ -32,7 +32,7 @@ class Result with _$Result {
     @JsonKey(name: "created_by") CreatedBy? createdBy,
     String? merchant,
     Country? country,
-    @JsonKey(name: "free") Free? free,
+    @JsonKey(name: "free") ServiceElement? free,
     @JsonKey(name: "offer_rule") OfferRule? offerRule,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -74,8 +74,8 @@ class OfferRule with _$OfferRule {
 }
 
 @freezed
-class Free with _$Free {
-  const factory Free({
+class ServiceElement with _$ServiceElement {
+  const factory ServiceElement({
     String? id,
     String? slug,
     @JsonKey(name: "created_at") DateTime? createdAt,
@@ -100,7 +100,8 @@ class Free with _$Free {
     @JsonKey(name: "end_time") String? endTime,
     List<Image>? videos,
     @JsonKey(name: "is_bookmarked") bool? isBookmarked,
-  }) = _Free;
+  }) = _ServiceElement;
 
-  factory Free.fromJson(Map<String, dynamic> json) => _$FreeFromJson(json);
+  factory ServiceElement.fromJson(Map<String, dynamic> json) =>
+      _$ServiceElementFromJson(json);
 }

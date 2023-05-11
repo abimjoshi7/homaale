@@ -29,6 +29,9 @@ const kOffersPath = "offer/serviceoffer/all/";
 const kTransactionPath = "/payment/transaction/";
 const kTransactionDownloadPath = "/payment/transaction-csv/";
 
+//search
+const kSearchPath = "/search/dashboard/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",

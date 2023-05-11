@@ -13,8 +13,7 @@ _$_TaskerProfile _$$_TaskerProfileFromJson(Map<String, dynamic> json) =>
       fullName: json['full_name'] as String?,
       chargeCurrency: json['charge_currency'] == null
           ? null
-          : ChargeCurrency.fromJson(
-              json['charge_currency'] as Map<String, dynamic>),
+          : Currency.fromJson(json['charge_currency'] as Map<String, dynamic>),
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
@@ -52,6 +51,7 @@ _$_TaskerProfile _$$_TaskerProfileFromJson(Map<String, dynamic> json) =>
       badge: json['badge'] == null
           ? null
           : Badge.fromJson(json['badge'] as Map<String, dynamic>),
+      isBookmarked: json['is_bookmarked'] as bool?,
       status: json['status'] as String?,
       bio: json['bio'] as String?,
       gender: json['gender'] as String?,
@@ -62,7 +62,6 @@ _$_TaskerProfile _$$_TaskerProfileFromJson(Map<String, dynamic> json) =>
       activeHourStart: json['active_hour_start'] as String?,
       activeHourEnd: json['active_hour_end'] as String?,
       experienceLevel: json['experience_level'] as String?,
-      userType: json['user_type'] as String?,
       profileVisibility: json['profile_visibility'] as String?,
       taskPreferences: json['task_preferences'] as String?,
       addressLine1: json['address_line1'] as String?,
@@ -97,6 +96,7 @@ Map<String, dynamic> _$$_TaskerProfileToJson(_$_TaskerProfile instance) =>
       'interests': instance.interests,
       'is_followed': instance.isFollowed,
       'badge': instance.badge,
+      'is_bookmarked': instance.isBookmarked,
       'status': instance.status,
       'bio': instance.bio,
       'gender': instance.gender,
@@ -105,7 +105,6 @@ Map<String, dynamic> _$$_TaskerProfileToJson(_$_TaskerProfile instance) =>
       'active_hour_start': instance.activeHourStart,
       'active_hour_end': instance.activeHourEnd,
       'experience_level': instance.experienceLevel,
-      'user_type': instance.userType,
       'profile_visibility': instance.profileVisibility,
       'task_preferences': instance.taskPreferences,
       'address_line1': instance.addressLine1,
@@ -123,9 +122,7 @@ Map<String, dynamic> _$$_TaskerProfileToJson(_$_TaskerProfile instance) =>
 
 _$_Badge _$$_BadgeFromJson(Map<String, dynamic> json) => _$_Badge(
       id: json['id'] as int?,
-      next: json['next'] == null
-          ? null
-          : Badge.fromJson(json['next'] as Map<String, dynamic>),
+      next: json['next'],
       image: json['image'] as String?,
       title: json['title'] as String?,
       progressLevelStart: json['progress_level_start'] as int?,
@@ -139,51 +136,6 @@ Map<String, dynamic> _$$_BadgeToJson(_$_Badge instance) => <String, dynamic>{
       'title': instance.title,
       'progress_level_start': instance.progressLevelStart,
       'progress_level_end': instance.progressLevelEnd,
-    };
-
-_$_ChargeCurrency _$$_ChargeCurrencyFromJson(Map<String, dynamic> json) =>
-    _$_ChargeCurrency(
-      code: json['code'] as String?,
-      name: json['name'] as String?,
-      symbol: json['symbol'] as String?,
-    );
-
-Map<String, dynamic> _$$_ChargeCurrencyToJson(_$_ChargeCurrency instance) =>
-    <String, dynamic>{
-      'code': instance.code,
-      'name': instance.name,
-      'symbol': instance.symbol,
-    };
-
-_$_City _$$_CityFromJson(Map<String, dynamic> json) => _$_City(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      localName: json['localName'] as String?,
-      zipCode: json['zipCode'] as String?,
-      latitude: (json['latitude'] as num?)?.toDouble(),
-      longitude: (json['longitude'] as num?)?.toDouble(),
-      country: json['country'] as String?,
-    );
-
-Map<String, dynamic> _$$_CityToJson(_$_City instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'localName': instance.localName,
-      'zipCode': instance.zipCode,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
-      'country': instance.country,
-    };
-
-_$_Country _$$_CountryFromJson(Map<String, dynamic> json) => _$_Country(
-      name: json['name'] as String?,
-      code: json['code'] as String?,
-    );
-
-Map<String, dynamic> _$$_CountryToJson(_$_Country instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'code': instance.code,
     };
 
 _$_Language _$$_LanguageFromJson(Map<String, dynamic> json) => _$_Language(
@@ -318,22 +270,6 @@ Map<String, dynamic> _$$_PortfolioToJson(_$_Portfolio instance) =>
       'description': instance.description,
       'issued_date': instance.issuedDate?.toIso8601String(),
       'credential_url': instance.credentialUrl,
-    };
-
-_$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      size: json['size'] as String?,
-      mediaType: json['media_type'] as String?,
-      media: json['media'] as String?,
-    );
-
-Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'size': instance.size,
-      'media_type': instance.mediaType,
-      'media': instance.media,
     };
 
 _$_Rating _$$_RatingFromJson(Map<String, dynamic> json) => _$_Rating(

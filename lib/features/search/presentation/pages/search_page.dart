@@ -1,20 +1,38 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
-import 'package:cipher/features/search/presentation/widgets/widgets.dart';
+import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SearchPage extends StatefulWidget {
+import 'sections/sections.dart';
+
+class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
   static const String routeName = '/search-page';
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => SearchBloc(
+        SearchRepository(),
+      ),
+      child: SearchPageMainView(),
+    );
+  }
 }
 
-class _SearchPageState extends State<SearchPage> {
+class SearchPageMainView extends StatefulWidget {
+  const SearchPageMainView({super.key});
+
+  @override
+  State<SearchPageMainView> createState() => _SearchPageMainViewState();
+}
+
+class _SearchPageMainViewState extends State<SearchPageMainView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _searchFieldController = TextEditingController();
   late FocusNode _focusNode;
@@ -27,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
 
     _focusNode = FocusNode();
-    context.read<SearchBloc>().add(SearchFieldInitialEvent());
+    // context.read<SearchBloc>().add(SearchFieldInitialEvent());
     //TODO: FIX BUG that retrieves list after clearing search prompt via backspace
   }
 
@@ -83,25 +101,36 @@ class _SearchPageState extends State<SearchPage> {
                               : MediaQuery.of(context).size.width * 0.86,
                           duration: Duration(milliseconds: 60),
                           child: CustomTextFormField(
+                            autofocus: true,
                             controller: _searchFieldController,
                             node: _focusNode,
-                            onChanged: (query) {
-                              if (query!.trim().isEmpty && query.isEmpty) {
-                                setState(() => _searchFieldController.clear());
-                                context.read<SearchBloc>().add(
-                                      SearchQueryCleared(),
-                                    );
-                              }
-
-                              if (query.length < 3) return;
+                            onFieldSubmitted: (p0) {
+                              log("321");
                               context.read<SearchBloc>().add(
                                     SearchQueryInitiated(
-                                      searchQuery: query.toString(),
+                                      searchQuery: _searchFieldController.text,
                                     ),
                                   );
                             },
+                            onChanged: (query) {
+                              // if ((query ?? "").trim().isEmpty &&
+                              //     query?.length == 0) {
+                              //   setState(() => _searchFieldController.clear());
+                              //   context.read<SearchBloc>().add(
+                              //         SearchQueryCleared(),
+                              //       );
+                              // }
+
+                              // if ((query ?? "").length < 3) return;
+                              // context.read<SearchBloc>().add(
+                              //       SearchQueryInitiated(
+                              //         searchQuery: query.toString(),
+                              //       ),
+                              //     );
+                            },
                             hintText: 'Search...',
                             textInputType: TextInputType.text,
+                            inputAction: TextInputAction.search,
                             prefixWidget: (_focusNode.hasFocus)
                                 ? IconButton(
                                     onPressed: () => _focusNode.unfocus(),
@@ -120,20 +149,21 @@ class _SearchPageState extends State<SearchPage> {
                               direction: Axis.horizontal,
                               children: <Widget>[
                                 IconButton(
-                                    iconSize: 22.0,
-                                    // color: Color(0xff868E96),
-                                    icon: Icon(
-                                      CupertinoIcons.multiply,
-                                      weight: 400,
-                                    ),
-                                    onPressed: () {
-                                      setState(
-                                        () => _searchFieldController.clear(),
-                                      );
-                                      context
-                                          .read<SearchBloc>()
-                                          .add(SearchQueryCleared());
-                                    }),
+                                  iconSize: 22.0,
+                                  // color: Color(0xff868E96),
+                                  icon: Icon(
+                                    CupertinoIcons.multiply,
+                                    weight: 400,
+                                  ),
+                                  onPressed: () {
+                                    setState(
+                                      () => _searchFieldController.clear(),
+                                    );
+                                    context
+                                        .read<SearchBloc>()
+                                        .add(SearchQueryCleared());
+                                  },
+                                ),
                                 // TODO:voice search implementation
                                 //  (_focusNode.hasFocus)
                                 //      ? IconButton(
@@ -160,22 +190,42 @@ class _SearchPageState extends State<SearchPage> {
                   BlocBuilder<SearchBloc, SearchState>(
                     builder: (_, state) {
                       if (state.theStates == TheStates.initial) {
-                        return RecentSearchesList(
-                          recentSearchesList:
-                              state.recentSearchQueriesList as List,
-                          setSearchControllerValue: _setSearchControllerValue,
-                        );
+                        return SizedBox.shrink();
+                        // return RecentSearchesList(
+                        //   recentSearchesList:
+                        //       state.recentSearchQueriesList as List,
+                        //   setSearchControllerValue: _setSearchControllerValue,
+                        // );
                       }
                       if (state.theStates == TheStates.success) {
-                        if (state.filteredList!.length < 1) {
-                          return Align(
-                            alignment: Alignment.center,
-                            child: Text('No results Found.'),
-                          );
-                        }
-                        return SearchResultsList(
-                          searchList: state.filteredList!,
+                        var service = state.result?.service;
+                        var task = state.result?.task;
+                        var tasker = state.result?.tasker;
+                        return Column(
+                          children: [
+                            if (tasker?.isNotEmpty ?? false)
+                              TaskerSection(
+                                taskers: tasker,
+                              ),
+                            if (task?.isNotEmpty ?? false)
+                              TasksSection(
+                                tasks: task,
+                              ),
+                            if (service?.isNotEmpty ?? false)
+                              ServicesSection(
+                                service: service,
+                              ),
+                          ],
                         );
+                        // if ((state.filteredList?.length ?? 0) < 1) {
+                        //   return Align(
+                        //     alignment: Alignment.center,
+                        //     child: Text('No results Found.'),
+                        //   );
+                        // }
+                        // return SearchResultsList(
+                        //   searchList: state.filteredList ?? [],
+                        // );
                       }
 
                       if (state.theStates == TheStates.failure) {

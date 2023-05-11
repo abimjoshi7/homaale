@@ -27,6 +27,7 @@ import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.da
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
+import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -202,9 +203,6 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<EntityServiceBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => SearchBloc(),
           ),
           BlocProvider(
             create: (context) => locator<TaskBloc>(),
