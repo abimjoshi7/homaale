@@ -27,6 +27,8 @@ import '../../../../feedback/presentation/pages/feedback.dart';
 import '../../../../support/presentation/widgets/report_page.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -224,7 +226,7 @@ class _AccountProfileState extends State<AccountProfile>
               icon: const Icon(
                 Icons.report,
               ),
-              label: 'Help & Legal',
+              label: 'Help & Report',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
@@ -233,6 +235,20 @@ class _AccountProfileState extends State<AccountProfile>
                 context
                     .read<SupportTicketTypeOptionsBloc>()
                     .add(SupportTicketTypeOptionsLoaded(target: ''));
+                context
+                    .read<UserSuspendBloc>()
+                    .state
+                    .userAccountSuspension
+                    ?.isSuspended ==
+                    true
+                    ? showDialog(
+                  context: context,
+                  builder: (context) => AccountSuspendCustomToast(
+                    heading: 'ACCOUNT SUSPENDED',
+                    content: 'User is suspended',
+                  ),
+                )
+                    :
                 Navigator.pushNamed(context, CommonReportPage.routeName);
               },
             ),

@@ -20,7 +20,6 @@ class UserRepositories {
       rethrow;
     }
   }
-
   Future<Map<String, dynamic>> addUser(
     Map<String, dynamic> taskerProfileCreateReq,
   ) async {

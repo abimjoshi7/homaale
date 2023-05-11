@@ -14,7 +14,6 @@ class FeedbackBloc extends Bloc<FeedbackEvent, FeedbackState> {
           emit(
             FeedbackLoading(),
           );
-
           await respositories.fetchFeedback().then(
                 (value) {
               if (value.isNotEmpty) {
