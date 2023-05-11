@@ -32,6 +32,10 @@ const kTransactionDownloadPath = "/payment/transaction-csv/";
 //search
 const kSearchPath = "/search/dashboard/";
 
+//categories
+const kParentCategoryList = "/task/cms/task-category/list/";
+const kSubCategoryList = "/task/service/list/options/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",

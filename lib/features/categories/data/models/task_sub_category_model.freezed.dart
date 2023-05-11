@@ -313,6 +313,11 @@ mixin _$Result {
   bool? get isActive => throw _privateConstructorUsedError;
   @JsonKey(name: "media_limit")
   int? get mediaLimit => throw _privateConstructorUsedError;
+  @JsonKey(name: "extra_data")
+  Map<String, dynamic>? get extraData => throw _privateConstructorUsedError;
+  String? get commission => throw _privateConstructorUsedError;
+  @JsonKey(name: "inherits_commission")
+  bool? get inheritsCommission => throw _privateConstructorUsedError;
   int? get parent => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -335,6 +340,9 @@ abstract class $ResultCopyWith<$Res> {
       String? slug,
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "media_limit") int? mediaLimit,
+      @JsonKey(name: "extra_data") Map<String, dynamic>? extraData,
+      String? commission,
+      @JsonKey(name: "inherits_commission") bool? inheritsCommission,
       int? parent});
 }
 
@@ -360,6 +368,9 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? slug = freezed,
     Object? isActive = freezed,
     Object? mediaLimit = freezed,
+    Object? extraData = freezed,
+    Object? commission = freezed,
+    Object? inheritsCommission = freezed,
     Object? parent = freezed,
   }) {
     return _then(_value.copyWith(
@@ -399,6 +410,18 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.mediaLimit
           : mediaLimit // ignore: cast_nullable_to_non_nullable
               as int?,
+      extraData: freezed == extraData
+          ? _value.extraData
+          : extraData // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
+      inheritsCommission: freezed == inheritsCommission
+          ? _value.inheritsCommission
+          : inheritsCommission // ignore: cast_nullable_to_non_nullable
+              as bool?,
       parent: freezed == parent
           ? _value.parent
           : parent // ignore: cast_nullable_to_non_nullable
@@ -423,6 +446,9 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       String? slug,
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "media_limit") int? mediaLimit,
+      @JsonKey(name: "extra_data") Map<String, dynamic>? extraData,
+      String? commission,
+      @JsonKey(name: "inherits_commission") bool? inheritsCommission,
       int? parent});
 }
 
@@ -445,6 +471,9 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? slug = freezed,
     Object? isActive = freezed,
     Object? mediaLimit = freezed,
+    Object? extraData = freezed,
+    Object? commission = freezed,
+    Object? inheritsCommission = freezed,
     Object? parent = freezed,
   }) {
     return _then(_$_Result(
@@ -484,6 +513,18 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.mediaLimit
           : mediaLimit // ignore: cast_nullable_to_non_nullable
               as int?,
+      extraData: freezed == extraData
+          ? _value._extraData
+          : extraData // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
+      inheritsCommission: freezed == inheritsCommission
+          ? _value.inheritsCommission
+          : inheritsCommission // ignore: cast_nullable_to_non_nullable
+              as bool?,
       parent: freezed == parent
           ? _value.parent
           : parent // ignore: cast_nullable_to_non_nullable
@@ -505,7 +546,11 @@ class _$_Result implements _Result {
       this.slug,
       @JsonKey(name: "is_active") this.isActive,
       @JsonKey(name: "media_limit") this.mediaLimit,
-      this.parent});
+      @JsonKey(name: "extra_data") final Map<String, dynamic>? extraData,
+      this.commission,
+      @JsonKey(name: "inherits_commission") this.inheritsCommission,
+      this.parent})
+      : _extraData = extraData;
 
   factory _$_Result.fromJson(Map<String, dynamic> json) =>
       _$$_ResultFromJson(json);
@@ -532,12 +577,28 @@ class _$_Result implements _Result {
   @override
   @JsonKey(name: "media_limit")
   final int? mediaLimit;
+  final Map<String, dynamic>? _extraData;
+  @override
+  @JsonKey(name: "extra_data")
+  Map<String, dynamic>? get extraData {
+    final value = _extraData;
+    if (value == null) return null;
+    if (_extraData is EqualUnmodifiableMapView) return _extraData;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  final String? commission;
+  @override
+  @JsonKey(name: "inherits_commission")
+  final bool? inheritsCommission;
   @override
   final int? parent;
 
   @override
   String toString() {
-    return 'Result(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, name: $name, level: $level, icon: $icon, slug: $slug, isActive: $isActive, mediaLimit: $mediaLimit, parent: $parent)';
+    return 'Result(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, name: $name, level: $level, icon: $icon, slug: $slug, isActive: $isActive, mediaLimit: $mediaLimit, extraData: $extraData, commission: $commission, inheritsCommission: $inheritsCommission, parent: $parent)';
   }
 
   @override
@@ -558,6 +619,12 @@ class _$_Result implements _Result {
                 other.isActive == isActive) &&
             (identical(other.mediaLimit, mediaLimit) ||
                 other.mediaLimit == mediaLimit) &&
+            const DeepCollectionEquality()
+                .equals(other._extraData, _extraData) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission) &&
+            (identical(other.inheritsCommission, inheritsCommission) ||
+                other.inheritsCommission == inheritsCommission) &&
             (identical(other.parent, parent) || other.parent == parent));
   }
 
@@ -574,6 +641,9 @@ class _$_Result implements _Result {
       slug,
       isActive,
       mediaLimit,
+      const DeepCollectionEquality().hash(_extraData),
+      commission,
+      inheritsCommission,
       parent);
 
   @JsonKey(ignore: true)
@@ -601,6 +671,9 @@ abstract class _Result implements Result {
       final String? slug,
       @JsonKey(name: "is_active") final bool? isActive,
       @JsonKey(name: "media_limit") final int? mediaLimit,
+      @JsonKey(name: "extra_data") final Map<String, dynamic>? extraData,
+      final String? commission,
+      @JsonKey(name: "inherits_commission") final bool? inheritsCommission,
       final int? parent}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
@@ -627,6 +700,14 @@ abstract class _Result implements Result {
   @override
   @JsonKey(name: "media_limit")
   int? get mediaLimit;
+  @override
+  @JsonKey(name: "extra_data")
+  Map<String, dynamic>? get extraData;
+  @override
+  String? get commission;
+  @override
+  @JsonKey(name: "inherits_commission")
+  bool? get inheritsCommission;
   @override
   int? get parent;
   @override

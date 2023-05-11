@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/features/categories/data/models/sub_category_res.dart'
+    hide Category;
 import 'package:cipher/features/categories/data/models/task_sub_category_model.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -53,18 +55,11 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
     on<TaskSubCategoryLoaded>((event, emit) async {
       try {
-        emit(
-          state.copyWith(
-            theStates: TheStates.loading,
-          ),
-        );
-        await repositories.fetchTaskSubCategory(event.categoryId).then(
+        await repositories.getService(event.categoryId).then(
               (value) => emit(
                 state.copyWith(
                   theStates: TheStates.success,
-                  taskSubCategoryModel: TaskSubCategoryModel.fromJson(
-                    value,
-                  ),
+                  serviceList: value,
                   categoryName: event.categoryName,
                 ),
               ),
@@ -72,8 +67,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       } catch (e) {
         emit(
           state.copyWith(
-            theStates: TheStates.failure,
-            taskSubCategoryModel: null,
+            // theStates: TheStates.failure,
+            serviceList: [],
           ),
         );
       }
@@ -109,6 +104,49 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               theStates: TheStates.failure,
             ),
           );
+        }
+      },
+    );
+
+    on<CategoriesChanged>(
+      (event, emit) {
+        try {
+          emit(
+            state.copyWith(
+              taskSubCategoryModel: TaskSubCategoryModel(),
+            ),
+          );
+          for (final element in state.categoryList ?? []) {
+            if (event.name == element.name) {
+              emit(
+                state.copyWith(
+                  serviceId: element.id as int,
+                ),
+              );
+              add(
+                TaskSubCategoryLoaded(
+                  categoryId: element.id as int,
+                  categoryName: element.name as String,
+                ),
+              );
+            }
+          }
+        } catch (e) {
+          throw Exception("Categories change failed");
+        }
+      },
+    );
+
+    on<SubCategoriesChanged>(
+      (event, emit) {
+        for (final element in state.taskSubCategoryModel?.result ?? []) {
+          if (event.name == element.name) {
+            emit(
+              state.copyWith(
+                serviceId: element.id as int,
+              ),
+            );
+          }
         }
       },
     );

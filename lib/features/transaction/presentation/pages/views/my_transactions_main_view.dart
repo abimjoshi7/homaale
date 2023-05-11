@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
+import 'package:cipher/features/transaction/data/repositories/transaction_repository.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/transaction/presentation/widgets/transaction_card.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -61,8 +64,9 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: "My Transactions",
+        trailingWidget: SizedBox.shrink(),
         // * To be implemented
-        // trailingWidget: IconButton(
+        // IconButton(
         //   onPressed: () async {
         //     await TransactionRepository().downloadCSV();
         //   },
