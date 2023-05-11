@@ -1,3 +1,4 @@
+import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/dimensions.dart';
@@ -51,10 +52,9 @@ class AccountSuspendCustomToast extends StatelessWidget {
                     width: 100,
                     child: CustomElevatedButton(
                       callback: () {
-                        Navigator.pushNamed(
-                            context, SupportTicketPage.routeName);
+                        Navigator.pushNamed(context, ContactUsPage.routeName);
                       },
-                      label: 'Support',
+                      label: 'Contact Us',
                     ),
                   ),
                   addHorizontalSpace(30),
