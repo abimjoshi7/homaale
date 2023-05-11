@@ -7,9 +7,9 @@ part 'deactivate_state.dart';
 class DeactivateCubit extends Cubit<DeactivateState> {
   DeactivateCubit() : super(DeactivateInitial());
 
-  Future<void> initiateDeactivate(Map<String, dynamic> map) async {
+  Future<void> initiateDeactivate({required String reason}) async {
     await DioHelper().postDataWithCredential(
-      data: map,
+      data: {reason},
       url: 'user/deactivate/',
       token: CacheHelper.accessToken,
     );
