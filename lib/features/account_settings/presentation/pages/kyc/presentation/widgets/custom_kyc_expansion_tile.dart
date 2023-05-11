@@ -28,6 +28,13 @@ class CustomKycExpansionTile extends StatelessWidget {
                   color: Color(0xff5C6096),
                 ),
           ),
+          addHorizontalSpace(6.0),
+          SizedBox(
+              height: 17.0,
+              width: 17.0,
+              child: Image.asset(kycDoc.isVerified!
+                  ? "assets/logos/Vector.png"
+                  : "assets/logos/tabler-icon-x.png"))
         ],
       ),
       children: <Widget>[

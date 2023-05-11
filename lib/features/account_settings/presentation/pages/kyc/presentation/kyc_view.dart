@@ -168,8 +168,15 @@ class KycView extends StatelessWidget {
                     "KYC Documents",
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                  CustomKycExpansionTile(
-                    kycDoc: state.list!.first,
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: state.list!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CustomKycExpansionTile(
+                        kycDoc: state.list!.first,
+                      );
+                    },
                   ),
                   Align(
                     alignment: Alignment.topLeft,
