@@ -14,7 +14,8 @@ class BookingSection extends StatefulWidget {
   final BookingsBloc bloc;
   final BookingSectionType bookingSectionType;
 
-  const BookingSection({super.key, required this.bloc, required this.bookingSectionType});
+  const BookingSection(
+      {super.key, required this.bloc, required this.bookingSectionType});
 
   @override
   State<BookingSection> createState() => _BookingSectionState();
@@ -25,7 +26,8 @@ class _BookingSectionState extends State<BookingSection> {
   List<Result> resultList = [];
 
   //initialize page controller
-  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, Result> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -78,13 +80,21 @@ class _BookingSectionState extends State<BookingSection> {
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   builderDelegate: PagedChildBuilderDelegate(
                     itemBuilder: (context, Result item, index) {
-                      return widget.bookingSectionType == BookingSectionType.todo
-                          ? item.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id
+                      return widget.bookingSectionType ==
+                              BookingSectionType.todo
+                          ? item.assignee?.id ==
+                                  context
+                                      .read<UserBloc>()
+                                      .state
+                                      .taskerProfile
+                                      ?.user
+                                      ?.id
                               ? Container(
                                   margin: EdgeInsets.only(bottom: 16),
                                   child: BookingsServiceCard(
                                     callback: () {
-                                      BlocProvider.of<BookingsBloc>(context).add(
+                                      BlocProvider.of<BookingsBloc>(context)
+                                          .add(
                                         BookingSingleLoaded(item.id),
                                       );
                                       Navigator.pushNamed(
@@ -93,7 +103,8 @@ class _BookingSectionState extends State<BookingSection> {
                                       );
                                     },
                                     serviceName: item.title,
-                                    providerName: "${item.assignee?.firstName} ${item.assignee?.lastName}",
+                                    providerName:
+                                        "${item.assigner?.firstName} ${item.assigner?.lastName}",
                                     mainContentWidget: showBookingDetails(item),
                                     status: item.status,
                                     hidePopupButton: true,
@@ -101,12 +112,19 @@ class _BookingSectionState extends State<BookingSection> {
                                   ),
                                 )
                               : SizedBox()
-                          : item.assigner?.id == context.read<UserBloc>().state.taskerProfile?.user?.id
+                          : item.assigner?.id ==
+                                  context
+                                      .read<UserBloc>()
+                                      .state
+                                      .taskerProfile
+                                      ?.user
+                                      ?.id
                               ? Container(
                                   margin: EdgeInsets.only(bottom: 16),
                                   child: BookingsServiceCard(
                                     callback: () {
-                                      BlocProvider.of<BookingsBloc>(context).add(
+                                      BlocProvider.of<BookingsBloc>(context)
+                                          .add(
                                         BookingSingleLoaded(item.id),
                                       );
                                       Navigator.pushNamed(
@@ -115,7 +133,8 @@ class _BookingSectionState extends State<BookingSection> {
                                       );
                                     },
                                     serviceName: item.title,
-                                    providerName: "${item.assignee?.firstName} ${item.assignee?.lastName}",
+                                    providerName:
+                                        "${item.assignee?.firstName} ${item.assignee?.lastName}",
                                     mainContentWidget: showBookingDetails(item),
                                     status: item.status,
                                     hidePopupButton: true,
@@ -148,7 +167,8 @@ class _BookingSectionState extends State<BookingSection> {
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
                   label: DateFormat.yMMMEd().format(
-                    DateTime.parse(result.createdAt ?? DateTime.now().toString()),
+                    DateTime.parse(
+                        result.createdAt ?? DateTime.now().toString()),
                   ),
                   color: kColorBlue,
                 ),
@@ -157,7 +177,8 @@ class _BookingSectionState extends State<BookingSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label:
+                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),
