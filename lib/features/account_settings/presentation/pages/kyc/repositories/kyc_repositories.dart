@@ -23,6 +23,23 @@ class KycRepositories {
     }
   }
 
+  Future<Map<String, dynamic>?> editKycProfile(
+      Map<String,dynamic> editKycReq) async {
+    try {
+      final x = await _dio.patchDataWithCredential(
+        url: "tasker/my-kyc/",
+        token: CacheHelper.accessToken,
+        data: editKycReq,
+      );
+      if (x != null) {
+        return x as Map<String, dynamic>;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List> getCountriesList() async {
     try {
       final x = await _dio.getDatawithCredential(
@@ -35,7 +52,7 @@ class KycRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> addKyc(
+  Future<Map<dynamic, dynamic>> addKyc(
     AddKycReq addKycReq,
   ) async {
     try {
@@ -44,7 +61,7 @@ class KycRepositories {
         url: 'tasker/kyc-document/',
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      return x as Map<dynamic, dynamic>;
     } catch (e) {
       rethrow;
     }

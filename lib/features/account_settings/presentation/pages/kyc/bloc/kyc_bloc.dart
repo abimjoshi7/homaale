@@ -22,31 +22,18 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     this.repositories,
   ) : super(const KycState(theStates: TheStates.initial)) {
     on<KycProfileInitiated>((event, emit) async {
-      if (state.kycModel == null) {
-        List<Country> _countriesList = [];
-        final kycRes = await repositories.getKyc();
+      try {
         final _countries = await repositories.getCountriesList();
-        for (final country in _countries) {
-          _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
-        }
-        log("RES: $kycRes");
-        if (kycRes != null) {
-          emit(
-            state.copyWith(
+
+        emit(
+          state.copyWith(
               theStates: TheStates.initial,
-              kycModel: KycModel.fromJson(kycRes),
-              country: _countriesList,
-            ),
-          );
-        }
-        if (kycRes == null) {
-          emit(state.copyWith(
-            theStates: TheStates.initial,
-            country: _countriesList,
-          ));
-        }
-      } 
-			else {
+              isCreated: false,
+              country: _countries
+                  .map((e) => Country.fromJson(e as Map<String, dynamic>))
+                  .toList()),
+        );
+      } catch (e) {
         emit(state.copyWith(
           theStates: TheStates.initial,
           isCreated: false,
@@ -62,15 +49,18 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               theStates: TheStates.loading,
             ),
           );
-          final res = await repositories.createKyc(event.createKycReq!);
-          if (res != null) {
-            emit(
-              state.copyWith(
-                theStates: TheStates.success,
-                isCreated: true,
-              ),
-            );
-          }
+          final res = await repositories.createKyc(event.createKycReq!).then(
+                (value) => repositories.getKyc(),
+              );
+
+          log("RES: $res");
+          emit(
+            state.copyWith(
+              theStates: TheStates.success,
+              kycModel: KycModel.fromJson(res as Map<String, dynamic>),
+              isCreated: true,
+            ),
+          );
         } catch (e) {
           log("kyc error: $e");
           final String? err = await CacheHelper.getCachedString(kErrorLog);
@@ -122,10 +112,11 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           ),
         );
         await repositories.getKyc().then((value) {
+          if (value == null) return;
           emit(
             state.copyWith(
               theStates: TheStates.success,
-              kycModel: KycModel.fromJson(value!),
+              kycModel: KycModel.fromJson(value),
             ),
           );
         });
@@ -211,5 +202,42 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         }
       },
     );
+    on<KycProfileEditInitiated>((event, emit) {
+      emit(
+        state.copyWith(
+          theStates: TheStates.initial,
+          isEditRequested: true,
+          isEdited: false,
+        ),
+      );
+    });
+    on<KycProfileEditLoaded>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
+        await repositories.editKycProfile(event.editKycReq!);
+        emit(
+          state.copyWith(
+            theStates: TheStates.success,
+            isEditRequested: false,
+            isEdited: true,
+          ),
+        );
+      } catch (e) {
+        log("KYC EDIT ERROR: $e");
+        emit(
+          state.copyWith(
+            theStates: TheStates.failure,
+            isEdited: false,
+          ),
+        );
+      }
+    });
+    // on<KycProfileImageChanged>((event, emit)  {
+
+    // });
   }
 }

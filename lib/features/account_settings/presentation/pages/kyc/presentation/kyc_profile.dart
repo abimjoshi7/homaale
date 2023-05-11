@@ -1,14 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/core/file_picker/file_pick_helper.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -49,61 +45,75 @@ class _KycProfileState extends State<KycProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: CustomAppBar(appBarTitle: 'KYC Details'),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0),
-              child: Text(
-                'General Information',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-            ),
-            BlocConsumer<KycBloc, KycState>(
-              listener: (_, state) async {
-                if (state.theStates == TheStates.success &&
-                    state.isCreated == true) {
-                  await showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (_) => CustomToast(
-                      heading: "Success",
-                      content: "Tasker Profile Filled Successfully.",
-                      onTap: () async {
-                        context.read<KycBloc>().add(KycProfileInitiated());
-                        await Navigator.pushNamed(
-                          context,
-                          KycDetails.routeName,
-                        );
-                      },
-                      isSuccess: true,
-                    ),
-                  );
-                }
-                if (state.theStates == TheStates.failure &&
-                    state.isCreated == false) {
-                  await showDialog(
-                    context: context,
-                    builder: (_) => CustomToast(
-                      heading: "Failure",
-                      content: state.errMsg?.toString().toTitleCase() ??
-                          "Something Went Wrong. Please Try Again.",
-                      onTap: () {},
-                      isSuccess: false,
-                    ),
-                  );
-                }
+    return BlocConsumer<KycBloc, KycState>(
+      listener: (_, state) async {
+        if (state.theStates == TheStates.success && state.isCreated == true) {
+          await showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (_) => CustomToast(
+              heading: "Success",
+              content: "Tasker Profile Filled Successfully.",
+              onTap: () async {
+                context.read<KycBloc>().add(KycProfileInitiated());
+                await Navigator.pushNamed(
+                  context,
+                  KycDetails.routeName,
+                );
               },
-              builder: (_, state) {
-                if (state.theStates == TheStates.loading) {
-                  return CardLoading(height: 500.0);
-                }
-                return Expanded(
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state.theStates == TheStates.failure && state.isCreated == false) {
+          await showDialog(
+            context: context,
+            builder: (_) => CustomToast(
+              heading: "Failure",
+              content: state.errMsg?.toString().toTitleCase() ??
+                  "Something Went Wrong. Please Try Again.",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
+        if (state.theStates != TheStates.initial) return;
+        if (state.kycModel != null && state.isEditRequested == true) {
+          setState(() {
+            _fullNameController.setText(state.kycModel!.fullName!);
+            state.kycModel!.isCompany!
+                ? _companyNameController
+                    .setText(state.kycModel!.organizationName!)
+                : null;
+            _addressController.setText(state.kycModel!.address!);
+            _countryController.setText(state.kycModel!.country!.code!);
+            // selectedImage
+          });
+        }
+      },
+      builder: (_, state) {
+        if (state.theStates == TheStates.loading) {
+          return CardLoading(height: 500.0);
+        }
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: CustomAppBar(
+              appBarTitle: state.isEditRequested == true
+                  ? 'Edit KYC Details'
+                  : 'KYC Details'),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  child: Text(
+                    'General Information',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                ),
+                Expanded(
                   child: Form(
                     key: _key,
                     child: SingleChildScrollView(
@@ -113,7 +123,8 @@ class _KycProfileState extends State<KycProfile> {
                             label: "Passport Size Photo",
                             isRequired: true,
                             child: InkWell(
-                              onTap: (state.kycModel != null)
+                              onTap: (state.kycModel != null &&
+                                      state.isEditRequested == false)
                                   ? null
                                   : () async {
                                       showDialog(
@@ -185,7 +196,8 @@ class _KycProfileState extends State<KycProfile> {
                                       : _userType[0],
                               list: _userType,
                               hintText: 'Select User Type',
-                              onChanged: (state.kycModel != null)
+                              onChanged: (state.kycModel != null &&
+                                      state.isEditRequested == false)
                                   ? null
                                   : (value) {
                                       if (value == _userType.last) {
@@ -210,7 +222,8 @@ class _KycProfileState extends State<KycProfile> {
                             child: CustomTextFormField(
                               controller: _fullNameController,
                               validator: validateNotEmpty,
-                              readOnly: state.kycModel != null,
+                              readOnly: state.kycModel != null &&
+                                  state.isEditRequested == false,
                               hintText: state.kycModel?.fullName?.length == 0
                                   ? ""
                                   : state.kycModel?.fullName ?? "",
@@ -226,7 +239,8 @@ class _KycProfileState extends State<KycProfile> {
                                   child: CustomTextFormField(
                                     controller: _companyNameController,
                                     validator: validateNotEmpty,
-                                    readOnly: state.kycModel != null,
+                                    readOnly: state.kycModel != null &&
+                                        state.isEditRequested == false,
                                     hintText: state.kycModel?.organizationName
                                                 ?.length ==
                                             0
@@ -245,7 +259,8 @@ class _KycProfileState extends State<KycProfile> {
                             child: CustomTextFormField(
                               controller: _addressController,
                               validator: validateNotEmpty,
-                              readOnly: state.kycModel != null,
+                              readOnly: state.kycModel != null &&
+                                  state.isEditRequested == false,
                               hintText: state.kycModel?.address?.length == 0
                                   ? ""
                                   : state.kycModel?.address ?? "",
@@ -263,10 +278,46 @@ class _KycProfileState extends State<KycProfile> {
                                 child: CustomElevatedButton(
                                   callback: () async {
                                     log("state test: ${state.theStates}");
-                                    // if (state.theStates != TheStates.initial)
-                                    //   return;
-                                    // if (state.theStates != null) return;
 
+                                    if (state.kycModel != null &&
+                                        state.isEditRequested == true &&
+                                        selectedImage != null) {
+                                      context
+                                          .read<KycBloc>()
+                                          .add(KycProfileEditLoaded(
+                                              editKycReq: CreateKycReq(
+                                            logo: await MultipartFile.fromFile(
+                                                selectedImage!.path),
+                                            isCompany: _isCompany,
+                                            fullName: _fullNameController.text,
+                                            organizationName: _isCompany
+                                                ? _companyNameController.text
+                                                : null,
+                                            address: _addressController.text,
+                                            country: _countryController.text,
+                                          ).toJson()));
+                                    }
+                                    if (state.kycModel != null &&
+                                        state.isEditRequested == true) {
+                                      context.read<KycBloc>().add(
+                                            KycProfileEditLoaded(
+                                              editKycReq: {
+                                                "full_name":
+                                                    _fullNameController.text,
+                                                "is_company": _isCompany,
+                                                "organization_name": _isCompany
+                                                    ? _companyNameController
+                                                        .text
+                                                    : null,
+                                                "address":
+                                                    _addressController.text,
+                                                "country":
+                                                    _countryController.text
+                                              },
+                                            ),
+                                          );
+                                    }
+																		
                                     if (selectedImage == null ||
                                         _countryController.text.isEmpty) {
                                       await showDialog(
@@ -298,11 +349,14 @@ class _KycProfileState extends State<KycProfile> {
                                         address: _addressController.text,
                                         country: _countryController.text,
                                       );
-                                      context.read<KycBloc>().add(
-                                            KycInitiated(
-                                              createKycReq: req,
-                                            ),
-                                          );
+                                      if (state.kycModel == null &&
+                                          state.isEditRequested == false) {
+                                        context.read<KycBloc>().add(
+                                              KycInitiated(
+                                                createKycReq: req,
+                                              ),
+                                            );
+                                      }
                                     }
                                   },
                                   label: 'Continue',
@@ -314,12 +368,12 @@ class _KycProfileState extends State<KycProfile> {
                       ),
                     ),
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -341,19 +395,20 @@ class _KycProfileState extends State<KycProfile> {
                         ),
                       )
                     : null,
-            onChanged: (state.kycModel != null)
-                ? null
-                : (value) {
-                    setState(
-                      () => _countryController.text = state.country!
-                          .where(
-                            (e) => e.name!.contains(value.toString()),
-                          )
-                          .first
-                          .code
-                          .toString(),
-                    );
-                  }),
+            onChanged:
+                (state.kycModel != null && state.isEditRequested == false)
+                    ? null
+                    : (value) {
+                        setState(
+                          () => _countryController.text = state.country!
+                              .where(
+                                (e) => e.name!.contains(value.toString()),
+                              )
+                              .first
+                              .code
+                              .toString(),
+                        );
+                      }),
       );
     }
     return CardLoading(height: 50.0);

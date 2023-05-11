@@ -52,3 +52,36 @@ class KycProfileInitiated extends KycEvent {
   @override
   List<Object?> get props => [];
 }
+
+class KycProfileEditInitiated extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class KycProfileEditLoaded extends KycEvent {
+  final Map<String, dynamic>? editKycReq;
+  KycProfileEditLoaded({
+    this.editKycReq,
+  });
+  @override
+  List<Object?> get props => [editKycReq];
+}
+
+class KycDocEditInitiated extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class KycDocEditLoaded extends KycEvent {
+  final AddKycReq? addKycReq;
+  KycDocEditLoaded({
+    this.addKycReq,
+  });
+  @override
+  List<Object?> get props => [addKycReq];
+}
+
+// class KycProfileImageChanged extends KycEvent {
+//   @override
+//   List<Object?> get props => [];
+// }

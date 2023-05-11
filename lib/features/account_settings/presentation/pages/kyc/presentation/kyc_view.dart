@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -30,7 +31,15 @@ class KycView extends StatelessWidget {
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          context
+                              .read<KycBloc>()
+                              .add(KycProfileEditInitiated());
+                          await Navigator.pushNamed(
+                            context,
+                            KycProfile.routeName,
+                          );
+                        },
                         icon: Icon(
                           Icons.mode_edit_outlined,
                           color: Color(0xff64748B),
