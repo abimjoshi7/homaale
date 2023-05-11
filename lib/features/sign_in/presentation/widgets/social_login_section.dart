@@ -4,6 +4,9 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/facebook_login.dart';
+import '../pages/google_login.dart';
+
 class SocialLoginSection extends StatelessWidget {
   const SocialLoginSection({
     super.key,
@@ -19,12 +22,14 @@ class SocialLoginSection extends StatelessWidget {
           if (!state.isPhoneNumber) {
             return Image.asset(
               'assets/logos/phone_logo.png',
+              width: 50.0,
+              height: 50.0,
             );
           } else {
             return Image.asset(
               'assets/logos/gmail.png',
-              width: 55.0,
-              height: 55.0,
+              width: 50.0,
+              height: 50.0,
             );
           }
         }
@@ -71,24 +76,30 @@ class SocialLoginSection extends StatelessWidget {
                   },
                   child: buildLogo(),
                 ),
-                // kWidth20,
+                kWidth20,
                 //TODO:implement google sign in and apple sign in
-                // GestureDetector(
-                //   onTap: () => Navigator.pushNamed(
-                //     context,
-                //     GoogleLogin.routeName,
-                //   ),
-                //   child: Image.asset('assets/logos/google_logo.png'),
-                // ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    GoogleLogin.routeName,
+                  ),
+                  child: Image.asset('assets/logos/google_logo.png',
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                ),
                 kWidth20,
                 //TODO:implement facebook sign in
-                // GestureDetector(
-                //   onTap: () => Navigator.pushNamed(
-                //     context,
-                //     FacebookLogin.routeName,
-                //   ),
-                //   child: Image.asset('assets/logos/fb_logo.png'),
-                // ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    FacebookLogin.routeName,
+                  ),
+                  child: Image.asset('assets/logos/fb_logo.png',
+                    width: 40.0,
+                    height: 40.0,
+                  ),
+                ),
               ],
             ),
           ],

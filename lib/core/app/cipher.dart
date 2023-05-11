@@ -44,7 +44,6 @@ import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
-import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -59,6 +58,7 @@ import '../../features/feedback/bloc/feedback_post_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
 import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
+import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 
 class Cipher extends StatelessWidget {
   const Cipher({super.key});
@@ -101,6 +101,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => FeedbackPostBloc(),
+          ),
+          BlocProvider(
+            create: (context) => UserSuspendBloc(),
           ),
           BlocProvider(
             create: (context) => ResendVerificationBloc(

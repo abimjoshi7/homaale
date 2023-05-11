@@ -16,6 +16,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
 import '../../../../user/presentation/bloc/activities_timeline_event.dart';
+import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 
 class AccountView extends StatefulWidget {
   static const routeName = '/account';
@@ -187,7 +189,21 @@ class _AccountViewState extends State<AccountView> {
 
                 AccountListTileSection(
                   onTap: () {
-                    Navigator.pushNamed(context, ChatListingPage.routeName);
+                    context
+                                .read<UserSuspendBloc>()
+                                .state
+                                .userAccountSuspension
+                                ?.isSuspended ==
+                            true
+                        ? showDialog(
+                            context: context,
+                            builder: (context) => AccountSuspendCustomToast(
+                              heading: 'ACCOUNT SUSPENDED',
+                              content: 'User is suspended',
+                            ),
+                          )
+                        : Navigator.pushNamed(
+                            context, ChatListingPage.routeName);
                   },
                   icon: const Icon(
                     Icons.chat_bubble_outline,

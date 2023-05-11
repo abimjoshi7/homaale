@@ -90,13 +90,13 @@ class _GoogleLoginState extends State<GoogleLogin> {
             addVerticalSpace(30),
             Image.asset('assets/logos/google_logo.png'),
             kHeight10,
-            const Text(
+             Text(
               'Login with Google',
-              style: kHeading1,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             kHeight20,
             const Text('Homaale is requesting access to your Google.'),
-            const Text("This doesn't let the app post to Google"),
+            const Text("This doesn't let the app post to Google."),
             addVerticalSpace(50),
             const Text('Would you like to continue?'),
             addVerticalSpace(20),
