@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:cipher/features/rating_reviews/data/models/rating_request_dto.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -64,5 +67,29 @@ class RatingReviewsBloc extends Bloc<RatingReviewEvent, RatingReviewState> {
       },
       transformer: throttleDroppable(throttleDuration),
     );
+
+    on<SubmitRatingReviewEvent>((event, emit) async {
+      try {
+        final res = await repositories.submitRatingReviews(event.ratingRequestDto);
+
+        if (res.status == 'success') {
+          emit(state.copyWith(
+            ratingSubmitStatus: RatingSubmitStatus.success,
+            ratingSubmitMessage: res.message,
+          ));
+        } else {
+          emit(state.copyWith(
+            ratingSubmitStatus: RatingSubmitStatus.failure,
+            ratingSubmitMessage: res.message,
+          ));
+        }
+      } catch (e) {
+        log(e.toString());
+        emit(state.copyWith(
+          ratingSubmitStatus: RatingSubmitStatus.failure,
+          ratingSubmitMessage: 'Error submitting review!',
+        ));
+      }
+    });
   }
 }

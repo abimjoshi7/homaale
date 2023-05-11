@@ -94,9 +94,14 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            '${state.review[index].ratedBy?.fullName ?? 'Username'}',
-                                            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                          SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.3,
+                                            child: Text(
+                                              '${state.review[index].ratedBy?.firstName ?? 'Firstname'} ${state.review[index].ratedBy?.lastName ?? 'Lastname'} ',
+                                              style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
                                           addHorizontalSpace(8),
                                           WidgetText(

@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/rating_reviews_form.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bm;
@@ -24,330 +26,403 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<BookingsBloc, BookingsState>(
-        builder: (context, state) {
-          if (state.states == TheStates.initial) {
-            return const Center(
-              child: CardLoading(
-                height: 200,
-              ),
-            );
-          } else if (state.states == TheStates.success) {
-            final booking = state.bookingRes;
-            final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
-            final isAssignee = booking.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id;
+      body: BlocListener<RatingReviewsBloc, RatingReviewState>(
+        listener: (context, state) {
+          if (state.ratingSubmitStatus == RatingSubmitStatus.success) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.ratingSubmitMessage),
+              backgroundColor: kColorGreen,
+            ));
+          }
+          if (state.ratingSubmitStatus == RatingSubmitStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.ratingSubmitMessage),
+              backgroundColor: Colors.red,
+            ));
+          }
+        },
+        child: BlocListener<BookingsBloc, BookingsState>(
+          listener: (context, state) {
+            if (!state.bookingRes.isRated! &&
+                state.bookingRes.status == 'Completed' &&
+                (state.bookingRes.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id)) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Task Completed'),
+                    content: Text('Give a review?'),
+                    actions: [
+                      CustomElevatedButton(
+                        theWidth: MediaQuery.of(context).size.width * 0.2,
+                        theHeight: 30,
+                        callback: () {
+                          Navigator.pop(context);
+                        },
+                        mainColor: Colors.white,
+                        borderColor: kColorPrimary,
+                        textColor: kColorPrimary,
+                        label: 'No',
+                      ),
+                      CustomElevatedButton(
+                        theWidth: MediaQuery.of(context).size.width * 0.2,
+                        theHeight: 30,
+                        callback: () {
+                          Navigator.pop(context);
+                          showModalBottomSheet(
+                            constraints: BoxConstraints(
+                              maxHeight: MediaQuery.of(context).size.height * 0.5,
+                            ),
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => RatingReviewsForm(),
+                          );
+                        },
+                        label: 'Sure',
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+          child: BlocBuilder<BookingsBloc, BookingsState>(
+            builder: (context, state) {
+              if (state.states == TheStates.initial) {
+                return const Center(
+                  child: CardLoading(
+                    height: 200,
+                  ),
+                );
+              } else if (state.states == TheStates.success) {
+                final booking = state.bookingRes;
+                final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
+                final isAssignee = booking.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id;
 
-            return Column(
-              children: [
-                addVerticalSpace(
-                  50,
-                ),
-                CustomHeader(
-                  label: StringUtils.capitalize(booking.title!),
-                ),
-                Divider(),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      Padding(
-                        padding: kPadding10,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                return Column(
+                  children: [
+                    addVerticalSpace(
+                      50,
+                    ),
+                    CustomHeader(
+                      label: StringUtils.capitalize(booking.title!),
+                    ),
+                    Divider(),
+                    Expanded(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          Padding(
+                            padding: kPadding10,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            booking.entityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    addHorizontalSpace(10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    Row(
                                       children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.6,
-                                          child: Text(
-                                            '${StringUtils.capitalize(booking.title ?? '')}',
-                                            style: Theme.of(context).textTheme.headlineSmall,
-                                            overflow: TextOverflow.ellipsis,
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                booking.entityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                        Text(
-                                          "${booking.entityService?.createdBy?.firstName ?? ''} "
-                                          "${booking.entityService?.createdBy?.lastName ?? ''}",
-                                          style: kLightBlueText14,
+                                        addHorizontalSpace(10),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.6,
+                                              child: Text(
+                                                '${StringUtils.capitalize(booking.title ?? '')}',
+                                                style: Theme.of(context).textTheme.headlineSmall,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Text(
+                                              "${booking.entityService?.createdBy?.firstName ?? ''} "
+                                              "${booking.entityService?.createdBy?.lastName ?? ''}",
+                                              style: kLightBlueText14,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.bookmark_border,
+                                          color: Colors.red,
+                                        ),
+                                        kWidth10,
+                                        GestureDetector(
+                                          onTap: () {
+                                            final box = context.findRenderObject() as RenderBox?;
+                                            Share.share(
+                                              "Share this Hommale with friends.",
+                                              sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                                            );
+                                          },
+                                          child: const Icon(
+                                            Icons.share,
+                                            color: Colors.blue,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
+                                addVerticalSpace(16),
                                 Row(
                                   children: [
                                     const Icon(
-                                      Icons.bookmark_border,
+                                      Icons.location_on_outlined,
                                       color: Colors.red,
                                     ),
-                                    kWidth10,
-                                    GestureDetector(
-                                      onTap: () {
-                                        final box = context.findRenderObject() as RenderBox?;
-                                        Share.share(
-                                          "Share this Hommale with friends.",
-                                          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                                    Text('${booking.location ?? 'Nepal'}')
+                                  ],
+                                ),
+                                addVerticalSpace(16),
+                                ShowMoreTextWidget(
+                                    text: Bidi.stripHtmlIfNeeded(booking.description ??
+                                        'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
+                                if (booking.requirements?.isNotEmpty ?? false) ...[
+                                  addVerticalSpace(10),
+                                  RequirementSection(
+                                    requirementList: booking.requirements,
+                                  ),
+                                ],
+                                if (mediaList.isNotEmpty) ...[
+                                  addVerticalSpace(10),
+                                  Text(
+                                    'Images',
+                                    style: Theme.of(context).textTheme.headlineSmall,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height * 0.21,
+                                    child: CarouselSlider.builder(
+                                      itemCount: mediaList.length,
+                                      itemBuilder: (context, index, realIndex) {
+                                        return Container(
+                                          height: MediaQuery.of(context).size.height * 0.2,
+                                          margin: EdgeInsets.only(right: 32),
+                                          child: mediaList[index].mediaType == 'mp4'
+                                              ? VideoPlayerWidget(
+                                                  videoURL: mediaList[index].media ??
+                                                      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                                )
+                                              : Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius: BorderRadius.circular(16.0),
+                                                      child: Image.network(
+                                                        mediaList[index].media.toString(),
+                                                        errorBuilder: (context, error, stackTrace) =>
+                                                            Image.network(kServiceImageNImg),
+                                                        width: MediaQuery.of(context).size.width,
+                                                        height: MediaQuery.of(context).size.height * 0.2,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                         );
                                       },
-                                      child: const Icon(
-                                        Icons.share,
-                                        color: Colors.blue,
+                                      options: CarouselOptions(
+                                        padEnds: mediaList.length == 1,
+                                        enlargeCenterPage: mediaList.length == 1,
+                                        viewportFraction: 0.8,
+                                        enableInfiniteScroll: false,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            _imageIndex = index;
+                                          });
+                                        },
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            addVerticalSpace(16),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_on_outlined,
-                                  color: Colors.red,
-                                ),
-                                Text('${booking.location ?? 'Nepal'}')
-                              ],
-                            ),
-                            addVerticalSpace(16),
-                            ShowMoreTextWidget(
-                                text: Bidi.stripHtmlIfNeeded(booking.description ??
-                                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
-                            if (booking.requirements?.isNotEmpty ?? false) ...[
-                              addVerticalSpace(10),
-                              RequirementSection(
-                                requirementList: booking.requirements,
-                              ),
-                            ],
-                            if (mediaList.isNotEmpty) ...[
-                              addVerticalSpace(10),
-                              Text(
-                                'Images',
-                                style: Theme.of(context).textTheme.headlineSmall,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height * 0.21,
-                                child: CarouselSlider.builder(
-                                  itemCount: mediaList.length,
-                                  itemBuilder: (context, index, realIndex) {
-                                    return Container(
-                                      height: MediaQuery.of(context).size.height * 0.2,
-                                      margin: EdgeInsets.only(right: 32),
-                                      child: mediaList[index].mediaType == 'mp4'
-                                          ? VideoPlayerWidget(
-                                              videoURL: mediaList[index].media ??
-                                                  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                                            )
-                                          : Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(16.0),
-                                                  child: Image.network(
-                                                    mediaList[index].media.toString(),
-                                                    errorBuilder: (context, error, stackTrace) =>
-                                                        Image.network(kServiceImageNImg),
-                                                    width: MediaQuery.of(context).size.width,
-                                                    height: MediaQuery.of(context).size.height * 0.2,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                    );
-                                  },
-                                  options: CarouselOptions(
-                                    padEnds: mediaList.length == 1,
-                                    enlargeCenterPage: mediaList.length == 1,
-                                    viewportFraction: 0.8,
-                                    enableInfiniteScroll: false,
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _imageIndex = index;
-                                      });
-                                    },
                                   ),
-                                ),
-                              ),
-                            ],
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: List.generate(
-                                    mediaList.length,
-                                    (ind) => Container(
-                                      height: 10,
-                                      margin: const EdgeInsets.all(2),
-                                      width: 10,
-                                      decoration: BoxDecoration(
-                                        color: _imageIndex == ind ? Colors.amber : Colors.grey,
-                                        borderRadius: BorderRadius.circular(10),
+                                ],
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: List.generate(
+                                        mediaList.length,
+                                        (ind) => Container(
+                                          height: 10,
+                                          margin: const EdgeInsets.all(2),
+                                          width: 10,
+                                          decoration: BoxDecoration(
+                                            color: _imageIndex == ind ? Colors.amber : Colors.grey,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      addVerticalSpace(10),
-                      Image.asset(
-                        'assets/banners/2.png',
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.fill,
-                      ),
-                      addVerticalSpace(10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Date & Time',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            addVerticalSpace(4),
-                            Column(
+                          ),
+                          addVerticalSpace(10),
+                          Image.asset(
+                            'assets/banners/2.png',
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.fill,
+                          ),
+                          addVerticalSpace(10),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
+                                Text(
+                                  'Date & Time',
+                                  style: Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                addVerticalSpace(4),
+                                Column(
                                   children: [
-                                    const Icon(
-                                      Icons.calendar_month,
-                                      color: Colors.amber,
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.calendar_month,
+                                          color: Colors.amber,
+                                        ),
+                                        Text('${Jiffy(booking.startDate).MMMd} - ${Jiffy(booking.endDate).MMMd}')
+                                      ],
                                     ),
-                                    Text('${Jiffy(booking.startDate).MMMd} - ${Jiffy(booking.endDate).MMMd}')
+                                    addVerticalSpace(8),
+                                    if (booking.startTime != null && booking.endTime != null) ...[
+                                      addHorizontalSpace(8),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.alarm_on,
+                                            color: kColorBlue,
+                                          ),
+                                          Text('${booking.startTime} - ${booking.endTime}')
+                                        ],
+                                      )
+                                    ],
                                   ],
                                 ),
-                                addVerticalSpace(8),
-                                if (booking.startTime != null && booking.endTime != null) ...[
-                                  addHorizontalSpace(8),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.alarm_on,
-                                        color: kColorBlue,
-                                      ),
-                                      Text('${booking.startTime} - ${booking.endTime}')
-                                    ],
-                                  )
-                                ],
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      addVerticalSpace(10),
-                      const Visibility(
-                        visible: false,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: PackagesOffersSection(),
-                        ),
-                      ),
-                      addVerticalSpace(10),
-                    ],
-                  ),
-                ),
-                booking.status == 'Closed'
-                    ? booking.isRated ?? false
-                        ? Container(
-                            width: MediaQuery.of(context).size.width,
-                            color: kColorLightSkyBlue,
-                            height: 100,
-                            child: Center(child: Text('Your task is completed')),
-                          )
-                        : Container(
-                            width: MediaQuery.of(context).size.width,
-                            color: kColorLightSkyBlue,
-                            height: 100,
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  Text('Your task is completed'),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: kColorPrimary,
-                                      ),
-                                      constraints: BoxConstraints(
-                                        minHeight: 30,
-                                        minWidth: 100,
-                                      ),
-                                      child: AutoSizeText(
-                                        textAlign: TextAlign.center,
-                                        'Review Task',
-                                        style: Theme.of(context).textTheme.bodySmall,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          addVerticalSpace(10),
+                          const Visibility(
+                            visible: false,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: PackagesOffersSection(),
                             ),
-                          )
-                    : PriceBookFooterSection(
-                        buttonLabel: statusToUpdate('${booking.status}', isAssignee)["buttonLabel"] as String,
-                        buttonColor: statusToUpdate('${booking.status}', isAssignee)["color"] as Color,
-                        price: booking.entityService?.budgetFrom != null
-                            ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
-                            : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
-                        onPressed: () {
-                          var taskToUpdate = statusToUpdate('${booking.status}', isAssignee)["status"] as String;
-
-                          if (booking.status == 'Initiated') {
-                            return;
-                          }
-
-                          if (booking.status == 'Completed') {
-                            if (isAssignee) {
-                              return;
-                            } else {
-                              context.read<BookingsBloc>().add(
-                                    BookingStatusUpdate(
-                                      id: booking.id!,
-                                      status: taskToUpdate,
-                                    ),
-                                  );
-                            }
-                          } else {
-                            context.read<BookingsBloc>().add(
-                                  BookingStatusUpdate(
-                                    id: booking.id!,
-                                    status: taskToUpdate,
-                                  ),
-                                );
-                          }
-                        },
+                          ),
+                          addVerticalSpace(10),
+                        ],
                       ),
-              ],
-            );
-          }
-          return ErrorPage();
-        },
+                    ),
+                    booking.status == 'Closed'
+                        ? booking.isRated ?? false
+                            ? Container(
+                                width: MediaQuery.of(context).size.width,
+                                color: kColorLightSkyBlue,
+                                height: 100,
+                                child: Center(child: Text('Your task is completed')),
+                              )
+                            : Container(
+                                width: MediaQuery.of(context).size.width,
+                                color: kColorLightSkyBlue,
+                                height: 100,
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Your task is completed'),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            constraints: BoxConstraints(
+                                              maxHeight: MediaQuery.of(context).size.height * 0.5,
+                                            ),
+                                            isScrollControlled: true,
+                                            context: context,
+                                            builder: (context) => RatingReviewsForm(),
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            color: kColorPrimary,
+                                          ),
+                                          constraints: BoxConstraints(
+                                            minHeight: 30,
+                                            minWidth: 100,
+                                          ),
+                                          child: AutoSizeText(
+                                            textAlign: TextAlign.center,
+                                            'Review Task',
+                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                        : PriceBookFooterSection(
+                            buttonLabel: statusToUpdate('${booking.status}', isAssignee)["buttonLabel"] as String,
+                            buttonColor: statusToUpdate('${booking.status}', isAssignee)["color"] as Color,
+                            price: booking.entityService?.budgetFrom != null
+                                ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
+                                : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
+                            onPressed: () {
+                              var taskToUpdate = statusToUpdate('${booking.status}', isAssignee)["status"] as String;
+
+                              if (booking.status == 'Initiated') {
+                                return;
+                              }
+
+                              if (booking.status == 'Completed') {
+                                if (isAssignee) {
+                                  return;
+                                } else {
+                                  context.read<BookingsBloc>().add(
+                                        BookingStatusUpdate(
+                                          id: booking.id!,
+                                          status: taskToUpdate,
+                                        ),
+                                      );
+                                }
+                              } else {
+                                context.read<BookingsBloc>().add(
+                                      BookingStatusUpdate(
+                                        id: booking.id!,
+                                        status: taskToUpdate,
+                                      ),
+                                    );
+                              }
+                            },
+                          ),
+                  ],
+                );
+              }
+              return ErrorPage();
+            },
+          ),
+        ),
       ),
     );
   }
