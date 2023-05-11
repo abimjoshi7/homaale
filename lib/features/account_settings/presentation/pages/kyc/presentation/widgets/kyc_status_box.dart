@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class KycStatusBox extends StatelessWidget {
-   KycStatusBox({
+  KycStatusBox({
     super.key,
     required this.attributeTitle,
     this.status,
@@ -53,6 +53,7 @@ class KycStatusBox extends StatelessWidget {
                       color: Colors.amber,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
+                    child: status as Widget,
                   )
                 : Text(
                     status as String,

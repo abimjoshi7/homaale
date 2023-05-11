@@ -1,9 +1,15 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/widgets/kyc_status_box.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class CustomKycExpansionTile extends StatelessWidget {
-  const CustomKycExpansionTile({super.key});
+  const CustomKycExpansionTile({
+    super.key,
+    required this.kycDoc,
+  });
+  final KycListRes kycDoc;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class CustomKycExpansionTile extends StatelessWidget {
           ),
           addHorizontalSpace(13.0),
           Text(
-            "Citizenship",
+            kycDoc.documentType!.name.toString(),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Color(0xff5C6096),
                 ),
@@ -39,7 +45,7 @@ class CustomKycExpansionTile extends StatelessWidget {
                 children: <Widget>[
                   KycStatusBox(
                     attributeTitle: "Document ID",
-                    status: "1234567",
+                    status: kycDoc.documentId,
                     hasStatus: false,
                     fontSize: 14.0,
                     removeSpaceBetween: true,
@@ -57,7 +63,7 @@ class CustomKycExpansionTile extends StatelessWidget {
               addVerticalSpace(8.0),
               KycStatusBox(
                 attributeTitle: "Issuing Organization",
-                status: "Department of Joe mama",
+                status: kycDoc.issuerOrganization,
                 hasStatus: false,
                 removeSpaceBetween: true,
                 fontSize: 14.0,
@@ -66,7 +72,7 @@ class CustomKycExpansionTile extends StatelessWidget {
               addVerticalSpace(8.0),
               KycStatusBox(
                 attributeTitle: "Issued Date",
-                status: "2023-01-09",
+                status: DateFormat.yMd().format(kycDoc.issuedDate!),
                 hasStatus: false,
                 fontSize: 14.0,
                 boxWidth: 90.0,
@@ -74,7 +80,10 @@ class CustomKycExpansionTile extends StatelessWidget {
               ),
               KycStatusBox(
                 attributeTitle: "Documents",
-                status: Text("hello"),
+                status: Image.network(
+                  kycDoc.file.toString(),
+                  fit: BoxFit.cover,
+                ),
                 hasFile: true,
                 boxHeight: 57.0,
                 boxWidth: 60.0,
