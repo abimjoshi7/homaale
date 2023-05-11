@@ -8,7 +8,7 @@ class CategoriesState extends Equatable {
   final HeroCategory? heroCategory;
   final TaskSubCategoryModel? taskSubCategoryModel;
   final String? categoryName;
-  final int? serviceId;
+  final String? serviceId;
   CategoriesState({
     this.theStates = TheStates.initial,
     this.categoryList,
@@ -28,7 +28,7 @@ class CategoriesState extends Equatable {
     HeroCategory? heroCategory,
     TaskSubCategoryModel? taskSubCategoryModel,
     String? categoryName,
-    int? serviceId,
+    String? serviceId,
   }) {
     return CategoriesState(
       theStates: theStates ?? this.theStates,

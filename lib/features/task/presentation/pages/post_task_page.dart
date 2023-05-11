@@ -203,90 +203,102 @@ class _PostTaskPageState extends State<PostTaskPage> {
       builder: (context, state) {
         return CustomElevatedButton(
           callback: () async {
-            if (isTermsAccepted) {
-              if (_key.currentState!.validate() &&
-                  endPriceController.text.isNotEmpty &&
-                  endDate != null) {
-                if (endDate!.isBefore(
-                  startDate ??
-                      endDate!.subtract(
-                        Duration(
-                          seconds: 5,
+            if (serviceId != null) {
+              if (isTermsAccepted) {
+                if (_key.currentState!.validate() &&
+                    endPriceController.text.isNotEmpty &&
+                    endDate != null) {
+                  if (endDate!.isBefore(
+                    startDate ??
+                        endDate!.subtract(
+                          Duration(
+                            seconds: 5,
+                          ),
                         ),
+                  )) {
+                    return showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Error',
+                        content: 'Please verify dates',
+                        onTap: () {},
+                        isSuccess: false,
                       ),
-                )) {
-                  return showDialog(
+                    );
+                  } else {
+                    if (uploadBloc.state.imageFileList?.length != 0 ||
+                        uploadBloc.state.videoFileList?.length != 0)
+                      await _uploadFile();
+                    final req = TaskEntityServiceReq(
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      highlights: requirementList,
+                      budgetType: budgetType,
+                      budgetFrom: double.parse(
+                        startPriceController.text.isEmpty
+                            ? '0'
+                            : startPriceController.text,
+                      ),
+                      budgetTo: double.parse(
+                        endPriceController.text,
+                      ),
+                      startDate: DateFormat("yyyy-MM-dd")
+                          .format(startDate ?? DateTime.now()),
+                      endDate: DateFormat("yyyy-MM-dd")
+                          .format(endDate ?? DateTime.now()),
+                      startTime: startTime?.format(context),
+                      endTime: endTime?.format(context),
+                      shareLocation: true,
+                      isNegotiable: true,
+                      location: addressController.text,
+                      revisions: 0,
+                      avatar: 2,
+                      isProfessional: true,
+                      isOnline: true,
+                      isRequested: true,
+                      discountType: "Percentage",
+                      discountValue: '0.0',
+                      extraData: [],
+                      noOfReservation: 0,
+                      isActive: true,
+                      needsApproval: true,
+                      isEndorsed: true,
+                      service: categoryId,
+                      event: "",
+                      city: cityCode ?? int.parse(kCityCode),
+                      currency: currencyCode ?? kCurrencyCode,
+                      images:
+                          context.read<UploadBloc>().state.uploadedImageList ??
+                              [],
+                      videos:
+                          context.read<UploadBloc>().state.uploadedVideoList ??
+                              [],
+                    );
+
+                    context.read<TaskEntityServiceBloc>().add(
+                          TaskEntityServiceCreated(
+                            req: req,
+                          ),
+                        );
+                  }
+                } else {
+                  showDialog(
                     context: context,
                     builder: (context) => CustomToast(
                       heading: 'Error',
-                      content: 'Please verify dates',
+                      content:
+                          'Error validating form. Please verify the data and try again.',
                       onTap: () {},
                       isSuccess: false,
                     ),
                   );
-                } else {
-                  if (uploadBloc.state.imageFileList?.length != 0 ||
-                      uploadBloc.state.videoFileList?.length != 0)
-                    await _uploadFile();
-                  final req = TaskEntityServiceReq(
-                    title: titleController.text,
-                    description: descriptionController.text,
-                    highlights: requirementList,
-                    budgetType: budgetType,
-                    budgetFrom: double.parse(
-                      startPriceController.text.isEmpty
-                          ? '0'
-                          : startPriceController.text,
-                    ),
-                    budgetTo: double.parse(
-                      endPriceController.text,
-                    ),
-                    startDate: DateFormat("yyyy-MM-dd")
-                        .format(startDate ?? DateTime.now()),
-                    endDate: DateFormat("yyyy-MM-dd")
-                        .format(endDate ?? DateTime.now()),
-                    startTime: startTime?.format(context),
-                    endTime: endTime?.format(context),
-                    shareLocation: true,
-                    isNegotiable: true,
-                    location: addressController.text,
-                    revisions: 0,
-                    avatar: 2,
-                    isProfessional: true,
-                    isOnline: true,
-                    isRequested: true,
-                    discountType: "Percentage",
-                    discountValue: '0.0',
-                    extraData: [],
-                    noOfReservation: 0,
-                    isActive: true,
-                    needsApproval: true,
-                    isEndorsed: true,
-                    service: categoryId,
-                    event: "",
-                    city: cityCode ?? int.parse(kCityCode),
-                    currency: currencyCode ?? kCurrencyCode,
-                    images:
-                        context.read<UploadBloc>().state.uploadedImageList ??
-                            [],
-                    videos:
-                        context.read<UploadBloc>().state.uploadedVideoList ??
-                            [],
-                  );
-
-                  context.read<TaskEntityServiceBloc>().add(
-                        TaskEntityServiceCreated(
-                          req: req,
-                        ),
-                      );
                 }
               } else {
                 showDialog(
                   context: context,
                   builder: (context) => CustomToast(
-                    heading: 'Error',
-                    content:
-                        'Error validating form. Please verify the data and try again.',
+                    heading: "Failure",
+                    content: "Please accept the terms and condititons",
                     onTap: () {},
                     isSuccess: false,
                   ),
@@ -297,7 +309,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 context: context,
                 builder: (context) => CustomToast(
                   heading: "Failure",
-                  content: "Please accept the terms and condititons",
+                  content: "Please choose a service",
                   onTap: () {},
                   isSuccess: false,
                 ),
@@ -863,64 +875,139 @@ class _PostTaskPageState extends State<PostTaskPage> {
     return CustomFormField(
       label: 'Category',
       isRequired: true,
-      child: BlocBuilder<ServicesBloc, ServicesState>(
+      child: BlocBuilder<CategoriesBloc, CategoriesState>(
         builder: (context, state) {
           if (state.theStates == TheStates.success) {
-            return DropdownSearch(
-              items: List.generate(
-                state.serviceList?.length ?? 0,
-                (index) => state.serviceList?[index].title,
-              ),
-              onChanged: (value) {
-                for (final element in state.serviceList!) {
-                  if (value == element.title) {
-                    setState(
-                      () {
-                        categoryId = element.id;
+            return Column(
+              children: [
+                DropdownSearch<String>(
+                  items: List.generate(
+                    state.categoryList?.length ?? 0,
+                    (index) => state.categoryList?[index].name ?? "",
+                  ),
+                  onChanged: (value) {
+                    context.read<CategoriesBloc>().add(
+                          CategoriesChanged(
+                            name: value ?? "",
+                          ),
+                        );
+                  },
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(5),
+                      hintText: 'Choose a category',
+                      hintStyle: Theme.of(context).textTheme.bodySmall,
+                      // const TextStyle(
+                      //   color: Color(0xff9CA0C1),
+                      //   fontWeight: FontWeight.w400,
+                      // ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: kColorSecondary,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          8,
+                        ),
+                      ),
+                    ),
+                    baseStyle: Theme.of(context).textTheme.bodySmall,
+                    // TextStyle(
+                    //   color: Colors.black,
+                    // ),
+                  ),
+                  clearButtonProps: ClearButtonProps(
+                    padding: EdgeInsets.zero,
+                    iconSize: 16,
+                    visualDensity: VisualDensity.compact,
+                    alignment: Alignment.centerRight,
+                    isVisible: true,
+                    color: serviceId == null ? Colors.white : Colors.black,
+                  ),
+                  popupProps: PopupProps.modalBottomSheet(
+                    showSearchBox: true,
+                    modalBottomSheetProps: ModalBottomSheetProps(
+                      backgroundColor: Theme.of(context).cardColor,
+                      useSafeArea: false,
+                    ),
+                  ),
+                ),
+                addVerticalSpace(
+                  8,
+                ),
+                if (state.serviceList?.isNotEmpty ?? false)
+                  CustomFormField(
+                    label: "Service",
+                    child: DropdownSearch<String>(
+                      items: List.generate(
+                        state.serviceList?.length ?? 0,
+                        (index) => state.serviceList?[index].title ?? "",
+                      ),
+                      onChanged: (value) {
+                        context.read<CategoriesBloc>().add(
+                              SubCategoriesChanged(
+                                name: value ?? "",
+                              ),
+                            );
+                        setState(
+                          () {
+                            serviceId = context
+                                .read<CategoriesBloc>()
+                                .state
+                                .serviceId
+                                .toString();
+                          },
+                        );
                       },
-                    );
-                  }
-                }
-              },
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Choose a category',
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  // const TextStyle(
-                  //   color: Color(0xff9CA0C1),
-                  //   fontWeight: FontWeight.w400,
-                  // ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: kColorSecondary,
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(5),
+                          hintText: 'Choose a category',
+                          hintStyle: Theme.of(context).textTheme.bodySmall,
+                          // const TextStyle(
+                          //   color: Color(0xff9CA0C1),
+                          //   fontWeight: FontWeight.w400,
+                          // ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Color(0xffDEE2E6)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: kColorSecondary,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              8,
+                            ),
+                          ),
+                        ),
+                        baseStyle: Theme.of(context).textTheme.bodySmall,
+                        // TextStyle(
+                        //   color: Colors.black,
+                        // ),
+                      ),
+                      clearButtonProps: ClearButtonProps(
+                        padding: EdgeInsets.zero,
+                        iconSize: 16,
+                        visualDensity: VisualDensity.compact,
+                        alignment: Alignment.centerRight,
+                        isVisible: true,
+                        color: serviceId == null ? Colors.white : Colors.black,
+                      ),
+                      popupProps: PopupProps.modalBottomSheet(
+                        showSearchBox: true,
+                        modalBottomSheetProps: ModalBottomSheetProps(
+                          backgroundColor: Theme.of(context).cardColor,
+                          useSafeArea: false,
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
                   ),
-                ),
-                baseStyle: Theme.of(context).textTheme.bodySmall,
-              ),
-              clearButtonProps: ClearButtonProps(
-                padding: EdgeInsets.zero,
-                iconSize: 16,
-                visualDensity: VisualDensity.compact,
-                alignment: Alignment.centerRight,
-                isVisible: true,
-                color: categoryId == null ? Colors.white : Colors.black,
-              ),
-              popupProps: PopupProps.modalBottomSheet(
-                showSearchBox: true,
-                modalBottomSheetProps: ModalBottomSheetProps(
-                  backgroundColor: Theme.of(context).cardColor,
-                  useSafeArea: false,
-                ),
-              ),
+              ],
             );
           }
           return const SizedBox.shrink();

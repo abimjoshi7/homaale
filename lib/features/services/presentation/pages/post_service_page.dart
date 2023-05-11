@@ -270,7 +270,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 context: context,
                 builder: (context) => CustomToast(
                   heading: "Failure",
-                  content: "Please choose a category",
+                  content: "Please choose a service",
                   onTap: () {},
                   isSuccess: false,
                 ),
@@ -770,15 +770,6 @@ class _PostServicePageState extends State<PostServicePage> {
                             name: value ?? "",
                           ),
                         );
-                    setState(
-                      () {
-                        serviceId = context
-                            .read<CategoriesBloc>()
-                            .state
-                            .serviceId
-                            .toString();
-                      },
-                    );
                   },
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     dropdownSearchDecoration: InputDecoration(
@@ -826,16 +817,13 @@ class _PostServicePageState extends State<PostServicePage> {
                 addVerticalSpace(
                   8,
                 ),
-                if (state.taskSubCategoryModel != null &&
-                    (state.taskSubCategoryModel?.result?.isNotEmpty ?? false))
+                if (state.serviceList?.isNotEmpty ?? false)
                   CustomFormField(
                     label: "Service",
                     child: DropdownSearch<String>(
                       items: List.generate(
-                        state.taskSubCategoryModel?.result?.length ?? 0,
-                        (index) =>
-                            state.taskSubCategoryModel?.result?[index].name ??
-                            "",
+                        state.serviceList?.length ?? 0,
+                        (index) => state.serviceList?[index].title ?? "",
                       ),
                       onChanged: (value) {
                         context.read<CategoriesBloc>().add(

@@ -67,7 +67,6 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       } catch (e) {
         emit(
           state.copyWith(
-            // theStates: TheStates.failure,
             serviceList: [],
           ),
         );
@@ -113,16 +112,11 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         try {
           emit(
             state.copyWith(
-              taskSubCategoryModel: TaskSubCategoryModel(),
+              serviceList: [],
             ),
           );
           for (final element in state.categoryList ?? []) {
             if (event.name == element.name) {
-              emit(
-                state.copyWith(
-                  serviceId: element.id as int,
-                ),
-              );
               add(
                 TaskSubCategoryLoaded(
                   categoryId: element.id as int,
@@ -139,11 +133,11 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
     on<SubCategoriesChanged>(
       (event, emit) {
-        for (final element in state.taskSubCategoryModel?.result ?? []) {
-          if (event.name == element.name) {
+        for (final element in state.serviceList ?? []) {
+          if (event.name == element.title) {
             emit(
               state.copyWith(
-                serviceId: element.id as int,
+                serviceId: element.id as String,
               ),
             );
           }

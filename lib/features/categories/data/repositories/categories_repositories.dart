@@ -104,7 +104,11 @@ class CategoriesRepositories {
               "category_id": id,
             },
           )
-          .then((value) => value as List<Map<String, dynamic>>)
+          .then(
+            (value) => List<Map<String, dynamic>>.from(
+              value as Iterable,
+            ),
+          )
           .onError(
             (error, stackTrace) {
               log("TaskSubCategory Fetch Error: $error");
