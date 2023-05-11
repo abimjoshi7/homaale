@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 part of 'search_bloc.dart';
 
 @immutable
@@ -8,12 +6,14 @@ class SearchState extends Equatable {
   final List? recentSearchQueriesList;
   final List<SearchResult>? filteredList;
   final String? cachedSearchQuery;
+  final SearchRes? result;
 
   SearchState({
-    this.theStates,
+    this.theStates = TheStates.initial,
     this.recentSearchQueriesList,
     this.filteredList,
     this.cachedSearchQuery,
+    this.result,
   });
 
   SearchState copyWith({
@@ -21,6 +21,7 @@ class SearchState extends Equatable {
     List? recentSearchQueriesList,
     List<SearchResult>? filteredList,
     String? cachedSearchQuery,
+    SearchRes? result,
   }) {
     return SearchState(
       theStates: theStates ?? this.theStates,
@@ -28,10 +29,18 @@ class SearchState extends Equatable {
           recentSearchQueriesList ?? this.recentSearchQueriesList,
       filteredList: filteredList ?? this.filteredList,
       cachedSearchQuery: cachedSearchQuery ?? this.cachedSearchQuery,
+      result: result ?? this.result,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [theStates, recentSearchQueriesList, filteredList, cachedSearchQuery];
+  List<Object?> get props {
+    return [
+      theStates,
+      recentSearchQueriesList,
+      filteredList,
+      cachedSearchQuery,
+      result,
+    ];
+  }
 }

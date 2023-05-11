@@ -223,7 +223,7 @@ class _ProfessionalInformationModalSheetState
               CustomElevatedButton(
                 callback: () async {
                   final map = {
-                    "user_type": userType ?? state.taskerProfile?.userType,
+                    // "user_type": userType ?? state.taskerProfile?.userType,
                     "skill": tagsController.getTags!
                         .map((e) => '"$e"')
                         .toList()

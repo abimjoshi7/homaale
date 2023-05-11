@@ -87,22 +87,22 @@ showApplicantDetailsDialog({
               children: [
                 IconText(
                   iconData: Icons.navigation_outlined,
-                  iconColor: kColorSilver,
+                  color: kColorSilver,
                   label: distance ?? '0',
                 ),
                 IconText(
                   iconData: Icons.military_tech_rounded,
-                  iconColor: kColorSilver,
+                  color: kColorSilver,
                   label: successRate ?? '0',
                 ),
                 IconText(
                   iconData: Icons.emoji_emotions_outlined,
-                  iconColor: kColorSilver,
+                  color: kColorSilver,
                   label: happyClients ?? '0',
                 ),
                 IconText(
                   iconData: Icons.star,
-                  iconColor: kColorAmber,
+                  color: kColorAmber,
                   label: rating ?? '0',
                 )
               ],
@@ -198,26 +198,4 @@ showApplicantDetailsDialog({
       ),
     ),
   );
-}
-
-class IconText extends StatelessWidget {
-  const IconText({super.key, required this.iconData, required this.label, this.iconColor});
-
-  final IconData iconData;
-  final String label;
-  final Color? iconColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          iconData,
-          color: iconColor ?? Colors.blue,
-        ),
-        addHorizontalSpace(8),
-        Text(label),
-      ],
-    );
-  }
 }

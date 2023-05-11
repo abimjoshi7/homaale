@@ -26,7 +26,7 @@ mixin _$TaskerProfile {
   @JsonKey(name: "full_name")
   String? get fullName => throw _privateConstructorUsedError;
   @JsonKey(name: "charge_currency")
-  ChargeCurrency? get chargeCurrency => throw _privateConstructorUsedError;
+  Currency? get chargeCurrency => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
   List<Portfolio>? get portfolio => throw _privateConstructorUsedError;
   List<Experience>? get experience => throw _privateConstructorUsedError;
@@ -41,6 +41,8 @@ mixin _$TaskerProfile {
   @JsonKey(name: "is_followed")
   bool? get isFollowed => throw _privateConstructorUsedError;
   Badge? get badge => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_bookmarked")
+  bool? get isBookmarked => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
@@ -53,8 +55,6 @@ mixin _$TaskerProfile {
   String? get activeHourEnd => throw _privateConstructorUsedError;
   @JsonKey(name: "experience_level")
   String? get experienceLevel => throw _privateConstructorUsedError;
-  @JsonKey(name: "user_type")
-  String? get userType => throw _privateConstructorUsedError;
   @JsonKey(name: "profile_visibility")
   String? get profileVisibility => throw _privateConstructorUsedError;
   @JsonKey(name: "task_preferences")
@@ -94,7 +94,7 @@ abstract class $TaskerProfileCopyWith<$Res> {
       {int? id,
       @JsonKey(name: "profile_image") String? profileImage,
       @JsonKey(name: "full_name") String? fullName,
-      @JsonKey(name: "charge_currency") ChargeCurrency? chargeCurrency,
+      @JsonKey(name: "charge_currency") Currency? chargeCurrency,
       User? user,
       List<Portfolio>? portfolio,
       List<Experience>? experience,
@@ -108,6 +108,7 @@ abstract class $TaskerProfileCopyWith<$Res> {
       List<Interest>? interests,
       @JsonKey(name: "is_followed") bool? isFollowed,
       Badge? badge,
+      @JsonKey(name: "is_bookmarked") bool? isBookmarked,
       String? status,
       String? bio,
       String? gender,
@@ -116,7 +117,6 @@ abstract class $TaskerProfileCopyWith<$Res> {
       @JsonKey(name: "active_hour_start") String? activeHourStart,
       @JsonKey(name: "active_hour_end") String? activeHourEnd,
       @JsonKey(name: "experience_level") String? experienceLevel,
-      @JsonKey(name: "user_type") String? userType,
       @JsonKey(name: "profile_visibility") String? profileVisibility,
       @JsonKey(name: "task_preferences") String? taskPreferences,
       @JsonKey(name: "address_line1") String? addressLine1,
@@ -131,7 +131,7 @@ abstract class $TaskerProfileCopyWith<$Res> {
       List<dynamic>? subscription,
       @JsonKey(name: "") List<dynamic>? securityQuestions});
 
-  $ChargeCurrencyCopyWith<$Res>? get chargeCurrency;
+  $CurrencyCopyWith<$Res>? get chargeCurrency;
   $UserCopyWith<$Res>? get user;
   $StatsCopyWith<$Res>? get stats;
   $RatingCopyWith<$Res>? get rating;
@@ -171,6 +171,7 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
     Object? interests = freezed,
     Object? isFollowed = freezed,
     Object? badge = freezed,
+    Object? isBookmarked = freezed,
     Object? status = freezed,
     Object? bio = freezed,
     Object? gender = freezed,
@@ -179,7 +180,6 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
     Object? activeHourStart = freezed,
     Object? activeHourEnd = freezed,
     Object? experienceLevel = freezed,
-    Object? userType = freezed,
     Object? profileVisibility = freezed,
     Object? taskPreferences = freezed,
     Object? addressLine1 = freezed,
@@ -210,7 +210,7 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
       chargeCurrency: freezed == chargeCurrency
           ? _value.chargeCurrency
           : chargeCurrency // ignore: cast_nullable_to_non_nullable
-              as ChargeCurrency?,
+              as Currency?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -263,6 +263,10 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
           ? _value.badge
           : badge // ignore: cast_nullable_to_non_nullable
               as Badge?,
+      isBookmarked: freezed == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -294,10 +298,6 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
       experienceLevel: freezed == experienceLevel
           ? _value.experienceLevel
           : experienceLevel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
               as String?,
       profileVisibility: freezed == profileVisibility
           ? _value.profileVisibility
@@ -356,12 +356,12 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
 
   @override
   @pragma('vm:prefer-inline')
-  $ChargeCurrencyCopyWith<$Res>? get chargeCurrency {
+  $CurrencyCopyWith<$Res>? get chargeCurrency {
     if (_value.chargeCurrency == null) {
       return null;
     }
 
-    return $ChargeCurrencyCopyWith<$Res>(_value.chargeCurrency!, (value) {
+    return $CurrencyCopyWith<$Res>(_value.chargeCurrency!, (value) {
       return _then(_value.copyWith(chargeCurrency: value) as $Val);
     });
   }
@@ -463,7 +463,7 @@ abstract class _$$_TaskerProfileCopyWith<$Res>
       {int? id,
       @JsonKey(name: "profile_image") String? profileImage,
       @JsonKey(name: "full_name") String? fullName,
-      @JsonKey(name: "charge_currency") ChargeCurrency? chargeCurrency,
+      @JsonKey(name: "charge_currency") Currency? chargeCurrency,
       User? user,
       List<Portfolio>? portfolio,
       List<Experience>? experience,
@@ -477,6 +477,7 @@ abstract class _$$_TaskerProfileCopyWith<$Res>
       List<Interest>? interests,
       @JsonKey(name: "is_followed") bool? isFollowed,
       Badge? badge,
+      @JsonKey(name: "is_bookmarked") bool? isBookmarked,
       String? status,
       String? bio,
       String? gender,
@@ -485,7 +486,6 @@ abstract class _$$_TaskerProfileCopyWith<$Res>
       @JsonKey(name: "active_hour_start") String? activeHourStart,
       @JsonKey(name: "active_hour_end") String? activeHourEnd,
       @JsonKey(name: "experience_level") String? experienceLevel,
-      @JsonKey(name: "user_type") String? userType,
       @JsonKey(name: "profile_visibility") String? profileVisibility,
       @JsonKey(name: "task_preferences") String? taskPreferences,
       @JsonKey(name: "address_line1") String? addressLine1,
@@ -501,7 +501,7 @@ abstract class _$$_TaskerProfileCopyWith<$Res>
       @JsonKey(name: "") List<dynamic>? securityQuestions});
 
   @override
-  $ChargeCurrencyCopyWith<$Res>? get chargeCurrency;
+  $CurrencyCopyWith<$Res>? get chargeCurrency;
   @override
   $UserCopyWith<$Res>? get user;
   @override
@@ -546,6 +546,7 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
     Object? interests = freezed,
     Object? isFollowed = freezed,
     Object? badge = freezed,
+    Object? isBookmarked = freezed,
     Object? status = freezed,
     Object? bio = freezed,
     Object? gender = freezed,
@@ -554,7 +555,6 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
     Object? activeHourStart = freezed,
     Object? activeHourEnd = freezed,
     Object? experienceLevel = freezed,
-    Object? userType = freezed,
     Object? profileVisibility = freezed,
     Object? taskPreferences = freezed,
     Object? addressLine1 = freezed,
@@ -585,7 +585,7 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
       chargeCurrency: freezed == chargeCurrency
           ? _value.chargeCurrency
           : chargeCurrency // ignore: cast_nullable_to_non_nullable
-              as ChargeCurrency?,
+              as Currency?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -638,6 +638,10 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
           ? _value.badge
           : badge // ignore: cast_nullable_to_non_nullable
               as Badge?,
+      isBookmarked: freezed == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -669,10 +673,6 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
       experienceLevel: freezed == experienceLevel
           ? _value.experienceLevel
           : experienceLevel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
               as String?,
       profileVisibility: freezed == profileVisibility
           ? _value.profileVisibility
@@ -751,6 +751,7 @@ class _$_TaskerProfile implements _TaskerProfile {
       final List<Interest>? interests,
       @JsonKey(name: "is_followed") this.isFollowed,
       this.badge,
+      @JsonKey(name: "is_bookmarked") this.isBookmarked,
       this.status,
       this.bio,
       this.gender,
@@ -759,7 +760,6 @@ class _$_TaskerProfile implements _TaskerProfile {
       @JsonKey(name: "active_hour_start") this.activeHourStart,
       @JsonKey(name: "active_hour_end") this.activeHourEnd,
       @JsonKey(name: "experience_level") this.experienceLevel,
-      @JsonKey(name: "user_type") this.userType,
       @JsonKey(name: "profile_visibility") this.profileVisibility,
       @JsonKey(name: "task_preferences") this.taskPreferences,
       @JsonKey(name: "address_line1") this.addressLine1,
@@ -794,7 +794,7 @@ class _$_TaskerProfile implements _TaskerProfile {
   final String? fullName;
   @override
   @JsonKey(name: "charge_currency")
-  final ChargeCurrency? chargeCurrency;
+  final Currency? chargeCurrency;
   @override
   final User? user;
   final List<Portfolio>? _portfolio;
@@ -863,6 +863,9 @@ class _$_TaskerProfile implements _TaskerProfile {
   @override
   final Badge? badge;
   @override
+  @JsonKey(name: "is_bookmarked")
+  final bool? isBookmarked;
+  @override
   final String? status;
   @override
   final String? bio;
@@ -882,9 +885,6 @@ class _$_TaskerProfile implements _TaskerProfile {
   @override
   @JsonKey(name: "experience_level")
   final String? experienceLevel;
-  @override
-  @JsonKey(name: "user_type")
-  final String? userType;
   @override
   @JsonKey(name: "profile_visibility")
   final String? profileVisibility;
@@ -939,7 +939,7 @@ class _$_TaskerProfile implements _TaskerProfile {
 
   @override
   String toString() {
-    return 'TaskerProfile(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, userType: $userType, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions)';
+    return 'TaskerProfile(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, isBookmarked: $isBookmarked, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions)';
   }
 
   @override
@@ -974,6 +974,8 @@ class _$_TaskerProfile implements _TaskerProfile {
             (identical(other.isFollowed, isFollowed) ||
                 other.isFollowed == isFollowed) &&
             (identical(other.badge, badge) || other.badge == badge) &&
+            (identical(other.isBookmarked, isBookmarked) ||
+                other.isBookmarked == isBookmarked) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.gender, gender) || other.gender == gender) &&
@@ -986,8 +988,6 @@ class _$_TaskerProfile implements _TaskerProfile {
                 other.activeHourEnd == activeHourEnd) &&
             (identical(other.experienceLevel, experienceLevel) ||
                 other.experienceLevel == experienceLevel) &&
-            (identical(other.userType, userType) ||
-                other.userType == userType) &&
             (identical(other.profileVisibility, profileVisibility) ||
                 other.profileVisibility == profileVisibility) &&
             (identical(other.taskPreferences, taskPreferences) ||
@@ -1035,6 +1035,7 @@ class _$_TaskerProfile implements _TaskerProfile {
         const DeepCollectionEquality().hash(_interests),
         isFollowed,
         badge,
+        isBookmarked,
         status,
         bio,
         gender,
@@ -1043,7 +1044,6 @@ class _$_TaskerProfile implements _TaskerProfile {
         activeHourStart,
         activeHourEnd,
         experienceLevel,
-        userType,
         profileVisibility,
         taskPreferences,
         addressLine1,
@@ -1075,63 +1075,46 @@ class _$_TaskerProfile implements _TaskerProfile {
 
 abstract class _TaskerProfile implements TaskerProfile {
   const factory _TaskerProfile(
-      {final int? id,
-      @JsonKey(name: "profile_image")
-          final String? profileImage,
-      @JsonKey(name: "full_name")
-          final String? fullName,
-      @JsonKey(name: "charge_currency")
-          final ChargeCurrency? chargeCurrency,
-      final User? user,
-      final List<Portfolio>? portfolio,
-      final List<Experience>? experience,
-      final List<Education>? education,
-      final List<Certificate>? certificates,
-      final Stats? stats,
-      final Rating? rating,
-      final Country? country,
-      final Language? language,
-      final City? city,
-      final List<Interest>? interests,
-      @JsonKey(name: "is_followed")
-          final bool? isFollowed,
-      final Badge? badge,
-      final String? status,
-      final String? bio,
-      final String? gender,
-      @JsonKey(name: "date_of_birth")
-          final DateTime? dateOfBirth,
-      final String? skill,
-      @JsonKey(name: "active_hour_start")
-          final String? activeHourStart,
-      @JsonKey(name: "active_hour_end")
-          final String? activeHourEnd,
-      @JsonKey(name: "experience_level")
-          final String? experienceLevel,
-      @JsonKey(name: "user_type")
-          final String? userType,
-      @JsonKey(name: "profile_visibility")
-          final String? profileVisibility,
-      @JsonKey(name: "task_preferences")
-          final String? taskPreferences,
-      @JsonKey(name: "address_line1")
-          final String? addressLine1,
-      @JsonKey(name: "address_line2")
-          final String? addressLine2,
-      @JsonKey(name: "is_profile_verified")
-          final bool? isProfileVerified,
-      final String? designation,
-      final int? points,
-      @JsonKey(name: "remaining_points")
-          final int? remainingPoints,
-      @JsonKey(name: "followers_count")
-          final int? followersCount,
-      @JsonKey(name: "following_count")
-          final int? followingCount,
-      final dynamic avatar,
-      final List<dynamic>? subscription,
-      @JsonKey(name: "")
-          final List<dynamic>? securityQuestions}) = _$_TaskerProfile;
+          {final int? id,
+          @JsonKey(name: "profile_image") final String? profileImage,
+          @JsonKey(name: "full_name") final String? fullName,
+          @JsonKey(name: "charge_currency") final Currency? chargeCurrency,
+          final User? user,
+          final List<Portfolio>? portfolio,
+          final List<Experience>? experience,
+          final List<Education>? education,
+          final List<Certificate>? certificates,
+          final Stats? stats,
+          final Rating? rating,
+          final Country? country,
+          final Language? language,
+          final City? city,
+          final List<Interest>? interests,
+          @JsonKey(name: "is_followed") final bool? isFollowed,
+          final Badge? badge,
+          @JsonKey(name: "is_bookmarked") final bool? isBookmarked,
+          final String? status,
+          final String? bio,
+          final String? gender,
+          @JsonKey(name: "date_of_birth") final DateTime? dateOfBirth,
+          final String? skill,
+          @JsonKey(name: "active_hour_start") final String? activeHourStart,
+          @JsonKey(name: "active_hour_end") final String? activeHourEnd,
+          @JsonKey(name: "experience_level") final String? experienceLevel,
+          @JsonKey(name: "profile_visibility") final String? profileVisibility,
+          @JsonKey(name: "task_preferences") final String? taskPreferences,
+          @JsonKey(name: "address_line1") final String? addressLine1,
+          @JsonKey(name: "address_line2") final String? addressLine2,
+          @JsonKey(name: "is_profile_verified") final bool? isProfileVerified,
+          final String? designation,
+          final int? points,
+          @JsonKey(name: "remaining_points") final int? remainingPoints,
+          @JsonKey(name: "followers_count") final int? followersCount,
+          @JsonKey(name: "following_count") final int? followingCount,
+          final dynamic avatar,
+          final List<dynamic>? subscription,
+          @JsonKey(name: "") final List<dynamic>? securityQuestions}) =
+      _$_TaskerProfile;
 
   factory _TaskerProfile.fromJson(Map<String, dynamic> json) =
       _$_TaskerProfile.fromJson;
@@ -1146,7 +1129,7 @@ abstract class _TaskerProfile implements TaskerProfile {
   String? get fullName;
   @override
   @JsonKey(name: "charge_currency")
-  ChargeCurrency? get chargeCurrency;
+  Currency? get chargeCurrency;
   @override
   User? get user;
   @override
@@ -1175,6 +1158,9 @@ abstract class _TaskerProfile implements TaskerProfile {
   @override
   Badge? get badge;
   @override
+  @JsonKey(name: "is_bookmarked")
+  bool? get isBookmarked;
+  @override
   String? get status;
   @override
   String? get bio;
@@ -1194,9 +1180,6 @@ abstract class _TaskerProfile implements TaskerProfile {
   @override
   @JsonKey(name: "experience_level")
   String? get experienceLevel;
-  @override
-  @JsonKey(name: "user_type")
-  String? get userType;
   @override
   @JsonKey(name: "profile_visibility")
   String? get profileVisibility;
@@ -1245,7 +1228,7 @@ Badge _$BadgeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Badge {
   int? get id => throw _privateConstructorUsedError;
-  Badge? get next => throw _privateConstructorUsedError;
+  dynamic get next => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   @JsonKey(name: "progress_level_start")
@@ -1265,13 +1248,11 @@ abstract class $BadgeCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      Badge? next,
+      dynamic next,
       String? image,
       String? title,
       @JsonKey(name: "progress_level_start") int? progressLevelStart,
       @JsonKey(name: "progress_level_end") int? progressLevelEnd});
-
-  $BadgeCopyWith<$Res>? get next;
 }
 
 /// @nodoc
@@ -1302,7 +1283,7 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as Badge?,
+              as dynamic,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -1321,18 +1302,6 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
               as int?,
     ) as $Val);
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BadgeCopyWith<$Res>? get next {
-    if (_value.next == null) {
-      return null;
-    }
-
-    return $BadgeCopyWith<$Res>(_value.next!, (value) {
-      return _then(_value.copyWith(next: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -1343,14 +1312,11 @@ abstract class _$$_BadgeCopyWith<$Res> implements $BadgeCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      Badge? next,
+      dynamic next,
       String? image,
       String? title,
       @JsonKey(name: "progress_level_start") int? progressLevelStart,
       @JsonKey(name: "progress_level_end") int? progressLevelEnd});
-
-  @override
-  $BadgeCopyWith<$Res>? get next;
 }
 
 /// @nodoc
@@ -1377,7 +1343,7 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
       next: freezed == next
           ? _value.next
           : next // ignore: cast_nullable_to_non_nullable
-              as Badge?,
+              as dynamic,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -1415,7 +1381,7 @@ class _$_Badge implements _Badge {
   @override
   final int? id;
   @override
-  final Badge? next;
+  final dynamic next;
   @override
   final String? image;
   @override
@@ -1438,7 +1404,7 @@ class _$_Badge implements _Badge {
         (other.runtimeType == runtimeType &&
             other is _$_Badge &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.next, next) || other.next == next) &&
+            const DeepCollectionEquality().equals(other.next, next) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.progressLevelStart, progressLevelStart) ||
@@ -1449,8 +1415,14 @@ class _$_Badge implements _Badge {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, next, image, title,
-      progressLevelStart, progressLevelEnd);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      const DeepCollectionEquality().hash(next),
+      image,
+      title,
+      progressLevelStart,
+      progressLevelEnd);
 
   @JsonKey(ignore: true)
   @override
@@ -1469,7 +1441,7 @@ class _$_Badge implements _Badge {
 abstract class _Badge implements Badge {
   const factory _Badge(
           {final int? id,
-          final Badge? next,
+          final dynamic next,
           final String? image,
           final String? title,
           @JsonKey(name: "progress_level_start") final int? progressLevelStart,
@@ -1481,7 +1453,7 @@ abstract class _Badge implements Badge {
   @override
   int? get id;
   @override
-  Badge? get next;
+  dynamic get next;
   @override
   String? get image;
   @override
@@ -1495,579 +1467,6 @@ abstract class _Badge implements Badge {
   @override
   @JsonKey(ignore: true)
   _$$_BadgeCopyWith<_$_Badge> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ChargeCurrency _$ChargeCurrencyFromJson(Map<String, dynamic> json) {
-  return _ChargeCurrency.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ChargeCurrency {
-  String? get code => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get symbol => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ChargeCurrencyCopyWith<ChargeCurrency> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ChargeCurrencyCopyWith<$Res> {
-  factory $ChargeCurrencyCopyWith(
-          ChargeCurrency value, $Res Function(ChargeCurrency) then) =
-      _$ChargeCurrencyCopyWithImpl<$Res, ChargeCurrency>;
-  @useResult
-  $Res call({String? code, String? name, String? symbol});
-}
-
-/// @nodoc
-class _$ChargeCurrencyCopyWithImpl<$Res, $Val extends ChargeCurrency>
-    implements $ChargeCurrencyCopyWith<$Res> {
-  _$ChargeCurrencyCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? code = freezed,
-    Object? name = freezed,
-    Object? symbol = freezed,
-  }) {
-    return _then(_value.copyWith(
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      symbol: freezed == symbol
-          ? _value.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_ChargeCurrencyCopyWith<$Res>
-    implements $ChargeCurrencyCopyWith<$Res> {
-  factory _$$_ChargeCurrencyCopyWith(
-          _$_ChargeCurrency value, $Res Function(_$_ChargeCurrency) then) =
-      __$$_ChargeCurrencyCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? code, String? name, String? symbol});
-}
-
-/// @nodoc
-class __$$_ChargeCurrencyCopyWithImpl<$Res>
-    extends _$ChargeCurrencyCopyWithImpl<$Res, _$_ChargeCurrency>
-    implements _$$_ChargeCurrencyCopyWith<$Res> {
-  __$$_ChargeCurrencyCopyWithImpl(
-      _$_ChargeCurrency _value, $Res Function(_$_ChargeCurrency) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? code = freezed,
-    Object? name = freezed,
-    Object? symbol = freezed,
-  }) {
-    return _then(_$_ChargeCurrency(
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      symbol: freezed == symbol
-          ? _value.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_ChargeCurrency implements _ChargeCurrency {
-  const _$_ChargeCurrency({this.code, this.name, this.symbol});
-
-  factory _$_ChargeCurrency.fromJson(Map<String, dynamic> json) =>
-      _$$_ChargeCurrencyFromJson(json);
-
-  @override
-  final String? code;
-  @override
-  final String? name;
-  @override
-  final String? symbol;
-
-  @override
-  String toString() {
-    return 'ChargeCurrency(code: $code, name: $name, symbol: $symbol)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_ChargeCurrency &&
-            (identical(other.code, code) || other.code == code) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, code, name, symbol);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_ChargeCurrencyCopyWith<_$_ChargeCurrency> get copyWith =>
-      __$$_ChargeCurrencyCopyWithImpl<_$_ChargeCurrency>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ChargeCurrencyToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ChargeCurrency implements ChargeCurrency {
-  const factory _ChargeCurrency(
-      {final String? code,
-      final String? name,
-      final String? symbol}) = _$_ChargeCurrency;
-
-  factory _ChargeCurrency.fromJson(Map<String, dynamic> json) =
-      _$_ChargeCurrency.fromJson;
-
-  @override
-  String? get code;
-  @override
-  String? get name;
-  @override
-  String? get symbol;
-  @override
-  @JsonKey(ignore: true)
-  _$$_ChargeCurrencyCopyWith<_$_ChargeCurrency> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-City _$CityFromJson(Map<String, dynamic> json) {
-  return _City.fromJson(json);
-}
-
-/// @nodoc
-mixin _$City {
-  int? get id => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get localName => throw _privateConstructorUsedError;
-  String? get zipCode => throw _privateConstructorUsedError;
-  double? get latitude => throw _privateConstructorUsedError;
-  double? get longitude => throw _privateConstructorUsedError;
-  String? get country => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $CityCopyWith<City> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CityCopyWith<$Res> {
-  factory $CityCopyWith(City value, $Res Function(City) then) =
-      _$CityCopyWithImpl<$Res, City>;
-  @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      String? localName,
-      String? zipCode,
-      double? latitude,
-      double? longitude,
-      String? country});
-}
-
-/// @nodoc
-class _$CityCopyWithImpl<$Res, $Val extends City>
-    implements $CityCopyWith<$Res> {
-  _$CityCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? localName = freezed,
-    Object? zipCode = freezed,
-    Object? latitude = freezed,
-    Object? longitude = freezed,
-    Object? country = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      localName: freezed == localName
-          ? _value.localName
-          : localName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      zipCode: freezed == zipCode
-          ? _value.zipCode
-          : zipCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      latitude: freezed == latitude
-          ? _value.latitude
-          : latitude // ignore: cast_nullable_to_non_nullable
-              as double?,
-      longitude: freezed == longitude
-          ? _value.longitude
-          : longitude // ignore: cast_nullable_to_non_nullable
-              as double?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_CityCopyWith<$Res> implements $CityCopyWith<$Res> {
-  factory _$$_CityCopyWith(_$_City value, $Res Function(_$_City) then) =
-      __$$_CityCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      String? localName,
-      String? zipCode,
-      double? latitude,
-      double? longitude,
-      String? country});
-}
-
-/// @nodoc
-class __$$_CityCopyWithImpl<$Res> extends _$CityCopyWithImpl<$Res, _$_City>
-    implements _$$_CityCopyWith<$Res> {
-  __$$_CityCopyWithImpl(_$_City _value, $Res Function(_$_City) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? localName = freezed,
-    Object? zipCode = freezed,
-    Object? latitude = freezed,
-    Object? longitude = freezed,
-    Object? country = freezed,
-  }) {
-    return _then(_$_City(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      localName: freezed == localName
-          ? _value.localName
-          : localName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      zipCode: freezed == zipCode
-          ? _value.zipCode
-          : zipCode // ignore: cast_nullable_to_non_nullable
-              as String?,
-      latitude: freezed == latitude
-          ? _value.latitude
-          : latitude // ignore: cast_nullable_to_non_nullable
-              as double?,
-      longitude: freezed == longitude
-          ? _value.longitude
-          : longitude // ignore: cast_nullable_to_non_nullable
-              as double?,
-      country: freezed == country
-          ? _value.country
-          : country // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_City implements _City {
-  const _$_City(
-      {this.id,
-      this.name,
-      this.localName,
-      this.zipCode,
-      this.latitude,
-      this.longitude,
-      this.country});
-
-  factory _$_City.fromJson(Map<String, dynamic> json) => _$$_CityFromJson(json);
-
-  @override
-  final int? id;
-  @override
-  final String? name;
-  @override
-  final String? localName;
-  @override
-  final String? zipCode;
-  @override
-  final double? latitude;
-  @override
-  final double? longitude;
-  @override
-  final String? country;
-
-  @override
-  String toString() {
-    return 'City(id: $id, name: $name, localName: $localName, zipCode: $zipCode, latitude: $latitude, longitude: $longitude, country: $country)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_City &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.localName, localName) ||
-                other.localName == localName) &&
-            (identical(other.zipCode, zipCode) || other.zipCode == zipCode) &&
-            (identical(other.latitude, latitude) ||
-                other.latitude == latitude) &&
-            (identical(other.longitude, longitude) ||
-                other.longitude == longitude) &&
-            (identical(other.country, country) || other.country == country));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, localName, zipCode, latitude, longitude, country);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_CityCopyWith<_$_City> get copyWith =>
-      __$$_CityCopyWithImpl<_$_City>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_CityToJson(
-      this,
-    );
-  }
-}
-
-abstract class _City implements City {
-  const factory _City(
-      {final int? id,
-      final String? name,
-      final String? localName,
-      final String? zipCode,
-      final double? latitude,
-      final double? longitude,
-      final String? country}) = _$_City;
-
-  factory _City.fromJson(Map<String, dynamic> json) = _$_City.fromJson;
-
-  @override
-  int? get id;
-  @override
-  String? get name;
-  @override
-  String? get localName;
-  @override
-  String? get zipCode;
-  @override
-  double? get latitude;
-  @override
-  double? get longitude;
-  @override
-  String? get country;
-  @override
-  @JsonKey(ignore: true)
-  _$$_CityCopyWith<_$_City> get copyWith => throw _privateConstructorUsedError;
-}
-
-Country _$CountryFromJson(Map<String, dynamic> json) {
-  return _Country.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Country {
-  String? get name => throw _privateConstructorUsedError;
-  String? get code => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $CountryCopyWith<Country> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $CountryCopyWith<$Res> {
-  factory $CountryCopyWith(Country value, $Res Function(Country) then) =
-      _$CountryCopyWithImpl<$Res, Country>;
-  @useResult
-  $Res call({String? name, String? code});
-}
-
-/// @nodoc
-class _$CountryCopyWithImpl<$Res, $Val extends Country>
-    implements $CountryCopyWith<$Res> {
-  _$CountryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? code = freezed,
-  }) {
-    return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_CountryCopyWith<$Res> implements $CountryCopyWith<$Res> {
-  factory _$$_CountryCopyWith(
-          _$_Country value, $Res Function(_$_Country) then) =
-      __$$_CountryCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? name, String? code});
-}
-
-/// @nodoc
-class __$$_CountryCopyWithImpl<$Res>
-    extends _$CountryCopyWithImpl<$Res, _$_Country>
-    implements _$$_CountryCopyWith<$Res> {
-  __$$_CountryCopyWithImpl(_$_Country _value, $Res Function(_$_Country) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? code = freezed,
-  }) {
-    return _then(_$_Country(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      code: freezed == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Country implements _Country {
-  const _$_Country({this.name, this.code});
-
-  factory _$_Country.fromJson(Map<String, dynamic> json) =>
-      _$$_CountryFromJson(json);
-
-  @override
-  final String? name;
-  @override
-  final String? code;
-
-  @override
-  String toString() {
-    return 'Country(name: $name, code: $code)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Country &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.code, code) || other.code == code));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, name, code);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_CountryCopyWith<_$_Country> get copyWith =>
-      __$$_CountryCopyWithImpl<_$_Country>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_CountryToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Country implements Country {
-  const factory _Country({final String? name, final String? code}) = _$_Country;
-
-  factory _Country.fromJson(Map<String, dynamic> json) = _$_Country.fromJson;
-
-  @override
-  String? get name;
-  @override
-  String? get code;
-  @override
-  @JsonKey(ignore: true)
-  _$$_CountryCopyWith<_$_Country> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -3621,224 +3020,6 @@ abstract class _Portfolio implements Portfolio {
   @override
   @JsonKey(ignore: true)
   _$$_PortfolioCopyWith<_$_Portfolio> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Image _$ImageFromJson(Map<String, dynamic> json) {
-  return _Image.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Image {
-  int? get id => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get size => throw _privateConstructorUsedError;
-  @JsonKey(name: "media_type")
-  String? get mediaType => throw _privateConstructorUsedError;
-  String? get media => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ImageCopyWith<$Res> {
-  factory $ImageCopyWith(Image value, $Res Function(Image) then) =
-      _$ImageCopyWithImpl<$Res, Image>;
-  @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      String? size,
-      @JsonKey(name: "media_type") String? mediaType,
-      String? media});
-}
-
-/// @nodoc
-class _$ImageCopyWithImpl<$Res, $Val extends Image>
-    implements $ImageCopyWith<$Res> {
-  _$ImageCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? size = freezed,
-    Object? mediaType = freezed,
-    Object? media = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      size: freezed == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mediaType: freezed == mediaType
-          ? _value.mediaType
-          : mediaType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      media: freezed == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
-  factory _$$_ImageCopyWith(_$_Image value, $Res Function(_$_Image) then) =
-      __$$_ImageCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      String? size,
-      @JsonKey(name: "media_type") String? mediaType,
-      String? media});
-}
-
-/// @nodoc
-class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
-    implements _$$_ImageCopyWith<$Res> {
-  __$$_ImageCopyWithImpl(_$_Image _value, $Res Function(_$_Image) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? size = freezed,
-    Object? mediaType = freezed,
-    Object? media = freezed,
-  }) {
-    return _then(_$_Image(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      size: freezed == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mediaType: freezed == mediaType
-          ? _value.mediaType
-          : mediaType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      media: freezed == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Image implements _Image {
-  const _$_Image(
-      {this.id,
-      this.name,
-      this.size,
-      @JsonKey(name: "media_type") this.mediaType,
-      this.media});
-
-  factory _$_Image.fromJson(Map<String, dynamic> json) =>
-      _$$_ImageFromJson(json);
-
-  @override
-  final int? id;
-  @override
-  final String? name;
-  @override
-  final String? size;
-  @override
-  @JsonKey(name: "media_type")
-  final String? mediaType;
-  @override
-  final String? media;
-
-  @override
-  String toString() {
-    return 'Image(id: $id, name: $name, size: $size, mediaType: $mediaType, media: $media)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Image &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.size, size) || other.size == size) &&
-            (identical(other.mediaType, mediaType) ||
-                other.mediaType == mediaType) &&
-            (identical(other.media, media) || other.media == media));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, size, mediaType, media);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_ImageCopyWith<_$_Image> get copyWith =>
-      __$$_ImageCopyWithImpl<_$_Image>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ImageToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Image implements Image {
-  const factory _Image(
-      {final int? id,
-      final String? name,
-      final String? size,
-      @JsonKey(name: "media_type") final String? mediaType,
-      final String? media}) = _$_Image;
-
-  factory _Image.fromJson(Map<String, dynamic> json) = _$_Image.fromJson;
-
-  @override
-  int? get id;
-  @override
-  String? get name;
-  @override
-  String? get size;
-  @override
-  @JsonKey(name: "media_type")
-  String? get mediaType;
-  @override
-  String? get media;
-  @override
-  @JsonKey(ignore: true)
-  _$$_ImageCopyWith<_$_Image> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
