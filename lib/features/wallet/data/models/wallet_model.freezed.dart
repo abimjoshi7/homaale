@@ -23,17 +23,17 @@ mixin _$WalletModel {
   int? get id => throw _privateConstructorUsedError;
   String? get currency => throw _privateConstructorUsedError;
   @JsonKey(name: "last_received")
-  String? get lastReceived => throw _privateConstructorUsedError;
+  double? get lastReceived => throw _privateConstructorUsedError;
   @JsonKey(name: "last_paid")
-  String? get lastPaid => throw _privateConstructorUsedError;
+  double? get lastPaid => throw _privateConstructorUsedError;
   @JsonKey(name: "total_income")
-  String? get totalIncome => throw _privateConstructorUsedError;
+  double? get totalIncome => throw _privateConstructorUsedError;
   @JsonKey(name: "total_withdrawals")
-  String? get totalWithdrawals => throw _privateConstructorUsedError;
+  double? get totalWithdrawals => throw _privateConstructorUsedError;
   @JsonKey(name: "available_balance")
-  double? get availableBalance => throw _privateConstructorUsedError;
+  String? get availableBalance => throw _privateConstructorUsedError;
   @JsonKey(name: "frozen_amount")
-  double? get frozenAmount => throw _privateConstructorUsedError;
+  String? get frozenAmount => throw _privateConstructorUsedError;
   String? get user => throw _privateConstructorUsedError;
   String? get merchant => throw _privateConstructorUsedError;
 
@@ -52,12 +52,12 @@ abstract class $WalletModelCopyWith<$Res> {
   $Res call(
       {int? id,
       String? currency,
-      @JsonKey(name: "last_received") String? lastReceived,
-      @JsonKey(name: "last_paid") String? lastPaid,
-      @JsonKey(name: "total_income") String? totalIncome,
-      @JsonKey(name: "total_withdrawals") String? totalWithdrawals,
-      @JsonKey(name: "available_balance") double? availableBalance,
-      @JsonKey(name: "frozen_amount") double? frozenAmount,
+      @JsonKey(name: "last_received") double? lastReceived,
+      @JsonKey(name: "last_paid") double? lastPaid,
+      @JsonKey(name: "total_income") double? totalIncome,
+      @JsonKey(name: "total_withdrawals") double? totalWithdrawals,
+      @JsonKey(name: "available_balance") String? availableBalance,
+      @JsonKey(name: "frozen_amount") String? frozenAmount,
       String? user,
       String? merchant});
 }
@@ -98,27 +98,27 @@ class _$WalletModelCopyWithImpl<$Res, $Val extends WalletModel>
       lastReceived: freezed == lastReceived
           ? _value.lastReceived
           : lastReceived // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       lastPaid: freezed == lastPaid
           ? _value.lastPaid
           : lastPaid // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       totalIncome: freezed == totalIncome
           ? _value.totalIncome
           : totalIncome // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       totalWithdrawals: freezed == totalWithdrawals
           ? _value.totalWithdrawals
           : totalWithdrawals // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       availableBalance: freezed == availableBalance
           ? _value.availableBalance
           : availableBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       frozenAmount: freezed == frozenAmount
           ? _value.frozenAmount
           : frozenAmount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -142,12 +142,12 @@ abstract class _$$_WalletModelCopyWith<$Res>
   $Res call(
       {int? id,
       String? currency,
-      @JsonKey(name: "last_received") String? lastReceived,
-      @JsonKey(name: "last_paid") String? lastPaid,
-      @JsonKey(name: "total_income") String? totalIncome,
-      @JsonKey(name: "total_withdrawals") String? totalWithdrawals,
-      @JsonKey(name: "available_balance") double? availableBalance,
-      @JsonKey(name: "frozen_amount") double? frozenAmount,
+      @JsonKey(name: "last_received") double? lastReceived,
+      @JsonKey(name: "last_paid") double? lastPaid,
+      @JsonKey(name: "total_income") double? totalIncome,
+      @JsonKey(name: "total_withdrawals") double? totalWithdrawals,
+      @JsonKey(name: "available_balance") String? availableBalance,
+      @JsonKey(name: "frozen_amount") String? frozenAmount,
       String? user,
       String? merchant});
 }
@@ -186,27 +186,27 @@ class __$$_WalletModelCopyWithImpl<$Res>
       lastReceived: freezed == lastReceived
           ? _value.lastReceived
           : lastReceived // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       lastPaid: freezed == lastPaid
           ? _value.lastPaid
           : lastPaid // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       totalIncome: freezed == totalIncome
           ? _value.totalIncome
           : totalIncome // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       totalWithdrawals: freezed == totalWithdrawals
           ? _value.totalWithdrawals
           : totalWithdrawals // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as double?,
       availableBalance: freezed == availableBalance
           ? _value.availableBalance
           : availableBalance // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       frozenAmount: freezed == frozenAmount
           ? _value.frozenAmount
           : frozenAmount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -243,22 +243,22 @@ class _$_WalletModel implements _WalletModel {
   final String? currency;
   @override
   @JsonKey(name: "last_received")
-  final String? lastReceived;
+  final double? lastReceived;
   @override
   @JsonKey(name: "last_paid")
-  final String? lastPaid;
+  final double? lastPaid;
   @override
   @JsonKey(name: "total_income")
-  final String? totalIncome;
+  final double? totalIncome;
   @override
   @JsonKey(name: "total_withdrawals")
-  final String? totalWithdrawals;
+  final double? totalWithdrawals;
   @override
   @JsonKey(name: "available_balance")
-  final double? availableBalance;
+  final String? availableBalance;
   @override
   @JsonKey(name: "frozen_amount")
-  final double? frozenAmount;
+  final String? frozenAmount;
   @override
   final String? user;
   @override
@@ -327,12 +327,12 @@ abstract class _WalletModel implements WalletModel {
   const factory _WalletModel(
       {final int? id,
       final String? currency,
-      @JsonKey(name: "last_received") final String? lastReceived,
-      @JsonKey(name: "last_paid") final String? lastPaid,
-      @JsonKey(name: "total_income") final String? totalIncome,
-      @JsonKey(name: "total_withdrawals") final String? totalWithdrawals,
-      @JsonKey(name: "available_balance") final double? availableBalance,
-      @JsonKey(name: "frozen_amount") final double? frozenAmount,
+      @JsonKey(name: "last_received") final double? lastReceived,
+      @JsonKey(name: "last_paid") final double? lastPaid,
+      @JsonKey(name: "total_income") final double? totalIncome,
+      @JsonKey(name: "total_withdrawals") final double? totalWithdrawals,
+      @JsonKey(name: "available_balance") final String? availableBalance,
+      @JsonKey(name: "frozen_amount") final String? frozenAmount,
       final String? user,
       final String? merchant}) = _$_WalletModel;
 
@@ -345,22 +345,22 @@ abstract class _WalletModel implements WalletModel {
   String? get currency;
   @override
   @JsonKey(name: "last_received")
-  String? get lastReceived;
+  double? get lastReceived;
   @override
   @JsonKey(name: "last_paid")
-  String? get lastPaid;
+  double? get lastPaid;
   @override
   @JsonKey(name: "total_income")
-  String? get totalIncome;
+  double? get totalIncome;
   @override
   @JsonKey(name: "total_withdrawals")
-  String? get totalWithdrawals;
+  double? get totalWithdrawals;
   @override
   @JsonKey(name: "available_balance")
-  double? get availableBalance;
+  String? get availableBalance;
   @override
   @JsonKey(name: "frozen_amount")
-  double? get frozenAmount;
+  String? get frozenAmount;
   @override
   String? get user;
   @override
