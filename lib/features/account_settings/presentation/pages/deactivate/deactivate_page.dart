@@ -1,10 +1,12 @@
-import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_state.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import 'bloc/user_deactive_event.dart';
 
 class DeactivatePage extends StatelessWidget {
   const DeactivatePage({super.key});
@@ -13,35 +15,12 @@ class DeactivatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        appBarTitle: 'Deactivate',
+        trailingWidget: SizedBox(),
+      ),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            child: const Text(
-              'Deactivate',
-              // style: TextStyle(
-              //   fontSize: 14,
-              //   fontWeight: FontWeight.w500,
-              //   color: Color(
-              //     0xff212529,
-              //   ),
-              // ),
-            ),
-          ),
-          const Divider(),
           DeactivationHeaderInfo(),
           const Expanded(child: DeactivateFormSection()),
         ],
@@ -63,122 +42,118 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
   DateTime? reactivationDate;
   String? explaination;
 
+  List<String> deactiveReasonList = <String>[
+    'I am deactivating the account temporarily.',
+    'I did not find Homeaale helpful for me',
+    'I have another Homaale account.',
+    'I am not satisfied with the services of Homaale.',
+    'other'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kPadding20,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Form(
         key: _key,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomFormField(
                   label: 'I am leaving because',
                   isRequired: true,
-                  child: CustomTextFormField(
-                    validator: validateNotEmpty,
-                    onSaved: (p0) => setState(
+                  child: CustomDropDownField<String?>(
+                    onChanged: (p0) => setState(
                       () {
-                        reason = p0;
+                        final options = deactiveReasonList.firstWhere(
+                          (element) => p0 == element,
+                        );
+                        reason = options;
                       },
                     ),
-                    hintText: 'Specify the reason',
-                  ),
-                ),
-                CustomFormField(
-                  label: 'How long',
-                  isRequired: true,
-                  child: InkWell(
-                    onTap: () async {
-                      await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1700),
-                        lastDate: DateTime(2080),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            reactivationDate = value;
-                          },
-                        ),
-                      );
-                    },
-                    child: const CustomFormContainer(
-                      hintText: 'Specify time period',
+                    list: List.generate(
+                      deactiveReasonList.length,
+                      (index) => deactiveReasonList[index],
                     ),
+                    hintText: "Subject",
                   ),
                 ),
+                addVerticalSpace(10),
                 CustomFormField(
-                  label: 'Please explain further',
+                  label: 'Description',
                   child: CustomTextFormField(
+                    validator: validateNotEmpty,
                     onSaved: (p0) => setState(
                       () {
                         explaination = p0;
                       },
                     ),
                     maxLines: 3,
-                    hintText: 'Please explain your problem briefly',
+                    hintText: 'Please explain your reason..',
                   ),
                 ),
               ],
             ),
             kHeight50,
-            BlocConsumer<DeactivateCubit, DeactivateState>(
-              listener: (context, state) async {
-                final error = await CacheHelper.getCachedString(kErrorLog);
-                if (state is DeactivateSuccess) {
-                  if (!mounted) return;
-                  await showDialog(
-                    context: context,
-                    builder: (context) => CustomToast(
-                      heading: 'Success',
-                      content: 'Deactivation Success',
-                      onTap: () => Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Root.routeName,
-                        (route) => false,
-                      ),
-                      isSuccess: true,
-                    ),
-                  );
-                } else {
-                  if (!mounted) return;
-                  await showDialog(
-                    context: context,
-                    builder: (context) => CustomToast(
-                      heading: 'Failure',
-                      content: error ?? 'Deactivation cannot be completed.',
-                      onTap: () => Navigator.pop(context),
-                      isSuccess: false,
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  callback: () {
-                    if (_key.currentState!.validate()) {
-                      _key.currentState!.save();
-                      context.read<DeactivateCubit>().initiateDeactivate(
-                        {
-                          'reason': reason,
-                          'reactivate_date': reactivationDate,
+            BlocBuilder<UserDeactiveBloc, UserDeactiveState>(
+                builder: (context, stateUD) {
+              return CustomElevatedButton(
+                callback: () async {
+                  if (_key.currentState!.validate() && reason != null) {
+                    _key.currentState!.save();
+                    context.read<UserDeactiveBloc>().add(DeactiveActionPost(
+                          reason: reason ?? "",
+                        ));
+                    await showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: reason == null ? 'Failure' : 'Success',
+                        content: reason == null
+                            ? "Select Reason first"
+                            : 'Deactivation Success',
+                        onTap: () {
+                          reason == null
+                              ? Navigator.pop(context)
+                              : Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  SignInPage.routeName,
+                                  (route) => false,
+                                );
                         },
-                      );
-                    }
-                  },
-                  label: 'Request Deactivation',
-                );
-              },
-            ),
-            kHeight20,
+                        isSuccess: reason == null ? false : true,
+                      ),
+                    );
+                    //   }
+                    //     await showDialog(
+                    //       context: context,
+                    //       builder: (context) => CustomToast(
+                    //         heading: 'Failure',
+                    //         content:
+                    //             'Deactivation Failure please choose reason first.',
+                    //         onTap: () {
+                    //           Navigator.pop(context);
+                    //         },
+                    //         isSuccess: false,
+                    //       ),
+                    //     );
+                  }
+                },
+                label: ' Deactivate',
+              );
+            }),
+            kHeight10,
             CustomElevatedButton(
               callback: () {
                 Navigator.pop(context);
               },
               label: 'Cancel',
-              mainColor: Colors.transparent,
+              mainColor: Colors.white,
+              borderColor: kColorPrimary,
               textColor: kColorPrimary,
             ),
           ],
@@ -195,11 +170,12 @@ class DeactivationHeaderInfo extends StatelessWidget {
       padding: kPadding20,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:  [
-          Text('Deactivating your Homaale account', style: Theme.of(context).textTheme.headlineSmall),
+        children: [
+          Text('Deactivating your Homaale account',
+              style: Theme.of(context).textTheme.headlineSmall),
           kHeight20,
           Text(
-            'If you want to take a break from Homaale, you can deactivate your account. You can activate your account after 5 days of deactivation time.',
+            'If you want to take a break from Homaale, you can deactivate your account. You can activate your account any time.',
           )
         ],
       ),
