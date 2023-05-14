@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/core/route/app_router.dart';
-import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
@@ -20,14 +20,10 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/nearby_task_entity_service_cubit.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
-import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
-import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
-import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
-import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -162,7 +158,7 @@ class Cipher extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => DeactivateCubit(),
+            create: (context) => UserDeactiveBloc(),
           ),
           BlocProvider(
             create: (context) => InterestsBloc()

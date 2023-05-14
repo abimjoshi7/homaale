@@ -1,11 +1,12 @@
-import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/deactivate/cubit/deactivate_cubit.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_state.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import 'bloc/user_deactive_event.dart';
 
 class DeactivatePage extends StatelessWidget {
   const DeactivatePage({super.key});
@@ -52,7 +53,7 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kPadding20,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Form(
         key: _key,
         child: Column(
@@ -72,7 +73,6 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                           (element) => p0 == element,
                         );
                         reason = options;
-                        // print(reason);
                       },
                     ),
                     list: List.generate(
@@ -82,32 +82,11 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                     hintText: "Subject",
                   ),
                 ),
-                // CustomFormField(
-                //   label: 'How long',
-                //   isRequired: true,
-                //   child: InkWell(
-                //     onTap: () async {
-                //       await showDatePicker(
-                //         context: context,
-                //         initialDate: DateTime.now(),
-                //         firstDate: DateTime(1700),
-                //         lastDate: DateTime(2080),
-                //       ).then(
-                //         (value) => setState(
-                //           () {
-                //             reactivationDate = value;
-                //           },
-                //         ),
-                //       );
-                //     },
-                //     child: const CustomFormContainer(
-                //       hintText: 'Specify time period',
-                //     ),
-                //   ),
-                // ),
+                addVerticalSpace(10),
                 CustomFormField(
                   label: 'Description',
                   child: CustomTextFormField(
+                    validator: validateNotEmpty,
                     onSaved: (p0) => setState(
                       () {
                         explaination = p0;
@@ -120,54 +99,53 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
               ],
             ),
             kHeight50,
-            BlocConsumer<DeactivateCubit, DeactivateState>(
-              listener: (context, state) async {
-                final error = await CacheHelper.getCachedString(kErrorLog);
-                // if (state is DeactivateSuccess) {
-                // if (!mounted) return;
-                await showDialog(
-                  context: context,
-                  builder: (context) => CustomToast(
-                    heading: 'Success',
-                    content: 'Deactivation Success',
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        SignInPage.routeName,
-                        (route) => false,
-                      );
-                    },
-                    isSuccess: true,
-                  ),
-                );
-                // } else {
-                // if (!mounted) return;
-                //   await showDialog(
-                //     context: context,
-                //     builder: (context) => CustomToast(
-                //       heading: 'Failure',
-                //       content: error ?? 'Deactivation cannot be completed.',
-                //       onTap: () => Navigator.pop(context),
-                //       isSuccess: false,
-                //     ),
-                //   );
-                // }
-              },
-              builder: (context, state) {
-                return CustomElevatedButton(
-                  callback: () {
-                    if (_key.currentState!.validate()) {
-                      _key.currentState!.save();
-                      context.read<DeactivateCubit>().initiateDeactivate(
-                            reason: reason ?? "",
-                          );
-                    }
-                    print(reason);
-                  },
-                  label: ' Deactivate',
-                );
-              },
-            ),
+            BlocBuilder<UserDeactiveBloc, UserDeactiveState>(
+                builder: (context, stateUD) {
+              return CustomElevatedButton(
+                callback: () async {
+                  if (_key.currentState!.validate() && reason != null) {
+                    _key.currentState!.save();
+                    context.read<UserDeactiveBloc>().add(DeactiveActionPost(
+                          reason: reason ?? "",
+                        ));
+                    await showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: reason == null ? 'Failure' : 'Success',
+                        content: reason == null
+                            ? "Select Reason first"
+                            : 'Deactivation Success',
+                        onTap: () {
+                          reason == null
+                              ? Navigator.pop(context)
+                              : Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  SignInPage.routeName,
+                                  (route) => false,
+                                );
+                        },
+                        isSuccess: reason == null ? false : true,
+                      ),
+                    );
+                    //   }
+                    //     await showDialog(
+                    //       context: context,
+                    //       builder: (context) => CustomToast(
+                    //         heading: 'Failure',
+                    //         content:
+                    //             'Deactivation Failure please choose reason first.',
+                    //         onTap: () {
+                    //           Navigator.pop(context);
+                    //         },
+                    //         isSuccess: false,
+                    //       ),
+                    //     );
+                  }
+                },
+                label: ' Deactivate',
+              );
+            }),
             kHeight10,
             CustomElevatedButton(
               callback: () {
