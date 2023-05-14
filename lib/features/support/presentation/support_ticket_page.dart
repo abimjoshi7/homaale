@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/custom_app_bar.dart';
 
+import 'bloc/support_ticket_event.dart';
+import 'bloc/support_ticket_state.dart';
+
 class SupportTicketPage extends StatefulWidget {
   static const String routeName = '/support-ticket-page';
   const SupportTicketPage({super.key});
@@ -22,7 +25,7 @@ class _SupportTicketPageState extends State<SupportTicketPage> {
     //   length: 2,
     //   vsync: this,
     // );
-    context.read<SupportTicketBloc>().add(SupportTicketInitialEvent());
+    context.read<SupportTicketBloc>().add(GetSupportTicketInitiated());
     // setState(() {});
   }
 
@@ -36,33 +39,40 @@ class _SupportTicketPageState extends State<SupportTicketPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(appBarTitle: 'Support Ticket'),
-      body: BlocBuilder<SupportTicketBloc, SupportTicketState>(
+      body: BlocBuilder<SupportTicketBloc, GetSupportTicketState>(
           builder: (context, state) {
-        return state.supportTicketList == null
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/support/support_img.png",
-                      fit: BoxFit.contain,
+        return (TheStates.initial == state.theStates)
+            ? CardLoading(height: 100)
+            : state.supportTicketList?.result == null &&
+                    TheStates.success == state.theStates
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/support/support_img.png",
+                          fit: BoxFit.contain,
+                        ),
+                        Text('No support Ticket Found.'),
+                      ],
                     ),
-                    Text('No support Ticket Found.'),
-                  ],
-                ),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                // physics: NeverScrollableScrollPhysics(),
-                itemCount: state.supportTicketList?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return BillingTicketDisplayCard(
-                    status: state.supportTicketList![index].status ?? "",
-                    statusDetails:
-                        state.supportTicketList![index].description ?? "",
-                    timeStatus: state.supportTicketList![index].createdAt,
-                  );
-                });
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    // physics: NeverScrollableScrollPhysics(),
+                    itemCount: state.supportTicketList?.result?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return BillingTicketDisplayCard(
+                        status:
+                            state.supportTicketList?.result?[index].status ??
+                                "",
+                        statusDetails: state.supportTicketList?.result?[index]
+                                .description ??
+                            "",
+                        timeStatus:
+                            state.supportTicketList?.result?[index].createdAt,
+                      );
+                    });
       }),
     );
   }
@@ -83,6 +93,7 @@ class BillingTicketDisplayCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Card(
           margin: EdgeInsets.all(16),
@@ -116,7 +127,11 @@ class BillingTicketDisplayCard extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        status,
+                        status == 'open'
+                            ? 'Open'
+                            : status == 'assigned'
+                                ? "Assigned"
+                                : "Closed",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),

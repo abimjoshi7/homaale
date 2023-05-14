@@ -29,6 +29,7 @@ mixin _$KycModel {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: "full_name")
   String? get fullName => throw _privateConstructorUsedError;
+  String? get logo => throw _privateConstructorUsedError;
   @JsonKey(name: "is_company")
   bool? get isCompany => throw _privateConstructorUsedError;
   @JsonKey(name: "organization_name")
@@ -66,6 +67,7 @@ abstract class $KycModelCopyWith<$Res> {
           DateTime? updatedAt,
       @JsonKey(name: "full_name")
           String? fullName,
+      String? logo,
       @JsonKey(name: "is_company")
           bool? isCompany,
       @JsonKey(name: "organization_name")
@@ -105,6 +107,7 @@ class _$KycModelCopyWithImpl<$Res, $Val extends KycModel>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? fullName = freezed,
+    Object? logo = freezed,
     Object? isCompany = freezed,
     Object? organizationName = freezed,
     Object? address = freezed,
@@ -139,6 +142,10 @@ class _$KycModelCopyWithImpl<$Res, $Val extends KycModel>
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      logo: freezed == logo
+          ? _value.logo
+          : logo // ignore: cast_nullable_to_non_nullable
               as String?,
       isCompany: freezed == isCompany
           ? _value.isCompany
@@ -221,6 +228,7 @@ abstract class _$$_KycModelCopyWith<$Res> implements $KycModelCopyWith<$Res> {
           DateTime? updatedAt,
       @JsonKey(name: "full_name")
           String? fullName,
+      String? logo,
       @JsonKey(name: "is_company")
           bool? isCompany,
       @JsonKey(name: "organization_name")
@@ -260,6 +268,7 @@ class __$$_KycModelCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? fullName = freezed,
+    Object? logo = freezed,
     Object? isCompany = freezed,
     Object? organizationName = freezed,
     Object? address = freezed,
@@ -294,6 +303,10 @@ class __$$_KycModelCopyWithImpl<$Res>
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      logo: freezed == logo
+          ? _value.logo
+          : logo // ignore: cast_nullable_to_non_nullable
               as String?,
       isCompany: freezed == isCompany
           ? _value.isCompany
@@ -348,6 +361,7 @@ class _$_KycModel implements _KycModel {
           this.updatedAt,
       @JsonKey(name: "full_name")
           this.fullName,
+      this.logo,
       @JsonKey(name: "is_company")
           this.isCompany,
       @JsonKey(name: "organization_name")
@@ -384,6 +398,8 @@ class _$_KycModel implements _KycModel {
   @JsonKey(name: "full_name")
   final String? fullName;
   @override
+  final String? logo;
+  @override
   @JsonKey(name: "is_company")
   final bool? isCompany;
   @override
@@ -417,7 +433,7 @@ class _$_KycModel implements _KycModel {
 
   @override
   String toString() {
-    return 'KycModel(id: $id, user: $user, country: $country, createdAt: $createdAt, updatedAt: $updatedAt, fullName: $fullName, isCompany: $isCompany, organizationName: $organizationName, address: $address, isKycVerified: $isKycVerified, isAddressVerified: $isAddressVerified, isCompanyKycVerified: $isCompanyKycVerified, isCompanyAddressVerified: $isCompanyAddressVerified, comment: $comment, extraData: $extraData)';
+    return 'KycModel(id: $id, user: $user, country: $country, createdAt: $createdAt, updatedAt: $updatedAt, fullName: $fullName, logo: $logo, isCompany: $isCompany, organizationName: $organizationName, address: $address, isKycVerified: $isKycVerified, isAddressVerified: $isAddressVerified, isCompanyKycVerified: $isCompanyKycVerified, isCompanyAddressVerified: $isCompanyAddressVerified, comment: $comment, extraData: $extraData)';
   }
 
   @override
@@ -434,6 +450,7 @@ class _$_KycModel implements _KycModel {
                 other.updatedAt == updatedAt) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
+            (identical(other.logo, logo) || other.logo == logo) &&
             (identical(other.isCompany, isCompany) ||
                 other.isCompany == isCompany) &&
             (identical(other.organizationName, organizationName) ||
@@ -463,6 +480,7 @@ class _$_KycModel implements _KycModel {
       createdAt,
       updatedAt,
       fullName,
+      logo,
       isCompany,
       organizationName,
       address,
@@ -498,6 +516,7 @@ abstract class _KycModel implements KycModel {
           final DateTime? updatedAt,
       @JsonKey(name: "full_name")
           final String? fullName,
+      final String? logo,
       @JsonKey(name: "is_company")
           final bool? isCompany,
       @JsonKey(name: "organization_name")
@@ -531,6 +550,8 @@ abstract class _KycModel implements KycModel {
   @override
   @JsonKey(name: "full_name")
   String? get fullName;
+  @override
+  String? get logo;
   @override
   @JsonKey(name: "is_company")
   bool? get isCompany;

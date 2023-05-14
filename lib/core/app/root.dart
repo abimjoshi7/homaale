@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
@@ -14,12 +13,15 @@ import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
-import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/categories/presentation/pages/sections/categories_section.dart';
+import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../features/user_suspend/presentation/bloc/user_suspend_event.dart';
+import '../../features/user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../network_info/network_info.dart';
 
 class Root extends StatefulWidget {
@@ -41,7 +43,8 @@ class _RootState extends State<Root> {
   }
 
   void checkShowcase() async {
-    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    final showcase =
+        await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
     if (showcase == 'not-shown') {
       setState(() {
         enableShowcase = true;
@@ -140,16 +143,22 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
             .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context
+                  .read<TaskBloc>()
+                  .add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
             )
             .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -162,22 +171,32 @@ class _CalledRootClassState extends State<CalledRootClass> {
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
                     {
-                      context.read<KycBloc>().add(
-                            KycModelLoaded(),
-                          ),
+                      // context.read<KycBloc>().add(
+                      //       KycModelLoaded(),
+                      //     ),
                     }
                 })
             .then(
-              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
+              (value) async => context
+                  .read<ServicesBloc>()
+                  .add(const EntityServiceInitiated()),
             )
             .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
+              (value) async => context.read<UserSuspendBloc>().add(
+                  UserSuspendLoaded(
+                      userId:
+                          '${context.read<UserBloc>().state.taskerProfile?.user?.id}')),
+            )
+            .then(
               (value) async => {
                 if (CacheHelper.isLoggedIn)
                   {
-                    context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+                    context
+                        .read<NotificationBloc>()
+                        .add(MyNotificationListInitiated()),
                   }
               },
             );
@@ -192,17 +211,23 @@ class _CalledRootClassState extends State<CalledRootClass> {
       (timeStamp) async {
         if (CacheHelper.hasProfile == false) {
           await showDialog(
+            barrierDismissible: false,
             context: context,
-            builder: (context) => CustomToast(
-              heading: 'Welcome To Homaale',
-              content: 'Get started by completing your profile',
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  CompleteProfilePage.routeName,
-                );
+            builder: (context) => WillPopScope(
+              onWillPop: () async {
+                return false;
               },
-              isSuccess: true,
+              child: CustomToast(
+                heading: 'Welcome To Homaale',
+                content: 'Get started by completing your profile',
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    CompleteProfilePage.routeName,
+                  );
+                },
+                isSuccess: true,
+              ),
             ),
           );
         }
@@ -216,7 +241,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
+      ShowCaseWidget.of(context).startShowCase(
+          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -261,7 +287,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       height: 102,
                       width: MediaQuery.of(context).size.width,
                       child: CustomPaint(
-                        painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
+                        painter: BottomNavCustomPainter(
+                            color: Theme.of(context).primaryColor),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 8.0,
@@ -295,7 +322,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Box',
-                                showCaseDec: 'Tap “Box” to view your Bookings Payments list. ',
+                                showCaseDec:
+                                    'Tap “Box” to view your Bookings Payments list. ',
                                 showKey: _two,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -320,7 +348,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Add',
-                                showCaseDec: 'Tap “Add” to add your tasks & services.',
+                                showCaseDec:
+                                    'Tap “Add” to add your tasks & services.',
                                 showKey: _three,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -379,7 +408,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Profile',
-                                showCaseDec: 'Tap “Profile” to setup your account.',
+                                showCaseDec:
+                                    'Tap “Profile” to setup your account.',
                                 showKey: _five,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -411,67 +441,94 @@ class _CalledRootClassState extends State<CalledRootClass> {
                 );
               }),
             ),
-            Visibility(
-              visible: addActive,
-              child: Positioned(
-                bottom: 85,
-                child: SizedBox(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width,
-                  child: CustomPaint(
-                    painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        AddPopupButton(
-                          label: '  Post a Task',
-                          icon: Icons.comment_bank_rounded,
-                          callback: () {
-                            if (CacheHelper.isLoggedIn == false) {
-                              notLoggedInPopUp(context);
-                            }
-                            if (CacheHelper.isLoggedIn == false) return;
-                            setState(() {
-                              homeActive = pageIndex == 0;
-                              boxActive = pageIndex == 1;
-                              addActive = false;
-                              bookingsActive = pageIndex == 2;
-                              profileActive = pageIndex == 3;
-                            });
-                            Navigator.pushNamed(
-                              context,
-                              PostTaskPage.routeName,
-                            );
-                          },
-                        ),
-                        addHorizontalSpace(50),
-                        AddPopupButton(
-                          label: 'Post a Service ',
-                          icon: Icons.home_repair_service_rounded,
-                          callback: () {
-                            if (CacheHelper.isLoggedIn == false) {
-                              notLoggedInPopUp(context);
-                            }
-                            if (CacheHelper.isLoggedIn == false) return;
-                            setState(() {
-                              homeActive = pageIndex == 0;
-                              boxActive = pageIndex == 1;
-                              addActive = false;
-                              bookingsActive = pageIndex == 2;
-                              profileActive = pageIndex == 3;
-                            });
-                            Navigator.pushNamed(
-                              context,
-                              PostServicePage.routeName,
-                            );
-                          },
-                        )
-                      ],
+            BlocBuilder<UserSuspendBloc, UserSuspendState>(
+                builder: (context, stateUS) {
+              print(
+                  "isSuspended: ${stateUS.userAccountSuspension?.isSuspended}");
+              return Visibility(
+                visible: addActive,
+                child: Positioned(
+                  bottom: 85,
+                  child: SizedBox(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width,
+                    child: CustomPaint(
+                      painter: FloatingOptionsCustomPainter(
+                          color: Theme.of(context).primaryColor),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          AddPopupButton(
+                            label: '  Post a Task',
+                            icon: Icons.comment_bank_rounded,
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                              setState(() {
+                                homeActive = pageIndex == 0;
+                                boxActive = pageIndex == 1;
+                                addActive = false;
+                                bookingsActive = pageIndex == 2;
+                                profileActive = pageIndex == 3;
+                              });
+                              (stateUS.userAccountSuspension?.isSuspended ==
+                                      false)
+                                  ? Navigator.pushNamed(
+                                      context,
+                                      PostTaskPage.routeName,
+                                    )
+                                  : showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AccountSuspendCustomToast(
+                                        heading: 'ACCOUNT SUSPENDED',
+                                        content: 'User is suspended',
+                                      ),
+                                    );
+                            },
+                          ),
+                          addHorizontalSpace(50),
+                          AddPopupButton(
+                            label: 'Post a Service ',
+                            icon: Icons.home_repair_service_rounded,
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                              setState(() {
+                                homeActive = pageIndex == 0;
+                                boxActive = pageIndex == 1;
+                                addActive = false;
+                                bookingsActive = pageIndex == 2;
+                                profileActive = pageIndex == 3;
+                              });
+
+                              (stateUS.userAccountSuspension?.isSuspended ==
+                                      false)
+                                  ? Navigator.pushNamed(
+                                      context,
+                                      PostServicePage.routeName,
+                                    )
+                                  : showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          AccountSuspendCustomToast(
+                                        heading: 'ACCOUNT SUSPENDED',
+                                        content: 'User is suspended',
+                                      ),
+                                    );
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

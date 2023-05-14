@@ -1,5 +1,3 @@
-
-
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
@@ -109,30 +107,41 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               );
                             },
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.report,
-                              color: kColorSecondary,
+                          Visibility(
+                            visible: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id !=
+                                state.taskEntityService?.createdBy?.id,
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.report,
+                                color: kColorSecondary,
+                              ),
+                              title: Text(
+                                'Report',
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
+                              ),
+                              onTap: () {
+                                context
+                                    .read<SupportTicketTypeOptionsBloc>()
+                                    .add(SupportTicketTypeOptionsLoaded(
+                                        target: 'task'));
+                                Navigator.pushNamed(
+                                  context,
+                                  CommonReportPage.routeName,
+                                  arguments: {
+                                    'isType': 'isTask',
+                                    'model': 'task',
+                                    'objectId':
+                                        state.taskEntityService?.createdBy?.id
+                                  },
+                                );
+                              },
                             ),
-                            title: Text(
-                              'Report',
-                              style: Theme.of(context).textTheme.headlineLarge,
-                            ),
-                            onTap: () {
-                              context
-                                  .read<SupportTicketTypeOptionsBloc>()
-                                  .add(SupportTicketTypeOptionsLoaded(target: 'task'));
-                              Navigator.pushNamed(
-                                context,
-                                CommonReportPage.routeName,
-                                arguments: {
-                                  'isType': 'isTask',
-                                  'model': 'task',
-                                  'objectId':
-                                      state.taskEntityService?.createdBy?.id
-                                },
-                              );
-                            },
                           ),
                           Offstage(
                             offstage: context

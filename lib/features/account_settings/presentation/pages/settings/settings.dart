@@ -14,31 +14,12 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Settings",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: IconButton(
-              icon: const Icon(
-                Icons.search,
-                size: 0,
-              ),
-              onPressed: () async {},
-            ),
-            child:  Text(
-              'Settings',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ),
-          const Divider(),
           AccountListTileSection(
             icon: const Icon(Icons.person_outline_outlined),
             label: 'Account',

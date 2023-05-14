@@ -32,7 +32,7 @@ class Result with _$Result {
     @JsonKey(name: "created_by") CreatedBy? createdBy,
     String? merchant,
     Country? country,
-    @JsonKey(name: "free") Free? free,
+    @JsonKey(name: "free") ServiceElement? free,
     @JsonKey(name: "offer_rule") OfferRule? offerRule,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -45,9 +45,9 @@ class Result with _$Result {
     @JsonKey(name: "start_date") DateTime? startDate,
     @JsonKey(name: "end_date") DateTime? endDate,
     @JsonKey(name: "is_consumable") bool? isConsumable,
-    double? discount,
+    String? discount,
     @JsonKey(name: "discount_type") String? discountType,
-    @JsonKey(name: "discount_limit") double? discountLimit,
+    @JsonKey(name: "discount_limit") String? discountLimit,
     dynamic quantity,
     @JsonKey(name: "is_common") bool? isCommon,
     List<dynamic>? organizations,
@@ -74,8 +74,8 @@ class OfferRule with _$OfferRule {
 }
 
 @freezed
-class Free with _$Free {
-  const factory Free({
+class ServiceElement with _$ServiceElement {
+  const factory ServiceElement({
     String? id,
     String? slug,
     @JsonKey(name: "created_at") DateTime? createdAt,
@@ -94,13 +94,14 @@ class Free with _$Free {
     String? location,
     int? count,
     @JsonKey(name: "is_endorsed") bool? isEndorsed,
-    @JsonKey(name: "start_date") dynamic startDate,
-    @JsonKey(name: "end_date") dynamic endDate,
-    @JsonKey(name: "start_time") dynamic startTime,
-    @JsonKey(name: "end_time") dynamic endTime,
+    @JsonKey(name: "start_date") DateTime? startDate,
+    @JsonKey(name: "end_date") DateTime? endDate,
+    @JsonKey(name: "start_time") String? startTime,
+    @JsonKey(name: "end_time") String? endTime,
     List<Image>? videos,
     @JsonKey(name: "is_bookmarked") bool? isBookmarked,
-  }) = _Free;
+  }) = _ServiceElement;
 
-  factory Free.fromJson(Map<String, dynamic> json) => _$FreeFromJson(json);
+  factory ServiceElement.fromJson(Map<String, dynamic> json) =>
+      _$ServiceElementFromJson(json);
 }

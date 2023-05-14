@@ -1,11 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
-import 'package:cipher/features/faq/faq_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import 'package:cipher/features/support/presentation/bloc/support_ticket_type_options_event.dart';
@@ -19,12 +19,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/mixins/the_modal_bottom_sheet.dart';
+import '../../../../faq_and_data_deletion/data_deletion_policy.dart';
+import '../../../../faq_and_data_deletion/faq_page.dart';
 import '../../../../feedback/bloc/feedback_bloc.dart';
 import '../../../../feedback/bloc/feedback_event.dart';
 import '../../../../feedback/presentation/pages/feedback.dart';
 import '../../../../support/presentation/widgets/report_page.dart';
 import '../../../../theme/presentation/bloc/theme_bloc.dart';
 import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 
 class AccountProfile extends StatefulWidget {
   const AccountProfile({super.key});
@@ -36,12 +40,6 @@ class AccountProfile extends StatefulWidget {
 
 class _AccountProfileState extends State<AccountProfile> with TheModalBottomSheet {
   bool isDark = false;
-
-  @override
-  void initState() {
-    super.initState();
-    checkAppMode();
-  }
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -59,6 +57,8 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
       }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -208,6 +208,19 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
               ),
             ),
             AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(context, DataDeletionPolicy.routeName);
+              },
+              icon: const Icon(
+                Icons.policy,
+              ),
+              label: 'Data Deletion Policy',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
               icon: const Icon(
                 Icons.feed_outlined,
               ),
@@ -228,13 +241,29 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
               icon: const Icon(
                 Icons.report,
               ),
-              label: 'Help & Legal',
+              label: 'Help & Report',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
               ),
               onTap: () {
-                context.read<SupportTicketTypeOptionsBloc>().add(SupportTicketTypeOptionsLoaded(target: ''));
+                context
+                    .read<SupportTicketTypeOptionsBloc>()
+                    .add(SupportTicketTypeOptionsLoaded(target: ''));
+                context
+                    .read<UserSuspendBloc>()
+                    .state
+                    .userAccountSuspension
+                    ?.isSuspended ==
+                    true
+                    ? showDialog(
+                  context: context,
+                  builder: (context) => AccountSuspendCustomToast(
+                    heading: 'ACCOUNT SUSPENDED',
+                    content: 'User is suspended',
+                  ),
+                )
+                    :
                 Navigator.pushNamed(context, CommonReportPage.routeName);
               },
             ),
@@ -251,6 +280,7 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
                 size: 16,
               ),
             ),
+
             AccountListTileSection(
               onTap: () {
                 Navigator.pushNamed(context, ContactUsPage.routeName);

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
@@ -6,14 +7,29 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/models/c
 class KycRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> createKyc(CreateKycReq createKycReq) async {
+  Future<Map<String, dynamic>?> createKyc(CreateKycReq createKycReq) async {
     try {
-      final x = await _dio.postDataWithCredential(
-        data: createKycReq.toJson(),
-        url: 'tasker/kyc/',
+      final x = await _dio.postFormData(
+        map: createKycReq.toJson(),
+        url: "tasker/kyc/",
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      if (x != null) {
+        return x as Map<String, dynamic>;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List> getCountriesList() async {
+    try {
+      final x = await _dio.getDatawithCredential(
+        url: "locale/client/country/options/",
+        token: CacheHelper.accessToken,
+      );
+      return x as List;
     } catch (e) {
       rethrow;
     }
@@ -34,13 +50,16 @@ class KycRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> getKyc() async {
+  Future<Map<String, dynamic>?> getKyc() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/my-kyc/',
         token: CacheHelper.accessToken,
       );
-      return x as Map<String, dynamic>;
+      if (x != null) {
+        return x as Map<String, dynamic>;
+      }
+      return null;
     } catch (e) {
       rethrow;
     }
@@ -58,13 +77,13 @@ class KycRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getKycDocument() async {
+  Future<List<dynamic>> getKycDocument() async {
     try {
       final x = await _dio.getDatawithCredential(
         url: 'tasker/kyc-document/',
         token: CacheHelper.accessToken,
       );
-      return List<Map<String, dynamic>>.from(x as Iterable);
+      return x as List<dynamic>;
     } catch (e) {
       rethrow;
     }

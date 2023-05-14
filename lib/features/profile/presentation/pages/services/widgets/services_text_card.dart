@@ -85,7 +85,7 @@ class ServicesTextCard extends StatelessWidget {
           padding: const EdgeInsets.all(2),
           child: Row(
             children: [
-              const Icon(Icons.favorite_outline_rounded, color: Colors.red),
+              const Icon(Icons.bookmark_border, color: Colors.red),
               kWidth5,
               const Icon(
                 Icons.subdirectory_arrow_right_outlined,

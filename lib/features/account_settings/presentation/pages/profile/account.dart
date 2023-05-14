@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
@@ -15,6 +16,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
 import '../../../../user/presentation/bloc/activities_timeline_event.dart';
+import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 
 class AccountView extends StatefulWidget {
   static const routeName = '/account';
@@ -25,6 +28,18 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<KycBloc>()
+      ..add(
+        KycModelLoaded(),
+      )
+      ..add(
+        KycDocumentLoaded(),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +83,8 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -77,10 +93,17 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
-                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            name:
+                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified: state.taskerProfile!.isProfileVerified!
+                                ? true
+                                : false,
+                            designation:
+                                state.taskerProfile?.designation?.toString() ??
+                                    'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ??
+                                state.taskerProfile?.user?.email ??
+                                '',
                           ),
                         ],
                       ),
@@ -102,7 +125,8 @@ class _AccountViewState extends State<AccountView> {
                           return ProfileStatsCard(
                             imagePath: 'assets/wallet.png',
                             label: 'Account Balance',
-                            value: "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                            value:
+                                "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
                           );
                         },
                       ),
@@ -116,7 +140,9 @@ class _AccountViewState extends State<AccountView> {
                   ),
                   child: CustomElevatedButton(
                     callback: () {
-                      context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
+                      context
+                          .read<ActivitiesTimelineBloc>()
+                          .add(ActivitiesLoaded());
 
                       Navigator.pushNamed(context, Profile.routeName);
                     },
@@ -163,7 +189,21 @@ class _AccountViewState extends State<AccountView> {
 
                 AccountListTileSection(
                   onTap: () {
-                    Navigator.pushNamed(context, ChatListingPage.routeName);
+                    context
+                                .read<UserSuspendBloc>()
+                                .state
+                                .userAccountSuspension
+                                ?.isSuspended ==
+                            true
+                        ? showDialog(
+                            context: context,
+                            builder: (context) => AccountSuspendCustomToast(
+                              heading: 'ACCOUNT SUSPENDED',
+                              content: 'User is suspended',
+                            ),
+                          )
+                        : Navigator.pushNamed(
+                            context, ChatListingPage.routeName);
                   },
                   icon: const Icon(
                     Icons.chat_bubble_outline,

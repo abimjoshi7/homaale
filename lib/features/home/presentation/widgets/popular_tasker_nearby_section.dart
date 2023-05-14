@@ -51,7 +51,7 @@ class PopularTaskerNearbySection extends StatelessWidget {
                                     style: kPurpleText13,
                                   ),
                                   Icon(
-                                    Icons.favorite_border,
+                                    Icons.bookmark_border,
                                     color: Color(
                                       0xfffe5050,
                                     ),

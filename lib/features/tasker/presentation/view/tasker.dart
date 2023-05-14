@@ -370,10 +370,10 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                       notLoggedInPopUp(context);
                     }
                     if (!CacheHelper.isLoggedIn) return;
-                    Navigator.pushNamed(
-                      context,
-                      KycDetails.routeName,
-                    );
+                    // Navigator.pushNamed(
+                    //   context,
+                    //   KycDetails.routeName,
+                    // );
                   },
                   child: const ProfileKycVerifySection(),
                 ),

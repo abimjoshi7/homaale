@@ -14,6 +14,9 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
+import '../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
   static const routeName = '/profile';
@@ -29,7 +32,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController = TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
+    tabController =
+        TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
     // context.read<ServicesBloc>().add(
     //       const MyCreatedServiceTaskLoadInitiated(
     //         isTask: true,
@@ -64,10 +68,23 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   borderRadius: 10,
                   label: 'Edit Profile',
                   callback: () {
-                    Navigator.pushNamed(
-                      context,
-                      EditProfilePage.routeName,
-                    );
+                    context
+                                .read<UserSuspendBloc>()
+                                .state
+                                .userAccountSuspension
+                                ?.isSuspended ==
+                            true
+                        ? showDialog(
+                            context: context,
+                            builder: (context) => AccountSuspendCustomToast(
+                              heading: 'ACCOUNT SUSPENDED',
+                              content: 'User is suspended',
+                            ),
+                          )
+                        : Navigator.pushNamed(
+                            context,
+                            EditProfilePage.routeName,
+                          );
                   },
                 ),
                 BlocBuilder<UserBloc, UserState>(
@@ -75,16 +92,23 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     if (state.theStates == TheStates.success) {
                       return InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, FollowingFollowersPage.routeName);
+                          Navigator.pushNamed(
+                              context, FollowingFollowersPage.routeName);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             BuildLabelCount(
-                                count: state.taskerProfile?.followersCount?.toString() ?? '0', label: 'Followers'),
+                                count: state.taskerProfile?.followersCount
+                                        ?.toString() ??
+                                    '0',
+                                label: 'Followers'),
                             addHorizontalSpace(16),
                             BuildLabelCount(
-                                count: state.taskerProfile?.followingCount?.toString() ?? '0', label: 'Followings'),
+                                count: state.taskerProfile?.followingCount
+                                        ?.toString() ??
+                                    '0',
+                                label: 'Followings'),
                           ],
                         ),
                       );
@@ -114,7 +138,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           Expanded(
             child: TabBarView(
               controller: tabController,
-              children: [
+              children: <Widget>[
                 AboutProfile(),
                 ServicesProfile(),
                 TasksProfile(),

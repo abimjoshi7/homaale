@@ -26,8 +26,15 @@ const kFileStore = "task/filestore/";
 const kMyWallet = "wallet/mywallet/";
 const kWalletHistory = "/wallet/wallethistory/";
 // transactions
+//offers
+const kOffersPath = "offer/serviceoffer/all/";
+
+//transactions
 const kTransactionPath = "/payment/transaction/";
 const kTransactionDownloadPath = "/payment/transaction-csv/";
+
+//search
+const kSearchPath = "/search/dashboard/";
 
 Map<String, Object> kUrls = {
   "user": {

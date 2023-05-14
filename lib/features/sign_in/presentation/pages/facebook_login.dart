@@ -94,13 +94,13 @@ class _FacebookLoginState extends State<FacebookLogin> {
             addVerticalSpace(30),
             Image.asset('assets/logos/fb_logo.png'),
             kHeight10,
-            const Text(
+             Text(
               'Login with Facebook',
-              style: kHeading1,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             kHeight20,
             const Text('Homaale is requesting access to your Facebook.'),
-            const Text("This doesn't let the app post to Facebook"),
+            const Text("This doesn't let the app post to Facebook."),
             addVerticalSpace(50),
             const Text('Would you like to continue?'),
             kHeight20,

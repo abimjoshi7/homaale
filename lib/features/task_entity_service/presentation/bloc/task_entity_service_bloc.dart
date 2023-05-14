@@ -5,6 +5,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
@@ -16,6 +17,10 @@ import 'package:dependencies/dependencies.dart';
 
 part 'task_entity_service_event.dart';
 part 'task_entity_service_state.dart';
+
+const kThrottleDuration = Duration(
+  seconds: 15,
+);
 
 class TaskEntityServiceBloc
     extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
@@ -74,6 +79,9 @@ class TaskEntityServiceBloc
     );
 
     on<TaskEntityServiceCreated>(
+      transformer: throttleDroppable(
+        kThrottleDuration,
+      ),
       (event, emit) async {
         try {
           emit(

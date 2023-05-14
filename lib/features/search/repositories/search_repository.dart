@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/api_constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/search/data/models/search_res.dart';
 import 'package:cipher/features/search/data/search_result.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
@@ -105,5 +107,31 @@ class SearchRepository {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  Future<Map<String, dynamic>> fetchSearchRes(String text) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: kSearchPath,
+        token: CacheHelper.accessToken,
+        query: {
+          "q": text,
+        },
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Search Error: $e");
+      throw Exception("Search Error");
+    }
+  }
+
+  Future<SearchRes> getSearchResults(String text) async {
+    return await fetchSearchRes(text)
+        .then(
+          (value) => SearchRes.fromJson(
+            value,
+          ),
+        )
+        .whenComplete(() => print);
   }
 }

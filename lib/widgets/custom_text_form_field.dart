@@ -1,15 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:cipher/core/constants/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     Key? key,
+    this.autofocus,
     this.readOnly = false,
     this.theHeight = 50,
     this.theWidth,
     this.hintText = '',
+    this.hintStyle,
     this.prefixWidget,
     this.suffixWidget,
     this.value,
@@ -27,8 +28,8 @@ class CustomTextFormField extends StatelessWidget {
     this.node,
     this.inputFormatters,
     this.inputAction = TextInputAction.next,
-    this.hintStyle,
   }) : super(key: key);
+  final bool? autofocus;
   final bool? readOnly;
   final double theHeight;
   final double? theWidth;
@@ -55,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autofocus ?? false,
       // autovalidateMode: autoValidateMode,
       style: Theme.of(context).textTheme.bodySmall,
       readOnly: readOnly ?? false,
@@ -80,7 +82,7 @@ class CustomTextFormField extends StatelessWidget {
           maxWidth: theWidth ?? MediaQuery.of(context).size.width,
         ),
         hintText: hintText,
-        hintStyle:hintStyle ??Theme.of(context).textTheme.bodySmall,
+        hintStyle: hintStyle ?? Theme.of(context).textTheme.bodySmall,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),

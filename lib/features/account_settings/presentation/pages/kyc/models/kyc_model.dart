@@ -14,6 +14,7 @@ class KycModel with _$KycModel {
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     @JsonKey(name: "full_name") String? fullName,
+    String? logo,
     @JsonKey(name: "is_company") bool? isCompany,
     @JsonKey(name: "organization_name") String? organizationName,
     String? address,

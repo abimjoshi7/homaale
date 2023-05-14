@@ -3524,6 +3524,8 @@ mixin _$Service {
   bool? get isVerified => throw _privateConstructorUsedError;
   Category? get category => throw _privateConstructorUsedError;
   List<dynamic>? get images => throw _privateConstructorUsedError;
+  @JsonKey(name: "required_documents")
+  List<dynamic>? get required_documents => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3541,7 +3543,8 @@ abstract class $ServiceCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "id_verified") bool? isVerified,
       Category? category,
-      List<dynamic>? images});
+      List<dynamic>? images,
+      @JsonKey(name: "required_documents") List<dynamic>? required_documents});
 
   $CategoryCopyWith<$Res>? get category;
 }
@@ -3565,6 +3568,7 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
     Object? isVerified = freezed,
     Object? category = freezed,
     Object? images = freezed,
+    Object? required_documents = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -3590,6 +3594,10 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      required_documents: freezed == required_documents
+          ? _value.required_documents
+          : required_documents // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
     ) as $Val);
   }
@@ -3620,7 +3628,8 @@ abstract class _$$_ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "id_verified") bool? isVerified,
       Category? category,
-      List<dynamic>? images});
+      List<dynamic>? images,
+      @JsonKey(name: "required_documents") List<dynamic>? required_documents});
 
   @override
   $CategoryCopyWith<$Res>? get category;
@@ -3642,6 +3651,7 @@ class __$$_ServiceCopyWithImpl<$Res>
     Object? isVerified = freezed,
     Object? category = freezed,
     Object? images = freezed,
+    Object? required_documents = freezed,
   }) {
     return _then(_$_Service(
       id: freezed == id
@@ -3668,6 +3678,10 @@ class __$$_ServiceCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      required_documents: freezed == required_documents
+          ? _value._required_documents
+          : required_documents // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
     ));
   }
 }
@@ -3678,11 +3692,16 @@ class _$_Service implements _Service {
   const _$_Service(
       {this.id,
       this.title,
-      @JsonKey(name: "is_active") this.isActive,
-      @JsonKey(name: "id_verified") this.isVerified,
+      @JsonKey(name: "is_active")
+          this.isActive,
+      @JsonKey(name: "id_verified")
+          this.isVerified,
       this.category,
-      final List<dynamic>? images})
-      : _images = images;
+      final List<dynamic>? images,
+      @JsonKey(name: "required_documents")
+          final List<dynamic>? required_documents})
+      : _images = images,
+        _required_documents = required_documents;
 
   factory _$_Service.fromJson(Map<String, dynamic> json) =>
       _$$_ServiceFromJson(json);
@@ -3709,9 +3728,21 @@ class _$_Service implements _Service {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<dynamic>? _required_documents;
+  @override
+  @JsonKey(name: "required_documents")
+  List<dynamic>? get required_documents {
+    final value = _required_documents;
+    if (value == null) return null;
+    if (_required_documents is EqualUnmodifiableListView)
+      return _required_documents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'Service(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images)';
+    return 'Service(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images, required_documents: $required_documents)';
   }
 
   @override
@@ -3727,13 +3758,22 @@ class _$_Service implements _Service {
                 other.isVerified == isVerified) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality()
+                .equals(other._required_documents, _required_documents));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, isActive, isVerified,
-      category, const DeepCollectionEquality().hash(_images));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      isActive,
+      isVerified,
+      category,
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_required_documents));
 
   @JsonKey(ignore: true)
   @override
@@ -3753,10 +3793,14 @@ abstract class _Service implements Service {
   const factory _Service(
       {final String? id,
       final String? title,
-      @JsonKey(name: "is_active") final bool? isActive,
-      @JsonKey(name: "id_verified") final bool? isVerified,
+      @JsonKey(name: "is_active")
+          final bool? isActive,
+      @JsonKey(name: "id_verified")
+          final bool? isVerified,
       final Category? category,
-      final List<dynamic>? images}) = _$_Service;
+      final List<dynamic>? images,
+      @JsonKey(name: "required_documents")
+          final List<dynamic>? required_documents}) = _$_Service;
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
 
@@ -3774,6 +3818,9 @@ abstract class _Service implements Service {
   Category? get category;
   @override
   List<dynamic>? get images;
+  @override
+  @JsonKey(name: "required_documents")
+  List<dynamic>? get required_documents;
   @override
   @JsonKey(ignore: true)
   _$$_ServiceCopyWith<_$_Service> get copyWith =>

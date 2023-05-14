@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/dio/types/either.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
 import 'package:dependencies/dependencies.dart';
@@ -17,7 +20,40 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   final KycRepositories repositories;
   KycBloc(
     this.repositories,
-  ) : super(const KycState()) {
+  ) : super(const KycState(theStates: TheStates.initial)) {
+    on<KycProfileInitiated>((event, emit) async {
+      if (state.kycModel == null) {
+        List<Country> _countriesList = [];
+        final kycRes = await repositories.getKyc();
+        final _countries = await repositories.getCountriesList();
+        for (final country in _countries) {
+          _countriesList.add(Country.fromJson(country as Map<String, dynamic>));
+        }
+        log("RES: $kycRes");
+        if (kycRes != null) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.initial,
+              kycModel: KycModel.fromJson(kycRes),
+              country: _countriesList,
+            ),
+          );
+        }
+        if (kycRes == null) {
+          emit(state.copyWith(
+            theStates: TheStates.initial,
+            country: _countriesList,
+          ));
+        }
+      } 
+			else {
+        emit(state.copyWith(
+          theStates: TheStates.initial,
+          isCreated: false,
+        ));
+      }
+    });
+
     on<KycInitiated>(
       (event, emit) async {
         try {
@@ -26,52 +62,54 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               theStates: TheStates.loading,
             ),
           );
-          await repositories.createKyc(event.createKycReq!).then(
-                (value) => emit(
-                  state.copyWith(
-                    kycId: value["id"] as int,
-                  ),
-                ),
-              );
+          final res = await repositories.createKyc(event.createKycReq!);
+          if (res != null) {
+            emit(
+              state.copyWith(
+                theStates: TheStates.success,
+                isCreated: true,
+              ),
+            );
+          }
         } catch (e) {
+          log("kyc error: $e");
+          final String? err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              kycId: 0,
+              isCreated: false,
+              errMsg: err,
             ),
           );
         }
       },
     );
-
     on<KycAdded>(
       (event, emit) async {
         try {
-          await repositories
-              .addKyc(event.addKycReq!)
-              .then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    kycId: null,
-                    isCreated: true,
-                  ),
-                ),
-              )
-              .whenComplete(
-                () => emit(
-                  state.copyWith(
-                    isCreated: false,
-                  ),
-                ),
-              );
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
+          await repositories.addKyc(event.addKycReq!);
+
+          emit(
+            state.copyWith(
+              theStates: TheStates.success,
+              isCreated: true,
+            ),
+          );
         } catch (e) {
+          final err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
               isCreated: false,
+              errMsg: err,
             ),
           );
+          log("KYC added bloc called.");
         }
       },
     );
@@ -83,14 +121,14 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             theStates: TheStates.loading,
           ),
         );
-        await repositories.getKyc().then(
-              (value) => emit(
-                state.copyWith(
-                  theStates: TheStates.success,
-                  kycModel: KycModel.fromJson(value),
-                ),
-              ),
-            );
+        await repositories.getKyc().then((value) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.success,
+              kycModel: KycModel.fromJson(value!),
+            ),
+          );
+        });
       },
     );
 
@@ -116,11 +154,12 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           );
           await repositories.getKycDocument().then(
             (value) {
+              // log("kyc doc: $value");
               emit(
                 state.copyWith(
                   list: value
                       .map(
-                        (e) => KycListRes.fromJson(e),
+                        (e) => KycListRes.fromJson(e as Map<String, dynamic>),
                       )
                       .toList(),
                 ),
@@ -149,12 +188,18 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           );
           await repositories.fetchKycDocType().then(
             (value) {
-              if (value.isNotEmpty)
-                emit(
-                  state.copyWith(
-                    isDocLoaded: true,
-                  ),
-                );
+              if (value.isEmpty) return;
+              List<KycDocType> _docTypeList = [];
+              for (final kycDocType in value) {
+                _docTypeList.add(KycDocType.fromJson(kycDocType));
+              }
+              emit(
+                state.copyWith(
+                  theStates: TheStates.initial,
+                  isDocLoaded: true,
+                  docTypeList: _docTypeList,
+                ),
+              );
             },
           );
         } catch (e) {

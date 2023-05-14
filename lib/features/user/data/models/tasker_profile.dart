@@ -6,6 +6,8 @@
 
 import 'package:dependencies/dependencies.dart';
 
+import '../../../task_entity_service/data/models/task_entity_service.dart';
+
 part 'tasker_profile.freezed.dart';
 part 'tasker_profile.g.dart';
 
@@ -15,7 +17,7 @@ class TaskerProfile with _$TaskerProfile {
     int? id,
     @JsonKey(name: "profile_image") String? profileImage,
     @JsonKey(name: "full_name") String? fullName,
-    @JsonKey(name: "charge_currency") ChargeCurrency? chargeCurrency,
+    @JsonKey(name: "charge_currency") Currency? chargeCurrency,
     User? user,
     List<Portfolio>? portfolio,
     List<Experience>? experience,
@@ -29,6 +31,7 @@ class TaskerProfile with _$TaskerProfile {
     List<Interest>? interests,
     @JsonKey(name: "is_followed") bool? isFollowed,
     Badge? badge,
+    @JsonKey(name: "is_bookmarked") bool? isBookmarked,
     String? status,
     String? bio,
     String? gender,
@@ -37,7 +40,6 @@ class TaskerProfile with _$TaskerProfile {
     @JsonKey(name: "active_hour_start") String? activeHourStart,
     @JsonKey(name: "active_hour_end") String? activeHourEnd,
     @JsonKey(name: "experience_level") String? experienceLevel,
-    @JsonKey(name: "user_type") String? userType,
     @JsonKey(name: "profile_visibility") String? profileVisibility,
     @JsonKey(name: "task_preferences") String? taskPreferences,
     @JsonKey(name: "address_line1") String? addressLine1,
@@ -53,14 +55,15 @@ class TaskerProfile with _$TaskerProfile {
     @JsonKey(name: "") List<dynamic>? securityQuestions,
   }) = _TaskerProfile;
 
-  factory TaskerProfile.fromJson(Map<String, dynamic> json) => _$TaskerProfileFromJson(json);
+  factory TaskerProfile.fromJson(Map<String, dynamic> json) =>
+      _$TaskerProfileFromJson(json);
 }
 
 @freezed
 class Badge with _$Badge {
   const factory Badge({
     int? id,
-    Badge? next,
+    dynamic next,
     String? image,
     String? title,
     @JsonKey(name: "progress_level_start") int? progressLevelStart,
@@ -71,49 +74,14 @@ class Badge with _$Badge {
 }
 
 @freezed
-class ChargeCurrency with _$ChargeCurrency {
-  const factory ChargeCurrency({
-    String? code,
-    String? name,
-    String? symbol,
-  }) = _ChargeCurrency;
-
-  factory ChargeCurrency.fromJson(Map<String, dynamic> json) => _$ChargeCurrencyFromJson(json);
-}
-
-@freezed
-class City with _$City {
-  const factory City({
-    int? id,
-    String? name,
-    String? localName,
-    String? zipCode,
-    double? latitude,
-    double? longitude,
-    String? country,
-  }) = _City;
-
-  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
-}
-
-@freezed
-class Country with _$Country {
-  const factory Country({
-    String? name,
-    String? code,
-  }) = _Country;
-
-  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
-}
-
-@freezed
 class Language with _$Language {
   const factory Language({
     String? name,
     String? code,
   }) = _Language;
 
-  factory Language.fromJson(Map<String, dynamic> json) => _$LanguageFromJson(json);
+  factory Language.fromJson(Map<String, dynamic> json) =>
+      _$LanguageFromJson(json);
 }
 
 @freezed
@@ -130,7 +98,8 @@ class Experience with _$Experience {
     @JsonKey(name: "end_date") DateTime? endDate,
   }) = _Experience;
 
-  factory Experience.fromJson(Map<String, dynamic> json) => _$ExperienceFromJson(json);
+  factory Experience.fromJson(Map<String, dynamic> json) =>
+      _$ExperienceFromJson(json);
 }
 
 @freezed
@@ -146,7 +115,8 @@ class Education with _$Education {
     @JsonKey(name: "end_date") DateTime? endDate,
   }) = _Education;
 
-  factory Education.fromJson(Map<String, dynamic> json) => _$EducationFromJson(json);
+  factory Education.fromJson(Map<String, dynamic> json) =>
+      _$EducationFromJson(json);
 }
 
 @freezed
@@ -163,7 +133,8 @@ class Certificate with _$Certificate {
     @JsonKey(name: "expire_date") DateTime? expireDate,
   }) = _Certificate;
 
-  factory Certificate.fromJson(Map<String, dynamic> json) => _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) =>
+      _$CertificateFromJson(json);
 }
 
 @freezed
@@ -173,7 +144,8 @@ class Interest with _$Interest {
     String? name,
   }) = _Interest;
 
-  factory Interest.fromJson(Map<String, dynamic> json) => _$InterestFromJson(json);
+  factory Interest.fromJson(Map<String, dynamic> json) =>
+      _$InterestFromJson(json);
 }
 
 @freezed
@@ -188,20 +160,8 @@ class Portfolio with _$Portfolio {
     @JsonKey(name: "credential_url") String? credentialUrl,
   }) = _Portfolio;
 
-  factory Portfolio.fromJson(Map<String, dynamic> json) => _$PortfolioFromJson(json);
-}
-
-@freezed
-class Image with _$Image {
-  const factory Image({
-    int? id,
-    String? name,
-    String? size,
-    @JsonKey(name: "media_type") String? mediaType,
-    String? media,
-  }) = _Image;
-
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  factory Portfolio.fromJson(Map<String, dynamic> json) =>
+      _$PortfolioFromJson(json);
 }
 
 @freezed

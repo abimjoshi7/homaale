@@ -196,6 +196,7 @@ class Service with _$Service {
     @JsonKey(name: "id_verified") bool? isVerified,
     Category? category,
     List<dynamic>? images,
+    @JsonKey(name: "required_documents") List<dynamic>? required_documents,
   }) = _Service;
 
   factory Service.fromJson(Map<String, dynamic> json) =>

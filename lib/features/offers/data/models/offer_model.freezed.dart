@@ -311,7 +311,7 @@ mixin _$Result {
   String? get merchant => throw _privateConstructorUsedError;
   Country? get country => throw _privateConstructorUsedError;
   @JsonKey(name: "free")
-  Free? get free => throw _privateConstructorUsedError;
+  ServiceElement? get free => throw _privateConstructorUsedError;
   @JsonKey(name: "offer_rule")
   OfferRule? get offerRule => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
@@ -332,11 +332,11 @@ mixin _$Result {
   DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "is_consumable")
   bool? get isConsumable => throw _privateConstructorUsedError;
-  double? get discount => throw _privateConstructorUsedError;
+  String? get discount => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_type")
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_limit")
-  double? get discountLimit => throw _privateConstructorUsedError;
+  String? get discountLimit => throw _privateConstructorUsedError;
   dynamic get quantity => throw _privateConstructorUsedError;
   @JsonKey(name: "is_common")
   bool? get isCommon => throw _privateConstructorUsedError;
@@ -361,7 +361,7 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       String? merchant,
       Country? country,
-      @JsonKey(name: "free") Free? free,
+      @JsonKey(name: "free") ServiceElement? free,
       @JsonKey(name: "offer_rule") OfferRule? offerRule,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -374,9 +374,9 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "is_consumable") bool? isConsumable,
-      double? discount,
+      String? discount,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_limit") double? discountLimit,
+      @JsonKey(name: "discount_limit") String? discountLimit,
       dynamic quantity,
       @JsonKey(name: "is_common") bool? isCommon,
       List<dynamic>? organizations,
@@ -384,7 +384,7 @@ abstract class $ResultCopyWith<$Res> {
 
   $CreatedByCopyWith<$Res>? get createdBy;
   $CountryCopyWith<$Res>? get country;
-  $FreeCopyWith<$Res>? get free;
+  $ServiceElementCopyWith<$Res>? get free;
   $OfferRuleCopyWith<$Res>? get offerRule;
 }
 
@@ -461,7 +461,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       free: freezed == free
           ? _value.free
           : free // ignore: cast_nullable_to_non_nullable
-              as Free?,
+              as ServiceElement?,
       offerRule: freezed == offerRule
           ? _value.offerRule
           : offerRule // ignore: cast_nullable_to_non_nullable
@@ -513,7 +513,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       discountType: freezed == discountType
           ? _value.discountType
           : discountType // ignore: cast_nullable_to_non_nullable
@@ -521,7 +521,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       discountLimit: freezed == discountLimit
           ? _value.discountLimit
           : discountLimit // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -567,12 +567,12 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
 
   @override
   @pragma('vm:prefer-inline')
-  $FreeCopyWith<$Res>? get free {
+  $ServiceElementCopyWith<$Res>? get free {
     if (_value.free == null) {
       return null;
     }
 
-    return $FreeCopyWith<$Res>(_value.free!, (value) {
+    return $ServiceElementCopyWith<$Res>(_value.free!, (value) {
       return _then(_value.copyWith(free: value) as $Val);
     });
   }
@@ -604,7 +604,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       String? merchant,
       Country? country,
-      @JsonKey(name: "free") Free? free,
+      @JsonKey(name: "free") ServiceElement? free,
       @JsonKey(name: "offer_rule") OfferRule? offerRule,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
@@ -617,9 +617,9 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "is_consumable") bool? isConsumable,
-      double? discount,
+      String? discount,
       @JsonKey(name: "discount_type") String? discountType,
-      @JsonKey(name: "discount_limit") double? discountLimit,
+      @JsonKey(name: "discount_limit") String? discountLimit,
       dynamic quantity,
       @JsonKey(name: "is_common") bool? isCommon,
       List<dynamic>? organizations,
@@ -630,7 +630,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   @override
   $CountryCopyWith<$Res>? get country;
   @override
-  $FreeCopyWith<$Res>? get free;
+  $ServiceElementCopyWith<$Res>? get free;
   @override
   $OfferRuleCopyWith<$Res>? get offerRule;
 }
@@ -705,7 +705,7 @@ class __$$_ResultCopyWithImpl<$Res>
       free: freezed == free
           ? _value.free
           : free // ignore: cast_nullable_to_non_nullable
-              as Free?,
+              as ServiceElement?,
       offerRule: freezed == offerRule
           ? _value.offerRule
           : offerRule // ignore: cast_nullable_to_non_nullable
@@ -757,7 +757,7 @@ class __$$_ResultCopyWithImpl<$Res>
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       discountType: freezed == discountType
           ? _value.discountType
           : discountType // ignore: cast_nullable_to_non_nullable
@@ -765,7 +765,7 @@ class __$$_ResultCopyWithImpl<$Res>
       discountLimit: freezed == discountLimit
           ? _value.discountLimit
           : discountLimit // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       quantity: freezed == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -882,7 +882,7 @@ class _$_Result implements _Result {
   final Country? country;
   @override
   @JsonKey(name: "free")
-  final Free? free;
+  final ServiceElement? free;
   @override
   @JsonKey(name: "offer_rule")
   final OfferRule? offerRule;
@@ -916,13 +916,13 @@ class _$_Result implements _Result {
   @JsonKey(name: "is_consumable")
   final bool? isConsumable;
   @override
-  final double? discount;
+  final String? discount;
   @override
   @JsonKey(name: "discount_type")
   final String? discountType;
   @override
   @JsonKey(name: "discount_limit")
-  final double? discountLimit;
+  final String? discountLimit;
   @override
   final dynamic quantity;
   @override
@@ -1063,7 +1063,7 @@ abstract class _Result implements Result {
       final String? merchant,
       final Country? country,
       @JsonKey(name: "free")
-          final Free? free,
+          final ServiceElement? free,
       @JsonKey(name: "offer_rule")
           final OfferRule? offerRule,
       @JsonKey(name: "created_at")
@@ -1084,11 +1084,11 @@ abstract class _Result implements Result {
           final DateTime? endDate,
       @JsonKey(name: "is_consumable")
           final bool? isConsumable,
-      final double? discount,
+      final String? discount,
       @JsonKey(name: "discount_type")
           final String? discountType,
       @JsonKey(name: "discount_limit")
-          final double? discountLimit,
+          final String? discountLimit,
       final dynamic quantity,
       @JsonKey(name: "is_common")
           final bool? isCommon,
@@ -1115,7 +1115,7 @@ abstract class _Result implements Result {
   Country? get country;
   @override
   @JsonKey(name: "free")
-  Free? get free;
+  ServiceElement? get free;
   @override
   @JsonKey(name: "offer_rule")
   OfferRule? get offerRule;
@@ -1149,13 +1149,13 @@ abstract class _Result implements Result {
   @JsonKey(name: "is_consumable")
   bool? get isConsumable;
   @override
-  double? get discount;
+  String? get discount;
   @override
   @JsonKey(name: "discount_type")
   String? get discountType;
   @override
   @JsonKey(name: "discount_limit")
-  double? get discountLimit;
+  String? get discountLimit;
   @override
   dynamic get quantity;
   @override
@@ -1447,12 +1447,12 @@ abstract class _OfferRule implements OfferRule {
       throw _privateConstructorUsedError;
 }
 
-Free _$FreeFromJson(Map<String, dynamic> json) {
-  return _Free.fromJson(json);
+ServiceElement _$ServiceElementFromJson(Map<String, dynamic> json) {
+  return _ServiceElement.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Free {
+mixin _$ServiceElement {
   String? get id => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
@@ -1480,26 +1480,28 @@ mixin _$Free {
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
-  dynamic get startDate => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
-  dynamic get endDate => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "start_time")
-  dynamic get startTime => throw _privateConstructorUsedError;
+  String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: "end_time")
-  dynamic get endTime => throw _privateConstructorUsedError;
+  String? get endTime => throw _privateConstructorUsedError;
   List<Image>? get videos => throw _privateConstructorUsedError;
   @JsonKey(name: "is_bookmarked")
   bool? get isBookmarked => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $FreeCopyWith<Free> get copyWith => throw _privateConstructorUsedError;
+  $ServiceElementCopyWith<ServiceElement> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $FreeCopyWith<$Res> {
-  factory $FreeCopyWith(Free value, $Res Function(Free) then) =
-      _$FreeCopyWithImpl<$Res, Free>;
+abstract class $ServiceElementCopyWith<$Res> {
+  factory $ServiceElementCopyWith(
+          ServiceElement value, $Res Function(ServiceElement) then) =
+      _$ServiceElementCopyWithImpl<$Res, ServiceElement>;
   @useResult
   $Res call(
       {String? id,
@@ -1520,10 +1522,10 @@ abstract class $FreeCopyWith<$Res> {
       String? location,
       int? count,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
-      @JsonKey(name: "start_date") dynamic startDate,
-      @JsonKey(name: "end_date") dynamic endDate,
-      @JsonKey(name: "start_time") dynamic startTime,
-      @JsonKey(name: "end_time") dynamic endTime,
+      @JsonKey(name: "start_date") DateTime? startDate,
+      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_time") String? startTime,
+      @JsonKey(name: "end_time") String? endTime,
       List<Image>? videos,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked});
 
@@ -1534,9 +1536,9 @@ abstract class $FreeCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FreeCopyWithImpl<$Res, $Val extends Free>
-    implements $FreeCopyWith<$Res> {
-  _$FreeCopyWithImpl(this._value, this._then);
+class _$ServiceElementCopyWithImpl<$Res, $Val extends ServiceElement>
+    implements $ServiceElementCopyWith<$Res> {
+  _$ServiceElementCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -1647,19 +1649,19 @@ class _$FreeCopyWithImpl<$Res, $Val extends Free>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       videos: freezed == videos
           ? _value.videos
           : videos // ignore: cast_nullable_to_non_nullable
@@ -1721,9 +1723,11 @@ class _$FreeCopyWithImpl<$Res, $Val extends Free>
 }
 
 /// @nodoc
-abstract class _$$_FreeCopyWith<$Res> implements $FreeCopyWith<$Res> {
-  factory _$$_FreeCopyWith(_$_Free value, $Res Function(_$_Free) then) =
-      __$$_FreeCopyWithImpl<$Res>;
+abstract class _$$_ServiceElementCopyWith<$Res>
+    implements $ServiceElementCopyWith<$Res> {
+  factory _$$_ServiceElementCopyWith(
+          _$_ServiceElement value, $Res Function(_$_ServiceElement) then) =
+      __$$_ServiceElementCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1745,10 +1749,10 @@ abstract class _$$_FreeCopyWith<$Res> implements $FreeCopyWith<$Res> {
       String? location,
       int? count,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
-      @JsonKey(name: "start_date") dynamic startDate,
-      @JsonKey(name: "end_date") dynamic endDate,
-      @JsonKey(name: "start_time") dynamic startTime,
-      @JsonKey(name: "end_time") dynamic endTime,
+      @JsonKey(name: "start_date") DateTime? startDate,
+      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_time") String? startTime,
+      @JsonKey(name: "end_time") String? endTime,
       List<Image>? videos,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked});
 
@@ -1763,9 +1767,11 @@ abstract class _$$_FreeCopyWith<$Res> implements $FreeCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_FreeCopyWithImpl<$Res> extends _$FreeCopyWithImpl<$Res, _$_Free>
-    implements _$$_FreeCopyWith<$Res> {
-  __$$_FreeCopyWithImpl(_$_Free _value, $Res Function(_$_Free) _then)
+class __$$_ServiceElementCopyWithImpl<$Res>
+    extends _$ServiceElementCopyWithImpl<$Res, _$_ServiceElement>
+    implements _$$_ServiceElementCopyWith<$Res> {
+  __$$_ServiceElementCopyWithImpl(
+      _$_ServiceElement _value, $Res Function(_$_ServiceElement) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1796,7 +1802,7 @@ class __$$_FreeCopyWithImpl<$Res> extends _$FreeCopyWithImpl<$Res, _$_Free>
     Object? videos = freezed,
     Object? isBookmarked = freezed,
   }) {
-    return _then(_$_Free(
+    return _then(_$_ServiceElement(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -1872,19 +1878,19 @@ class __$$_FreeCopyWithImpl<$Res> extends _$FreeCopyWithImpl<$Res, _$_Free>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as DateTime?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       videos: freezed == videos
           ? _value._videos
           : videos // ignore: cast_nullable_to_non_nullable
@@ -1899,8 +1905,8 @@ class __$$_FreeCopyWithImpl<$Res> extends _$FreeCopyWithImpl<$Res, _$_Free>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Free implements _Free {
-  const _$_Free(
+class _$_ServiceElement implements _ServiceElement {
+  const _$_ServiceElement(
       {this.id,
       this.slug,
       @JsonKey(name: "created_at") this.createdAt,
@@ -1929,7 +1935,8 @@ class _$_Free implements _Free {
         _rating = rating,
         _videos = videos;
 
-  factory _$_Free.fromJson(Map<String, dynamic> json) => _$$_FreeFromJson(json);
+  factory _$_ServiceElement.fromJson(Map<String, dynamic> json) =>
+      _$$_ServiceElementFromJson(json);
 
   @override
   final String? id;
@@ -1993,16 +2000,16 @@ class _$_Free implements _Free {
   final bool? isEndorsed;
   @override
   @JsonKey(name: "start_date")
-  final dynamic startDate;
+  final DateTime? startDate;
   @override
   @JsonKey(name: "end_date")
-  final dynamic endDate;
+  final DateTime? endDate;
   @override
   @JsonKey(name: "start_time")
-  final dynamic startTime;
+  final String? startTime;
   @override
   @JsonKey(name: "end_time")
-  final dynamic endTime;
+  final String? endTime;
   final List<Image>? _videos;
   @override
   List<Image>? get videos {
@@ -2019,14 +2026,14 @@ class _$_Free implements _Free {
 
   @override
   String toString() {
-    return 'Free(id: $id, slug: $slug, createdAt: $createdAt, createdBy: $createdBy, title: $title, currency: $currency, city: $city, isOnline: $isOnline, service: $service, images: $images, rating: $rating, budgetType: $budgetType, isRequested: $isRequested, budgetFrom: $budgetFrom, budgetTo: $budgetTo, location: $location, count: $count, isEndorsed: $isEndorsed, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, videos: $videos, isBookmarked: $isBookmarked)';
+    return 'ServiceElement(id: $id, slug: $slug, createdAt: $createdAt, createdBy: $createdBy, title: $title, currency: $currency, city: $city, isOnline: $isOnline, service: $service, images: $images, rating: $rating, budgetType: $budgetType, isRequested: $isRequested, budgetFrom: $budgetFrom, budgetTo: $budgetTo, location: $location, count: $count, isEndorsed: $isEndorsed, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, videos: $videos, isBookmarked: $isBookmarked)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Free &&
+            other is _$_ServiceElement &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.createdAt, createdAt) ||
@@ -2055,10 +2062,12 @@ class _$_Free implements _Free {
             (identical(other.count, count) || other.count == count) &&
             (identical(other.isEndorsed, isEndorsed) ||
                 other.isEndorsed == isEndorsed) &&
-            const DeepCollectionEquality().equals(other.startDate, startDate) &&
-            const DeepCollectionEquality().equals(other.endDate, endDate) &&
-            const DeepCollectionEquality().equals(other.startTime, startTime) &&
-            const DeepCollectionEquality().equals(other.endTime, endTime) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime) &&
+            (identical(other.endTime, endTime) || other.endTime == endTime) &&
             const DeepCollectionEquality().equals(other._videos, _videos) &&
             (identical(other.isBookmarked, isBookmarked) ||
                 other.isBookmarked == isBookmarked));
@@ -2086,10 +2095,10 @@ class _$_Free implements _Free {
         location,
         count,
         isEndorsed,
-        const DeepCollectionEquality().hash(startDate),
-        const DeepCollectionEquality().hash(endDate),
-        const DeepCollectionEquality().hash(startTime),
-        const DeepCollectionEquality().hash(endTime),
+        startDate,
+        endDate,
+        startTime,
+        endTime,
         const DeepCollectionEquality().hash(_videos),
         isBookmarked
       ]);
@@ -2097,45 +2106,47 @@ class _$_Free implements _Free {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_FreeCopyWith<_$_Free> get copyWith =>
-      __$$_FreeCopyWithImpl<_$_Free>(this, _$identity);
+  _$$_ServiceElementCopyWith<_$_ServiceElement> get copyWith =>
+      __$$_ServiceElementCopyWithImpl<_$_ServiceElement>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FreeToJson(
+    return _$$_ServiceElementToJson(
       this,
     );
   }
 }
 
-abstract class _Free implements Free {
-  const factory _Free(
-      {final String? id,
-      final String? slug,
-      @JsonKey(name: "created_at") final DateTime? createdAt,
-      @JsonKey(name: "created_by") final CreatedBy? createdBy,
-      final String? title,
-      final Currency? currency,
-      final City? city,
-      @JsonKey(name: "is_online") final bool? isOnline,
-      final Service? service,
-      final List<Image>? images,
-      final List<Rating>? rating,
-      @JsonKey(name: "budget_type") final String? budgetType,
-      @JsonKey(name: "is_requested") final bool? isRequested,
-      @JsonKey(name: "budget_from") final String? budgetFrom,
-      @JsonKey(name: "budget_to") final String? budgetTo,
-      final String? location,
-      final int? count,
-      @JsonKey(name: "is_endorsed") final bool? isEndorsed,
-      @JsonKey(name: "start_date") final dynamic startDate,
-      @JsonKey(name: "end_date") final dynamic endDate,
-      @JsonKey(name: "start_time") final dynamic startTime,
-      @JsonKey(name: "end_time") final dynamic endTime,
-      final List<Image>? videos,
-      @JsonKey(name: "is_bookmarked") final bool? isBookmarked}) = _$_Free;
+abstract class _ServiceElement implements ServiceElement {
+  const factory _ServiceElement(
+          {final String? id,
+          final String? slug,
+          @JsonKey(name: "created_at") final DateTime? createdAt,
+          @JsonKey(name: "created_by") final CreatedBy? createdBy,
+          final String? title,
+          final Currency? currency,
+          final City? city,
+          @JsonKey(name: "is_online") final bool? isOnline,
+          final Service? service,
+          final List<Image>? images,
+          final List<Rating>? rating,
+          @JsonKey(name: "budget_type") final String? budgetType,
+          @JsonKey(name: "is_requested") final bool? isRequested,
+          @JsonKey(name: "budget_from") final String? budgetFrom,
+          @JsonKey(name: "budget_to") final String? budgetTo,
+          final String? location,
+          final int? count,
+          @JsonKey(name: "is_endorsed") final bool? isEndorsed,
+          @JsonKey(name: "start_date") final DateTime? startDate,
+          @JsonKey(name: "end_date") final DateTime? endDate,
+          @JsonKey(name: "start_time") final String? startTime,
+          @JsonKey(name: "end_time") final String? endTime,
+          final List<Image>? videos,
+          @JsonKey(name: "is_bookmarked") final bool? isBookmarked}) =
+      _$_ServiceElement;
 
-  factory _Free.fromJson(Map<String, dynamic> json) = _$_Free.fromJson;
+  factory _ServiceElement.fromJson(Map<String, dynamic> json) =
+      _$_ServiceElement.fromJson;
 
   @override
   String? get id;
@@ -2183,16 +2194,16 @@ abstract class _Free implements Free {
   bool? get isEndorsed;
   @override
   @JsonKey(name: "start_date")
-  dynamic get startDate;
+  DateTime? get startDate;
   @override
   @JsonKey(name: "end_date")
-  dynamic get endDate;
+  DateTime? get endDate;
   @override
   @JsonKey(name: "start_time")
-  dynamic get startTime;
+  String? get startTime;
   @override
   @JsonKey(name: "end_time")
-  dynamic get endTime;
+  String? get endTime;
   @override
   List<Image>? get videos;
   @override
@@ -2200,5 +2211,6 @@ abstract class _Free implements Free {
   bool? get isBookmarked;
   @override
   @JsonKey(ignore: true)
-  _$$_FreeCopyWith<_$_Free> get copyWith => throw _privateConstructorUsedError;
+  _$$_ServiceElementCopyWith<_$_ServiceElement> get copyWith =>
+      throw _privateConstructorUsedError;
 }
