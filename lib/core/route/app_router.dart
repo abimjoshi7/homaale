@@ -63,6 +63,7 @@ import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
+import 'package:cipher/features/wallet/presentation/wallet_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
@@ -183,7 +184,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const AccountProfile(),
         );
-        case CommonReportPage.routeName:
+      case CommonReportPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CommonReportPage(),
           settings: settings,
@@ -437,6 +438,11 @@ class AppRouter {
       case MyTransactionsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const MyTransactionsPage(),
+          settings: settings,
+        );
+      case WalletPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const WalletPage(),
           settings: settings,
         );
       default:

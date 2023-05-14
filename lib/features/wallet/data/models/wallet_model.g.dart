@@ -10,12 +10,12 @@ _$_WalletModel _$$_WalletModelFromJson(Map<String, dynamic> json) =>
     _$_WalletModel(
       id: json['id'] as int?,
       currency: json['currency'] as String?,
-      lastReceived: json['last_received'] as String?,
-      lastPaid: json['last_paid'] as String?,
-      totalIncome: json['total_income'] as String?,
-      totalWithdrawals: json['total_withdrawals'] as String?,
-      availableBalance: (json['available_balance'] as num?)?.toDouble(),
-      frozenAmount: (json['frozen_amount'] as num?)?.toDouble(),
+      lastReceived: (json['last_received'] as num?)?.toDouble(),
+      lastPaid: (json['last_paid'] as num?)?.toDouble(),
+      totalIncome: (json['total_income'] as num?)?.toDouble(),
+      totalWithdrawals: (json['total_withdrawals'] as num?)?.toDouble(),
+      availableBalance: json['available_balance'] as String?,
+      frozenAmount: json['frozen_amount'] as String?,
       user: json['user'] as String?,
       merchant: json['merchant'] as String?,
     );

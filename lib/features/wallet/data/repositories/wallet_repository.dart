@@ -9,13 +9,13 @@ import 'package:cipher/features/wallet/data/models/wallet_model.dart';
 class WalletRepository {
   final _dio = DioHelper();
 
-  Future<List<Map<String, dynamic>>> fetchMyWallet() async {
+  Future<List<dynamic>> fetchMyWallet() async {
     try {
       final res = await _dio.getDatawithCredential(
         url: kMyWallet,
         token: CacheHelper.accessToken,
       );
-      return res as List<Map<String, dynamic>>;
+      return res as List<dynamic>;
     } catch (e) {
       log("My Wallet fetch error: $e");
       throw Exception("My wallet fetch error");
@@ -26,6 +26,7 @@ class WalletRepository {
     DateTime? createdAt,
     DateTime? endDate,
     DateTime? startDate,
+    required int page,
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
@@ -35,6 +36,7 @@ class WalletRepository {
           "created_at": createdAt,
           "end_date": endDate,
           "start_date": startDate,
+          "page": page,
         },
       );
       return res as Map<String, dynamic>;
@@ -45,29 +47,23 @@ class WalletRepository {
   }
 
   Future<List<WalletModel>> getMyWallet() async {
-    return await fetchMyWallet().then(
-      (value) => value
-          .map(
-            (e) => WalletModel.fromJson(
-              e,
-            ),
-          )
-          .toList(),
-    );
+    List<WalletModel> wallList = [];
+    var res = await fetchMyWallet();
+    res.forEach((element) {
+      wallList.add(WalletModel.fromJson(element as Map<String, dynamic>));
+    });
+
+    return wallList;
   }
 
-  Future<WalletHistoryRes> getWalletHistory({
-    DateTime? createdAt,
-    DateTime? endDate,
-    DateTime? startDate,
-  }) async =>
+  Future<WalletHistoryRes> getWalletHistory(DateTime? createdAt, DateTime? endDate, DateTime? startDate,
+          [int startIndex = 1]) async =>
       await fetchWalletHistory(
         createdAt: createdAt,
         endDate: endDate,
         startDate: startDate,
+        page: startIndex,
       ).then(
-        (value) => WalletHistoryRes.fromJson(
-          value,
-        ),
+        (value) => WalletHistoryRes.fromJson(value),
       );
 }
