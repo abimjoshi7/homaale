@@ -185,66 +185,75 @@ class _WalletMainViewState extends State<WalletMainView> {
                         context.read<WalletBloc>().add(WalletHistoryLoaded(isNewFetch: true));
                       },
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount:
-                          state.hasReachedMax ? state.walletHistoryList.length : state.walletHistoryList.length + 1,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return index >= state.walletHistoryList.length
-                            ? BottomLoader()
-                            : Card(
-                                child: Container(
-                                  padding: EdgeInsets.all(16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Transaction id: ${state.walletHistoryList[index].id.toString()}',
-                                            style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                            color: kColorGreen.withOpacity(0.5),
-                                            child: Center(
-                                              child: Text(
-                                                'Recieved',
-                                                style: textTheme.titleSmall?.copyWith(color: Colors.green[900]),
-                                              ),
+                    state.walletHistoryList.length == 0
+                        ? SizedBox(
+                            width: 200,
+                            height: 200,
+                            child: Center(
+                              child: Text('No Earning History'),
+                            ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.hasReachedMax
+                                ? state.walletHistoryList.length
+                                : state.walletHistoryList.length + 1,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return index >= state.walletHistoryList.length
+                                  ? BottomLoader()
+                                  : Card(
+                                      child: Container(
+                                        padding: EdgeInsets.all(16),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Transaction id: ${state.walletHistoryList[index].id.toString()}',
+                                                  style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
+                                                ),
+                                                Container(
+                                                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                                  color: kColorGreen.withOpacity(0.5),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Recieved',
+                                                      style: textTheme.titleSmall?.copyWith(color: Colors.green[900]),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ],
+                                            Text(
+                                              'Paid by: ${state.walletHistoryList[index].sender}',
+                                              style: textTheme.titleSmall,
+                                            ),
+                                            Text(
+                                              'Paid for: ${state.walletHistoryList[index].taskTitle?.first}',
+                                              style: textTheme.titleSmall,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Amount: ${state.walletHistoryList[index].amount.toString()}',
+                                                  style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
+                                                ),
+                                                Text(
+                                                  '${Jiffy(state.walletHistoryList[index].createdAt.toString()).yMMMMd}',
+                                                  style: textTheme.titleSmall,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      Text(
-                                        'Paid by: ${state.walletHistoryList[index].sender}',
-                                        style: textTheme.titleSmall,
-                                      ),
-                                      Text(
-                                        'Paid for: ${state.walletHistoryList[index].taskTitle?.first}',
-                                        style: textTheme.titleSmall,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Amount: ${state.walletHistoryList[index].amount.toString()}',
-                                            style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
-                                          ),
-                                          Text(
-                                            '${Jiffy(state.walletHistoryList[index].createdAt.toString()).yMMMMd}',
-                                            style: textTheme.titleSmall,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                      },
-                    ),
+                                    );
+                            },
+                          ),
                   ],
                 ),
               );
