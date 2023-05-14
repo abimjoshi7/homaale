@@ -26,7 +26,7 @@ class WidgetText extends StatelessWidget {
           kWidth5,
           Text(
             label,
-            maxLines: label.length,
+            maxLines: 1,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
