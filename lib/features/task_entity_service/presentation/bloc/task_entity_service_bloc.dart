@@ -38,8 +38,8 @@ class TaskEntityServiceBloc
             ),
           );
           await repo
-              .retrieveSingleTaskEntityService(
-            serviceId: event.id,
+              .getSingleTaskEntityService(
+            event.id,
           )
               .then(
             (value) async {
@@ -52,7 +52,7 @@ class TaskEntityServiceBloc
                       (applicants) => emit(
                         state.copyWith(
                           theStates: TheStates.success,
-                          taskEntityService: TaskEntityService.fromJson(value),
+                          taskEntityService: value,
                           applicantModel: ApplicantModel.fromJson(applicants),
                         ),
                       ),
@@ -61,7 +61,7 @@ class TaskEntityServiceBloc
                 emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    taskEntityService: TaskEntityService.fromJson(value),
+                    taskEntityService: value,
                   ),
                 );
               }
@@ -86,19 +86,17 @@ class TaskEntityServiceBloc
         try {
           emit(
             state.copyWith(
-              theStates: TheStates.initial,
+              theStates: TheStates.loading,
             ),
           );
           await repo
-              .createTaskEntityService(taskEntityServiceReq: event.req)
+              .postTaskEntityService(event.req)
               .then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
                     isCreated: true,
-                    taskEntityServiceRes: TaskEntityServiceRes.fromJson(
-                      value,
-                    ),
+                    taskEntityServiceRes: value,
                   ),
                 ),
               )

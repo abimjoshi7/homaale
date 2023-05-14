@@ -21,6 +21,7 @@ TaskEntityServiceRes _$TaskEntityServiceResFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TaskEntityServiceRes {
   String? get id => throw _privateConstructorUsedError;
+  String? get owner => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
@@ -33,9 +34,9 @@ mixin _$TaskEntityServiceRes {
   @JsonKey(name: "budget_to")
   String? get budgetTo => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
-  DateTime? get startDate => throw _privateConstructorUsedError;
+  String? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: "end_date")
-  DateTime? get endDate => throw _privateConstructorUsedError;
+  String? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "start_time")
   String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: "end_time")
@@ -68,6 +69,10 @@ mixin _$TaskEntityServiceRes {
   bool? get needsApproval => throw _privateConstructorUsedError;
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed => throw _privateConstructorUsedError;
+  @JsonKey(name: "payable_from")
+  String? get payableFrom => throw _privateConstructorUsedError;
+  @JsonKey(name: "payable_to")
+  String? get payableTo => throw _privateConstructorUsedError;
   String? get service => throw _privateConstructorUsedError;
   String? get event => throw _privateConstructorUsedError;
   int? get city => throw _privateConstructorUsedError;
@@ -90,6 +95,7 @@ abstract class $TaskEntityServiceResCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      String? owner,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? title,
@@ -98,8 +104,8 @@ abstract class $TaskEntityServiceResCopyWith<$Res> {
       @JsonKey(name: "budget_type") String? budgetType,
       @JsonKey(name: "budget_from") String? budgetFrom,
       @JsonKey(name: "budget_to") String? budgetTo,
-      @JsonKey(name: "start_date") DateTime? startDate,
-      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_date") String? startDate,
+      @JsonKey(name: "end_date") String? endDate,
       @JsonKey(name: "start_time") String? startTime,
       @JsonKey(name: "end_time") String? endTime,
       @JsonKey(name: "share_location") bool? shareLocation,
@@ -117,6 +123,8 @@ abstract class $TaskEntityServiceResCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
+      @JsonKey(name: "payable_from") String? payableFrom,
+      @JsonKey(name: "payable_to") String? payableTo,
       String? service,
       String? event,
       int? city,
@@ -141,6 +149,7 @@ class _$TaskEntityServiceResCopyWithImpl<$Res,
   @override
   $Res call({
     Object? id = freezed,
+    Object? owner = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? title = freezed,
@@ -168,6 +177,8 @@ class _$TaskEntityServiceResCopyWithImpl<$Res,
     Object? isActive = freezed,
     Object? needsApproval = freezed,
     Object? isEndorsed = freezed,
+    Object? payableFrom = freezed,
+    Object? payableTo = freezed,
     Object? service = freezed,
     Object? event = freezed,
     Object? city = freezed,
@@ -180,6 +191,10 @@ class _$TaskEntityServiceResCopyWithImpl<$Res,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      owner: freezed == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -216,11 +231,11 @@ class _$TaskEntityServiceResCopyWithImpl<$Res,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -289,6 +304,14 @@ class _$TaskEntityServiceResCopyWithImpl<$Res,
           ? _value.isEndorsed
           : isEndorsed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      payableFrom: freezed == payableFrom
+          ? _value.payableFrom
+          : payableFrom // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payableTo: freezed == payableTo
+          ? _value.payableTo
+          : payableTo // ignore: cast_nullable_to_non_nullable
+              as String?,
       service: freezed == service
           ? _value.service
           : service // ignore: cast_nullable_to_non_nullable
@@ -331,6 +354,7 @@ abstract class _$$_TaskEntityServiceResCopyWith<$Res>
   @useResult
   $Res call(
       {String? id,
+      String? owner,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? title,
@@ -339,8 +363,8 @@ abstract class _$$_TaskEntityServiceResCopyWith<$Res>
       @JsonKey(name: "budget_type") String? budgetType,
       @JsonKey(name: "budget_from") String? budgetFrom,
       @JsonKey(name: "budget_to") String? budgetTo,
-      @JsonKey(name: "start_date") DateTime? startDate,
-      @JsonKey(name: "end_date") DateTime? endDate,
+      @JsonKey(name: "start_date") String? startDate,
+      @JsonKey(name: "end_date") String? endDate,
       @JsonKey(name: "start_time") String? startTime,
       @JsonKey(name: "end_time") String? endTime,
       @JsonKey(name: "share_location") bool? shareLocation,
@@ -358,6 +382,8 @@ abstract class _$$_TaskEntityServiceResCopyWith<$Res>
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
+      @JsonKey(name: "payable_from") String? payableFrom,
+      @JsonKey(name: "payable_to") String? payableTo,
       String? service,
       String? event,
       int? city,
@@ -379,6 +405,7 @@ class __$$_TaskEntityServiceResCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? owner = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? title = freezed,
@@ -406,6 +433,8 @@ class __$$_TaskEntityServiceResCopyWithImpl<$Res>
     Object? isActive = freezed,
     Object? needsApproval = freezed,
     Object? isEndorsed = freezed,
+    Object? payableFrom = freezed,
+    Object? payableTo = freezed,
     Object? service = freezed,
     Object? event = freezed,
     Object? city = freezed,
@@ -418,6 +447,10 @@ class __$$_TaskEntityServiceResCopyWithImpl<$Res>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      owner: freezed == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -454,11 +487,11 @@ class __$$_TaskEntityServiceResCopyWithImpl<$Res>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -527,6 +560,14 @@ class __$$_TaskEntityServiceResCopyWithImpl<$Res>
           ? _value.isEndorsed
           : isEndorsed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      payableFrom: freezed == payableFrom
+          ? _value.payableFrom
+          : payableFrom // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payableTo: freezed == payableTo
+          ? _value.payableTo
+          : payableTo // ignore: cast_nullable_to_non_nullable
+              as String?,
       service: freezed == service
           ? _value.service
           : service // ignore: cast_nullable_to_non_nullable
@@ -564,6 +605,7 @@ class __$$_TaskEntityServiceResCopyWithImpl<$Res>
 class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
   const _$_TaskEntityServiceRes(
       {this.id,
+      this.owner,
       this.createdAt,
       this.updatedAt,
       this.title,
@@ -591,6 +633,8 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
       @JsonKey(name: "is_active") this.isActive,
       @JsonKey(name: "needs_approval") this.needsApproval,
       @JsonKey(name: "is_endorsed") this.isEndorsed,
+      @JsonKey(name: "payable_from") this.payableFrom,
+      @JsonKey(name: "payable_to") this.payableTo,
       this.service,
       this.event,
       this.city,
@@ -608,6 +652,8 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
 
   @override
   final String? id;
+  @override
+  final String? owner;
   @override
   final DateTime? createdAt;
   @override
@@ -637,10 +683,10 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
   final String? budgetTo;
   @override
   @JsonKey(name: "start_date")
-  final DateTime? startDate;
+  final String? startDate;
   @override
   @JsonKey(name: "end_date")
-  final DateTime? endDate;
+  final String? endDate;
   @override
   @JsonKey(name: "start_time")
   final String? startTime;
@@ -699,6 +745,12 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
   @JsonKey(name: "is_endorsed")
   final bool? isEndorsed;
   @override
+  @JsonKey(name: "payable_from")
+  final String? payableFrom;
+  @override
+  @JsonKey(name: "payable_to")
+  final String? payableTo;
+  @override
   final String? service;
   @override
   final String? event;
@@ -730,7 +782,7 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
 
   @override
   String toString() {
-    return 'TaskEntityServiceRes(id: $id, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, service: $service, event: $event, city: $city, currency: $currency, avatar: $avatar, images: $images, videos: $videos)';
+    return 'TaskEntityServiceRes(id: $id, owner: $owner, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, service: $service, event: $event, city: $city, currency: $currency, avatar: $avatar, images: $images, videos: $videos)';
   }
 
   @override
@@ -739,6 +791,7 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
         (other.runtimeType == runtimeType &&
             other is _$_TaskEntityServiceRes &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.owner, owner) || other.owner == owner) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -790,6 +843,10 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
                 other.needsApproval == needsApproval) &&
             (identical(other.isEndorsed, isEndorsed) ||
                 other.isEndorsed == isEndorsed) &&
+            (identical(other.payableFrom, payableFrom) ||
+                other.payableFrom == payableFrom) &&
+            (identical(other.payableTo, payableTo) ||
+                other.payableTo == payableTo) &&
             (identical(other.service, service) || other.service == service) &&
             (identical(other.event, event) || other.event == event) &&
             (identical(other.city, city) || other.city == city) &&
@@ -805,6 +862,7 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        owner,
         createdAt,
         updatedAt,
         title,
@@ -832,6 +890,8 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
         isActive,
         needsApproval,
         isEndorsed,
+        payableFrom,
+        payableTo,
         service,
         event,
         city,
@@ -859,6 +919,7 @@ class _$_TaskEntityServiceRes implements _TaskEntityServiceRes {
 abstract class _TaskEntityServiceRes implements TaskEntityServiceRes {
   const factory _TaskEntityServiceRes(
       {final String? id,
+      final String? owner,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final String? title,
@@ -867,8 +928,8 @@ abstract class _TaskEntityServiceRes implements TaskEntityServiceRes {
       @JsonKey(name: "budget_type") final String? budgetType,
       @JsonKey(name: "budget_from") final String? budgetFrom,
       @JsonKey(name: "budget_to") final String? budgetTo,
-      @JsonKey(name: "start_date") final DateTime? startDate,
-      @JsonKey(name: "end_date") final DateTime? endDate,
+      @JsonKey(name: "start_date") final String? startDate,
+      @JsonKey(name: "end_date") final String? endDate,
       @JsonKey(name: "start_time") final String? startTime,
       @JsonKey(name: "end_time") final String? endTime,
       @JsonKey(name: "share_location") final bool? shareLocation,
@@ -886,6 +947,8 @@ abstract class _TaskEntityServiceRes implements TaskEntityServiceRes {
       @JsonKey(name: "is_active") final bool? isActive,
       @JsonKey(name: "needs_approval") final bool? needsApproval,
       @JsonKey(name: "is_endorsed") final bool? isEndorsed,
+      @JsonKey(name: "payable_from") final String? payableFrom,
+      @JsonKey(name: "payable_to") final String? payableTo,
       final String? service,
       final String? event,
       final int? city,
@@ -899,6 +962,8 @@ abstract class _TaskEntityServiceRes implements TaskEntityServiceRes {
 
   @override
   String? get id;
+  @override
+  String? get owner;
   @override
   DateTime? get createdAt;
   @override
@@ -920,10 +985,10 @@ abstract class _TaskEntityServiceRes implements TaskEntityServiceRes {
   String? get budgetTo;
   @override
   @JsonKey(name: "start_date")
-  DateTime? get startDate;
+  String? get startDate;
   @override
   @JsonKey(name: "end_date")
-  DateTime? get endDate;
+  String? get endDate;
   @override
   @JsonKey(name: "start_time")
   String? get startTime;
@@ -973,6 +1038,12 @@ abstract class _TaskEntityServiceRes implements TaskEntityServiceRes {
   @override
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed;
+  @override
+  @JsonKey(name: "payable_from")
+  String? get payableFrom;
+  @override
+  @JsonKey(name: "payable_to")
+  String? get payableTo;
   @override
   String? get service;
   @override

@@ -35,6 +35,8 @@ mixin _$TaskEntityService {
   @JsonKey(name: "is_redeemable")
   bool? get isRedeemable => throw _privateConstructorUsedError;
   Event? get event => throw _privateConstructorUsedError;
+  @JsonKey(name: "rating_stats")
+  RatingStats? get ratingStats => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "update_at")
@@ -91,6 +93,13 @@ mixin _$TaskEntityService {
   bool? get needsApproval => throw _privateConstructorUsedError;
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed => throw _privateConstructorUsedError;
+  @JsonKey(name: "payable_from")
+  String? get payableFrom => throw _privateConstructorUsedError;
+  @JsonKey(name: "payable_to")
+  String? get payableTo => throw _privateConstructorUsedError;
+  @JsonKey(name: "updated_by")
+  String? get updatedBy => throw _privateConstructorUsedError;
+  String? get owner => throw _privateConstructorUsedError;
   dynamic get merchant => throw _privateConstructorUsedError;
   dynamic get avatar => throw _privateConstructorUsedError;
 
@@ -120,6 +129,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") bool? isRedeemable,
       Event? event,
+      @JsonKey(name: "rating_stats") RatingStats? ratingStats,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "update_at") DateTime? updatedAt,
       @JsonKey(name: "deleted_at") DateTime? deletedAt,
@@ -151,6 +161,10 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
+      @JsonKey(name: "payable_from") String? payableFrom,
+      @JsonKey(name: "payable_to") String? payableTo,
+      @JsonKey(name: "updated_by") String? updatedBy,
+      String? owner,
       dynamic merchant,
       dynamic avatar});
 
@@ -159,6 +173,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
   $CreatedByCopyWith<$Res>? get createdBy;
   $ServiceCopyWith<$Res>? get service;
   $EventCopyWith<$Res>? get event;
+  $RatingStatsCopyWith<$Res>? get ratingStats;
 }
 
 /// @nodoc
@@ -187,6 +202,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? endorsements = freezed,
     Object? isRedeemable = freezed,
     Object? event = freezed,
+    Object? ratingStats = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
@@ -218,6 +234,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? isActive = freezed,
     Object? needsApproval = freezed,
     Object? isEndorsed = freezed,
+    Object? payableFrom = freezed,
+    Object? payableTo = freezed,
+    Object? updatedBy = freezed,
+    Object? owner = freezed,
     Object? merchant = freezed,
     Object? avatar = freezed,
   }) {
@@ -274,6 +294,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
               as Event?,
+      ratingStats: freezed == ratingStats
+          ? _value.ratingStats
+          : ratingStats // ignore: cast_nullable_to_non_nullable
+              as RatingStats?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -398,6 +422,22 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.isEndorsed
           : isEndorsed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      payableFrom: freezed == payableFrom
+          ? _value.payableFrom
+          : payableFrom // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payableTo: freezed == payableTo
+          ? _value.payableTo
+          : payableTo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedBy: freezed == updatedBy
+          ? _value.updatedBy
+          : updatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      owner: freezed == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
+              as String?,
       merchant: freezed == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -468,6 +508,18 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       return _then(_value.copyWith(event: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $RatingStatsCopyWith<$Res>? get ratingStats {
+    if (_value.ratingStats == null) {
+      return null;
+    }
+
+    return $RatingStatsCopyWith<$Res>(_value.ratingStats!, (value) {
+      return _then(_value.copyWith(ratingStats: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -492,6 +544,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") bool? isRedeemable,
       Event? event,
+      @JsonKey(name: "rating_stats") RatingStats? ratingStats,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "update_at") DateTime? updatedAt,
       @JsonKey(name: "deleted_at") DateTime? deletedAt,
@@ -523,6 +576,10 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
+      @JsonKey(name: "payable_from") String? payableFrom,
+      @JsonKey(name: "payable_to") String? payableTo,
+      @JsonKey(name: "updated_by") String? updatedBy,
+      String? owner,
       dynamic merchant,
       dynamic avatar});
 
@@ -536,6 +593,8 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
   $ServiceCopyWith<$Res>? get service;
   @override
   $EventCopyWith<$Res>? get event;
+  @override
+  $RatingStatsCopyWith<$Res>? get ratingStats;
 }
 
 /// @nodoc
@@ -562,6 +621,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? endorsements = freezed,
     Object? isRedeemable = freezed,
     Object? event = freezed,
+    Object? ratingStats = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? deletedAt = freezed,
@@ -593,6 +653,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? isActive = freezed,
     Object? needsApproval = freezed,
     Object? isEndorsed = freezed,
+    Object? payableFrom = freezed,
+    Object? payableTo = freezed,
+    Object? updatedBy = freezed,
+    Object? owner = freezed,
     Object? merchant = freezed,
     Object? avatar = freezed,
   }) {
@@ -649,6 +713,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
               as Event?,
+      ratingStats: freezed == ratingStats
+          ? _value.ratingStats
+          : ratingStats // ignore: cast_nullable_to_non_nullable
+              as RatingStats?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -773,6 +841,22 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.isEndorsed
           : isEndorsed // ignore: cast_nullable_to_non_nullable
               as bool?,
+      payableFrom: freezed == payableFrom
+          ? _value.payableFrom
+          : payableFrom // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payableTo: freezed == payableTo
+          ? _value.payableTo
+          : payableTo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedBy: freezed == updatedBy
+          ? _value.updatedBy
+          : updatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      owner: freezed == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
+              as String?,
       merchant: freezed == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -802,6 +886,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       final List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") this.isRedeemable,
       this.event,
+      @JsonKey(name: "rating_stats") this.ratingStats,
       @JsonKey(name: "created_at") this.createdAt,
       @JsonKey(name: "update_at") this.updatedAt,
       @JsonKey(name: "deleted_at") this.deletedAt,
@@ -833,6 +918,10 @@ class _$_TaskEntityService implements _TaskEntityService {
       @JsonKey(name: "is_active") this.isActive,
       @JsonKey(name: "needs_approval") this.needsApproval,
       @JsonKey(name: "is_endorsed") this.isEndorsed,
+      @JsonKey(name: "payable_from") this.payableFrom,
+      @JsonKey(name: "payable_to") this.payableTo,
+      @JsonKey(name: "updated_by") this.updatedBy,
+      this.owner,
       this.merchant,
       this.avatar})
       : _images = images,
@@ -914,6 +1003,9 @@ class _$_TaskEntityService implements _TaskEntityService {
   final bool? isRedeemable;
   @override
   final Event? event;
+  @override
+  @JsonKey(name: "rating_stats")
+  final RatingStats? ratingStats;
   @override
   @JsonKey(name: "created_at")
   final DateTime? createdAt;
@@ -1018,13 +1110,24 @@ class _$_TaskEntityService implements _TaskEntityService {
   @JsonKey(name: "is_endorsed")
   final bool? isEndorsed;
   @override
+  @JsonKey(name: "payable_from")
+  final String? payableFrom;
+  @override
+  @JsonKey(name: "payable_to")
+  final String? payableTo;
+  @override
+  @JsonKey(name: "updated_by")
+  final String? updatedBy;
+  @override
+  final String? owner;
+  @override
   final dynamic merchant;
   @override
   final dynamic avatar;
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1049,6 +1152,8 @@ class _$_TaskEntityService implements _TaskEntityService {
             (identical(other.isRedeemable, isRedeemable) ||
                 other.isRedeemable == isRedeemable) &&
             (identical(other.event, event) || other.event == event) &&
+            (identical(other.ratingStats, ratingStats) ||
+                other.ratingStats == ratingStats) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -1106,6 +1211,13 @@ class _$_TaskEntityService implements _TaskEntityService {
                 other.needsApproval == needsApproval) &&
             (identical(other.isEndorsed, isEndorsed) ||
                 other.isEndorsed == isEndorsed) &&
+            (identical(other.payableFrom, payableFrom) ||
+                other.payableFrom == payableFrom) &&
+            (identical(other.payableTo, payableTo) ||
+                other.payableTo == payableTo) &&
+            (identical(other.updatedBy, updatedBy) ||
+                other.updatedBy == updatedBy) &&
+            (identical(other.owner, owner) || other.owner == owner) &&
             const DeepCollectionEquality().equals(other.merchant, merchant) &&
             const DeepCollectionEquality().equals(other.avatar, avatar));
   }
@@ -1127,6 +1239,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         const DeepCollectionEquality().hash(_endorsements),
         isRedeemable,
         event,
+        ratingStats,
         createdAt,
         updatedAt,
         deletedAt,
@@ -1158,6 +1271,10 @@ class _$_TaskEntityService implements _TaskEntityService {
         isActive,
         needsApproval,
         isEndorsed,
+        payableFrom,
+        payableTo,
+        updatedBy,
+        owner,
         const DeepCollectionEquality().hash(merchant),
         const DeepCollectionEquality().hash(avatar)
       ]);
@@ -1192,6 +1309,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       final List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") final bool? isRedeemable,
       final Event? event,
+      @JsonKey(name: "rating_stats") final RatingStats? ratingStats,
       @JsonKey(name: "created_at") final DateTime? createdAt,
       @JsonKey(name: "update_at") final DateTime? updatedAt,
       @JsonKey(name: "deleted_at") final DateTime? deletedAt,
@@ -1223,6 +1341,10 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "is_active") final bool? isActive,
       @JsonKey(name: "needs_approval") final bool? needsApproval,
       @JsonKey(name: "is_endorsed") final bool? isEndorsed,
+      @JsonKey(name: "payable_from") final String? payableFrom,
+      @JsonKey(name: "payable_to") final String? payableTo,
+      @JsonKey(name: "updated_by") final String? updatedBy,
+      final String? owner,
       final dynamic merchant,
       final dynamic avatar}) = _$_TaskEntityService;
 
@@ -1257,6 +1379,9 @@ abstract class _TaskEntityService implements TaskEntityService {
   bool? get isRedeemable;
   @override
   Event? get event;
+  @override
+  @JsonKey(name: "rating_stats")
+  RatingStats? get ratingStats;
   @override
   @JsonKey(name: "created_at")
   DateTime? get createdAt;
@@ -1344,6 +1469,17 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed;
+  @override
+  @JsonKey(name: "payable_from")
+  String? get payableFrom;
+  @override
+  @JsonKey(name: "payable_to")
+  String? get payableTo;
+  @override
+  @JsonKey(name: "updated_by")
+  String? get updatedBy;
+  @override
+  String? get owner;
   @override
   dynamic get merchant;
   @override
@@ -3084,6 +3220,10 @@ mixin _$Offer {
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
+  @JsonKey(name: "start_date")
+  DateTime? get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: "end_date")
+  DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "offer_type")
   String? get offerType => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
@@ -3106,6 +3246,8 @@ abstract class $OfferCopyWith<$Res> {
       String? title,
       String? description,
       String? image,
+      @JsonKey(name: "start_date") DateTime? startDate,
+      @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "offer_type") String? offerType,
       String? code,
       @JsonKey(name: "offer_rule") num? offerRule,
@@ -3129,6 +3271,8 @@ class _$OfferCopyWithImpl<$Res, $Val extends Offer>
     Object? title = freezed,
     Object? description = freezed,
     Object? image = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? offerType = freezed,
     Object? code = freezed,
     Object? offerRule = freezed,
@@ -3151,6 +3295,14 @@ class _$OfferCopyWithImpl<$Res, $Val extends Offer>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       offerType: freezed == offerType
           ? _value.offerType
           : offerType // ignore: cast_nullable_to_non_nullable
@@ -3182,6 +3334,8 @@ abstract class _$$_OfferCopyWith<$Res> implements $OfferCopyWith<$Res> {
       String? title,
       String? description,
       String? image,
+      @JsonKey(name: "start_date") DateTime? startDate,
+      @JsonKey(name: "end_date") DateTime? endDate,
       @JsonKey(name: "offer_type") String? offerType,
       String? code,
       @JsonKey(name: "offer_rule") num? offerRule,
@@ -3201,6 +3355,8 @@ class __$$_OfferCopyWithImpl<$Res> extends _$OfferCopyWithImpl<$Res, _$_Offer>
     Object? title = freezed,
     Object? description = freezed,
     Object? image = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
     Object? offerType = freezed,
     Object? code = freezed,
     Object? offerRule = freezed,
@@ -3223,6 +3379,14 @@ class __$$_OfferCopyWithImpl<$Res> extends _$OfferCopyWithImpl<$Res, _$_Offer>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       offerType: freezed == offerType
           ? _value.offerType
           : offerType // ignore: cast_nullable_to_non_nullable
@@ -3251,6 +3415,8 @@ class _$_Offer implements _Offer {
       this.title,
       this.description,
       this.image,
+      @JsonKey(name: "start_date") this.startDate,
+      @JsonKey(name: "end_date") this.endDate,
       @JsonKey(name: "offer_type") this.offerType,
       this.code,
       @JsonKey(name: "offer_rule") this.offerRule,
@@ -3268,6 +3434,12 @@ class _$_Offer implements _Offer {
   @override
   final String? image;
   @override
+  @JsonKey(name: "start_date")
+  final DateTime? startDate;
+  @override
+  @JsonKey(name: "end_date")
+  final DateTime? endDate;
+  @override
   @JsonKey(name: "offer_type")
   final String? offerType;
   @override
@@ -3280,7 +3452,7 @@ class _$_Offer implements _Offer {
 
   @override
   String toString() {
-    return 'Offer(id: $id, title: $title, description: $description, image: $image, offerType: $offerType, code: $code, offerRule: $offerRule, free: $free)';
+    return 'Offer(id: $id, title: $title, description: $description, image: $image, startDate: $startDate, endDate: $endDate, offerType: $offerType, code: $code, offerRule: $offerRule, free: $free)';
   }
 
   @override
@@ -3293,6 +3465,9 @@ class _$_Offer implements _Offer {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.image, image) || other.image == image) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.offerType, offerType) ||
                 other.offerType == offerType) &&
             (identical(other.code, code) || other.code == code) &&
@@ -3304,7 +3479,7 @@ class _$_Offer implements _Offer {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, description, image,
-      offerType, code, offerRule, free);
+      startDate, endDate, offerType, code, offerRule, free);
 
   @JsonKey(ignore: true)
   @override
@@ -3326,6 +3501,8 @@ abstract class _Offer implements Offer {
       final String? title,
       final String? description,
       final String? image,
+      @JsonKey(name: "start_date") final DateTime? startDate,
+      @JsonKey(name: "end_date") final DateTime? endDate,
       @JsonKey(name: "offer_type") final String? offerType,
       final String? code,
       @JsonKey(name: "offer_rule") final num? offerRule,
@@ -3341,6 +3518,12 @@ abstract class _Offer implements Offer {
   String? get description;
   @override
   String? get image;
+  @override
+  @JsonKey(name: "start_date")
+  DateTime? get startDate;
+  @override
+  @JsonKey(name: "end_date")
+  DateTime? get endDate;
   @override
   @JsonKey(name: "offer_type")
   String? get offerType;
@@ -3507,6 +3690,275 @@ abstract class _Rating implements Rating {
   @override
   @JsonKey(ignore: true)
   _$$_RatingCopyWith<_$_Rating> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RatingStats _$RatingStatsFromJson(Map<String, dynamic> json) {
+  return _RatingStats.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RatingStats {
+  @JsonKey(name: "average_rating")
+  int? get averageRating => throw _privateConstructorUsedError;
+  int? get five => throw _privateConstructorUsedError;
+  int? get four => throw _privateConstructorUsedError;
+  int? get three => throw _privateConstructorUsedError;
+  int? get two => throw _privateConstructorUsedError;
+  int? get one => throw _privateConstructorUsedError;
+  @JsonKey(name: "total_counts")
+  int? get totalCounts => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RatingStatsCopyWith<RatingStats> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RatingStatsCopyWith<$Res> {
+  factory $RatingStatsCopyWith(
+          RatingStats value, $Res Function(RatingStats) then) =
+      _$RatingStatsCopyWithImpl<$Res, RatingStats>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "average_rating") int? averageRating,
+      int? five,
+      int? four,
+      int? three,
+      int? two,
+      int? one,
+      @JsonKey(name: "total_counts") int? totalCounts});
+}
+
+/// @nodoc
+class _$RatingStatsCopyWithImpl<$Res, $Val extends RatingStats>
+    implements $RatingStatsCopyWith<$Res> {
+  _$RatingStatsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? averageRating = freezed,
+    Object? five = freezed,
+    Object? four = freezed,
+    Object? three = freezed,
+    Object? two = freezed,
+    Object? one = freezed,
+    Object? totalCounts = freezed,
+  }) {
+    return _then(_value.copyWith(
+      averageRating: freezed == averageRating
+          ? _value.averageRating
+          : averageRating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      five: freezed == five
+          ? _value.five
+          : five // ignore: cast_nullable_to_non_nullable
+              as int?,
+      four: freezed == four
+          ? _value.four
+          : four // ignore: cast_nullable_to_non_nullable
+              as int?,
+      three: freezed == three
+          ? _value.three
+          : three // ignore: cast_nullable_to_non_nullable
+              as int?,
+      two: freezed == two
+          ? _value.two
+          : two // ignore: cast_nullable_to_non_nullable
+              as int?,
+      one: freezed == one
+          ? _value.one
+          : one // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalCounts: freezed == totalCounts
+          ? _value.totalCounts
+          : totalCounts // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_RatingStatsCopyWith<$Res>
+    implements $RatingStatsCopyWith<$Res> {
+  factory _$$_RatingStatsCopyWith(
+          _$_RatingStats value, $Res Function(_$_RatingStats) then) =
+      __$$_RatingStatsCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "average_rating") int? averageRating,
+      int? five,
+      int? four,
+      int? three,
+      int? two,
+      int? one,
+      @JsonKey(name: "total_counts") int? totalCounts});
+}
+
+/// @nodoc
+class __$$_RatingStatsCopyWithImpl<$Res>
+    extends _$RatingStatsCopyWithImpl<$Res, _$_RatingStats>
+    implements _$$_RatingStatsCopyWith<$Res> {
+  __$$_RatingStatsCopyWithImpl(
+      _$_RatingStats _value, $Res Function(_$_RatingStats) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? averageRating = freezed,
+    Object? five = freezed,
+    Object? four = freezed,
+    Object? three = freezed,
+    Object? two = freezed,
+    Object? one = freezed,
+    Object? totalCounts = freezed,
+  }) {
+    return _then(_$_RatingStats(
+      averageRating: freezed == averageRating
+          ? _value.averageRating
+          : averageRating // ignore: cast_nullable_to_non_nullable
+              as int?,
+      five: freezed == five
+          ? _value.five
+          : five // ignore: cast_nullable_to_non_nullable
+              as int?,
+      four: freezed == four
+          ? _value.four
+          : four // ignore: cast_nullable_to_non_nullable
+              as int?,
+      three: freezed == three
+          ? _value.three
+          : three // ignore: cast_nullable_to_non_nullable
+              as int?,
+      two: freezed == two
+          ? _value.two
+          : two // ignore: cast_nullable_to_non_nullable
+              as int?,
+      one: freezed == one
+          ? _value.one
+          : one // ignore: cast_nullable_to_non_nullable
+              as int?,
+      totalCounts: freezed == totalCounts
+          ? _value.totalCounts
+          : totalCounts // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_RatingStats implements _RatingStats {
+  const _$_RatingStats(
+      {@JsonKey(name: "average_rating") this.averageRating,
+      this.five,
+      this.four,
+      this.three,
+      this.two,
+      this.one,
+      @JsonKey(name: "total_counts") this.totalCounts});
+
+  factory _$_RatingStats.fromJson(Map<String, dynamic> json) =>
+      _$$_RatingStatsFromJson(json);
+
+  @override
+  @JsonKey(name: "average_rating")
+  final int? averageRating;
+  @override
+  final int? five;
+  @override
+  final int? four;
+  @override
+  final int? three;
+  @override
+  final int? two;
+  @override
+  final int? one;
+  @override
+  @JsonKey(name: "total_counts")
+  final int? totalCounts;
+
+  @override
+  String toString() {
+    return 'RatingStats(averageRating: $averageRating, five: $five, four: $four, three: $three, two: $two, one: $one, totalCounts: $totalCounts)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RatingStats &&
+            (identical(other.averageRating, averageRating) ||
+                other.averageRating == averageRating) &&
+            (identical(other.five, five) || other.five == five) &&
+            (identical(other.four, four) || other.four == four) &&
+            (identical(other.three, three) || other.three == three) &&
+            (identical(other.two, two) || other.two == two) &&
+            (identical(other.one, one) || other.one == one) &&
+            (identical(other.totalCounts, totalCounts) ||
+                other.totalCounts == totalCounts));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, averageRating, five, four, three, two, one, totalCounts);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RatingStatsCopyWith<_$_RatingStats> get copyWith =>
+      __$$_RatingStatsCopyWithImpl<_$_RatingStats>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_RatingStatsToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RatingStats implements RatingStats {
+  const factory _RatingStats(
+      {@JsonKey(name: "average_rating") final int? averageRating,
+      final int? five,
+      final int? four,
+      final int? three,
+      final int? two,
+      final int? one,
+      @JsonKey(name: "total_counts") final int? totalCounts}) = _$_RatingStats;
+
+  factory _RatingStats.fromJson(Map<String, dynamic> json) =
+      _$_RatingStats.fromJson;
+
+  @override
+  @JsonKey(name: "average_rating")
+  int? get averageRating;
+  @override
+  int? get five;
+  @override
+  int? get four;
+  @override
+  int? get three;
+  @override
+  int? get two;
+  @override
+  int? get one;
+  @override
+  @JsonKey(name: "total_counts")
+  int? get totalCounts;
+  @override
+  @JsonKey(ignore: true)
+  _$$_RatingStatsCopyWith<_$_RatingStats> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
