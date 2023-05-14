@@ -14,7 +14,7 @@ class ProfileKycVerifySection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void conditionalCheck(BuildContext context, KycState state) {
+  void conditionalCheckNavigation(BuildContext context, KycState state) {
     if (state.kycModel == null && state.list?.length == 0) {
       Navigator.pushNamed(
         context,
@@ -41,7 +41,7 @@ class ProfileKycVerifySection extends StatelessWidget {
       visible: true,
       child: InkWell(
         onTap: () {
-          conditionalCheck(context, context.read<KycBloc>().state);
+          conditionalCheckNavigation(context, context.read<KycBloc>().state);
         },
         child: Padding(
           padding: const EdgeInsets.all(10),

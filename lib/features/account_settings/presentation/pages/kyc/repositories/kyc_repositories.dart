@@ -3,6 +3,9 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
+
+import '../models/kyc_model.dart';
 
 class KycRepositories {
   final _dio = DioHelper();
@@ -24,12 +27,12 @@ class KycRepositories {
   }
 
   Future<Map<String, dynamic>?> editKycProfile(
-      Map<String,dynamic> editKycReq) async {
+      Map<String, dynamic> editKycReq) async {
     try {
-      final x = await _dio.patchDataWithCredential(
+      final x = await _dio.patchFormData(
         url: "tasker/my-kyc/",
         token: CacheHelper.accessToken,
-        data: editKycReq,
+        map: editKycReq,
       );
       if (x != null) {
         return x as Map<String, dynamic>;
@@ -51,6 +54,12 @@ class KycRepositories {
       rethrow;
     }
   }
+
+  Future<List<Country>> fetchCountries() async => await getCountriesList().then(
+        (value) => value
+            .map((e) => Country.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
 
   Future<Map<dynamic, dynamic>> addKyc(
     AddKycReq addKycReq,
@@ -119,4 +128,9 @@ class KycRepositories {
       rethrow;
     }
   }
+
+  Future<List<KycDocType>> getKycDocType() async =>
+      await fetchKycDocType().then(
+        (value) => value.map((e) => KycDocType.fromJson(e)).toList(),
+      );
 }

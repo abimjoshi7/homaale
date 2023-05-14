@@ -137,11 +137,19 @@ class _CalledRootClassState extends State<CalledRootClass> {
       ),
     );
     Future.delayed(
-      const Duration(microseconds: 10),
+      Duration.zero,
       () async {
         await context
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
+            .then((value) async => {
+                  if (CacheHelper.isLoggedIn)
+                    {
+                      context.read<KycBloc>().add(KycModelLoaded()),
+                      context.read<KycBloc>().add(KycDocumentLoaded()),
+                      context.read<KycBloc>().add(KycProfileInitiated()),
+                    }
+                })
             .then(
               (value) async => context
                   .read<TaskBloc>()
@@ -166,14 +174,6 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       context.read<UserBloc>().add(
                             UserLoaded(),
                           ),
-                    }
-                })
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      // context.read<KycBloc>().add(
-                      //       KycModelLoaded(),
-                      //     ),
                     }
                 })
             .then(

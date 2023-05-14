@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/widgets/widgets.dart';
@@ -14,7 +13,9 @@ class KycView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "KYC Details"),
+      appBar: CustomAppBar(
+        appBarTitle: "KYC Details",
+      ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -32,9 +33,6 @@ class KycView extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () async {
-                          context
-                              .read<KycBloc>()
-                              .add(KycProfileEditInitiated());
                           await Navigator.pushNamed(
                             context,
                             KycProfile.routeName,

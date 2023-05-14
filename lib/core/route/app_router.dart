@@ -193,6 +193,7 @@ class AppRouter {
       case AccountView.routeName:
         return MaterialPageRoute(
           builder: (context) => const AccountView(),
+          settings: settings,
         );
       case Settings.routeName:
         return MaterialPageRoute(
@@ -213,6 +214,7 @@ class AppRouter {
       case KycDetails.routeName:
         return MaterialPageRoute(
           builder: (context) => const KycDetails(),
+					settings: settings,
         );
       case KycProfile.routeName:
         return MaterialPageRoute(

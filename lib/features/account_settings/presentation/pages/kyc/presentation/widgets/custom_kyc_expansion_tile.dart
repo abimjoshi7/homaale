@@ -1,5 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/widgets/kyc_status_box.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -58,13 +60,23 @@ class CustomKycExpansionTile extends StatelessWidget {
                     removeSpaceBetween: true,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 3.0),
-                    child: Icon(
-                      Icons.edit_outlined,
-                      size: 18.0,
-                      color: Color(0xff64748B),
-                    ),
-                  ),
+                      padding: EdgeInsets.only(right: 3.0),
+                      child: IconButton(
+                        onPressed: () {
+                          context
+                              .read<KycBloc>()
+                              .add(KycDocEditInitiated(kycId: kycDoc.id));
+                          Navigator.pushNamed(
+                            context,
+                            KycDetails.routeName,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.edit_outlined,
+                          size: 18.0,
+                          color: Color(0xff64748B),
+                        ),
+                      )),
                 ],
               ),
               addVerticalSpace(8.0),

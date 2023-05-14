@@ -43,17 +43,7 @@ class KycDocumentLoaded extends KycEvent {
   List<Object?> get props => [];
 }
 
-class KycDocTypeLoaded extends KycEvent {
-  @override
-  List<Object?> get props => [];
-}
-
 class KycProfileInitiated extends KycEvent {
-  @override
-  List<Object?> get props => [];
-}
-
-class KycProfileEditInitiated extends KycEvent {
   @override
   List<Object?> get props => [];
 }
@@ -66,26 +56,21 @@ class KycProfileEditLoaded extends KycEvent {
   @override
   List<Object?> get props => [editKycReq];
 }
-class KycProfileEditComplete extends KycEvent {
-  @override
-  List<Object?> get props => [];
-}
 
 class KycDocEditInitiated extends KycEvent {
+  final int? kycId;
+  KycDocEditInitiated({
+    this.kycId,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [kycId];
 }
 
 class KycDocEditLoaded extends KycEvent {
-  final AddKycReq? addKycReq;
+  final AddKycReq? editDocReq;
   KycDocEditLoaded({
-    this.addKycReq,
+    this.editDocReq,
   });
   @override
-  List<Object?> get props => [addKycReq];
+  List<Object?> get props => [editDocReq];
 }
-
-// class KycProfileImageChanged extends KycEvent {
-//   @override
-//   List<Object?> get props => [];
-// }

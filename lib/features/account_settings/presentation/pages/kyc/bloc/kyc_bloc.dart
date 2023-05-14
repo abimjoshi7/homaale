@@ -19,23 +19,42 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   final KycRepositories repositories;
   KycBloc(
     this.repositories,
-  ) : super(const KycState(theStates: TheStates.initial)) {
+  ) : super(const KycState()) {
     on<KycProfileInitiated>((event, emit) async {
       try {
-        final _countries = await repositories.getCountriesList();
-
         emit(
           state.copyWith(
-              theStates: TheStates.initial,
-              isCreated: false,
-              country: _countries
-                  .map((e) => Country.fromJson(e as Map<String, dynamic>))
-                  .toList()),
+            theStates: TheStates.loading,
+          ),
         );
+        List<KycDocType> _docTypeList = [];
+        List<Country> _countries = [];
+
+        await repositories
+            .fetchCountries()
+            .then((value) => _countries.addAll(value));
+        await repositories
+            .getKycDocType()
+            .then((value) => _docTypeList.addAll(value));
+
+        if (_countries.isEmpty || _docTypeList.isEmpty) {
+          emit(state.copyWith(
+            docTypeList: _docTypeList.isEmpty ? [] : _docTypeList,
+            country: _countries.isEmpty ? [] : _countries,
+          ));
+        } else
+          emit(
+            state.copyWith(
+              // theStates: TheStates.initial,
+              docTypeList: _docTypeList,
+              country: _countries,
+            ),
+          );
       } catch (e) {
         emit(state.copyWith(
-          theStates: TheStates.initial,
-          isCreated: false,
+          theStates: TheStates.failure,
+          docTypeList: [],
+          country: [],
         ));
       }
     });
@@ -57,9 +76,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             state.copyWith(
               theStates: TheStates.success,
               kycModel: KycModel.fromJson(res as Map<String, dynamic>),
-              isCreated: true,
-              isEdited: false,
-              isEditRequested: false,
+              isProfileCreated: true,
+              isProfileEdited: false,
             ),
           );
         } catch (e) {
@@ -68,9 +86,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              isCreated: false,
-              isEdited: false,
-              isEditRequested: false,
+              isProfileCreated: false,
+              isProfileEdited: false,
               errMsg: err,
             ),
           );
@@ -90,15 +107,19 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           emit(
             state.copyWith(
               theStates: TheStates.success,
-              isCreated: true,
+              isProfileCreated: true,
             ),
           );
+          if (state.theStates == TheStates.success) {
+            add(KycModelLoaded());
+            add(KycDocumentLoaded());
+          }
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              isCreated: false,
+              isProfileCreated: false,
               errMsg: err,
             ),
           );
@@ -114,6 +135,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             theStates: TheStates.loading,
           ),
         );
+
         await repositories.getKyc().then((value) {
           if (value == null) return;
           emit(
@@ -156,6 +178,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
                         (e) => KycListRes.fromJson(e as Map<String, dynamic>),
                       )
                       .toList(),
+                  isProfileEdited: false,
+                  isDocEdited: false,
                 ),
               );
             },
@@ -166,54 +190,14 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             state.copyWith(
               theStates: TheStates.failure,
               list: [],
+              isProfileEdited: false,
+              isDocEdited: false,
             ),
           );
         }
       },
     );
 
-    on<KycDocTypeLoaded>(
-      (event, emit) async {
-        try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
-          await repositories.fetchKycDocType().then(
-            (value) {
-              if (value.isEmpty) return;
-              List<KycDocType> _docTypeList = [];
-              for (final kycDocType in value) {
-                _docTypeList.add(KycDocType.fromJson(kycDocType));
-              }
-              emit(
-                state.copyWith(
-                  theStates: TheStates.initial,
-                  isDocLoaded: true,
-                  docTypeList: _docTypeList,
-                ),
-              );
-            },
-          );
-        } catch (e) {
-          emit(
-            state.copyWith(
-              isDocLoaded: false,
-            ),
-          );
-        }
-      },
-    );
-    on<KycProfileEditInitiated>((event, emit) {
-      emit(
-        state.copyWith(
-          theStates: TheStates.initial,
-          isEditRequested: true,
-          isEdited: false,
-        ),
-      );
-    });
     on<KycProfileEditLoaded>((event, emit) async {
       try {
         emit(
@@ -225,31 +209,29 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         emit(
           state.copyWith(
             theStates: TheStates.success,
-            isEditRequested: false,
-            isEdited: true,
+            isProfileEdited: true,
           ),
         );
+        add(KycModelLoaded());
+        add(KycDocumentLoaded());
       } catch (e) {
         log("KYC EDIT ERROR: $e");
         emit(
           state.copyWith(
             theStates: TheStates.failure,
-            isEdited: false,
+            isProfileEdited: false,
           ),
         );
       }
     });
-    on<KycProfileEditComplete>((event, emit) async {
-      emit(
-        state.copyWith(
-          theStates: TheStates.initial,
-          isEdited: false,
-          isEditRequested: false,
-        ),
-      );
+    on<KycDocEditInitiated>((event, emit) {
+      emit(state.copyWith(
+        theStates: TheStates.initial,
+        kycId: event.kycId,
+      ));
     });
-    // on<KycProfileImageChanged>((event, emit)  {
-
-    // });
+    on<KycDocEditLoaded>((event, emit) {
+      try {} catch (e) {}
+    });
   }
 }
