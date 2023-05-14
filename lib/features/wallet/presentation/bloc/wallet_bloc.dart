@@ -63,8 +63,12 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   }
 
   Future<void> _onWalletHistoryLoaded(WalletHistoryLoaded event, Emitter<WalletState> emit) async {
-    if (state.hasReachedMax) return;
+    if (!event.isNewFetch && state.hasReachedMax) return;
     try {
+      if (event.isNewFetch) {
+        emit(state.copyWith(theStates: TheStates.initial));
+      }
+
       if (state.theStates == TheStates.initial) {
         final walletHistoryRes = await repo.getWalletHistory(
           event.createdAt,

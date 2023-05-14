@@ -146,6 +146,7 @@ class _WalletMainViewState extends State<WalletMainView> {
                               fromText = value.toString();
                             });
                             context.read<WalletBloc>().add(WalletHistoryLoaded(
+                                isNewFetch: true,
                                 startDate: DateTime.parse(startDate),
                                 endDate: lastDate.isEmpty || lastDate == 'null' ? null : DateTime.parse(lastDate)));
                           },
@@ -168,6 +169,7 @@ class _WalletMainViewState extends State<WalletMainView> {
                               toText = value.toString();
                             });
                             context.read<WalletBloc>().add(WalletHistoryLoaded(
+                                isNewFetch: true,
                                 startDate: startDate.isEmpty || startDate == 'null' ? null : DateTime.parse(startDate),
                                 endDate: DateTime.parse(lastDate)));
                           },
@@ -180,7 +182,7 @@ class _WalletMainViewState extends State<WalletMainView> {
                           fromText = '';
                           toText = '';
                         });
-                        context.read<WalletBloc>().add(WalletHistoryLoaded());
+                        context.read<WalletBloc>().add(WalletHistoryLoaded(isNewFetch: true));
                       },
                     ),
                     ListView.builder(

@@ -14,15 +14,13 @@ class WalletHistoryLoaded extends WalletEvent {
   final DateTime? createdAt;
   final DateTime? endDate;
   final DateTime? startDate;
+  final bool isNewFetch;
   WalletHistoryLoaded({
     this.createdAt,
     this.endDate,
     this.startDate,
+    this.isNewFetch = false,
   });
   @override
-  List<Object?> get props => [
-        createdAt,
-        endDate,
-        startDate,
-      ];
+  List<Object?> get props => [createdAt, endDate, startDate, isNewFetch];
 }
