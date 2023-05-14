@@ -143,10 +143,10 @@ class _AccountViewState extends State<AccountView> {
                 // kHeight20,
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      KycDetails.routeName,
-                    );
+                    // Navigator.pushNamed(
+                    //   context,
+                    //   KycDetails.routeName,
+                    // );
                   },
                   child: const ProfileKycVerifySection(),
                 ),

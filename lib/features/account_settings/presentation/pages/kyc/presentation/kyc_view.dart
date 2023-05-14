@@ -56,10 +56,11 @@ class KycView extends StatelessWidget {
                         child: Container(
                           height: 84.0,
                           width: 84.0,
-                          child: Image.network(
-                            state.kycModel!.logo.toString(),
-                            fit: BoxFit.cover,
-                          ),
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                            state.kycModel?.logo ?? kDefaultAvatarNImg,
+                          ))),
                         ),
                       ),
                       addHorizontalSpace(24.0),

@@ -6,6 +6,8 @@ import 'package:cipher/core/file_picker/file_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +29,25 @@ class _KycProfileState extends State<KycProfile> {
   final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
+
+  void setInitialValues(KycState state) {
+    if (state.kycModel != null && state.isEditRequested == true) {
+      setState(() {
+        _fullNameController.setText(state.kycModel!.fullName!);
+        state.kycModel!.isCompany!
+            ? _companyNameController.setText(state.kycModel!.organizationName!)
+            : null;
+        _addressController.setText(state.kycModel!.address!);
+        _countryController.setText(state.kycModel!.country!.code!);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     context.read<KycBloc>().add(KycProfileInitiated());
+    setInitialValues(context.read<KycBloc>().state);
   }
 
   @override
@@ -48,6 +65,7 @@ class _KycProfileState extends State<KycProfile> {
     return BlocConsumer<KycBloc, KycState>(
       listener: (_, state) async {
         if (state.theStates == TheStates.success && state.isCreated == true) {
+          context.read<KycBloc>().add(KycProfileInitiated());
           await showDialog(
             barrierDismissible: false,
             context: context,
@@ -55,7 +73,6 @@ class _KycProfileState extends State<KycProfile> {
               heading: "Success",
               content: "Tasker Profile Filled Successfully.",
               onTap: () async {
-                context.read<KycBloc>().add(KycProfileInitiated());
                 await Navigator.pushNamed(
                   context,
                   KycDetails.routeName,
@@ -65,7 +82,23 @@ class _KycProfileState extends State<KycProfile> {
             ),
           );
         }
-        if (state.theStates == TheStates.failure && state.isCreated == false) {
+        if (state.theStates == TheStates.success && state.isEdited == true) {
+          context.read<KycBloc>().add(KycProfileEditComplete());
+          await showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (_) => CustomToast(
+              heading: "Success",
+              content: "Tasker Profile Edited Successfully.",
+              onTap: () async {
+                await Navigator.pushNamed(context, AccountView.routeName);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state.theStates == TheStates.failure &&
+            (state.isCreated == false)) {
           await showDialog(
             context: context,
             builder: (_) => CustomToast(
@@ -77,19 +110,7 @@ class _KycProfileState extends State<KycProfile> {
             ),
           );
         }
-        if (state.theStates != TheStates.initial) return;
-        if (state.kycModel != null && state.isEditRequested == true) {
-          setState(() {
-            _fullNameController.setText(state.kycModel!.fullName!);
-            state.kycModel!.isCompany!
-                ? _companyNameController
-                    .setText(state.kycModel!.organizationName!)
-                : null;
-            _addressController.setText(state.kycModel!.address!);
-            _countryController.setText(state.kycModel!.country!.code!);
-            // selectedImage
-          });
-        }
+        // if (state.theStates != TheStates.initial) return;
       },
       builder: (_, state) {
         if (state.theStates == TheStates.loading) {
@@ -141,15 +162,17 @@ class _KycProfileState extends State<KycProfile> {
                                               label: "Gallery"),
                                         ),
                                       ).then(
-                                        (value) async =>
-                                            await FilePickHelper.filePicker()
-                                                .then(
-                                          (value) => setState(
-                                            () {
-                                              selectedImage = value;
-                                            },
-                                          ),
-                                        ),
+                                        (value) async => await ImagePicker()
+                                            .pickImage(
+                                                source: ImageSource.gallery)
+                                            .then(
+                                              (value) => setState(
+                                                () {
+                                                  selectedImage =
+                                                      File(value!.path);
+                                                },
+                                              ),
+                                            ),
                                       );
                                     },
                               child: Column(
@@ -163,19 +186,19 @@ class _KycProfileState extends State<KycProfile> {
                                           0.25,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(16),
-                                        child: (state.kycModel != null)
-                                            ? Image.network(
-                                                state.kycModel!.logo!)
-                                            : selectedImage == null
-                                                ? const Placeholder(
+                                        child: (selectedImage == null)
+                                            ? (state.kycModel != null)
+                                                ? Image.network(
+                                                    state.kycModel!.logo!)
+                                                : const Placeholder(
                                                     color: kColorSecondary,
                                                   )
-                                                : Image.file(
-                                                    fit: BoxFit.cover,
-                                                    File(
-                                                      selectedImage?.path ?? '',
-                                                    ),
-                                                  ),
+                                            : Image.file(
+                                                fit: BoxFit.cover,
+                                                File(
+                                                  selectedImage?.path ?? '',
+                                                ),
+                                              ),
                                       ),
                                     ),
                                   ),
@@ -282,23 +305,27 @@ class _KycProfileState extends State<KycProfile> {
                                     if (state.kycModel != null &&
                                         state.isEditRequested == true &&
                                         selectedImage != null) {
-                                      context
-                                          .read<KycBloc>()
-                                          .add(KycProfileEditLoaded(
-                                              editKycReq: CreateKycReq(
-                                            logo: await MultipartFile.fromFile(
-                                                selectedImage!.path),
-                                            isCompany: _isCompany,
-                                            fullName: _fullNameController.text,
-                                            organizationName: _isCompany
-                                                ? _companyNameController.text
-                                                : null,
-                                            address: _addressController.text,
-                                            country: _countryController.text,
-                                          ).toJson()));
-                                    }
-                                    if (state.kycModel != null &&
-                                        state.isEditRequested == true) {
+                                      context.read<KycBloc>().add(
+                                            KycProfileEditLoaded(
+                                              editKycReq: {
+                                                "logo": await MultipartFile
+                                                    .fromFile(
+                                                        selectedImage!.path),
+                                                "full_name":
+                                                    _fullNameController.text,
+                                                "is_company": _isCompany,
+                                                "organization_name": _isCompany
+                                                    ? _companyNameController
+                                                        .text
+                                                    : null,
+                                                "address":
+                                                    _addressController.text,
+                                                "country":
+                                                    _countryController.text
+                                              },
+                                            ),
+                                          );
+                                    } else {
                                       context.read<KycBloc>().add(
                                             KycProfileEditLoaded(
                                               editKycReq: {
@@ -317,7 +344,28 @@ class _KycProfileState extends State<KycProfile> {
                                             ),
                                           );
                                     }
-																		
+
+                                    // if (state.kycModel != null &&
+                                    //     state.isEditRequested == true) {
+                                    //   context.read<KycBloc>().add(
+                                    //         KycProfileEditLoaded(
+                                    //           editKycReq: {
+                                    //             "full_name":
+                                    //                 _fullNameController.text,
+                                    //             "is_company": _isCompany,
+                                    //             "organization_name": _isCompany
+                                    //                 ? _companyNameController
+                                    //                     .text
+                                    //                 : null,
+                                    //             "address":
+                                    //                 _addressController.text,
+                                    //             "country":
+                                    //                 _countryController.text
+                                    //           },
+                                    //         ),
+                                    //       );
+                                    // }
+                                    if (state.isEditRequested == true) return;
                                     if (selectedImage == null ||
                                         _countryController.text.isEmpty) {
                                       await showDialog(

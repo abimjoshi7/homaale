@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';

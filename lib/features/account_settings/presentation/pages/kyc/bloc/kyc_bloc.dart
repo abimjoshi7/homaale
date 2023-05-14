@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/dio/types/either.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_model.dart';
@@ -59,6 +58,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               theStates: TheStates.success,
               kycModel: KycModel.fromJson(res as Map<String, dynamic>),
               isCreated: true,
+              isEdited: false,
+              isEditRequested: false,
             ),
           );
         } catch (e) {
@@ -68,6 +69,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             state.copyWith(
               theStates: TheStates.failure,
               isCreated: false,
+              isEdited: false,
+              isEditRequested: false,
               errMsg: err,
             ),
           );
@@ -235,6 +238,15 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           ),
         );
       }
+    });
+    on<KycProfileEditComplete>((event, emit) async {
+      emit(
+        state.copyWith(
+          theStates: TheStates.initial,
+          isEdited: false,
+          isEditRequested: false,
+        ),
+      );
     });
     // on<KycProfileImageChanged>((event, emit)  {
 
