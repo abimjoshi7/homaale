@@ -6,6 +6,7 @@ class KycStatusBox extends StatelessWidget {
   KycStatusBox({
     super.key,
     required this.attributeTitle,
+    this.isVerified,
     this.status,
     this.hasStatus = false,
     this.removeSpaceBetween = false,
@@ -22,6 +23,7 @@ class KycStatusBox extends StatelessWidget {
   double? fontSize;
   double? boxWidth;
   double? boxHeight;
+  bool? isVerified;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -40,7 +42,9 @@ class KycStatusBox extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4.0),
             color: hasStatus
-                ? Color(0xffFF9700).withOpacity(0.2)
+                ? isVerified == true
+                    ? Color(0xff16A34A).withOpacity(0.2)
+                    : Color(0xffFF9700).withOpacity(0.2)
                 : Colors.transparent,
           ),
           child: Align(
@@ -58,7 +62,11 @@ class KycStatusBox extends StatelessWidget {
                 : Text(
                     status as String,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: hasStatus ? Color(0xffFF9700) : null,
+                          color: hasStatus
+                              ? isVerified == true
+                                  ? Color(0xff16A34A)
+                                  : Color(0xffFF9700)
+                              : null,
                           fontSize: fontSize ?? null,
                         ),
                   ),
