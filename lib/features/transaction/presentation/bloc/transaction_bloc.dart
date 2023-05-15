@@ -30,7 +30,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   }
 
   Future<void> _onTransactionLoaded(
-      TransactionEvent event, Emitter<TransactionState> emit) async {
+      TransactionLoaded event, Emitter<TransactionState> emit) async {
+				// if(event.beforeSelected != null) emit(state.copyWith(
+
+				// ))
     if (state.hasReachedMax == true) return;
 
     try {
@@ -59,8 +62,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
                   theStates: TheStates.success,
                   res: transactionsRes,
                   hasReachedMax: false,
-                  transactions: List.from(state.transactions as Iterable)
-                    ..addAll(transactionsRes.result!),
+                  transactions: List.from(
+                    state.transactions as Iterable,
+                  )..addAll(transactionsRes.result!),
                 ),
               );
       } else
@@ -97,6 +101,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     TransactionDateChanged event,
     Emitter<TransactionState> emit,
   ) async {
+		
     final transactionsRes = await repo.getTransactions(
       dateBefore: event.beforeDate == null
           ? null

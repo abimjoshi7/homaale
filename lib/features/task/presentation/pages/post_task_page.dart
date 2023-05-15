@@ -263,7 +263,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       isActive: true,
                       needsApproval: true,
                       isEndorsed: true,
-                      service: categoryId,
+                      service: serviceId,
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
@@ -954,11 +954,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             );
                         setState(
                           () {
-                            serviceId = context
-                                .read<CategoriesBloc>()
-                                .state
-                                .serviceId
-                                .toString();
+                            serviceId =
+                                context.read<CategoriesBloc>().state.serviceId;
                           },
                         );
                       },
