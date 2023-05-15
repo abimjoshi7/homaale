@@ -9,6 +9,7 @@ part of 'task_entity_service_req.dart';
 _$_TaskEntityServiceReq _$$_TaskEntityServiceReqFromJson(
         Map<String, dynamic> json) =>
     _$_TaskEntityServiceReq(
+      owner: json['owner'] as String?,
       title: json['title'] as String?,
       description: json['description'] as String?,
       highlights: (json['highlights'] as List<dynamic>?)
@@ -50,6 +51,7 @@ _$_TaskEntityServiceReq _$$_TaskEntityServiceReqFromJson(
 Map<String, dynamic> _$$_TaskEntityServiceReqToJson(
         _$_TaskEntityServiceReq instance) =>
     <String, dynamic>{
+      'owner': instance.owner,
       'title': instance.title,
       'description': instance.description,
       'highlights': instance.highlights,

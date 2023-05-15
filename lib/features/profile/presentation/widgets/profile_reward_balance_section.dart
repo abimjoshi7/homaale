@@ -35,8 +35,9 @@ class ProfileRewardBalanceSection extends StatelessWidget {
                       return ProfileStatsCard(
                         imagePath: 'assets/wallet.png',
                         label: 'Account Balance',
-                        value:
-                            "Rs. ${walletState.walletModel?.first.availableBalance.toString() ?? "0"}",
+                        value: walletState.walletModel.length == 0
+                            ? 'Rs. 0'
+                            : "Rs. ${walletState.walletModel.first.availableBalance.toString()}",
                       );
                     },
                   ),

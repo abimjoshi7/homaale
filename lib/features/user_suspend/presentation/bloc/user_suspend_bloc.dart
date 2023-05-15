@@ -12,10 +12,10 @@ class UserSuspendBloc extends Bloc<UserSuspendEvent, UserSuspendState> {
   UserSuspendBloc() : super(UserSuspendState()) {
     on<UserSuspendLoaded>(
       (event, emit) async {
+        emit(state.copyWith(theStates: TheStates.initial));
         try {
-          emit(state.copyWith(theStates: TheStates.initial));
           await respositories
-              .fetchSuspendedUser(id: event.userId ?? "")
+              .fetchSuspendedUser(id: event.userId)
               .then((value) {
             emit(
               state.copyWith(

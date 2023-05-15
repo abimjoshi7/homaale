@@ -10,16 +10,15 @@ class WalletModel with _$WalletModel {
   const factory WalletModel({
     int? id,
     String? currency,
-    @JsonKey(name: "last_received") String? lastReceived,
-    @JsonKey(name: "last_paid") String? lastPaid,
-    @JsonKey(name: "total_income") String? totalIncome,
-    @JsonKey(name: "total_withdrawals") String? totalWithdrawals,
-    @JsonKey(name: "available_balance") double? availableBalance,
-    @JsonKey(name: "frozen_amount") double? frozenAmount,
+    @JsonKey(name: "last_received") double? lastReceived,
+    @JsonKey(name: "last_paid") double? lastPaid,
+    @JsonKey(name: "total_income") double? totalIncome,
+    @JsonKey(name: "total_withdrawals") double? totalWithdrawals,
+    @JsonKey(name: "available_balance") String? availableBalance,
+    @JsonKey(name: "frozen_amount") String? frozenAmount,
     String? user,
     String? merchant,
   }) = _WalletModel;
 
-  factory WalletModel.fromJson(Map<String, dynamic> json) =>
-      _$WalletModelFromJson(json);
+  factory WalletModel.fromJson(Map<String, dynamic> json) => _$WalletModelFromJson(json);
 }

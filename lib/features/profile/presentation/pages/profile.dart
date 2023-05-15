@@ -53,7 +53,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       appBar: CustomAppBar(appBarTitle: "Profile"),
       body: Column(
         children: [
-          const CustomHorizontalDivider(),
+          // const CustomHorizontalDivider(),
           kHeight10,
           const ProfileHeaderSection(),
           kHeight10,
@@ -119,8 +119,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               ],
             ),
           ),
-          kHeight10,
-          ProfileRewardBalanceSection(user: user),
+          // kHeight10,
+          // ProfileRewardBalanceSection(user: user),
           kHeight10,
           Divider(height: 0.3),
           const ProfileStatsSection(),

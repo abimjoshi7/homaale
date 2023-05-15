@@ -202,6 +202,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
             );
       },
     );
+    print(
+        'suspended vyo: ${context.read<UserBloc>().state.taskerProfile?.user?.id}');
   }
 
   @override
@@ -474,18 +476,18 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 profileActive = pageIndex == 3;
                               });
                               (stateUS.userAccountSuspension?.isSuspended ==
-                                      false)
-                                  ? Navigator.pushNamed(
-                                      context,
-                                      PostTaskPage.routeName,
-                                    )
-                                  : showDialog(
+                                      true)
+                                  ? showDialog(
                                       context: context,
                                       builder: (context) =>
                                           AccountSuspendCustomToast(
                                         heading: 'ACCOUNT SUSPENDED',
                                         content: 'User is suspended',
                                       ),
+                                    )
+                                  : Navigator.pushNamed(
+                                      context,
+                                      PostTaskPage.routeName,
                                     );
                             },
                           ),
@@ -505,20 +507,19 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 bookingsActive = pageIndex == 2;
                                 profileActive = pageIndex == 3;
                               });
-
                               (stateUS.userAccountSuspension?.isSuspended ==
-                                      false)
-                                  ? Navigator.pushNamed(
-                                      context,
-                                      PostServicePage.routeName,
-                                    )
-                                  : showDialog(
+                                      true)
+                                  ? showDialog(
                                       context: context,
                                       builder: (context) =>
                                           AccountSuspendCustomToast(
                                         heading: 'ACCOUNT SUSPENDED',
                                         content: 'User is suspended',
                                       ),
+                                    )
+                                  : Navigator.pushNamed(
+                                      context,
+                                      PostServicePage.routeName,
                                     );
                             },
                           )

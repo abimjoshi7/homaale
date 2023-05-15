@@ -12,6 +12,7 @@ part 'task_entity_service_req.g.dart';
 @freezed
 class TaskEntityServiceReq with _$TaskEntityServiceReq {
   const factory TaskEntityServiceReq({
+    String? owner,
     String? title,
     String? description,
     List<String?>? highlights,

@@ -40,7 +40,7 @@ class CustomLogout extends StatelessWidget {
           addVerticalSpace(8),
           Text(
             "Are you sure you want to logout from Homaale?",
-            style: kHelper15,
+            style: Theme.of(context).textTheme.titleSmall,
             textAlign: TextAlign.center,
           ),
         ],
@@ -48,10 +48,11 @@ class CustomLogout extends StatelessWidget {
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
               child: SizedBox(
-                height: 40,
+                height: 35,
                 width: 100,
                 child: CustomElevatedButton(
                   callback: () {
@@ -64,12 +65,12 @@ class CustomLogout extends StatelessWidget {
                 ),
               ),
             ),
-            addHorizontalSpace(
-              10,
-            ),
+            // addHorizontalSpace(
+            //   10,
+            // ),
             Flexible(
               child: SizedBox(
-                height: 40,
+                height: 35,
                 width: 100,
                 child: CustomElevatedButton(
                   callback: () async {
@@ -88,6 +89,7 @@ class CustomLogout extends StatelessWidget {
             ),
           ],
         ),
+        addVerticalSpace(5),
       ],
     );
   }

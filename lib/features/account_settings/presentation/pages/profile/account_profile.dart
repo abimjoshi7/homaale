@@ -1,8 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
-    as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
@@ -13,6 +12,7 @@ import 'package:cipher/features/support/presentation/bloc/support_ticket_type_op
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
+import 'package:cipher/features/wallet/presentation/wallet_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,8 +38,7 @@ class AccountProfile extends StatefulWidget {
   State<AccountProfile> createState() => _AccountProfileState();
 }
 
-class _AccountProfileState extends State<AccountProfile>
-    with TheModalBottomSheet {
+class _AccountProfileState extends State<AccountProfile> with TheModalBottomSheet {
   bool isDark = false;
 
   void checkAppMode() async {
@@ -101,6 +100,22 @@ class _AccountProfileState extends State<AccountProfile>
                 Icons.wifi_protected_setup_sharp,
               ),
               label: 'Transactions',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  WalletPage.routeName,
+                );
+              },
+              icon: const Icon(
+                Icons.attach_money,
+              ),
+              label: 'My Earnings',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,

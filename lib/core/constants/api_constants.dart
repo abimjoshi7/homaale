@@ -19,9 +19,13 @@ const payment = "/payment/";
 const offer = "/offer/";
 const event = "/event/";
 
-//image upload
+// image upload
 const kFileStore = "task/filestore/";
 
+// wallet
+const kMyWallet = "wallet/mywallet/";
+const kWalletHistory = "/wallet/wallethistory/";
+// transactions
 //offers
 const kOffersPath = "offer/serviceoffer/all/";
 

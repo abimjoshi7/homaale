@@ -41,6 +41,9 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       event: json['event'] == null
           ? null
           : Event.fromJson(json['event'] as Map<String, dynamic>),
+      ratingStats: json['rating_stats'] == null
+          ? null
+          : RatingStats.fromJson(json['rating_stats'] as Map<String, dynamic>),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -84,6 +87,10 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       isActive: json['is_active'] as bool?,
       needsApproval: json['needs_approval'] as bool?,
       isEndorsed: json['is_endorsed'] as bool?,
+      payableFrom: json['payable_from'] as String?,
+      payableTo: json['payable_to'] as String?,
+      updatedBy: json['updated_by'] as String?,
+      owner: json['owner'] as String?,
       merchant: json['merchant'],
       avatar: json['avatar'],
     );
@@ -104,6 +111,7 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'endorsements': instance.endorsements,
       'is_redeemable': instance.isRedeemable,
       'event': instance.event,
+      'rating_stats': instance.ratingStats,
       'created_at': instance.createdAt?.toIso8601String(),
       'update_at': instance.updatedAt?.toIso8601String(),
       'deleted_at': instance.deletedAt?.toIso8601String(),
@@ -135,6 +143,10 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'is_active': instance.isActive,
       'needs_approval': instance.needsApproval,
       'is_endorsed': instance.isEndorsed,
+      'payable_from': instance.payableFrom,
+      'payable_to': instance.payableTo,
+      'updated_by': instance.updatedBy,
+      'owner': instance.owner,
       'merchant': instance.merchant,
       'avatar': instance.avatar,
     };
@@ -284,6 +296,12 @@ _$_Offer _$$_OfferFromJson(Map<String, dynamic> json) => _$_Offer(
       title: json['title'] as String?,
       description: json['description'] as String?,
       image: json['image'] as String?,
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
       offerType: json['offer_type'] as String?,
       code: json['code'] as String?,
       offerRule: json['offer_rule'] as num?,
@@ -295,6 +313,8 @@ Map<String, dynamic> _$$_OfferToJson(_$_Offer instance) => <String, dynamic>{
       'title': instance.title,
       'description': instance.description,
       'image': instance.image,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
       'offer_type': instance.offerType,
       'code': instance.code,
       'offer_rule': instance.offerRule,
@@ -309,6 +329,28 @@ _$_Rating _$$_RatingFromJson(Map<String, dynamic> json) => _$_Rating(
 Map<String, dynamic> _$$_RatingToJson(_$_Rating instance) => <String, dynamic>{
       'rating': instance.rating,
       'rating_count': instance.ratingCount,
+    };
+
+_$_RatingStats _$$_RatingStatsFromJson(Map<String, dynamic> json) =>
+    _$_RatingStats(
+      averageRating: json['average_rating'] as int?,
+      five: json['five'] as int?,
+      four: json['four'] as int?,
+      three: json['three'] as int?,
+      two: json['two'] as int?,
+      one: json['one'] as int?,
+      totalCounts: json['total_counts'] as int?,
+    );
+
+Map<String, dynamic> _$$_RatingStatsToJson(_$_RatingStats instance) =>
+    <String, dynamic>{
+      'average_rating': instance.averageRating,
+      'five': instance.five,
+      'four': instance.four,
+      'three': instance.three,
+      'two': instance.two,
+      'one': instance.one,
+      'total_counts': instance.totalCounts,
     };
 
 _$_Service _$$_ServiceFromJson(Map<String, dynamic> json) => _$_Service(
