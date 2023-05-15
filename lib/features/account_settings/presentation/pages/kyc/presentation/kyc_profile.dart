@@ -316,11 +316,14 @@ class _KycProfileState extends State<KycProfile> {
                                               selectedImage!.path),
                                         });
                                       }
-                                      context
-                                          .read<KycBloc>()
-                                          .add(KycProfileEditLoaded(
-                                            editKycReq: editReq,
-                                          ));
+                                      if (_key.currentState!.validate() &&
+                                          _countryController.text.isNotEmpty) {
+                                        context
+                                            .read<KycBloc>()
+                                            .add(KycProfileEditLoaded(
+                                              editKycReq: editReq,
+                                            ));
+                                      }
                                     }
                                     if (state.kycModel != null) return;
                                     if (selectedImage == null ||

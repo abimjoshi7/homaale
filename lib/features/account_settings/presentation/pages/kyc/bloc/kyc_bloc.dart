@@ -230,8 +230,30 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         kycId: event.kycId,
       ));
     });
-    on<KycDocEditLoaded>((event, emit) {
-      try {} catch (e) {}
+    on<KycDocEditLoaded>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
+        await repositories.editKycDocument(
+          id: event.id,
+          editKycReq: event.editDocReq!,
+        );
+        emit(state.copyWith(
+          theStates: TheStates.success,
+          isDocEdited: true,
+        ));
+      } catch (e) {
+        log("doc edit err: $e");
+        final err = await CacheHelper.getCachedString(kErrorLog);
+        emit(state.copyWith(
+          theStates: TheStates.failure,
+          isDocEdited: false,
+          errMsg: err,
+        ));
+      }
     });
   }
 }

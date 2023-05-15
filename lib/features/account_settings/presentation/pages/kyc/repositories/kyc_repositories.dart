@@ -76,6 +76,20 @@ class KycRepositories {
     }
   }
 
+  Future<Map<String, dynamic>> editKycDocument(
+      {required Map<String, dynamic> editKycReq, required int id}) async {
+    try {
+      final x = await _dio.patchFormData(
+        url: 'tasker/kyc-document/$id/',
+        token: CacheHelper.accessToken,
+        map: editKycReq,
+      );
+      return x as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>?> getKyc() async {
     try {
       final x = await _dio.getDatawithCredential(

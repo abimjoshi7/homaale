@@ -67,10 +67,12 @@ class KycDocEditInitiated extends KycEvent {
 }
 
 class KycDocEditLoaded extends KycEvent {
-  final AddKycReq? editDocReq;
+  final int id;
+  final Map<String, dynamic>? editDocReq;
   KycDocEditLoaded({
+    required this.id,
     this.editDocReq,
   });
   @override
-  List<Object?> get props => [editDocReq];
+  List<Object?> get props => [id, editDocReq];
 }
