@@ -3701,11 +3701,11 @@ RatingStats _$RatingStatsFromJson(Map<String, dynamic> json) {
 mixin _$RatingStats {
   @JsonKey(name: "average_rating")
   double? get averageRating => throw _privateConstructorUsedError;
-  double? get five => throw _privateConstructorUsedError;
-  double? get four => throw _privateConstructorUsedError;
-  double? get three => throw _privateConstructorUsedError;
-  double? get two => throw _privateConstructorUsedError;
-  double? get one => throw _privateConstructorUsedError;
+  int? get five => throw _privateConstructorUsedError;
+  int? get four => throw _privateConstructorUsedError;
+  int? get three => throw _privateConstructorUsedError;
+  int? get two => throw _privateConstructorUsedError;
+  int? get one => throw _privateConstructorUsedError;
   @JsonKey(name: "total_counts")
   int? get totalCounts => throw _privateConstructorUsedError;
 
@@ -3723,11 +3723,11 @@ abstract class $RatingStatsCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "average_rating") double? averageRating,
-      double? five,
-      double? four,
-      double? three,
-      double? two,
-      double? one,
+      int? five,
+      int? four,
+      int? three,
+      int? two,
+      int? one,
       @JsonKey(name: "total_counts") int? totalCounts});
 }
 
@@ -3760,23 +3760,23 @@ class _$RatingStatsCopyWithImpl<$Res, $Val extends RatingStats>
       five: freezed == five
           ? _value.five
           : five // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       four: freezed == four
           ? _value.four
           : four // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       three: freezed == three
           ? _value.three
           : three // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       two: freezed == two
           ? _value.two
           : two // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       one: freezed == one
           ? _value.one
           : one // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       totalCounts: freezed == totalCounts
           ? _value.totalCounts
           : totalCounts // ignore: cast_nullable_to_non_nullable
@@ -3795,11 +3795,11 @@ abstract class _$$_RatingStatsCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "average_rating") double? averageRating,
-      double? five,
-      double? four,
-      double? three,
-      double? two,
-      double? one,
+      int? five,
+      int? four,
+      int? three,
+      int? two,
+      int? one,
       @JsonKey(name: "total_counts") int? totalCounts});
 }
 
@@ -3830,23 +3830,23 @@ class __$$_RatingStatsCopyWithImpl<$Res>
       five: freezed == five
           ? _value.five
           : five // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       four: freezed == four
           ? _value.four
           : four // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       three: freezed == three
           ? _value.three
           : three // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       two: freezed == two
           ? _value.two
           : two // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       one: freezed == one
           ? _value.one
           : one // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       totalCounts: freezed == totalCounts
           ? _value.totalCounts
           : totalCounts // ignore: cast_nullable_to_non_nullable
@@ -3874,15 +3874,15 @@ class _$_RatingStats implements _RatingStats {
   @JsonKey(name: "average_rating")
   final double? averageRating;
   @override
-  final double? five;
+  final int? five;
   @override
-  final double? four;
+  final int? four;
   @override
-  final double? three;
+  final int? three;
   @override
-  final double? two;
+  final int? two;
   @override
-  final double? one;
+  final int? one;
   @override
   @JsonKey(name: "total_counts")
   final int? totalCounts;
@@ -3930,11 +3930,11 @@ class _$_RatingStats implements _RatingStats {
 abstract class _RatingStats implements RatingStats {
   const factory _RatingStats(
       {@JsonKey(name: "average_rating") final double? averageRating,
-      final double? five,
-      final double? four,
-      final double? three,
-      final double? two,
-      final double? one,
+      final int? five,
+      final int? four,
+      final int? three,
+      final int? two,
+      final int? one,
       @JsonKey(name: "total_counts") final int? totalCounts}) = _$_RatingStats;
 
   factory _RatingStats.fromJson(Map<String, dynamic> json) =
@@ -3944,15 +3944,15 @@ abstract class _RatingStats implements RatingStats {
   @JsonKey(name: "average_rating")
   double? get averageRating;
   @override
-  double? get five;
+  int? get five;
   @override
-  double? get four;
+  int? get four;
   @override
-  double? get three;
+  int? get three;
   @override
-  double? get two;
+  int? get two;
   @override
-  double? get one;
+  int? get one;
   @override
   @JsonKey(name: "total_counts")
   int? get totalCounts;
