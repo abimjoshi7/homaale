@@ -214,7 +214,6 @@ class AppRouter {
       case KycDetails.routeName:
         return MaterialPageRoute(
           builder: (context) => const KycDetails(),
-					settings: settings,
         );
       case KycProfile.routeName:
         return MaterialPageRoute(

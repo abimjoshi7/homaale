@@ -37,6 +37,9 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   File? file;
   final _key = GlobalKey<FormState>();
   void setInitialValues(KycState state) {
+		if(state.isNewDoc==true){
+			
+		}
     if (state.list?.length != 0) {
       setState(() {
         identityTypeController.setText(state.list!
@@ -55,10 +58,11 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             .issuerOrganization!);
         issuedDate =
             state.list!.where((e) => e.id == state.kycId).first.issuedDate!;
-        state.list!.where((e) => e.id == state.kycId).first.issuedDate!;
-        state.list?.where((e) => e.id == state.kycId).first.validThrough != null
-            ? expiryDate = state.list!.first.validThrough!
-            : null;
+
+        expiryDate =
+            state.list?.where((e) => e.id == state.kycId).first.validThrough ??
+                null;
+
         hasDocExpiryDate =
             state.list?.where((e) => e.id == state.kycId).first.validThrough !=
                     null
@@ -79,13 +83,22 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
     identityTypeController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
-    file?.delete();
+    // file?.delete();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // return SizedBox.shrink();
     return BlocConsumer<KycBloc, KycState>(
+      listenWhen: (previous, current) {
+        if (previous.isDocCreated == false && current.isDocCreated == true)
+          return true;
+        if (previous.isDocEdited == false && current.isDocEdited == true)
+          return true;
+
+        return false;
+      },
       listener: (_, state) async {
         if (state.theStates == TheStates.success &&
             state.isDocCreated == true) {
@@ -96,10 +109,12 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
               heading: "Success",
               content: "Kyc document uploaded successfully",
               onTap: () {
+                context.read<KycBloc>().add(KycModelLoaded());
+                context.read<KycBloc>().add(KycDocumentLoaded());
                 context.read<KycBloc>().add(KycProfileInitiated());
-                Navigator.pushNamed(
+                Navigator.popUntil(
                   context,
-                  Root.routeName,
+                  (route) => route.settings.name == Root.routeName,
                 );
               },
               isSuccess: true,
@@ -125,6 +140,18 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         }
         if (state.theStates == TheStates.failure &&
             state.isDocCreated == false) {
+          await showDialog(
+            context: context,
+            builder: (_) => CustomToast(
+              heading: "Failure",
+              content: state.errMsg ?? "Kyc document cannot be uploaded",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
+        if (state.theStates == TheStates.failure &&
+            state.isDocEdited == false) {
           await showDialog(
             context: context,
             builder: (_) => CustomToast(
@@ -178,13 +205,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                             label: 'Identity number',
                             isRequired: true,
                             child: CustomTextFormField(
-                              hintText: state.list?.length == 0
-                                  ? ""
-                                  : state.list
-                                          ?.where((e) => e.id == state.kycId)
-                                          .first
-                                          .documentId ??
-                                      "",
                               validator: validateNotEmpty,
                               controller: identityNumberController,
                               hintStyle: (state.list?.length != 0)
@@ -196,13 +216,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                             label: 'Issuer Organization',
                             isRequired: true,
                             child: CustomTextFormField(
-                              hintText: state.list?.length == 0
-                                  ? ""
-                                  : state.list
-                                          ?.where((e) => e.id == state.kycId)
-                                          .first
-                                          .issuerOrganization ??
-                                      "",
                               validator: validateNotEmpty,
                               controller: issuedFromController,
                               hintStyle: (state.list?.length != 0)
@@ -262,18 +275,13 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                   child: CustomFormContainer(
                                     hintText: expiryDate == null
                                         ? state.list?.length != 0
-                                            ? state.list
-                                                        ?.where((e) =>
-                                                            e.id == state.kycId)
-                                                        .first
-                                                        .validThrough !=
-                                                    null
-                                                ? DateFormat("yyyy-MM-dd")
-                                                    .format(
-                                                    state.list!.first
-                                                        .validThrough!,
-                                                  )
-                                                : "No Date"
+                                            ? DateFormat("yyyy-MM-dd").format(
+                                                state.list!
+                                                    .where((e) =>
+                                                        e.id == state.kycId)
+                                                    .first
+                                                    .validThrough!,
+                                              )
                                             : "yyyy-mm-dd"
                                         : DateFormat("yyyy-MM-dd").format(
                                             expiryDate!,

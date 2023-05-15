@@ -14,6 +14,7 @@ class KycState extends Equatable {
   final String? errMsg;
   final bool? isProfileEdited;
   final bool? isDocEdited;
+  final bool? isNewDoc;
 
   const KycState({
     this.theStates = TheStates.initial,
@@ -27,6 +28,7 @@ class KycState extends Equatable {
     this.errMsg,
     this.isProfileEdited,
     this.isDocEdited,
+    this.isNewDoc,
   });
 
   @override
@@ -43,6 +45,7 @@ class KycState extends Equatable {
       errMsg,
       isProfileEdited,
       isDocEdited,
+      isNewDoc,
     ];
   }
 
@@ -58,6 +61,7 @@ class KycState extends Equatable {
     String? errMsg,
     bool? isProfileEdited,
     bool? isDocEdited,
+    bool? isNewDoc,
   }) {
     return KycState(
       theStates: theStates ?? this.theStates,
@@ -71,6 +75,7 @@ class KycState extends Equatable {
       errMsg: errMsg ?? this.errMsg,
       isProfileEdited: isProfileEdited ?? this.isProfileEdited,
       isDocEdited: isDocEdited ?? this.isDocEdited,
+      isNewDoc: isNewDoc ?? this.isNewDoc,
     );
   }
 }

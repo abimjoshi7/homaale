@@ -76,7 +76,7 @@ class KycRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> editKycDocument(
+  Future<Map<String, dynamic>?> editKycDocument(
       {required Map<String, dynamic> editKycReq, required int id}) async {
     try {
       final x = await _dio.patchFormData(
@@ -84,7 +84,10 @@ class KycRepositories {
         token: CacheHelper.accessToken,
         map: editKycReq,
       );
-      return x as Map<String, dynamic>;
+      if (x != null) {
+        return x as Map<String, dynamic>;
+      }
+      return null;
     } catch (e) {
       rethrow;
     }

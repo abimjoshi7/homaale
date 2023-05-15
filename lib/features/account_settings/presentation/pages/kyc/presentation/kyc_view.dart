@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -182,14 +183,20 @@ class KycView extends StatelessWidget {
                     itemCount: state.list!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CustomKycExpansionTile(
-                        kycDoc: state.list!.first,
+                        kycDoc: state.list![index],
                       );
                     },
                   ),
                   Align(
                     alignment: Alignment.topLeft,
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () async {
+                        context.read<KycBloc>().add(KycAddNewDocInitiated());
+                        await Navigator.pushNamed(
+                          context,
+                          KycDetails.routeName,
+                        );
+                      },
                       contentPadding: EdgeInsets.zero,
                       leading: Icon(
                         Icons.add_circle_outline_rounded,

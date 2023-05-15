@@ -76,3 +76,8 @@ class KycDocEditLoaded extends KycEvent {
   @override
   List<Object?> get props => [id, editDocReq];
 }
+
+class KycAddNewDocInitiated extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}

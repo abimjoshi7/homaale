@@ -107,23 +107,22 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           emit(
             state.copyWith(
               theStates: TheStates.success,
-              isProfileCreated: true,
+              isDocCreated: true,
             ),
           );
           if (state.theStates == TheStates.success) {
-            add(KycModelLoaded());
-            add(KycDocumentLoaded());
+            // add(KycModelLoaded());
+            // add(KycDocumentLoaded());
           }
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              isProfileCreated: false,
+              isDocCreated: false,
               errMsg: err,
             ),
           );
-          log("KYC added bloc called.");
         }
       },
     );
@@ -254,6 +253,13 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           errMsg: err,
         ));
       }
+    });
+    on<KycAddNewDocInitiated>((event, emit) {
+      emit(
+        state.copyWith(
+          isNewDoc: true
+        ),
+      );
     });
   }
 }

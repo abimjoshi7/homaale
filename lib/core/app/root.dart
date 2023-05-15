@@ -42,6 +42,8 @@ class _RootState extends State<Root> {
     checkShowcase();
   }
 
+  
+
   void checkShowcase() async {
     final showcase =
         await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
