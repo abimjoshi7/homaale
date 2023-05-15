@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -193,6 +194,8 @@ class _PostServicePageState extends State<PostServicePage> {
                       uploadBloc.state.videoFileList?.length != 0)
                     await _uploadFile();
                   final req = TaskEntityServiceReq(
+                    // owner:
+                    //     context.read<UserBloc>().state.taskerProfile?.user?.id,
                     title: titleController.text,
                     description: descriptionController.text,
                     highlights: requirementList,
