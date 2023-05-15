@@ -6,6 +6,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/const_info_list.dart';
 import 'bloc/user_deactive_event.dart';
 
 class DeactivatePage extends StatelessWidget {
@@ -42,13 +43,6 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
   DateTime? reactivationDate;
   String? explaination;
 
-  List<String> deactiveReasonList = <String>[
-    'I am deactivating the account temporarily.',
-    'I did not find Homeaale helpful for me',
-    'I have another Homaale account.',
-    'I am not satisfied with the services of Homaale.',
-    'other'
-  ];
 
   @override
   Widget build(BuildContext context) {

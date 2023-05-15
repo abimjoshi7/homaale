@@ -20,46 +20,27 @@ class AccountSuspendCustomToast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        margin: const EdgeInsets.all(60),
+        margin: const EdgeInsets.all(50),
         child: Padding(
           padding: kPadding20,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Center(
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.redAccent,
-                  child: Icon(
-                    Icons.clear_outlined,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              addVerticalSpace(10),
               Text(
                 heading,
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(
+                    color: Colors.blueAccent, fontWeight: FontWeight.bold),
               ),
               kHeight10,
-              Text(content),
-              kHeight50,
+              Text('$content.'),
+              kHeight20,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   SizedBox(
-                    width: 100,
-                    child: CustomElevatedButton(
-                      callback: () {
-                        Navigator.pushNamed(context, ContactUsPage.routeName);
-                      },
-                      label: 'Contact Us',
-                    ),
-                  ),
-                  addHorizontalSpace(30),
-                  SizedBox(
-                    width: 100,
+                    width: 120,
+                    height: 40,
                     child: CustomElevatedButton(
                       borderColor: Theme.of(context).primaryColor,
                       mainColor: Colors.white,
@@ -68,6 +49,16 @@ class AccountSuspendCustomToast extends StatelessWidget {
                       },
                       label: 'Cancel',
                       textColor: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: CustomElevatedButton(
+                      callback: () {
+                        Navigator.pushNamed(context, ContactUsPage.routeName);
+                      },
+                      label: 'Contact Us',
                     ),
                   ),
                 ],
