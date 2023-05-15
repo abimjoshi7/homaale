@@ -12,7 +12,6 @@ import 'package:cipher/features/services/presentation/manager/services_bloc.dart
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class PostServicePage extends StatefulWidget {
@@ -271,7 +270,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 context: context,
                 builder: (context) => CustomToast(
                   heading: "Failure",
-                  content: "Please choose a category",
+                  content: "Please choose a service",
                   onTap: () {},
                   isSuccess: false,
                 ),
@@ -755,67 +754,139 @@ class _PostServicePageState extends State<PostServicePage> {
     return CustomFormField(
       label: 'Category',
       isRequired: true,
-      child: BlocBuilder<ServicesBloc, ServicesState>(
+      child: BlocBuilder<CategoriesBloc, CategoriesState>(
         builder: (context, state) {
           if (state.theStates == TheStates.success) {
-            return DropdownSearch(
-              items: List.generate(
-                state.serviceList?.length ?? 0,
-                (index) => state.serviceList?[index].title,
-              ),
-              onChanged: (value) {
-                for (final element in state.serviceList!) {
-                  if (value == element.title) {
-                    setState(
-                      () {
-                        serviceId = element.id;
+            return Column(
+              children: [
+                DropdownSearch<String>(
+                  items: List.generate(
+                    state.categoryList?.length ?? 0,
+                    (index) => state.categoryList?[index].name ?? "",
+                  ),
+                  onChanged: (value) {
+                    context.read<CategoriesBloc>().add(
+                          CategoriesChanged(
+                            name: value ?? "",
+                          ),
+                        );
+                  },
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(5),
+                      hintText: 'Choose a category',
+                      hintStyle: Theme.of(context).textTheme.bodySmall,
+                      // const TextStyle(
+                      //   color: Color(0xff9CA0C1),
+                      //   fontWeight: FontWeight.w400,
+                      // ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Color(0xffDEE2E6)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: kColorSecondary,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          8,
+                        ),
+                      ),
+                    ),
+                    baseStyle: Theme.of(context).textTheme.bodySmall,
+                    // TextStyle(
+                    //   color: Colors.black,
+                    // ),
+                  ),
+                  clearButtonProps: ClearButtonProps(
+                    padding: EdgeInsets.zero,
+                    iconSize: 16,
+                    visualDensity: VisualDensity.compact,
+                    alignment: Alignment.centerRight,
+                    isVisible: true,
+                    color: serviceId == null ? Colors.white : Colors.black,
+                  ),
+                  popupProps: PopupProps.modalBottomSheet(
+                    showSearchBox: true,
+                    modalBottomSheetProps: ModalBottomSheetProps(
+                      backgroundColor: Theme.of(context).cardColor,
+                      useSafeArea: false,
+                    ),
+                  ),
+                ),
+                addVerticalSpace(
+                  8,
+                ),
+                if (state.serviceList?.isNotEmpty ?? false)
+                  CustomFormField(
+                    label: "Service",
+                    child: DropdownSearch<String>(
+                      items: List.generate(
+                        state.serviceList?.length ?? 0,
+                        (index) => state.serviceList?[index].title ?? "",
+                      ),
+                      onChanged: (value) {
+                        context.read<CategoriesBloc>().add(
+                              SubCategoriesChanged(
+                                name: value ?? "",
+                              ),
+                            );
+                        setState(
+                          () {
+                            serviceId = context
+                                .read<CategoriesBloc>()
+                                .state
+                                .serviceId
+                                .toString();
+                          },
+                        );
                       },
-                    );
-                  }
-                }
-              },
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Choose a category',
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  // const TextStyle(
-                  //   color: Color(0xff9CA0C1),
-                  //   fontWeight: FontWeight.w400,
-                  // ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: kColorSecondary,
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(5),
+                          hintText: 'Choose a category',
+                          hintStyle: Theme.of(context).textTheme.bodySmall,
+                          // const TextStyle(
+                          //   color: Color(0xff9CA0C1),
+                          //   fontWeight: FontWeight.w400,
+                          // ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Color(0xffDEE2E6)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: kColorSecondary,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              8,
+                            ),
+                          ),
+                        ),
+                        baseStyle: Theme.of(context).textTheme.bodySmall,
+                        // TextStyle(
+                        //   color: Colors.black,
+                        // ),
+                      ),
+                      clearButtonProps: ClearButtonProps(
+                        padding: EdgeInsets.zero,
+                        iconSize: 16,
+                        visualDensity: VisualDensity.compact,
+                        alignment: Alignment.centerRight,
+                        isVisible: true,
+                        color: serviceId == null ? Colors.white : Colors.black,
+                      ),
+                      popupProps: PopupProps.modalBottomSheet(
+                        showSearchBox: true,
+                        modalBottomSheetProps: ModalBottomSheetProps(
+                          backgroundColor: Theme.of(context).cardColor,
+                          useSafeArea: false,
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
                   ),
-                ),
-                baseStyle: Theme.of(context).textTheme.bodySmall,
-                // TextStyle(
-                //   color: Colors.black,
-                // ),
-              ),
-              clearButtonProps: ClearButtonProps(
-                padding: EdgeInsets.zero,
-                iconSize: 16,
-                visualDensity: VisualDensity.compact,
-                alignment: Alignment.centerRight,
-                isVisible: true,
-                color: serviceId == null ? Colors.white : Colors.black,
-              ),
-              popupProps: PopupProps.modalBottomSheet(
-                showSearchBox: true,
-                modalBottomSheetProps: ModalBottomSheetProps(
-                  backgroundColor: Theme.of(context).cardColor,
-                  useSafeArea: false,
-                ),
-              ),
+              ],
             );
           }
           return const SizedBox.shrink();

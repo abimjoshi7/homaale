@@ -12,6 +12,8 @@ class TransactionLoaded extends TransactionEvent {
   final String? status;
   final String? transactionType;
   final int? paymentMethod;
+  final bool? beforeSelected;
+  final bool? afterSelected;
   TransactionLoaded({
     this.pageNumber,
     this.dateAfter,
@@ -19,6 +21,8 @@ class TransactionLoaded extends TransactionEvent {
     this.status,
     this.transactionType,
     this.paymentMethod,
+    this.beforeSelected,
+    this.afterSelected,
   });
   @override
   List<Object?> get props => [
@@ -28,25 +32,9 @@ class TransactionLoaded extends TransactionEvent {
         status,
         transactionType,
         paymentMethod,
+        beforeSelected,
+        afterSelected,
       ];
-
-  TransactionLoaded copyWith({
-    int? pageNumber,
-    DateTime? dateAfter,
-    DateTime? dateBefore,
-    String? status,
-    String? transactionType,
-    int? paymentMethod,
-  }) {
-    return TransactionLoaded(
-      pageNumber: pageNumber ?? this.pageNumber,
-      dateAfter: dateAfter ?? this.dateAfter,
-      dateBefore: dateBefore ?? this.dateBefore,
-      status: status ?? this.status,
-      transactionType: transactionType ?? this.transactionType,
-      paymentMethod: paymentMethod ?? this.paymentMethod,
-    );
-  }
 }
 
 class TransactionStatusChanged extends TransactionEvent {
@@ -63,13 +51,19 @@ class TransactionStatusChanged extends TransactionEvent {
 class TransactionDateChanged extends TransactionEvent {
   final DateTime? beforeDate;
   final DateTime? afterDate;
+  final bool? beforeSelected;
+  final bool? afterSelected;
   TransactionDateChanged({
     this.beforeDate,
     this.afterDate,
+    this.beforeSelected,
+    this.afterSelected,
   });
   @override
   List<Object?> get props => [
         beforeDate,
         afterDate,
+        beforeSelected,
+        afterSelected,
       ];
 }

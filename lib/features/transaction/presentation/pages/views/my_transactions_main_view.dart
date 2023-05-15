@@ -61,8 +61,9 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: "My Transactions",
+        trailingWidget: SizedBox.shrink(),
         // * To be implemented
-        // trailingWidget: IconButton(
+        // IconButton(
         //   onPressed: () async {
         //     await TransactionRepository().downloadCSV();
         //   },
