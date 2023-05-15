@@ -47,6 +47,7 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
 import '../../features/feedback/bloc/feedback_bloc.dart';
@@ -100,6 +101,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => UserSuspendBloc(),
+          ),
+          BlocProvider(
+            create: (context) => BookingCancelBloc(),
           ),
           BlocProvider(
             create: (context) => ResendVerificationBloc(
