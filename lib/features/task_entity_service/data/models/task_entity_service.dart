@@ -197,12 +197,12 @@ class Rating with _$Rating {
 @freezed
 class RatingStats with _$RatingStats {
   const factory RatingStats({
-    @JsonKey(name: "average_rating") int? averageRating,
-    int? five,
-    int? four,
-    int? three,
-    int? two,
-    int? one,
+    @JsonKey(name: "average_rating") double? averageRating,
+    double? five,
+    double? four,
+    double? three,
+    double? two,
+    double? one,
     @JsonKey(name: "total_counts") int? totalCounts,
   }) = _RatingStats;
 
