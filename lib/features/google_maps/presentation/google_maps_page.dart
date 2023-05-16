@@ -40,7 +40,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
           _location = LatLng(position.latitude, position.longitude);
         });
       }
-      if (value!.isEmpty) {
+      if (value == null) {
         setState(
           () => _location = _center,
         );
