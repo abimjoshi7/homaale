@@ -2,7 +2,8 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/billing_payment_page/presentation/billing_payment_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+    as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
@@ -40,7 +41,8 @@ class AccountProfile extends StatefulWidget {
   State<AccountProfile> createState() => _AccountProfileState();
 }
 
-class _AccountProfileState extends State<AccountProfile> with TheModalBottomSheet {
+class _AccountProfileState extends State<AccountProfile>
+    with TheModalBottomSheet {
   bool isDark = false;
 
   void checkAppMode() async {
@@ -265,8 +267,16 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
                 size: 16,
               ),
               onTap: () {
-                context.read<SupportTicketTypeOptionsBloc>().add(SupportTicketTypeOptionsLoaded(target: ''));
-                context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
+
+                context
+                    .read<SupportTicketTypeOptionsBloc>()
+                    .add(SupportTicketTypeOptionsLoaded(target: ''));
+                context
+                            .read<UserSuspendBloc>()
+                            .state
+                            .userAccountSuspension
+                            ?.isSuspended ==
+                        true
                     ? showDialog(
                         context: context,
                         builder: (context) => AccountSuspendCustomToast(

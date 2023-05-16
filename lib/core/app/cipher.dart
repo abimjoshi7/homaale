@@ -129,7 +129,8 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
-            create: (context) => KycBloc(KycRepositories()),
+            create: (context) => locator<KycBloc>(),
+
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),

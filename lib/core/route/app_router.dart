@@ -194,6 +194,7 @@ class AppRouter {
       case AccountView.routeName:
         return MaterialPageRoute(
           builder: (context) => const AccountView(),
+          settings: settings,
         );
       case Settings.routeName:
         return MaterialPageRoute(

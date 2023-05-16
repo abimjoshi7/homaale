@@ -6,22 +6,29 @@ class KycState extends Equatable {
   final TheStates? theStates;
   final KycModel? kycModel;
   final List<KycListRes>? list;
+  final bool? isProfileCreated;
+  final bool? isDocCreated;
   final int? kycId;
-  final bool? isCreated;
-  final bool? isDocLoaded;
   final List<Country>? country;
   final List<KycDocType>? docTypeList;
   final String? errMsg;
+  final bool? isProfileEdited;
+  final bool? isDocEdited;
+  final bool? isNewDoc;
+
   const KycState({
-    this.theStates,
+    this.theStates = TheStates.initial,
     this.kycModel,
     this.list,
+    this.isProfileCreated,
+    this.isDocCreated,
     this.kycId,
-    this.isCreated = null,
-    this.isDocLoaded = false,
     this.country,
     this.docTypeList,
     this.errMsg,
+    this.isProfileEdited,
+    this.isDocEdited,
+    this.isNewDoc = false,
   });
 
   @override
@@ -30,12 +37,15 @@ class KycState extends Equatable {
       theStates,
       kycModel,
       list,
+      isProfileCreated,
+      isDocCreated,
       kycId,
-      isCreated,
-      isDocLoaded,
       country,
       docTypeList,
       errMsg,
+      isProfileEdited,
+      isDocEdited,
+      isNewDoc,
     ];
   }
 
@@ -43,23 +53,29 @@ class KycState extends Equatable {
     TheStates? theStates,
     KycModel? kycModel,
     List<KycListRes>? list,
+    bool? isProfileCreated,
+    bool? isDocCreated,
     int? kycId,
-    bool? isCreated,
-    bool? isDocLoaded,
     List<Country>? country,
     List<KycDocType>? docTypeList,
     String? errMsg,
+    bool? isProfileEdited,
+    bool? isDocEdited,
+    bool? isNewDoc,
   }) {
     return KycState(
       theStates: theStates ?? this.theStates,
       kycModel: kycModel ?? this.kycModel,
       list: list ?? this.list,
+      isProfileCreated: isProfileCreated ?? this.isProfileCreated,
+      isDocCreated: isDocCreated ?? this.isDocCreated,
       kycId: kycId ?? this.kycId,
-      isCreated: isCreated ?? this.isCreated,
-      isDocLoaded: isDocLoaded ?? this.isDocLoaded,
       country: country ?? this.country,
       docTypeList: docTypeList ?? this.docTypeList,
       errMsg: errMsg ?? this.errMsg,
+      isProfileEdited: isProfileEdited ?? this.isProfileEdited,
+      isDocEdited: isDocEdited ?? this.isDocEdited,
+      isNewDoc: isNewDoc ?? this.isNewDoc,
     );
   }
 }
