@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
@@ -137,11 +138,19 @@ class _CalledRootClassState extends State<CalledRootClass> {
       ),
     );
     Future.delayed(
-      const Duration(microseconds: 10),
+      Duration.zero,
       () async {
         await context
             .read<TaskerPortfolioCubit>()
             .getPortfolio()
+            .then((value) async => {
+                  if (CacheHelper.isLoggedIn)
+                    {
+                      context.read<KycBloc>().add(KycModelLoaded()),
+                      context.read<KycBloc>().add(KycDocumentLoaded()),
+                      context.read<KycBloc>().add(KycProfileInitiated()),
+                    }
+                })
             .then(
               (value) async => context
                   .read<TaskBloc>()
@@ -166,14 +175,6 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       context.read<UserBloc>().add(
                             UserLoaded(),
                           ),
-                    }
-                })
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      // context.read<KycBloc>().add(
-                      //       KycModelLoaded(),
-                      //     ),
                     }
                 })
             .then(

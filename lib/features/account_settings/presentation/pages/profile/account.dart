@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
@@ -28,6 +29,7 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
+
 
 
   @override
@@ -85,9 +87,8 @@ class _AccountViewState extends State<AccountView> {
                           AccountUserInfoSection(
                             name:
                                 '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile!.isProfileVerified!
-                                ? true
-                                : false,
+                            isVerified:
+                                state.taskerProfile?.isProfileVerified ?? false,
                             designation:
                                 state.taskerProfile?.designation?.toString() ??
                                     'Homaale User',
@@ -141,14 +142,17 @@ class _AccountViewState extends State<AccountView> {
                   ),
                 ),
                 // kHeight20,
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      KycDetails.routeName,
-                    );
+                //*****/
+                BlocBuilder<KycBloc, KycState>(
+                  builder: (context, state) {
+                    return Visibility(
+                        visible: state.kycModel != null
+                            ? state.kycModel!.isKycVerified!
+                                ? false
+                                : true
+                            : true,
+                        child: ProfileKycVerifySection());
                   },
-                  child: const ProfileKycVerifySection(),
                 ),
                 BlocBuilder<SignInBloc, SignInState>(
                   builder: (context, state) {
@@ -156,12 +160,8 @@ class _AccountViewState extends State<AccountView> {
                       return Visibility(
                         visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
-                          onTap: () async {
-                            Navigator.pushNamed(
-                              context,
-                              KycDetails.routeName,
-                            );
-                          },
+                          onTap: () => conditionalCheckNavigation(
+                              context, context.read<KycBloc>().state),
                           icon: const Icon(
                             Icons.card_membership_rounded,
                           ),
