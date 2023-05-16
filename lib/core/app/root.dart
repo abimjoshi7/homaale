@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
@@ -41,8 +42,6 @@ class _RootState extends State<Root> {
     super.initState();
     checkShowcase();
   }
-
-  
 
   void checkShowcase() async {
     final showcase =
