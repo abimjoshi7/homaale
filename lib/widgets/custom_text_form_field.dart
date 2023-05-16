@@ -82,7 +82,7 @@ class CustomTextFormField extends StatelessWidget {
           maxWidth: theWidth ?? MediaQuery.of(context).size.width,
         ),
         hintText: hintText,
-        hintStyle: hintStyle ?? Theme.of(context).textTheme.bodySmall,
+        hintStyle: hintStyle ?? Theme.of(context).textTheme.displaySmall,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),
