@@ -1,9 +1,12 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/billing_payment_page/presentation/billing_payment_page.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
     as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -165,6 +168,24 @@ class _AccountProfileState extends State<AccountProfile>
             ),
             AccountListTileSection(
               onTap: () {
+                context.read<BillsPaymentBloc>().add(InitializeState());
+                context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
+                Navigator.pushNamed(
+                  context,
+                  BillingAndPaymentPage.routeName,
+                );
+              },
+              icon: const Icon(
+                Icons.edit_document,
+              ),
+              label: 'Billing & Payments',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
                 Navigator.pushNamed(
                   context,
                   TaxCalculator.routeName,
@@ -246,6 +267,7 @@ class _AccountProfileState extends State<AccountProfile>
                 size: 16,
               ),
               onTap: () {
+
                 context
                     .read<SupportTicketTypeOptionsBloc>()
                     .add(SupportTicketTypeOptionsLoaded(target: ''));

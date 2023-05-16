@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/error/error_page.dart';
-import 'package:cipher/features/account_settings/presentation/pages/billing_payment_page/billing_payment_page.dart';
+import 'package:cipher/features/billing_payment_page/presentation/add_payment_method_form.dart';
+import 'package:cipher/features/billing_payment_page/presentation/billing_payment_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/connected_account/connected_account_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/deactivate_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/help_legal_page.dart';
@@ -457,6 +458,11 @@ class AppRouter {
       case WalletPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const WalletPage(),
+          settings: settings,
+        );
+      case AddPaymentMethodForm.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddPaymentMethodForm(),
           settings: settings,
         );
       default:
