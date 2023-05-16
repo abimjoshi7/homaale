@@ -33,6 +33,9 @@ class Result with _$Result {
     String? slug,
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "media_limit") int? mediaLimit,
+    @JsonKey(name: "extra_data") Map<String, dynamic>? extraData,
+    String? commission,
+    @JsonKey(name: "inherits_commission") bool? inheritsCommission,
     int? parent,
   }) = _Result;
 

@@ -4,6 +4,8 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/api_constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
+import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 
 class TaskEntityServiceRepository {
   final _dio = DioHelper();
@@ -19,11 +21,29 @@ class TaskEntityServiceRepository {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
-      rethrow;
+      log("Post TES error: $e");
+      throw Exception("POST TES ERROR");
     }
   }
 
-  Future<Map<String, dynamic>> retrieveSingleTaskEntityService({
+  Future<TaskEntityServiceRes> postTaskEntityService(
+    TaskEntityServiceReq req,
+  ) async =>
+      await createTaskEntityService(
+        taskEntityServiceReq: req,
+      )
+          .then(
+            (value) => TaskEntityServiceRes.fromJson(
+              value,
+            ),
+          )
+          .onError(
+            (error, stackTrace) => throw Exception(
+              error,
+            ),
+          );
+
+  Future<Map<String, dynamic>> fetchSingleTaskEntityService({
     required String serviceId,
   }) async {
     try {
@@ -40,12 +60,19 @@ class TaskEntityServiceRepository {
         return res as Map<String, dynamic>;
       }
     } catch (e) {
-      // log(
-      //   e.toString(),
-      // );
-      rethrow;
+      log(
+        "Single Task Entity Service Fetch Error:" + e.toString(),
+      );
+      throw Exception("Single Task Entity Service Fetch Error");
     }
   }
+
+  Future<TaskEntityService> getSingleTaskEntityService(String id) async =>
+      await fetchSingleTaskEntityService(serviceId: id).then(
+        (value) => TaskEntityService.fromJson(
+          value,
+        ),
+      );
 
   Future editTaskEntityService(
     String id,

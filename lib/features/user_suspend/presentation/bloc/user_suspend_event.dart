@@ -5,8 +5,8 @@ abstract class UserSuspendEvent extends Equatable {
 }
 
 class UserSuspendLoaded extends UserSuspendEvent {
-  final String? userId;
-  const UserSuspendLoaded({this.userId});
+  final String userId;
+  const UserSuspendLoaded({required this.userId});
 
   @override
   List<Object?> get props => [userId];

@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:dependencies/dependencies.dart';
-import 'package:equatable/equatable.dart';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
@@ -30,7 +28,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   }
 
   Future<void> _onTransactionLoaded(
-      TransactionEvent event, Emitter<TransactionState> emit) async {
+      TransactionLoaded event, Emitter<TransactionState> emit) async {
     if (state.hasReachedMax == true) return;
 
     try {
@@ -59,8 +57,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
                   theStates: TheStates.success,
                   res: transactionsRes,
                   hasReachedMax: false,
-                  transactions: List.from(state.transactions as Iterable)
-                    ..addAll(transactionsRes.result!),
+                  transactions: List.from(
+                    state.transactions as Iterable,
+                  )..addAll(transactionsRes.result!),
                 ),
               );
       } else
@@ -97,6 +96,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     TransactionDateChanged event,
     Emitter<TransactionState> emit,
   ) async {
+
     final transactionsRes = await repo.getTransactions(
       dateBefore: event.beforeDate == null
           ? null

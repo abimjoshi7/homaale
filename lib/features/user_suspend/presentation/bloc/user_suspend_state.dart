@@ -2,7 +2,6 @@ import 'package:dependencies/dependencies.dart';
 
 import '../../data/models/user_account_suspension.dart';
 
-
 import '../../../../core/constants/enums.dart';
 
 class UserSuspendState extends Equatable {

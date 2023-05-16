@@ -20,6 +20,7 @@ TaskEntityServiceReq _$TaskEntityServiceReqFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskEntityServiceReq {
+// String? owner,
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<String?>? get highlights => throw _privateConstructorUsedError;
@@ -564,6 +565,7 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   factory _$_TaskEntityServiceReq.fromJson(Map<String, dynamic> json) =>
       _$$_TaskEntityServiceReqFromJson(json);
 
+// String? owner,
   @override
   final String? title;
   @override
@@ -838,7 +840,7 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   factory _TaskEntityServiceReq.fromJson(Map<String, dynamic> json) =
       _$_TaskEntityServiceReq.fromJson;
 
-  @override
+  @override // String? owner,
   String? get title;
   @override
   String? get description;

@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/categories/data/models/category.dart';
+import 'package:cipher/features/categories/data/models/sub_category_res.dart'
+    hide Category;
 
 class CategoriesRepositories {
   final _dio = DioHelper();
@@ -11,7 +14,10 @@ class CategoriesRepositories {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final x = await _dio.getData(
-          url: 'task/cms/task-category/list/',
+          url: kParentCategoryList,
+          query: {
+            "has_service": true,
+          },
         );
         return (x as List<dynamic>)
             .map(
@@ -20,8 +26,11 @@ class CategoriesRepositories {
             .toList();
       } else {
         final x = await _dio.getDatawithCredential(
-          url: 'task/cms/task-category/list/',
+          url: kParentCategoryList,
           token: CacheHelper.accessToken,
+          query: {
+            "has_service": true,
+          },
         );
         return (x as List<dynamic>)
             .map(
@@ -85,16 +94,36 @@ class CategoriesRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchTaskSubCategory(int id) async => await _dio
+  Future<List<Map<String, dynamic>>> fetchTaskSubCategory(int id) async =>
+      await _dio
           .getDatawithCredential(
-            url: "task/cms/task-subcategory/$id/",
+            url: kSubCategoryList,
             token: CacheHelper.accessToken,
+            query: {
+              "page": -1,
+              "category_id": id,
+            },
           )
-          .then((value) => value as Map<String, dynamic>)
+          .then(
+            (value) => List<Map<String, dynamic>>.from(
+              value as Iterable,
+            ),
+          )
           .onError(
-        (error, stackTrace) {
-          log("TaskSubCategory Fetch Error: $error");
-          throw "";
-        },
+            (error, stackTrace) {
+              log("TaskSubCategory Fetch Error: $error");
+              throw Exception("Sub-category fetch error");
+            },
+          );
+
+  Future<List<SubCategoryRes>> getService(int id) async =>
+      await fetchTaskSubCategory(id).then(
+        (value) => value
+            .map(
+              (e) => SubCategoryRes.fromJson(
+                e,
+              ),
+            )
+            .toList(),
       );
 }

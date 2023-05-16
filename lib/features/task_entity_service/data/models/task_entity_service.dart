@@ -21,6 +21,7 @@ class TaskEntityService with _$TaskEntityService {
     List<Badge>? endorsements,
     @JsonKey(name: "is_redeemable") bool? isRedeemable,
     Event? event,
+    @JsonKey(name: "rating_stats") RatingStats? ratingStats,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "update_at") DateTime? updatedAt,
     @JsonKey(name: "deleted_at") DateTime? deletedAt,
@@ -52,6 +53,10 @@ class TaskEntityService with _$TaskEntityService {
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "needs_approval") bool? needsApproval,
     @JsonKey(name: "is_endorsed") bool? isEndorsed,
+    @JsonKey(name: "payable_from") String? payableFrom,
+    @JsonKey(name: "payable_to") String? payableTo,
+    @JsonKey(name: "updated_by") String? updatedBy,
+    String? owner,
     dynamic merchant,
     dynamic avatar,
   }) = _TaskEntityService;
@@ -168,6 +173,8 @@ class Offer with _$Offer {
     String? title,
     String? description,
     String? image,
+    @JsonKey(name: "start_date") DateTime? startDate,
+    @JsonKey(name: "end_date") DateTime? endDate,
     @JsonKey(name: "offer_type") String? offerType,
     String? code,
     @JsonKey(name: "offer_rule") num? offerRule,
@@ -185,6 +192,22 @@ class Rating with _$Rating {
   }) = _Rating;
 
   factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
+}
+
+@freezed
+class RatingStats with _$RatingStats {
+  const factory RatingStats({
+    @JsonKey(name: "average_rating") double? averageRating,
+    double? five,
+    double? four,
+    double? three,
+    double? two,
+    double? one,
+    @JsonKey(name: "total_counts") int? totalCounts,
+  }) = _RatingStats;
+
+  factory RatingStats.fromJson(Map<String, dynamic> json) =>
+      _$RatingStatsFromJson(json);
 }
 
 @freezed

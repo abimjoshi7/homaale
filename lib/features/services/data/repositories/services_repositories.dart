@@ -134,7 +134,7 @@ class ServicesRepositories {
       }
     } catch (e) {
       log(
-        e.toString(),
+        'aplicant error' + e.toString(),
       );
       rethrow;
     }

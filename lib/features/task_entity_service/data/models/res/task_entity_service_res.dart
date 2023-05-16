@@ -13,6 +13,7 @@ part 'task_entity_service_res.g.dart';
 class TaskEntityServiceRes with _$TaskEntityServiceRes {
   const factory TaskEntityServiceRes({
     String? id,
+    String? owner,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? title,
@@ -21,8 +22,8 @@ class TaskEntityServiceRes with _$TaskEntityServiceRes {
     @JsonKey(name: "budget_type") String? budgetType,
     @JsonKey(name: "budget_from") String? budgetFrom,
     @JsonKey(name: "budget_to") String? budgetTo,
-    @JsonKey(name: "start_date") DateTime? startDate,
-    @JsonKey(name: "end_date") DateTime? endDate,
+    @JsonKey(name: "start_date") String? startDate,
+    @JsonKey(name: "end_date") String? endDate,
     @JsonKey(name: "start_time") String? startTime,
     @JsonKey(name: "end_time") String? endTime,
     @JsonKey(name: "share_location") bool? shareLocation,
@@ -40,6 +41,8 @@ class TaskEntityServiceRes with _$TaskEntityServiceRes {
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "needs_approval") bool? needsApproval,
     @JsonKey(name: "is_endorsed") bool? isEndorsed,
+    @JsonKey(name: "payable_from") String? payableFrom,
+    @JsonKey(name: "payable_to") String? payableTo,
     String? service,
     String? event,
     int? city,

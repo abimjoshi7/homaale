@@ -10,6 +10,16 @@ class CategoriesLoadInitiated extends CategoriesEvent {
   List<Object?> get props => [];
 }
 
+class CategoriesChanged extends CategoriesEvent {
+  final String name;
+  CategoriesChanged({
+    required this.name,
+  });
+  @override
+  List<Object?> get props => [
+        name,
+      ];
+}
 
 class CategoriesTopLoadInitiated extends CategoriesEvent {
   @override
@@ -26,5 +36,16 @@ class TaskSubCategoryLoaded extends CategoriesEvent {
   @override
   List<Object?> get props => [
         categoryId,
+      ];
+}
+
+class SubCategoriesChanged extends CategoriesEvent {
+  final String name;
+  SubCategoriesChanged({
+    required this.name,
+  });
+  @override
+  List<Object?> get props => [
+        name,
       ];
 }
