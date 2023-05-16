@@ -30,6 +30,8 @@ mixin _$TaskEntityService {
   List<Image>? get videos => throw _privateConstructorUsedError;
   List<Rating>? get rating => throw _privateConstructorUsedError;
   num? get count => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_bookmarked")
+  bool? get isBookmarked => throw _privateConstructorUsedError;
   List<Offer>? get offers => throw _privateConstructorUsedError;
   List<Badge>? get endorsements => throw _privateConstructorUsedError;
   @JsonKey(name: "is_redeemable")
@@ -48,6 +50,8 @@ mixin _$TaskEntityService {
   List<String>? get highlights => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_type")
   String? get budgetType => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_range")
+  bool? get isRange => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_from")
   String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_to")
@@ -125,6 +129,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       List<Image>? videos,
       List<Rating>? rating,
       num? count,
+      @JsonKey(name: "is_bookmarked") bool? isBookmarked,
       List<Offer>? offers,
       List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") bool? isRedeemable,
@@ -137,6 +142,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       String? description,
       List<String>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
+      @JsonKey(name: "is_range") bool? isRange,
       @JsonKey(name: "budget_from") String? budgetFrom,
       @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
@@ -198,6 +204,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? videos = freezed,
     Object? rating = freezed,
     Object? count = freezed,
+    Object? isBookmarked = freezed,
     Object? offers = freezed,
     Object? endorsements = freezed,
     Object? isRedeemable = freezed,
@@ -210,6 +217,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? description = freezed,
     Object? highlights = freezed,
     Object? budgetType = freezed,
+    Object? isRange = freezed,
     Object? budgetFrom = freezed,
     Object? budgetTo = freezed,
     Object? startDate = freezed,
@@ -278,6 +286,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as num?,
+      isBookmarked: freezed == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool?,
       offers: freezed == offers
           ? _value.offers
           : offers // ignore: cast_nullable_to_non_nullable
@@ -326,6 +338,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
               as String?,
+      isRange: freezed == isRange
+          ? _value.isRange
+          : isRange // ignore: cast_nullable_to_non_nullable
+              as bool?,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
@@ -540,6 +556,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       List<Image>? videos,
       List<Rating>? rating,
       num? count,
+      @JsonKey(name: "is_bookmarked") bool? isBookmarked,
       List<Offer>? offers,
       List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") bool? isRedeemable,
@@ -552,6 +569,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       String? description,
       List<String>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
+      @JsonKey(name: "is_range") bool? isRange,
       @JsonKey(name: "budget_from") String? budgetFrom,
       @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
@@ -617,6 +635,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? videos = freezed,
     Object? rating = freezed,
     Object? count = freezed,
+    Object? isBookmarked = freezed,
     Object? offers = freezed,
     Object? endorsements = freezed,
     Object? isRedeemable = freezed,
@@ -629,6 +648,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? description = freezed,
     Object? highlights = freezed,
     Object? budgetType = freezed,
+    Object? isRange = freezed,
     Object? budgetFrom = freezed,
     Object? budgetTo = freezed,
     Object? startDate = freezed,
@@ -697,6 +717,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as num?,
+      isBookmarked: freezed == isBookmarked
+          ? _value.isBookmarked
+          : isBookmarked // ignore: cast_nullable_to_non_nullable
+              as bool?,
       offers: freezed == offers
           ? _value._offers
           : offers // ignore: cast_nullable_to_non_nullable
@@ -745,6 +769,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
               as String?,
+      isRange: freezed == isRange
+          ? _value.isRange
+          : isRange // ignore: cast_nullable_to_non_nullable
+              as bool?,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
@@ -882,6 +910,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       final List<Image>? videos,
       final List<Rating>? rating,
       this.count,
+      @JsonKey(name: "is_bookmarked") this.isBookmarked,
       final List<Offer>? offers,
       final List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") this.isRedeemable,
@@ -894,6 +923,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       this.description,
       final List<String>? highlights,
       @JsonKey(name: "budget_type") this.budgetType,
+      @JsonKey(name: "is_range") this.isRange,
       @JsonKey(name: "budget_from") this.budgetFrom,
       @JsonKey(name: "budget_to") this.budgetTo,
       @JsonKey(name: "start_date") this.startDate,
@@ -978,6 +1008,9 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   final num? count;
+  @override
+  @JsonKey(name: "is_bookmarked")
+  final bool? isBookmarked;
   final List<Offer>? _offers;
   @override
   List<Offer>? get offers {
@@ -1032,6 +1065,9 @@ class _$_TaskEntityService implements _TaskEntityService {
   @override
   @JsonKey(name: "budget_type")
   final String? budgetType;
+  @override
+  @JsonKey(name: "is_range")
+  final bool? isRange;
   @override
   @JsonKey(name: "budget_from")
   final String? budgetFrom;
@@ -1127,7 +1163,7 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1146,6 +1182,8 @@ class _$_TaskEntityService implements _TaskEntityService {
             const DeepCollectionEquality().equals(other._videos, _videos) &&
             const DeepCollectionEquality().equals(other._rating, _rating) &&
             (identical(other.count, count) || other.count == count) &&
+            (identical(other.isBookmarked, isBookmarked) ||
+                other.isBookmarked == isBookmarked) &&
             const DeepCollectionEquality().equals(other._offers, _offers) &&
             const DeepCollectionEquality()
                 .equals(other._endorsements, _endorsements) &&
@@ -1167,6 +1205,7 @@ class _$_TaskEntityService implements _TaskEntityService {
                 .equals(other._highlights, _highlights) &&
             (identical(other.budgetType, budgetType) ||
                 other.budgetType == budgetType) &&
+            (identical(other.isRange, isRange) || other.isRange == isRange) &&
             (identical(other.budgetFrom, budgetFrom) ||
                 other.budgetFrom == budgetFrom) &&
             (identical(other.budgetTo, budgetTo) ||
@@ -1235,6 +1274,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         const DeepCollectionEquality().hash(_videos),
         const DeepCollectionEquality().hash(_rating),
         count,
+        isBookmarked,
         const DeepCollectionEquality().hash(_offers),
         const DeepCollectionEquality().hash(_endorsements),
         isRedeemable,
@@ -1247,6 +1287,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         description,
         const DeepCollectionEquality().hash(_highlights),
         budgetType,
+        isRange,
         budgetFrom,
         budgetTo,
         startDate,
@@ -1305,6 +1346,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       final List<Image>? videos,
       final List<Rating>? rating,
       final num? count,
+      @JsonKey(name: "is_bookmarked") final bool? isBookmarked,
       final List<Offer>? offers,
       final List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") final bool? isRedeemable,
@@ -1317,6 +1359,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       final String? description,
       final List<String>? highlights,
       @JsonKey(name: "budget_type") final String? budgetType,
+      @JsonKey(name: "is_range") final bool? isRange,
       @JsonKey(name: "budget_from") final String? budgetFrom,
       @JsonKey(name: "budget_to") final String? budgetTo,
       @JsonKey(name: "start_date") final DateTime? startDate,
@@ -1371,6 +1414,9 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   num? get count;
   @override
+  @JsonKey(name: "is_bookmarked")
+  bool? get isBookmarked;
+  @override
   List<Offer>? get offers;
   @override
   List<Badge>? get endorsements;
@@ -1400,6 +1446,9 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   @JsonKey(name: "budget_type")
   String? get budgetType;
+  @override
+  @JsonKey(name: "is_range")
+  bool? get isRange;
   @override
   @JsonKey(name: "budget_from")
   String? get budgetFrom;
@@ -2375,6 +2424,7 @@ mixin _$Badge {
   num? get id => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2386,7 +2436,7 @@ abstract class $BadgeCopyWith<$Res> {
   factory $BadgeCopyWith(Badge value, $Res Function(Badge) then) =
       _$BadgeCopyWithImpl<$Res, Badge>;
   @useResult
-  $Res call({num? id, String? image, String? title});
+  $Res call({num? id, String? image, String? title, String? url});
 }
 
 /// @nodoc
@@ -2405,6 +2455,7 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
     Object? id = freezed,
     Object? image = freezed,
     Object? title = freezed,
+    Object? url = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -2419,6 +2470,10 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -2429,7 +2484,7 @@ abstract class _$$_BadgeCopyWith<$Res> implements $BadgeCopyWith<$Res> {
       __$$_BadgeCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({num? id, String? image, String? title});
+  $Res call({num? id, String? image, String? title, String? url});
 }
 
 /// @nodoc
@@ -2444,6 +2499,7 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
     Object? id = freezed,
     Object? image = freezed,
     Object? title = freezed,
+    Object? url = freezed,
   }) {
     return _then(_$_Badge(
       id: freezed == id
@@ -2458,6 +2514,10 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2465,7 +2525,7 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
 /// @nodoc
 @JsonSerializable()
 class _$_Badge implements _Badge {
-  const _$_Badge({this.id, this.image, this.title});
+  const _$_Badge({this.id, this.image, this.title, this.url});
 
   factory _$_Badge.fromJson(Map<String, dynamic> json) =>
       _$$_BadgeFromJson(json);
@@ -2476,10 +2536,12 @@ class _$_Badge implements _Badge {
   final String? image;
   @override
   final String? title;
+  @override
+  final String? url;
 
   @override
   String toString() {
-    return 'Badge(id: $id, image: $image, title: $title)';
+    return 'Badge(id: $id, image: $image, title: $title, url: $url)';
   }
 
   @override
@@ -2489,12 +2551,13 @@ class _$_Badge implements _Badge {
             other is _$_Badge &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.title, title) || other.title == title));
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, image, title);
+  int get hashCode => Object.hash(runtimeType, id, image, title, url);
 
   @JsonKey(ignore: true)
   @override
@@ -2512,7 +2575,10 @@ class _$_Badge implements _Badge {
 
 abstract class _Badge implements Badge {
   const factory _Badge(
-      {final num? id, final String? image, final String? title}) = _$_Badge;
+      {final num? id,
+      final String? image,
+      final String? title,
+      final String? url}) = _$_Badge;
 
   factory _Badge.fromJson(Map<String, dynamic> json) = _$_Badge.fromJson;
 
@@ -2522,6 +2588,8 @@ abstract class _Badge implements Badge {
   String? get image;
   @override
   String? get title;
+  @override
+  String? get url;
   @override
   @JsonKey(ignore: true)
   _$$_BadgeCopyWith<_$_Badge> get copyWith =>
@@ -3975,9 +4043,10 @@ mixin _$Service {
   @JsonKey(name: "id_verified")
   bool? get isVerified => throw _privateConstructorUsedError;
   Category? get category => throw _privateConstructorUsedError;
-  List<dynamic>? get images => throw _privateConstructorUsedError;
+  List<Image>? get images => throw _privateConstructorUsedError;
   @JsonKey(name: "required_documents")
   List<dynamic>? get required_documents => throw _privateConstructorUsedError;
+  String? get commission => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3995,8 +4064,9 @@ abstract class $ServiceCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "id_verified") bool? isVerified,
       Category? category,
-      List<dynamic>? images,
-      @JsonKey(name: "required_documents") List<dynamic>? required_documents});
+      List<Image>? images,
+      @JsonKey(name: "required_documents") List<dynamic>? required_documents,
+      String? commission});
 
   $CategoryCopyWith<$Res>? get category;
 }
@@ -4021,6 +4091,7 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
     Object? category = freezed,
     Object? images = freezed,
     Object? required_documents = freezed,
+    Object? commission = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -4046,11 +4117,15 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       required_documents: freezed == required_documents
           ? _value.required_documents
           : required_documents // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -4080,8 +4155,9 @@ abstract class _$$_ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "id_verified") bool? isVerified,
       Category? category,
-      List<dynamic>? images,
-      @JsonKey(name: "required_documents") List<dynamic>? required_documents});
+      List<Image>? images,
+      @JsonKey(name: "required_documents") List<dynamic>? required_documents,
+      String? commission});
 
   @override
   $CategoryCopyWith<$Res>? get category;
@@ -4104,6 +4180,7 @@ class __$$_ServiceCopyWithImpl<$Res>
     Object? category = freezed,
     Object? images = freezed,
     Object? required_documents = freezed,
+    Object? commission = freezed,
   }) {
     return _then(_$_Service(
       id: freezed == id
@@ -4129,11 +4206,15 @@ class __$$_ServiceCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       required_documents: freezed == required_documents
           ? _value._required_documents
           : required_documents // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -4149,9 +4230,10 @@ class _$_Service implements _Service {
       @JsonKey(name: "id_verified")
           this.isVerified,
       this.category,
-      final List<dynamic>? images,
+      final List<Image>? images,
       @JsonKey(name: "required_documents")
-          final List<dynamic>? required_documents})
+          final List<dynamic>? required_documents,
+      this.commission})
       : _images = images,
         _required_documents = required_documents;
 
@@ -4170,9 +4252,9 @@ class _$_Service implements _Service {
   final bool? isVerified;
   @override
   final Category? category;
-  final List<dynamic>? _images;
+  final List<Image>? _images;
   @override
-  List<dynamic>? get images {
+  List<Image>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -4193,8 +4275,11 @@ class _$_Service implements _Service {
   }
 
   @override
+  final String? commission;
+
+  @override
   String toString() {
-    return 'Service(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images, required_documents: $required_documents)';
+    return 'Service(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images, required_documents: $required_documents, commission: $commission)';
   }
 
   @override
@@ -4212,7 +4297,9 @@ class _$_Service implements _Service {
                 other.category == category) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality()
-                .equals(other._required_documents, _required_documents));
+                .equals(other._required_documents, _required_documents) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission));
   }
 
   @JsonKey(ignore: true)
@@ -4225,7 +4312,8 @@ class _$_Service implements _Service {
       isVerified,
       category,
       const DeepCollectionEquality().hash(_images),
-      const DeepCollectionEquality().hash(_required_documents));
+      const DeepCollectionEquality().hash(_required_documents),
+      commission);
 
   @JsonKey(ignore: true)
   @override
@@ -4250,9 +4338,10 @@ abstract class _Service implements Service {
       @JsonKey(name: "id_verified")
           final bool? isVerified,
       final Category? category,
-      final List<dynamic>? images,
+      final List<Image>? images,
       @JsonKey(name: "required_documents")
-          final List<dynamic>? required_documents}) = _$_Service;
+          final List<dynamic>? required_documents,
+      final String? commission}) = _$_Service;
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
 
@@ -4269,10 +4358,12 @@ abstract class _Service implements Service {
   @override
   Category? get category;
   @override
-  List<dynamic>? get images;
+  List<Image>? get images;
   @override
   @JsonKey(name: "required_documents")
   List<dynamic>? get required_documents;
+  @override
+  String? get commission;
   @override
   @JsonKey(ignore: true)
   _$$_ServiceCopyWith<_$_Service> get copyWith =>

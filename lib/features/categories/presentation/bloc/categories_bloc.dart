@@ -39,6 +39,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
                           b.name,
                         ),
                       ),
+                    commission: "",
+                    serviceId: "",
+                    serviceList: [],
                   ),
                 ),
               );
@@ -133,14 +136,19 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
     on<SubCategoriesChanged>(
       (event, emit) {
-        for (final element in state.serviceList ?? []) {
-          if (event.name == element.title) {
-            emit(
-              state.copyWith(
-                serviceId: element.id as String,
-              ),
-            );
+        try {
+          for (final element in state.serviceList ?? []) {
+            if (event.name == element.title) {
+              emit(
+                state.copyWith(
+                  serviceId: element.id as String,
+                  commission: element.commission as String,
+                ),
+              );
+            }
           }
+        } catch (e) {
+          log("Sub Categories Change Error");
         }
       },
     );

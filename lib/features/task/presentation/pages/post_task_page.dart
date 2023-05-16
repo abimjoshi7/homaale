@@ -49,6 +49,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
   DateTime? startDate;
   DateTime? endDate;
   int? cityCode;
+  int? budgetTo;
+  int? budgetFrom;
   final _key = GlobalKey<FormState>();
   late final UploadBloc uploadBloc;
 
@@ -109,6 +111,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           // ),
                           _buildCurrency(),
                           _buildBudget(),
+                          _buildDialog(),
                           //* Paused as discussed
                           // Row(
                           //   children: [
@@ -380,6 +383,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   () {
                     priceType = value;
                     isBudgetVariable = false;
+                    startPriceController.clear();
                   },
                 ),
               ),
@@ -407,6 +411,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
                     children: [
                       NumberIncDecField(
                         controller: startPriceController,
+                        onChanged: (value) => setState(
+                          () {
+                            if (startPriceController.text.isNotEmpty)
+                              budgetFrom = getRecievableAmount(
+                                double.parse(startPriceController.text),
+                                double.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0.0"),
+                              );
+                          },
+                        ),
                       ),
                       Flexible(
                         child: Padding(
@@ -425,6 +442,17 @@ class _PostTaskPageState extends State<PostTaskPage> {
               Flexible(
                 child: NumberIncDecField(
                   controller: endPriceController,
+                  onChanged: (value) => setState(
+                    () {
+                      if (endPriceController.text.isNotEmpty)
+                        budgetTo = getRecievableAmount(
+                          double.parse(endPriceController.text),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
+                        );
+                    },
+                  ),
                 ),
               ),
               addHorizontalSpace(10),
@@ -455,13 +483,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
       child: BlocBuilder<CurrencyBloc, CurrencyState>(
         builder: (context, state) {
           if (state is CurrencyLoadSuccess) {
-            return DropdownSearch(
+            return CustomDropdownSearch(
               selectedItem: state.currencyListRes
                   .firstWhere(
                     (element) => element.name!.startsWith("Nepalese"),
                   )
                   .name,
-              items: List.generate(
+              list: List.generate(
                 state.currencyListRes.length,
                 (index) => state.currencyListRes[index].name,
               ),
@@ -472,41 +500,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   );
                   currencyCode = x.code;
                 },
-              ),
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Enter Your Currency',
-                  hintStyle: Theme.of(context).textTheme.displaySmall,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: kColorSecondary,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                ),
-                baseStyle: Theme.of(context).textTheme.bodySmall,
-              ),
-              clearButtonProps: ClearButtonProps(
-                padding: EdgeInsets.zero,
-                iconSize: 16,
-                visualDensity: VisualDensity.compact,
-                alignment: Alignment.centerRight,
-                isVisible: true,
-                color: currencyCode == null ? Colors.white : Colors.black,
-              ),
-              popupProps: PopupProps.modalBottomSheet(
-                showSearchBox: true,
-                modalBottomSheetProps: ModalBottomSheetProps(
-                  backgroundColor: Theme.of(context).cardColor,
-                  useSafeArea: false,
-                ),
               ),
             );
           }
@@ -680,13 +673,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
       child: BlocBuilder<CityBloc, CityState>(
         builder: (context, state) {
           if (state is CityLoadSuccess) {
-            return DropdownSearch(
+            return CustomDropdownSearch(
               selectedItem: state.list
                   .firstWhere(
                     (element) => element.name!.startsWith("Kathmandu"),
                   )
                   .name,
-              items: List.generate(
+              list: List.generate(
                 state.list.length,
                 (index) => state.list[index].name,
               ),
@@ -697,46 +690,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   );
                   cityCode = x.id;
                 },
-              ),
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  labelStyle: Theme.of(context).textTheme.bodySmall,
-                  contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Enter Your City',
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  // const TextStyle(
-                  //   color: Color(0xff9CA0C1),
-                  //   fontWeight: FontWeight.w400,
-                  // ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: kColorSecondary,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                ),
-                baseStyle: Theme.of(context).textTheme.bodySmall,
-              ),
-              clearButtonProps: ClearButtonProps(
-                padding: EdgeInsets.zero,
-                iconSize: 16,
-                visualDensity: VisualDensity.compact,
-                alignment: Alignment.centerRight,
-                isVisible: true,
-                color: cityCode == null ? Colors.white : Colors.black,
-              ),
-              popupProps: PopupProps.modalBottomSheet(
-                showSearchBox: true,
-                modalBottomSheetProps: ModalBottomSheetProps(
-                  backgroundColor: Theme.of(context).cardColor,
-                  useSafeArea: false,
-                ),
               ),
             );
           }
@@ -880,76 +833,33 @@ class _PostTaskPageState extends State<PostTaskPage> {
           if (state.theStates == TheStates.success) {
             return Column(
               children: [
-                DropdownSearch<String>(
-                  items: List.generate(
-                    state.categoryList?.length ?? 0,
-                    (index) => state.categoryList?[index].name ?? "",
-                  ),
-                  onChanged: (value) {
-                    context.read<CategoriesBloc>().add(
-                          CategoriesChanged(
-                            name: value ?? "",
-                          ),
-                        );
-                  },
-                  dropdownDecoratorProps: DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(5),
-                      hintText: 'Choose a category',
-                      hintStyle: Theme.of(context).textTheme.bodySmall,
-                      // const TextStyle(
-                      //   color: Color(0xff9CA0C1),
-                      //   fontWeight: FontWeight.w400,
-                      // ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: kColorSecondary,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          8,
-                        ),
-                      ),
+                CustomDropdownSearch(
+                    list: List.generate(
+                      state.categoryList?.length ?? 0,
+                      (index) => state.categoryList?[index].name ?? "",
                     ),
-                    baseStyle: Theme.of(context).textTheme.bodySmall,
-                    // TextStyle(
-                    //   color: Colors.black,
-                    // ),
-                  ),
-                  clearButtonProps: ClearButtonProps(
-                    padding: EdgeInsets.zero,
-                    iconSize: 16,
-                    visualDensity: VisualDensity.compact,
-                    alignment: Alignment.centerRight,
-                    isVisible: true,
-                    color: serviceId == null ? Colors.white : Colors.black,
-                  ),
-                  popupProps: PopupProps.modalBottomSheet(
-                    showSearchBox: true,
-                    modalBottomSheetProps: ModalBottomSheetProps(
-                      backgroundColor: Theme.of(context).cardColor,
-                      useSafeArea: false,
-                    ),
-                  ),
-                ),
+                    onChanged: (value) {
+                      context.read<CategoriesBloc>().add(
+                            CategoriesChanged(
+                              name: (value as String?) ?? "",
+                            ),
+                          );
+                    }),
                 addVerticalSpace(
                   8,
                 ),
                 if (state.serviceList?.isNotEmpty ?? false)
                   CustomFormField(
                     label: "Service",
-                    child: DropdownSearch<String>(
-                      items: List.generate(
+                    child: CustomDropdownSearch(
+                      list: List.generate(
                         state.serviceList?.length ?? 0,
                         (index) => state.serviceList?[index].title ?? "",
                       ),
                       onChanged: (value) {
                         context.read<CategoriesBloc>().add(
                               SubCategoriesChanged(
-                                name: value ?? "",
+                                name: (value as String?) ?? "",
                               ),
                             );
                         setState(
@@ -959,49 +869,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           },
                         );
                       },
-                      dropdownDecoratorProps: DropDownDecoratorProps(
-                        dropdownSearchDecoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(5),
-                          hintText: 'Choose a category',
-                          hintStyle: Theme.of(context).textTheme.bodySmall,
-                          // const TextStyle(
-                          //   color: Color(0xff9CA0C1),
-                          //   fontWeight: FontWeight.w400,
-                          // ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Color(0xffDEE2E6)),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: kColorSecondary,
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              8,
-                            ),
-                          ),
-                        ),
-                        baseStyle: Theme.of(context).textTheme.bodySmall,
-                        // TextStyle(
-                        //   color: Colors.black,
-                        // ),
-                      ),
-                      clearButtonProps: ClearButtonProps(
-                        padding: EdgeInsets.zero,
-                        iconSize: 16,
-                        visualDensity: VisualDensity.compact,
-                        alignment: Alignment.centerRight,
-                        isVisible: true,
-                        color: serviceId == null ? Colors.white : Colors.black,
-                      ),
-                      popupProps: PopupProps.modalBottomSheet(
-                        showSearchBox: true,
-                        modalBottomSheetProps: ModalBottomSheetProps(
-                          backgroundColor: Theme.of(context).cardColor,
-                          useSafeArea: false,
-                        ),
-                      ),
                     ),
                   ),
               ],
@@ -1023,5 +890,84 @@ class _PostTaskPageState extends State<PostTaskPage> {
         hintText: 'Need a Garden Cleaner',
       ),
     );
+  }
+
+  Widget _buildDialog() {
+    if (endPriceController.text.length != 0) {
+      if (context.read<CategoriesBloc>().state.commission != null)
+        return Visibility(
+          visible: budgetTo != null,
+          child: Container(
+            constraints: BoxConstraints.loose(
+              Size(
+                double.maxFinite,
+                60,
+              ),
+            ),
+            margin: EdgeInsets.symmetric(vertical: 4),
+            color: kColorLightSkyBlue,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    color: kColorBlue,
+                  ),
+                  addHorizontalSpace(
+                    8,
+                  ),
+                  Flexible(
+                    child: RichText(
+                      text: TextSpan(
+                        text:
+                            "Your task will be posted in a portal ${(startPriceController.text.length == 0) ? "for" : "with budget ranging from"} ",
+                        style: Theme.of(context).textTheme.displayMedium,
+                        children: startPriceController.text.length == 0
+                            ? [
+                                TextSpan(
+                                  text: "Rs $budgetTo",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: kColorSecondary,
+                                  ),
+                                )
+                              ]
+                            : [
+                                TextSpan(
+                                  text: "Rs $budgetFrom",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: kColorSecondary,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: " to ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
+                                      children: [
+                                        TextSpan(
+                                          text: "Rs $budgetTo",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            color: kColorSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+    }
+    return SizedBox.shrink();
   }
 }

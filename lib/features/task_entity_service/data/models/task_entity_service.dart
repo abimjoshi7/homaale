@@ -17,6 +17,7 @@ class TaskEntityService with _$TaskEntityService {
     List<Image>? videos,
     List<Rating>? rating,
     num? count,
+    @JsonKey(name: "is_bookmarked") bool? isBookmarked,
     List<Offer>? offers,
     List<Badge>? endorsements,
     @JsonKey(name: "is_redeemable") bool? isRedeemable,
@@ -29,6 +30,7 @@ class TaskEntityService with _$TaskEntityService {
     String? description,
     List<String>? highlights,
     @JsonKey(name: "budget_type") String? budgetType,
+    @JsonKey(name: "is_range") bool? isRange,
     @JsonKey(name: "budget_from") String? budgetFrom,
     @JsonKey(name: "budget_to") String? budgetTo,
     @JsonKey(name: "start_date") DateTime? startDate,
@@ -120,6 +122,7 @@ class Badge with _$Badge {
     num? id,
     String? image,
     String? title,
+    String? url,
   }) = _Badge;
 
   factory Badge.fromJson(Map<String, dynamic> json) => _$BadgeFromJson(json);
@@ -218,8 +221,9 @@ class Service with _$Service {
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "id_verified") bool? isVerified,
     Category? category,
-    List<dynamic>? images,
+    List<Image>? images,
     @JsonKey(name: "required_documents") List<dynamic>? required_documents,
+    String? commission,
   }) = _Service;
 
   factory Service.fromJson(Map<String, dynamic> json) =>

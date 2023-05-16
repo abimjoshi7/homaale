@@ -6,7 +6,8 @@
 
 import 'package:dependencies/dependencies.dart';
 
-import '../../../task_entity_service/data/models/task_entity_service.dart';
+import '../../../bookings/data/models/bookings_response_dto.dart';
+import '../../../search/data/models/search_res.dart';
 
 part 'tasker_profile.freezed.dart';
 part 'tasker_profile.g.dart';

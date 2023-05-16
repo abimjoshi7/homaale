@@ -9,6 +9,7 @@ class CategoriesState extends Equatable {
   final TaskSubCategoryModel? taskSubCategoryModel;
   final String? categoryName;
   final String? serviceId;
+  final String? commission;
   CategoriesState({
     this.theStates = TheStates.initial,
     this.categoryList,
@@ -18,6 +19,7 @@ class CategoriesState extends Equatable {
     this.taskSubCategoryModel,
     this.categoryName,
     this.serviceId,
+    this.commission,
   });
 
   CategoriesState copyWith({
@@ -29,6 +31,7 @@ class CategoriesState extends Equatable {
     TaskSubCategoryModel? taskSubCategoryModel,
     String? categoryName,
     String? serviceId,
+    String? commission,
   }) {
     return CategoriesState(
       theStates: theStates ?? this.theStates,
@@ -39,6 +42,7 @@ class CategoriesState extends Equatable {
       taskSubCategoryModel: taskSubCategoryModel ?? this.taskSubCategoryModel,
       categoryName: categoryName ?? this.categoryName,
       serviceId: serviceId ?? this.serviceId,
+      commission: commission ?? this.commission,
     );
   }
 
@@ -53,6 +57,7 @@ class CategoriesState extends Equatable {
       taskSubCategoryModel,
       categoryName,
       serviceId,
+      commission,
     ];
   }
 }

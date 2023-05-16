@@ -14,6 +14,7 @@ class SubCategoryRes with _$SubCategoryRes {
         Category? category,
         List<dynamic>? images,
         List<dynamic>? requiredDocuments,
+				String? commission,
     }) = _SubCategoryRes;
 
     factory SubCategoryRes.fromJson(Map<String, dynamic> json) => _$SubCategoryResFromJson(json);

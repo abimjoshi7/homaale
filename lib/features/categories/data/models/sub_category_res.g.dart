@@ -17,6 +17,7 @@ _$_SubCategoryRes _$$_SubCategoryResFromJson(Map<String, dynamic> json) =>
           : Category.fromJson(json['category'] as Map<String, dynamic>),
       images: json['images'] as List<dynamic>?,
       requiredDocuments: json['requiredDocuments'] as List<dynamic>?,
+      commission: json['commission'] as String?,
     );
 
 Map<String, dynamic> _$$_SubCategoryResToJson(_$_SubCategoryRes instance) =>
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$_SubCategoryResToJson(_$_SubCategoryRes instance) =>
       'category': instance.category,
       'images': instance.images,
       'requiredDocuments': instance.requiredDocuments,
+      'commission': instance.commission,
     };
 
 _$_Category _$$_CategoryFromJson(Map<String, dynamic> json) => _$_Category(

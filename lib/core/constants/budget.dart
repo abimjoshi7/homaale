@@ -1,1 +1,0 @@
-double budgetTo = 10;
