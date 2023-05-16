@@ -28,17 +28,7 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<KycBloc>()
-      ..add(
-        KycModelLoaded(),
-      )
-      ..add(
-        KycDocumentLoaded(),
-      );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +73,8 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -92,10 +83,17 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile!.isProfileVerified! ? true : false,
-                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            name:
+                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified: state.taskerProfile!.isProfileVerified!
+                                ? true
+                                : false,
+                            designation:
+                                state.taskerProfile?.designation?.toString() ??
+                                    'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ??
+                                state.taskerProfile?.user?.email ??
+                                '',
                           ),
                         ],
                       ),
@@ -133,7 +131,9 @@ class _AccountViewState extends State<AccountView> {
                   ),
                   child: CustomElevatedButton(
                     callback: () {
-                      context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
+                      context
+                          .read<ActivitiesTimelineBloc>()
+                          .add(ActivitiesLoaded());
 
                       Navigator.pushNamed(context, Profile.routeName);
                     },
@@ -180,7 +180,12 @@ class _AccountViewState extends State<AccountView> {
 
                 AccountListTileSection(
                   onTap: () {
-                    context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
+                    context
+                                .read<UserSuspendBloc>()
+                                .state
+                                .userAccountSuspension
+                                ?.isSuspended ==
+                            true
                         ? showDialog(
                             context: context,
                             builder: (context) => AccountSuspendCustomToast(
@@ -188,7 +193,8 @@ class _AccountViewState extends State<AccountView> {
                               content: 'User is suspended',
                             ),
                           )
-                        : Navigator.pushNamed(context, ChatListingPage.routeName);
+                        : Navigator.pushNamed(
+                            context, ChatListingPage.routeName);
                   },
                   icon: const Icon(
                     Icons.chat_bubble_outline,
