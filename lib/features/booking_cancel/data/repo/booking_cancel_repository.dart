@@ -13,7 +13,7 @@ class BookingCancelRepository {
           'cancellation_reason': reason,
           'cancellation_description': description
         },
-        url: 'entity/service-booking/cancel/$bookingId/',
+        url: 'task/entity/service-booking/cancel/$bookingId/',
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;

@@ -443,10 +443,13 @@ class AppRouter {
       case BookingItemDetailPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingItemDetailPage(),
+          settings: settings,
+
         );
       case BookingCancelPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingCancelPage(),
+          settings: settings,
         );
       case EventDetailsPage.routeName:
         return MaterialPageRoute(

@@ -28,6 +28,9 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final routeData =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final client = routeData?['client'] as String?;
     return Scaffold(
       body: BlocListener<RatingReviewsBloc, RatingReviewState>(
         listener: (context, state) {
@@ -107,7 +110,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                 ];
                 final isAssignee = booking.assignee?.id ==
                     context.read<UserBloc>().state.taskerProfile?.user?.id;
-                print("Booking id : ${booking.booking}");
                 return Column(
                   children: [
                     addVerticalSpace(
@@ -194,19 +196,40 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                             );
                                           },
                                           child: const Icon(
-                                            Icons.share,
+                                            Icons.redo_sharp,
                                             color: Colors.blue,
                                           ),
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                           Navigator.pushNamed(context, BookingCancelPage.routeName);
-                                          },
-                                          child: const Icon(
-                                            Icons.more_vert,
-                                            // color: Colors.blue,
+                                        if (booking.status == 'Open' ||
+                                            booking.status == 'Waiting' ||
+                                            booking.status == 'Approved' ||
+                                            booking.status == 'Initiated' ||
+                                            booking.status == 'On Progress')
+                                          InkWell(
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) => ListTile(
+                                                  onTap: () {
+                                                    Navigator.pop(context);
+
+                                                    Navigator.pushNamed(
+                                                        context,
+                                                        BookingCancelPage
+                                                            .routeName,
+                                                        arguments: {
+                                                          'client': client,
+                                                        });
+
+                                                  },
+                                                  leading: Icon(
+                                                      Icons.cancel_rounded),
+                                                  title: Text('Cancel'),
+                                                ),
+                                              );
+                                            },
+                                            child: Icon(Icons.more_vert),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -343,6 +366,63 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                             fit: BoxFit.fill,
                           ),
                           addVerticalSpace(10),
+                          if (booking.status == 'Cancelled')
+                            Container(
+                              margin: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                    color: Colors.redAccent.shade200,
+                                    width: 1.5),
+                                color: Colors.red.shade50,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Reason for cancellation',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Reason : ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        Text(
+                                          'Reason ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Description : ',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        Text(
+                                          'Description',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
