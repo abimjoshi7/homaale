@@ -15,7 +15,7 @@ class KycView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: "KYC Details",
+        appBarTitle: "View KYC Details",
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -32,17 +32,20 @@ class KycView extends StatelessWidget {
                         'Basic Details',
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
-                      IconButton(
-                        onPressed: () async {
-                          await Navigator.pushNamed(
-                            context,
-                            KycProfile.routeName,
-                          );
-                        },
-                        icon: Icon(
-                          Icons.mode_edit_outlined,
-                          color: Color(0xff64748B),
-                          size: 22,
+                      Visibility(
+                        visible: state.kycModel!.isKycVerified == false,
+                        child: IconButton(
+                          onPressed: () async {
+                            await Navigator.pushNamed(
+                              context,
+                              KycProfile.routeName,
+                            );
+                          },
+                          icon: Icon(
+                            Icons.mode_edit_outlined,
+                            color: Color(0xff64748B),
+                            size: 22,
+                          ),
                         ),
                       )
                     ],

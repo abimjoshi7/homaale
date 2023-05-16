@@ -81,3 +81,8 @@ class KycAddNewDocInitiated extends KycEvent {
   @override
   List<Object?> get props => [];
 }
+
+class KycAddNewDocCancel extends KycEvent {
+  @override
+  List<Object?> get props => [];
+}

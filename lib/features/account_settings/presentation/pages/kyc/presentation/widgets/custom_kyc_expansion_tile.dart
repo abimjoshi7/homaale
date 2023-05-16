@@ -59,24 +59,27 @@ class CustomKycExpansionTile extends StatelessWidget {
                     fontSize: 14.0,
                     removeSpaceBetween: true,
                   ),
-                  Padding(
-                      padding: EdgeInsets.only(right: 3.0),
-                      child: IconButton(
-                        onPressed: () {
-                          context
-                              .read<KycBloc>()
-                              .add(KycDocEditInitiated(kycId: kycDoc.id));
-                          Navigator.pushNamed(
-                            context,
-                            KycDetails.routeName,
-                          );
-                        },
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          size: 18.0,
-                          color: Color(0xff64748B),
-                        ),
-                      )),
+                  Visibility(
+                    visible: kycDoc.isVerified == false,
+                    child: Padding(
+                        padding: EdgeInsets.only(right: 3.0),
+                        child: IconButton(
+                          onPressed: () {
+                            context
+                                .read<KycBloc>()
+                                .add(KycDocEditInitiated(kycId: kycDoc.id));
+                            Navigator.pushNamed(
+                              context,
+                              KycDetails.routeName,
+                            );
+                          },
+                          icon: Icon(
+                            Icons.edit_outlined,
+                            size: 18.0,
+                            color: Color(0xff64748B),
+                          ),
+                        )),
+                  ),
                 ],
               ),
               addVerticalSpace(8.0),

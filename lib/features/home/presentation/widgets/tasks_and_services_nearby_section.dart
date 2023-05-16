@@ -32,14 +32,14 @@ class TasksAndServicesNearbySection extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
+            height: MediaQuery.of(context).size.height * 0.31,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 //TODO: re-discuss the design for nearby tasks and services
                 Container(
-                  width: 900,
+                  width: 300,
                   height: 190.0,
                   child: GoogleMapsPage(),
                 ),

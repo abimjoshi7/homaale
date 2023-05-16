@@ -46,6 +46,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
           emit(
             state.copyWith(
               // theStates: TheStates.initial,
+              isNewDoc: false,
               docTypeList: _docTypeList,
               country: _countries,
             ),
@@ -110,10 +111,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
               isDocCreated: true,
             ),
           );
-          if (state.theStates == TheStates.success) {
-            // add(KycModelLoaded());
-            // add(KycDocumentLoaded());
-          }
         } catch (e) {
           final err = await CacheHelper.getCachedString(kErrorLog);
           emit(
@@ -141,6 +138,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             state.copyWith(
               theStates: TheStates.success,
               kycModel: KycModel.fromJson(value),
+              isProfileCreated: false,
+              isProfileEdited: false,
             ),
           );
         });
@@ -177,7 +176,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
                         (e) => KycListRes.fromJson(e as Map<String, dynamic>),
                       )
                       .toList(),
-                  isProfileEdited: false,
+                  isDocCreated: false,
                   isDocEdited: false,
                 ),
               );
@@ -227,6 +226,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       emit(state.copyWith(
         theStates: TheStates.initial,
         kycId: event.kycId,
+        isNewDoc: false,
       ));
     });
     on<KycDocEditLoaded>((event, emit) async {
@@ -254,12 +254,11 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         ));
       }
     });
-    on<KycAddNewDocInitiated>((event, emit) {
-      emit(
-        state.copyWith(
-          isNewDoc: true
-        ),
-      );
-    });
+    on<KycAddNewDocInitiated>((event, emit) => emit(
+          state.copyWith(isNewDoc: true),
+        ));
+    on<KycAddNewDocCancel>((event, emit) => emit(
+          state.copyWith(isNewDoc: false),
+        ));
   }
 }

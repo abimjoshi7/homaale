@@ -28,7 +28,7 @@ class KycState extends Equatable {
     this.errMsg,
     this.isProfileEdited,
     this.isDocEdited,
-    this.isNewDoc,
+    this.isNewDoc = false,
   });
 
   @override
