@@ -163,6 +163,7 @@ class KycView extends StatelessWidget {
                             ? "Verified"
                             : "Pending",
                         hasStatus: true,
+                        isVerified: state.kycModel!.isKycVerified!,
                       ),
                       KycStatusBox(
                         attributeTitle: 'Address Verified',
@@ -170,6 +171,7 @@ class KycView extends StatelessWidget {
                             ? "Verified"
                             : "Pending",
                         hasStatus: true,
+                        isVerified: state.kycModel!.isKycVerified!,
                       ),
                     ],
                   ),
