@@ -16,6 +16,7 @@ import 'package:cipher/features/account_settings/presentation/pages/profile/page
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/booking_cancel/presentation/pages/booking_cancel_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
@@ -445,6 +446,13 @@ class AppRouter {
       case BookingItemDetailPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingItemDetailPage(),
+          settings: settings,
+
+        );
+      case BookingCancelPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingCancelPage(),
+          settings: settings,
         );
       case EventDetailsPage.routeName:
         return MaterialPageRoute(

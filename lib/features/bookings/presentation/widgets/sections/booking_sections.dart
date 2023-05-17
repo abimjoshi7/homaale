@@ -97,10 +97,9 @@ class _BookingSectionState extends State<BookingSection> {
                                           .add(
                                         BookingSingleLoaded(item.id),
                                       );
-                                      Navigator.pushNamed(
-                                        context,
-                                        BookingItemDetailPage.routeName,
-                                      );
+                                      Navigator.pushNamed(context,
+                                          BookingItemDetailPage.routeName,
+                                          arguments: {'client': 'merchant'});
                                     },
                                     serviceName: item.title,
                                     providerName:
@@ -127,10 +126,9 @@ class _BookingSectionState extends State<BookingSection> {
                                           .add(
                                         BookingSingleLoaded(item.id),
                                       );
-                                      Navigator.pushNamed(
-                                        context,
-                                        BookingItemDetailPage.routeName,
-                                      );
+                                      Navigator.pushNamed(context,
+                                          BookingItemDetailPage.routeName,
+                                          arguments: {'client': 'client'});
                                     },
                                     serviceName: item.title,
                                     providerName:
