@@ -333,12 +333,12 @@ Map<String, dynamic> _$$_RatingToJson(_$_Rating instance) => <String, dynamic>{
 
 _$_RatingStats _$$_RatingStatsFromJson(Map<String, dynamic> json) =>
     _$_RatingStats(
-      averageRating: json['average_rating'] as int?,
-      five: json['five'] as int?,
-      four: json['four'] as int?,
-      three: json['three'] as int?,
-      two: json['two'] as int?,
-      one: json['one'] as int?,
+      averageRating: (json['average_rating'] as num?)?.toDouble(),
+      five: (json['five'] as num?)?.toDouble(),
+      four: (json['four'] as num?)?.toDouble(),
+      three: (json['three'] as num?)?.toDouble(),
+      two: (json['two'] as num?)?.toDouble(),
+      one: (json['one'] as num?)?.toDouble(),
       totalCounts: json['total_counts'] as int?,
     );
 

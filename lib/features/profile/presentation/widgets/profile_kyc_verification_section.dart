@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 
-import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
@@ -16,35 +15,16 @@ class ProfileKycVerifySection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void conditionalCheck(BuildContext context, KycState state) {
-    if (state.kycModel == null && state.list?.length == 0) {
-      Navigator.pushNamed(
-        context,
-        KycProfile.routeName,
-      );
-    }
-    if (state.kycModel != null && state.list?.length == 0) {
-      Navigator.pushNamed(
-        context,
-        KycDetails.routeName,
-      );
-    }
-    if (state.kycModel != null && state.list?.length != 0) {
-      Navigator.pushNamed(
-        context,
-        KycView.routeName,
-      );
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
       visible: true,
       child: InkWell(
-        onTap: () {
-          conditionalCheck(context, context.read<KycBloc>().state);
-        },
+        onTap: () =>
+          conditionalCheckNavigation(context, context.read<KycBloc>().state)
+        ,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Container(

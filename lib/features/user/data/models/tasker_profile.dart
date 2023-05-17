@@ -6,7 +6,8 @@
 
 import 'package:dependencies/dependencies.dart';
 
-import '../../../task_entity_service/data/models/task_entity_service.dart';
+import '../../../search/data/models/search_res.dart';
+
 
 part 'tasker_profile.freezed.dart';
 part 'tasker_profile.g.dart';
@@ -207,4 +208,33 @@ class User with _$User {
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+}
+
+
+
+
+@freezed
+class Currency with _$Currency {
+  const factory Currency({
+    String? code,
+    String? name,
+    String? symbol,
+  }) = _Currency;
+
+  factory Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
+}
+
+
+@freezed
+class Image with _$Image {
+  const factory Image({
+    num? id,
+    String? name,
+    String? size,
+    @JsonKey(name: "media_type") String? mediaType,
+    String? media,
+  }) = _Image;
+
+  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
 }

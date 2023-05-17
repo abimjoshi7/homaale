@@ -333,3 +333,32 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'profile_image': instance.profileImage,
       'created_at': instance.createdAt?.toIso8601String(),
     };
+
+_$_Currency _$$_CurrencyFromJson(Map<String, dynamic> json) => _$_Currency(
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+      symbol: json['symbol'] as String?,
+    );
+
+Map<String, dynamic> _$$_CurrencyToJson(_$_Currency instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'name': instance.name,
+      'symbol': instance.symbol,
+    };
+
+_$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
+      id: json['id'] as num?,
+      name: json['name'] as String?,
+      size: json['size'] as String?,
+      mediaType: json['media_type'] as String?,
+      media: json['media'] as String?,
+    );
+
+Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'size': instance.size,
+      'media_type': instance.mediaType,
+      'media': instance.media,
+    };

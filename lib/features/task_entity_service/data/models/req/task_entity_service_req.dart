@@ -12,7 +12,7 @@ part 'task_entity_service_req.g.dart';
 @freezed
 class TaskEntityServiceReq with _$TaskEntityServiceReq {
   const factory TaskEntityServiceReq({
-    String? owner,
+    // String? owner,
     String? title,
     String? description,
     List<String?>? highlights,
@@ -47,5 +47,6 @@ class TaskEntityServiceReq with _$TaskEntityServiceReq {
     List<int>? videos,
   }) = _TaskEntityServiceReq;
 
-  factory TaskEntityServiceReq.fromJson(Map<String, dynamic> json) => _$TaskEntityServiceReqFromJson(json);
+  factory TaskEntityServiceReq.fromJson(Map<String, dynamic> json) =>
+      _$TaskEntityServiceReqFromJson(json);
 }

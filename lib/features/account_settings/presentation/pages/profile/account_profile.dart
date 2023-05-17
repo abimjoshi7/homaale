@@ -1,9 +1,12 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/billing_payment_page/presentation/billing_payment_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
+    as sets;
 
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -38,7 +41,8 @@ class AccountProfile extends StatefulWidget {
   State<AccountProfile> createState() => _AccountProfileState();
 }
 
-class _AccountProfileState extends State<AccountProfile> with TheModalBottomSheet {
+class _AccountProfileState extends State<AccountProfile>
+    with TheModalBottomSheet {
   bool isDark = false;
 
   void checkAppMode() async {
@@ -57,8 +61,6 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +168,24 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
             ),
             AccountListTileSection(
               onTap: () {
+                context.read<BillsPaymentBloc>().add(InitializeState());
+                context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
+                Navigator.pushNamed(
+                  context,
+                  BillingAndPaymentPage.routeName,
+                );
+              },
+              icon: const Icon(
+                Icons.edit_document,
+              ),
+              label: 'Billing & Payments',
+              trailingWidget: const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+            ),
+            AccountListTileSection(
+              onTap: () {
                 Navigator.pushNamed(
                   context,
                   TaxCalculator.routeName,
@@ -247,24 +267,24 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
                 size: 16,
               ),
               onTap: () {
+
                 context
                     .read<SupportTicketTypeOptionsBloc>()
                     .add(SupportTicketTypeOptionsLoaded(target: ''));
                 context
-                    .read<UserSuspendBloc>()
-                    .state
-                    .userAccountSuspension
-                    ?.isSuspended ==
-                    true
+                            .read<UserSuspendBloc>()
+                            .state
+                            .userAccountSuspension
+                            ?.isSuspended ==
+                        true
                     ? showDialog(
-                  context: context,
-                  builder: (context) => AccountSuspendCustomToast(
-                    heading: 'ACCOUNT SUSPENDED',
-                    content: 'User is suspended',
-                  ),
-                )
-                    :
-                Navigator.pushNamed(context, CommonReportPage.routeName);
+                        context: context,
+                        builder: (context) => AccountSuspendCustomToast(
+                          heading: 'ACCOUNT SUSPENDED',
+                          content: 'User is suspended',
+                        ),
+                      )
+                    : Navigator.pushNamed(context, CommonReportPage.routeName);
               },
             ),
             AccountListTileSection(
@@ -280,7 +300,6 @@ class _AccountProfileState extends State<AccountProfile> with TheModalBottomShee
                 size: 16,
               ),
             ),
-
             AccountListTileSection(
               onTap: () {
                 Navigator.pushNamed(context, ContactUsPage.routeName);

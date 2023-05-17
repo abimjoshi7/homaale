@@ -20,7 +20,7 @@ TaskEntityServiceReq _$TaskEntityServiceReqFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskEntityServiceReq {
-  String? get owner => throw _privateConstructorUsedError;
+// String? owner,
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<String?>? get highlights => throw _privateConstructorUsedError;
@@ -87,8 +87,7 @@ abstract class $TaskEntityServiceReqCopyWith<$Res> {
       _$TaskEntityServiceReqCopyWithImpl<$Res, TaskEntityServiceReq>;
   @useResult
   $Res call(
-      {String? owner,
-      String? title,
+      {String? title,
       String? description,
       List<String?>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
@@ -136,7 +135,6 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? owner = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? highlights = freezed,
@@ -171,10 +169,6 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
     Object? videos = freezed,
   }) {
     return _then(_value.copyWith(
-      owner: freezed == owner
-          ? _value.owner
-          : owner // ignore: cast_nullable_to_non_nullable
-              as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -316,8 +310,7 @@ abstract class _$$_TaskEntityServiceReqCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? owner,
-      String? title,
+      {String? title,
       String? description,
       List<String?>? highlights,
       @JsonKey(name: "budget_type") String? budgetType,
@@ -362,7 +355,6 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? owner = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? highlights = freezed,
@@ -397,10 +389,6 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
     Object? videos = freezed,
   }) {
     return _then(_$_TaskEntityServiceReq(
-      owner: freezed == owner
-          ? _value.owner
-          : owner // ignore: cast_nullable_to_non_nullable
-              as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -537,8 +525,7 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   const _$_TaskEntityServiceReq(
-      {this.owner,
-      this.title,
+      {this.title,
       this.description,
       final List<String?>? highlights,
       @JsonKey(name: "budget_type") this.budgetType,
@@ -578,8 +565,7 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   factory _$_TaskEntityServiceReq.fromJson(Map<String, dynamic> json) =>
       _$$_TaskEntityServiceReqFromJson(json);
 
-  @override
-  final String? owner;
+// String? owner,
   @override
   final String? title;
   @override
@@ -698,7 +684,7 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
 
   @override
   String toString() {
-    return 'TaskEntityServiceReq(owner: $owner, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, service: $service, event: $event, city: $city, currency: $currency, avatar: $avatar, images: $images, videos: $videos)';
+    return 'TaskEntityServiceReq(title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, service: $service, event: $event, city: $city, currency: $currency, avatar: $avatar, images: $images, videos: $videos)';
   }
 
   @override
@@ -706,7 +692,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TaskEntityServiceReq &&
-            (identical(other.owner, owner) || other.owner == owner) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -768,7 +753,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
-        owner,
         title,
         description,
         const DeepCollectionEquality().hash(_highlights),
@@ -820,8 +804,7 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
 
 abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   const factory _TaskEntityServiceReq(
-      {final String? owner,
-      final String? title,
+      {final String? title,
       final String? description,
       final List<String?>? highlights,
       @JsonKey(name: "budget_type") final String? budgetType,
@@ -857,9 +840,7 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   factory _TaskEntityServiceReq.fromJson(Map<String, dynamic> json) =
       _$_TaskEntityServiceReq.fromJson;
 
-  @override
-  String? get owner;
-  @override
+  @override // String? owner,
   String? get title;
   @override
   String? get description;

@@ -14,7 +14,7 @@ String? validateEmail(String? value) {
 }
 
 String? validateNotEmpty(String? value) {
-  if (value!.isEmpty) {
+  if (value!.trim().isEmpty) {
     return 'Required Field';
   }
   return null;
@@ -45,6 +45,4 @@ Your password must be at least 10 character long with atleast
 
 String? validateConfirmPassword(String? value) {
   return null;
-
-
 }

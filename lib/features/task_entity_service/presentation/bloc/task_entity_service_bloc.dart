@@ -68,6 +68,7 @@ class TaskEntityServiceBloc
             },
           );
         } catch (e) {
+          log('exasd' + e.toString());
           emit(
             state.copyWith(
               theStates: TheStates.failure,
