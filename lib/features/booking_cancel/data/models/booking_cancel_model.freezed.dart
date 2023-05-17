@@ -20,8 +20,10 @@ BookingCancelModel _$BookingCancelModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BookingCancelModel {
-  String? get status => throw _privateConstructorUsedError;
-  String? get message => throw _privateConstructorUsedError;
+  @JsonKey(name: 'cancellation_reason')
+  String? get cancellationReason => throw _privateConstructorUsedError;
+  @JsonKey(name: 'cancellation_description')
+  String? get cancellationDescription => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,11 @@ abstract class $BookingCancelModelCopyWith<$Res> {
           BookingCancelModel value, $Res Function(BookingCancelModel) then) =
       _$BookingCancelModelCopyWithImpl<$Res, BookingCancelModel>;
   @useResult
-  $Res call({String? status, String? message});
+  $Res call(
+      {@JsonKey(name: 'cancellation_reason')
+          String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          String? cancellationDescription});
 }
 
 /// @nodoc
@@ -51,17 +57,17 @@ class _$BookingCancelModelCopyWithImpl<$Res, $Val extends BookingCancelModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
+    Object? cancellationReason = freezed,
+    Object? cancellationDescription = freezed,
   }) {
     return _then(_value.copyWith(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      cancellationReason: freezed == cancellationReason
+          ? _value.cancellationReason
+          : cancellationReason // ignore: cast_nullable_to_non_nullable
               as String?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      cancellationDescription: freezed == cancellationDescription
+          ? _value.cancellationDescription
+          : cancellationDescription // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -75,7 +81,11 @@ abstract class _$$_BookingCancelModelCopyWith<$Res>
       __$$_BookingCancelModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? status, String? message});
+  $Res call(
+      {@JsonKey(name: 'cancellation_reason')
+          String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          String? cancellationDescription});
 }
 
 /// @nodoc
@@ -89,17 +99,17 @@ class __$$_BookingCancelModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = freezed,
-    Object? message = freezed,
+    Object? cancellationReason = freezed,
+    Object? cancellationDescription = freezed,
   }) {
     return _then(_$_BookingCancelModel(
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      cancellationReason: freezed == cancellationReason
+          ? _value.cancellationReason
+          : cancellationReason // ignore: cast_nullable_to_non_nullable
               as String?,
-      message: freezed == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      cancellationDescription: freezed == cancellationDescription
+          ? _value.cancellationDescription
+          : cancellationDescription // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -108,19 +118,23 @@ class __$$_BookingCancelModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_BookingCancelModel implements _BookingCancelModel {
-  const _$_BookingCancelModel({this.status, this.message});
+  const _$_BookingCancelModel(
+      {@JsonKey(name: 'cancellation_reason') this.cancellationReason,
+      @JsonKey(name: 'cancellation_description') this.cancellationDescription});
 
   factory _$_BookingCancelModel.fromJson(Map<String, dynamic> json) =>
       _$$_BookingCancelModelFromJson(json);
 
   @override
-  final String? status;
+  @JsonKey(name: 'cancellation_reason')
+  final String? cancellationReason;
   @override
-  final String? message;
+  @JsonKey(name: 'cancellation_description')
+  final String? cancellationDescription;
 
   @override
   String toString() {
-    return 'BookingCancelModel(status: $status, message: $message)';
+    return 'BookingCancelModel(cancellationReason: $cancellationReason, cancellationDescription: $cancellationDescription)';
   }
 
   @override
@@ -128,13 +142,17 @@ class _$_BookingCancelModel implements _BookingCancelModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BookingCancelModel &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.cancellationReason, cancellationReason) ||
+                other.cancellationReason == cancellationReason) &&
+            (identical(
+                    other.cancellationDescription, cancellationDescription) ||
+                other.cancellationDescription == cancellationDescription));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, message);
+  int get hashCode =>
+      Object.hash(runtimeType, cancellationReason, cancellationDescription);
 
   @JsonKey(ignore: true)
   @override
@@ -153,15 +171,20 @@ class _$_BookingCancelModel implements _BookingCancelModel {
 
 abstract class _BookingCancelModel implements BookingCancelModel {
   const factory _BookingCancelModel(
-      {final String? status, final String? message}) = _$_BookingCancelModel;
+      {@JsonKey(name: 'cancellation_reason')
+          final String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          final String? cancellationDescription}) = _$_BookingCancelModel;
 
   factory _BookingCancelModel.fromJson(Map<String, dynamic> json) =
       _$_BookingCancelModel.fromJson;
 
   @override
-  String? get status;
+  @JsonKey(name: 'cancellation_reason')
+  String? get cancellationReason;
   @override
-  String? get message;
+  @JsonKey(name: 'cancellation_description')
+  String? get cancellationDescription;
   @override
   @JsonKey(ignore: true)
   _$$_BookingCancelModelCopyWith<_$_BookingCancelModel> get copyWith =>

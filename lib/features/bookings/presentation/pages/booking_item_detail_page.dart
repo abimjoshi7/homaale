@@ -13,6 +13,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
+import '../../../booking_cancel/presentation/bloc/booking_cancel_state.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -220,7 +222,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                                         arguments: {
                                                           'client': client,
                                                         });
-
                                                   },
                                                   leading: Icon(
                                                       Icons.cancel_rounded),
@@ -378,49 +379,60 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Reason for cancellation',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Reason : ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        Text(
-                                          'Reason ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Description : ',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        Text(
-                                          'Description',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                child: BlocBuilder<BookingCancelBloc,
+                                        BookingCancelState>(
+                                    builder: (context, state) {
+                                      print( state.bookingCancelModel
+                                          ?.cancellationReason);
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Reason for cancellation',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayMedium,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Reason : ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                          Text(
+                                            state.bookingCancelModel
+                                                    ?.cancellationReason ??
+                                                "",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Description : ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                          Text(
+                                            state.bookingCancelModel
+                                                    ?.cancellationDescription ??
+                                                "",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                }),
                               ),
                             ),
                           Padding(

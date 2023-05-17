@@ -9,13 +9,13 @@ part of 'booking_cancel_model.dart';
 _$_BookingCancelModel _$$_BookingCancelModelFromJson(
         Map<String, dynamic> json) =>
     _$_BookingCancelModel(
-      status: json['status'] as String?,
-      message: json['message'] as String?,
+      cancellationReason: json['cancellation_reason'] as String?,
+      cancellationDescription: json['cancellation_description'] as String?,
     );
 
 Map<String, dynamic> _$$_BookingCancelModelToJson(
         _$_BookingCancelModel instance) =>
     <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
+      'cancellation_reason': instance.cancellationReason,
+      'cancellation_description': instance.cancellationDescription,
     };

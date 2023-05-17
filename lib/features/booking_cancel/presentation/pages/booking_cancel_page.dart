@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/colors.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:dependencies/dependencies.dart';
@@ -292,9 +293,9 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                               content: BlocBuilder<BookingCancelBloc,
                                       BookingCancelState>(
                                   builder: (context, stateM) {
-                                return Text(
-                                    stateM.bookingCancelModel?.message ??
-                                        'Try Again!');
+                                return TheStates.success == stateM.theState
+                                    ? Text('Cancel Successfully')
+                                    : Text("Please Try Again!");
                               }),
                               duration: const Duration(seconds: 1),
                             ));
