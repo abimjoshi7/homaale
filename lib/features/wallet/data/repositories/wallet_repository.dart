@@ -5,6 +5,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/wallet/data/models/wallet_history_res.dart';
 import 'package:cipher/features/wallet/data/models/wallet_model.dart';
+import 'package:cipher/features/wallet/data/models/withdraw_req_res_dto.dart';
 
 class WalletRepository {
   final _dio = DioHelper();
@@ -43,6 +44,25 @@ class WalletRepository {
     } catch (e) {
       log("Wallet history fetch error: $e");
       throw Exception("Fetching wallet history failed");
+    }
+  }
+
+  Future<WithdrawReqResDto> withdrawFunds(
+      {required String amount, required int bankAccont, String? description}) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        url: 'wallet/withdraw-request/',
+        token: CacheHelper.accessToken,
+        data: {
+          "amount": amount,
+          "bank_account": bankAccont,
+          "description": '$description',
+        },
+      );
+      return WithdrawReqResDto.fromJson(res as Map<String, dynamic>);
+    } catch (e) {
+      log("withdraw fund error: $e");
+      throw Exception("withdraw failed");
     }
   }
 

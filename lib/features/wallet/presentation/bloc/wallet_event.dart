@@ -24,3 +24,12 @@ class WalletHistoryLoaded extends WalletEvent {
   @override
   List<Object?> get props => [createdAt, endDate, startDate, isNewFetch];
 }
+
+class WithdrawFundEvent extends WalletEvent {
+  final WithdrawReqResDto withdrawReqResDto;
+
+  WithdrawFundEvent(this.withdrawReqResDto);
+
+  @override
+  List<Object?> get props => [withdrawReqResDto];
+}
