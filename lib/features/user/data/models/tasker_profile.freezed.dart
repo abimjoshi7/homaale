@@ -3863,3 +3863,389 @@ abstract class _User implements User {
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;
 }
+
+Currency _$CurrencyFromJson(Map<String, dynamic> json) {
+  return _Currency.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Currency {
+  String? get code => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get symbol => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CurrencyCopyWith<Currency> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CurrencyCopyWith<$Res> {
+  factory $CurrencyCopyWith(Currency value, $Res Function(Currency) then) =
+      _$CurrencyCopyWithImpl<$Res, Currency>;
+  @useResult
+  $Res call({String? code, String? name, String? symbol});
+}
+
+/// @nodoc
+class _$CurrencyCopyWithImpl<$Res, $Val extends Currency>
+    implements $CurrencyCopyWith<$Res> {
+  _$CurrencyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = freezed,
+    Object? name = freezed,
+    Object? symbol = freezed,
+  }) {
+    return _then(_value.copyWith(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      symbol: freezed == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CurrencyCopyWith<$Res> implements $CurrencyCopyWith<$Res> {
+  factory _$$_CurrencyCopyWith(
+          _$_Currency value, $Res Function(_$_Currency) then) =
+      __$$_CurrencyCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? code, String? name, String? symbol});
+}
+
+/// @nodoc
+class __$$_CurrencyCopyWithImpl<$Res>
+    extends _$CurrencyCopyWithImpl<$Res, _$_Currency>
+    implements _$$_CurrencyCopyWith<$Res> {
+  __$$_CurrencyCopyWithImpl(
+      _$_Currency _value, $Res Function(_$_Currency) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = freezed,
+    Object? name = freezed,
+    Object? symbol = freezed,
+  }) {
+    return _then(_$_Currency(
+      code: freezed == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      symbol: freezed == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Currency implements _Currency {
+  const _$_Currency({this.code, this.name, this.symbol});
+
+  factory _$_Currency.fromJson(Map<String, dynamic> json) =>
+      _$$_CurrencyFromJson(json);
+
+  @override
+  final String? code;
+  @override
+  final String? name;
+  @override
+  final String? symbol;
+
+  @override
+  String toString() {
+    return 'Currency(code: $code, name: $name, symbol: $symbol)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Currency &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, name, symbol);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CurrencyCopyWith<_$_Currency> get copyWith =>
+      __$$_CurrencyCopyWithImpl<_$_Currency>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CurrencyToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Currency implements Currency {
+  const factory _Currency(
+      {final String? code,
+      final String? name,
+      final String? symbol}) = _$_Currency;
+
+  factory _Currency.fromJson(Map<String, dynamic> json) = _$_Currency.fromJson;
+
+  @override
+  String? get code;
+  @override
+  String? get name;
+  @override
+  String? get symbol;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CurrencyCopyWith<_$_Currency> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Image _$ImageFromJson(Map<String, dynamic> json) {
+  return _Image.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Image {
+  num? get id => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get size => throw _privateConstructorUsedError;
+  @JsonKey(name: "media_type")
+  String? get mediaType => throw _privateConstructorUsedError;
+  String? get media => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ImageCopyWith<$Res> {
+  factory $ImageCopyWith(Image value, $Res Function(Image) then) =
+      _$ImageCopyWithImpl<$Res, Image>;
+  @useResult
+  $Res call(
+      {num? id,
+      String? name,
+      String? size,
+      @JsonKey(name: "media_type") String? mediaType,
+      String? media});
+}
+
+/// @nodoc
+class _$ImageCopyWithImpl<$Res, $Val extends Image>
+    implements $ImageCopyWith<$Res> {
+  _$ImageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? size = freezed,
+    Object? mediaType = freezed,
+    Object? media = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as num?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediaType: freezed == mediaType
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
+  factory _$$_ImageCopyWith(_$_Image value, $Res Function(_$_Image) then) =
+      __$$_ImageCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {num? id,
+      String? name,
+      String? size,
+      @JsonKey(name: "media_type") String? mediaType,
+      String? media});
+}
+
+/// @nodoc
+class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
+    implements _$$_ImageCopyWith<$Res> {
+  __$$_ImageCopyWithImpl(_$_Image _value, $Res Function(_$_Image) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? size = freezed,
+    Object? mediaType = freezed,
+    Object? media = freezed,
+  }) {
+    return _then(_$_Image(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as num?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediaType: freezed == mediaType
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Image implements _Image {
+  const _$_Image(
+      {this.id,
+      this.name,
+      this.size,
+      @JsonKey(name: "media_type") this.mediaType,
+      this.media});
+
+  factory _$_Image.fromJson(Map<String, dynamic> json) =>
+      _$$_ImageFromJson(json);
+
+  @override
+  final num? id;
+  @override
+  final String? name;
+  @override
+  final String? size;
+  @override
+  @JsonKey(name: "media_type")
+  final String? mediaType;
+  @override
+  final String? media;
+
+  @override
+  String toString() {
+    return 'Image(id: $id, name: $name, size: $size, mediaType: $mediaType, media: $media)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Image &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.mediaType, mediaType) ||
+                other.mediaType == mediaType) &&
+            (identical(other.media, media) || other.media == media));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, size, mediaType, media);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ImageCopyWith<_$_Image> get copyWith =>
+      __$$_ImageCopyWithImpl<_$_Image>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ImageToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Image implements Image {
+  const factory _Image(
+      {final num? id,
+      final String? name,
+      final String? size,
+      @JsonKey(name: "media_type") final String? mediaType,
+      final String? media}) = _$_Image;
+
+  factory _Image.fromJson(Map<String, dynamic> json) = _$_Image.fromJson;
+
+  @override
+  num? get id;
+  @override
+  String? get name;
+  @override
+  String? get size;
+  @override
+  @JsonKey(name: "media_type")
+  String? get mediaType;
+  @override
+  String? get media;
+  @override
+  @JsonKey(ignore: true)
+  _$$_ImageCopyWith<_$_Image> get copyWith =>
+      throw _privateConstructorUsedError;
+}

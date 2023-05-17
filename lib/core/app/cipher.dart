@@ -7,6 +7,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
@@ -44,9 +45,11 @@ import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
 import '../../features/feedback/bloc/feedback_bloc.dart';
@@ -102,6 +105,9 @@ class Cipher extends StatelessWidget {
             create: (context) => UserSuspendBloc(),
           ),
           BlocProvider(
+            create: (context) => BookingCancelBloc(),
+          ),
+          BlocProvider(
             create: (context) => ResendVerificationBloc(
               SignUpRepositories(),
             ),
@@ -125,11 +131,10 @@ class Cipher extends StatelessWidget {
             create: (context) => TaskerEducationCubit()..getTaskerEducation(),
           ),
           BlocProvider(
-            create: (context) =>
-                TaskerCertificationCubit()..getTaskerCertification(),
+            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
           ),
           BlocProvider(
-            create: (context) => KycBloc(KycRepositories()),
+            create: (context) => locator<KycBloc>(),
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),
@@ -219,11 +224,13 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<RatingReviewsBloc>(),
           ),
           BlocProvider(
+            create: (context) => locator<BillsPaymentBloc>(),
+          ),
+          BlocProvider(
             create: (context) => locator<TaskerCubit>()..loadTaskerList(),
           ),
           BlocProvider(
-            create: (context) =>
-                locator<NotificationBloc>()..add(MyNotificationListInitiated()),
+            create: (context) => locator<NotificationBloc>()..add(MyNotificationListInitiated()),
           ),
           BlocProvider(
             create: (context) => EventBloc(),
@@ -254,6 +261,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<SavedBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => WalletBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

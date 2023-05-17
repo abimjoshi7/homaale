@@ -1,5 +1,7 @@
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
+import 'package:cipher/features/billing_payment_page/data/repositories/bank_repositories.dart';
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
@@ -47,6 +49,7 @@ void init() {
       () => RatingReviewsRepositroy());
   locator.registerLazySingleton<TransactionRepository>(
       () => TransactionRepository());
+  locator.registerLazySingleton<BankRepository>(() => BankRepository());
 
   //bloc
   locator.registerFactory<TaskBloc>(() => TaskBloc());
@@ -73,6 +76,7 @@ void init() {
   locator
       .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
+  locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

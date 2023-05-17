@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/error/error_page.dart';
-import 'package:cipher/features/account_settings/presentation/pages/billing_payment_page/billing_payment_page.dart';
+import 'package:cipher/features/billing_payment_page/presentation/add_payment_method_form.dart';
+import 'package:cipher/features/billing_payment_page/presentation/billing_payment_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/connected_account/connected_account_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/deactivate_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/help_legal_page.dart';
@@ -15,6 +16,7 @@ import 'package:cipher/features/account_settings/presentation/pages/profile/page
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/booking_cancel/presentation/pages/booking_cancel_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
@@ -64,6 +66,7 @@ import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
 import 'package:cipher/features/wallet/presentation/wallet_page.dart';
+import 'package:cipher/features/wallet/presentation/withdraw_page.dart';
 import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
@@ -193,6 +196,7 @@ class AppRouter {
       case AccountView.routeName:
         return MaterialPageRoute(
           builder: (context) => const AccountView(),
+          settings: settings,
         );
       case Settings.routeName:
         return MaterialPageRoute(
@@ -442,6 +446,13 @@ class AppRouter {
       case BookingItemDetailPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingItemDetailPage(),
+          settings: settings,
+
+        );
+      case BookingCancelPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const BookingCancelPage(),
+          settings: settings,
         );
       case EventDetailsPage.routeName:
         return MaterialPageRoute(
@@ -456,6 +467,16 @@ class AppRouter {
       case WalletPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const WalletPage(),
+          settings: settings,
+        );
+      case WithdrawPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const WithdrawPage(),
+          settings: settings,
+        );
+      case AddPaymentMethodForm.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const AddPaymentMethodForm(),
           settings: settings,
         );
       default:
