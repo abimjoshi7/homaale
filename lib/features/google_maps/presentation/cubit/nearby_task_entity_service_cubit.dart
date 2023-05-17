@@ -25,24 +25,22 @@ class NearbyTaskEntityServiceCubit extends Cubit<NearbyTaskEntityServiceState> {
           latitude: location.latitude,
         ).toJson(),
       );
-      List<TaskEntityService> taskEntityServiceList = [];
-      for (var entity in x!) {
-        taskEntityServiceList
-            .add(TaskEntityService.fromJson(entity as Map<String, dynamic>));
-      }
+      List<TaskEntityService> _taskEntityServiceList = x.result!;
 
       emit(
         state.copyWith(
           theStates: TheStates.success,
-          nearbyTaskEntityServiceList: taskEntityServiceList,
+          nearbyTaskEntityServiceList: _taskEntityServiceList,
         ),
       );
     } catch (e) {
       log("map error: $e");
       emit(state.copyWith(
         theStates: TheStates.failure,
-        // nearbyTaskEntityServiceList: [],
+        nearbyTaskEntityServiceList: [],
       ));
     }
   }
+
+ 
 }

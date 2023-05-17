@@ -16,6 +16,7 @@ class NearbyTaskEntityServiceState extends Equatable {
     TheStates? theStates,
     List<TaskEntityService>? nearbyTaskEntityServiceList,
     NearbyTaskEntityServiceReq? request,
+    bool? isViewMapOnly,
   }) {
     return NearbyTaskEntityServiceState(
       theStates: theStates ?? this.theStates,
@@ -26,5 +27,6 @@ class NearbyTaskEntityServiceState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [theStates, nearbyTaskEntityServiceList, request];
+  List<Object?> get props =>
+      [theStates, nearbyTaskEntityServiceList, request];
 }
