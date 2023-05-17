@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/widgets/profile_stats_card.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/features/wallet/presentation/widgets/earning_filter_widget.dart';
+import 'package:cipher/features/wallet/presentation/withdraw_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,12 @@ class _WalletMainViewState extends State<WalletMainView> {
                     CustomElevatedButton(
                       theWidth: double.infinity,
                       label: 'Withdraw Fund',
-                      callback: () {},
+                      callback: () {
+                        Navigator.pushNamed(
+                          context,
+                          WithdrawPage.routeName,
+                        );
+                      },
                     ),
                     addVerticalSpace(8),
                     EarningFilterWidget(
@@ -239,7 +245,7 @@ class _WalletMainViewState extends State<WalletMainView> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Amount: ${state.walletHistoryList[index].amount.toString()}',
+                                                  'Amount: ${Decimal.parse(state.walletHistoryList[index].amount.toString())}',
                                                   style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
                                                 ),
                                                 Text(

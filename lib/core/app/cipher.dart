@@ -45,6 +45,7 @@ import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -130,7 +131,6 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<KycBloc>(),
-
           ),
           BlocProvider(
             create: (context) => locator<ImageUploadCubit>(),
@@ -257,6 +257,9 @@ class Cipher extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => locator<SavedBloc>(),
+          ),
+          BlocProvider(
+            create: (context) => WalletBloc(),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
