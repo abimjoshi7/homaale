@@ -23,30 +23,58 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         throttleDuration,
       ),
     );
-    on<TransactionStatusChanged>(_onTransactionStatusChanged);
-    on<TransactionDateChanged>(_onTransactionDateChanged);
   }
 
   Future<void> _onTransactionLoaded(
       TransactionLoaded event, Emitter<TransactionState> emit) async {
-    if (state.hasReachedMax == true) return;
+    if (!event.isCleared && state.hasReachedMax == true) return;
 
     try {
+      if (event.isCleared == true)
+        emit(
+          state.copyWith(
+            theStates: TheStates.initial,
+          ),
+        );
       if (state.theStates == TheStates.initial) {
-        final transactionsRes = await repo.getTransactions();
+        final transactionsRes = await repo.getTransactions(
+          status: event.status,
+          dateBefore: event.dateBefore == null
+              ? null
+              : DateFormat("yyyy-MM-dd").format(
+                  event.dateBefore!,
+                ),
+          dateAfter: event.dateAfter == null
+              ? null
+              : DateFormat("yyyy-MM-dd").format(
+                  event.dateAfter!,
+                ),
+        );
         return emit(
           state.copyWith(
             theStates: TheStates.success,
             res: transactionsRes,
-            hasReachedMax: false,
+            hasReachedMax:
+                transactionsRes.current == transactionsRes.totalPages,
             transactions: transactionsRes.result,
           ),
         );
       }
 
-      if (state.res?.current != state.res?.totalPages) {
+      if (state.res.current != state.res.totalPages) {
         final transactionsRes = await repo.getTransactions(
-          pageNumber: state.res!.current! + 1,
+          pageNumber: state.res.current! + 1,
+          status: event.status,
+          dateBefore: event.dateBefore == null
+              ? null
+              : DateFormat("yyyy-MM-dd").format(
+                  event.dateBefore!,
+                ),
+          dateAfter: event.dateAfter == null
+              ? null
+              : DateFormat("yyyy-MM-dd").format(
+                  event.dateAfter!,
+                ),
         );
         transactionsRes.result!.isEmpty
             ? emit(state.copyWith(
@@ -58,7 +86,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
                   res: transactionsRes,
                   hasReachedMax: false,
                   transactions: List.from(
-                    state.transactions as Iterable,
+                    state.transactions,
                   )..addAll(transactionsRes.result!),
                 ),
               );
@@ -75,45 +103,5 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         ),
       );
     }
-  }
-
-  Future<void> _onTransactionStatusChanged(
-    TransactionStatusChanged event,
-    Emitter<TransactionState> emit,
-  ) async {
-    final transactions = await repo.getTransactions(
-      status: event.status,
-    );
-    return emit(
-      state.copyWith(
-        res: transactions,
-        transactions: transactions.result,
-      ),
-    );
-  }
-
-  Future<void> _onTransactionDateChanged(
-    TransactionDateChanged event,
-    Emitter<TransactionState> emit,
-  ) async {
-
-    final transactionsRes = await repo.getTransactions(
-      dateBefore: event.beforeDate == null
-          ? null
-          : DateFormat("yyyy-MM-dd").format(
-              event.beforeDate!,
-            ),
-      dateAfter: event.afterDate == null
-          ? null
-          : DateFormat("yyyy-MM-dd").format(
-              event.afterDate!,
-            ),
-    );
-    return emit(
-      state.copyWith(
-        res: transactionsRes,
-        transactions: transactionsRes.result,
-      ),
-    );
   }
 }

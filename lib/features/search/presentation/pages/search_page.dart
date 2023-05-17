@@ -136,7 +136,7 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                                     onPressed: () => _focusNode.unfocus(),
                                     icon: Icon(
                                       Icons.arrow_back_rounded,
-                                      size: 30,
+                                      size: 22,
                                       // color: kColorDark,
                                     ),
                                   )
@@ -145,40 +145,21 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                                     size: 30,
                                     // color: kColorDark,
                                   ),
-                            suffixWidget: Wrap(
-                              direction: Axis.horizontal,
-                              children: <Widget>[
-                                IconButton(
-                                  iconSize: 22.0,
-                                  // color: Color(0xff868E96),
-                                  icon: Icon(
-                                    CupertinoIcons.multiply,
-                                    weight: 400,
-                                  ),
-                                  onPressed: () {
-                                    setState(
-                                      () => _searchFieldController.clear(),
-                                    );
-                                    context
-                                        .read<SearchBloc>()
-                                        .add(SearchQueryCleared());
-                                  },
-                                ),
-                                // TODO:voice search implementation
-                                //  (_focusNode.hasFocus)
-                                //      ? IconButton(
-                                //          iconSize: 22.0,
-                                //          color: Color(0xff495057),
-                                //          icon: Icon(
-                                //            CupertinoIcons.mic,
-                                //            weight: 400,
-                                //          ),
-                                //          onPressed: () {
-                                //
-                                //          },
-                                //        )
-                                //      : SizedBox(),
-                              ],
+                            suffixWidget: IconButton(
+                              iconSize: 22.0,
+                              // color: Color(0xff868E96),
+                              icon: Icon(
+                                CupertinoIcons.multiply,
+                                weight: 400,
+                              ),
+                              onPressed: () {
+                                setState(
+                                  () => _searchFieldController.clear(),
+                                );
+                                context
+                                    .read<SearchBloc>()
+                                    .add(SearchQueryCleared());
+                              },
                             ),
                           ),
                         ),

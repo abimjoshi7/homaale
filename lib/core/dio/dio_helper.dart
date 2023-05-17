@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:cipher/core/app/api_end_points.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/extensions.dart';
 import 'package:dependencies/dependencies.dart';
 
 class DioHelper {
@@ -12,7 +11,7 @@ class DioHelper {
 
   static void init() {
     final options = BaseOptions(
-      baseUrl: baseIP,
+      baseUrl: sandbox,
       connectTimeout: const Duration(
         seconds: 20,
       ),
@@ -30,7 +29,10 @@ class DioHelper {
     required String url,
   }) async {
     try {
-      final response = await dio.get<dynamic>(url, queryParameters: query);
+      final response = await dio.get<dynamic>(
+        url,
+        queryParameters: query,
+      );
       return response.data;
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {

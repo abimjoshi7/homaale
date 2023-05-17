@@ -3,20 +3,20 @@
 part of 'transaction_bloc.dart';
 
 class TransactionState extends Equatable {
-  final TheStates? theStates;
-  final TransactionsRes? res;
-  final List<Transactions>? transactions;
-  final bool? hasReachedMax;
+  final TheStates theStates;
+  final TransactionsRes res;
+  final List<Transactions> transactions;
+  final bool hasReachedMax;
 
-  TransactionState({
+  const TransactionState({
     this.theStates = TheStates.initial,
-    this.res,
-    this.transactions,
-    this.hasReachedMax,
+    this.res = const TransactionsRes(),
+    this.transactions = const [],
+    this.hasReachedMax = false,
   });
 
   @override
-  List<Object?> get props => [
+  List<Object> get props => [
         theStates,
         res,
         transactions,

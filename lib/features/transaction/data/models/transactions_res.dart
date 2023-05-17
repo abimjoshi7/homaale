@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 import '../../../task_entity_service/data/models/task_entity_service.dart';

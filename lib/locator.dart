@@ -34,13 +34,19 @@ final locator = GetIt.instance;
 void init() {
   //repositories
   locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
-  locator.registerLazySingleton<CategoriesRepositories>(() => CategoriesRepositories());
+  locator.registerLazySingleton<CategoriesRepositories>(
+      () => CategoriesRepositories());
   locator.registerLazySingleton<ChatRepository>(() => ChatRepository());
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
-  locator.registerLazySingleton<NotificationRepositories>(() => NotificationRepositories());
-  locator.registerLazySingleton<BookEventHandlerBloc>(() => BookEventHandlerBloc());
+  locator.registerLazySingleton<NotificationRepositories>(
+      () => NotificationRepositories());
+  locator.registerLazySingleton<BookEventHandlerBloc>(
+      () => BookEventHandlerBloc());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
-  locator.registerLazySingleton<RatingReviewsRepositroy>(() => RatingReviewsRepositroy());
+  locator.registerLazySingleton<RatingReviewsRepositroy>(
+      () => RatingReviewsRepositroy());
+  locator.registerLazySingleton<TransactionRepository>(
+      () => TransactionRepository());
 
   //bloc
   locator.registerFactory<TaskBloc>(() => TaskBloc());
@@ -57,12 +63,16 @@ void init() {
   locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
   locator.registerFactory<KycBloc>(() => KycBloc(locator()));
   locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
-  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator
+      .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
-  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
+  locator.registerFactory<NotificationBloc>(
+      () => NotificationBloc(repo: locator()));
   locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
-  locator.registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
+  locator
+      .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
+  locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

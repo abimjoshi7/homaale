@@ -16,6 +16,7 @@ class CustomDropDownField<T> extends StatefulWidget {
     this.borderRadius,
     this.initialValue,
     this.validator,
+    this.dropDownKey,
   }) : super(key: key);
   final List<T> list;
   final Widget? theChild;
@@ -26,6 +27,7 @@ class CustomDropDownField<T> extends StatefulWidget {
   final double? borderRadius;
   final T? initialValue;
   final String? Function(T?)? validator;
+  final GlobalKey<FormFieldState>? dropDownKey;
 
   @override
   State<CustomDropDownField<T>> createState() => _CustomDropDownTextformState();
@@ -35,6 +37,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
+      key: widget.dropDownKey,
       iconEnabledColor: kColorSilver,
       validator: widget.validator,
       icon: const Icon(

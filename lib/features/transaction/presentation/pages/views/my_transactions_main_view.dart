@@ -62,7 +62,7 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
       appBar: CustomAppBar(
         appBarTitle: "My Transactions",
         trailingWidget: SizedBox.shrink(),
-        // * To be implemented
+        // *** To be implemented ***
         // IconButton(
         //   onPressed: () async {
         //     await TransactionRepository().downloadCSV();
@@ -72,93 +72,99 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
         //   ),
         // ),
       ),
-      body: BlocBuilder<TransactionBloc, TransactionState>(
-        builder: (context, state) {
-          if (state.theStates == TheStates.success)
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FiltersHeaderView(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Divider(
-                    thickness: 0.8,
-                  ),
-                ),
-                ProfileRewardBalanceSection(user: "self"),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "03 Dec 2022, Sunday",
-                          style: kHelper13,
+      body: Column(
+        children: [
+          FiltersHeaderView(),
+          Expanded(
+            child: BlocBuilder<TransactionBloc, TransactionState>(
+              builder: (context, state) {
+                if (state.theStates == TheStates.success)
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Divider(
+                          thickness: 0.8,
                         ),
-                        Expanded(
-                          child: ListView.builder(
-                            controller: _controller,
-                            itemCount: state.hasReachedMax == true
-                                ? state.transactions?.length
-                                : state.transactions!.length + 1,
-                            itemBuilder: (context, index) {
-                              if (index >= state.transactions!.length) {
-                                context
-                                    .read<TransactionBloc>()
-                                    .add(TransactionLoaded());
-                                return const BottomLoader();
-                              } else {
-                                return TransactionCard(
-                                  leadingWidget: Image.network(
-                                    state.transactions?[index].paymentMethod
-                                            ?.logo ??
-                                        kNoImageNImg,
-                                  ),
-                                  actionName: state
-                                      .transactions?[index].transactionType
-                                      ?.toCapitalized(),
-                                  actionFrom: state
-                                      .transactions?[index].paymentMethod?.name,
-                                  price: state.transactions?[index].amount,
-                                  priceColor: _buildColor(
-                                    state.transactions?[index] ??
-                                        Transactions(),
-                                    context.read<UserBloc>().state,
-                                  ),
-                                  priceIcon: _buildIcon(
-                                    state.transactions?[index] ??
-                                        Transactions(),
-                                    context.read<UserBloc>().state,
-                                  ),
-                                  time: "${DateFormat.yMMMd().format(
-                                    state.transactions?[index].createdAt ??
-                                        DateTime.now(),
-                                  )}  ${DateFormat.jm().format(
-                                    state.transactions?[index].createdAt ??
-                                        DateTime.now(),
-                                  )}",
-                                  paymentMethod: state
-                                      .transactions?[index].paymentMethod?.type,
-                                  transactionId: state.transactions?[index].id,
-                                  sender: state
-                                      .transactions?[index].sender?.fullName,
-                                  reciever: state
-                                      .transactions?[index].receiver?.fullName,
-                                  status: state.transactions?[index].status,
-                                );
-                              }
-                            },
+                      ),
+                      ProfileRewardBalanceSection(user: "self"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "03 Dec 2022, Sunday",
+                                style: kHelper13,
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  controller: _controller,
+                                  itemCount: state.hasReachedMax == true
+                                      ? state.transactions.length
+                                      : state.transactions.length + 1,
+                                  itemBuilder: (context, index) {
+                                    if (index >= state.transactions.length) {
+                                      context
+                                          .read<TransactionBloc>()
+                                          .add(TransactionLoaded());
+                                      return const BottomLoader();
+                                    } else {
+                                      return TransactionCard(
+                                        leadingWidget: Image.network(
+                                          state.transactions[index]
+                                                  .paymentMethod?.logo ??
+                                              kNoImageNImg,
+                                        ),
+                                        actionName: state
+                                            .transactions[index].transactionType
+                                            ?.toCapitalized(),
+                                        actionFrom: state.transactions[index]
+                                            .paymentMethod?.name,
+                                        price: state.transactions[index].amount,
+                                        priceColor: _buildColor(
+                                          state.transactions[index],
+                                          context.read<UserBloc>().state,
+                                        ),
+                                        priceIcon: _buildIcon(
+                                          state.transactions[index],
+                                          context.read<UserBloc>().state,
+                                        ),
+                                        time: "${DateFormat.yMMMd().format(
+                                          state.transactions[index].createdAt ??
+                                              DateTime.now(),
+                                        )}  ${DateFormat.jm().format(
+                                          state.transactions[index].createdAt ??
+                                              DateTime.now(),
+                                        )}",
+                                        paymentMethod: state.transactions[index]
+                                            .paymentMethod?.type,
+                                        transactionId:
+                                            state.transactions[index].id,
+                                        sender: state.transactions[index].sender
+                                            ?.fullName,
+                                        reciever: state.transactions[index]
+                                            .receiver?.fullName,
+                                        status:
+                                            state.transactions[index].status,
+                                      );
+                                    }
+                                  },
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
-          return SizedBox.shrink();
-        },
+                        ),
+                      ),
+                    ],
+                  );
+                return SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
