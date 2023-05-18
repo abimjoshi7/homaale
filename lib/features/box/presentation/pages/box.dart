@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_event.dart';
-import 'package:cipher/features/box/presentation/bloc/order_item_list_state.dart';
 import 'package:cipher/features/box/presentation/pages/payment_tab.dart';
 import 'package:cipher/features/box/presentation/pages/waiting_list_tab.dart';
 import 'package:cipher/locator.dart';

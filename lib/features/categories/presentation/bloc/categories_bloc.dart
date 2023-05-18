@@ -134,7 +134,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     on<SubCategoriesChanged>(
       (event, emit) {
         for (final element in state.serviceList ?? []) {
-          if (event.name == element.title) {
+          if (event.name == element.redeemCount) {
             emit(
               state.copyWith(
                 serviceId: element.id as String,

@@ -72,6 +72,7 @@ import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
 import '../../features/faq_and_data_deletion/faq_page.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
+import '../../features/rewards_redeem/presentation/pages/redeem_page.dart';
 import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
@@ -299,11 +300,6 @@ class AppRouter {
           builder: (context) => const PostServicePage(),
           settings: settings,
         );
-      // case BookingDetailsPage.routeName:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const BookingDetailsPage(),
-      //     settings: settings,
-      //   );
       case BookingNextDetailPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const BookingNextDetailPage(),
@@ -418,6 +414,10 @@ class AppRouter {
       case RatingReviewsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const RatingReviewsPage(),
+        );
+        case RedeemPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const RedeemPage(),
         );
       case ServiceBookingPage.routeName:
         return MaterialPageRoute(

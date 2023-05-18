@@ -1,0 +1,110 @@
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/rewards_redeem/presentation/pages/widgets/redeem_points_card.dart';
+import 'package:flutter/material.dart';
+import '../../../../widgets/custom_app_bar.dart';
+import '../../../profile/presentation/pages/services/services_profile.dart';
+import '../../../profile/presentation/widgets/profile_stats_card.dart';
+
+class RedeemPage extends StatefulWidget {
+  static const routeName = '/redeem';
+
+  const RedeemPage({Key? key}) : super(key: key);
+
+  @override
+  State<RedeemPage> createState() => _RedeemPageState();
+}
+
+class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: 'Redeem',
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Your Points',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ProfileStatsCard(
+                height: 80,
+                width: 130,
+                imagePath: 'assets/reward.png',
+                label: 'Reward Points',
+                value: '4',
+              ),
+              ProfileStatsCard(
+                height: 80,
+                width: 130,
+                imagePath: 'assets/reward.png',
+                label: 'Reward Points',
+                value: '4',
+                assetsColor: Colors.green,
+              ),
+              ProfileStatsCard(
+                height: 80,
+                width: 130,
+                imagePath: 'assets/reward.png',
+                label: 'Reward Points',
+                value: '4',
+                assetsColor: Colors.red,
+              ),
+            ],
+          ),
+          addVerticalSpace(20),
+          TabBar(
+              indicatorColor: kColorSecondary,
+              labelPadding: kPadding10,
+              // indicatorSize: TabBarIndicatorSize.label,
+              controller: tabController,
+              tabs: [
+                Text('Redeem'),
+                Text('Statement'),
+              ]),
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: <Widget>[
+                GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 4,
+                      crossAxisCount: 2,
+                    ),
+                    itemCount: 4,
+                    itemBuilder: (BuildContext context, int index) {
+                      return RedeemPointsCard();
+                    }),
+                ServicesProfile(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -15,6 +15,7 @@ import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../../../rewards_redeem/presentation/pages/redeem_page.dart';
 import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
 import '../../../../user/presentation/bloc/activities_timeline_event.dart';
 import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
@@ -232,6 +233,22 @@ class _AccountViewState extends State<AccountView> {
                     Icons.card_giftcard_outlined,
                   ),
                   label: 'Offers',
+                  trailingWidget: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                  ),
+                ),
+                AccountListTileSection(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      RedeemPage.routeName,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.redeem_sharp,
+                  ),
+                  label: 'Redeem',
                   trailingWidget: const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,

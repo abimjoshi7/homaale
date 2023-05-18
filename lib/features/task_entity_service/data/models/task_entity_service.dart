@@ -56,7 +56,7 @@ class TaskEntityService with _$TaskEntityService {
     @JsonKey(name: "payable_from") String? payableFrom,
     @JsonKey(name: "payable_to") String? payableTo,
     @JsonKey(name: "updated_by") String? updatedBy,
-    String? owner,
+    CreatedBy? owner,
     dynamic merchant,
     dynamic avatar,
   }) = _TaskEntityService;

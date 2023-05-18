@@ -90,7 +90,9 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       payableFrom: json['payable_from'] as String?,
       payableTo: json['payable_to'] as String?,
       updatedBy: json['updated_by'] as String?,
-      owner: json['owner'] as String?,
+      owner: json['owner'] == null
+          ? null
+          : CreatedBy.fromJson(json['owner'] as Map<String, dynamic>),
       merchant: json['merchant'],
       avatar: json['avatar'],
     );
