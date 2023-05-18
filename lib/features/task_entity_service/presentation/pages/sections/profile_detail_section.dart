@@ -1,6 +1,6 @@
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';

@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 

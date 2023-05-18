@@ -1,10 +1,36 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'task_entity_service.dart';
+part of 'task_entity_service_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
+_$_TaskEntityServiceModel _$$_TaskEntityServiceModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_TaskEntityServiceModel(
+      totalPages: json['total_pages'] as int?,
+      count: json['count'] as int?,
+      current: json['current'] as int?,
+      next: json['next'] as String?,
+      previous: json['previous'] as String?,
+      pageSize: json['page_size'] as int?,
+      result: (json['result'] as List<dynamic>?)
+          ?.map((e) => TaskEntityService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_TaskEntityServiceModelToJson(
+        _$_TaskEntityServiceModel instance) =>
+    <String, dynamic>{
+      'total_pages': instance.totalPages,
+      'count': instance.count,
+      'current': instance.current,
+      'next': instance.next,
+      'previous': instance.previous,
+      'page_size': instance.pageSize,
+      'result': instance.result,
+    };
 
 _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
     _$_TaskEntityService(

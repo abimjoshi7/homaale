@@ -1,7 +1,9 @@
 // ignore_for_file: invalid_annotation_target
 
-import 'package:cipher/features/services/data/models/entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
+
+import '../../../task_entity_service/data/models/task_entity_service_model.dart';
+
 
 part 'offer_model.freezed.dart';
 part 'offer_model.g.dart';
@@ -27,7 +29,7 @@ class Result with _$Result {
   const factory Result({
     int? id,
     List<Service>? services,
-    @JsonKey(name: "entity_services") List<EntityService>? entityServices,
+    @JsonKey(name: "entity_services") List<TaskEntityService>? entityServices,
     List<Category>? categories,
     @JsonKey(name: "created_by") CreatedBy? createdBy,
     String? merchant,

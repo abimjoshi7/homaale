@@ -5,6 +5,48 @@ abstract class TaskEntityServiceEvent extends Equatable {
   const TaskEntityServiceEvent();
 }
 
+class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
+  final int? page;
+  final List<String>? order;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
+  final String? serviceId;
+  final String? city;
+  final bool? isFilter;
+
+  const TaskEntityServiceInitiated({
+    this.page,
+    this.order,
+    this.isDateSort,
+    this.isBudgetSort,
+    this.serviceId,
+    this.city,
+    this.isFilter,
+  });
+  @override
+  List<Object?> get props => [
+        page,
+        order,
+        isDateSort,
+        isBudgetSort,
+        serviceId,
+        isFilter,
+        city,
+      ];
+}
+
+class MyTESLoadInitiated extends TaskEntityServiceEvent {
+  final bool isTask;
+  MyTESLoadInitiated({
+    required this.isTask,
+  });
+
+  @override
+  List<Object?> get props => [
+        isTask,
+      ];
+}
+
 class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
   final String id;
   const TaskEntityServiceSingleLoaded({
@@ -96,6 +138,16 @@ class ResetRejectSuccessStatus extends TaskEntityServiceEvent {
 class ResetRejectFailureStatus extends TaskEntityServiceEvent {
   const ResetRejectFailureStatus();
 
+  @override
+  List<Object?> get props => [];
+}
+
+class FetchServicesList extends TaskEntityServiceEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetFilterSort extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [];
 }

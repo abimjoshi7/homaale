@@ -16,7 +16,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<ServicesBloc, ServicesState>(
+      body: BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
         listener: (context, state) {
           // TODO: implement listener
         },
@@ -29,10 +29,11 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
             );
           }
           if (state.theStates == TheStates.success) {
-            if (state.service?.result == null ||
-                state.service?.result?.length == 0 ||
-                state.professionalServiceModel?.result == null ||
-                state.professionalServiceModel?.result?.length == 0) {
+            if (state.taskEntityServiceModel?.result == null ||
+                    state.taskEntityServiceModel?.result?.length == 0
+                // state.professionalServiceModel?.result == null ||
+                // state.professionalServiceModel?.result?.length == 0
+                ) {
               return Scaffold(
                 body: Center(
                   child: Text("No services to load"),
@@ -54,63 +55,74 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
               );
             } else {
               int itemCount() {
-                if (state.service != null ||
-                    state.service?.result?.length != 0) {
-                  return state.service?.result?.length ?? 0;
+                if (state.taskEntityServiceModel != null ||
+                    state.taskEntityServiceModel?.result?.length != 0) {
+                  return state.taskEntityServiceModel?.result?.length ?? 0;
                 } else {
-                  return state.professionalServiceModel?.result?.length ?? 0;
+                  return 0;
+                  //!!!changes to be reviewed
+                  // return state.professionalServiceModel?.result?.length ?? 0;
                 }
               }
 
               Widget displayAppBarTitle() {
-                if (state.service != null ||
-                    state.service?.result?.length != 0) {
-                  return Text(state.service?.result?.first.service?.title ??
+                if (state.taskEntityServiceModel != null ||
+                    state.taskEntityServiceModel?.result?.length != 0) {
+                  return Text(state.taskEntityServiceModel?.result?.first
+                          .service?.title ??
                       "Sub-Service");
                 } else {
-                  return Text(
-                      state.professionalServiceModel?.result?.first.title ??
-                          "Sub-Service");
+                  return Text("Sub-Service");
+                  //!!!changes to be reviewed
+                  // return Text(
+                  //     state.professionalServiceModel?.result?.first.title ??
+                  //         "Sub-Service");
                 }
               }
 
               Widget showServiceCard(int index) {
-                if (state.service != null ||
-                    state.service?.result?.length != 0) {
+                if (state.taskEntityServiceModel != null ||
+                    state.taskEntityServiceModel?.result?.length != 0) {
                   return ServiceCard(
-                    imagePath: state.service?.result?[index].images?.length == 0
+                    imagePath: state.taskEntityServiceModel?.result?[index]
+                                .images?.length ==
+                            0
                         ? kServiceImageNImg
-                        : state.service?.result?[index].images!.first.media ??
+                        : state.taskEntityServiceModel?.result?[index].images!
+                                .first.media ??
                             kServiceImageNImg,
-                    title: state.service?.result?[index].title ?? '',
+                    title: state.taskEntityServiceModel?.result?[index].title ??
+                        '',
                     description:
-                        '${state.service?.result?[index].createdBy?.firstName ?? ''} ${state.service?.result?[index].createdBy?.lastName ?? ''}',
+                        '${state.taskEntityServiceModel?.result?[index].createdBy?.firstName ?? ''} ${state.taskEntityServiceModel?.result?[index].createdBy?.lastName ?? ''}',
                     location:
-                        '${state.service?.result?[index].city?.name ?? ''}, ${state.service?.result?[index].city?.country?.name ?? ''}',
-                    rating: state.service?.result?[index].rating?.first.rating
+                        '${state.taskEntityServiceModel?.result?[index].city?.name ?? ''}, ${state.taskEntityServiceModel?.result?[index].city?.country?.name ?? ''}',
+                    rating: state.taskEntityServiceModel?.result?[index].rating
+                            ?.first.rating
                             .toString() ??
                         '5',
                   );
                 } else {
+                  //!!!changes to be reviewed
                   return ServiceCard(
-                    imagePath: state.professionalServiceModel?.result?[index]
-                                .images?.length ==
-                            0
-                        ? kServiceImageNImg
-                        : state.professionalServiceModel?.result?[index].images!
-                                .first.media ??
-                            kServiceImageNImg,
-                    title:
-                        state.professionalServiceModel?.result?[index].title ??
-                            '',
-                    // description:
-                    // '${state.professionalServiceModel?.result?[index].createdBy?. ?? ''} ${state.service?.result?[index].createdBy?.lastName ?? ''}',
-                    // location:
-                    //     '${state.professionalServiceModel?.result?[index].city?.name ?? ''}, ${state.service?.result?[index].city?.country?.name ?? ''}',
-                    // rating: state.professionalServiceModel?.result?[index].?.first.rating
-                    //         .toString() ??
-                    //     '5',
-                  );
+                      // imagePath: state.professionalServiceModel?.result?[index]
+                      //             .images?.length ==
+                      //         0
+                      //     ? kServiceImageNImg
+                      //     : state.professionalServiceModel?.result?[index].images!
+                      //             .first.media ??
+                      //         kServiceImageNImg,
+                      // title:
+                      //     state.professionalServiceModel?.result?[index].title ??
+                      //         '',
+                      // description:
+                      // '${state.professionalServiceModel?.result?[index].createdBy?. ?? ''} ${state.service?.result?[index].createdBy?.lastName ?? ''}',
+                      // location:
+                      //     '${state.professionalServiceModel?.result?[index].city?.name ?? ''}, ${state.service?.result?[index].city?.country?.name ?? ''}',
+                      // rating: state.professionalServiceModel?.result?[index].?.first.rating
+                      //         .toString() ??
+                      //     '5',
+                      );
                 }
               }
 
@@ -162,8 +174,8 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                                     onTap: () async {
                                       context.read<TaskEntityServiceBloc>().add(
                                             TaskEntityServiceSingleLoaded(
-                                              id: state.service?.result?[index]
-                                                      .id ??
+                                              id: state.taskEntityServiceModel
+                                                      ?.result?[index].id ??
                                                   '',
                                             ),
                                           );

@@ -5,6 +5,8 @@ import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
+    as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart'
     as tsk;
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -13,8 +15,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task/data/models/single_task_entity_service.dart'
-    as ses;
+
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -127,7 +128,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                 state.taskModel?.description ??
                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
               );
-              final List<ses.Image> taskMedia = [
+              final List<tes.Image> taskMedia = [
                 ...state.taskModel?.images ?? [],
                 ...state.taskModel?.videos ?? [],
               ];

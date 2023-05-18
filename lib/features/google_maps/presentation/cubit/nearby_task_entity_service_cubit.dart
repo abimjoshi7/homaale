@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/google_maps/data/nearby_task_entity_services_req.dart';
 import 'package:cipher/features/google_maps/data/repositories/maps_repository.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 part 'nearby_task_entity_service_state.dart';

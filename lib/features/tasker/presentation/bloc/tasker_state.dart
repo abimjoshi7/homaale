@@ -10,8 +10,8 @@ class TaskerState extends Equatable {
     this.taskerListRes = const TaskerListRes(),
     this.taskerReviewsResponse = const TaskerReviewResponse(),
     this.singleTasker = const Tasker(),
-    this.service = const EntityServiceModel(),
-    this.task = const EntityServiceModel(),
+    this.service = const TaskEntityServiceModel(),
+    this.task = const TaskEntityServiceModel(),
   });
 
   final TaskerStatus status;
@@ -20,8 +20,8 @@ class TaskerState extends Equatable {
   final TaskerListRes taskerListRes;
   final TaskerReviewResponse taskerReviewsResponse;
   final Tasker singleTasker;
-  final EntityServiceModel service;
-  final EntityServiceModel task;
+  final TaskEntityServiceModel service;
+  final TaskEntityServiceModel task;
 
   TaskerState copyWith({
     TaskerStatus? status,
@@ -30,15 +30,16 @@ class TaskerState extends Equatable {
     TaskerListRes? taskerListRes,
     TaskerReviewResponse? taskerReviewsResponse,
     Tasker? singleTasker,
-    EntityServiceModel? service,
-    EntityServiceModel? task,
+    TaskEntityServiceModel? service,
+    TaskEntityServiceModel? task,
   }) {
     return TaskerState(
       status: status ?? this.status,
       tasker: tasker ?? this.tasker,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       taskerListRes: taskerListRes ?? this.taskerListRes,
-      taskerReviewsResponse: taskerReviewsResponse ?? this.taskerReviewsResponse,
+      taskerReviewsResponse:
+          taskerReviewsResponse ?? this.taskerReviewsResponse,
       singleTasker: singleTasker ?? this.singleTasker,
       service: service ?? this.service,
       task: task ?? this.task,

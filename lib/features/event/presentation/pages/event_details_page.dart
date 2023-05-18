@@ -1,3 +1,4 @@
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/event/presentation/widgets/widgets.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {

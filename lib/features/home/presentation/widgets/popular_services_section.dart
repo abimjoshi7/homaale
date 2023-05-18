@@ -19,7 +19,7 @@ class TrendingServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ServicesBloc, ServicesState>(
+    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           return Padding(
@@ -43,17 +43,23 @@ class TrendingServicesSection extends StatelessWidget {
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.service?.result?.length ?? 0,
-                    separatorBuilder: (context, index) => addHorizontalSpace(10),
+                    itemCount:
+                        state.taskEntityServiceModel?.result?.length ?? 0,
+                    separatorBuilder: (context, index) =>
+                        addHorizontalSpace(10),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
                               TaskEntityServiceSingleLoaded(
-                                id: state.service?.result?[index].id ?? '',
+                                id: state.taskEntityServiceModel?.result?[index]
+                                        .id ??
+                                    '',
                               ),
                             );
                         context.read<RatingReviewsBloc>().add(SetToInitial(
-                              id: state.service?.result?[index].id ?? '',
+                              id: state.taskEntityServiceModel?.result?[index]
+                                      .id ??
+                                  '',
                             ));
                         Navigator.pushNamed(
                           context,
@@ -63,16 +69,25 @@ class TrendingServicesSection extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
-                          location: state.service?.result?[index].location == ""
+                          location: state.taskEntityServiceModel?.result?[index]
+                                      .location ==
+                                  ""
                               ? "Remote"
-                              : state.service?.result?[index].location,
+                              : state.taskEntityServiceModel?.result?[index]
+                                  .location,
                           description:
-                              "${state.service?.result?[index].createdBy?.firstName} ${state.service?.result?[index].createdBy?.lastName}",
-                          title: state.service?.result?[index].title,
-                          imagePath: state.service?.result?[index].images?.length == 0
+                              "${state.taskEntityServiceModel?.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel?.result?[index].createdBy?.lastName}",
+                          title: state
+                              .taskEntityServiceModel?.result?[index].title,
+                          imagePath: state.taskEntityServiceModel
+                                      ?.result?[index].images?.length ==
+                                  0
                               ? kServiceImageNImg
-                              : state.service?.result?[index].images?.first.media,
-                          rating: state.service?.result?[index].rating?.first.rating.toString(),
+                              : state.taskEntityServiceModel?.result?[index]
+                                  .images?.first.media,
+                          rating: state.taskEntityServiceModel?.result?[index]
+                              .rating?.first.rating
+                              .toString(),
                         ),
                       ),
                     ),

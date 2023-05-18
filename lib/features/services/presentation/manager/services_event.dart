@@ -13,41 +13,6 @@ class ServicesLoadInitiated extends ServicesEvent {
   List<Object?> get props => [categoryId];
 }
 
-class MyCreatedServiceTaskLoadInitiated extends ServicesEvent {
-  final bool isTask;
-  const MyCreatedServiceTaskLoadInitiated({
-    required this.isTask,
-  });
-  @override
-  List<Object?> get props => [
-        isTask,
-      ];
-}
-
-class EntityServiceInitiated extends ServicesEvent {
-  final int? page;
-  final List<String>? order;
-  final bool? isDateSort;
-  final bool? isBudgetSort;
-  final String? serviceId;
-
-  const EntityServiceInitiated({
-    this.page,
-    this.order,
-    this.isDateSort,
-    this.isBudgetSort,
-    this.serviceId,
-  });
-  @override
-  List<Object?> get props => [
-        page,
-        order,
-        isDateSort,
-        isBudgetSort,
-        serviceId,
-      ];
-}
-
 class ProfessionalServicesLoaded extends ServicesEvent {
   final int? pageNumber;
   ProfessionalServicesLoaded({

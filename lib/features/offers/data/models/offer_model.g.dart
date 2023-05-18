@@ -36,7 +36,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           ?.map((e) => Service.fromJson(e as Map<String, dynamic>))
           .toList(),
       entityServices: (json['entity_services'] as List<dynamic>?)
-          ?.map((e) => EntityService.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => TaskEntityService.fromJson(e as Map<String, dynamic>))
           .toList(),
       categories: (json['categories'] as List<dynamic>?)
           ?.map((e) => Category.fromJson(e as Map<String, dynamic>))

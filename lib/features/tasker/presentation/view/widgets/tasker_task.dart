@@ -2,7 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
@@ -16,14 +16,14 @@ class TaskerTask extends StatefulWidget {
     this.tasks,
   });
 
-  final EntityServiceModel? tasks;
+  final TaskEntityServiceModel? tasks;
 
   @override
   State<TaskerTask> createState() => _TaskerTaskState();
 }
 
 class _TaskerTaskState extends State<TaskerTask> {
-  List<EntityService>? taskList = [];
+  List<TaskEntityService>? taskList = [];
 
   @override
   void initState() {

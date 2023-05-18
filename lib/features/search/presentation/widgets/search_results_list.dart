@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/data/search_result.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,6 @@ class SearchResultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
     return Container(
       padding: EdgeInsets.only(
         top: MediaQuery.of(context).size.height * 0.016,
@@ -31,7 +31,7 @@ class SearchResultsList extends StatelessWidget {
           return searchList[index].when(
             taskEntityServiceResult: (_taskEntityService) {
               return TaskEntityServiceSearchTile(
-                taskEntityService: _taskEntityService,
+                taskEntityService: _taskEntityService as TaskEntityService,
               );
             },
             taskerProfileResult: (_taskerProfile) {

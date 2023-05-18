@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/services/widgets/services_text_card.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,11 @@ class _TasksProfileState extends State<TasksProfile> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskBloc>().add(const MyServiceTaskLoadInitiated(isTask: true));
+    context.read<TaskEntityServiceBloc>().add(
+          MyTESLoadInitiated(
+            isTask: true,
+          ),
+        );
   }
 
   @override
@@ -38,7 +43,8 @@ class _TasksProfileState extends State<TasksProfile> {
               ),
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
-                  context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: data?[index].id ?? ''));
+                  context.read<TaskBloc>().add(
+                      SingleEntityTaskLoadInitiated(id: data?[index].id ?? ''));
                   Navigator.pushNamed(context, SingleTaskPage.routeName);
                 },
                 child: ServicesTextCard(

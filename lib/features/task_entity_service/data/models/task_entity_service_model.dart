@@ -2,8 +2,24 @@
 
 import 'package:dependencies/dependencies.dart';
 
-part 'task_entity_service.freezed.dart';
-part 'task_entity_service.g.dart';
+part 'task_entity_service_model.freezed.dart';
+part 'task_entity_service_model.g.dart';
+
+@freezed
+class TaskEntityServiceModel with _$TaskEntityServiceModel {
+  const factory TaskEntityServiceModel({
+    @JsonKey(name: "total_pages") int? totalPages,
+    int? count,
+    int? current,
+    String? next,
+    String? previous,
+    @JsonKey(name: "page_size") int? pageSize,
+    List<TaskEntityService>? result,
+  }) = _TaskEntityServiceModel;
+
+  factory TaskEntityServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$TaskEntityServiceModelFromJson(json);
+}
 
 @freezed
 class TaskEntityService with _$TaskEntityService {

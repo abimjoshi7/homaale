@@ -11,7 +11,7 @@ class DioHelper {
 
   static void init() {
     final options = BaseOptions(
-      baseUrl: sandbox,
+      baseUrl: baseIP,
       connectTimeout: const Duration(
         seconds: 20,
       ),

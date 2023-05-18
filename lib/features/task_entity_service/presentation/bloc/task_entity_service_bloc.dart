@@ -6,12 +6,14 @@ import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/services/data/models/self_created_task_service.dart';
+import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -25,10 +27,41 @@ const kThrottleDuration = Duration(
 class TaskEntityServiceBloc
     extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final repo = TaskEntityServiceRepository();
-  final servicesRepo = ServicesRepositories();
   final bookingRepo = BookingRepositories();
+  final serviceRepo = ServicesRepositories();
 
   TaskEntityServiceBloc() : super(const TaskEntityServiceState()) {
+    on<TaskEntityServiceInitiated>(
+      (event, emit) async {
+        emit(state.copyWith(theStates: TheStates.initial));
+        try {
+          await repo
+              .getTaskEntityServices(
+                  page: event.page ?? 1,
+                  order: event.order,
+                  serviceId: event.serviceId,
+                  city: event.city)
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    taskEntityServiceModel: value,
+                    isBudgetSort: event.isBudgetSort,
+                    isDateSort: event.isDateSort,
+                  ),
+                ),
+              );
+        } catch (e) {
+          log("Service load error: $e");
+          emit(state.copyWith(
+            theStates: TheStates.failure,
+            isBudgetSort: false,
+            isDateSort: false,
+          ));
+        }
+      },
+    );
+
     on<TaskEntityServiceSingleLoaded>(
       (event, emit) async {
         try {
@@ -44,16 +77,16 @@ class TaskEntityServiceBloc
               .then(
             (value) async {
               if (CacheHelper.isLoggedIn) {
-                await servicesRepo
-                    .fetchApplicants(
-                      id: event.id,
+                await repo
+                    .getApplicants(
+                      event.id,
                     )
                     .then(
                       (applicants) => emit(
                         state.copyWith(
                           theStates: TheStates.success,
                           taskEntityService: value,
-                          applicantModel: ApplicantModel.fromJson(applicants),
+                          applicantModel: applicants,
                         ),
                       ),
                     );
@@ -74,6 +107,34 @@ class TaskEntityServiceBloc
               theStates: TheStates.failure,
               isLoaded: false,
             ),
+          );
+        }
+      },
+    );
+
+    on<MyTESLoadInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
+          await repo
+              .getMyTaskEntityService(
+                event.isTask,
+              )
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    selfCreatedTaskService: value,
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(theStates: TheStates.failure),
           );
         }
       },
@@ -246,6 +307,37 @@ class TaskEntityServiceBloc
         emit(state.copyWith(
           theStates: TheStates.success,
           rejectFail: false,
+        ));
+      },
+    );
+
+    on<FetchServicesList>(
+      (event, emit) async {
+        try {
+          await serviceRepo.fetchServiceCategoryList().then(
+                (value) => emit(
+                  state.copyWith(
+                    serviceLoaded: true,
+                    serviceList:
+                        value.map((e) => ServiceList.fromJson(e)).toList()
+                          ..sort((a, b) => a.title!.compareTo(b.title!)),
+                  ),
+                ),
+              );
+        } catch (e) {
+          log("Service List load error: $e");
+          emit(state.copyWith(serviceLoaded: false));
+        }
+      },
+    );
+
+    on<ResetFilterSort>(
+      (event, emit) async {
+        emit(state.copyWith(
+          serviceLoaded: false,
+          isFilter: false,
+          isBudgetSort: false,
+          isDateSort: false,
         ));
       },
     );

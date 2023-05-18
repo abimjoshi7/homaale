@@ -19,7 +19,6 @@ import 'package:cipher/features/rating_reviews/data/repositories/rating_reviews_
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -54,7 +53,6 @@ void init() {
   //bloc
   locator.registerFactory<TaskBloc>(() => TaskBloc());
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
-  locator.registerFactory<EntityServiceBloc>(() => EntityServiceBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
   locator.registerFactory<UserBloc>(() => UserBloc());
   locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc());
@@ -76,7 +74,8 @@ void init() {
   locator
       .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
-  locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
+  locator.registerFactory<BillsPaymentBloc>(
+      () => BillsPaymentBloc(bankRepository: locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

@@ -304,7 +304,8 @@ mixin _$Result {
   int? get id => throw _privateConstructorUsedError;
   List<Service>? get services => throw _privateConstructorUsedError;
   @JsonKey(name: "entity_services")
-  List<EntityService>? get entityServices => throw _privateConstructorUsedError;
+  List<TaskEntityService>? get entityServices =>
+      throw _privateConstructorUsedError;
   List<Category>? get categories => throw _privateConstructorUsedError;
   @JsonKey(name: "created_by")
   CreatedBy? get createdBy => throw _privateConstructorUsedError;
@@ -356,7 +357,7 @@ abstract class $ResultCopyWith<$Res> {
   $Res call(
       {int? id,
       List<Service>? services,
-      @JsonKey(name: "entity_services") List<EntityService>? entityServices,
+      @JsonKey(name: "entity_services") List<TaskEntityService>? entityServices,
       List<Category>? categories,
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       String? merchant,
@@ -441,7 +442,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       entityServices: freezed == entityServices
           ? _value.entityServices
           : entityServices // ignore: cast_nullable_to_non_nullable
-              as List<EntityService>?,
+              as List<TaskEntityService>?,
       categories: freezed == categories
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
@@ -599,7 +600,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $Res call(
       {int? id,
       List<Service>? services,
-      @JsonKey(name: "entity_services") List<EntityService>? entityServices,
+      @JsonKey(name: "entity_services") List<TaskEntityService>? entityServices,
       List<Category>? categories,
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       String? merchant,
@@ -685,7 +686,7 @@ class __$$_ResultCopyWithImpl<$Res>
       entityServices: freezed == entityServices
           ? _value._entityServices
           : entityServices // ignore: cast_nullable_to_non_nullable
-              as List<EntityService>?,
+              as List<TaskEntityService>?,
       categories: freezed == categories
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
@@ -793,7 +794,7 @@ class _$_Result implements _Result {
       {this.id,
       final List<Service>? services,
       @JsonKey(name: "entity_services")
-          final List<EntityService>? entityServices,
+          final List<TaskEntityService>? entityServices,
       final List<Category>? categories,
       @JsonKey(name: "created_by")
           this.createdBy,
@@ -852,10 +853,10 @@ class _$_Result implements _Result {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<EntityService>? _entityServices;
+  final List<TaskEntityService>? _entityServices;
   @override
   @JsonKey(name: "entity_services")
-  List<EntityService>? get entityServices {
+  List<TaskEntityService>? get entityServices {
     final value = _entityServices;
     if (value == null) return null;
     if (_entityServices is EqualUnmodifiableListView) return _entityServices;
@@ -1056,7 +1057,7 @@ abstract class _Result implements Result {
       {final int? id,
       final List<Service>? services,
       @JsonKey(name: "entity_services")
-          final List<EntityService>? entityServices,
+          final List<TaskEntityService>? entityServices,
       final List<Category>? categories,
       @JsonKey(name: "created_by")
           final CreatedBy? createdBy,
@@ -1103,7 +1104,7 @@ abstract class _Result implements Result {
   List<Service>? get services;
   @override
   @JsonKey(name: "entity_services")
-  List<EntityService>? get entityServices;
+  List<TaskEntityService>? get entityServices;
   @override
   List<Category>? get categories;
   @override

@@ -17,8 +17,8 @@ class _ServicesProfileState extends State<ServicesProfile> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskBloc>().add(
-          const MyServiceTaskLoadInitiated(
+    context.read<TaskEntityServiceBloc>().add(
+          MyTESLoadInitiated(
             isTask: false,
           ),
         );
@@ -45,7 +45,8 @@ class _ServicesProfileState extends State<ServicesProfile> {
               ),
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
-                  context.read<TaskEntityServiceBloc>().add(TaskEntityServiceSingleLoaded(id: data?[index].id ?? ''));
+                  context.read<TaskEntityServiceBloc>().add(
+                      TaskEntityServiceSingleLoaded(id: data?[index].id ?? ''));
                   Navigator.pushNamed(context, TaskEntityServicePage.routeName);
                 },
                 child: ServicesTextCard(

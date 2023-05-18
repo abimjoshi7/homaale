@@ -5,7 +5,7 @@ import 'package:cipher/core/constants/api_constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/search/data/models/search_res.dart';
 import 'package:cipher/features/search/data/search_result.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
 
 class SearchRepository {

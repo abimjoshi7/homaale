@@ -8,7 +8,7 @@ import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart'
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
     as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
@@ -190,7 +190,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   margin: EdgeInsets.only(right: 32),
                                   child: mediaList[index].mediaType == 'mp4'
                                       ? VideoPlayerWidget(
-                                          videoURL: mediaList[index].media ??
+                                          videoURL: (mediaList[index].media) ??
                                               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
                                         )
                                       : Column(
