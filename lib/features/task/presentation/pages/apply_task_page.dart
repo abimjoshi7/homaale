@@ -41,6 +41,10 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        appBarTitle: "Apply",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: LoadingWidget(
         isLoading: isLoading,
         child: BlocConsumer<TaskBloc, TaskState>(
@@ -98,10 +102,6 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
-                        addVerticalSpace(50),
-                        const CustomHeader(
-                          label: 'Apply',
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -112,14 +112,16 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Title :'),
                                         Text('${state.taskModel?.title}'),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Budget :'),
                                         Text(
@@ -136,7 +138,8 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   ],
                                 ),
                               ),
-                              if (state.taskModel?.budgetFrom != null || state.taskModel?.budgetTo != null) ...[
+                              if (state.taskModel?.budgetFrom != null ||
+                                  state.taskModel?.budgetTo != null) ...[
                                 CustomFormField(
                                   label: 'Your Price',
                                   isRequired: true,
@@ -150,13 +153,17 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                       }
                                       if (double.parse(value) >
                                           double.parse(
-                                            state.taskModel?.budgetTo.toString() ?? '0',
+                                            state.taskModel?.budgetTo
+                                                    .toString() ??
+                                                '0',
                                           )) {
                                         return 'Price cannot be greater than given budget';
                                       }
                                       if (double.parse(value) <
                                           double.parse(
-                                            state.taskModel?.budgetFrom.toString() ?? '0',
+                                            state.taskModel?.budgetFrom
+                                                    .toString() ??
+                                                '0',
                                           )) {
                                         return 'Price cannot be less than given budget';
                                       }
@@ -184,72 +191,73 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   },
                                 ),
                               ),
-                              CustomFormField(
-                                label: 'Pre-requisites',
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: List.generate(
-                                        requirementList.length,
-                                        (index) => Padding(
-                                          padding: const EdgeInsets.all(2),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.circle,
-                                                    size: 12,
-                                                    color: kColorSecondary,
-                                                  ),
-                                                  addHorizontalSpace(20),
-                                                  Text(
-                                                    requirementList[index],
-                                                  ),
-                                                ],
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(
-                                                    () {
-                                                      requirementList.remove(
-                                                        requirementList[index],
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: const Icon(
-                                                  Icons.clear,
-                                                  size: 14,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text(
-                                      'This helps clients to find about your requirements better.',
-                                      style: kHelper13,
-                                    ),
-                                    CustomTextFormField(
-                                      hintText: 'Add requirements',
-                                      controller: requirementsController,
-                                      onFieldSubmitted: (p0) {
-                                        if (p0 != "") {
-                                          setState(() {
-                                            requirementList.add(p0!);
-                                            requirementsController.clear();
-                                          });
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // ***PAUSED AS ASKED***
+                              // CustomFormField(
+                              //   label: 'Pre-requisites',
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Column(
+                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         children: List.generate(
+                              //           requirementList.length,
+                              //           (index) => Padding(
+                              //             padding: const EdgeInsets.all(2),
+                              //             child: Row(
+                              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //               children: [
+                              //                 Row(
+                              //                   children: [
+                              //                     const Icon(
+                              //                       Icons.circle,
+                              //                       size: 12,
+                              //                       color: kColorSecondary,
+                              //                     ),
+                              //                     addHorizontalSpace(20),
+                              //                     Text(
+                              //                       requirementList[index],
+                              //                     ),
+                              //                   ],
+                              //                 ),
+                              //                 InkWell(
+                              //                   onTap: () {
+                              //                     setState(
+                              //                       () {
+                              //                         requirementList.remove(
+                              //                           requirementList[index],
+                              //                         );
+                              //                       },
+                              //                     );
+                              //                   },
+                              //                   child: const Icon(
+                              //                     Icons.clear,
+                              //                     size: 14,
+                              //                   ),
+                              //                 ),
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       const Text(
+                              //         'This helps clients to find about your requirements better.',
+                              //         style: kHelper13,
+                              //       ),
+                              //       CustomTextFormField(
+                              //         hintText: 'Add requirements',
+                              //         controller: requirementsController,
+                              //         onFieldSubmitted: (p0) {
+                              //           if (p0 != "") {
+                              //             setState(() {
+                              //               requirementList.add(p0!);
+                              //               requirementsController.clear();
+                              //             });
+                              //           }
+                              //         },
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -267,7 +275,9 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                 description: remarksController.text,
                                 requirements: requirementList,
                               );
-                              context.read<TaskBloc>().add(TaskBook(req: postTaskReq));
+                              context
+                                  .read<TaskBloc>()
+                                  .add(TaskBook(req: postTaskReq));
                             }
                           },
                           label: 'Apply',
