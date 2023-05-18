@@ -8,17 +8,23 @@ class ProfileStatsCard extends StatelessWidget {
     required this.label,
     required this.imagePath,
     required this.value,
+    this.height,
+    this.width,
+    this.assetsColor,
   });
 
   final String label;
   final String imagePath;
   final String value;
+  final double? height;
+  final double? width;
+  final Color? assetsColor;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
-      width: 180,
+      height: height ?? 100,
+      width: width ?? 180,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -37,7 +43,10 @@ class ProfileStatsCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(imagePath),
+                    Image.asset(
+                      imagePath,
+                      color: assetsColor ?? null,
+                    ),
                     kWidth5,
                     Flexible(
                       child: AutoSizeText(

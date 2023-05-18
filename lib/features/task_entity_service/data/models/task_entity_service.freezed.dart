@@ -103,7 +103,7 @@ mixin _$TaskEntityService {
   String? get payableTo => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_by")
   String? get updatedBy => throw _privateConstructorUsedError;
-  String? get owner => throw _privateConstructorUsedError;
+  CreatedBy? get owner => throw _privateConstructorUsedError;
   dynamic get merchant => throw _privateConstructorUsedError;
   dynamic get avatar => throw _privateConstructorUsedError;
 
@@ -170,7 +170,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "payable_from") String? payableFrom,
       @JsonKey(name: "payable_to") String? payableTo,
       @JsonKey(name: "updated_by") String? updatedBy,
-      String? owner,
+      CreatedBy? owner,
       dynamic merchant,
       dynamic avatar});
 
@@ -180,6 +180,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
   $ServiceCopyWith<$Res>? get service;
   $EventCopyWith<$Res>? get event;
   $RatingStatsCopyWith<$Res>? get ratingStats;
+  $CreatedByCopyWith<$Res>? get owner;
 }
 
 /// @nodoc
@@ -453,7 +454,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as CreatedBy?,
       merchant: freezed == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -536,6 +537,18 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       return _then(_value.copyWith(ratingStats: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CreatedByCopyWith<$Res>? get owner {
+    if (_value.owner == null) {
+      return null;
+    }
+
+    return $CreatedByCopyWith<$Res>(_value.owner!, (value) {
+      return _then(_value.copyWith(owner: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -597,7 +610,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "payable_from") String? payableFrom,
       @JsonKey(name: "payable_to") String? payableTo,
       @JsonKey(name: "updated_by") String? updatedBy,
-      String? owner,
+      CreatedBy? owner,
       dynamic merchant,
       dynamic avatar});
 
@@ -613,6 +626,8 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
   $EventCopyWith<$Res>? get event;
   @override
   $RatingStatsCopyWith<$Res>? get ratingStats;
+  @override
+  $CreatedByCopyWith<$Res>? get owner;
 }
 
 /// @nodoc
@@ -884,7 +899,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as CreatedBy?,
       merchant: freezed == merchant
           ? _value.merchant
           : merchant // ignore: cast_nullable_to_non_nullable
@@ -1155,7 +1170,7 @@ class _$_TaskEntityService implements _TaskEntityService {
   @JsonKey(name: "updated_by")
   final String? updatedBy;
   @override
-  final String? owner;
+  final CreatedBy? owner;
   @override
   final dynamic merchant;
   @override
@@ -1387,7 +1402,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "payable_from") final String? payableFrom,
       @JsonKey(name: "payable_to") final String? payableTo,
       @JsonKey(name: "updated_by") final String? updatedBy,
-      final String? owner,
+      final CreatedBy? owner,
       final dynamic merchant,
       final dynamic avatar}) = _$_TaskEntityService;
 
@@ -1528,7 +1543,7 @@ abstract class _TaskEntityService implements TaskEntityService {
   @JsonKey(name: "updated_by")
   String? get updatedBy;
   @override
-  String? get owner;
+  CreatedBy? get owner;
   @override
   dynamic get merchant;
   @override
