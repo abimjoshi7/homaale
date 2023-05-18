@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +10,7 @@ import 'package:cipher/features/content_client/presentation/pages/terms_of_use.d
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
@@ -57,6 +56,8 @@ class _PostServicePageState extends State<PostServicePage> {
   DateTime? startDate;
   DateTime? endDate;
   int? cityCode;
+  int? budgetTo;
+  int? budgetFrom;
   final _key = GlobalKey<FormState>();
   late final UploadBloc uploadBloc;
 
@@ -135,6 +136,7 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildCity(),
                           _buildDescription(),
                           _buildCurrency(),
+                          _buildDialog(),
                           CustomMultimedia(),
                           _buildTerms(context),
                           _buildButton(),
@@ -337,13 +339,13 @@ class _PostServicePageState extends State<PostServicePage> {
           child: BlocBuilder<CurrencyBloc, CurrencyState>(
             builder: (context, state) {
               if (state is CurrencyLoadSuccess) {
-                return DropdownSearch(
+                return CustomDropdownSearch(
                   selectedItem: state.currencyListRes
                       .firstWhere(
                         (element) => element.name!.startsWith("Nepalese"),
                       )
                       .name,
-                  items: List.generate(
+                  list: List.generate(
                     state.currencyListRes.length,
                     (index) => state.currencyListRes[index].name,
                   ),
@@ -354,41 +356,6 @@ class _PostServicePageState extends State<PostServicePage> {
                       );
                       currencyCode = x.code;
                     },
-                  ),
-                  dropdownDecoratorProps: DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(5),
-                      hintText: 'Enter Your Currency',
-                      hintStyle: Theme.of(context).textTheme.bodySmall,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: kColorSecondary,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          8,
-                        ),
-                      ),
-                    ),
-                    baseStyle: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  clearButtonProps: ClearButtonProps(
-                    padding: EdgeInsets.zero,
-                    iconSize: 16,
-                    visualDensity: VisualDensity.compact,
-                    alignment: Alignment.centerRight,
-                    isVisible: true,
-                    color: currencyCode == null ? Colors.white : Colors.black,
-                  ),
-                  popupProps: PopupProps.modalBottomSheet(
-                    showSearchBox: true,
-                    modalBottomSheetProps: ModalBottomSheetProps(
-                      backgroundColor: Theme.of(context).cardColor,
-                      useSafeArea: false,
-                    ),
                   ),
                 );
               }
@@ -411,6 +378,7 @@ class _PostServicePageState extends State<PostServicePage> {
                       () {
                         priceType = value;
                         isBudgetVariable = false;
+                        startPriceController.clear();
                       },
                     ),
                   ),
@@ -439,6 +407,17 @@ class _PostServicePageState extends State<PostServicePage> {
               child: Flexible(
                 child: NumberIncDecField(
                   controller: startPriceController,
+                  onChanged: (value) => setState(
+                    () {
+                      if (startPriceController.text.isNotEmpty)
+                        budgetFrom = getPayableAmount(
+                          double.parse(startPriceController.text),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
+                        );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -449,6 +428,17 @@ class _PostServicePageState extends State<PostServicePage> {
             Flexible(
               child: NumberIncDecField(
                 controller: endPriceController,
+                onChanged: (value) => setState(
+                  () {
+                    if (endPriceController.text.isNotEmpty)
+                      budgetTo = getPayableAmount(
+                        double.parse(endPriceController.text),
+                        double.parse(
+                            context.read<CategoriesBloc>().state.commission ??
+                                "0.0"),
+                      );
+                  },
+                ),
               ),
             ),
             Flexible(
@@ -565,13 +555,13 @@ class _PostServicePageState extends State<PostServicePage> {
       child: BlocBuilder<CityBloc, CityState>(
         builder: (context, state) {
           if (state is CityLoadSuccess) {
-            return DropdownSearch(
+            return CustomDropdownSearch(
               selectedItem: state.list
                   .firstWhere(
                     (element) => element.name!.startsWith("Kathmandu"),
                   )
                   .name,
-              items: List.generate(
+              list: List.generate(
                 state.list.length,
                 (index) => state.list[index].name,
               ),
@@ -582,41 +572,6 @@ class _PostServicePageState extends State<PostServicePage> {
                   );
                   cityCode = x.id;
                 },
-              ),
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(5),
-                  hintText: 'Enter Your City',
-                  hintStyle: Theme.of(context).textTheme.bodySmall,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: kColorSecondary,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                ),
-                baseStyle: Theme.of(context).textTheme.bodySmall,
-              ),
-              clearButtonProps: ClearButtonProps(
-                padding: EdgeInsets.zero,
-                iconSize: 16,
-                visualDensity: VisualDensity.compact,
-                alignment: Alignment.centerRight,
-                isVisible: true,
-                color: cityCode == null ? Colors.white : Colors.black,
-              ),
-              popupProps: PopupProps.modalBottomSheet(
-                showSearchBox: true,
-                modalBottomSheetProps: ModalBottomSheetProps(
-                  backgroundColor: Theme.of(context).cardColor,
-                  useSafeArea: false,
-                ),
               ),
             );
           }
@@ -762,60 +717,19 @@ class _PostServicePageState extends State<PostServicePage> {
           if (state.theStates == TheStates.success) {
             return Column(
               children: [
-                DropdownSearch<String>(
-                  items: List.generate(
+                CustomDropdownSearch(
+                  serviceId: serviceId,
+                  list: List.generate(
                     state.categoryList?.length ?? 0,
                     (index) => state.categoryList?[index].name ?? "",
                   ),
                   onChanged: (value) {
                     context.read<CategoriesBloc>().add(
                           CategoriesChanged(
-                            name: value ?? "",
+                            name: (value as String?) ?? "",
                           ),
                         );
                   },
-                  dropdownDecoratorProps: DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(5),
-                      hintText: 'Choose a category',
-                      hintStyle: Theme.of(context).textTheme.bodySmall,
-                      // const TextStyle(
-                      //   color: Color(0xff9CA0C1),
-                      //   fontWeight: FontWeight.w400,
-                      // ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Color(0xffDEE2E6)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: kColorSecondary,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          8,
-                        ),
-                      ),
-                    ),
-                    baseStyle: Theme.of(context).textTheme.bodySmall,
-                    // TextStyle(
-                    //   color: Colors.black,
-                    // ),
-                  ),
-                  clearButtonProps: ClearButtonProps(
-                    padding: EdgeInsets.zero,
-                    iconSize: 16,
-                    visualDensity: VisualDensity.compact,
-                    alignment: Alignment.centerRight,
-                    isVisible: true,
-                    color: serviceId == null ? Colors.white : Colors.black,
-                  ),
-                  popupProps: PopupProps.modalBottomSheet(
-                    showSearchBox: true,
-                    modalBottomSheetProps: ModalBottomSheetProps(
-                      backgroundColor: Theme.of(context).cardColor,
-                      useSafeArea: false,
-                    ),
-                  ),
                 ),
                 addVerticalSpace(
                   8,
@@ -823,15 +737,16 @@ class _PostServicePageState extends State<PostServicePage> {
                 if (state.serviceList?.isNotEmpty ?? false)
                   CustomFormField(
                     label: "Service",
-                    child: DropdownSearch<String>(
-                      items: List.generate(
+                    child: CustomDropdownSearch(
+                      list: List.generate(
                         state.serviceList?.length ?? 0,
                         (index) => state.serviceList?[index].title ?? "",
                       ),
+                      serviceId: serviceId,
                       onChanged: (value) {
                         context.read<CategoriesBloc>().add(
                               SubCategoriesChanged(
-                                name: value ?? "",
+                                name: (value as String?) ?? "",
                               ),
                             );
                         setState(
@@ -844,49 +759,11 @@ class _PostServicePageState extends State<PostServicePage> {
                           },
                         );
                       },
-                      dropdownDecoratorProps: DropDownDecoratorProps(
-                        dropdownSearchDecoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(5),
-                          hintText: 'Choose a category',
-                          hintStyle: Theme.of(context).textTheme.bodySmall,
-                          // const TextStyle(
-                          //   color: Color(0xff9CA0C1),
-                          //   fontWeight: FontWeight.w400,
-                          // ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Color(0xffDEE2E6)),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: kColorSecondary,
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              8,
-                            ),
-                          ),
-                        ),
-                        baseStyle: Theme.of(context).textTheme.bodySmall,
-                        // TextStyle(
-                        //   color: Colors.black,
-                        // ),
-                      ),
-                      clearButtonProps: ClearButtonProps(
-                        padding: EdgeInsets.zero,
-                        iconSize: 16,
-                        visualDensity: VisualDensity.compact,
-                        alignment: Alignment.centerRight,
-                        isVisible: true,
-                        color: serviceId == null ? Colors.white : Colors.black,
-                      ),
-                      popupProps: PopupProps.modalBottomSheet(
-                        showSearchBox: true,
-                        modalBottomSheetProps: ModalBottomSheetProps(
-                          backgroundColor: Theme.of(context).cardColor,
-                          useSafeArea: false,
-                        ),
-                      ),
+                      onRemovePressed: () {
+                        context.read<CategoriesBloc>().add(
+                              CategoriesLoadInitiated(),
+                            );
+                      },
                     ),
                   ),
               ],
@@ -908,5 +785,84 @@ class _PostServicePageState extends State<PostServicePage> {
         validator: validateNotEmpty,
       ),
     );
+  }
+
+  Widget _buildDialog() {
+    if (endPriceController.text.length != 0) {
+      if (context.read<CategoriesBloc>().state.commission != null)
+        return Visibility(
+          visible: budgetTo != null,
+          child: Container(
+            constraints: BoxConstraints.loose(
+              Size(
+                double.maxFinite,
+                60,
+              ),
+            ),
+            margin: EdgeInsets.symmetric(vertical: 4),
+            color: kColorLightSkyBlue,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    color: kColorBlue,
+                  ),
+                  addHorizontalSpace(
+                    8,
+                  ),
+                  Flexible(
+                    child: RichText(
+                      text: TextSpan(
+                        text:
+                            "Your service will be posted in a portal ${(startPriceController.text.length == 0) ? "for" : "with budget ranging from"} ",
+                        style: Theme.of(context).textTheme.displayMedium,
+                        children: startPriceController.text.length == 0
+                            ? [
+                                TextSpan(
+                                  text: "Rs $budgetTo",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: kColorSecondary,
+                                  ),
+                                )
+                              ]
+                            : [
+                                TextSpan(
+                                  text: "Rs $budgetFrom",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: kColorSecondary,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: " to ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
+                                      children: [
+                                        TextSpan(
+                                          text: "Rs $budgetTo",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            color: kColorSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+    }
+    return SizedBox.shrink();
   }
 }

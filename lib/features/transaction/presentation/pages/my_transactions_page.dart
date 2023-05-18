@@ -1,4 +1,4 @@
-import 'package:cipher/features/transaction/data/repositories/transaction_repository.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +12,8 @@ class MyTransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TransactionBloc(
-        TransactionRepository(),
-      )..add(
+      create: (context) => locator<TransactionBloc>()
+        ..add(
           TransactionLoaded(),
         ),
       child: MyTransactionsMainView(),

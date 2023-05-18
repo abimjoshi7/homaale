@@ -6,6 +6,7 @@
 
 import 'package:dependencies/dependencies.dart';
 
+import '../../../bookings/data/models/bookings_response_dto.dart';
 import '../../../search/data/models/search_res.dart';
 
 

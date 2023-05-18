@@ -27,6 +27,7 @@ mixin _$SubCategoryRes {
   Category? get category => throw _privateConstructorUsedError;
   List<dynamic>? get images => throw _privateConstructorUsedError;
   List<dynamic>? get requiredDocuments => throw _privateConstructorUsedError;
+  String? get commission => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $SubCategoryResCopyWith<$Res> {
       bool? isVerified,
       Category? category,
       List<dynamic>? images,
-      List<dynamic>? requiredDocuments});
+      List<dynamic>? requiredDocuments,
+      String? commission});
 
   $CategoryCopyWith<$Res>? get category;
 }
@@ -72,6 +74,7 @@ class _$SubCategoryResCopyWithImpl<$Res, $Val extends SubCategoryRes>
     Object? category = freezed,
     Object? images = freezed,
     Object? requiredDocuments = freezed,
+    Object? commission = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -102,6 +105,10 @@ class _$SubCategoryResCopyWithImpl<$Res, $Val extends SubCategoryRes>
           ? _value.requiredDocuments
           : requiredDocuments // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -133,7 +140,8 @@ abstract class _$$_SubCategoryResCopyWith<$Res>
       bool? isVerified,
       Category? category,
       List<dynamic>? images,
-      List<dynamic>? requiredDocuments});
+      List<dynamic>? requiredDocuments,
+      String? commission});
 
   @override
   $CategoryCopyWith<$Res>? get category;
@@ -157,6 +165,7 @@ class __$$_SubCategoryResCopyWithImpl<$Res>
     Object? category = freezed,
     Object? images = freezed,
     Object? requiredDocuments = freezed,
+    Object? commission = freezed,
   }) {
     return _then(_$_SubCategoryRes(
       id: freezed == id
@@ -187,6 +196,10 @@ class __$$_SubCategoryResCopyWithImpl<$Res>
           ? _value._requiredDocuments
           : requiredDocuments // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -201,7 +214,8 @@ class _$_SubCategoryRes implements _SubCategoryRes {
       this.isVerified,
       this.category,
       final List<dynamic>? images,
-      final List<dynamic>? requiredDocuments})
+      final List<dynamic>? requiredDocuments,
+      this.commission})
       : _images = images,
         _requiredDocuments = requiredDocuments;
 
@@ -240,8 +254,11 @@ class _$_SubCategoryRes implements _SubCategoryRes {
   }
 
   @override
+  final String? commission;
+
+  @override
   String toString() {
-    return 'SubCategoryRes(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images, requiredDocuments: $requiredDocuments)';
+    return 'SubCategoryRes(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images, requiredDocuments: $requiredDocuments, commission: $commission)';
   }
 
   @override
@@ -259,7 +276,9 @@ class _$_SubCategoryRes implements _SubCategoryRes {
                 other.category == category) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality()
-                .equals(other._requiredDocuments, _requiredDocuments));
+                .equals(other._requiredDocuments, _requiredDocuments) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission));
   }
 
   @JsonKey(ignore: true)
@@ -272,7 +291,8 @@ class _$_SubCategoryRes implements _SubCategoryRes {
       isVerified,
       category,
       const DeepCollectionEquality().hash(_images),
-      const DeepCollectionEquality().hash(_requiredDocuments));
+      const DeepCollectionEquality().hash(_requiredDocuments),
+      commission);
 
   @JsonKey(ignore: true)
   @override
@@ -296,7 +316,8 @@ abstract class _SubCategoryRes implements SubCategoryRes {
       final bool? isVerified,
       final Category? category,
       final List<dynamic>? images,
-      final List<dynamic>? requiredDocuments}) = _$_SubCategoryRes;
+      final List<dynamic>? requiredDocuments,
+      final String? commission}) = _$_SubCategoryRes;
 
   factory _SubCategoryRes.fromJson(Map<String, dynamic> json) =
       _$_SubCategoryRes.fromJson;
@@ -315,6 +336,8 @@ abstract class _SubCategoryRes implements SubCategoryRes {
   List<dynamic>? get images;
   @override
   List<dynamic>? get requiredDocuments;
+  @override
+  String? get commission;
   @override
   @JsonKey(ignore: true)
   _$$_SubCategoryResCopyWith<_$_SubCategoryRes> get copyWith =>

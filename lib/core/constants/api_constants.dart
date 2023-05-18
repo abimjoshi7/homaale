@@ -25,7 +25,7 @@ const kFileStore = "task/filestore/";
 // wallet
 const kMyWallet = "wallet/mywallet/";
 const kWalletHistory = "/wallet/wallethistory/";
-// transactions
+
 //offers
 const kOffersPath = "offer/serviceoffer/all/";
 

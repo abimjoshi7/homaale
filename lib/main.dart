@@ -16,7 +16,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   Bloc.observer = AppObserver();
- 
+
   DioHelper.init();
 
   // initialize locator
@@ -28,3 +28,6 @@ void main() async {
 //TODO: no bookings after 3 times
 //TODO: Rewards
 //TODO: Offers
+
+
+//! commission: double,  isBookmarked: bool, 

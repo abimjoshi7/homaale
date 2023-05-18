@@ -31,6 +31,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
           .toList(),
       count: json['count'] as num?,
+      isBookmarked: json['is_bookmarked'] as bool?,
       offers: (json['offers'] as List<dynamic>?)
           ?.map((e) => Offer.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -59,6 +60,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       budgetType: json['budget_type'] as String?,
+      isRange: json['is_range'] as bool?,
       budgetFrom: json['budget_from'] as String?,
       budgetTo: json['budget_to'] as String?,
       startDate: json['start_date'] == null
@@ -109,6 +111,7 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'videos': instance.videos,
       'rating': instance.rating,
       'count': instance.count,
+      'is_bookmarked': instance.isBookmarked,
       'offers': instance.offers,
       'endorsements': instance.endorsements,
       'is_redeemable': instance.isRedeemable,
@@ -121,6 +124,7 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'description': instance.description,
       'highlights': instance.highlights,
       'budget_type': instance.budgetType,
+      'is_range': instance.isRange,
       'budget_from': instance.budgetFrom,
       'budget_to': instance.budgetTo,
       'start_date': instance.startDate?.toIso8601String(),
@@ -229,12 +233,14 @@ _$_Badge _$$_BadgeFromJson(Map<String, dynamic> json) => _$_Badge(
       id: json['id'] as num?,
       image: json['image'] as String?,
       title: json['title'] as String?,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$$_BadgeToJson(_$_Badge instance) => <String, dynamic>{
       'id': instance.id,
       'image': instance.image,
       'title': instance.title,
+      'url': instance.url,
     };
 
 _$_Currency _$$_CurrencyFromJson(Map<String, dynamic> json) => _$_Currency(
@@ -336,11 +342,11 @@ Map<String, dynamic> _$$_RatingToJson(_$_Rating instance) => <String, dynamic>{
 _$_RatingStats _$$_RatingStatsFromJson(Map<String, dynamic> json) =>
     _$_RatingStats(
       averageRating: (json['average_rating'] as num?)?.toDouble(),
-      five: (json['five'] as num?)?.toDouble(),
-      four: (json['four'] as num?)?.toDouble(),
-      three: (json['three'] as num?)?.toDouble(),
-      two: (json['two'] as num?)?.toDouble(),
-      one: (json['one'] as num?)?.toDouble(),
+      five: json['five'] as int?,
+      four: json['four'] as int?,
+      three: json['three'] as int?,
+      two: json['two'] as int?,
+      one: json['one'] as int?,
       totalCounts: json['total_counts'] as int?,
     );
 
@@ -363,8 +369,11 @@ _$_Service _$$_ServiceFromJson(Map<String, dynamic> json) => _$_Service(
       category: json['category'] == null
           ? null
           : Category.fromJson(json['category'] as Map<String, dynamic>),
-      images: json['images'] as List<dynamic>?,
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
       required_documents: json['required_documents'] as List<dynamic>?,
+      commission: json['commission'] as String?,
     );
 
 Map<String, dynamic> _$$_ServiceToJson(_$_Service instance) =>
@@ -376,6 +385,7 @@ Map<String, dynamic> _$$_ServiceToJson(_$_Service instance) =>
       'category': instance.category,
       'images': instance.images,
       'required_documents': instance.required_documents,
+      'commission': instance.commission,
     };
 
 _$_Category _$$_CategoryFromJson(Map<String, dynamic> json) => _$_Category(

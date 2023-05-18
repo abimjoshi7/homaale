@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -77,15 +78,18 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     );
 
                     await Geolocator.getCurrentPosition().then((value) async {
-                      await CacheHelper.setCachedString("CurrentUserLocation", jsonEncode(value));
+                      await CacheHelper.setCachedString(
+                          "CurrentUserLocation", jsonEncode(value));
                       await placemarkFromCoordinates(
                         value.latitude,
                         value.longitude,
                       ).then(
                         (value) => setState(
                           () {
-                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location =
+                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location =
+                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
@@ -141,7 +145,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
@@ -159,6 +164,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     leading: InkWell(
                       onTap: () {
                         if (CacheHelper.isLoggedIn) {
+                          log(CacheHelper.accessToken ?? "");
                           Navigator.pushNamed(
                             context,
                             AccountView.routeName,
@@ -193,7 +199,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                       position: TooltipPosition.bottom,
                                       showKey: Home.notificationKey,
                                       showCaseTitle: 'Notifications',
-                                      showCaseDec: 'See all notifications from here.',
+                                      showCaseDec:
+                                          'See all notifications from here.',
                                       child: Icon(
                                         (CacheHelper.isLoggedIn)
                                             ? Icons.notifications_none
@@ -205,17 +212,25 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList?.unreadCount != null &&
-                                          state.allNotificationList?.unreadCount != 0
+                                  state.allNotificationList?.unreadCount !=
+                                              null &&
+                                          state.allNotificationList
+                                                  ?.unreadCount !=
+                                              0
                                       ? Positioned(
                                           right: 13,
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
                                             child: Center(
                                               child: Text(
-                                                state.allNotificationList?.unreadCount.toString() ?? "0",
+                                                state.allNotificationList
+                                                        ?.unreadCount
+                                                        .toString() ??
+                                                    "0",
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,

@@ -21,6 +21,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           emit(
             state.copyWith(
               theStates: TheStates.loading,
+              isCreated: false,
+              isEdited: false,
             ),
           );
           await respositories.fetchUser().then(
@@ -36,7 +38,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             },
           );
         } catch (e) {
-          log("User Load Error : $e");
+          log("User Load Error: $e");
           emit(
             state.copyWith(
               theStates: TheStates.failure,
@@ -55,6 +57,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
+                    isEdited: true,
                   ),
                 ),
               )

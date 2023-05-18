@@ -12,8 +12,7 @@ class TransactionLoaded extends TransactionEvent {
   final String? status;
   final String? transactionType;
   final int? paymentMethod;
-  final bool? beforeSelected;
-  final bool? afterSelected;
+  final bool isCleared;
   TransactionLoaded({
     this.pageNumber,
     this.dateAfter,
@@ -21,8 +20,7 @@ class TransactionLoaded extends TransactionEvent {
     this.status,
     this.transactionType,
     this.paymentMethod,
-    this.beforeSelected,
-    this.afterSelected,
+    this.isCleared = false,
   });
   @override
   List<Object?> get props => [
@@ -32,38 +30,6 @@ class TransactionLoaded extends TransactionEvent {
         status,
         transactionType,
         paymentMethod,
-        beforeSelected,
-        afterSelected,
-      ];
-}
-
-class TransactionStatusChanged extends TransactionEvent {
-  final String? status;
-  TransactionStatusChanged({
-    this.status,
-  });
-  @override
-  List<Object?> get props => [
-        status,
-      ];
-}
-
-class TransactionDateChanged extends TransactionEvent {
-  final DateTime? beforeDate;
-  final DateTime? afterDate;
-  final bool? beforeSelected;
-  final bool? afterSelected;
-  TransactionDateChanged({
-    this.beforeDate,
-    this.afterDate,
-    this.beforeSelected,
-    this.afterSelected,
-  });
-  @override
-  List<Object?> get props => [
-        beforeDate,
-        afterDate,
-        beforeSelected,
-        afterSelected,
+        isCleared,
       ];
 }

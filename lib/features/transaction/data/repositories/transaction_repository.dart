@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -51,6 +50,8 @@ class TransactionRepository {
         status: status,
         dateBefore: dateBefore,
         dateAfter: dateAfter,
+        transactionType: transactionType,
+        paymentMethod: paymentMethod,
       ).then(
         (value) => TransactionsRes.fromJson(
           value,
