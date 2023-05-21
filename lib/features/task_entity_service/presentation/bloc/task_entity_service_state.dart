@@ -42,7 +42,7 @@ class TaskEntityServiceState extends Equatable {
     this.serviceList,
   });
 
-  const TaskEntityServiceState.init({
+  const TaskEntityServiceState.initial({
     this.theStates = TheStates.initial,
     this.taskEntityServiceModel = null,
     this.taskEntityService = null,

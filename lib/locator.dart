@@ -21,6 +21,7 @@ import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/transaction/data/repositories/transaction_repository.dart';
@@ -34,6 +35,9 @@ final locator = GetIt.instance;
 
 void init() {
   //repositories
+  locator.registerLazySingleton<TaskEntityServiceRepository>(
+    () => TaskEntityServiceRepository(),
+  );
   locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
   locator.registerLazySingleton<CategoriesRepositories>(
       () => CategoriesRepositories());
@@ -51,11 +55,15 @@ void init() {
   locator.registerLazySingleton<BankRepository>(() => BankRepository());
 
   //bloc
+  locator.registerFactory<TaskEntityServiceBloc>(
+    () => TaskEntityServiceBloc(
+      locator(),
+    ),
+  );
   locator.registerFactory<TaskBloc>(() => TaskBloc());
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
   locator.registerFactory<UserBloc>(() => UserBloc());
-  locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc());
   locator.registerFactory<TaskerPortfolioCubit>(() => TaskerPortfolioCubit());
   locator.registerFactory<BookingsBloc>(() => BookingsBloc());
   locator.registerFactory<PaymentBloc>(() => PaymentBloc());

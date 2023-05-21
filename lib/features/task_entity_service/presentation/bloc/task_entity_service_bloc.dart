@@ -26,38 +26,44 @@ const kThrottleDuration = Duration(
 
 class TaskEntityServiceBloc
     extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
-  final repo = TaskEntityServiceRepository();
+  final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
 
-  TaskEntityServiceBloc() : super(const TaskEntityServiceState()) {
+  TaskEntityServiceBloc(this.repo) : super(const TaskEntityServiceState()) {
     on<TaskEntityServiceInitiated>(
       (event, emit) async {
-        emit(state.copyWith(theStates: TheStates.initial));
+        emit(
+          TaskEntityServiceState.initial(),
+        );
         try {
           await repo
               .getTaskEntityServices(
-                  page: event.page ?? 1,
-                  order: event.order,
-                  serviceId: event.serviceId,
-                  city: event.city)
+                isTask: event.isTask,
+                page: event.page ?? 1,
+                order: event.order,
+                serviceId: event.serviceId,
+                city: event.city,
+              )
               .then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
                     taskEntityServiceModel: value,
-                    isBudgetSort: event.isBudgetSort,
-                    isDateSort: event.isDateSort,
+                    // isBudgetSort: event.isBudgetSort,
+                    // isDateSort: event.isDateSort,
                   ),
                 ),
               );
         } catch (e) {
-          log("Service load error: $e");
-          emit(state.copyWith(
-            theStates: TheStates.failure,
-            isBudgetSort: false,
-            isDateSort: false,
-          ));
+          log("TES Initiate Bloc Error: $e");
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+              // isBudgetSort: false,
+              // isDateSort: false,
+            ),
+          );
         }
       },
     );
@@ -66,9 +72,7 @@ class TaskEntityServiceBloc
       (event, emit) async {
         try {
           emit(
-            state.copyWith(
-              theStates: TheStates.initial,
-            ),
+            TaskEntityServiceState.initial(),
           );
           await repo
               .getSingleTaskEntityService(
@@ -105,7 +109,7 @@ class TaskEntityServiceBloc
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              isLoaded: false,
+              // isLoaded: false,
             ),
           );
         }

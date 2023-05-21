@@ -6,6 +6,7 @@ abstract class TaskEntityServiceEvent extends Equatable {
 }
 
 class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
+  final bool? isTask;
   final int? page;
   final List<String>? order;
   final bool? isDateSort;
@@ -15,6 +16,7 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   final bool? isFilter;
 
   const TaskEntityServiceInitiated({
+    this.isTask,
     this.page,
     this.order,
     this.isDateSort,
@@ -25,6 +27,7 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   });
   @override
   List<Object?> get props => [
+        isTask,
         page,
         order,
         isDateSort,
@@ -56,6 +59,18 @@ class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [
         id,
+      ];
+}
+
+class TaskEntityServiceCreated extends TaskEntityServiceEvent {
+  final TaskEntityServiceReq req;
+  TaskEntityServiceCreated({
+    required this.req,
+  });
+
+  @override
+  List<Object?> get props => [
+        req,
       ];
 }
 
@@ -105,18 +120,6 @@ class ResetApproveFailureStatus extends TaskEntityServiceEvent {
 
   @override
   List<Object?> get props => [];
-}
-
-class TaskEntityServiceCreated extends TaskEntityServiceEvent {
-  final TaskEntityServiceReq req;
-  TaskEntityServiceCreated({
-    required this.req,
-  });
-
-  @override
-  List<Object?> get props => [
-        req,
-      ];
 }
 
 class TaskRejectPeople extends TaskEntityServiceEvent {
