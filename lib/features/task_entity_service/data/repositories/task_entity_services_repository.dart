@@ -58,7 +58,7 @@ class TaskEntityServiceRepository {
     String? serviceId,
     String? city,
   }) async =>
-      await fetchTaskEntityServices(
+      fetchTaskEntityServices(
         isTask: isTask,
         page: page,
         serviceId: serviceId,

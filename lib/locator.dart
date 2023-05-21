@@ -28,7 +28,7 @@ import 'package:cipher/features/transaction/data/repositories/transaction_reposi
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
 final locator = GetIt.instance;

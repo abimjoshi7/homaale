@@ -13,7 +13,7 @@ import 'package:cipher/features/tasker/presentation/view/widgets/tasker_about.da
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_review_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_service.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_task.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/label_count.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';

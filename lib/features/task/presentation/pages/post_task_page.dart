@@ -1,3 +1,4 @@
+import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +83,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a task"),
+      appBar: CustomAppBar(
+        appBarTitle: "Post a task",
+        trailingWidget: InkWell(
+          onTap: () => Navigator.pushNamed(
+            context,
+            SandboxPage.routeName,
+          ),
+          child: Container(
+            height: 50,
+            width: 50,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Expanded(

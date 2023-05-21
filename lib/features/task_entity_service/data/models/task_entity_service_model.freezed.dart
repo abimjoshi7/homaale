@@ -343,18 +343,15 @@ mixin _$TaskEntityService {
   @JsonKey(name: "end_date")
   DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: "start_time")
-  dynamic get startTime => throw _privateConstructorUsedError;
+  String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: "end_time")
-  dynamic get endTime => throw _privateConstructorUsedError;
+  String? get endTime => throw _privateConstructorUsedError;
   @JsonKey(name: "share_location")
   bool? get shareLocation => throw _privateConstructorUsedError;
   @JsonKey(name: "is_negotiable")
   bool? get isNegotiable => throw _privateConstructorUsedError;
-  num? get revisions => throw _privateConstructorUsedError;
-  @JsonKey(name: "recursion_type")
-  dynamic get recursionType => throw _privateConstructorUsedError;
   @JsonKey(name: "views_count")
-  num? get viewsCount => throw _privateConstructorUsedError;
+  int? get viewsCount => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: "is_booked")
   bool? get isBooked => throw _privateConstructorUsedError;
@@ -429,13 +426,11 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
-      @JsonKey(name: "start_time") dynamic startTime,
-      @JsonKey(name: "end_time") dynamic endTime,
+      @JsonKey(name: "start_time") String? startTime,
+      @JsonKey(name: "end_time") String? endTime,
       @JsonKey(name: "share_location") bool? shareLocation,
       @JsonKey(name: "is_negotiable") bool? isNegotiable,
-      num? revisions,
-      @JsonKey(name: "recursion_type") dynamic recursionType,
-      @JsonKey(name: "views_count") num? viewsCount,
+      @JsonKey(name: "views_count") int? viewsCount,
       String? location,
       @JsonKey(name: "is_booked") bool? isBooked,
       @JsonKey(name: "is_professional") bool? isProfessional,
@@ -509,8 +504,6 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? endTime = freezed,
     Object? shareLocation = freezed,
     Object? isNegotiable = freezed,
-    Object? revisions = freezed,
-    Object? recursionType = freezed,
     Object? viewsCount = freezed,
     Object? location = freezed,
     Object? isBooked = freezed,
@@ -644,11 +637,11 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       shareLocation: freezed == shareLocation
           ? _value.shareLocation
           : shareLocation // ignore: cast_nullable_to_non_nullable
@@ -657,18 +650,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.isNegotiable
           : isNegotiable // ignore: cast_nullable_to_non_nullable
               as bool?,
-      revisions: freezed == revisions
-          ? _value.revisions
-          : revisions // ignore: cast_nullable_to_non_nullable
-              as num?,
-      recursionType: freezed == recursionType
-          ? _value.recursionType
-          : recursionType // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       viewsCount: freezed == viewsCount
           ? _value.viewsCount
           : viewsCount // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as int?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -869,13 +854,11 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "budget_to") String? budgetTo,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
-      @JsonKey(name: "start_time") dynamic startTime,
-      @JsonKey(name: "end_time") dynamic endTime,
+      @JsonKey(name: "start_time") String? startTime,
+      @JsonKey(name: "end_time") String? endTime,
       @JsonKey(name: "share_location") bool? shareLocation,
       @JsonKey(name: "is_negotiable") bool? isNegotiable,
-      num? revisions,
-      @JsonKey(name: "recursion_type") dynamic recursionType,
-      @JsonKey(name: "views_count") num? viewsCount,
+      @JsonKey(name: "views_count") int? viewsCount,
       String? location,
       @JsonKey(name: "is_booked") bool? isBooked,
       @JsonKey(name: "is_professional") bool? isProfessional,
@@ -954,8 +937,6 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? endTime = freezed,
     Object? shareLocation = freezed,
     Object? isNegotiable = freezed,
-    Object? revisions = freezed,
-    Object? recursionType = freezed,
     Object? viewsCount = freezed,
     Object? location = freezed,
     Object? isBooked = freezed,
@@ -1089,11 +1070,11 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String?,
       shareLocation: freezed == shareLocation
           ? _value.shareLocation
           : shareLocation // ignore: cast_nullable_to_non_nullable
@@ -1102,18 +1083,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.isNegotiable
           : isNegotiable // ignore: cast_nullable_to_non_nullable
               as bool?,
-      revisions: freezed == revisions
-          ? _value.revisions
-          : revisions // ignore: cast_nullable_to_non_nullable
-              as num?,
-      recursionType: freezed == recursionType
-          ? _value.recursionType
-          : recursionType // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       viewsCount: freezed == viewsCount
           ? _value.viewsCount
           : viewsCount // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as int?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -1229,8 +1202,6 @@ class _$_TaskEntityService implements _TaskEntityService {
       @JsonKey(name: "end_time") this.endTime,
       @JsonKey(name: "share_location") this.shareLocation,
       @JsonKey(name: "is_negotiable") this.isNegotiable,
-      this.revisions,
-      @JsonKey(name: "recursion_type") this.recursionType,
       @JsonKey(name: "views_count") this.viewsCount,
       this.location,
       @JsonKey(name: "is_booked") this.isBooked,
@@ -1379,10 +1350,10 @@ class _$_TaskEntityService implements _TaskEntityService {
   final DateTime? endDate;
   @override
   @JsonKey(name: "start_time")
-  final dynamic startTime;
+  final String? startTime;
   @override
   @JsonKey(name: "end_time")
-  final dynamic endTime;
+  final String? endTime;
   @override
   @JsonKey(name: "share_location")
   final bool? shareLocation;
@@ -1390,13 +1361,8 @@ class _$_TaskEntityService implements _TaskEntityService {
   @JsonKey(name: "is_negotiable")
   final bool? isNegotiable;
   @override
-  final num? revisions;
-  @override
-  @JsonKey(name: "recursion_type")
-  final dynamic recursionType;
-  @override
   @JsonKey(name: "views_count")
-  final num? viewsCount;
+  final int? viewsCount;
   @override
   final String? location;
   @override
@@ -1460,7 +1426,7 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1510,16 +1476,13 @@ class _$_TaskEntityService implements _TaskEntityService {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            const DeepCollectionEquality().equals(other.startTime, startTime) &&
-            const DeepCollectionEquality().equals(other.endTime, endTime) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime) &&
+            (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.shareLocation, shareLocation) ||
                 other.shareLocation == shareLocation) &&
             (identical(other.isNegotiable, isNegotiable) ||
                 other.isNegotiable == isNegotiable) &&
-            (identical(other.revisions, revisions) ||
-                other.revisions == revisions) &&
-            const DeepCollectionEquality()
-                .equals(other.recursionType, recursionType) &&
             (identical(other.viewsCount, viewsCount) ||
                 other.viewsCount == viewsCount) &&
             (identical(other.location, location) ||
@@ -1589,12 +1552,10 @@ class _$_TaskEntityService implements _TaskEntityService {
         budgetTo,
         startDate,
         endDate,
-        const DeepCollectionEquality().hash(startTime),
-        const DeepCollectionEquality().hash(endTime),
+        startTime,
+        endTime,
         shareLocation,
         isNegotiable,
-        revisions,
-        const DeepCollectionEquality().hash(recursionType),
         viewsCount,
         location,
         isBooked,
@@ -1661,13 +1622,11 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "budget_to") final String? budgetTo,
       @JsonKey(name: "start_date") final DateTime? startDate,
       @JsonKey(name: "end_date") final DateTime? endDate,
-      @JsonKey(name: "start_time") final dynamic startTime,
-      @JsonKey(name: "end_time") final dynamic endTime,
+      @JsonKey(name: "start_time") final String? startTime,
+      @JsonKey(name: "end_time") final String? endTime,
       @JsonKey(name: "share_location") final bool? shareLocation,
       @JsonKey(name: "is_negotiable") final bool? isNegotiable,
-      final num? revisions,
-      @JsonKey(name: "recursion_type") final dynamic recursionType,
-      @JsonKey(name: "views_count") final num? viewsCount,
+      @JsonKey(name: "views_count") final int? viewsCount,
       final String? location,
       @JsonKey(name: "is_booked") final bool? isBooked,
       @JsonKey(name: "is_professional") final bool? isProfessional,
@@ -1760,10 +1719,10 @@ abstract class _TaskEntityService implements TaskEntityService {
   DateTime? get endDate;
   @override
   @JsonKey(name: "start_time")
-  dynamic get startTime;
+  String? get startTime;
   @override
   @JsonKey(name: "end_time")
-  dynamic get endTime;
+  String? get endTime;
   @override
   @JsonKey(name: "share_location")
   bool? get shareLocation;
@@ -1771,13 +1730,8 @@ abstract class _TaskEntityService implements TaskEntityService {
   @JsonKey(name: "is_negotiable")
   bool? get isNegotiable;
   @override
-  num? get revisions;
-  @override
-  @JsonKey(name: "recursion_type")
-  dynamic get recursionType;
-  @override
   @JsonKey(name: "views_count")
-  num? get viewsCount;
+  int? get viewsCount;
   @override
   String? get location;
   @override

@@ -41,8 +41,8 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/activities/bloc/activities_timeline_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
@@ -203,7 +203,10 @@ class Cipher extends StatelessWidget {
             create: (context) => NestedCategoriesCubit(),
           ),
           BlocProvider(
-            create: (context) => locator<TaskEntityServiceBloc>(),
+            create: (context) => locator<TaskEntityServiceBloc>()
+              ..add(
+                TaskEntityServiceInitiated(),
+              ),
           ),
           BlocProvider(
             create: (context) => locator<TaskBloc>(),

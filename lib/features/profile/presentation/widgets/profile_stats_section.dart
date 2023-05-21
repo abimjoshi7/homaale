@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,10 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.taskAssigned?.toInt().toString() ?? '',
+                      numberText: state.taskerProfile?.stats?.taskAssigned
+                              ?.toInt()
+                              .toString() ??
+                          '',
                       textColor: kColorBlue,
                     ),
                     Text(
@@ -34,9 +37,13 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.taskInProgress == null
-                          ? '0'
-                          : state.taskerProfile?.stats?.taskInProgress?.toInt().toString() ?? '',
+                      numberText:
+                          state.taskerProfile?.stats?.taskInProgress == null
+                              ? '0'
+                              : state.taskerProfile?.stats?.taskInProgress
+                                      ?.toInt()
+                                      .toString() ??
+                                  '',
                       textColor: kColorAmber,
                     ),
                     Text(
@@ -48,7 +55,10 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.successRate?.toInt().toString() ?? '',
+                      numberText: state.taskerProfile?.stats?.successRate
+                              ?.toInt()
+                              .toString() ??
+                          '',
                       textColor: kColorGreen,
                     ),
                     Text(

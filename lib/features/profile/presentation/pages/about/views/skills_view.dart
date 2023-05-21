@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

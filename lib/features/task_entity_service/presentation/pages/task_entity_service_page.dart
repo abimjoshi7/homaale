@@ -13,7 +13,7 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/applicants_information_dialog.dart';
 import 'package:dependencies/dependencies.dart';
@@ -30,108 +30,109 @@ class TaskEntityServicePage extends StatefulWidget {
 }
 
 class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
-  late final user = locator<UserBloc>();
+  late final UserBloc user;
   int _imageIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    user.add(UserLoaded());
+    user = context.read<UserBloc>()
+      ..add(
+        UserLoaded(),
+      );
   }
 
   @override
   void dispose() {
-    user.close();
+    // user.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
-        listener: (context, state) async {
-          final error = await CacheHelper.getCachedString(kErrorLog);
-          if (state.approveFail ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Failed',
-                content: error ??
-                    'Something went wrong while trying to accept tasker. Please try again!',
-                onTap: () {
-                  context
-                      .read<TaskEntityServiceBloc>()
-                      .add(ResetApproveFailureStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
-          if (state.approveSuccess ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Success',
-                content: 'Successfully hired!',
-                onTap: () {
-                  context
-                      .read<TaskEntityServiceBloc>()
-                      .add(ResetApproveSuccessStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
+    return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
+      listener: (context, state) async {
+        final error = await CacheHelper.getCachedString(kErrorLog);
+        if (state.approveFail ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Failed',
+              content: error ??
+                  'Something went wrong while trying to accept tasker. Please try again!',
+              onTap: () {
+                context
+                    .read<TaskEntityServiceBloc>()
+                    .add(ResetApproveFailureStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state.approveSuccess ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Success',
+              content: 'Successfully hired!',
+              onTap: () {
+                context
+                    .read<TaskEntityServiceBloc>()
+                    .add(ResetApproveSuccessStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
 
-          if (state.rejectFail ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Failed',
-                content: error ??
-                    'Something went wrong while trying to reject tasker. Please try again!',
-                onTap: () {
-                  context
-                      .read<TaskEntityServiceBloc>()
-                      .add(ResetRejectFailureStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
+        if (state.rejectFail ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Failed',
+              content: error ??
+                  'Something went wrong while trying to reject tasker. Please try again!',
+              onTap: () {
+                context
+                    .read<TaskEntityServiceBloc>()
+                    .add(ResetRejectFailureStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
 
-          if (state.rejectSuccess ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Success',
-                content: 'The Applicant has been rejected!',
-                onTap: () {
-                  context
-                      .read<TaskEntityServiceBloc>()
-                      .add(ResetRejectSuccessStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state.theStates == TheStates.success) {
-            final List<tes.Image> mediaList = [
-              ...state.taskEntityService?.images ?? [],
-              ...state.taskEntityService?.videos ?? [],
-            ];
-            return Column(
+        if (state.rejectSuccess ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Success',
+              content: 'The Applicant has been rejected!',
+              onTap: () {
+                context
+                    .read<TaskEntityServiceBloc>()
+                    .add(ResetRejectSuccessStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state.theStates == TheStates.success) {
+          final List<tes.Image> mediaList = [
+            ...state.taskEntityService?.images ?? [],
+            ...state.taskEntityService?.videos ?? [],
+          ];
+          return Scaffold(
+            appBar:
+                CustomAppBar(appBarTitle: state.taskEntityService?.title ?? ''),
+            body: Column(
               children: [
-                addVerticalSpace(50),
-                CustomHeader(
-                  child: Text(state.taskEntityService?.title ?? ''),
-                ),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () async {
@@ -441,7 +442,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                     buttonLabel: getStatus('')["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
                     price:
-                        "Rs. ${Decimal.parse(state.taskEntityService?.budgetTo ?? '0.0')}",
+                        "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);
@@ -461,16 +462,16 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   ),
                 ),
               ],
-            );
-          } else {
-            return const Center(
-              child: CardLoading(
-                height: 200,
-              ),
-            );
-          }
-        },
-      ),
+            ),
+          );
+        } else {
+          return const Center(
+            child: CardLoading(
+              height: 200,
+            ),
+          );
+        }
+      },
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';

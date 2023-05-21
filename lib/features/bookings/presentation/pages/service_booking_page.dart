@@ -12,7 +12,7 @@ import 'package:cipher/features/services/presentation/pages/views/details_view.d
 import 'package:cipher/features/services/presentation/pages/views/schedule_view.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';

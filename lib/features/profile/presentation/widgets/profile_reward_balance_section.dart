@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

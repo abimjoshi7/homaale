@@ -8,7 +8,7 @@ import 'package:cipher/features/profile/presentation/pages/documents/documents_p
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/tasks/tasks_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/label_count.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';

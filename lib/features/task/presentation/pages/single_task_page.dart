@@ -9,7 +9,7 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
     as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart'
     as tsk;
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -34,21 +34,24 @@ class SingleTaskPage extends StatefulWidget {
 
 class _SingleTaskPageState extends State<SingleTaskPage>
     with SingleTickerProviderStateMixin {
-  late final user = locator<UserBloc>();
+  late final UserBloc user;
   int selectedIndex = 0;
   late TabController tabController;
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
-    user.add(UserLoaded());
+    user = context.read<UserBloc>()
+      ..add(
+        UserLoaded(),
+      );
     super.initState();
   }
 
   @override
   void dispose() {
     tabController.dispose();
-    user.close();
+    // user.close();
     super.dispose();
   }
 

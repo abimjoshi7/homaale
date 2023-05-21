@@ -2,7 +2,7 @@ part of 'task_entity_service_bloc.dart';
 
 class TaskEntityServiceState extends Equatable {
   final TheStates theStates;
-  final TaskEntityServiceModel? taskEntityServiceModel;
+  final TaskEntityServiceModel taskEntityServiceModel;
   final TaskEntityService? taskEntityService;
   final ApplicantModel? applicantModel;
   final bool? approveSuccess;
@@ -22,7 +22,7 @@ class TaskEntityServiceState extends Equatable {
   final List<ServiceList>? serviceList;
   const TaskEntityServiceState({
     this.theStates = TheStates.initial,
-    this.taskEntityServiceModel,
+    this.taskEntityServiceModel = const TaskEntityServiceModel(),
     this.taskEntityService,
     this.applicantModel,
     this.approveSuccess,
@@ -44,7 +44,7 @@ class TaskEntityServiceState extends Equatable {
 
   const TaskEntityServiceState.initial({
     this.theStates = TheStates.initial,
-    this.taskEntityServiceModel = null,
+    this.taskEntityServiceModel = const TaskEntityServiceModel(),
     this.taskEntityService = null,
     this.applicantModel = null,
     this.approveSuccess = false,

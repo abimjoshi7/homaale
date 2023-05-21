@@ -1,10 +1,9 @@
-import 'package:cipher/features/user/presentation/bloc/activities_timeline_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/activities/bloc/activities_timeline_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/date_time_representation.dart';
 import '../../../../../widgets/dashed_line_vertical_painter.dart';
-import '../../../../user/presentation/bloc/activities_timeline_state.dart';
 
 class ActivitiesProfile extends StatelessWidget {
   const ActivitiesProfile({super.key});
@@ -36,7 +35,11 @@ class ActivitiesProfile extends StatelessWidget {
                             //     shape: BoxShape.circle,
                             //     border: Border.all(
                             //         width: 2, color: Colors.blueAccent)),
-                            child: Icon(Icons.check_circle,size: 20,color: Colors.blueAccent,),
+                            child: Icon(
+                              Icons.check_circle,
+                              size: 20,
+                              color: Colors.blueAccent,
+                            ),
                           ),
                           CustomPaint(
                               size: Size(2, 36),

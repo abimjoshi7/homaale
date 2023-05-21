@@ -33,28 +33,29 @@ class TaskEntityServiceBloc
   TaskEntityServiceBloc(this.repo) : super(const TaskEntityServiceState()) {
     on<TaskEntityServiceInitiated>(
       (event, emit) async {
-        emit(
-          TaskEntityServiceState.initial(),
-        );
+        // emit(
+        //   state.copyWith(
+        //     theStates: TheStates.loading,
+        //   ),
+        // );
         try {
-          await repo
-              .getTaskEntityServices(
-                isTask: event.isTask,
-                page: event.page ?? 1,
-                order: event.order,
-                serviceId: event.serviceId,
-                city: event.city,
-              )
-              .then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    taskEntityServiceModel: value,
-                    // isBudgetSort: event.isBudgetSort,
-                    // isDateSort: event.isDateSort,
-                  ),
-                ),
-              );
+          var res = await repo.getTaskEntityServices(
+            isTask: event.isTask,
+            page: event.page ?? 1,
+            order: event.order,
+            serviceId: event.serviceId,
+            city: event.city,
+          );
+          if (res.result != null && res.result!.isNotEmpty)
+            emit(
+              state.copyWith(
+                theStates: TheStates.success,
+                taskEntityServiceModel: res,
+                // taskEntityServiceModel: value,
+                // isBudgetSort: event.isBudgetSort,
+                // isDateSort: event.isDateSort,
+              ),
+            );
         } catch (e) {
           log("TES Initiate Bloc Error: $e");
           emit(
@@ -70,10 +71,12 @@ class TaskEntityServiceBloc
 
     on<TaskEntityServiceSingleLoaded>(
       (event, emit) async {
+        emit(
+          state.copyWith(
+            theStates: TheStates.loading,
+          ),
+        );
         try {
-          emit(
-            TaskEntityServiceState.initial(),
-          );
           await repo
               .getSingleTaskEntityService(
             event.id,
@@ -105,7 +108,7 @@ class TaskEntityServiceBloc
             },
           );
         } catch (e) {
-          log('exasd' + e.toString());
+          log('Single TES Load Error' + e.toString());
           emit(
             state.copyWith(
               theStates: TheStates.failure,

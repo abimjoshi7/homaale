@@ -3,12 +3,12 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/event/presentation/widgets/schedule_form.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 
 class ScheduleSection extends StatefulWidget with TheModalBottomSheet {
   final TaskEntityServiceState taskEntityServiceState;
