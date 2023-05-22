@@ -10,6 +10,7 @@ class CarouselSliderHelper extends StatelessWidget {
     this.viewport,
     this.autoplayDuration,
     this.autoPlay,
+    this.enlargeCenterPage,
   });
 
   final List<Widget> list;
@@ -17,12 +18,15 @@ class CarouselSliderHelper extends StatelessWidget {
   final double? viewport;
   final int? autoplayDuration;
   final bool? autoPlay;
+  final bool? enlargeCenterPage;
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       items: list,
       options: CarouselOptions(
+        enableInfiniteScroll: false,
+        enlargeCenterPage: enlargeCenterPage ?? false,
         aspectRatio: aspectRatio ?? 4,
         autoPlay: autoPlay ?? true,
         autoPlayInterval: Duration(

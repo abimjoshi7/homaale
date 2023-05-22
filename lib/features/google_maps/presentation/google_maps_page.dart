@@ -96,8 +96,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                           : SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: CarouselSliderHelper(
+                                enlargeCenterPage: true,
                                 autoPlay: false,
-                                viewport: 0.73,
+                                viewport: 0.71,
                                 aspectRatio: 3,
                                 list: List.generate(
                                   state.activeList!.length,
