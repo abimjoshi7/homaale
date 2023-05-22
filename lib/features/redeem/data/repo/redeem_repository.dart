@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import '../models/redeem_items_detail.dart';
 import '../models/redeem_submit_response.dart';
 import '../models/request_redeem_list.dart';
 
@@ -24,6 +25,22 @@ class RedeemRepositories {
       final redeemResponse = RequestRedeemList.fromJson(res);
 
       return redeemResponse;
+    } catch (e) {
+      log('Error response of redeem list: $e');
+
+      throw Exception('error fetching redeem');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchRedeemItemDetails(
+    int? redeemId,
+  ) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: 'offer/$redeemId/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
     } catch (e) {
       log('Error response of redeem list: $e');
 

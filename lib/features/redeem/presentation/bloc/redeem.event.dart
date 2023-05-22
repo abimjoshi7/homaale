@@ -1,7 +1,6 @@
 import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
 import 'package:dependencies/dependencies.dart';
 
-
 abstract class RedeemEvent extends Equatable {
   const RedeemEvent();
 }
@@ -20,8 +19,16 @@ class FetchRedeemList extends RedeemEvent {
   List<Object?> get props => [offerType];
 }
 
+
+class RedeemItemsDetails extends RedeemEvent {
+  final int redeemId;
+  RedeemItemsDetails({required this.redeemId});
+  @override
+  List<Object?> get props => [redeemId];
+}
+
 class SubmitRedeemEvent extends RedeemEvent {
-  final int  redeemID;
+  final int redeemID;
   const SubmitRedeemEvent({required this.redeemID});
   @override
   List<Object?> get props => [redeemID];

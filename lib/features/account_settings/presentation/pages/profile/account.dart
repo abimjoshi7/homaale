@@ -242,7 +242,6 @@ class _AccountViewState extends State<AccountView> {
                     context
                         .read<RedeemBloc>()
                         .add(FetchRedeemList(offerType: 'promo_code'));
-                    // add(FetchRedeemList(offerType: 'promo-code'));
                     Navigator.pushNamed(
                       context,
                       RedeemPage.routeName,

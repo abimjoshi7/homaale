@@ -8,6 +8,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../profile/presentation/widgets/profile_stats_card.dart';
+import '../bloc/redeem.event.dart';
 
 class RedeemPage extends StatefulWidget {
   static const routeName = '/redeem';
@@ -24,6 +25,8 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
+    context.read<RedeemBloc>().add(RedeemItemsDetails(
+        redeemId: context.read<RedeemBloc>().state.redeem.first.id ?? 0));
     super.initState();
   }
 
@@ -107,28 +110,7 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
             child: TabBarView(
               controller: tabController,
               children: <Widget>[
-                BlocBuilder<RedeemBloc, RedeemState>(builder: (context, state) {
-                  print('result : ${state.redeemList.result}');
-                  return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: 1,
-                        mainAxisSpacing: 4,
-                        crossAxisCount: 2,
-                      ),
-                      itemCount: state.redeemList.result?.length ?? 0,
-                      itemBuilder: (BuildContext context, int index) {
-                        return RedeemPointsCard(
-                          title:state.redeemList.result?[index].title ,
-                          index: index,
-                          description:
-                              state.redeemList.result?[index].description,
-                          redeemCount: state
-                              .redeemList.result?[index].redeemPoints
-                              .toString(),
-                          imagePath: state.redeemList.result?[index].image,
-                        );
-                      });
-                }),
+                RedeemPointsCard(),
                 StatementSection(),
               ],
             ),

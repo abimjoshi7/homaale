@@ -1,12 +1,13 @@
 import 'dart:developer';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
 import 'package:cipher/features/redeem/data/repo/redeem_repository.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem.event.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem.state.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:stream_transform/stream_transform.dart';
+
+import '../../data/models/redeem_items_detail.dart';
 
 const throttleDuration = Duration(milliseconds: 100);
 
@@ -59,6 +60,26 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
       },
       transformer: throttleDroppable(throttleDuration),
     );
+
+    on<RedeemItemsDetails>((event, emit) async {
+      try {
+        emit(
+          state.copyWith(theStates: TheStates.initial),
+        );
+        await repositories.fetchRedeemItemDetails(event.redeemId).then(
+              (value) => emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  redeemItemsDetail: RedeemItemsDetail.fromJson(value),
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(
+          state.copyWith(theStates: TheStates.failure),
+        );
+      }
+    });
 
     on<SubmitRedeemEvent>((event, emit) async {
       try {
