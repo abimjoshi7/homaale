@@ -35,7 +35,7 @@ class Result with _$Result {
     String? merchant,
     Country? country,
     @JsonKey(name: "free") ServiceElement? free,
-    @JsonKey(name: "offer_rule") OfferRule? offerRule,
+    @JsonKey(name: "offer_rule") int? offerRule,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
     @JsonKey(name: "is_active") bool? isActive,
@@ -54,6 +54,7 @@ class Result with _$Result {
     @JsonKey(name: "is_common") bool? isCommon,
     List<dynamic>? organizations,
     List<String>? redeems,
+    @JsonKey(name: "redeem_points") int? redeemPoints,
   }) = _Result;
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);

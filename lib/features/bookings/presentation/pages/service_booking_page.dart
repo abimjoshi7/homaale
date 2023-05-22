@@ -57,6 +57,10 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        appBarTitle: "Service Booking",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: BlocBuilder<EventBloc, EventState>(
         builder: (context, eventState) {
           if (eventState.theStates == TheStates.initial) {
@@ -68,13 +72,6 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
           }
           return Column(
             children: [
-              addVerticalSpace(
-                50,
-              ),
-              const CustomHeader(
-                label: "Service Booking",
-              ),
-              const Divider(),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

@@ -3,7 +3,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/extensions.dart';
 
 class TheCalender extends StatelessWidget {
   const TheCalender({
@@ -34,7 +33,7 @@ class TheCalender extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         selectedDecoration: BoxDecoration(
-          color: kColorPrimary,
+          color: kColorAmber,
           shape: BoxShape.circle,
         ),
       ),

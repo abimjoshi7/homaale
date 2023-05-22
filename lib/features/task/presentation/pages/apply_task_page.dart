@@ -112,14 +112,16 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Title :'),
                                         Text('${state.taskModel?.title}'),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Budget :'),
                                         Text(
@@ -136,7 +138,8 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   ],
                                 ),
                               ),
-                              if (state.taskModel?.budgetFrom != null || state.taskModel?.budgetTo != null) ...[
+                              if (state.taskModel?.budgetFrom != null ||
+                                  state.taskModel?.budgetTo != null) ...[
                                 CustomFormField(
                                   label: 'Your Price',
                                   isRequired: true,
@@ -150,13 +153,17 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                       }
                                       if (double.parse(value) >
                                           double.parse(
-                                            state.taskModel?.budgetTo.toString() ?? '0',
+                                            state.taskModel?.budgetTo
+                                                    .toString() ??
+                                                '0',
                                           )) {
                                         return 'Price cannot be greater than given budget';
                                       }
                                       if (double.parse(value) <
                                           double.parse(
-                                            state.taskModel?.budgetFrom.toString() ?? '0',
+                                            state.taskModel?.budgetFrom
+                                                    .toString() ??
+                                                '0',
                                           )) {
                                         return 'Price cannot be less than given budget';
                                       }
@@ -190,13 +197,15 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: List.generate(
                                         requirementList.length,
                                         (index) => Padding(
                                           padding: const EdgeInsets.all(2),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Row(
                                                 children: [
@@ -267,7 +276,9 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                 description: remarksController.text,
                                 requirements: requirementList,
                               );
-                              context.read<TaskBloc>().add(TaskBook(req: postTaskReq));
+                              context
+                                  .read<TaskBloc>()
+                                  .add(TaskBook(req: postTaskReq));
                             }
                           },
                           label: 'Apply',

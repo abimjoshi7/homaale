@@ -40,9 +40,6 @@ class _OffersPageMainViewState extends State<OffersPageMainView>
       length: 4,
       vsync: this,
     );
-    context.read<OffersBloc>().add(
-          OfferListLoaded(),
-        );
   }
 
   @override

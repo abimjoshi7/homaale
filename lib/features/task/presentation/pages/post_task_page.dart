@@ -28,8 +28,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final startPriceController = TextEditingController();
   final endPriceController = TextEditingController();
   final addressController = TextEditingController();
-  String? categoryId;
-  String? serviceId;
   String? priceType = 'Fixed';
   String? taskType = 'Remote';
   String? budgetType = 'Project';
@@ -219,7 +217,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
       builder: (context, state) {
         return CustomElevatedButton(
           callback: () async {
-            if (serviceId != null) {
+            if (context.read<CategoriesBloc>().state.serviceId != null) {
               if (isTermsAccepted) {
                 if (_key.currentState!.validate() &&
                     endPriceController.text.isNotEmpty &&
@@ -279,7 +277,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       isActive: true,
                       needsApproval: true,
                       isEndorsed: true,
-                      service: serviceId,
+                      service: context.read<CategoriesBloc>().state.serviceId,
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
@@ -875,12 +873,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 name: (value as String?) ?? "",
                               ),
                             );
-                        setState(
-                          () {
-                            serviceId =
-                                context.read<CategoriesBloc>().state.serviceId;
-                          },
-                        );
                       },
                     ),
                   ),

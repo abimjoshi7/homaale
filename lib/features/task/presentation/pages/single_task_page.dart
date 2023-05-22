@@ -10,7 +10,6 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart'
     as tsk;
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -57,112 +56,89 @@ class _SingleTaskPageState extends State<SingleTaskPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<TaskBloc, TaskState>(
-        listener: (context, state) async {
-          final error = await CacheHelper.getCachedString(kErrorLog);
-          if (state.approveFail ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Failed',
-                content: error ??
-                    'Something went wrong while trying to accept tasker. Please try again!',
-                onTap: () {
-                  context.read<TaskBloc>().add(ResetApproveFailureStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
+    return BlocListener<TaskBloc, TaskState>(
+      listener: (context, state) async {
+        final error = await CacheHelper.getCachedString(kErrorLog);
+        if (state.approveFail ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Failed',
+              content: error ??
+                  'Something went wrong while trying to accept tasker. Please try again!',
+              onTap: () {
+                context.read<TaskBloc>().add(ResetApproveFailureStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
 
-          if (state.approveSuccess ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Success',
-                content: 'Successfully hired!',
-                onTap: () {
-                  context.read<TaskBloc>().add(ResetApproveSuccessStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
+        if (state.approveSuccess ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Success',
+              content: 'Successfully hired!',
+              onTap: () {
+                context.read<TaskBloc>().add(ResetApproveSuccessStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
 
-          if (state.rejectFail ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Failed',
-                content: error ??
-                    'Something went wrong while trying to reject tasker. Please try again!',
-                onTap: () {
-                  context.read<TaskBloc>().add(ResetRejectFailureStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
-            );
-          }
+        if (state.rejectFail ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Failed',
+              content: error ??
+                  'Something went wrong while trying to reject tasker. Please try again!',
+              onTap: () {
+                context.read<TaskBloc>().add(ResetRejectFailureStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
 
-          if (state.rejectSuccess ?? false) {
-            showDialog(
-              context: context,
-              builder: (context) => CustomToast(
-                heading: 'Success',
-                content: 'The Applicant has been rejected!',
-                onTap: () {
-                  context.read<TaskBloc>().add(ResetRejectSuccessStatus());
-                  Navigator.pop(context);
-                },
-                isSuccess: true,
-              ),
+        if (state.rejectSuccess ?? false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Success',
+              content: 'The Applicant has been rejected!',
+              onTap: () {
+                context.read<TaskBloc>().add(ResetRejectSuccessStatus());
+                Navigator.pop(context);
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+      },
+      child: BlocBuilder<TaskBloc, TaskState>(
+        builder: (context, state) {
+          if (state.theState == TheStates.success && state.taskModel != null) {
+            final documentDescription = Bidi.stripHtmlIfNeeded(
+              state.taskModel?.description ??
+                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
             );
-          }
-        },
-        child: BlocBuilder<TaskBloc, TaskState>(
-          builder: (context, state) {
-            if (state.theState == TheStates.success &&
-                state.taskModel != null) {
-              final documentDescription = Bidi.stripHtmlIfNeeded(
-                state.taskModel?.description ??
-                    'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
-              );
-              final List<tes.Image> taskMedia = [
-                ...state.taskModel?.images ?? [],
-                ...state.taskModel?.videos ?? [],
-              ];
+            final List<tes.Image> taskMedia = [
+              ...state.taskModel?.images ?? [],
+              ...state.taskModel?.videos ?? [],
+            ];
 
-              return Column(
+            return Scaffold(
+              appBar: CustomAppBar(
+                appBarTitle: state.taskModel?.service?.category?.name ?? '',
+              ),
+              body: Column(
                 children: <Widget>[
-                  kHeight50,
-                  CustomHeader(
-                    leadingWidget: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                      ),
-                    ),
-                    trailingWidget: IconButton(
-                      onPressed: () async {
-                        Navigator.pushNamed(
-                          context,
-                          SearchPage.routeName,
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.search,
-                      ),
-                    ),
-                    child: Text(
-                      state.taskModel?.service?.category?.name ?? '',
-                    ),
-                  ),
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () async {
@@ -696,6 +672,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     child: PriceBookFooterSection(
                       buttonLabel: getStatus('')["status"] as String,
                       buttonColor: getStatus('')["color"] as Color,
+                      // buttonColor: getStatus('')["color"] as Color,
                       price:
                           "Rs. ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')}",
                       onPressed: () {
@@ -712,16 +689,16 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     ),
                   ),
                 ],
-              );
-            } else {
-              return const Center(
-                child: CardLoading(
-                  height: 200,
-                ),
-              );
-            }
-          },
-        ),
+              ),
+            );
+          } else {
+            return const Center(
+              child: CardLoading(
+                height: 200,
+              ),
+            );
+          }
+        },
       ),
     );
   }

@@ -6,7 +6,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/extensions.dart';
 import 'package:cipher/features/services/presentation/widgets/the_time_slot.dart';
 import 'package:cipher/widgets/widgets.dart';
 
@@ -45,7 +44,9 @@ class _ScheduleViewState extends State<ScheduleView> {
           builder: (context, state) {
             if (state.theStates == TheStates.initial) {
               return const Center(
-                child: CardLoading(height: 200,),
+                child: CardLoading(
+                  height: 200,
+                ),
               );
             }
             if (state.isLoaded == true) {
