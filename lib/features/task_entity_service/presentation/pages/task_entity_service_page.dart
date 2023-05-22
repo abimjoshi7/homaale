@@ -52,75 +52,75 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
   Widget build(BuildContext context) {
     return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
       listener: (context, state) async {
-        final error = await CacheHelper.getCachedString(kErrorLog);
-        if (state.approveFail ?? false) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Failed',
-              content: error ??
-                  'Something went wrong while trying to accept tasker. Please try again!',
-              onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetApproveFailureStatus());
-                Navigator.pop(context);
-              },
-              isSuccess: true,
-            ),
-          );
-        }
-        if (state.approveSuccess ?? false) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Success',
-              content: 'Successfully hired!',
-              onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetApproveSuccessStatus());
-                Navigator.pop(context);
-              },
-              isSuccess: true,
-            ),
-          );
-        }
+        // final error = await CacheHelper.getCachedString(kErrorLog);
+        // if (state.approveFail ?? false) {
+        //   showDialog(
+        //     context: context,
+        //     builder: (context) => CustomToast(
+        //       heading: 'Failed',
+        //       content: error ??
+        //           'Something went wrong while trying to accept tasker. Please try again!',
+        //       onTap: () {
+        //         context
+        //             .read<TaskEntityServiceBloc>()
+        //             .add(ResetApproveFailureStatus());
+        //         Navigator.pop(context);
+        //       },
+        //       isSuccess: true,
+        //     ),
+        //   );
+        // }
+        // if (state.approveSuccess ?? false) {
+        //   showDialog(
+        //     context: context,
+        //     builder: (context) => CustomToast(
+        //       heading: 'Success',
+        //       content: 'Successfully hired!',
+        //       onTap: () {
+        //         context
+        //             .read<TaskEntityServiceBloc>()
+        //             .add(ResetApproveSuccessStatus());
+        //         Navigator.pop(context);
+        //       },
+        //       isSuccess: true,
+        //     ),
+        //   );
+        // }
 
-        if (state.rejectFail ?? false) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Failed',
-              content: error ??
-                  'Something went wrong while trying to reject tasker. Please try again!',
-              onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetRejectFailureStatus());
-                Navigator.pop(context);
-              },
-              isSuccess: true,
-            ),
-          );
-        }
+        // if (state.rejectFail ?? false) {
+        //   showDialog(
+        //     context: context,
+        //     builder: (context) => CustomToast(
+        //       heading: 'Failed',
+        //       content: error ??
+        //           'Something went wrong while trying to reject tasker. Please try again!',
+        //       onTap: () {
+        //         context
+        //             .read<TaskEntityServiceBloc>()
+        //             .add(ResetRejectFailureStatus());
+        //         Navigator.pop(context);
+        //       },
+        //       isSuccess: true,
+        //     ),
+        //   );
+        // }
 
-        if (state.rejectSuccess ?? false) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Success',
-              content: 'The Applicant has been rejected!',
-              onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetRejectSuccessStatus());
-                Navigator.pop(context);
-              },
-              isSuccess: true,
-            ),
-          );
-        }
+        // if (state.rejectSuccess ?? false) {
+        //   showDialog(
+        //     context: context,
+        //     builder: (context) => CustomToast(
+        //       heading: 'Success',
+        //       content: 'The Applicant has been rejected!',
+        //       onTap: () {
+        //         context
+        //             .read<TaskEntityServiceBloc>()
+        //             .add(ResetRejectSuccessStatus());
+        //         Navigator.pop(context);
+        //       },
+        //       isSuccess: true,
+        //     ),
+        //   );
+        // }
       },
       builder: (context, state) {
         if (state.theStates == TheStates.success) {

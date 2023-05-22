@@ -21,19 +21,19 @@ class TrendingServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
-      listenWhen: (previous, current) {
-        if (previous.theStates == TheStates.loading &&
-            current.theStates == TheStates.success) return true;
-        return false;
-      },
+      // listenWhen: (previous, current) {
+      //   if (previous.theStates == TheStates.loading &&
+      //       current.theStates == TheStates.success) return true;
+      //   return false;
+      // },
       listener: (context, state) {
-        if (state.theStates == TheStates.success) {
-          log("YIP");
-          Navigator.pushNamed(
-            context,
-            TaskEntityServicePage.routeName,
-          );
-        }
+        // if (state.theStates == TheStates.success) {
+        //   log("YIP");
+        //   Navigator.pushNamed(
+        //     context,
+        //     TaskEntityServicePage.routeName,
+        //   );
+        // }
       },
       builder: (context, state) {
         return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
@@ -80,6 +80,10 @@ class TrendingServicesSection extends StatelessWidget {
                                         '',
                                   ),
                                 );
+                            Navigator.pushNamed(
+                              context,
+                              TaskEntityServicePage.routeName,
+                            );
                           },
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.46,
