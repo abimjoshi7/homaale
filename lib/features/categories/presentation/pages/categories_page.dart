@@ -32,30 +32,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Categories",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         children: <Widget>[
-          addVerticalSpace(50),
-          CustomHeader(
-            leadingWidget: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            trailingWidget: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  SearchPage.routeName,
-                );
-              },
-              icon: const Icon(
-                Icons.search,
-              ),
-            ),
-            child: const Text('Categories'),
-          ),
-          const CustomHorizontalDivider(),
           Expanded(
             child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
               builder: (context, state) {

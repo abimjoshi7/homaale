@@ -22,26 +22,9 @@ class ServicesPage extends StatelessWidget {
           ),
         );
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: nestedCategory?.name ?? ''),
       body: Column(
         children: <Widget>[
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            // trailingWidget: IconButton(
-            //   onPressed: () {},
-            //   icon: const Icon(
-            //     Icons.search,
-            //   ),
-            // ),
-            child: Text(nestedCategory?.name ?? ''),
-          ),
           Expanded(
             child: BlocBuilder<ServicesBloc, ServicesState>(
               builder: (context, state) {
