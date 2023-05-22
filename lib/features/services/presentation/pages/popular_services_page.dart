@@ -85,19 +85,21 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       });
     }
 
-    entityServiceBloc.add(TaskEntityServiceInitiated(
-      page: 1,
-      order: order,
-      serviceId: selectedCategoryId,
-      city: selectedLocation,
-      isFilter: selectedCategoryId != null
-          ? true
-          : selectedLocation != null
-              ? true
-              : false,
-      isDateSort: entityServiceBloc.state.isDateSort ?? false,
-      isBudgetSort: entityServiceBloc.state.isBudgetSort ?? false,
-    ));
+    entityServiceBloc.add(
+      TaskEntityServiceInitiated(
+        page: 1,
+        order: order,
+        serviceId: selectedCategoryId,
+        city: selectedLocation,
+        isFilter: selectedCategoryId != null
+            ? true
+            : selectedLocation != null
+                ? true
+                : false,
+        isDateSort: entityServiceBloc.state.isDateSort ?? false,
+        isBudgetSort: entityServiceBloc.state.isBudgetSort ?? false,
+      ),
+    );
   }
 
   void onFilterLocation({String? location}) {
@@ -235,9 +237,9 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
           }
 
           if (state.theStates == TheStates.success) {
-            serviceList = state.taskEntityServiceModel!.result!;
-            final lastPage = state.taskEntityServiceModel!.totalPages!;
-            final next = 1 + state.taskEntityServiceModel!.current!;
+            serviceList = state.taskEntityServiceModel.result!;
+            final lastPage = state.taskEntityServiceModel.totalPages!;
+            final next = 1 + state.taskEntityServiceModel.current!;
 
             if (next > lastPage) {
               _pagingController.appendLastPage(serviceList);

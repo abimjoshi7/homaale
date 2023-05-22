@@ -111,6 +111,8 @@ class _TasksRecommendationSectionState
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
+                            isRange: state.tasksList?.result?[index].isRange ??
+                                false,
                             id: state.tasksList?.result?[index].id,
                             buttonLabel:
                                 state.tasksList?.result?[index].createdBy?.id ==
