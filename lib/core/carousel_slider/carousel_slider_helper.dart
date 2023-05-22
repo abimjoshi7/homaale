@@ -9,12 +9,14 @@ class CarouselSliderHelper extends StatelessWidget {
     this.aspectRatio,
     this.viewport,
     this.autoplayDuration,
+    this.autoPlay,
   });
 
   final List<Widget> list;
   final double? aspectRatio;
   final double? viewport;
   final int? autoplayDuration;
+  final bool? autoPlay;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CarouselSliderHelper extends StatelessWidget {
       items: list,
       options: CarouselOptions(
         aspectRatio: aspectRatio ?? 4,
-        autoPlay: true,
+        autoPlay: autoPlay ?? true,
         autoPlayInterval: Duration(
           seconds: autoplayDuration ?? 5,
         ),

@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/google_maps/presentation/cubit/nearby_task_entity_service_cubit.dart';
+import 'package:cipher/core/constants/google_maps_constants.dart';
+import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,14 +21,14 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   final LatLng _center = const LatLng(27.7172, 85.3240);
   LatLng _location = LatLng(27.7172, 85.3240);
   String kCurrentLocation = "CurrentUserLocation";
-  final Map<String, Marker> _markers = {};
+  Map<String, Marker> _markers = {};
 
   Future<void> _onMapCreated(
     GoogleMapController controller,
   ) async {
-    context
-        .read<NearbyTaskEntityServiceCubit>()
-        .getNearbyTaskEntityService(location: _center);
+    context.read<NearbyTaskEntityServiceBloc>().add(
+        NearbyTaskEntityServiceSelected(
+            location: kUserLocation, slug: MapFilterStatus.all));
     setState(() {
       _markers.clear();
     });
@@ -43,11 +43,10 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         });
       }
       if (value == null) {
-        setState(
-          () => _location = _center,
-        );
+        setState(() => _location = _center);
       }
     });
+
     return null;
   }
 
@@ -55,7 +54,9 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   void initState() {
     super.initState();
     getUserLocation();
+    setCustomMarkers();
   }
+
 //if google maps controller is implemented the uncomment this:
   // @override
   // void dispose() {
@@ -65,40 +66,34 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<NearbyTaskEntityServiceCubit,
+    return BlocConsumer<NearbyTaskEntityServiceBloc,
         NearbyTaskEntityServiceState>(
       listener: (context, state) {
         if (state.theStates == TheStates.success) {
-          for (final taskEntityService in state.nearbyTaskEntityServiceList!) {
-            final marker = Marker(
-              icon: taskEntityService.isRequested ?? true
-                  ? BitmapDescriptor.defaultMarkerWithHue(120)
-                  : BitmapDescriptor.defaultMarker,
-              markerId: MarkerId(taskEntityService.title.toString()),
-              position: LatLng(taskEntityService.city!.latitude!.toDouble(),
-                  taskEntityService.city!.longitude!.toDouble()),
-              infoWindow: InfoWindow(
-                title: taskEntityService.isRequested ?? true
-                    ? "Task:${taskEntityService.title}"
-                    : "Service:${taskEntityService.title}",
-                snippet:
-                    "${taskEntityService.city!.name},${taskEntityService.city!.country!.name}",
-              ),
-            );
-            _markers["${taskEntityService.title}"] = marker;
-          }
+          _markers = addTaskEntityServiceMarkers(
+            state.activeList!,
+            _location,
+          );
         }
       },
       builder: (context, state) {
+        // if (state.theStates == TheStates.loading) {
+        //   return CardLoading(height: 400.0);
+        // }
         return GoogleMap(
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,
+          // myLocationEnabled: true,
+          zoomControlsEnabled: false,
+          // myLocationButtonEnabled: true,
           initialCameraPosition: CameraPosition(
             target: _location,
             zoom: 11.8,
           ),
           markers: _markers.values.toSet(),
         );
+
+        // return CardLoading(height: 400.0);
       },
     );
   }
