@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/redeem/presentation/bloc/redeem.state.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
-import 'package:cipher/features/redeem/presentation/pages/statement_section.dart';
+import 'package:cipher/features/redeem/statement/presentation/pages/statement_section.dart';
 import 'package:cipher/features/redeem/presentation/pages/widgets/redeem_points_card.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
