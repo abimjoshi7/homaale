@@ -83,83 +83,84 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                           ? IconButton(
                               onPressed: () => Navigator.of(context).pop(),
                               icon: Icon(Icons.arrow_back_ios_rounded),
-                              iconSize: 20.0,
+                              iconSize: 20,
                               // color: kColorDarkGrey2,
                             )
-                          : Container(),
+                          : SizedBox.shrink(),
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: (_focusNode.hasFocus)
-                              ? MediaQuery.of(context).size.width * 0.020
-                              : 0,
-                          right: MediaQuery.of(context).size.width * 0.0020,
-                        ),
-                        child: AnimatedContainer(
-                          height: MediaQuery.of(context).size.height * 0.051,
-                          width: (_focusNode.hasFocus)
-                              ? MediaQuery.of(context).size.width * 0.96
-                              : MediaQuery.of(context).size.width * 0.86,
-                          duration: Duration(milliseconds: 60),
-                          child: CustomTextFormField(
-                            autofocus: true,
-                            controller: _searchFieldController,
-                            node: _focusNode,
-                            onFieldSubmitted: (p0) {
-                              log("321");
-                              context.read<SearchBloc>().add(
-                                    SearchQueryInitiated(
-                                      searchQuery: _searchFieldController.text,
-                                    ),
-                                  );
-                            },
-                            onChanged: (query) {
-                              // if ((query ?? "").trim().isEmpty &&
-                              //     query?.length == 0) {
-                              //   setState(() => _searchFieldController.clear());
-                              //   context.read<SearchBloc>().add(
-                              //         SearchQueryCleared(),
-                              //       );
-                              // }
-
-                              // if ((query ?? "").length < 3) return;
-                              // context.read<SearchBloc>().add(
-                              //       SearchQueryInitiated(
-                              //         searchQuery: query.toString(),
-                              //       ),
-                              //     );
-                            },
-                            hintText: 'Search...',
-                            textInputType: TextInputType.text,
-                            inputAction: TextInputAction.search,
-                            prefixWidget: (_focusNode.hasFocus)
-                                ? IconButton(
-                                    onPressed: () => _focusNode.unfocus(),
-                                    icon: Icon(
-                                      Icons.arrow_back_rounded,
-                                      size: 22,
+                        padding: EdgeInsets.zero,
+                        // padding: EdgeInsets.only(
+                        //   left: (_focusNode.hasFocus)
+                        //       ? MediaQuery.of(context).size.width * 0.020
+                        //       : 0,
+                        //   right: MediaQuery.of(context).size.width * 0.0020,
+                        // ),
+                        child: Flexible(
+                          child: AnimatedContainer(
+                            height: MediaQuery.of(context).size.height * 0.051,
+                            width: (_focusNode.hasFocus)
+                                ? MediaQuery.of(context).size.width * 0.88
+                                : MediaQuery.of(context).size.width * 0.88,
+                            duration: Duration(milliseconds: 60),
+                            child: CustomTextFormField(
+                              autofocus: true,
+                              controller: _searchFieldController,
+                              node: _focusNode,
+                              onFieldSubmitted: (p0) {
+                                log("321");
+                                context.read<SearchBloc>().add(
+                                      SearchQueryInitiated(
+                                        searchQuery:
+                                            _searchFieldController.text,
+                                      ),
+                                    );
+                              },
+                              onChanged: (query) {
+                                if (query != null) {
+                                  if (query.length < 3) {
+                                    return;
+                                  } else {
+                                    context.read<SearchBloc>().add(
+                                          SearchQueryInitiated(
+                                            searchQuery: query,
+                                          ),
+                                        );
+                                  }
+                                }
+                              },
+                              hintText: 'Search...',
+                              textInputType: TextInputType.text,
+                              inputAction: TextInputAction.search,
+                              prefixWidget: (_focusNode.hasFocus)
+                                  ? IconButton(
+                                      onPressed: () => _focusNode.unfocus(),
+                                      icon: Icon(
+                                        Icons.arrow_back_rounded,
+                                        size: 22,
+                                        // color: kColorDark,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.search_rounded,
+                                      size: 30,
                                       // color: kColorDark,
                                     ),
-                                  )
-                                : Icon(
-                                    Icons.search_rounded,
-                                    size: 30,
-                                    // color: kColorDark,
-                                  ),
-                            suffixWidget: IconButton(
-                              iconSize: 22.0,
-                              // color: Color(0xff868E96),
-                              icon: Icon(
-                                CupertinoIcons.multiply,
-                                weight: 400,
+                              suffixWidget: IconButton(
+                                iconSize: 22.0,
+                                // color: Color(0xff868E96),
+                                icon: Icon(
+                                  CupertinoIcons.multiply,
+                                  weight: 400,
+                                ),
+                                onPressed: () {
+                                  setState(
+                                    () => _searchFieldController.clear(),
+                                  );
+                                  context
+                                      .read<SearchBloc>()
+                                      .add(SearchQueryCleared());
+                                },
                               ),
-                              onPressed: () {
-                                setState(
-                                  () => _searchFieldController.clear(),
-                                );
-                                context
-                                    .read<SearchBloc>()
-                                    .add(SearchQueryCleared());
-                              },
                             ),
                           ),
                         ),
@@ -198,15 +199,6 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                               ),
                           ],
                         );
-                        // if ((state.filteredList?.length ?? 0) < 1) {
-                        //   return Align(
-                        //     alignment: Alignment.center,
-                        //     child: Text('No results Found.'),
-                        //   );
-                        // }
-                        // return SearchResultsList(
-                        //   searchList: state.filteredList ?? [],
-                        // );
                       }
 
                       if (state.theStates == TheStates.failure) {

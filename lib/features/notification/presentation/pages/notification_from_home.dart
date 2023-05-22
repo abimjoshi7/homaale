@@ -71,7 +71,10 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Notifications"),
+      appBar: CustomAppBar(
+        appBarTitle: "Notifications",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: BlocListener<NotificationBloc, NotificationState>(
         listener: (context, state) {
           if (state.isRefetch ?? false) {
