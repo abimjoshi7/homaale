@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/rewards_redeem/presentation/pages/statement_section.dart';
-import 'package:cipher/features/rewards_redeem/presentation/pages/widgets/redeem_points_card.dart';
+import 'package:cipher/features/redeem/presentation/bloc/redeem.state.dart';
+import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
+import 'package:cipher/features/redeem/presentation/pages/statement_section.dart';
+import 'package:cipher/features/redeem/presentation/pages/widgets/redeem_points_card.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,6 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     var spent = (context.read<UserBloc>().state.taskerProfile!.points! -
         context.read<UserBloc>().state.taskerProfile!.remainingPoints!);
-    print(spent);
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: 'Redeem',
@@ -106,16 +107,28 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
             child: TabBarView(
               controller: tabController,
               children: <Widget>[
-                GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 4,
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return RedeemPointsCard();
-                    }),
+                BlocBuilder<RedeemBloc, RedeemState>(builder: (context, state) {
+                  print('result : ${state.redeemList.result}');
+                  return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 4,
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: state.redeemList.result?.length ?? 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        return RedeemPointsCard(
+                          title:state.redeemList.result?[index].title ,
+                          index: index,
+                          description:
+                              state.redeemList.result?[index].description,
+                          redeemCount: state
+                              .redeemList.result?[index].redeemPoints
+                              .toString(),
+                          imagePath: state.redeemList.result?[index].image,
+                        );
+                      });
+                }),
                 StatementSection(),
               ],
             ),

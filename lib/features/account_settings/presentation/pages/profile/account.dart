@@ -2,12 +2,13 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 
-import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/chat/view/chat_listing.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
+import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
+import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -15,7 +16,8 @@ import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import '../../../../rewards_redeem/presentation/pages/redeem_page.dart';
+import '../../../../redeem/presentation/bloc/redeem.event.dart';
+import '../../../../redeem/presentation/pages/redeem_page.dart';
 import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
 import '../../../../user/presentation/bloc/activities_timeline_event.dart';
 import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
@@ -30,9 +32,6 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,6 +239,10 @@ class _AccountViewState extends State<AccountView> {
                 ),
                 AccountListTileSection(
                   onTap: () {
+                    context
+                        .read<RedeemBloc>()
+                        .add(FetchRedeemList(offerType: 'promo_code'));
+                    // add(FetchRedeemList(offerType: 'promo-code'));
                     Navigator.pushNamed(
                       context,
                       RedeemPage.routeName,

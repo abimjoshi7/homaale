@@ -1,3 +1,5 @@
+import 'package:cipher/features/redeem/presentation/bloc/redeem.event.dart';
+import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/gestures.dart';
@@ -7,6 +9,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 import '../../../../content_client/presentation/pages/terms_of_use.dart';
+import '../../bloc/redeem.state.dart';
 
 class RedeemPointsCard extends StatefulWidget {
   const RedeemPointsCard({
@@ -14,15 +17,17 @@ class RedeemPointsCard extends StatefulWidget {
     this.redeemCount,
     this.imagePath,
     this.description,
-    this.rating,
+    this.index,
     this.location,
     this.callback,
+    this.title,
   }) : super(key: key);
 
   final String? redeemCount;
   final String? imagePath;
   final String? description;
-  final String? rating;
+  final String? title;
+  final int? index;
   final String? location;
   final VoidCallback? callback;
 
@@ -97,10 +102,10 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                 ],
               ),
               addVerticalSpace(10),
-              Text('Description', style: Theme.of(context).textTheme.bodySmall),
+              Text(widget.description ??"", style: Theme.of(context).textTheme.bodySmall),
               addVerticalSpace(10),
               Text(
-                'You are about to redeem your  ...name voucher. Please confirm below to proceed.',
+                'You are about to redeem your ${widget.title} voucher. Please confirm below to proceed.',
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -161,32 +166,44 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                 ],
               ),
               addVerticalSpace(10),
-              CustomElevatedButton(
-                callback: () {
-                  if (isChecked == false) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Please agree to the terms and policy.',
+              BlocBuilder<RedeemBloc, RedeemState>(builder: (context, state) {
+                return CustomElevatedButton(
+                  callback: () {
+                    if (isChecked == false) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Please agree to the terms and policy.',
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    Navigator.pop(context);
-                    showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                          heading: 'Congratulations',
-                          content: 'You have successfully redeemed Promo-code.',
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          isSuccess: true),
-                    );
-                  }
-                },
-                label: 'Redeem Now',
-              ),
+                      );
+                    } else {
+                      context.read<RedeemBloc>().add(SubmitRedeemEvent(
+                          redeemID: context
+                                  .read<RedeemBloc>()
+                                  .state
+                                  .redeem[widget.index!]
+                                  .id ??
+                              0));
+                      Navigator.pop(context);
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                            heading:
+                                state.redeemSubmitResponse.status == 'success'
+                                    ? 'Congratulations'
+                                    : 'Try Again!',
+                            content: state.redeemSubmitMessage,
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            isSuccess: true),
+                      );
+                    }
+                  },
+                  label: 'Redeem Now',
+                );
+              }),
             ],
           ),
         );
@@ -241,7 +258,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
               ),
               addHorizontalSpace(5),
               AutoSizeText(
-                widget.description ?? 'childAspectRatio',
+                widget.description ?? '',
                 style: kLightBlueText14,
                 overflow: TextOverflow.ellipsis,
               ),
