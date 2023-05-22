@@ -22,10 +22,6 @@ class GoogleMapsPage extends StatefulWidget {
 
 class _GoogleMapsPageState extends State<GoogleMapsPage> {
   MapFilterStatus? _filter = MapFilterStatus.all;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +92,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                           : SizedBox(
                               width: MediaQuery.of(context).size.width,
                               child: CarouselSliderHelper(
+                                controller: kButtonCarouselController,
                                 enlargeCenterPage: true,
                                 autoPlay: false,
                                 viewport: 0.71,

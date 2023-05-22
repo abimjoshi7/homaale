@@ -1,11 +1,23 @@
 import 'dart:ui' as ui;
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Uint8List? markerIcon;
 Uint8List? myLocationMarker;
 const kUserLocation = LatLng(27.7172, 85.3240);
+CarouselController kButtonCarouselController = CarouselController();
+
+void navigateToCard(int pageIndex) => kButtonCarouselController.animateToPage(
+      pageIndex,
+      duration: Duration(
+        milliseconds: 80,
+      ),
+      curve: Curves.easeIn,
+    );
+
 Future<Uint8List> getBytesFromAsset(String path, int width) async {
   ByteData data = await rootBundle.load(path);
   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
@@ -47,6 +59,8 @@ Map<String, Marker> addTaskEntityServiceMarkers(
         snippet:
             "${taskEntityService.city!.name},${taskEntityService.city!.country!.name}",
       ),
+      onTap: () => navigateToCard(
+          nearbyTaskEntityServiceList.indexOf(taskEntityService)),
     );
     _markers["${taskEntityService.title}"] = marker;
   }

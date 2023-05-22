@@ -28,7 +28,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   ) async {
     context.read<NearbyTaskEntityServiceBloc>().add(
         NearbyTaskEntityServiceSelected(
-            location: kUserLocation, slug: MapFilterStatus.all));
+            location: _location, slug: MapFilterStatus.all));
     setState(() {
       _markers.clear();
     });
