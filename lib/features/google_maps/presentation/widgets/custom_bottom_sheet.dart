@@ -22,7 +22,7 @@ class CustomBottomSheet extends StatelessWidget {
         return DraggableScrollableSheet(
           initialChildSize: 0.12,
           minChildSize: 0.11,
-          maxChildSize: 0.9,
+          maxChildSize: 0.98,
           snap: true,
           builder: (context, scrollController) {
             return ClipRRect(
