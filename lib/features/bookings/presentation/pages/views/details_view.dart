@@ -1,6 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
@@ -8,7 +6,6 @@ import 'package:cipher/features/services/presentation/pages/sections/detail_head
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class DetailsView extends StatefulWidget {

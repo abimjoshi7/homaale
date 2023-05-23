@@ -70,8 +70,17 @@ class DetailHeaderSection extends StatelessWidget {
                         "Pricing:",
                       ),
                     ),
-                    Text(
-                      "Rs. ${state.taskEntityService?.budgetFrom ?? '0'} - Rs. ${state.taskEntityService?.budgetTo ?? '0'}",
+                    Row(
+                      children: [
+                        Visibility(
+                          visible: state.taskEntityService?.isRange ?? false,
+                          child: Text(
+                            "Rs. ${state.taskEntityService?.payableFrom ?? '0'} - ",
+                          ),
+                        ),
+                        Text(
+                            "Rs. ${double.parse(state.taskEntityService?.payableTo ?? "0").toInt()}"),
+                      ],
                     )
                   ],
                 ),
@@ -84,9 +93,12 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMEd().format(
-                        state.taskEntityService?.event?.start ?? DateTime.now(),
-                      ),
+                      state.taskEntityService?.event == null
+                          ? "N/A"
+                          : DateFormat.yMMMEd().format(
+                              state.taskEntityService?.event?.start ??
+                                  DateTime.now(),
+                            ),
                     ),
                   ],
                 ),
@@ -99,9 +111,12 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat.yMMMEd().format(
-                        state.taskEntityService?.event?.end ?? DateTime.now(),
-                      ),
+                      state.taskEntityService?.event == null
+                          ? "N/A"
+                          : DateFormat.yMMMEd().format(
+                              state.taskEntityService?.event?.end ??
+                                  DateTime.now(),
+                            ),
                     ),
                   ],
                 ),

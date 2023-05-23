@@ -19,7 +19,6 @@ import 'package:cipher/features/account_settings/presentation/widgets/widgets.da
 import 'package:cipher/features/booking_cancel/presentation/pages/booking_cancel_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
-import 'package:cipher/features/bookings/presentation/pages/booking_next_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
 import 'package:cipher/features/chat/view/chat_listing.dart';
@@ -301,11 +300,6 @@ class AppRouter {
           builder: (context) => const PostServicePage(),
           settings: settings,
         );
-      case BookingNextDetailPage.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const BookingNextDetailPage(),
-          settings: settings,
-        );
       case CheckoutPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const CheckoutPage(),
@@ -416,7 +410,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const RatingReviewsPage(),
         );
-        case RedeemPage.routeName:
+      case RedeemPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const RedeemPage(),
         );
@@ -447,7 +441,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const BookingItemDetailPage(),
           settings: settings,
-
         );
       case BookingCancelPage.routeName:
         return MaterialPageRoute(

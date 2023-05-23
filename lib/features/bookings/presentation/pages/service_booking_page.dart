@@ -8,8 +8,8 @@ import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/event/data/models/event_availability.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/service_detail_header_section.dart';
-import 'package:cipher/features/services/presentation/pages/views/details_view.dart';
-import 'package:cipher/features/services/presentation/pages/views/schedule_view.dart';
+import 'package:cipher/features/bookings/presentation/pages/views/details_view.dart';
+import 'package:cipher/features/bookings/presentation/pages/views/schedule_view.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -31,9 +31,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
   int selectedIndex = 0;
   late PageController _pageController;
   final List<Widget> widgetList = [
-    SingleChildScrollView(
-      child: const ScheduleView(),
-    ),
+    const ScheduleView(),
     const DetailsView(),
   ];
   late final eventCache = locator<BookEventHandlerBloc>();
@@ -56,7 +54,6 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         appBarTitle: "Service Booking",
         trailingWidget: SizedBox.shrink(),
@@ -164,7 +161,6 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                       return const SizedBox.shrink();
                     },
                   ),
-                  addVerticalSpace(4),
                   showCancelButton(context),
                 ],
               ),
@@ -177,8 +173,8 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
 
   Widget showCancelButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 4,
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
       ),
       child: Visibility(
         visible: selectedIndex == 1,
@@ -212,6 +208,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                 ? "Remote"
                 : state.taskEntityService?.location,
             entityService: state.taskEntityService?.id,
+            price: eventCache.state.budget,
             budgetTo: eventCache.state.budget,
             requirements: eventCache.state.requirements == null
                 ? []
@@ -236,7 +233,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
             context: context,
             builder: (context) => CustomToast(
               heading: "Error",
-              content: "Scehdule not available for given time",
+              content: "Schedule not available for given time",
               onTap: () {},
               isSuccess: false,
             ),
@@ -259,6 +256,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                     ? "Remote"
                     : state.taskEntityService?.location,
                 entityService: state.taskEntityService?.id,
+                price: eventCache.state.budget,
                 budgetTo: eventCache.state.budget,
                 requirements: eventCache.state.requirements == null
                     ? []

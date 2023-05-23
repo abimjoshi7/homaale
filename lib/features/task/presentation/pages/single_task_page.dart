@@ -692,10 +692,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
               ),
             );
           } else {
-            return const Center(
-              child: CardLoading(
-                height: 200,
-              ),
+            return CardLoading(
+              height: 200,
             );
           }
         },

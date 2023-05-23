@@ -41,6 +41,7 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(appBarTitle: "Apply"),
       body: LoadingWidget(
         isLoading: isLoading,
         child: BlocConsumer<TaskBloc, TaskState>(
@@ -98,10 +99,6 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       children: [
-                        addVerticalSpace(50),
-                        const CustomHeader(
-                          label: 'Apply',
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -191,74 +188,75 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   },
                                 ),
                               ),
-                              CustomFormField(
-                                label: 'Pre-requisites',
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: List.generate(
-                                        requirementList.length,
-                                        (index) => Padding(
-                                          padding: const EdgeInsets.all(2),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.circle,
-                                                    size: 12,
-                                                    color: kColorSecondary,
-                                                  ),
-                                                  addHorizontalSpace(20),
-                                                  Text(
-                                                    requirementList[index],
-                                                  ),
-                                                ],
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(
-                                                    () {
-                                                      requirementList.remove(
-                                                        requirementList[index],
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: const Icon(
-                                                  Icons.clear,
-                                                  size: 14,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text(
-                                      'This helps clients to find about your requirements better.',
-                                      style: kHelper13,
-                                    ),
-                                    CustomTextFormField(
-                                      hintText: 'Add requirements',
-                                      controller: requirementsController,
-                                      onFieldSubmitted: (p0) {
-                                        if (p0 != "") {
-                                          setState(() {
-                                            requirementList.add(p0!);
-                                            requirementsController.clear();
-                                          });
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // * Paused as asked
+                              // CustomFormField(
+                              //   label: 'Pre-requisites',
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Column(
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.start,
+                              //         children: List.generate(
+                              //           requirementList.length,
+                              //           (index) => Padding(
+                              //             padding: const EdgeInsets.all(2),
+                              //             child: Row(
+                              //               mainAxisAlignment:
+                              //                   MainAxisAlignment.spaceBetween,
+                              //               children: [
+                              //                 Row(
+                              //                   children: [
+                              //                     const Icon(
+                              //                       Icons.circle,
+                              //                       size: 12,
+                              //                       color: kColorSecondary,
+                              //                     ),
+                              //                     addHorizontalSpace(20),
+                              //                     Text(
+                              //                       requirementList[index],
+                              //                     ),
+                              //                   ],
+                              //                 ),
+                              //                 InkWell(
+                              //                   onTap: () {
+                              //                     setState(
+                              //                       () {
+                              //                         requirementList.remove(
+                              //                           requirementList[index],
+                              //                         );
+                              //                       },
+                              //                     );
+                              //                   },
+                              //                   child: const Icon(
+                              //                     Icons.clear,
+                              //                     size: 14,
+                              //                   ),
+                              //                 ),
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       const Text(
+                              //         'This helps clients to find about your requirements better.',
+                              //         style: kHelper13,
+                              //       ),
+                              //       CustomTextFormField(
+                              //         hintText: 'Add requirements',
+                              //         controller: requirementsController,
+                              //         onFieldSubmitted: (p0) {
+                              //           if (p0 != "") {
+                              //             setState(() {
+                              //               requirementList.add(p0!);
+                              //               requirementsController.clear();
+                              //             });
+                              //           }
+                              //         },
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -271,14 +269,17 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                 isLoading = true;
                               });
                               final postTaskReq = ApplyTaskReq(
+                                price: double.parse(offerController.text),
                                 budgetTo: double.parse(offerController.text),
                                 entityService: state.taskModel?.id,
                                 description: remarksController.text,
                                 requirements: requirementList,
                               );
-                              context
-                                  .read<TaskBloc>()
-                                  .add(TaskBook(req: postTaskReq));
+                              context.read<TaskBloc>().add(
+                                    TaskBook(
+                                      req: postTaskReq,
+                                    ),
+                                  );
                             }
                           },
                           label: 'Apply',
