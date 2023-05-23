@@ -3,8 +3,6 @@ import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
-import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
-import 'package:cipher/features/theme/presentation/bloc/theme_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/locator.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +27,24 @@ class _ScheduleViewState extends State<ScheduleView> {
   List<DateTime> dateList = [];
   TimeOfDay? startTime;
   TimeOfDay? endTime;
-  late final eventCache = locator<BookEventHandlerBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<BookEventHandlerBloc>().add(
+          BookEventPicked(
+            req: BookEntityServiceReq(
+              startDate: focusedDate,
+              endDate: focusedDate,
+              budgetTo: double.parse(context
+                  .read<TaskEntityServiceBloc>()
+                  .state
+                  .taskEntityService!
+                  .payableTo!),
+            ),
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,16 +126,23 @@ class _ScheduleViewState extends State<ScheduleView> {
                                       );
                                     },
                                   ).whenComplete(
-                                    () => eventCache.add(
-                                      BookEventPicked(
-                                        req: BookEntityServiceReq(
-                                          startTime: startTime?.format(context),
-                                          endDate: DateTime.parse(
-                                            eventCache.state.endDate!,
+                                    () => context
+                                        .read<BookEventHandlerBloc>()
+                                        .add(
+                                          BookEventPicked(
+                                            req: BookEntityServiceReq(
+                                              startTime:
+                                                  startTime?.format(context),
+                                              endDate: DateTime.parse(
+                                                context
+                                                    .read<
+                                                        BookEventHandlerBloc>()
+                                                    .state
+                                                    .endDate!,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
                                   );
                                 },
                                 child: Text(
@@ -140,16 +164,22 @@ class _ScheduleViewState extends State<ScheduleView> {
                                       );
                                     },
                                   ).whenComplete(
-                                    () => eventCache.add(
-                                      BookEventPicked(
-                                        req: BookEntityServiceReq(
-                                          endTime: endTime?.format(context),
-                                          endDate: DateTime.parse(
-                                            eventCache.state.endDate!,
+                                    () => context
+                                        .read<BookEventHandlerBloc>()
+                                        .add(
+                                          BookEventPicked(
+                                            req: BookEntityServiceReq(
+                                              endTime: endTime?.format(context),
+                                              endDate: DateTime.parse(
+                                                context
+                                                    .read<
+                                                        BookEventHandlerBloc>()
+                                                    .state
+                                                    .endDate!,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
                                   );
                                 },
                                 child: Text(
@@ -174,31 +204,32 @@ class _ScheduleViewState extends State<ScheduleView> {
                               scrollDirection: Axis.horizontal,
                               itemCount: element.slots!.length,
                               itemBuilder: (context, index) {
-                                eventCache.add(
-                                  BookEventPicked(
-                                    req: BookEntityServiceReq(
-                                      endDate: focusedDate,
-                                      startTime: element.slots?.first.start,
-                                      endTime: element.slots?.first.end,
-                                    ),
-                                  ),
-                                );
+                                context.read<BookEventHandlerBloc>().add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          endDate: focusedDate,
+                                          startTime: element.slots?.first.start,
+                                          endTime: element.slots?.first.end,
+                                        ),
+                                      ),
+                                    );
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: InkWell(
                                     onTap: () async {
                                       print(focusedDate);
                                       print(element.slots?.first.start);
-                                      eventCache.add(
-                                        BookEventPicked(
-                                          req: BookEntityServiceReq(
-                                            endDate: focusedDate,
-                                            startTime:
-                                                element.slots?[index].start,
-                                            endTime: element.slots?[index].end,
-                                          ),
-                                        ),
-                                      );
+                                      context.read<BookEventHandlerBloc>().add(
+                                            BookEventPicked(
+                                              req: BookEntityServiceReq(
+                                                endDate: focusedDate,
+                                                startTime:
+                                                    element.slots?[index].start,
+                                                endTime:
+                                                    element.slots?[index].end,
+                                              ),
+                                            ),
+                                          );
                                       setState(
                                         () {
                                           selectedIndex = index;
@@ -278,13 +309,13 @@ class _ScheduleViewState extends State<ScheduleView> {
                     focusedDate = focusedDay;
                   },
                 );
-                eventCache.add(
-                  BookEventPicked(
-                    req: BookEntityServiceReq(
-                      endDate: focusedDate,
-                    ),
-                  ),
-                );
+                context.read<BookEventHandlerBloc>().add(
+                      BookEventPicked(
+                        req: BookEntityServiceReq(
+                          endDate: focusedDate,
+                        ),
+                      ),
+                    );
               },
               onEvent: (day) {
                 for (final element in dateList) {

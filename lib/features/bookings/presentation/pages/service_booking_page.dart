@@ -18,15 +18,27 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class ServiceBookingPage extends StatefulWidget {
+class ServiceBookingPage extends StatelessWidget {
   static const routeName = '/service-booking-page';
   const ServiceBookingPage({super.key});
 
   @override
-  State<ServiceBookingPage> createState() => _ServiceBookingPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BookEventHandlerBloc(),
+      child: ServiceBookingMainView(),
+    );
+  }
 }
 
-class _ServiceBookingPageState extends State<ServiceBookingPage> {
+class ServiceBookingMainView extends StatefulWidget {
+  const ServiceBookingMainView({super.key});
+
+  @override
+  State<ServiceBookingMainView> createState() => _ServiceBookingMainViewState();
+}
+
+class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   final userBloc = locator<UserBloc>();
   int selectedIndex = 0;
   late PageController _pageController;
@@ -34,7 +46,6 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
     const ScheduleView(),
     const DetailsView(),
   ];
-  late final eventCache = locator<BookEventHandlerBloc>();
 
   @override
   void initState() {
@@ -147,7 +158,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                                 context: context,
                                 builder: (context) => CustomToast(
                                   heading: 'Failure',
-                                  content: error ??
+                                  content: error?.toTitleCase() ??
                                       'Something went wrong. Please try again later.',
                                   onTap: () async {},
                                   isSuccess: false,
@@ -208,18 +219,21 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                 ? "Remote"
                 : state.taskEntityService?.location,
             entityService: state.taskEntityService?.id,
-            price: eventCache.state.budget,
-            budgetTo: eventCache.state.budget,
-            requirements: eventCache.state.requirements == null
-                ? []
-                : List<String>.from(
-                    state.taskEntityService?.highlights as Iterable,
-                  ),
-            startDate: DateTime.parse(eventCache.state.endDate!),
-            endDate: DateTime.parse(eventCache.state.endDate!),
-            startTime: eventCache.state.startTime,
-            endTime: eventCache.state.endTime,
-            description: eventCache.state.description,
+            price: context.read<BookEventHandlerBloc>().state.budget,
+            budgetTo: context.read<BookEventHandlerBloc>().state.budget,
+            requirements:
+                context.read<BookEventHandlerBloc>().state.requirements == null
+                    ? []
+                    : List<String>.from(
+                        state.taskEntityService?.highlights as Iterable,
+                      ),
+            startDate: DateTime.parse(
+                context.read<BookEventHandlerBloc>().state.endDate!),
+            endDate: DateTime.parse(
+                context.read<BookEventHandlerBloc>().state.endDate!),
+            startTime: context.read<BookEventHandlerBloc>().state.startTime,
+            endTime: context.read<BookEventHandlerBloc>().state.endTime,
+            description: context.read<BookEventHandlerBloc>().state.description,
             images: context.read<UploadBloc>().state.uploadedImageList ?? [],
             videos: context.read<UploadBloc>().state.uploadedVideoList ?? [],
           );
@@ -256,37 +270,46 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                     ? "Remote"
                     : state.taskEntityService?.location,
                 entityService: state.taskEntityService?.id,
-                price: eventCache.state.budget,
-                budgetTo: eventCache.state.budget,
-                requirements: eventCache.state.requirements == null
-                    ? []
-                    : List<String>.from(
-                        state.taskEntityService?.highlights as Iterable,
-                      ),
-                startDate: DateTime.parse(eventCache.state.endDate!),
-                endDate: DateTime.parse(eventCache.state.endDate!),
-                startTime: eventCache.state.startTime,
-                endTime: eventCache.state.endTime,
-                description: eventCache.state.description,
-                images: eventCache.state.images == null
-                    ? []
-                    : List<int>.from(
-                        eventCache.state.images as Iterable,
-                      ),
-                videos: eventCache.state.videos == null
-                    ? []
-                    : List<int>.from(
-                        eventCache.state.videos as Iterable,
-                      ),
+                price: context.read<BookEventHandlerBloc>().state.budget,
+                budgetTo: context.read<BookEventHandlerBloc>().state.budget,
+                requirements:
+                    context.read<BookEventHandlerBloc>().state.requirements ==
+                            null
+                        ? []
+                        : List<String>.from(
+                            state.taskEntityService?.highlights as Iterable,
+                          ),
+                startDate: DateTime.parse(
+                    context.read<BookEventHandlerBloc>().state.endDate!),
+                endDate: DateTime.parse(
+                    context.read<BookEventHandlerBloc>().state.endDate!),
+                startTime: context.read<BookEventHandlerBloc>().state.startTime,
+                endTime: context.read<BookEventHandlerBloc>().state.endTime,
+                description:
+                    context.read<BookEventHandlerBloc>().state.description,
+                images:
+                    context.read<BookEventHandlerBloc>().state.images == null
+                        ? []
+                        : List<int>.from(
+                            context.read<BookEventHandlerBloc>().state.images
+                                as Iterable,
+                          ),
+                videos:
+                    context.read<BookEventHandlerBloc>().state.videos == null
+                        ? []
+                        : List<int>.from(
+                            context.read<BookEventHandlerBloc>().state.videos
+                                as Iterable,
+                          ),
               );
               context.read<BookingsBloc>().add(
                     BookingCreated(req),
                   );
             } else {
               final availableReq = EventAvailability(
-                date: eventCache.state.endDate,
-                start: eventCache.state.startTime,
-                end: eventCache.state.endTime,
+                date: context.read<BookEventHandlerBloc>().state.endDate,
+                start: context.read<BookEventHandlerBloc>().state.startTime,
+                end: context.read<BookEventHandlerBloc>().state.endTime,
               );
 
               context.read<EventBloc>().add(

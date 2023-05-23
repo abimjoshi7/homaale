@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -71,8 +72,8 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
                       setState(
                         () {
                           currentValue++;
-                          widget.controller.text =
-                              (currentValue).toString(); // incrementing value
+                          widget.controller.setText(
+                              (currentValue).toString()); // incrementing value
                         },
                       );
                     },
@@ -91,9 +92,9 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
                     setState(
                       () {
                         currentValue--;
-                        widget.controller.text =
+                        widget.controller.setText(
                             (currentValue > 0 ? currentValue : 0)
-                                .toString(); // decrementing value
+                                .toString()); // decrementing value
                       },
                     );
                   },

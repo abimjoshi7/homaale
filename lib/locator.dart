@@ -45,8 +45,6 @@ void init() {
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
   locator.registerLazySingleton<NotificationRepositories>(
       () => NotificationRepositories());
-  locator.registerLazySingleton<BookEventHandlerBloc>(
-      () => BookEventHandlerBloc());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
   locator.registerLazySingleton<RatingReviewsRepositroy>(
       () => RatingReviewsRepositroy());

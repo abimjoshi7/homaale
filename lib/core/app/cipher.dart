@@ -243,9 +243,6 @@ class Cipher extends StatelessWidget {
             create: (context) => locator<PaymentTypeBloc>(),
           ),
           BlocProvider(
-            create: (context) => locator<BookEventHandlerBloc>(),
-          ),
-          BlocProvider(
             create: (context) => OrderItemListBloc(),
           ),
           BlocProvider(

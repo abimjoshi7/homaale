@@ -3,9 +3,11 @@ import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class DetailsView extends StatefulWidget {
@@ -24,18 +26,28 @@ class _DetailsViewState extends State<DetailsView> {
   List<int>? imageList;
   List<int>? fileList;
 
-  late final eventCache = locator<BookEventHandlerBloc>();
-  late final imageCubit = locator<ImageUploadCubit>();
   final uploadBloc = locator<UploadBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    budgetController.setText(
+      double.parse(context
+              .read<TaskEntityServiceBloc>()
+              .state
+              .taskEntityService!
+              .payableTo!)
+          .toInt()
+          .toString(),
+    );
+  }
 
   @override
   void dispose() {
     requirementController.dispose();
     problemDescController.dispose();
     budgetController.dispose();
-    locator.resetLazySingleton(
-      instance: imageCubit,
-    );
     super.dispose();
   }
 
@@ -48,23 +60,76 @@ class _DetailsViewState extends State<DetailsView> {
         ),
         SliverToBoxAdapter(
           child: CustomFormField(
-            label: "Your Budget (Non negotiable)",
-            child: SizedBox(
-              height: 40,
-              width: 160,
-              child: NumberIncDecField(
-                controller: budgetController,
-                onSubmit: (value) => eventCache.add(
-                  BookEventPicked(
-                    req: BookEntityServiceReq(
-                      budgetTo: double.parse(
-                        budgetController.text,
-                      ),
-                      endDate: DateTime.parse(eventCache.state.endDate!),
+            label: "Your Budget",
+            child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+              builder: (context, state) {
+                if (state.taskEntityService?.isRange == true &&
+                    state.taskEntityService?.isNegotiable == false)
+                  return SizedBox(
+                    width: 100,
+                    child: CustomTextFormField(
+                      textInputType: TextInputType.number,
+                      controller: budgetController,
+                      onChanged: (p0) {
+                        if (double.parse(budgetController.text) >
+                                double.parse(
+                                    state.taskEntityService!.payableTo!) ||
+                            double.parse(budgetController.text) <
+                                double.parse(
+                                    state.taskEntityService!.payableFrom!)) {
+                          ScaffoldMessenger.of(context)
+                            ..clearSnackBars()
+                            ..showSnackBar(
+                              SnackBar(
+                                showCloseIcon: true,
+                                content: Text(
+                                  "Budget cannot be higher or lower than the given pricing",
+                                ),
+                              ),
+                            );
+                        } else
+                          context.read<BookEventHandlerBloc>().add(
+                                BookEventPicked(
+                                  req: BookEntityServiceReq(
+                                    budgetTo: double.parse(
+                                      p0!,
+                                    ),
+                                    endDate: DateTime.parse(context
+                                        .read<BookEventHandlerBloc>()
+                                        .state
+                                        .endDate!),
+                                  ),
+                                ),
+                              );
+                      },
                     ),
+                  );
+                if (state.taskEntityService?.isNegotiable == true)
+                  return NumberIncDecField(
+                    controller: budgetController,
+                    onSubmit: (value) =>
+                        context.read<BookEventHandlerBloc>().add(
+                              BookEventPicked(
+                                req: BookEntityServiceReq(
+                                  budgetTo: double.parse(
+                                    budgetController.text,
+                                  ),
+                                  endDate: DateTime.parse(context
+                                      .read<BookEventHandlerBloc>()
+                                      .state
+                                      .endDate!),
+                                ),
+                              ),
+                            ),
+                  );
+                return SizedBox(
+                  width: 100,
+                  child: CustomTextFormField(
+                    readOnly: true,
+                    controller: budgetController,
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ),
@@ -125,14 +190,17 @@ class _DetailsViewState extends State<DetailsView> {
                   },
                   onFieldSubmitted: (p0) async {
                     requirementList.add(p0!);
-                    eventCache.add(
-                      BookEventPicked(
-                        req: BookEntityServiceReq(
-                          requirements: requirementList,
-                          endDate: DateTime.parse(eventCache.state.endDate!),
-                        ),
-                      ),
-                    );
+                    context.read<BookEventHandlerBloc>().add(
+                          BookEventPicked(
+                            req: BookEntityServiceReq(
+                              requirements: requirementList,
+                              endDate: DateTime.parse(context
+                                  .read<BookEventHandlerBloc>()
+                                  .state
+                                  .endDate!),
+                            ),
+                          ),
+                        );
                     requirementController.clear();
                   },
                 ),
@@ -149,15 +217,17 @@ class _DetailsViewState extends State<DetailsView> {
               hintText: "Service Desciption Here",
               controller: problemDescController,
               validator: validateNotEmpty,
-              inputAction: TextInputAction.done,
-              onFieldSubmitted: (p0) => eventCache.add(
-                BookEventPicked(
-                  req: BookEntityServiceReq(
-                    description: problemDescController.text,
-                    endDate: DateTime.parse(eventCache.state.endDate!),
+              onChanged: (p0) => context.read<BookEventHandlerBloc>().add(
+                    BookEventPicked(
+                      req: BookEntityServiceReq(
+                        description: problemDescController.text,
+                        endDate: DateTime.parse(context
+                            .read<BookEventHandlerBloc>()
+                            .state
+                            .endDate!),
+                      ),
+                    ),
                   ),
-                ),
-              ),
             ),
           ),
         ),
@@ -190,11 +260,11 @@ class _DetailsViewState extends State<DetailsView> {
         //               context: context,
         //               builder: (context) => ImagePickerDialog(),
         //             ).whenComplete(
-        //               () => eventCache.add(
+        //               () => context.read<BookEventHandlerBloc>().add(
         //                 BookEventPicked(
         //                   req: BookEntityServiceReq(
         //                     images: imageList,
-        //                     endDate: DateTime.parse(eventCache.state.endDate!),
+        //                     endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
         //                   ),
         //                 ),
         //               ),
@@ -246,11 +316,11 @@ class _DetailsViewState extends State<DetailsView> {
         //               context: context,
         //               builder: (context) => VideoPickerDialog(),
         //             ).whenComplete(
-        //               () => eventCache.add(
+        //               () => context.read<BookEventHandlerBloc>().add(
         //                 BookEventPicked(
         //                   req: BookEntityServiceReq(
         //                     videos: fileList,
-        //                     endDate: DateTime.parse(eventCache.state.endDate!),
+        //                     endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
         //                   ),
         //                 ),
         //               ),
