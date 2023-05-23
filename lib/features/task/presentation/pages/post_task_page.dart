@@ -60,9 +60,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
-    context.read<ServicesBloc>().add(
-          const ServicesLoadInitiated(),
-        );
+    // context.read<ServicesBloc>().add(
+    //       const ServicesLoadInitiated(),
+    //     );
 
     super.initState();
   }
