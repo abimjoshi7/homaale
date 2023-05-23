@@ -267,41 +267,36 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                   callback: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        if (isChecked == false) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Please agree to the terms and policy.',
-                              ),
+                      if (isChecked == false) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Please agree to the terms and policy.',
                             ),
-                          );
-                        } else {
-                          context.read<BookingCancelBloc>().add(
-                              CancelActionPost(
-                                  bookingId: context
-                                          .read<BookingsBloc>()
-                                          .state
-                                          .bookingRes
-                                          .booking ??
-                                      0,
-                                  reason: reason ?? "",
-                                  description: descriptionController.text));
-                          Future.delayed(const Duration(seconds: 2), () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: BlocBuilder<BookingCancelBloc,
-                                      BookingCancelState>(
-                                  builder: (context, stateM) {
-                                return TheStates.success == stateM.theState
-                                    ? Text('Cancel Successfully')
-                                    : Text("Please Try Again!");
-                              }),
-                              duration: const Duration(seconds: 1),
-                            ));
-                            Navigator.pushNamed(context, Root.routeName);
-                          });
-                        }
+                          ),
+                        );
+                      } else {
+                        context.read<BookingCancelBloc>().add(CancelActionPost(
+                            bookingId: context
+                                    .read<BookingsBloc>()
+                                    .state
+                                    .bookingRes
+                                    .booking ??
+                                0,
+                            reason: reason ?? "",
+                            description: descriptionController.text));
+                        Future.delayed(const Duration(seconds: 2), () {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: BlocBuilder<BookingCancelBloc,
+                                BookingCancelState>(builder: (context, stateM) {
+                              return TheStates.success == stateM.theState
+                                  ? Text('Cancel Successfully')
+                                  : Text("Please Try Again!");
+                            }),
+                            duration: const Duration(seconds: 1),
+                          ));
+                          Navigator.pushNamed(context, Root.routeName);
+                        });
                       }
                     }
                   },

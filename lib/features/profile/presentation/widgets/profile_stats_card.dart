@@ -35,7 +35,7 @@ class ProfileStatsCard extends StatelessWidget {
               Flexible(
                 child: AutoSizeText(
                   value,
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: assetsColor != null ? TextStyle(color: assetsColor):Theme.of(context).textTheme.displayLarge,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

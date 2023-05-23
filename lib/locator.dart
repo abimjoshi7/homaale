@@ -17,6 +17,7 @@ import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/rating_reviews/data/repositories/rating_reviews_repository.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
@@ -30,6 +31,8 @@ import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart'
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
+
+import 'features/redeem/data/repo/redeem_repository.dart';
 
 final locator = GetIt.instance;
 
@@ -50,6 +53,7 @@ void init() {
   locator.registerLazySingleton<TransactionRepository>(
       () => TransactionRepository());
   locator.registerLazySingleton<BankRepository>(() => BankRepository());
+  locator.registerLazySingleton<RedeemRepositories>(() => RedeemRepositories());
 
   //bloc
   locator.registerFactory<TaskBloc>(() => TaskBloc());
@@ -77,6 +81,7 @@ void init() {
       .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
   locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
+  locator.registerFactory<RedeemBloc>(() => RedeemBloc(locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;
