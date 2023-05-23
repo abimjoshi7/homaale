@@ -25,6 +25,7 @@ import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
+import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -56,6 +57,8 @@ import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.da
 import '../../features/feedback/bloc/feedback_bloc.dart';
 import '../../features/feedback/bloc/feedback_post_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
+import '../../features/redeem/statement/presentation/bloc/earned_bloc.dart';
+import '../../features/redeem/statement/presentation/bloc/redeemed_bloc.dart';
 import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
@@ -228,6 +231,9 @@ class Cipher extends StatelessWidget {
           BlocProvider(
             create: (context) => locator<RedeemBloc>(),
           ),
+          BlocProvider(create: (context) => RedeemStatementBloc()),
+          BlocProvider(create: (context) => EarnedBloc()),
+          BlocProvider(create: (context) => RedeemedBloc()),
           BlocProvider(
             create: (context) => locator<BillsPaymentBloc>(),
           ),

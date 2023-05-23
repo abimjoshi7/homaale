@@ -9,6 +9,9 @@ import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
+import 'package:cipher/features/redeem/statement/presentation/bloc/earned_bloc.dart';
+import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_bloc.dart';
+import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_event.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -18,6 +21,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../../redeem/presentation/bloc/redeem.event.dart';
 import '../../../../redeem/presentation/pages/redeem_page.dart';
+import '../../../../redeem/statement/presentation/bloc/redeemed_bloc.dart';
 import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
 import '../../../../user/presentation/bloc/activities_timeline_event.dart';
 import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
@@ -242,6 +246,16 @@ class _AccountViewState extends State<AccountView> {
                     context
                         .read<RedeemBloc>()
                         .add(FetchRedeemList(offerType: 'promo_code'));
+                    context
+                        .read<RedeemStatementBloc>()
+                        .add(StatementListInitiated());
+                    context
+                        .read<EarnedBloc>()
+                        .add(StatementStatusInitiated(status: 'earned'));
+                    context
+                        .read<RedeemedBloc>()
+                        .add(StatementStatusInitiated(status: 'spent'));
+
                     Navigator.pushNamed(
                       context,
                       RedeemPage.routeName,

@@ -26,7 +26,6 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RedeemBloc, RedeemState>(builder: (context, state) {
-      print('result : ${state.redeemList.result}');
       return GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: 1,
@@ -35,6 +34,19 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
           ),
           itemCount: state.redeemList.result?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
+            context.read<RedeemBloc>().add(RedeemItemsDetails(
+                redeemId:
+                context.read<RedeemBloc>().state.redeem[index].id ??
+                    0));
+            context.read<RedeemBloc>().add(
+                SubmitRedeemEvent(
+                    redeemID: context
+                        .read<
+                        RedeemBloc>()
+                        .state
+                        .redeem[index]
+                        .id ??
+                        0));
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,7 +222,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                                             children: <TextSpan>[
                                               TextSpan(
                                                   text:
-                                                      '${state.redeemItemsDetail.entityServices?.first.title}',
+                                                      '${state.redeemItemsDetail.entityServices?.first.title} ',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,

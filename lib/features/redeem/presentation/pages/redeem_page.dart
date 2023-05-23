@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/redeem/statement/presentation/pages/statement_section.dart';
 import 'package:cipher/features/redeem/presentation/pages/widgets/redeem_points_card.dart';
 import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../profile/presentation/widgets/profile_stats_card.dart';
 import '../bloc/redeem.event.dart';
+import '../bloc/redeem_bloc.dart';
 
 class RedeemPage extends StatefulWidget {
   static const routeName = '/redeem';
@@ -24,8 +24,6 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
-    context.read<RedeemBloc>().add(RedeemItemsDetails(
-        redeemId: context.read<RedeemBloc>().state.redeem.first.id ?? 0));
     super.initState();
   }
 
