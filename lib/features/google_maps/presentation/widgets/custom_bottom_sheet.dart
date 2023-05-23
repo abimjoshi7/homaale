@@ -20,8 +20,8 @@ class CustomBottomSheet extends StatelessWidget {
         NearbyTaskEntityServiceState>(
       builder: (context, state) {
         return DraggableScrollableSheet(
-          initialChildSize: 0.12,
-          minChildSize: 0.11,
+          initialChildSize: 0.1,
+          minChildSize: 0.09,
           maxChildSize: 0.98,
           snap: true,
           builder: (context, scrollController) {

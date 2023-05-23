@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class BottomSheetHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(100.0),
             ),
           ),
-          addVerticalSpace(11.0),
+          addVerticalSpace(9.0),
           Text(
             "View All",
             style: Theme.of(context).textTheme.headlineSmall,

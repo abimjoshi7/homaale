@@ -83,6 +83,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         return GoogleMap(
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,
+          compassEnabled: true,
           // myLocationEnabled: true,
           zoomControlsEnabled: false,
           // myLocationButtonEnabled: true,

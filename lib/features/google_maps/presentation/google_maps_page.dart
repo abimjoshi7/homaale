@@ -80,7 +80,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
               child: Stack(
                 children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.73,
+                    height: MediaQuery.of(context).size.height * 0.75,
                     width: MediaQuery.of(context).size.width,
                     child: GoogleMapsView(),
                   ),
