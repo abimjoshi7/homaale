@@ -101,7 +101,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                   viewport: 0.71,
                                   aspectRatio: 3,
                                   list: List.generate(
-                                    state.activeList!.length,
+                                    state.activeList!.length > 5
+                                        ? 5
+                                        : state.activeList!.length,
                                     (index) => InkWell(
                                       onTap: () {
                                         context

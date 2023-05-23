@@ -13,7 +13,7 @@ CarouselController kButtonCarouselController = CarouselController();
 void navigateToCard(int pageIndex) => kButtonCarouselController.animateToPage(
       pageIndex,
       duration: Duration(
-        milliseconds: 80,
+        milliseconds: 90,
       ),
       curve: Curves.easeIn,
     );
@@ -47,6 +47,7 @@ Map<String, Marker> addTaskEntityServiceMarkers(
   _markers["my_location"] = addMyLocationMarker(location);
   //set task entity service markers
   for (final taskEntityService in nearbyTaskEntityServiceList) {
+    if (nearbyTaskEntityServiceList.indexOf(taskEntityService) > 5) ;
     final marker = Marker(
       icon: BitmapDescriptor.fromBytes(markerIcon!),
       markerId: MarkerId(taskEntityService.title.toString()),
