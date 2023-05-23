@@ -51,7 +51,7 @@ class ServicesSection extends StatelessWidget {
                           ),
                         );
                     Future.delayed(
-                      Duration(milliseconds: 500),
+                      Duration(milliseconds: 400),
                       () => Navigator.popAndPushNamed(
                           context, TaskEntityServicePage.routeName),
                     );

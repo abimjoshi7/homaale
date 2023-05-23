@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +9,16 @@ class SearchCard extends StatelessWidget {
   final String? title;
   final String? name;
   final String? location;
+  final bool showButton;
+  final VoidCallback? callback;
   const SearchCard({
     Key? key,
     this.theChild,
     this.title,
     this.name,
     this.location,
+    this.showButton = false,
+    this.callback,
   }) : super(key: key);
 
   @override
@@ -69,6 +72,22 @@ class SearchCard extends StatelessWidget {
               padding: const EdgeInsets.only(left: 3.0),
               child: theChild ?? SizedBox.shrink(),
             ),
+            Visibility(
+                visible: showButton,
+                child: Column(
+                  children: <Widget>[
+                    Divider(),
+                    SizedBox(height: 5),
+                    CustomElevatedButton(
+                      theHeight: 35,
+                      theWidth: double.infinity,
+                      callback: callback ?? () {},
+                      mainColor: kColorGreen,
+                      borderColor: kColorGreen,
+                      label: "View Details",
+                    )
+                  ],
+                ))
           ],
         ),
       ),
