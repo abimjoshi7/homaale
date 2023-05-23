@@ -4,7 +4,6 @@ import 'package:cipher/features/account_settings/presentation/pages/deactivate/b
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
@@ -19,7 +18,8 @@ import 'package:cipher/features/content_client/presentation/cubit/privacy_policy
 import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/terms_of_use_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/google_maps/presentation/cubit/nearby_task_entity_service_cubit.dart';
+import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
@@ -117,13 +117,16 @@ class Cipher extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => NearbyTaskEntityServiceCubit(),
+            create: (context) => NearbyTaskEntityServiceBloc(),
           ),
           BlocProvider(
             create: (context) => locator<UserBloc>()
               ..add(
                 UserLoaded(),
               ),
+          ),
+          BlocProvider(
+            create: (context) => UserLocationCubit()..getUserLocation(),
           ),
           BlocProvider(
             create: (context) => TaskerPortfolioCubit()..getPortfolio(),

@@ -112,7 +112,8 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: '${Decimal.parse(state.walletModel.first.availableBalance.toString())}',
+                                        text:
+                                            '${state.walletModel.isNotEmpty ? Decimal.parse(state.walletModel.first.availableBalance.toString()) : '0'}',
                                         style: textTheme.displayLarge
                                             ?.copyWith(color: kColorPrimary, fontSize: 25, fontWeight: FontWeight.bold),
                                       ),
@@ -130,77 +131,100 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                   'Transfer to saved account',
                                   style: textTheme.titleMedium?.copyWith(color: kColorPrimary),
                                 ),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.zero,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: context.read<BillsPaymentBloc>().state.linkedBankList.length,
-                                  itemBuilder: (context, index) {
-                                    return Card(
-                                      child: SizedBox(
-                                        height: 80,
+                                context.read<BillsPaymentBloc>().state.linkedBankList.isEmpty
+                                    ? Container(
+                                        width: double.infinity,
+                                        color: kColorGrey,
+                                        padding: EdgeInsets.symmetric(vertical: 16),
                                         child: Center(
-                                          child: ListTile(
-                                            onTap: () {
-                                              if (context
-                                                      .read<BillsPaymentBloc>()
-                                                      .state
-                                                      .linkedBankList[index]
-                                                      .isVerified ??
-                                                  false) {
-                                                setState(() {
-                                                  selectedBankAccount =
-                                                      context.read<BillsPaymentBloc>().state.linkedBankList[index];
-                                                });
-                                              } else {
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      'Selected account is not verified',
+                                          child: Text('No saved account'),
+                                        ),
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.zero,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: context.read<BillsPaymentBloc>().state.linkedBankList.length,
+                                        itemBuilder: (context, index) {
+                                          return Card(
+                                            child: SizedBox(
+                                              height: 80,
+                                              child: Center(
+                                                child: ListTile(
+                                                  onTap: () {
+                                                    if (context
+                                                            .read<BillsPaymentBloc>()
+                                                            .state
+                                                            .linkedBankList[index]
+                                                            .isVerified ??
+                                                        false) {
+                                                      setState(() {
+                                                        selectedBankAccount = context
+                                                            .read<BillsPaymentBloc>()
+                                                            .state
+                                                            .linkedBankList[index];
+                                                      });
+                                                    } else {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Selected account is not verified',
+                                                          ),
+                                                          backgroundColor: Colors.red,
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
+                                                  leading: SizedBox(
+                                                    width: MediaQuery.of(context).size.width * 0.1,
+                                                    child: Image.network(
+                                                      context
+                                                              .read<BillsPaymentBloc>()
+                                                              .state
+                                                              .linkedBankList[index]
+                                                              .logo ??
+                                                          kServiceImageNImg,
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                    backgroundColor: Colors.red,
                                                   ),
-                                                );
-                                              }
-                                            },
-                                            leading: SizedBox(
-                                              width: MediaQuery.of(context).size.width * 0.1,
-                                              child: Image.network(
-                                                context.read<BillsPaymentBloc>().state.linkedBankList[index].logo ??
-                                                    kServiceImageNImg,
-                                                fit: BoxFit.cover,
+                                                  title: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        '${context.read<BillsPaymentBloc>().state.linkedBankList[index].bankName}',
+                                                        style: textTheme.bodyLarge,
+                                                      ),
+                                                      Text(
+                                                        '${context.read<BillsPaymentBloc>().state.linkedBankList[index].bankAccountNumber}',
+                                                        style: textTheme.bodyMedium,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  trailing: Icon(
+                                                    selectedBankAccount.id ==
+                                                            context
+                                                                .read<BillsPaymentBloc>()
+                                                                .state
+                                                                .linkedBankList[index]
+                                                                .id
+                                                        ? Icons.radio_button_checked
+                                                        : Icons.radio_button_off,
+                                                    color: selectedBankAccount.id ==
+                                                            context
+                                                                .read<BillsPaymentBloc>()
+                                                                .state
+                                                                .linkedBankList[index]
+                                                                .id
+                                                        ? kColorAmber
+                                                        : kColorLightGrey,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                            title: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  '${context.read<BillsPaymentBloc>().state.linkedBankList[index].bankName}',
-                                                  style: textTheme.bodyLarge,
-                                                ),
-                                                Text(
-                                                  '${context.read<BillsPaymentBloc>().state.linkedBankList[index].bankAccountNumber}',
-                                                  style: textTheme.bodyMedium,
-                                                ),
-                                              ],
-                                            ),
-                                            trailing: Icon(
-                                              selectedBankAccount.id ==
-                                                      context.read<BillsPaymentBloc>().state.linkedBankList[index].id
-                                                  ? Icons.radio_button_checked
-                                                  : Icons.radio_button_off,
-                                              color: selectedBankAccount.id ==
-                                                      context.read<BillsPaymentBloc>().state.linkedBankList[index].id
-                                                  ? kColorAmber
-                                                  : kColorLightGrey,
-                                            ),
-                                          ),
-                                        ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
                                 addVerticalSpace(8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

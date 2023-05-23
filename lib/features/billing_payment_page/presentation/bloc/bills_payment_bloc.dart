@@ -25,10 +25,10 @@ class BillsPaymentBloc extends Bloc<BillsPaymentEvent, BillsPaymentState> {
     on<InitializeState>(
       (event, emit) {
         emit(state.copyWith(
-          billsPaymentStatus: BillsPaymentStatus.initial,
-          hasReachedMax: false,
-          linkedBankList: const <LinkedBankDto>[],
-          linkedBankResponseDto: const LinkedBankResponseDto(),
+          // billsPaymentStatus: BillsPaymentStatus.initial,
+          // hasReachedMax: false,
+          // linkedBankList: const <LinkedBankDto>[],
+          // linkedBankResponseDto: const LinkedBankResponseDto(),
           bankNameStatus: BankNameStatus.initial,
           bankBranchNameStatus: BankBranchNameStatus.initial,
           savePaymentMethodStatus: SavePaymentMethodStatus.initial,

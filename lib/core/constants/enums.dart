@@ -11,3 +11,8 @@ enum SupportTicketStatus {
   closed,
 }
 
+enum MapFilterStatus {
+  all,
+  task,
+  service,
+}
