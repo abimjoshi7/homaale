@@ -171,7 +171,7 @@ class KycView extends StatelessWidget {
                             ? "Verified"
                             : "Pending",
                         hasStatus: true,
-                        isVerified: state.kycModel!.isKycVerified!,
+                        isVerified: state.kycModel!.isAddressVerified!,
                       ),
                     ],
                   ),

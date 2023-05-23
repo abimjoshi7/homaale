@@ -23,9 +23,8 @@ NearbyTaskEntityServiceReq _$NearbyTaskEntityServiceReqFromJson(
 mixin _$NearbyTaskEntityServiceReq {
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
-  int? get page => throw _privateConstructorUsedError;
-  @JsonKey(name: 'page_size')
-  int? get pageSize => throw _privateConstructorUsedError;
+  @JsonKey(name: "near_by")
+  bool get nearBy => throw _privateConstructorUsedError;
   double? get radius => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,8 +43,7 @@ abstract class $NearbyTaskEntityServiceReqCopyWith<$Res> {
   $Res call(
       {double? latitude,
       double? longitude,
-      int? page,
-      @JsonKey(name: 'page_size') int? pageSize,
+      @JsonKey(name: "near_by") bool nearBy,
       double? radius});
 }
 
@@ -65,8 +63,7 @@ class _$NearbyTaskEntityServiceReqCopyWithImpl<$Res,
   $Res call({
     Object? latitude = freezed,
     Object? longitude = freezed,
-    Object? page = freezed,
-    Object? pageSize = freezed,
+    Object? nearBy = null,
     Object? radius = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,14 +75,10 @@ class _$NearbyTaskEntityServiceReqCopyWithImpl<$Res,
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
-      page: freezed == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int?,
-      pageSize: freezed == pageSize
-          ? _value.pageSize
-          : pageSize // ignore: cast_nullable_to_non_nullable
-              as int?,
+      nearBy: null == nearBy
+          ? _value.nearBy
+          : nearBy // ignore: cast_nullable_to_non_nullable
+              as bool,
       radius: freezed == radius
           ? _value.radius
           : radius // ignore: cast_nullable_to_non_nullable
@@ -106,8 +99,7 @@ abstract class _$$_NearbyTaskEntityServiceReqCopyWith<$Res>
   $Res call(
       {double? latitude,
       double? longitude,
-      int? page,
-      @JsonKey(name: 'page_size') int? pageSize,
+      @JsonKey(name: "near_by") bool nearBy,
       double? radius});
 }
 
@@ -126,8 +118,7 @@ class __$$_NearbyTaskEntityServiceReqCopyWithImpl<$Res>
   $Res call({
     Object? latitude = freezed,
     Object? longitude = freezed,
-    Object? page = freezed,
-    Object? pageSize = freezed,
+    Object? nearBy = null,
     Object? radius = freezed,
   }) {
     return _then(_$_NearbyTaskEntityServiceReq(
@@ -139,14 +130,10 @@ class __$$_NearbyTaskEntityServiceReqCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
-      page: freezed == page
-          ? _value.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int?,
-      pageSize: freezed == pageSize
-          ? _value.pageSize
-          : pageSize // ignore: cast_nullable_to_non_nullable
-              as int?,
+      nearBy: null == nearBy
+          ? _value.nearBy
+          : nearBy // ignore: cast_nullable_to_non_nullable
+              as bool,
       radius: freezed == radius
           ? _value.radius
           : radius // ignore: cast_nullable_to_non_nullable
@@ -161,8 +148,7 @@ class _$_NearbyTaskEntityServiceReq implements _NearbyTaskEntityServiceReq {
   const _$_NearbyTaskEntityServiceReq(
       {this.latitude,
       this.longitude,
-      this.page = 1,
-      @JsonKey(name: 'page_size') this.pageSize = 10,
+      @JsonKey(name: "near_by") this.nearBy = true,
       this.radius = 10000});
 
   factory _$_NearbyTaskEntityServiceReq.fromJson(Map<String, dynamic> json) =>
@@ -173,18 +159,15 @@ class _$_NearbyTaskEntityServiceReq implements _NearbyTaskEntityServiceReq {
   @override
   final double? longitude;
   @override
-  @JsonKey()
-  final int? page;
-  @override
-  @JsonKey(name: 'page_size')
-  final int? pageSize;
+  @JsonKey(name: "near_by")
+  final bool nearBy;
   @override
   @JsonKey()
   final double? radius;
 
   @override
   String toString() {
-    return 'NearbyTaskEntityServiceReq(latitude: $latitude, longitude: $longitude, page: $page, pageSize: $pageSize, radius: $radius)';
+    return 'NearbyTaskEntityServiceReq(latitude: $latitude, longitude: $longitude, nearBy: $nearBy, radius: $radius)';
   }
 
   @override
@@ -196,16 +179,14 @@ class _$_NearbyTaskEntityServiceReq implements _NearbyTaskEntityServiceReq {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.pageSize, pageSize) ||
-                other.pageSize == pageSize) &&
+            (identical(other.nearBy, nearBy) || other.nearBy == nearBy) &&
             (identical(other.radius, radius) || other.radius == radius));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, latitude, longitude, page, pageSize, radius);
+      Object.hash(runtimeType, latitude, longitude, nearBy, radius);
 
   @JsonKey(ignore: true)
   @override
@@ -227,8 +208,7 @@ abstract class _NearbyTaskEntityServiceReq
   const factory _NearbyTaskEntityServiceReq(
       {final double? latitude,
       final double? longitude,
-      final int? page,
-      @JsonKey(name: 'page_size') final int? pageSize,
+      @JsonKey(name: "near_by") final bool nearBy,
       final double? radius}) = _$_NearbyTaskEntityServiceReq;
 
   factory _NearbyTaskEntityServiceReq.fromJson(Map<String, dynamic> json) =
@@ -239,10 +219,8 @@ abstract class _NearbyTaskEntityServiceReq
   @override
   double? get longitude;
   @override
-  int? get page;
-  @override
-  @JsonKey(name: 'page_size')
-  int? get pageSize;
+  @JsonKey(name: "near_by")
+  bool get nearBy;
   @override
   double? get radius;
   @override

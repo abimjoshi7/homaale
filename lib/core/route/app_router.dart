@@ -109,7 +109,9 @@ class AppRouter {
         );
       case GoogleMapsPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const GoogleMapsPage(),
+          builder: (context) => const GoogleMapsPage(
+
+          ),
           settings: settings,
         );
       case ConfirmOtpPage.routeName:

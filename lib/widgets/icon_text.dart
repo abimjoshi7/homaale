@@ -9,12 +9,14 @@ class IconText extends StatelessWidget {
     required this.iconData,
     this.size = 17,
     this.color = kColorPrimary,
+    this.style,
   });
 
   final IconData iconData;
   final Color color;
   final double size;
   final String label;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class IconText extends StatelessWidget {
         Flexible(
           child: AutoSizeText(
             label,
+            style: style,
             maxFontSize: 12,
             overflow: TextOverflow.ellipsis,
           ),

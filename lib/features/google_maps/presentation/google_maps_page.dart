@@ -1,105 +1,181 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/carousel_slider/carousel_slider_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/google_maps/presentation/cubit/nearby_task_entity_service_cubit.dart';
+import 'package:cipher/core/constants/google_maps_constants.dart';
+import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
+import 'package:cipher/features/google_maps/presentation/widgets/widgets.dart';
+import 'package:cipher/features/search/presentation/widgets/search_card.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GoogleMapsPage extends StatefulWidget {
-  const GoogleMapsPage({super.key});
+  const GoogleMapsPage({
+    super.key,
+  });
   static const routeName = '/google-maps-page';
+
   @override
   State<GoogleMapsPage> createState() => _GoogleMapsPageState();
 }
 
 class _GoogleMapsPageState extends State<GoogleMapsPage> {
-  // late GoogleMapController mapController;
-  final LatLng _center = const LatLng(27.7172, 85.3240);
-  LatLng _location = LatLng(27.7172, 85.3240);
-  String kCurrentLocation = "CurrentUserLocation";
-  final Map<String, Marker> _markers = {};
-
-  Future<void> _onMapCreated(
-    GoogleMapController controller,
-  ) async {
-    context
-        .read<NearbyTaskEntityServiceCubit>()
-        .getNearbyTaskEntityService(location: _center);
-    setState(() {
-      _markers.clear();
-    });
-  }
-
-  Future<void> getUserLocation() async {
-    await CacheHelper.getCachedString(kCurrentLocation).then((value) {
-      if (value != null) {
-        setState(() {
-          final position = Position.fromMap(jsonDecode(value));
-          _location = LatLng(position.latitude, position.longitude);
-        });
-      }
-      if (value == null) {
-        setState(
-          () => _location = _center,
-        );
-      }
-    });
-    return null;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getUserLocation();
-  }
-//if google maps controller is implemented the uncomment this:
-  // @override
-  // void dispose() {
-  // mapController.dispose();
-  //   super.dispose();
-  // }
+  MapFilterStatus? _filter = MapFilterStatus.all;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<NearbyTaskEntityServiceCubit,
-        NearbyTaskEntityServiceState>(
-      listener: (context, state) {
-        if (state.theStates == TheStates.success) {
-          for (final taskEntityService in state.nearbyTaskEntityServiceList!) {
-            final marker = Marker(
-              icon: taskEntityService.isRequested ?? true
-                  ? BitmapDescriptor.defaultMarkerWithHue(120)
-                  : BitmapDescriptor.defaultMarker,
-              markerId: MarkerId(taskEntityService.title.toString()),
-              position: LatLng(taskEntityService.city!.latitude!.toDouble(),
-                  taskEntityService.city!.longitude!.toDouble()),
-              infoWindow: InfoWindow(
-                title: taskEntityService.isRequested ?? true
-                    ? "Task:${taskEntityService.title}"
-                    : "Service:${taskEntityService.title}",
-                snippet:
-                    "${taskEntityService.city!.name},${taskEntityService.city!.country!.name}",
-              ),
-            );
-            _markers["${taskEntityService.title}"] = marker;
-          }
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: GoogleMap(
-            mapType: MapType.normal,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _location,
-              zoom: 11.8,
+    return Scaffold(
+      // bottomSheet: bottomDetailsSheet(),
+      appBar: CustomAppBar(
+        appBarTitle: "Explore Tasks & Services",
+        trailingWidget: SizedBox.shrink(),
+      ),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: <Widget>[
+            Wrap(
+              spacing: 5.0,
+              children:
+                  MapFilterStatus.values.map((MapFilterStatus filterStatus) {
+                return BlocBuilder<UserLocationCubit, UserLocationState>(
+                  builder: (context, state) {
+                    return ChoiceChip(
+                      label: Text(filterStatus.name.toTitleCase()),
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(
+                            color:
+                                _filter == filterStatus ? Colors.white : null,
+                          ),
+                      selectedColor: kColorBlue,
+                      backgroundColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                          side: BorderSide(
+                            color: Colors.grey.shade300,
+                          )),
+                      selected: _filter == filterStatus,
+                      onSelected: (bool selected) {
+                        setState(() {
+                          _filter = (selected ? filterStatus : null);
+                        });
+                        context
+                            .read<NearbyTaskEntityServiceBloc>()
+                            .add(NearbyTaskEntityServiceSelected(
+                              location: state.location!,
+                              slug: _filter!,
+                            ));
+                      },
+                    );
+                  },
+                );
+              }).toList(),
             ),
-            markers: _markers.values.toSet(),
-          ),
-        );
-      },
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    width: MediaQuery.of(context).size.width,
+                    child: GoogleMapsView(),
+                  ),
+                  BlocBuilder<NearbyTaskEntityServiceBloc,
+                      NearbyTaskEntityServiceState>(
+                    builder: (_, state) {
+                      if (state.theStates == TheStates.success) {}
+                      return Positioned(
+                        bottom: 100.0,
+                        child: state.activeList?.length == 0
+                            ? SizedBox.shrink()
+                            : SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: CarouselSliderHelper(
+                                  controller: kButtonCarouselController,
+                                  enlargeCenterPage: true,
+                                  autoPlay: false,
+                                  viewport: 0.71,
+                                  aspectRatio: 3,
+                                  list: List.generate(
+                                    state.activeList!.length > 5
+                                        ? 5
+                                        : state.activeList!.length,
+                                    (index) => InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<TaskEntityServiceBloc>()
+                                            .add(
+                                              TaskEntityServiceSingleLoaded(
+                                                id: state.activeList?[index]
+                                                        .id ??
+                                                    '',
+                                              ),
+                                            );
+                                        Future.delayed(
+                                          Duration(milliseconds: 400),
+                                          () => Navigator.popAndPushNamed(
+                                              context,
+                                              TaskEntityServicePage.routeName),
+                                        );
+                                      },
+                                      child: SizedBox(
+                                        width: 283.0,
+                                        height: 132.0,
+                                        child: SearchCard(
+                                          title: state.activeList?[index].title
+                                              ?.toTitleCase(),
+                                          name: state.activeList?[index]
+                                              .createdBy?.fullName,
+                                          location: state.activeList?[index]
+                                                      .location?.isEmpty ??
+                                                  false
+                                              ? "Remote"
+                                              : "${state.activeList?[index].location?.toCapitalized()}, ${state.activeList?[index].city?.name}",
+                                          theChild: state.activeList?[index]
+                                                      .isRequested ==
+                                                  true
+                                              ? Row(
+                                                  children: [
+                                                    Text(
+                                                      "Rs ${state.activeList?[index].budgetFrom?.split('.')[0]} - Rs ${state.activeList?[index].budgetTo?.split('.')[0]}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineSmall,
+                                                    ),
+                                                    Text(
+                                                      "/per project",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .displaySmall,
+                                                    )
+                                                  ],
+                                                )
+                                              : IconText(
+                                                  color: kColorAmber,
+                                                  label:
+                                                      "${((state.activeList?[index].rating ?? []).first.rating)}(${((state.activeList?[index].rating ?? []).first.ratingCount)})",
+                                                  iconData: Icons.star_rounded,
+                                                ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      );
+                    },
+                  ),
+                  CustomBottomSheet()
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
