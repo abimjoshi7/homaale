@@ -107,7 +107,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
       discountValue: json['discount_value'] as String?,
-      extraData: json['extra_data'] as List<dynamic>?,
+      extraData: json['extra_data'] as Map<String, dynamic>?,
       noOfReservation: json['no_of_reservation'] as num?,
       slug: json['slug'] as String?,
       isActive: json['is_active'] as bool?,

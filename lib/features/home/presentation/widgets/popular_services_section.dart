@@ -50,22 +50,17 @@ class TrendingServicesSection extends StatelessWidget {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.taskEntityServiceModel.result?.length ?? 0,
-                    separatorBuilder: (context, index) =>
-                        addHorizontalSpace(10),
+                    separatorBuilder: (context, index) => addHorizontalSpace(10),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
                               TaskEntityServiceSingleLoaded(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         context.read<RatingReviewsBloc>().add(
                               SetToInitial(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         Navigator.pushNamed(
@@ -76,25 +71,16 @@ class TrendingServicesSection extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
-                          location: state.taskEntityServiceModel.result?[index]
-                                      .location ==
-                                  ""
+                          location: state.taskEntityServiceModel.result?[index].location == ""
                               ? "Remote"
-                              : state.taskEntityServiceModel.result?[index]
-                                  .location,
+                              : state.taskEntityServiceModel.result?[index].location,
                           description:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
-                          title:
-                              state.taskEntityServiceModel.result?[index].title,
-                          imagePath: state.taskEntityServiceModel.result?[index]
-                                      .images?.length ==
-                                  0
+                          title: state.taskEntityServiceModel.result?[index].title,
+                          imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kServiceImageNImg
-                              : state.taskEntityServiceModel.result?[index]
-                                  .images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index]
-                              .rating?.first.rating
-                              .toString(),
+                              : state.taskEntityServiceModel.result?[index].images?.first.media,
+                          rating: state.taskEntityServiceModel.result?[index].rating?.first.rating.toString(),
                         ),
                       ),
                     ),
