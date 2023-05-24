@@ -1,4 +1,4 @@
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'nearby_task_entity_services_response.freezed.dart';
