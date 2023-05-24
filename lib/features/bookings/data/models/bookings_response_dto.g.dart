@@ -70,7 +70,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       completedOn: json['completedOn'],
       startTime: json['start_time'] as String?,
       endTime: json['end_time'] as String?,
-      extraData: json['extra_data'] as List<dynamic>?,
+      extraData: json['extra_data'],
       isPaid: json['is_paid'] as bool?,
       booking: json['booking'] as int?,
       city: json['city'] as int?,

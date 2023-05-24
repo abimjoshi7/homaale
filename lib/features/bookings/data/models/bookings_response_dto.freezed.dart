@@ -332,7 +332,7 @@ mixin _$Result {
   @JsonKey(name: 'end_time')
   String? get endTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_data')
-  List<dynamic>? get extraData => throw _privateConstructorUsedError;
+  dynamic? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_paid')
   bool? get isPaid => throw _privateConstructorUsedError;
   int? get booking => throw _privateConstructorUsedError;
@@ -373,7 +373,7 @@ abstract class $ResultCopyWith<$Res> {
       dynamic completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') List<dynamic>? extraData,
+      @JsonKey(name: 'extra_data') dynamic? extraData,
       @JsonKey(name: 'is_paid') bool? isPaid,
       int? booking,
       int? city,
@@ -520,7 +520,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as dynamic?,
       isPaid: freezed == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
@@ -622,7 +622,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       dynamic completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') List<dynamic>? extraData,
+      @JsonKey(name: 'extra_data') dynamic? extraData,
       @JsonKey(name: 'is_paid') bool? isPaid,
       int? booking,
       int? city,
@@ -768,9 +768,9 @@ class __$$_ResultCopyWithImpl<$Res>
           : endTime // ignore: cast_nullable_to_non_nullable
               as String?,
       extraData: freezed == extraData
-          ? _value._extraData
+          ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as dynamic?,
       isPaid: freezed == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
@@ -821,14 +821,13 @@ class _$_Result implements _Result {
       this.completedOn,
       @JsonKey(name: 'start_time') this.startTime,
       @JsonKey(name: 'end_time') this.endTime,
-      @JsonKey(name: 'extra_data') final List<dynamic>? extraData,
+      @JsonKey(name: 'extra_data') this.extraData,
       @JsonKey(name: 'is_paid') this.isPaid,
       this.booking,
       this.city,
       final List<Image>? images,
       final List<Image>? videos})
       : _requirements = requirements,
-        _extraData = extraData,
         _images = images,
         _videos = videos;
 
@@ -897,17 +896,9 @@ class _$_Result implements _Result {
   @override
   @JsonKey(name: 'end_time')
   final String? endTime;
-  final List<dynamic>? _extraData;
   @override
   @JsonKey(name: 'extra_data')
-  List<dynamic>? get extraData {
-    final value = _extraData;
-    if (value == null) return null;
-    if (_extraData is EqualUnmodifiableListView) return _extraData;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final dynamic? extraData;
   @override
   @JsonKey(name: 'is_paid')
   final bool? isPaid;
@@ -981,8 +972,7 @@ class _$_Result implements _Result {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            const DeepCollectionEquality()
-                .equals(other._extraData, _extraData) &&
+            const DeepCollectionEquality().equals(other.extraData, extraData) &&
             (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
             (identical(other.booking, booking) || other.booking == booking) &&
             (identical(other.city, city) || other.city == city) &&
@@ -1016,7 +1006,7 @@ class _$_Result implements _Result {
         const DeepCollectionEquality().hash(completedOn),
         startTime,
         endTime,
-        const DeepCollectionEquality().hash(_extraData),
+        const DeepCollectionEquality().hash(extraData),
         isPaid,
         booking,
         city,
@@ -1062,7 +1052,7 @@ abstract class _Result implements Result {
       final dynamic completedOn,
       @JsonKey(name: 'start_time') final String? startTime,
       @JsonKey(name: 'end_time') final String? endTime,
-      @JsonKey(name: 'extra_data') final List<dynamic>? extraData,
+      @JsonKey(name: 'extra_data') final dynamic? extraData,
       @JsonKey(name: 'is_paid') final bool? isPaid,
       final int? booking,
       final int? city,
@@ -1127,7 +1117,7 @@ abstract class _Result implements Result {
   String? get endTime;
   @override
   @JsonKey(name: 'extra_data')
-  List<dynamic>? get extraData;
+  dynamic? get extraData;
   @override
   @JsonKey(name: 'is_paid')
   bool? get isPaid;
