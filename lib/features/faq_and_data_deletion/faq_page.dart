@@ -12,8 +12,7 @@ class FaqPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(appBarTitle: 'FAQs'),
       body: InAppWebView(
-        initialUrlRequest:
-            URLRequest(url: Uri.parse("https://sandbox.homaale.com/FAQs")),
+        initialUrlRequest: URLRequest(url: Uri.parse("https://sandbox.homaale.com/FAQs?mobile=true")),
       ),
     );
   }

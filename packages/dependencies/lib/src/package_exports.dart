@@ -37,8 +37,7 @@ export 'package:telephony/telephony.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:card_loading/card_loading.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    hide AndroidOptions, KeyUsage, ASN1Object;
+export 'package:flutter_inappwebview/flutter_inappwebview.dart' hide AndroidOptions, KeyUsage, ASN1Object;
 export 'package:dropdown_search/dropdown_search.dart';
 export 'package:cloud_firestore/cloud_firestore.dart' hide Filter;
 export 'package:tuple/tuple.dart';

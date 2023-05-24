@@ -13,7 +13,7 @@ class ProfileTabSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      indicatorColor:kColorSecondary,
+      indicatorColor: kColorSecondary,
       indicatorSize: TabBarIndicatorSize.label,
       isScrollable: true,
       controller: tabController,
@@ -33,9 +33,9 @@ class ProfileTabSection extends StatelessWidget {
         Tab(
           text: 'Activities',
         ),
-        // Tab(
-        //   text: 'Rewards',
-        // ),
+        Tab(
+          text: 'Rewards',
+        ),
         // Tab(
         //   text: 'My Offers',
         // ),

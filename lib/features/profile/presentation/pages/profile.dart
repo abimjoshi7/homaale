@@ -5,6 +5,7 @@ import 'package:cipher/features/following_followers/presentation/following_follo
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/activites/activities_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/documents_profile.dart';
+import 'package:cipher/features/profile/presentation/pages/rewards/rewards_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/services/services_profile.dart';
 import 'package:cipher/features/profile/presentation/pages/tasks/tasks_profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
@@ -32,8 +33,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController =
-        TabController(length: /* user == 'self' ? 7 : */ 5, vsync: this);
+    tabController = TabController(length: /* user == 'self' ? 7 : */ 6, vsync: this);
     // context.read<ServicesBloc>().add(
     //       const MyCreatedServiceTaskLoadInitiated(
     //         isTask: true,
@@ -68,12 +68,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                   borderRadius: 10,
                   label: 'Edit Profile',
                   callback: () {
-                    context
-                                .read<UserSuspendBloc>()
-                                .state
-                                .userAccountSuspension
-                                ?.isSuspended ==
-                            true
+                    context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
                         ? showDialog(
                             context: context,
                             builder: (context) => AccountSuspendCustomToast(
@@ -92,23 +87,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     if (state.theStates == TheStates.success) {
                       return InkWell(
                         onTap: () {
-                          Navigator.pushNamed(
-                              context, FollowingFollowersPage.routeName);
+                          Navigator.pushNamed(context, FollowingFollowersPage.routeName);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             BuildLabelCount(
-                                count: state.taskerProfile?.followersCount
-                                        ?.toString() ??
-                                    '0',
-                                label: 'Followers'),
+                                count: state.taskerProfile?.followersCount?.toString() ?? '0', label: 'Followers'),
                             addHorizontalSpace(16),
                             BuildLabelCount(
-                                count: state.taskerProfile?.followingCount
-                                        ?.toString() ??
-                                    '0',
-                                label: 'Followings'),
+                                count: state.taskerProfile?.followingCount?.toString() ?? '0', label: 'Followings'),
                           ],
                         ),
                       );
@@ -144,7 +132,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 TasksProfile(),
                 DocumentsProfile(),
                 ActivitiesProfile(),
-                // RewardsProfile(),
+                RewardsProfile(),
                 // OffersProfile(),
                 // ReviewsProfile(),
               ],
