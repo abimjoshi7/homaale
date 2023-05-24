@@ -51,17 +51,20 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
               children: [
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  color: Colors.blue.shade50,
+                  color: Colors.orange.shade50,
                   child: Row(
                     children: [
                       Icon(
                         Icons.info_outline,
-                        color: Colors.blue,
+                        color: kColorSecondary,
                         size: 20,
                       ),
                       Text(
                         ' There will be penalty for cancelling this task or service.',
-                        style: TextStyle(color: Colors.blue, fontSize: 12),
+                        style: TextStyle(
+                            color: kColorSecondary,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -258,8 +261,9 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  color: Colors.blue.shade50,
                   child: Row(
                     children: [
                       Icon(
@@ -294,7 +298,7 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                                     .bookingRes
                                     .booking ??
                                 0,
-                            reason: reason ?? "",
+                            reason: reason,
                             description: descriptionController.text));
                         Future.delayed(const Duration(seconds: 2), () {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -401,6 +405,5 @@ class _CommonAgreePolicyPageState extends State<CommonAgreePolicyPage> {
         ],
       ),
     );
-    ;
   }
 }

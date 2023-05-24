@@ -7,7 +7,6 @@ import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/chat/view/chat_listing.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
-import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/redeem/statement/presentation/bloc/earned_bloc.dart';
 import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_bloc.dart';
