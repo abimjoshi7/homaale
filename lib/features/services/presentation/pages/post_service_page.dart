@@ -191,8 +191,8 @@ class _PostServicePageState extends State<PostServicePage> {
               if (isTermsAccepted) {
                 if (_key.currentState!.validate() &&
                     endPriceController.text.isNotEmpty) {
-                  if (uploadBloc.state.imageFileList?.length != 0 ||
-                      uploadBloc.state.videoFileList?.length != 0)
+                  if (uploadBloc.state.imageFileList.length != 0 ||
+                      uploadBloc.state.videoFileList.length != 0)
                     await _uploadFile();
                   final req = TaskEntityServiceReq(
                     // owner:
@@ -235,11 +235,9 @@ class _PostServicePageState extends State<PostServicePage> {
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
                     images:
-                        context.read<UploadBloc>().state.uploadedImageList ??
-                            [],
+                        context.read<UploadBloc>().state.uploadedImageList,
                     videos:
-                        context.read<UploadBloc>().state.uploadedVideoList ??
-                            [],
+                        context.read<UploadBloc>().state.uploadedVideoList,
                   );
 
                   context.read<TaskEntityServiceBloc>().add(
