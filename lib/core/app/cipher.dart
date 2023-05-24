@@ -17,11 +17,14 @@ import 'package:cipher/features/content_client/presentation/cubit/privacy_policy
 import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/terms_of_use_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/google_maps/presentation/cubit/nearby_task_entity_service_cubit.dart';
+import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
+import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -52,6 +55,8 @@ import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.da
 import '../../features/feedback/bloc/feedback_bloc.dart';
 import '../../features/feedback/bloc/feedback_post_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
+import '../../features/redeem/statement/presentation/bloc/earned_bloc.dart';
+import '../../features/redeem/statement/presentation/bloc/redeemed_bloc.dart';
 import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
@@ -110,13 +115,16 @@ class Cipher extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => NearbyTaskEntityServiceCubit(),
+            create: (context) => NearbyTaskEntityServiceBloc(),
           ),
           BlocProvider(
             create: (context) => locator<UserBloc>()
               ..add(
                 UserLoaded(),
               ),
+          ),
+          BlocProvider(
+            create: (context) => UserLocationCubit()..getUserLocation(),
           ),
           BlocProvider(
             create: (context) => TaskerPortfolioCubit()..getPortfolio(),
@@ -221,6 +229,12 @@ class Cipher extends StatelessWidget {
           BlocProvider(
             create: (context) => locator<RatingReviewsBloc>(),
           ),
+          BlocProvider(
+            create: (context) => locator<RedeemBloc>(),
+          ),
+          BlocProvider(create: (context) => RedeemStatementBloc()),
+          BlocProvider(create: (context) => EarnedBloc()),
+          BlocProvider(create: (context) => RedeemedBloc()),
           BlocProvider(
             create: (context) => locator<BillsPaymentBloc>(),
           ),

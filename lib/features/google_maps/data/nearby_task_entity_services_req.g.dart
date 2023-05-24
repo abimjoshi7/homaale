@@ -11,8 +11,7 @@ _$_NearbyTaskEntityServiceReq _$$_NearbyTaskEntityServiceReqFromJson(
     _$_NearbyTaskEntityServiceReq(
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
-      page: json['page'] as int? ?? 1,
-      pageSize: json['page_size'] as int? ?? 10,
+      nearBy: json['near_by'] as bool? ?? true,
       radius: (json['radius'] as num?)?.toDouble() ?? 10000,
     );
 
@@ -21,7 +20,6 @@ Map<String, dynamic> _$$_NearbyTaskEntityServiceReqToJson(
     <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'page': instance.page,
-      'page_size': instance.pageSize,
+      'near_by': instance.nearBy,
       'radius': instance.radius,
     };

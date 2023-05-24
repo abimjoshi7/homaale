@@ -9,8 +9,7 @@ class NearbyTaskEntityServiceReq with _$NearbyTaskEntityServiceReq {
   const factory NearbyTaskEntityServiceReq({
     double? latitude,
     double? longitude,
-    @Default(1) int? page,
-    @Default(10) @JsonKey(name: 'page_size') int? pageSize,
+		@Default(true) @JsonKey(name: "near_by") bool nearBy,
     @Default(10000) double? radius,
   }) = _NearbyTaskEntityServiceReq;
 

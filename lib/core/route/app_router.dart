@@ -72,7 +72,7 @@ import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
 import '../../features/faq_and_data_deletion/faq_page.dart';
 import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
-import '../../features/rewards_redeem/presentation/pages/redeem_page.dart';
+import '../../features/redeem/presentation/pages/redeem_page.dart';
 import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
@@ -108,7 +108,9 @@ class AppRouter {
         );
       case GoogleMapsPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const GoogleMapsPage(),
+          builder: (context) => const GoogleMapsPage(
+
+          ),
           settings: settings,
         );
       case ConfirmOtpPage.routeName:

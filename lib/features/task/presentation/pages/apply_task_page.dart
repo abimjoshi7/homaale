@@ -41,7 +41,10 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(appBarTitle: "Apply"),
+      appBar: CustomAppBar(
+        appBarTitle: "Apply",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: LoadingWidget(
         isLoading: isLoading,
         child: BlocConsumer<TaskBloc, TaskState>(

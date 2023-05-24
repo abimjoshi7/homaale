@@ -25,17 +25,17 @@ class SavedCard extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Container(
-            decoration: BoxDecoration(color: Colors.grey),
+            decoration: BoxDecoration(color: Colors.grey.shade100),
             height: 200,
             child: GridView.builder(
               padding: EdgeInsets.zero,
-              itemCount: 4,
+              itemCount: child?.length ??0,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.8,
               ),
               itemBuilder: (context, index) => Image.network(
-                child![index].data?.profileImage ?? kServiceImageNImg,
+                child?[index].data?.profileImage ?? kServiceImageNImg,
                 errorBuilder: (context, error, stackTrace) => ColoredBox(color: Colors.grey),
                 fit: BoxFit.fill,
                 height: 10,

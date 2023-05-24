@@ -72,7 +72,8 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
           ),
         );
       }
-    }, builder: (context, state) {
+    },
+        builder: (context, state) {
       return Column(
         children: [
           GestureDetector(
