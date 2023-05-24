@@ -18,7 +18,7 @@ class MapsRepositories {
 
       return res as Map<String, dynamic>;
     } catch (e) {
-      log(e.toString());
+      log("maps log test"+e.toString());
       rethrow;
     }
   }

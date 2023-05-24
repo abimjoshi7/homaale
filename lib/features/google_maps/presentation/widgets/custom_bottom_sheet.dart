@@ -40,7 +40,7 @@ class CustomBottomSheet extends StatelessWidget {
                         BottomSheetHeader(),
                       ] +
                       List.generate(
-                        state.activeList!.length,
+                        state.activeList?.length ??0,
                         (index) => Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16.0,

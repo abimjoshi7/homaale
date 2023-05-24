@@ -87,10 +87,11 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                   BlocBuilder<NearbyTaskEntityServiceBloc,
                       NearbyTaskEntityServiceState>(
                     builder: (_, state) {
+                      print("log : ${state.activeList}");
                       if (state.theStates == TheStates.success) {}
                       return Positioned(
                         bottom: 100.0,
-                        child: state.activeList?.length == 0
+                        child: state.activeList !=[] || state.activeList !=null
                             ? SizedBox.shrink()
                             : SizedBox(
                                 width: MediaQuery.of(context).size.width,
@@ -103,7 +104,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                   list: List.generate(
                                     state.activeList!.length > 5
                                         ? 5
-                                        : state.activeList!.length,
+                                        : state.activeList!.length ,
                                     (index) => InkWell(
                                       onTap: () {
                                         context
