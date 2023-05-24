@@ -198,18 +198,14 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
               textColor: kColorPrimary,
               borderColor: kColorPrimary,
               callback: () {
-                if (state.theStates == TheStates.success) print(321);
-                if (state.theStates == TheStates.loading) print(3211);
-                if (state.theStates == TheStates.failure) print(13211);
-                print(state.imageFileList);
-                // if (_pageController.page == 1) {
-                //   setState(() {
-                //     selectedIndex = 0;
-                //   });
-                //   _pageController.jumpToPage(0);
-                // } else {
-                //   Navigator.pop(context);
-                // }
+                if (_pageController.page == 1) {
+                  setState(() {
+                    selectedIndex = 0;
+                  });
+                  _pageController.jumpToPage(0);
+                } else {
+                  Navigator.pop(context);
+                }
               },
               label: "Cancel",
             );
@@ -221,9 +217,11 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
 
   Widget showBookButton(TaskEntityServiceState state, BuildContext context) {
     return BlocListener<EventBloc, EventState>(
-      listener: (context, eventState) {
+      listener: (context, eventState) async {
         if (eventState.theStates == TheStates.success &&
             eventState.isLoaded == true) {
+          if (uploadBloc.state.imageFileList.length != 0 ||
+              uploadBloc.state.videoFileList.length != 0) await _uploadFile();
           final req = BookEntityServiceReq(
             location: state.taskEntityService!.location!.isEmpty
                 ? "Remote"
@@ -244,8 +242,8 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             startTime: context.read<BookEventHandlerBloc>().state.startTime,
             endTime: context.read<BookEventHandlerBloc>().state.endTime,
             description: context.read<BookEventHandlerBloc>().state.description,
-            images: context.read<UploadBloc>().state.uploadedImageList ?? [],
-            videos: context.read<UploadBloc>().state.uploadedVideoList ?? [],
+            images: context.read<UploadBloc>().state.uploadedImageList,
+            videos: context.read<UploadBloc>().state.uploadedVideoList,
           );
           context.read<BookingsBloc>().add(
                 BookingCreated(req),
@@ -275,6 +273,9 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             _pageController.jumpToPage(1);
           } else {
             if (state.taskEntityService?.event == null) {
+              if (uploadBloc.state.imageFileList.length != 0 ||
+                  uploadBloc.state.videoFileList.length != 0)
+                await _uploadFile();
               final req = BookEntityServiceReq(
                 location: state.taskEntityService!.location!.isEmpty
                     ? "Remote"
