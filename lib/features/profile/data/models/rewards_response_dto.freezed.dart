@@ -304,14 +304,14 @@ mixin _$Rewards {
   String? get image => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_date')
-  String? get startDate => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_date')
-  String? get endDate => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'offer_type')
   String? get offerType => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
   @JsonKey(name: 'offer_rule')
-  String? get offerRule => throw _privateConstructorUsedError;
+  int? get offerRule => throw _privateConstructorUsedError;
   @JsonKey(name: 'redeem_points')
   int? get redeemPoints => throw _privateConstructorUsedError;
 
@@ -330,11 +330,11 @@ abstract class $RewardsCopyWith<$Res> {
       String? title,
       String? image,
       String? description,
-      @JsonKey(name: 'start_date') String? startDate,
-      @JsonKey(name: 'end_date') String? endDate,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
       @JsonKey(name: 'offer_type') String? offerType,
       String? code,
-      @JsonKey(name: 'offer_rule') String? offerRule,
+      @JsonKey(name: 'offer_rule') int? offerRule,
       @JsonKey(name: 'redeem_points') int? redeemPoints});
 }
 
@@ -382,11 +382,11 @@ class _$RewardsCopyWithImpl<$Res, $Val extends Rewards>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       offerType: freezed == offerType
           ? _value.offerType
           : offerType // ignore: cast_nullable_to_non_nullable
@@ -398,7 +398,7 @@ class _$RewardsCopyWithImpl<$Res, $Val extends Rewards>
       offerRule: freezed == offerRule
           ? _value.offerRule
           : offerRule // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       redeemPoints: freezed == redeemPoints
           ? _value.redeemPoints
           : redeemPoints // ignore: cast_nullable_to_non_nullable
@@ -419,11 +419,11 @@ abstract class _$$_RewardsCopyWith<$Res> implements $RewardsCopyWith<$Res> {
       String? title,
       String? image,
       String? description,
-      @JsonKey(name: 'start_date') String? startDate,
-      @JsonKey(name: 'end_date') String? endDate,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
       @JsonKey(name: 'offer_type') String? offerType,
       String? code,
-      @JsonKey(name: 'offer_rule') String? offerRule,
+      @JsonKey(name: 'offer_rule') int? offerRule,
       @JsonKey(name: 'redeem_points') int? redeemPoints});
 }
 
@@ -468,11 +468,11 @@ class __$$_RewardsCopyWithImpl<$Res>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       offerType: freezed == offerType
           ? _value.offerType
           : offerType // ignore: cast_nullable_to_non_nullable
@@ -484,7 +484,7 @@ class __$$_RewardsCopyWithImpl<$Res>
       offerRule: freezed == offerRule
           ? _value.offerRule
           : offerRule // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int?,
       redeemPoints: freezed == redeemPoints
           ? _value.redeemPoints
           : redeemPoints // ignore: cast_nullable_to_non_nullable
@@ -521,10 +521,10 @@ class _$_Rewards implements _Rewards {
   final String? description;
   @override
   @JsonKey(name: 'start_date')
-  final String? startDate;
+  final DateTime? startDate;
   @override
   @JsonKey(name: 'end_date')
-  final String? endDate;
+  final DateTime? endDate;
   @override
   @JsonKey(name: 'offer_type')
   final String? offerType;
@@ -532,7 +532,7 @@ class _$_Rewards implements _Rewards {
   final String? code;
   @override
   @JsonKey(name: 'offer_rule')
-  final String? offerRule;
+  final int? offerRule;
   @override
   @JsonKey(name: 'redeem_points')
   final int? redeemPoints;
@@ -589,11 +589,11 @@ abstract class _Rewards implements Rewards {
       final String? title,
       final String? image,
       final String? description,
-      @JsonKey(name: 'start_date') final String? startDate,
-      @JsonKey(name: 'end_date') final String? endDate,
+      @JsonKey(name: 'start_date') final DateTime? startDate,
+      @JsonKey(name: 'end_date') final DateTime? endDate,
       @JsonKey(name: 'offer_type') final String? offerType,
       final String? code,
-      @JsonKey(name: 'offer_rule') final String? offerRule,
+      @JsonKey(name: 'offer_rule') final int? offerRule,
       @JsonKey(name: 'redeem_points') final int? redeemPoints}) = _$_Rewards;
 
   factory _Rewards.fromJson(Map<String, dynamic> json) = _$_Rewards.fromJson;
@@ -608,10 +608,10 @@ abstract class _Rewards implements Rewards {
   String? get description;
   @override
   @JsonKey(name: 'start_date')
-  String? get startDate;
+  DateTime? get startDate;
   @override
   @JsonKey(name: 'end_date')
-  String? get endDate;
+  DateTime? get endDate;
   @override
   @JsonKey(name: 'offer_type')
   String? get offerType;
@@ -619,7 +619,7 @@ abstract class _Rewards implements Rewards {
   String? get code;
   @override
   @JsonKey(name: 'offer_rule')
-  String? get offerRule;
+  int? get offerRule;
   @override
   @JsonKey(name: 'redeem_points')
   int? get redeemPoints;

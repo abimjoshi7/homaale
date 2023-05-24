@@ -37,11 +37,15 @@ _$_Rewards _$$_RewardsFromJson(Map<String, dynamic> json) => _$_Rewards(
       title: json['title'] as String?,
       image: json['image'] as String?,
       description: json['description'] as String?,
-      startDate: json['start_date'] as String?,
-      endDate: json['end_date'] as String?,
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
       offerType: json['offer_type'] as String?,
       code: json['code'] as String?,
-      offerRule: json['offer_rule'] as String?,
+      offerRule: json['offer_rule'] as int?,
       redeemPoints: json['redeem_points'] as int?,
     );
 
@@ -51,8 +55,8 @@ Map<String, dynamic> _$$_RewardsToJson(_$_Rewards instance) =>
       'title': instance.title,
       'image': instance.image,
       'description': instance.description,
-      'start_date': instance.startDate,
-      'end_date': instance.endDate,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
       'offer_type': instance.offerType,
       'code': instance.code,
       'offer_rule': instance.offerRule,

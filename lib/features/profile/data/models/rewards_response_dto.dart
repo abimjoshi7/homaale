@@ -25,11 +25,11 @@ class Rewards with _$Rewards {
     String? title,
     String? image,
     String? description,
-    @JsonKey(name: 'start_date') String? startDate,
-    @JsonKey(name: 'end_date') String? endDate,
+    @JsonKey(name: 'start_date') DateTime? startDate,
+    @JsonKey(name: 'end_date') DateTime? endDate,
     @JsonKey(name: 'offer_type') String? offerType,
     String? code,
-    @JsonKey(name: 'offer_rule') String? offerRule,
+    @JsonKey(name: 'offer_rule') int? offerRule,
     @JsonKey(name: 'redeem_points') int? redeemPoints,
   }) = _Rewards;
 

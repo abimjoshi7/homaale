@@ -112,7 +112,12 @@ class _RewardsListState extends State<RewardsList> {
                                           child: Text(
                                             '${state.rewardsList[index].code ?? 'No code!'}',
                                             style: TextStyle(
-                                              color: state.rewardsList[index].code != null ? Colors.black : kColorGrey,
+                                              color: state.rewardsList[index].code != null
+                                                  ? (DateTime.now().isAfter(state.rewardsList[index].startDate!) &&
+                                                          DateTime.now().isBefore(state.rewardsList[index].endDate!))
+                                                      ? Colors.black
+                                                      : kColorGrey
+                                                  : kColorGrey,
                                             ),
                                           ),
                                         ),
@@ -120,11 +125,14 @@ class _RewardsListState extends State<RewardsList> {
                                       InkWell(
                                         onTap: () {
                                           if (state.rewardsList[index].code != null) {
-                                            Clipboard.setData(
-                                              ClipboardData(
-                                                text: state.rewardsList[index].code,
-                                              ),
-                                            );
+                                            if (DateTime.now().isAfter(state.rewardsList[index].startDate!) &&
+                                                DateTime.now().isBefore(state.rewardsList[index].endDate!)) {
+                                              Clipboard.setData(
+                                                ClipboardData(
+                                                  text: state.rewardsList[index].code,
+                                                ),
+                                              );
+                                            }
                                           }
                                         },
                                         child: Container(
@@ -135,8 +143,12 @@ class _RewardsListState extends State<RewardsList> {
                                               topRight: Radius.circular(4),
                                               bottomRight: Radius.circular(4),
                                             ),
-                                            color:
-                                                state.rewardsList[index].code != null ? Color(0xff211D4F) : kColorGrey,
+                                            color: state.rewardsList[index].code != null
+                                                ? DateTime.now().isAfter(state.rewardsList[index].startDate!) &&
+                                                        DateTime.now().isBefore(state.rewardsList[index].endDate!)
+                                                    ? Color(0xff211D4F)
+                                                    : kColorGrey
+                                                : kColorGrey,
                                           ),
                                           child: const Center(
                                             child: Text(
