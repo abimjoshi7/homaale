@@ -20,112 +20,98 @@ class TrendingServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
-      // listenWhen: (previous, current) {
-      //   if (previous.theStates == TheStates.loading &&
-      //       current.theStates == TheStates.success) return true;
-      //   return false;
-      // },
-      listener: (context, state) {
-        // if (state.theStates == TheStates.success) {
-        //   log("YIP");
-        //   Navigator.pushNamed(
-        //     context,
-        //     TaskEntityServicePage.routeName,
-        //   );
-        // }
-      },
+    context.read<TaskEntityServiceBloc>().add(
+          TaskEntityServiceInitiated(
+            isTask: false,
+          ),
+        );
+    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
-        return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
-          builder: (context, state) {
-            if (state.theStates == TheStates.success) {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: <Widget>[
-                    SectionHeading(
-                      labelName: 'Trending services',
-                      onTap: () async {
+        if (state.theStates == TheStates.success) {
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: <Widget>[
+                SectionHeading(
+                  labelName: 'Trending services',
+                  onTap: () async {
+                    Navigator.pushNamed(
+                      context,
+                      PopularServicesPage.routeName,
+                    );
+                  },
+                  showKey: pServiceKey,
+                  showCaseTitle: 'Trending Service',
+                  showCaseDec: 'See All Trending Service from here.',
+                ),
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.taskEntityServiceModel.result?.length ?? 0,
+                    separatorBuilder: (context, index) =>
+                        addHorizontalSpace(10),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        context.read<TaskEntityServiceBloc>().add(
+                              TaskEntityServiceSingleLoaded(
+                                id: state.taskEntityServiceModel.result?[index]
+                                        .id ??
+                                    '',
+                              ),
+                            );
+                        context.read<RatingReviewsBloc>().add(
+                              SetToInitial(
+                                id: state.taskEntityServiceModel.result?[index]
+                                        .id ??
+                                    '',
+                              ),
+                            );
                         Navigator.pushNamed(
                           context,
-                          PopularServicesPage.routeName,
+                          TaskEntityServicePage.routeName,
                         );
                       },
-                      showKey: pServiceKey,
-                      showCaseTitle: 'Trending Service',
-                      showCaseDec: 'See All Trending Service from here.',
-                    ),
-                    SizedBox(
-                      height: 250,
-                      width: double.infinity,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount:
-                            state.taskEntityServiceModel.result?.length ?? 0,
-                        separatorBuilder: (context, index) =>
-                            addHorizontalSpace(10),
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            context.read<TaskEntityServiceBloc>().add(
-                                  TaskEntityServiceSingleLoaded(
-                                    id: state.taskEntityServiceModel
-                                            .result?[index].id ??
-                                        '',
-                                  ),
-                                );
-                            context.read<RatingReviewsBloc>().add(
-                                  SetToInitial(
-                                    id: state.taskEntityServiceModel
-                                            .result?[index].id ??
-                                        '',
-                                  ),
-                                );
-                            Navigator.pushNamed(
-                              context,
-                              TaskEntityServicePage.routeName,
-                            );
-                          },
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.46,
-                            child: ServiceCard(
-                              location: state.taskEntityServiceModel
-                                          .result?[index].location ==
-                                      ""
-                                  ? "Remote"
-                                  : state.taskEntityServiceModel.result?[index]
-                                      .location,
-                              description:
-                                  "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
-                              title: state
-                                  .taskEntityServiceModel.result?[index].title,
-                              imagePath: state.taskEntityServiceModel
-                                          .result?[index].images?.length ==
-                                      0
-                                  ? kServiceImageNImg
-                                  : state.taskEntityServiceModel.result?[index]
-                                      .images?.first.media,
-                              rating: state.taskEntityServiceModel
-                                  .result?[index].rating?.first.rating
-                                  .toString(),
-                            ),
-                          ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.46,
+                        child: ServiceCard(
+                          location: state.taskEntityServiceModel.result?[index]
+                                      .location ==
+                                  ""
+                              ? "Remote"
+                              : state.taskEntityServiceModel.result?[index]
+                                  .location,
+                          description:
+                              "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
+                          title:
+                              state.taskEntityServiceModel.result?[index].title,
+                          imagePath: state.taskEntityServiceModel.result?[index]
+                                      .images?.length ==
+                                  0
+                              ? kServiceImageNImg
+                              : state.taskEntityServiceModel.result?[index]
+                                  .images?.first.media,
+                          rating: state.taskEntityServiceModel.result?[index]
+                              .rating?.first.rating
+                              .toString(),
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              );
-            }
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomFormField(
-                label: "Trending Services",
-                child: CardLoading(
-                  height: 230,
-                ),
-              ),
-            );
-          },
+              ],
+            ),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomFormField(
+            label: "Trending Services",
+            child: CardLoading(
+              height: 230,
+            ),
+          ),
         );
       },
     );
