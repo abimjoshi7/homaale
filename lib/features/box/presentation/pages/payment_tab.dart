@@ -48,9 +48,10 @@ class _PaymentTabState extends State<PaymentTab> {
       builder: (context, state) {
         switch (state.theStates) {
           case TheStates.success:
-            return state.orderItemList?.result!.length == 0
-                ? Center(child: Text("Opps! Try Again."))
-                : Scaffold(
+            if (state.orderItemList?.result!.length == 0) {
+              return Center(child: Text("Payment Item not available right Now."));
+            } else {
+              return Scaffold(
                     bottomNavigationBar: selectedItems.isNotEmpty
                         ? Container(
                             height: MediaQuery.of(context).size.height * 0.15,
@@ -504,6 +505,7 @@ class _PaymentTabState extends State<PaymentTab> {
                       ],
                     ),
                   );
+            }
           case TheStates.failure:
             return Center(child: Text("Opps! Try Again."));
           default:
