@@ -8,7 +8,6 @@ import 'package:dependencies/dependencies.dart';
 
 class DioHelper {
   static late Dio dio;
-
   static void init() {
     final options = BaseOptions(
       baseUrl: sandbox,

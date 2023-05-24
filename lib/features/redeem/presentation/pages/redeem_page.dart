@@ -1,9 +1,13 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/rewards_redeem/presentation/pages/widgets/redeem_points_card.dart';
+import 'package:cipher/features/redeem/statement/presentation/pages/statement_section.dart';
+import 'package:cipher/features/redeem/presentation/pages/widgets/redeem_points_card.dart';
+import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../../widgets/custom_app_bar.dart';
-import '../../../profile/presentation/pages/services/services_profile.dart';
 import '../../../profile/presentation/widgets/profile_stats_card.dart';
+import '../bloc/redeem.event.dart';
+import '../bloc/redeem_bloc.dart';
 
 class RedeemPage extends StatefulWidget {
   static const routeName = '/redeem';
@@ -31,6 +35,8 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    var spent = (context.read<UserBloc>().state.taskerProfile!.points! -
+        context.read<UserBloc>().state.taskerProfile!.remainingPoints!);
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: 'Redeem',
@@ -54,23 +60,36 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
                 height: 80,
                 width: 130,
                 imagePath: 'assets/reward.png',
-                label: 'Reward Points',
-                value: '4',
+                label: 'Current Points',
+                value: context
+                        .read<UserBloc>()
+                        .state
+                        .taskerProfile
+                        ?.remainingPoints
+                        .toString() ??
+                    "", // '445',
+                assetsColor: Colors.orange,
               ),
               ProfileStatsCard(
                 height: 80,
                 width: 130,
                 imagePath: 'assets/reward.png',
-                label: 'Reward Points',
-                value: '4',
+                label: 'Total Earned',
+                value: context
+                        .read<UserBloc>()
+                        .state
+                        .taskerProfile
+                        ?.points
+                        .toString() ??
+                    "",
                 assetsColor: Colors.green,
               ),
               ProfileStatsCard(
                 height: 80,
                 width: 130,
                 imagePath: 'assets/reward.png',
-                label: 'Reward Points',
-                value: '4',
+                label: 'Total Spent',
+                value: spent.toString(),
                 assetsColor: Colors.red,
               ),
             ],
@@ -79,7 +98,6 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
           TabBar(
               indicatorColor: kColorSecondary,
               labelPadding: kPadding10,
-              // indicatorSize: TabBarIndicatorSize.label,
               controller: tabController,
               tabs: [
                 Text('Redeem'),
@@ -89,17 +107,8 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
             child: TabBarView(
               controller: tabController,
               children: <Widget>[
-                GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 4,
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: 4,
-                    itemBuilder: (BuildContext context, int index) {
-                      return RedeemPointsCard();
-                    }),
-                ServicesProfile(),
+                RedeemPointsCard(),
+                StatementSection(),
               ],
             ),
           ),

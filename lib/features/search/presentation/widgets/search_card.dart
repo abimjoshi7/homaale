@@ -3,46 +3,91 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/colors.dart';
-import 'package:cipher/widgets/applicants_information_dialog.dart';
 
 class SearchCard extends StatelessWidget {
   final Widget? theChild;
   final String? title;
   final String? name;
   final String? location;
+  final bool showButton;
+  final VoidCallback? callback;
   const SearchCard({
     Key? key,
     this.theChild,
     this.title,
     this.name,
     this.location,
+    this.showButton = false,
+    this.callback,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: Theme.of(context).colorScheme.shadow,
+      surfaceTintColor: Colors.grey.shade300,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 5.0,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(9.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              title ?? "",
-              style: Theme.of(context).textTheme.headlineLarge,
-              overflow: TextOverflow.ellipsis,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 3.0),
+              child: Text(
+                title ?? "",
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      letterSpacing: 0.5,
+                      wordSpacing: 2,
+                    ),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             IconText(
               iconData: Icons.person_2_outlined,
               color: kColorSecondary,
               label: name ?? "Homaale Affililate",
+              size: 18.0,
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    letterSpacing: 0.3,
+                    wordSpacing: 1,
+                  ),
+              // style: ,
             ),
             IconText(
               iconData: Icons.location_on_outlined,
               color: kColorPink,
               label: location ?? "Remote",
+              size: 18.0,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    letterSpacing: 0.3,
+                    wordSpacing: 2,
+                  ),
             ),
-            theChild ?? SizedBox.shrink(),
+            Padding(
+              padding: const EdgeInsets.only(left: 3.0),
+              child: theChild ?? SizedBox.shrink(),
+            ),
+            Visibility(
+                visible: showButton,
+                child: Column(
+                  children: <Widget>[
+                    Divider(),
+                    SizedBox(height: 5),
+                    CustomElevatedButton(
+                      theHeight: 35,
+                      theWidth: double.infinity,
+                      callback: callback ?? () {},
+                      mainColor: kColorGreen,
+                      borderColor: kColorGreen,
+                      label: "View Details",
+                    )
+                  ],
+                ))
           ],
         ),
       ),
