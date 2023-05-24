@@ -49,18 +49,18 @@ class AdditionalInfoSection extends StatelessWidget {
                     iconData: Icons.calendar_today_rounded,
                     color: Colors.orangeAccent,
                   ),
-                  Text(date ?? '03:30 PM . June 03, 2022')
+                  Text(date ?? '')
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconText(
-                    label: 'Location',
+                    label: '',
                     iconData: Icons.location_on_outlined,
                     color: Colors.deepOrange,
                   ),
-                  Text(location ?? '3 Km away')
+                  Expanded(child: Text(location ?? ''))
                 ],
               ),
               Row(
@@ -70,7 +70,7 @@ class AdditionalInfoSection extends StatelessWidget {
                     label: 'Views',
                     iconData: Icons.remove_red_eye_outlined,
                   ),
-                  Text(views ?? '3.003')
+                  Text(views ?? '')
                 ],
               ),
               Row(
@@ -81,7 +81,7 @@ class AdditionalInfoSection extends StatelessWidget {
                     iconData: Icons.emoji_emotions_outlined,
                     color: Colors.orange,
                   ),
-                  Text(happyClients ?? '300')
+                  Text(happyClients ?? '0')
                 ],
               ),
               Row(

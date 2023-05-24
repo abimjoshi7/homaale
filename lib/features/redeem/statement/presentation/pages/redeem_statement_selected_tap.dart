@@ -54,9 +54,10 @@ class RedeemedStatementSelectedTap extends StatelessWidget {
                                     child: Text(
                                       state.redeemStatement?.result?[index]
                                           .status ==
-                                          'Spent'
+                                          'spent'
                                           ? "Redeemed"
-                                          : '' ?? "",
+                                          : state.redeemStatement?.result?[index]
+                                          .status ?? "",
                                       style: TextStyle(
                                           color: Colors.red,
                                           fontSize: 12,

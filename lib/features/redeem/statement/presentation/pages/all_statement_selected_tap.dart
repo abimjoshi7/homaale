@@ -42,7 +42,7 @@ class AllStatementSelectedTap extends StatelessWidget {
                           decoration: BoxDecoration(
                             color:
                                 state.redeemStatement?.result?[index].status ==
-                                        'Spent'
+                                        'spent'
                                     ? Colors.red.shade100
                                     : Colors.green.shade50,
                             borderRadius: BorderRadius.circular(5),
@@ -54,7 +54,7 @@ class AllStatementSelectedTap extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
                                 state.redeemStatement?.result?[index].status ==
-                                        'Spent'
+                                        'spent'
                                     ? "Redeemed"
                                     : state.redeemStatement?.result?[index]
                                             .status ??
@@ -62,7 +62,7 @@ class AllStatementSelectedTap extends StatelessWidget {
                                 style: TextStyle(
                                     color: state.redeemStatement?.result?[index]
                                                 .status ==
-                                            'Spent'
+                                            'spent'
                                         ? Colors.red
                                         : Colors.green,
                                     fontSize: 12,
