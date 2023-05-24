@@ -66,7 +66,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Theme.of(context).cardColor,
-                boxShadow:  [
+                boxShadow: [
                   BoxShadow(
                     offset: Offset(0.5, 0.5),
                     color: Colors.black12,
@@ -91,8 +91,8 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                               width: MediaQuery.of(context).size.width * 0.7,
                               child: AutoSizeText(
                                 serviceName ?? '',
-                                style: Theme.of(context).textTheme.headlineSmall,
-
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                             ),
                             AutoSizeText(
@@ -108,7 +108,8 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                   showCustomBottomSheet(
                                     context: context,
                                     widget: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         ListTile(
                                           onTap: editTap,
@@ -220,10 +221,16 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                 const Text("Status :"),
                                 kWidth5,
                                 Chip(
-                                  backgroundColor: (getStatus(status ?? '')["color"] as Color).withOpacity(
+                                  backgroundColor:
+                                      (getStatus(status ?? '')["color"]
+                                              as Color)
+                                          .withOpacity(
                                     0.6,
                                   ),
-                                  label: Text(status?.toTitleCase() ?? '',style: TextStyle(color: Colors.white),),
+                                  label: Text(
+                                    status?.toTitleCase() ?? '',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 )
                               ],
                             ),

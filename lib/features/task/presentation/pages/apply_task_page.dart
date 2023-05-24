@@ -124,8 +124,20 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Budget :'),
-                                        Text(
-                                          '${Decimal.parse(state.taskModel?.budgetFrom ?? '0.0')} to ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')} ',
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Rs ${Decimal.parse(state.taskModel?.budgetFrom ?? '0.0')}',
+                                            ),
+                                            Visibility(
+                                              visible:
+                                                  state.taskModel?.isRange ??
+                                                      false,
+                                              child: Text(
+                                                " to Rs ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')} ",
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ],
                                     ),
