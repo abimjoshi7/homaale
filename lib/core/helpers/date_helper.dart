@@ -1,10 +1,13 @@
 import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class DateTimeHelper {
-  static String timeAgoSinceDate(String dateString, {bool numericDates = true}) {
+  static String timeAgoSinceDate(String dateString,
+      {bool numericDates = true}) {
     try {
-      DateTime notificationDate = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(dateString, true).toUtc().toLocal();
+      DateTime notificationDate = DateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+          .parse(dateString, true)
+          .toUtc()
+          .toLocal();
       final date2 = DateTime.now();
       final difference = date2.difference(notificationDate);
       if (difference.inDays > 8) {
@@ -33,9 +36,10 @@ class DateTimeHelper {
     }
   }
 }
+
 String formatTimeOfDay({required DateTime tod}) {
   final now = new DateTime.now();
   // final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
-  final format = DateFormat.jm();  //"6:00 AM"
+  final format = DateFormat.jm(); //"6:00 AM"
   return format.format(tod);
 }

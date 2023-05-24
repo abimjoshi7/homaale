@@ -2,38 +2,27 @@
 part of 'upload_bloc.dart';
 
 class UploadState extends Equatable {
-  final TheStates? theStates;
-  final bool? isImageUploaded;
-  final bool? isVideoUploaded;
-  final bool? isFileUploaded;
-  final List<String>? imageFileList;
-  final List<String>? videoFileList;
-  final List<int>? uploadedImageList;
-  final List<int>? uploadedVideoList;
-  UploadState({
-    this.theStates,
-    this.isImageUploaded,
-    this.isVideoUploaded,
-    this.isFileUploaded,
-    this.imageFileList,
-    this.videoFileList,
-    this.uploadedImageList,
-    this.uploadedVideoList,
-  });
-
-  const UploadState.initial({
-    this.imageFileList = const [],
-    this.isFileUploaded = false,
+  final TheStates theStates;
+  final bool isImageUploaded;
+  final bool isVideoUploaded;
+  final bool isFileUploaded;
+  final List<String> imageFileList;
+  final List<String> videoFileList;
+  final List<int> uploadedImageList;
+  final List<int> uploadedVideoList;
+  const UploadState({
+    this.theStates = TheStates.initial,
     this.isImageUploaded = false,
     this.isVideoUploaded = false,
-    this.theStates = TheStates.initial,
+    this.isFileUploaded = false,
+    this.imageFileList = const [],
+    this.videoFileList = const [],
     this.uploadedImageList = const [],
     this.uploadedVideoList = const [],
-    this.videoFileList = const [],
   });
 
   @override
-  List<Object?> get props {
+  List<Object> get props {
     return [
       theStates,
       isImageUploaded,

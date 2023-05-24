@@ -46,10 +46,12 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
     const ScheduleView(),
     const DetailsView(),
   ];
+  late final UploadBloc uploadBloc;
 
   @override
   void initState() {
     super.initState();
+    uploadBloc = context.read<UploadBloc>();
     userBloc.add(UserLoaded());
     _pageController = PageController(
       initialPage: selectedIndex,
@@ -189,21 +191,29 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
       ),
       child: Visibility(
         visible: selectedIndex == 1,
-        child: CustomElevatedButton(
-          mainColor: Colors.white,
-          textColor: kColorPrimary,
-          borderColor: kColorPrimary,
-          callback: () {
-            if (_pageController.page == 1) {
-              setState(() {
-                selectedIndex = 0;
-              });
-              _pageController.jumpToPage(0);
-            } else {
-              Navigator.pop(context);
-            }
+        child: BlocBuilder<UploadBloc, UploadState>(
+          builder: (context, state) {
+            return CustomElevatedButton(
+              mainColor: Colors.white,
+              textColor: kColorPrimary,
+              borderColor: kColorPrimary,
+              callback: () {
+                if (state.theStates == TheStates.success) print(321);
+                if (state.theStates == TheStates.loading) print(3211);
+                if (state.theStates == TheStates.failure) print(13211);
+                print(state.imageFileList);
+                // if (_pageController.page == 1) {
+                //   setState(() {
+                //     selectedIndex = 0;
+                //   });
+                //   _pageController.jumpToPage(0);
+                // } else {
+                //   Navigator.pop(context);
+                // }
+              },
+              label: "Cancel",
+            );
           },
-          label: "Cancel",
         ),
       ),
     );
@@ -322,6 +332,34 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
           }
         },
         label: selectedIndex == 0 ? "Next" : "Book",
+      ),
+    );
+  }
+
+  Future<void> _uploadFile() async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    uploadBloc
+      ..add(
+        VideoToFilestoreUploaded(
+          list: uploadBloc.state.videoFileList,
+        ),
+      )
+      ..add(
+        ImageToFilestoreUploaded(
+          list: uploadBloc.state.imageFileList,
+        ),
+      );
+
+    await Future.delayed(
+      Duration(
+        seconds: 15,
       ),
     );
   }

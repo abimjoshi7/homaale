@@ -15,15 +15,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   final UploadRepository repo;
   UploadBloc(
     this.repo,
-  ) : super(UploadState()) {
-    on<SetInitials>(
-      (event, emit) {
-        emit(
-          UploadState.initial(),
-        );
-      },
-    );
-
+  ) : super(const UploadState()) {
     on<ImageUploaded>(
       (event, emit) async {
         try {
@@ -40,7 +32,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               emit(
                 state.copyWith(
                   imageFileList: [
-                    ...state.imageFileList ?? [],
+                    ...state.imageFileList,
                     value?.path ?? "",
                   ],
                 ),
@@ -73,8 +65,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           ).then(
             (value) async {
               List<String> list = [];
-              if (state.imageFileList == null ||
-                  state.imageFileList?.length == 0) {
+              if (state.imageFileList.length == 0) {
                 for (final AssetEntity element in value ?? []) {
                   await element.file.then(
                     (value) {
@@ -128,7 +119,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               (value) => emit(
                 state.copyWith(
                   videoFileList: [
-                    ...state.videoFileList ?? [],
+                    ...state.videoFileList,
                     value?.path ?? "",
                   ],
                 ),
@@ -141,8 +132,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             ).then(
               (value) async {
                 List<String> list = [];
-                if (state.videoFileList == null ||
-                    state.videoFileList?.length == 0) {
+                if (state.videoFileList.length == 0) {
                   for (final AssetEntity element in value ?? []) {
                     await element.file.then(
                       (value) {
@@ -276,7 +266,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       (event, emit) async {
         if (event.isVideo == false) {
           List<String> list = [
-            ...state.imageFileList ?? [],
+            ...state.imageFileList,
           ]..removeAt(
               event.selectedIndex,
             );
@@ -288,7 +278,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           );
         } else {
           List<String> list = [
-            ...state.videoFileList ?? [],
+            ...state.videoFileList,
           ]..removeAt(
               event.selectedIndex,
             );
