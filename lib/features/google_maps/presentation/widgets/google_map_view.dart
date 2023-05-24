@@ -17,7 +17,6 @@ class GoogleMapsView extends StatefulWidget {
 }
 
 class _GoogleMapsViewState extends State<GoogleMapsView> {
-  // late GoogleMapController mapController;
   final LatLng _center = const LatLng(27.7172, 85.3240);
   LatLng? _location;
   String kCurrentLocation = "CurrentUserLocation";
@@ -57,13 +56,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     setCustomMarkers();
   }
 
-//if google maps controller is implemented the uncomment this:
-  // @override
-  // void dispose() {
-  // mapController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NearbyTaskEntityServiceBloc,
@@ -77,9 +69,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         }
       },
       builder: (context, state) {
-        // if (state.theStates == TheStates.loading) {
-        //   return CardLoading(height: 400.0);
-        // }
         return GoogleMap(
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,

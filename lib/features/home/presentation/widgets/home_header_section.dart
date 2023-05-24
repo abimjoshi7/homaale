@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/user_location_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({super.key});
@@ -85,23 +87,21 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         }
                       },
                     );
-
-                    // await Geolocator.getCurrentPosition().then((value) async {
-                    //   await CacheHelper.setCachedString(
-                    //       "CurrentUserLocation", jsonEncode(value));
-                    //   await placemarkFromCoordinates(
-                    //     value.latitude,
-                    //     value.longitude,
-                    //   ).then(
-                    //     (value) => setState(
-                    //       () {
-                    //         location =
-                    //             '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                    //         // location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                    //       },
-                    //     ),
-                    //   );
-                    // });
+                    await Geolocator.getCurrentPosition().then((value) async {
+                      await cacheUserLocation(
+                          LatLng(value.latitude, value.longitude));
+                      await placemarkFromCoordinates(
+                        value.latitude,
+                        value.longitude,
+                      ).then(
+                        (value) => setState(
+                          () {
+                            location =
+                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                          },
+                        ),
+                      );
+                    });
                   },
                   child: Row(
                     children: <Widget>[

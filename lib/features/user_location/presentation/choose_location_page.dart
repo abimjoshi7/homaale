@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/google_maps_constants.dart';
+import 'package:cipher/core/constants/user_location_constants.dart';
+import 'package:cipher/features/user_location/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +20,25 @@ class ChooseLocationPage extends StatefulWidget {
 
 class _ChooseLocationPageState extends State<ChooseLocationPage> {
   Completer<GoogleMapController> _googleMapController = Completer();
-  // final LatLng _defaultLatLng = const LatLng(27.7172, 85.3240);
-  // LatLng _location = LatLng(27.7172, 85.3240);
   String _draggedAddress = "";
+  late LatLng _defaultLocation;
   late LatLng _draggedLatLng;
   CameraPosition? _cameraPosition;
+  Future<void> getUserLocation() async {
+    final x = await CacheHelper.getCachedString("CurrentUserLocation");
+    if (x != null) {
+      setState(() {
+        _defaultLocation = LatLng.fromJson(x) ?? kUserLocation;
+      });
+    }
+  }
 
-  _init() {
+  _init() async {
+    await getUserLocation();
+    log("peelo");
     _draggedLatLng = kUserLocation;
     _cameraPosition = CameraPosition(
-      target: kUserLocation,
+      target: _defaultLocation,
       zoom: 17.5,
     );
     _goToUserCurrentPosition();
@@ -58,9 +69,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
                       color: Colors.white,
                     ),
               ),
-              onPressed: () {
-                // _goToUserCurrentPosition();
-              },
+              onPressed: () async => await cacheUserLocation(_draggedLatLng),
             ),
           ),
         ),
@@ -76,29 +85,24 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
     return Stack(
       children: <Widget>[
         _getMap(),
-        _getCustomPin(),
-        _showDraggedAddress(),
+        CustomPin(),
+        DraggedAddressBar(
+          draggedAddress: _draggedAddress,
+        ),
+        Container(
+          height: 40.0,
+          width: 40.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Icon(Icons.my_location_rounded),
+        )
       ],
     );
   }
 
-  Widget _showDraggedAddress() {
-    return SafeArea(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 60.0,
-        color: Colors.blue,
-        child: Text(
-          _draggedAddress,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.white,
-              ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
+//Get Address placemark on camera moved
   Future _getAddress(LatLng position) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
@@ -124,37 +128,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
     );
   }
 
-  Widget _getCustomPin() {
-    return Center(
-      child: SizedBox(
-        height: 130.0,
-        width: 150.0,
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            Image.asset(
-              "assets/logos/pin-msg.png",
-              width: 149.0,
-              height: 50.0,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-              // height: 40.0,
-            ),
-            Positioned(
-              top: 45.0,
-              child: Image.asset(
-                "assets/logos/map-pin.png",
-                filterQuality: FilterQuality.high,
-                width: 40.0,
-                height: 48.0,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
+//move camera to initial user location
   Future _goToUserCurrentPosition() async {
     Position _currentPosition = await _determineUserCurrentPosition();
     _goToSpecificPosition(LatLng(
