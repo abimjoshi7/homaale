@@ -19,12 +19,6 @@ class ImageUploaded extends UploadEvent {
       ];
 }
 
-class SetInitials extends UploadEvent {
-  SetInitials();
-  @override
-  List<Object?> get props => [];
-}
-
 class MultipleImageUploaded extends UploadEvent {
   final BuildContext context;
   MultipleImageUploaded({

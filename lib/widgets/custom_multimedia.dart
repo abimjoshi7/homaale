@@ -16,7 +16,7 @@ class CustomMultimedia extends StatefulWidget {
 class _CustomMultimediaState extends State<CustomMultimedia> {
   @override
   void initState() {
-    context.read<UploadBloc>().add(SetInitials());
+    // context.read<UploadBloc>().add(SetInitials());
     super.initState();
   }
 

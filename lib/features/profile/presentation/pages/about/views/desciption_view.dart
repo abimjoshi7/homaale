@@ -16,11 +16,9 @@ class DescriptionView extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<String> skills = [
-            ...jsonDecode(
-              state.taskerProfile?.skill ?? '',
-            ) as Iterable<String>
-          ];
+          final List<String> skills = List<String>.from(
+            jsonDecode(state.taskerProfile?.skill ?? "") as Iterable,
+          );
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
