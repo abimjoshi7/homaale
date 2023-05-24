@@ -34,7 +34,7 @@ class _SkillsViewState extends State<SkillsView> {
           final List<String> skills = [
             ...jsonDecode(
               state.taskerProfile?.skill ?? '',
-            )
+            ) as Iterable<String>
           ];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

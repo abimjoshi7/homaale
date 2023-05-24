@@ -19,7 +19,7 @@ class DescriptionView extends StatelessWidget {
           final List<String> skills = [
             ...jsonDecode(
               state.taskerProfile?.skill ?? '',
-            )
+            ) as Iterable<String>
           ];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

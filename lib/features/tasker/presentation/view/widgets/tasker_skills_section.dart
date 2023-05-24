@@ -12,7 +12,9 @@ class TaskerSkillsSection extends StatelessWidget {
 
   Widget displaySkills() {
     if (skills != null && skills!.isNotEmpty) {
-      final List<String> skill = [...jsonDecode(skills.toString())];
+      final List<String> skill = [
+        ...jsonDecode(skills.toString()) as Iterable<String>
+      ];
 
       return SizedBox(
         height: 40,

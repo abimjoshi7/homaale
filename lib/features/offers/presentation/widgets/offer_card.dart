@@ -61,7 +61,7 @@ class OfferCard extends StatelessWidget {
                         onTap: () {
                           Clipboard.setData(
                             ClipboardData(
-                              text: state.offerModel?.result?[index].code,
+                              text: state.offerModel?.result?[index].code ?? "",
                             ),
                           );
                         },
