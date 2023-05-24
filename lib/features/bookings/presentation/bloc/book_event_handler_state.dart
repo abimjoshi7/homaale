@@ -6,7 +6,7 @@ class BookEventHandlerState extends Equatable {
   final String? startTime;
   final String? endTime;
   final TimeSlot? timeSlot;
-  final TheStates? states;
+  final TheStates states;
   final double? budget;
   final List<String>? requirements;
   final String? description;

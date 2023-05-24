@@ -69,7 +69,7 @@ class ServiceCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconText(
-                          label: rating ?? '',
+                          label: rating ?? '0.0',
                           iconData: Icons.star_rate_rounded,
                           color: kColorAmber,
                           size: 13,

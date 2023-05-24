@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -21,26 +22,9 @@ class ServicesPage extends StatelessWidget {
           ),
         );
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: nestedCategory?.name ?? ''),
       body: Column(
         children: <Widget>[
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            // trailingWidget: IconButton(
-            //   onPressed: () {},
-            //   icon: const Icon(
-            //     Icons.search,
-            //   ),
-            // ),
-            child: Text(nestedCategory?.name ?? ''),
-          ),
           Expanded(
             child: BlocBuilder<ServicesBloc, ServicesState>(
               builder: (context, state) {
@@ -60,7 +44,8 @@ class ServicesPage extends StatelessWidget {
                             child: state.serviceList?.length == 0
                                 ? Text(
                                     "No services available",
-                                    style: Theme.of(context).textTheme.bodySmall,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   )
                                 : SizedBox(
                                     height: MediaQuery.of(context).size.height *
@@ -74,8 +59,10 @@ class ServicesPage extends StatelessWidget {
                                       ),
                                       itemBuilder: (context, index) => InkWell(
                                         onTap: () async {
-                                          context.read<ServicesBloc>().add(
-                                                EntityServiceInitiated(
+                                          context
+                                              .read<TaskEntityServiceBloc>()
+                                              .add(
+                                                TaskEntityServiceInitiated(
                                                   serviceId: state
                                                           .serviceList?[index]
                                                           .id ??
@@ -144,7 +131,6 @@ class ServicesPage extends StatelessWidget {
                             child: SizedBox(
                               height: MediaQuery.of(context).size.height * 0.3,
                               child: GridView.builder(
-
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
@@ -153,8 +139,8 @@ class ServicesPage extends StatelessWidget {
                                 ),
                                 itemBuilder: (context, index2) => InkWell(
                                   onTap: () async {
-                                    context.read<ServicesBloc>().add(
-                                          EntityServiceInitiated(
+                                    context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceInitiated(
                                             serviceId: state
                                                     .professionalServiceModel
                                                     ?.result?[index2]

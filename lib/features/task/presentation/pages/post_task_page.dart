@@ -1,3 +1,4 @@
+import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final startPriceController = TextEditingController();
   final endPriceController = TextEditingController();
   final addressController = TextEditingController();
-  String? categoryId;
-  String? serviceId;
   String? priceType = 'Fixed';
   String? taskType = 'Remote';
   String? budgetType = 'Project';
@@ -61,9 +60,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
-    context.read<ServicesBloc>().add(
-          const ServicesLoadInitiated(),
-        );
+    // context.read<ServicesBloc>().add(
+    //       const ServicesLoadInitiated(),
+    //     );
 
     super.initState();
   }
@@ -82,7 +81,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a task"),
+      appBar: CustomAppBar(
+        appBarTitle: "Post a task",
+        trailingWidget: InkWell(
+          onTap: () => Navigator.pushNamed(
+            context,
+            SandboxPage.routeName,
+          ),
+          child: Container(
+            height: 50,
+            width: 50,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -206,7 +217,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
       builder: (context, state) {
         return CustomElevatedButton(
           callback: () async {
-            if (serviceId != null) {
+            if (context.read<CategoriesBloc>().state.serviceId != null) {
               if (isTermsAccepted) {
                 if (_key.currentState!.validate() &&
                     endPriceController.text.isNotEmpty &&
@@ -266,7 +277,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       isActive: true,
                       needsApproval: true,
                       isEndorsed: true,
-                      service: serviceId,
+                      service: context.read<CategoriesBloc>().state.serviceId,
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
@@ -862,12 +873,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                 name: (value as String?) ?? "",
                               ),
                             );
-                        setState(
-                          () {
-                            serviceId =
-                                context.read<CategoriesBloc>().state.serviceId;
-                          },
-                        );
                       },
                     ),
                   ),

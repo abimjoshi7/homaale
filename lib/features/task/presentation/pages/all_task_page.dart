@@ -1,12 +1,12 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -26,7 +26,7 @@ class AllTaskPage extends StatefulWidget {
 class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
   late final user = locator<UserBloc>();
-  List<EntityService> taskList = [];
+  List<TaskEntityService> taskList = [];
   List<String>? items = [];
 
   bool dateSelected = true;
@@ -43,7 +43,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   String? selectedLocation;
 
   //initialize page controller
-  final PagingController<int, EntityService> _pagingController =
+  final PagingController<int, TaskEntityService> _pagingController =
       PagingController(firstPageKey: 1);
 
   @override
@@ -586,7 +586,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     separatorBuilder: (context, index) => addVerticalSpace(8),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, EntityService item, index) =>
+                      itemBuilder: (context, TaskEntityService item, index) =>
                           InkWell(
                         onTap: () => onTaskPressed(
                           state: state,

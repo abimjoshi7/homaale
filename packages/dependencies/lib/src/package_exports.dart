@@ -1,6 +1,7 @@
 export 'package:auto_size_text/auto_size_text.dart';
 export 'package:basic_utils/basic_utils.dart';
 export 'package:bloc/bloc.dart';
+export 'package:bloc_test/bloc_test.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:chewie/chewie.dart';
 export 'package:dio/dio.dart';

@@ -191,20 +191,22 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   },
                                 ),
                               ),
-                              // ***PAUSED AS ASKED***
+                              // * Paused as asked
                               // CustomFormField(
                               //   label: 'Pre-requisites',
                               //   child: Column(
                               //     crossAxisAlignment: CrossAxisAlignment.start,
                               //     children: [
                               //       Column(
-                              //         crossAxisAlignment: CrossAxisAlignment.start,
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.start,
                               //         children: List.generate(
                               //           requirementList.length,
                               //           (index) => Padding(
                               //             padding: const EdgeInsets.all(2),
                               //             child: Row(
-                              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //               mainAxisAlignment:
+                              //                   MainAxisAlignment.spaceBetween,
                               //               children: [
                               //                 Row(
                               //                   children: [
@@ -270,14 +272,17 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                 isLoading = true;
                               });
                               final postTaskReq = ApplyTaskReq(
+                                price: double.parse(offerController.text),
                                 budgetTo: double.parse(offerController.text),
                                 entityService: state.taskModel?.id,
                                 description: remarksController.text,
                                 requirements: requirementList,
                               );
-                              context
-                                  .read<TaskBloc>()
-                                  .add(TaskBook(req: postTaskReq));
+                              context.read<TaskBloc>().add(
+                                    TaskBook(
+                                      req: postTaskReq,
+                                    ),
+                                  );
                             }
                           },
                           label: 'Apply',

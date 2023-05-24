@@ -1,8 +1,6 @@
-import 'package:dependencies/dependencies.dart';
+part of 'activities_timeline_bloc.dart';
 
-import '../../../../core/constants/enums.dart';
-import '../../data/models/user_activities_timeline.dart';
-
+@immutable
 class ActivitiesTimelineState extends Equatable {
   final TheStates? theStates;
   final UserActivitiesTimeline? activitiesTimeline;

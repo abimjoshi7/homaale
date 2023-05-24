@@ -112,7 +112,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                             .add(
                                               TaskEntityServiceSingleLoaded(
                                                 id: state.activeList?[index]
-                                                        .id ??
+                                                        .id.toString() ??
                                                     '',
                                               ),
                                             );
@@ -127,13 +127,11 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                         width: 283.0,
                                         height: 132.0,
                                         child: SearchCard(
-                                          title: state.activeList?[index].title
-                                              ?.toTitleCase(),
+                                          title: state.activeList?[index].title.toString()
+                                              .toTitleCase(),
                                           name: state.activeList?[index]
-                                              .createdBy?.fullName,
-                                          location: state.activeList?[index]
-                                                      .location?.isEmpty ??
-                                                  false
+                                              .createdBy?.fullName.toString(),
+                                          location: state.activeList?[index].location?.isEmpty ?? false
                                               ? "Remote"
                                               : "${state.activeList?[index].location?.toCapitalized()}, ${state.activeList?[index].city?.name}",
                                           theChild: state.activeList?[index]

@@ -2,7 +2,6 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/kyc/repositories/kyc_repositories.dart';
 import 'package:cipher/features/billing_payment_page/data/repositories/bank_repositories.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
-import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/categories/data/repositories/categories_repositories.dart';
@@ -20,16 +19,16 @@ import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/entity_service_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/transaction/data/repositories/transaction_repository.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
 import 'features/redeem/data/repo/redeem_repository.dart';
@@ -38,6 +37,9 @@ final locator = GetIt.instance;
 
 void init() {
   //repositories
+  locator.registerLazySingleton<TaskEntityServiceRepository>(
+    () => TaskEntityServiceRepository(),
+  );
   locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
   locator.registerLazySingleton<CategoriesRepositories>(
       () => CategoriesRepositories());
@@ -45,8 +47,6 @@ void init() {
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
   locator.registerLazySingleton<NotificationRepositories>(
       () => NotificationRepositories());
-  locator.registerLazySingleton<BookEventHandlerBloc>(
-      () => BookEventHandlerBloc());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
   locator.registerLazySingleton<RatingReviewsRepositroy>(
       () => RatingReviewsRepositroy());
@@ -56,12 +56,15 @@ void init() {
   locator.registerLazySingleton<RedeemRepositories>(() => RedeemRepositories());
 
   //bloc
+  locator.registerFactory<TaskEntityServiceBloc>(
+    () => TaskEntityServiceBloc(
+      locator(),
+    ),
+  );
   locator.registerFactory<TaskBloc>(() => TaskBloc());
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
-  locator.registerFactory<EntityServiceBloc>(() => EntityServiceBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
   locator.registerFactory<UserBloc>(() => UserBloc());
-  locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc());
   locator.registerFactory<TaskerPortfolioCubit>(() => TaskerPortfolioCubit());
   locator.registerFactory<BookingsBloc>(() => BookingsBloc());
   locator.registerFactory<PaymentBloc>(() => PaymentBloc());

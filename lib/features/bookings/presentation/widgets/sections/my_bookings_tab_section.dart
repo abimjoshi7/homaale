@@ -1,11 +1,10 @@
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/booking_sections.dart';
-import 'package:cipher/features/bookings/presentation/widgets/sections/sections.dart';
-import 'package:cipher/features/bookings/presentation/widgets/sections/todos/task_section.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/colors.dart';
 import '../../../../../core/constants/paddings.dart';
+import 'history/history_section.dart';
 
 class MyBookingsTabSection extends StatefulWidget {
   final BookingsBloc bloc;
@@ -15,7 +14,8 @@ class MyBookingsTabSection extends StatefulWidget {
   State<MyBookingsTabSection> createState() => _MyBookingsTabSectionState();
 }
 
-class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with SingleTickerProviderStateMixin {
+class _MyBookingsTabSectionState extends State<MyBookingsTabSection>
+    with SingleTickerProviderStateMixin {
   late final bookingsBloc = widget.bloc;
   late TabController tabController;
   int selectedIndex = 0;
@@ -61,8 +61,12 @@ class _MyBookingsTabSectionState extends State<MyBookingsTabSection> with Single
             child: TabBarView(
               controller: tabController,
               children: [
-                BookingSection(bloc: bookingsBloc, bookingSectionType: BookingSectionType.todo),
-                BookingSection(bloc: bookingsBloc, bookingSectionType: BookingSectionType.myBooking),
+                BookingSection(
+                    bloc: bookingsBloc,
+                    bookingSectionType: BookingSectionType.todo),
+                BookingSection(
+                    bloc: bookingsBloc,
+                    bookingSectionType: BookingSectionType.myBooking),
                 HistorySection(bloc: bookingsBloc),
               ],
             ),

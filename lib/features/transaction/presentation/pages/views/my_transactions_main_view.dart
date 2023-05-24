@@ -3,7 +3,7 @@ import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/transaction/presentation/widgets/transaction_card.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

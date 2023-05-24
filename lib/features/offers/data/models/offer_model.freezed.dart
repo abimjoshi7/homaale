@@ -304,7 +304,8 @@ mixin _$Result {
   int? get id => throw _privateConstructorUsedError;
   List<Service>? get services => throw _privateConstructorUsedError;
   @JsonKey(name: "entity_services")
-  List<EntityService>? get entityServices => throw _privateConstructorUsedError;
+  List<TaskEntityService>? get entityServices =>
+      throw _privateConstructorUsedError;
   List<Category>? get categories => throw _privateConstructorUsedError;
   @JsonKey(name: "created_by")
   CreatedBy? get createdBy => throw _privateConstructorUsedError;
@@ -313,7 +314,7 @@ mixin _$Result {
   @JsonKey(name: "free")
   ServiceElement? get free => throw _privateConstructorUsedError;
   @JsonKey(name: "offer_rule")
-  OfferRule? get offerRule => throw _privateConstructorUsedError;
+  int? get offerRule => throw _privateConstructorUsedError;
   @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_at")
@@ -342,6 +343,8 @@ mixin _$Result {
   bool? get isCommon => throw _privateConstructorUsedError;
   List<dynamic>? get organizations => throw _privateConstructorUsedError;
   List<String>? get redeems => throw _privateConstructorUsedError;
+  @JsonKey(name: "redeem_points")
+  int? get redeemPoints => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -356,13 +359,13 @@ abstract class $ResultCopyWith<$Res> {
   $Res call(
       {int? id,
       List<Service>? services,
-      @JsonKey(name: "entity_services") List<EntityService>? entityServices,
+      @JsonKey(name: "entity_services") List<TaskEntityService>? entityServices,
       List<Category>? categories,
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       String? merchant,
       Country? country,
       @JsonKey(name: "free") ServiceElement? free,
-      @JsonKey(name: "offer_rule") OfferRule? offerRule,
+      @JsonKey(name: "offer_rule") int? offerRule,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
       @JsonKey(name: "is_active") bool? isActive,
@@ -380,12 +383,12 @@ abstract class $ResultCopyWith<$Res> {
       dynamic quantity,
       @JsonKey(name: "is_common") bool? isCommon,
       List<dynamic>? organizations,
-      List<String>? redeems});
+      List<String>? redeems,
+      @JsonKey(name: "redeem_points") int? redeemPoints});
 
   $CreatedByCopyWith<$Res>? get createdBy;
   $CountryCopyWith<$Res>? get country;
   $ServiceElementCopyWith<$Res>? get free;
-  $OfferRuleCopyWith<$Res>? get offerRule;
 }
 
 /// @nodoc
@@ -428,6 +431,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? isCommon = freezed,
     Object? organizations = freezed,
     Object? redeems = freezed,
+    Object? redeemPoints = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -441,7 +445,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       entityServices: freezed == entityServices
           ? _value.entityServices
           : entityServices // ignore: cast_nullable_to_non_nullable
-              as List<EntityService>?,
+              as List<TaskEntityService>?,
       categories: freezed == categories
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
@@ -465,7 +469,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       offerRule: freezed == offerRule
           ? _value.offerRule
           : offerRule // ignore: cast_nullable_to_non_nullable
-              as OfferRule?,
+              as int?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -538,6 +542,10 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.redeems
           : redeems // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      redeemPoints: freezed == redeemPoints
+          ? _value.redeemPoints
+          : redeemPoints // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -576,18 +584,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       return _then(_value.copyWith(free: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $OfferRuleCopyWith<$Res>? get offerRule {
-    if (_value.offerRule == null) {
-      return null;
-    }
-
-    return $OfferRuleCopyWith<$Res>(_value.offerRule!, (value) {
-      return _then(_value.copyWith(offerRule: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -599,13 +595,13 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $Res call(
       {int? id,
       List<Service>? services,
-      @JsonKey(name: "entity_services") List<EntityService>? entityServices,
+      @JsonKey(name: "entity_services") List<TaskEntityService>? entityServices,
       List<Category>? categories,
       @JsonKey(name: "created_by") CreatedBy? createdBy,
       String? merchant,
       Country? country,
       @JsonKey(name: "free") ServiceElement? free,
-      @JsonKey(name: "offer_rule") OfferRule? offerRule,
+      @JsonKey(name: "offer_rule") int? offerRule,
       @JsonKey(name: "created_at") DateTime? createdAt,
       @JsonKey(name: "updated_at") DateTime? updatedAt,
       @JsonKey(name: "is_active") bool? isActive,
@@ -623,7 +619,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       dynamic quantity,
       @JsonKey(name: "is_common") bool? isCommon,
       List<dynamic>? organizations,
-      List<String>? redeems});
+      List<String>? redeems,
+      @JsonKey(name: "redeem_points") int? redeemPoints});
 
   @override
   $CreatedByCopyWith<$Res>? get createdBy;
@@ -631,8 +628,6 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $CountryCopyWith<$Res>? get country;
   @override
   $ServiceElementCopyWith<$Res>? get free;
-  @override
-  $OfferRuleCopyWith<$Res>? get offerRule;
 }
 
 /// @nodoc
@@ -672,6 +667,7 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? isCommon = freezed,
     Object? organizations = freezed,
     Object? redeems = freezed,
+    Object? redeemPoints = freezed,
   }) {
     return _then(_$_Result(
       id: freezed == id
@@ -685,7 +681,7 @@ class __$$_ResultCopyWithImpl<$Res>
       entityServices: freezed == entityServices
           ? _value._entityServices
           : entityServices // ignore: cast_nullable_to_non_nullable
-              as List<EntityService>?,
+              as List<TaskEntityService>?,
       categories: freezed == categories
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
@@ -709,7 +705,7 @@ class __$$_ResultCopyWithImpl<$Res>
       offerRule: freezed == offerRule
           ? _value.offerRule
           : offerRule // ignore: cast_nullable_to_non_nullable
-              as OfferRule?,
+              as int?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -782,6 +778,10 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value._redeems
           : redeems // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      redeemPoints: freezed == redeemPoints
+          ? _value.redeemPoints
+          : redeemPoints // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -793,7 +793,7 @@ class _$_Result implements _Result {
       {this.id,
       final List<Service>? services,
       @JsonKey(name: "entity_services")
-          final List<EntityService>? entityServices,
+          final List<TaskEntityService>? entityServices,
       final List<Category>? categories,
       @JsonKey(name: "created_by")
           this.createdBy,
@@ -830,7 +830,9 @@ class _$_Result implements _Result {
       @JsonKey(name: "is_common")
           this.isCommon,
       final List<dynamic>? organizations,
-      final List<String>? redeems})
+      final List<String>? redeems,
+      @JsonKey(name: "redeem_points")
+          this.redeemPoints})
       : _services = services,
         _entityServices = entityServices,
         _categories = categories,
@@ -852,10 +854,10 @@ class _$_Result implements _Result {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<EntityService>? _entityServices;
+  final List<TaskEntityService>? _entityServices;
   @override
   @JsonKey(name: "entity_services")
-  List<EntityService>? get entityServices {
+  List<TaskEntityService>? get entityServices {
     final value = _entityServices;
     if (value == null) return null;
     if (_entityServices is EqualUnmodifiableListView) return _entityServices;
@@ -885,7 +887,7 @@ class _$_Result implements _Result {
   final ServiceElement? free;
   @override
   @JsonKey(name: "offer_rule")
-  final OfferRule? offerRule;
+  final int? offerRule;
   @override
   @JsonKey(name: "created_at")
   final DateTime? createdAt;
@@ -949,8 +951,12 @@ class _$_Result implements _Result {
   }
 
   @override
+  @JsonKey(name: "redeem_points")
+  final int? redeemPoints;
+
+  @override
   String toString() {
-    return 'Result(id: $id, services: $services, entityServices: $entityServices, categories: $categories, createdBy: $createdBy, merchant: $merchant, country: $country, free: $free, offerRule: $offerRule, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, title: $title, description: $description, offerType: $offerType, code: $code, image: $image, startDate: $startDate, endDate: $endDate, isConsumable: $isConsumable, discount: $discount, discountType: $discountType, discountLimit: $discountLimit, quantity: $quantity, isCommon: $isCommon, organizations: $organizations, redeems: $redeems)';
+    return 'Result(id: $id, services: $services, entityServices: $entityServices, categories: $categories, createdBy: $createdBy, merchant: $merchant, country: $country, free: $free, offerRule: $offerRule, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, title: $title, description: $description, offerType: $offerType, code: $code, image: $image, startDate: $startDate, endDate: $endDate, isConsumable: $isConsumable, discount: $discount, discountType: $discountType, discountLimit: $discountLimit, quantity: $quantity, isCommon: $isCommon, organizations: $organizations, redeems: $redeems, redeemPoints: $redeemPoints)';
   }
 
   @override
@@ -1001,7 +1007,9 @@ class _$_Result implements _Result {
                 other.isCommon == isCommon) &&
             const DeepCollectionEquality()
                 .equals(other._organizations, _organizations) &&
-            const DeepCollectionEquality().equals(other._redeems, _redeems));
+            const DeepCollectionEquality().equals(other._redeems, _redeems) &&
+            (identical(other.redeemPoints, redeemPoints) ||
+                other.redeemPoints == redeemPoints));
   }
 
   @JsonKey(ignore: true)
@@ -1034,7 +1042,8 @@ class _$_Result implements _Result {
         const DeepCollectionEquality().hash(quantity),
         isCommon,
         const DeepCollectionEquality().hash(_organizations),
-        const DeepCollectionEquality().hash(_redeems)
+        const DeepCollectionEquality().hash(_redeems),
+        redeemPoints
       ]);
 
   @JsonKey(ignore: true)
@@ -1056,7 +1065,7 @@ abstract class _Result implements Result {
       {final int? id,
       final List<Service>? services,
       @JsonKey(name: "entity_services")
-          final List<EntityService>? entityServices,
+          final List<TaskEntityService>? entityServices,
       final List<Category>? categories,
       @JsonKey(name: "created_by")
           final CreatedBy? createdBy,
@@ -1065,7 +1074,7 @@ abstract class _Result implements Result {
       @JsonKey(name: "free")
           final ServiceElement? free,
       @JsonKey(name: "offer_rule")
-          final OfferRule? offerRule,
+          final int? offerRule,
       @JsonKey(name: "created_at")
           final DateTime? createdAt,
       @JsonKey(name: "updated_at")
@@ -1093,7 +1102,9 @@ abstract class _Result implements Result {
       @JsonKey(name: "is_common")
           final bool? isCommon,
       final List<dynamic>? organizations,
-      final List<String>? redeems}) = _$_Result;
+      final List<String>? redeems,
+      @JsonKey(name: "redeem_points")
+          final int? redeemPoints}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
 
@@ -1103,7 +1114,7 @@ abstract class _Result implements Result {
   List<Service>? get services;
   @override
   @JsonKey(name: "entity_services")
-  List<EntityService>? get entityServices;
+  List<TaskEntityService>? get entityServices;
   @override
   List<Category>? get categories;
   @override
@@ -1118,7 +1129,7 @@ abstract class _Result implements Result {
   ServiceElement? get free;
   @override
   @JsonKey(name: "offer_rule")
-  OfferRule? get offerRule;
+  int? get offerRule;
   @override
   @JsonKey(name: "created_at")
   DateTime? get createdAt;
@@ -1165,6 +1176,9 @@ abstract class _Result implements Result {
   List<dynamic>? get organizations;
   @override
   List<String>? get redeems;
+  @override
+  @JsonKey(name: "redeem_points")
+  int? get redeemPoints;
   @override
   @JsonKey(ignore: true)
   _$$_ResultCopyWith<_$_Result> get copyWith =>

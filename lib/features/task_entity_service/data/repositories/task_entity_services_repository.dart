@@ -2,13 +2,98 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/api_constants.dart';
+import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/services/data/models/self_created_task_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 
 class TaskEntityServiceRepository {
   final _dio = DioHelper();
+
+  Future<Map<String, dynamic>> fetchTaskEntityServices({
+    bool? isTask,
+    int? page,
+    List<String>? order,
+    String? serviceId,
+    String? city,
+  }) async {
+    var orders = order != null && order.isNotEmpty ? order.join(',') : '';
+    try {
+      final req = {
+        "is_requested": isTask,
+        "page": page,
+        "ordering": orders,
+        "page_size": kPageSize,
+        'service': serviceId,
+        'city': city
+      };
+      if (isTask == null) req.remove("is_requested");
+      if (!CacheHelper.isLoggedIn) {
+        final res = await _dio.getData(
+          url: kTaskEntityService,
+          query: req,
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: kTaskEntityService,
+          query: req,
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
+    } catch (e) {
+      log("Task Entity Services Fetch Error: $e");
+      throw Exception("Task Entity Services Fetch Error");
+    }
+  }
+
+  Future<TaskEntityServiceModel> getTaskEntityServices({
+    bool? isTask,
+    int? page,
+    List<String>? order,
+    String? serviceId,
+    String? city,
+  }) async =>
+      fetchTaskEntityServices(
+        isTask: isTask,
+        page: page,
+        serviceId: serviceId,
+        city: city,
+        order: order,
+      ).then(
+        (value) => TaskEntityServiceModel.fromJson(
+          value,
+        ),
+      );
+
+  Future<Map<String, dynamic>> fetchMyTaskEntityService({
+    required bool isTask,
+  }) async {
+    try {
+      final res = await _dio.getDatawithCredential(
+        url: kMyTaskEntityServices,
+        query: {
+          "is_requested": isTask,
+        },
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("My Task Entity Service Fetch Error: $e");
+      throw Exception("My Task Entity Service Fetch Error");
+    }
+  }
+
+  Future<SelfCreatedTaskService> getMyTaskEntityService(bool isTask) async =>
+      await fetchMyTaskEntityService(isTask: isTask).then(
+        (value) => SelfCreatedTaskService.fromJson(
+          value,
+        ),
+      );
 
   Future<Map<String, dynamic>> createTaskEntityService({
     required TaskEntityServiceReq taskEntityServiceReq,
@@ -104,4 +189,35 @@ class TaskEntityServiceRepository {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchApplicants({
+    required String? id,
+  }) async {
+    try {
+      if (CacheHelper.isLoggedIn == false) {
+        final res = await _dio.getData(
+          url: '$kApplicantsPath$id/',
+        );
+        return res as Map<String, dynamic>;
+      } else {
+        final res = await _dio.getDatawithCredential(
+          url: '$kApplicantsPath$id/',
+          token: CacheHelper.accessToken,
+        );
+        return res as Map<String, dynamic>;
+      }
+    } catch (e) {
+      log(
+        'Applicants Fetch Error' + e.toString(),
+      );
+      throw "Applicants Fetch Error";
+    }
+  }
+
+  Future<ApplicantModel> getApplicants(String id) async =>
+      await fetchApplicants(id: id).then(
+        (value) => ApplicantModel.fromJson(
+          value,
+        ),
+      );
 }

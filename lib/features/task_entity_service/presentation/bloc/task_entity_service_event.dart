@@ -5,6 +5,51 @@ abstract class TaskEntityServiceEvent extends Equatable {
   const TaskEntityServiceEvent();
 }
 
+class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
+  final bool? isTask;
+  final int? page;
+  final List<String>? order;
+  final bool? isDateSort;
+  final bool? isBudgetSort;
+  final String? serviceId;
+  final String? city;
+  final bool? isFilter;
+
+  const TaskEntityServiceInitiated({
+    this.isTask,
+    this.page,
+    this.order,
+    this.isDateSort,
+    this.isBudgetSort,
+    this.serviceId,
+    this.city,
+    this.isFilter,
+  });
+  @override
+  List<Object?> get props => [
+        isTask,
+        page,
+        order,
+        isDateSort,
+        isBudgetSort,
+        serviceId,
+        isFilter,
+        city,
+      ];
+}
+
+class MyTESLoadInitiated extends TaskEntityServiceEvent {
+  final bool isTask;
+  MyTESLoadInitiated({
+    required this.isTask,
+  });
+
+  @override
+  List<Object?> get props => [
+        isTask,
+      ];
+}
+
 class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
   final String id;
   const TaskEntityServiceSingleLoaded({
@@ -14,6 +59,18 @@ class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [
         id,
+      ];
+}
+
+class TaskEntityServiceCreated extends TaskEntityServiceEvent {
+  final TaskEntityServiceReq req;
+  TaskEntityServiceCreated({
+    required this.req,
+  });
+
+  @override
+  List<Object?> get props => [
+        req,
       ];
 }
 
@@ -65,18 +122,6 @@ class ResetApproveFailureStatus extends TaskEntityServiceEvent {
   List<Object?> get props => [];
 }
 
-class TaskEntityServiceCreated extends TaskEntityServiceEvent {
-  final TaskEntityServiceReq req;
-  TaskEntityServiceCreated({
-    required this.req,
-  });
-
-  @override
-  List<Object?> get props => [
-        req,
-      ];
-}
-
 class TaskRejectPeople extends TaskEntityServiceEvent {
   final RejectReq rejectReq;
 
@@ -96,6 +141,16 @@ class ResetRejectSuccessStatus extends TaskEntityServiceEvent {
 class ResetRejectFailureStatus extends TaskEntityServiceEvent {
   const ResetRejectFailureStatus();
 
+  @override
+  List<Object?> get props => [];
+}
+
+class FetchServicesList extends TaskEntityServiceEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class ResetFilterSort extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [];
 }

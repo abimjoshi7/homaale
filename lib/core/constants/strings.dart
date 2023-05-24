@@ -10,6 +10,9 @@ const kAESEncryptionKey = "Cipher-homaale";
 const kShowcase = "showcase";
 const kAppThemeMode = "mode";
 
+// page size
+const kPageSize = 10;
+
 //links
 
 const kDefaultAvatarNImg =

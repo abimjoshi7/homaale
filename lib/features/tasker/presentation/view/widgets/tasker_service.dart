@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/strings.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/service_card.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class TaskerService extends StatefulWidget {
   const TaskerService({super.key, this.service});
 
-  final EntityServiceModel? service;
+  final TaskEntityServiceModel? service;
 
   @override
   State<TaskerService> createState() => _TaskerServiceState();

@@ -58,10 +58,10 @@ class OfferCard extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onLongPress: () {
+                        onTap: () {
                           Clipboard.setData(
                             ClipboardData(
-                              text: state.offerModel?.result?[index].code,
+                              text: state.offerModel?.result?[index].code ?? "",
                             ),
                           );
                         },

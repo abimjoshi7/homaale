@@ -1,9 +1,9 @@
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class EventDetailCard extends StatelessWidget {
@@ -27,9 +27,13 @@ class EventDetailCard extends StatelessWidget {
                 children: [
                   IconText(
                     label: "${DateFormat.yMMMEd().format(
-                      taskEntityService.event?.start ?? state.event?.start ?? DateTime.now(),
+                      taskEntityService.event?.start ??
+                          state.event?.start ??
+                          DateTime.now(),
                     )} - ${DateFormat.yMMMEd().format(
-                      taskEntityService.event?.end ?? state.event?.end ?? DateTime.now(),
+                      taskEntityService.event?.end ??
+                          state.event?.end ??
+                          DateTime.now(),
                     )}",
                     iconData: Icons.calendar_today,
                   ),
@@ -38,7 +42,9 @@ class EventDetailCard extends StatelessWidget {
                     iconData: Icons.people_alt_outlined,
                   ),
                   IconText(
-                    label: state.event?.isFlexible == true ? "Is Flexible" : "Not Flexible",
+                    label: state.event?.isFlexible == true
+                        ? "Is Flexible"
+                        : "Not Flexible",
                     iconData: Icons.verified_user_outlined,
                   ),
                 ],

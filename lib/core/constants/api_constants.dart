@@ -1,6 +1,7 @@
 // * Task Entity Service
 const kTaskEntityService = "/task/entity/service/";
 const kMyTaskEntityServices = 'task/entity/my-entity-services/';
+const kApplicantsPath = "task/entity/service/applicants/";
 const taskerPath = "/tasker/";
 const careerPath = "/career/vacancy/";
 const localePath = "/locale/client/";

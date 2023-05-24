@@ -1,5 +1,4 @@
 import 'package:cipher/core/app/root.dart';
-import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
@@ -8,15 +7,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/const_info_list.dart';
-import '../../../../core/constants/dimensions.dart';
-import '../../../../core/constants/text.dart';
-import '../../../../core/constants/validations.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../../widgets/custom_check_box.dart';
 import '../../../../widgets/custom_elevated_button.dart';
 import '../../../../widgets/custom_form_field.dart';
 import '../../../../widgets/custom_text_form_field.dart';
-import '../../../bookings/presentation/widgets/sections/booking_sections.dart';
 import '../../../content_client/presentation/pages/privacy_policy.dart';
 import '../../../content_client/presentation/pages/terms_of_use.dart';
 import '../bloc/booking_cancel_event.dart';

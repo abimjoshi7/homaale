@@ -2,8 +2,24 @@
 
 import 'package:dependencies/dependencies.dart';
 
-part 'task_entity_service.freezed.dart';
-part 'task_entity_service.g.dart';
+part 'task_entity_service_model.freezed.dart';
+part 'task_entity_service_model.g.dart';
+
+@freezed
+class TaskEntityServiceModel with _$TaskEntityServiceModel {
+  const factory TaskEntityServiceModel({
+    @JsonKey(name: "total_pages") int? totalPages,
+    int? count,
+    int? current,
+    String? next,
+    String? previous,
+    @JsonKey(name: "page_size") int? pageSize,
+    List<TaskEntityService>? result,
+  }) = _TaskEntityServiceModel;
+
+  factory TaskEntityServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$TaskEntityServiceModelFromJson(json);
+}
 
 @freezed
 class TaskEntityService with _$TaskEntityService {
@@ -35,13 +51,11 @@ class TaskEntityService with _$TaskEntityService {
     @JsonKey(name: "budget_to") String? budgetTo,
     @JsonKey(name: "start_date") DateTime? startDate,
     @JsonKey(name: "end_date") DateTime? endDate,
-    @JsonKey(name: "start_time") dynamic startTime,
-    @JsonKey(name: "end_time") dynamic endTime,
+    @JsonKey(name: "start_time") String? startTime,
+    @JsonKey(name: "end_time") String? endTime,
     @JsonKey(name: "share_location") bool? shareLocation,
     @JsonKey(name: "is_negotiable") bool? isNegotiable,
-    num? revisions,
-    @JsonKey(name: "recursion_type") dynamic recursionType,
-    @JsonKey(name: "views_count") num? viewsCount,
+    @JsonKey(name: "views_count") int? viewsCount,
     String? location,
     @JsonKey(name: "is_booked") bool? isBooked,
     @JsonKey(name: "is_professional") bool? isProfessional,

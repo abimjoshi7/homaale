@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cipher/features/following_followers/data/repositories/follow_follower_repository.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/models/tasker_review_response.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
@@ -60,7 +60,7 @@ class TaskerCubit extends Cubit<TaskerState> {
           emit(
             state.copyWith(
               status: TaskerStatus.success,
-              service: EntityServiceModel.fromJson(service),
+              service: TaskEntityServiceModel.fromJson(service),
             ),
           );
         },
@@ -78,7 +78,7 @@ class TaskerCubit extends Cubit<TaskerState> {
           emit(
             state.copyWith(
               status: TaskerStatus.success,
-              task: EntityServiceModel.fromJson(task),
+              task: TaskEntityServiceModel.fromJson(task),
             ),
           );
         },
@@ -108,9 +108,12 @@ class TaskerCubit extends Cubit<TaskerState> {
     }
   }
 
-  Future handleFollowUnFollow({required String id, required bool follow, bool? fromAllPage}) async {
+  Future handleFollowUnFollow(
+      {required String id, required bool follow, bool? fromAllPage}) async {
     try {
-      await followFollowingRepository.handleFollowUnFollow(id: id, follow: follow).then((val) {
+      await followFollowingRepository
+          .handleFollowUnFollow(id: id, follow: follow)
+          .then((val) {
         if (val['status'] == 'success') {
           loadSingleTasker(id);
           loadSingleTaskerServices(id);

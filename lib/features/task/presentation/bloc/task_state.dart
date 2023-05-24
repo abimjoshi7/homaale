@@ -1,12 +1,11 @@
 part of 'task_bloc.dart';
 
 class TaskState extends Equatable {
-  final TheStates? theState;
-  final PostTaskRes? postTaskRes;
+  final TheStates theState;
   final MyTaskRes? myTaskRes;
   final AllTaskList? allTaskList;
-  final es.EntityServiceModel? tasksList;
-  final SingleTaskEntityService? taskModel;
+  final es.TaskEntityServiceModel? tasksList;
+  final TaskEntityService? taskModel;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
   final TaskApplyCountModel? taskApplyCountModel;
   final ApplicantModel? applicantModel;
@@ -24,7 +23,6 @@ class TaskState extends Equatable {
 
   const TaskState({
     this.theState = TheStates.initial,
-    this.postTaskRes,
     this.myTaskRes,
     this.allTaskList,
     this.tasksList,
@@ -49,7 +47,6 @@ class TaskState extends Equatable {
   List<Object?> get props {
     return [
       theState,
-      postTaskRes,
       myTaskRes,
       allTaskList,
       tasksList,
@@ -73,11 +70,10 @@ class TaskState extends Equatable {
 
   TaskState copyWith({
     TheStates? theState,
-    PostTaskRes? postTaskRes,
     MyTaskRes? myTaskRes,
     AllTaskList? allTaskList,
-    es.EntityServiceModel? tasksList,
-    SingleTaskEntityService? taskModel,
+    es.TaskEntityServiceModel? tasksList,
+    TaskEntityService? taskModel,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
     TaskApplyCountModel? taskApplyCountModel,
     ApplicantModel? applicantModel,
@@ -95,12 +91,12 @@ class TaskState extends Equatable {
   }) {
     return TaskState(
       theState: theState ?? this.theState,
-      postTaskRes: postTaskRes ?? this.postTaskRes,
       myTaskRes: myTaskRes ?? this.myTaskRes,
       allTaskList: allTaskList ?? this.allTaskList,
       tasksList: tasksList ?? this.tasksList,
       taskModel: taskModel ?? this.taskModel,
-      selfCreatedTaskServiceModel: selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      selfCreatedTaskServiceModel:
+          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
       taskApplyCountModel: taskApplyCountModel ?? this.taskApplyCountModel,
       applicantModel: applicantModel ?? this.applicantModel,
       applyTaskFail: applyTaskFail ?? this.applyTaskFail,

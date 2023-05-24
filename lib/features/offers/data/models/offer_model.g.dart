@@ -36,7 +36,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           ?.map((e) => Service.fromJson(e as Map<String, dynamic>))
           .toList(),
       entityServices: (json['entity_services'] as List<dynamic>?)
-          ?.map((e) => EntityService.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => TaskEntityService.fromJson(e as Map<String, dynamic>))
           .toList(),
       categories: (json['categories'] as List<dynamic>?)
           ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
@@ -51,9 +51,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       free: json['free'] == null
           ? null
           : ServiceElement.fromJson(json['free'] as Map<String, dynamic>),
-      offerRule: json['offer_rule'] == null
-          ? null
-          : OfferRule.fromJson(json['offer_rule'] as Map<String, dynamic>),
+      offerRule: json['offer_rule'] as int?,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -81,6 +79,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       organizations: json['organizations'] as List<dynamic>?,
       redeems:
           (json['redeems'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      redeemPoints: json['redeem_points'] as int?,
     );
 
 Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
@@ -111,6 +110,7 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'is_common': instance.isCommon,
       'organizations': instance.organizations,
       'redeems': instance.redeems,
+      'redeem_points': instance.redeemPoints,
     };
 
 _$_OfferRule _$$_OfferRuleFromJson(Map<String, dynamic> json) => _$_OfferRule(

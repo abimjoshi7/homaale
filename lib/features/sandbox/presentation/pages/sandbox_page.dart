@@ -11,6 +11,7 @@ import 'package:cipher/features/categories/data/repositories/categories_reposito
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -44,6 +45,9 @@ class _SandboxPageState extends State<SandboxPage> {
     final kWidth = MediaQuery.of(context).size.width;
     final kHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Sandbox",
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -72,6 +76,30 @@ class _SandboxPageState extends State<SandboxPage> {
                   label: 'Get User Data',
                 );
               },
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: CustomElevatedButton(
+              callback: () async {
+                context.read<TaskEntityServiceBloc>().add(
+                      TaskEntityServiceInitiated(),
+                    );
+              },
+              label: 'Get Task Entity Services',
+            ),
+          ),
+          kHeight20,
+          Center(
+            child: CustomElevatedButton(
+              callback: () async {
+                final x = context
+                    .read<TaskEntityServiceBloc>()
+                    .state
+                    .taskEntityServiceModel;
+                log(x.result!.first.id!);
+              },
+              label: 'View Task Entity Services',
             ),
           ),
           kHeight20,
@@ -245,20 +273,6 @@ class _SandboxPageState extends State<SandboxPage> {
           //   ),
           // ),
           addVerticalSpace(20),
-          Container(
-            color: Colors.blueGrey,
-            height: 100,
-            width: kWidth,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) => Container(
-                color: randomColorGenerator(),
-                width: kWidth * 0.5,
-              ),
-              itemCount: 10,
-            ),
-          )
         ],
       ),
     );

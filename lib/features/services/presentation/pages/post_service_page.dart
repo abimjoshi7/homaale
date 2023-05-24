@@ -30,7 +30,6 @@ class _PostServicePageState extends State<PostServicePage> {
   final requirementController = TextEditingController();
   final addressController = TextEditingController();
   final discountController = TextEditingController();
-  String? serviceId;
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
   String? serviceType = 'Remote';
@@ -67,9 +66,9 @@ class _PostServicePageState extends State<PostServicePage> {
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
-    context.read<ServicesBloc>().add(
-          const ServicesLoadInitiated(),
-        );
+    // context.read<ServicesBloc>().add(
+    //       const ServicesLoadInitiated(),
+    //     );
     super.initState();
   }
 
@@ -188,7 +187,7 @@ class _PostServicePageState extends State<PostServicePage> {
       builder: (context, state) {
         return CustomElevatedButton(
           callback: () async {
-            if (serviceId != null) {
+            if (context.read<CategoriesBloc>().state.serviceId != null) {
               if (isTermsAccepted) {
                 if (_key.currentState!.validate() &&
                     endPriceController.text.isNotEmpty) {
@@ -231,7 +230,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     isActive: true,
                     needsApproval: true,
                     isEndorsed: true,
-                    service: serviceId,
+                    service: context.read<CategoriesBloc>().state.serviceId,
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
@@ -718,7 +717,6 @@ class _PostServicePageState extends State<PostServicePage> {
             return Column(
               children: [
                 CustomDropdownSearch(
-                  serviceId: serviceId,
                   list: List.generate(
                     state.categoryList?.length ?? 0,
                     (index) => state.categoryList?[index].name ?? "",
@@ -742,22 +740,12 @@ class _PostServicePageState extends State<PostServicePage> {
                         state.serviceList?.length ?? 0,
                         (index) => state.serviceList?[index].title ?? "",
                       ),
-                      serviceId: serviceId,
                       onChanged: (value) {
                         context.read<CategoriesBloc>().add(
                               SubCategoriesChanged(
                                 name: (value as String?) ?? "",
                               ),
                             );
-                        setState(
-                          () {
-                            serviceId = context
-                                .read<CategoriesBloc>()
-                                .state
-                                .serviceId
-                                .toString();
-                          },
-                        );
                       },
                       onRemovePressed: () {
                         context.read<CategoriesBloc>().add(

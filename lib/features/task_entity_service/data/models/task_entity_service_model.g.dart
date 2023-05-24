@@ -1,10 +1,36 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'task_entity_service.dart';
+part of 'task_entity_service_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
+_$_TaskEntityServiceModel _$$_TaskEntityServiceModelFromJson(
+        Map<String, dynamic> json) =>
+    _$_TaskEntityServiceModel(
+      totalPages: json['total_pages'] as int?,
+      count: json['count'] as int?,
+      current: json['current'] as int?,
+      next: json['next'] as String?,
+      previous: json['previous'] as String?,
+      pageSize: json['page_size'] as int?,
+      result: (json['result'] as List<dynamic>?)
+          ?.map((e) => TaskEntityService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$_TaskEntityServiceModelToJson(
+        _$_TaskEntityServiceModel instance) =>
+    <String, dynamic>{
+      'total_pages': instance.totalPages,
+      'count': instance.count,
+      'current': instance.current,
+      'next': instance.next,
+      'previous': instance.previous,
+      'page_size': instance.pageSize,
+      'result': instance.result,
+    };
 
 _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
     _$_TaskEntityService(
@@ -69,13 +95,11 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       endDate: json['end_date'] == null
           ? null
           : DateTime.parse(json['end_date'] as String),
-      startTime: json['start_time'],
-      endTime: json['end_time'],
+      startTime: json['start_time'] as String?,
+      endTime: json['end_time'] as String?,
       shareLocation: json['share_location'] as bool?,
       isNegotiable: json['is_negotiable'] as bool?,
-      revisions: json['revisions'] as num?,
-      recursionType: json['recursion_type'],
-      viewsCount: json['views_count'] as num?,
+      viewsCount: json['views_count'] as int?,
       location: json['location'] as String?,
       isBooked: json['is_booked'] as bool?,
       isProfessional: json['is_professional'] as bool?,
@@ -133,8 +157,6 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'end_time': instance.endTime,
       'share_location': instance.shareLocation,
       'is_negotiable': instance.isNegotiable,
-      'revisions': instance.revisions,
-      'recursion_type': instance.recursionType,
       'views_count': instance.viewsCount,
       'location': instance.location,
       'is_booked': instance.isBooked,

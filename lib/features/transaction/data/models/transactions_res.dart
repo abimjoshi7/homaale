@@ -1,8 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
-
-import '../../../task_entity_service/data/models/task_entity_service.dart';
 
 part 'transactions_res.freezed.dart';
 part 'transactions_res.g.dart';

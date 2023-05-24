@@ -2,7 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/complete_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -109,7 +109,9 @@ class ProfileHeaderSection extends StatelessWidget {
                 kHeight5,
                 Row(
                   children: List.generate(
-                    (state2.taskerProfile?.rating?.avgRating as double?)?.round() ?? 5,
+                    (state2.taskerProfile?.rating?.avgRating as double?)
+                            ?.round() ??
+                        5,
                     (index) => const Icon(
                       Icons.star_rate_rounded,
                       color: Colors.amber,

@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:dependencies/dependencies.dart';
@@ -82,7 +82,6 @@ class TaskEntityServiceSearchTile extends StatelessWidget {
       trailing: Icon(
         CupertinoIcons.arrow_up_left,
         size: 24,
-        // color: kColorDarkGrey,
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -111,6 +111,8 @@ class _TasksRecommendationSectionState
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
+                            isRange: state.tasksList?.result?[index].isRange ??
+                                false,
                             id: state.tasksList?.result?[index].id,
                             buttonLabel:
                                 state.tasksList?.result?[index].createdBy?.id ==

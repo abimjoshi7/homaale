@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -32,30 +31,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Categories",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         children: <Widget>[
-          addVerticalSpace(50),
-          CustomHeader(
-            leadingWidget: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            trailingWidget: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  SearchPage.routeName,
-                );
-              },
-              icon: const Icon(
-                Icons.search,
-              ),
-            ),
-            child: const Text('Categories'),
-          ),
-          const CustomHorizontalDivider(),
           Expanded(
             child: BlocBuilder<NestedCategoriesCubit, NestedCategoriesState>(
               builder: (context, state) {
@@ -81,67 +62,61 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         }
                       }
                     }
+
                     return ListView.separated(
                       padding: EdgeInsets.zero,
                       itemCount: state.nestedCategory.length,
-                      itemBuilder: (context, index) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          ColoredBox(
-                            color: selectedIndex == index
-                                ? Theme.of(context).cardColor
-                                : Theme.of(context).cardColor,
-                            child: SizedBox(
-                              height: 80,
-                              child: CategoriesIcons(
-                                onTap: () async {
-                                  setState(
-                                    () {
-                                      checkFromRoute = false;
-                                      selectedIndex = index;
-                                      list =
-                                          state.nestedCategory[index].child ??
-                                              [];
-                                    },
-                                  );
-                                  if (state
-                                      .nestedCategory[index].child!.isEmpty) {
-                                    context.read<ServicesBloc>().add(
-                                          ServicesLoadInitiated(
-                                            categoryId: state
-                                                    .nestedCategory[index].id ??
-                                                0,
-                                          ),
-                                        );
-
-                                    await Navigator.pushNamed(
-                                      context,
-                                      ServicesPage.routeName,
-                                      arguments: state.nestedCategory[index],
-                                    );
-                                  }
+                      itemBuilder: (context, index) => ColoredBox(
+                        color: selectedIndex == index
+                            ? Theme.of(context).cardColor
+                            : Colors.transparent,
+                        child: SizedBox(
+                          height: 80,
+                          child: CategoriesIcons(
+                            onTap: () async {
+                              setState(
+                                () {
+                                  checkFromRoute = false;
+                                  selectedIndex = index;
+                                  list =
+                                      state.nestedCategory[index].child ?? [];
                                 },
-                                data: state.nestedCategory[index].name ?? '',
-                                color: randomColorGenerator(),
-                                child: SizedBox(
-                                  height: 18,
-                                  width: 18,
-                                  child: SvgPicture.string(
-                                    state.nestedCategory[index].icon
-                                            ?.toString() ??
-                                        kErrorSvg,
-                                    colorFilter: ColorFilter.mode(
-                                      Colors.white,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
+                              );
+                              if (state.nestedCategory[index].child!.isEmpty) {
+                                context.read<ServicesBloc>().add(
+                                      ServicesLoadInitiated(
+                                        categoryId:
+                                            state.nestedCategory[index].id ?? 0,
+                                      ),
+                                    );
+
+                                await Navigator.pushNamed(
+                                  context,
+                                  ServicesPage.routeName,
+                                  arguments: state.nestedCategory[index],
+                                );
+                              }
+                            },
+                            data: state.nestedCategory[index].name ?? '',
+                            color: randomColorGenerator(),
+                            child: SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: SvgPicture.string(
+                                state.nestedCategory[index].icon?.toString() ??
+                                    kErrorSvg,
+                                colorFilter: ColorFilter.mode(
+                                  Colors.white,
+                                  BlendMode.srcIn,
                                 ),
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                      separatorBuilder: (context, index) => kHeight20,
+                      separatorBuilder: (context, index) => addVerticalSpace(
+                        4,
+                      ),
                     );
                   } else {
                     return const SizedBox.shrink();
@@ -195,15 +170,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 10,
                                             ),
-                                            child: SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.2,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.7,
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints.loose(
+                                                Size(
+                                                  double.maxFinite,
+                                                  150,
+                                                ),
+                                              ),
                                               child: GridView.builder(
                                                 padding: EdgeInsets.zero,
                                                 itemCount:
@@ -287,19 +260,15 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
                 return Row(
                   children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height - 98,
-                      color: Theme.of(context).canvasColor,
-                      width: MediaQuery.of(context).size.width * 0.25,
+                    Expanded(
                       child: displaySideCategory(),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height - 98,
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      child: Padding(
-                        padding: kPadding20,
-                        child: displayNestedCategory(),
-                      ),
+                    addHorizontalSpace(
+                      4,
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: displayNestedCategory(),
                     ),
                   ],
                 );

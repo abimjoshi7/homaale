@@ -9,13 +9,13 @@ import 'package:cipher/features/box/presentation/pages/box.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
-import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -45,7 +45,8 @@ class _RootState extends State<Root> {
   }
 
   void checkShowcase() async {
-    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    final showcase =
+        await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
     if (showcase == 'not-shown') {
       setState(() {
         enableShowcase = true;
@@ -152,16 +153,27 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     }
                 })
             .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
+              (value) async => context
+                  .read<TaskBloc>()
+                  .add(const AllTaskLoadInitiated(page: 1)),
             )
             .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+              (value) async => context.read<TaskEntityServiceBloc>().add(
+                    TaskEntityServiceInitiated(),
+                  ),
             )
             .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
+              (value) async =>
+                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
             )
             .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
+              (value) async =>
+                  context.read<TaskerEducationCubit>().getTaskerEducation(),
+            )
+            .then(
+              (value) async => context
+                  .read<TaskerCertificationCubit>()
+                  .getTaskerCertification(),
             )
             .then((value) async => {
                   if (CacheHelper.isLoggedIn)
@@ -172,21 +184,21 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     }
                 })
             .then(
-              (value) async => context.read<ServicesBloc>().add(const EntityServiceInitiated()),
-            )
-            .then(
               (value) async => context.read<TaskerCubit>().loadTaskerList(),
             )
             .then(
-              (value) async => context
-                  .read<UserSuspendBloc>()
-                  .add(UserSuspendLoaded(userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}')),
+              (value) async => context.read<UserSuspendBloc>().add(
+                  UserSuspendLoaded(
+                      userId:
+                          '${context.read<UserBloc>().state.taskerProfile?.user?.id}')),
             )
             .then(
               (value) async => {
                 if (CacheHelper.isLoggedIn)
                   {
-                    context.read<NotificationBloc>().add(MyNotificationListInitiated()),
+                    context
+                        .read<NotificationBloc>()
+                        .add(MyNotificationListInitiated()),
                   }
               },
             )
@@ -194,12 +206,15 @@ class _CalledRootClassState extends State<CalledRootClass> {
                   if (CacheHelper.isLoggedIn)
                     {
                       context.read<BillsPaymentBloc>().add(InitializeState()),
-                      context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount()),
+                      context
+                          .read<BillsPaymentBloc>()
+                          .add(FetchLinkedBankAccount()),
                     }
                 });
       },
     );
-    print('suspended vyo: ${context.read<UserBloc>().state.taskerProfile?.user?.id}');
+    print(
+        'suspended vyo: ${context.read<UserBloc>().state.taskerProfile?.user?.id}');
   }
 
   @override
@@ -239,7 +254,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
+      ShowCaseWidget.of(context).startShowCase(
+          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -284,7 +300,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       height: 102,
                       width: MediaQuery.of(context).size.width,
                       child: CustomPaint(
-                        painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
+                        painter: BottomNavCustomPainter(
+                            color: Theme.of(context).primaryColor),
                         child: Padding(
                           padding: const EdgeInsets.only(
                             left: 8.0,
@@ -318,7 +335,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Box',
-                                showCaseDec: 'Tap “Box” to view your Bookings Payments list. ',
+                                showCaseDec:
+                                    'Tap “Box” to view your Bookings Payments list. ',
                                 showKey: _two,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -343,7 +361,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Add',
-                                showCaseDec: 'Tap “Add” to add your tasks & services.',
+                                showCaseDec:
+                                    'Tap “Add” to add your tasks & services.',
                                 showKey: _three,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -402,7 +421,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                               ),
                               CustomBottomNavItems(
                                 showCaseTitle: 'Profile',
-                                showCaseDec: 'Tap “Profile” to setup your account.',
+                                showCaseDec:
+                                    'Tap “Profile” to setup your account.',
                                 showKey: _five,
                                 onPressed: () {
                                   if (CacheHelper.isLoggedIn == false) {
@@ -443,7 +463,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     height: 100,
                     width: MediaQuery.of(context).size.width,
                     child: CustomPaint(
-                      painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
+                      painter: FloatingOptionsCustomPainter(
+                          color: Theme.of(context).primaryColor),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -462,10 +483,12 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 bookingsActive = pageIndex == 2;
                                 profileActive = pageIndex == 3;
                               });
-                              (stateUS.userAccountSuspension?.isSuspended == true)
+                              (stateUS.userAccountSuspension?.isSuspended ==
+                                      true)
                                   ? showDialog(
                                       context: context,
-                                      builder: (context) => AccountSuspendCustomToast(
+                                      builder: (context) =>
+                                          AccountSuspendCustomToast(
                                         heading: 'ACCOUNT SUSPENDED',
                                         content: 'User is suspended',
                                       ),
@@ -492,10 +515,12 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 bookingsActive = pageIndex == 2;
                                 profileActive = pageIndex == 3;
                               });
-                              (stateUS.userAccountSuspension?.isSuspended == true)
+                              (stateUS.userAccountSuspension?.isSuspended ==
+                                      true)
                                   ? showDialog(
                                       context: context,
-                                      builder: (context) => AccountSuspendCustomToast(
+                                      builder: (context) =>
+                                          AccountSuspendCustomToast(
                                         heading: 'ACCOUNT SUSPENDED',
                                         content: 'User is suspended',
                                       ),

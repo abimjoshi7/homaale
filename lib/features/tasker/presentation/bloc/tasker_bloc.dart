@@ -1,5 +1,5 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cipher/features/services/data/models/entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/tasker/data/models/tasker_list_res.dart';
 import 'package:cipher/features/tasker/data/models/tasker_review_response.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';

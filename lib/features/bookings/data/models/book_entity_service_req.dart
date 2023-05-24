@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class BookEntityServiceReq {
   BookEntityServiceReq({
     this.endDate,
@@ -5,6 +6,7 @@ class BookEntityServiceReq {
     this.location,
     this.offer,
     this.description,
+    this.price,
     this.budgetFrom,
     this.budgetTo,
     this.startDate,
@@ -23,6 +25,7 @@ class BookEntityServiceReq {
   final String? location;
   final List<int>? offer;
   final String? description;
+  final double? price;
   final double? budgetFrom;
   final double? budgetTo;
   final DateTime? startDate;
@@ -48,6 +51,7 @@ class BookEntityServiceReq {
             ? []
             : List<int>.from(json["offer"].map((x) => x) as Iterable),
         description: json["description"] as String?,
+        price: json["price"] as double?,
         budgetFrom: json["budget_from"] as double?,
         budgetTo: json["budget_to"] as double?,
         startDate: json["start_date"] == null
@@ -78,6 +82,7 @@ class BookEntityServiceReq {
                 offer!.map((x) => x),
               ),
         "description": description,
+        "price": price,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
         "start_date":

@@ -1,27 +1,29 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/custom_favourite_icon.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/custom_favourite_icon.dart';
+import 'package:cipher/widgets/widgets.dart';
+
 class TaskCard extends StatelessWidget {
   const TaskCard({
-    super.key,
+    Key? key,
     this.id,
     this.imageUrl,
     this.taskName,
     this.endDate,
     this.endHour,
+    this.budgetType,
     this.location,
     this.startRate,
     this.endRate,
-    this.callback,
     this.count,
-    this.budgetType,
-    this.onTapCallback,
     this.buttonLabel,
-  });
+    this.callback,
+    this.onTapCallback,
+    this.isRange = false,
+  }) : super(key: key);
 
   final String? id;
   final String? imageUrl;
@@ -36,6 +38,7 @@ class TaskCard extends StatelessWidget {
   final String? buttonLabel;
   final VoidCallback? callback;
   final VoidCallback? onTapCallback;
+  final bool isRange;
 
   @override
   Widget build(BuildContext context) {
@@ -130,19 +133,18 @@ class TaskCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text(
-                            "Rs. ${Decimal.parse(startRate ?? '0')} - ",
+                            "Rs. ${Decimal.parse(startRate ?? '0')}",
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '${Decimal.parse(endRate ?? '0')}',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              Text(
-                                '/ ${budgetType?.toLowerCase()}',
-                              )
-                            ],
+                          Visibility(
+                            visible: isRange,
+                            child: Text(
+                              ' - ${Decimal.parse(endRate ?? '0')}',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Text(
+                            '/ ${budgetType?.toLowerCase()}',
                           ),
                         ],
                       ),

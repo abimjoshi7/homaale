@@ -8,39 +8,50 @@ import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/event/data/models/event_availability.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/service_detail_header_section.dart';
-import 'package:cipher/features/services/presentation/pages/views/details_view.dart';
-import 'package:cipher/features/services/presentation/pages/views/schedule_view.dart';
+import 'package:cipher/features/bookings/presentation/pages/views/details_view.dart';
+import 'package:cipher/features/bookings/presentation/pages/views/schedule_view.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class ServiceBookingPage extends StatefulWidget {
+class ServiceBookingPage extends StatelessWidget {
   static const routeName = '/service-booking-page';
   const ServiceBookingPage({super.key});
 
   @override
-  State<ServiceBookingPage> createState() => _ServiceBookingPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BookEventHandlerBloc(),
+      child: ServiceBookingMainView(),
+    );
+  }
 }
 
-class _ServiceBookingPageState extends State<ServiceBookingPage> {
+class ServiceBookingMainView extends StatefulWidget {
+  const ServiceBookingMainView({super.key});
+
+  @override
+  State<ServiceBookingMainView> createState() => _ServiceBookingMainViewState();
+}
+
+class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   final userBloc = locator<UserBloc>();
   int selectedIndex = 0;
   late PageController _pageController;
   final List<Widget> widgetList = [
-    SingleChildScrollView(
-      child: const ScheduleView(),
-    ),
+    const ScheduleView(),
     const DetailsView(),
   ];
-  late final eventCache = locator<BookEventHandlerBloc>();
+  late final UploadBloc uploadBloc;
 
   @override
   void initState() {
     super.initState();
+    uploadBloc = context.read<UploadBloc>();
     userBloc.add(UserLoaded());
     _pageController = PageController(
       initialPage: selectedIndex,
@@ -56,7 +67,10 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        appBarTitle: "Service Booking",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: BlocBuilder<EventBloc, EventState>(
         builder: (context, eventState) {
           if (eventState.theStates == TheStates.initial) {
@@ -68,13 +82,6 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
           }
           return Column(
             children: [
-              addVerticalSpace(
-                50,
-              ),
-              const CustomHeader(
-                label: "Service Booking",
-              ),
-              const Divider(),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -153,7 +160,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                                 context: context,
                                 builder: (context) => CustomToast(
                                   heading: 'Failure',
-                                  content: error ??
+                                  content: error?.toTitleCase() ??
                                       'Something went wrong. Please try again later.',
                                   onTap: () async {},
                                   isSuccess: false,
@@ -167,7 +174,6 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                       return const SizedBox.shrink();
                     },
                   ),
-                  addVerticalSpace(4),
                   showCancelButton(context),
                 ],
               ),
@@ -180,26 +186,34 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
 
   Widget showCancelButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 4,
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
       ),
       child: Visibility(
         visible: selectedIndex == 1,
-        child: CustomElevatedButton(
-          mainColor: Colors.white,
-          textColor: kColorPrimary,
-          borderColor: kColorPrimary,
-          callback: () {
-            if (_pageController.page == 1) {
-              setState(() {
-                selectedIndex = 0;
-              });
-              _pageController.jumpToPage(0);
-            } else {
-              Navigator.pop(context);
-            }
+        child: BlocBuilder<UploadBloc, UploadState>(
+          builder: (context, state) {
+            return CustomElevatedButton(
+              mainColor: Colors.white,
+              textColor: kColorPrimary,
+              borderColor: kColorPrimary,
+              callback: () {
+                if (state.theStates == TheStates.success) print(321);
+                if (state.theStates == TheStates.loading) print(3211);
+                if (state.theStates == TheStates.failure) print(13211);
+                print(state.imageFileList);
+                // if (_pageController.page == 1) {
+                //   setState(() {
+                //     selectedIndex = 0;
+                //   });
+                //   _pageController.jumpToPage(0);
+                // } else {
+                //   Navigator.pop(context);
+                // }
+              },
+              label: "Cancel",
+            );
           },
-          label: "Cancel",
         ),
       ),
     );
@@ -215,17 +229,21 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                 ? "Remote"
                 : state.taskEntityService?.location,
             entityService: state.taskEntityService?.id,
-            budgetTo: eventCache.state.budget,
-            requirements: eventCache.state.requirements == null
-                ? []
-                : List<String>.from(
-                    state.taskEntityService?.highlights as Iterable,
-                  ),
-            startDate: DateTime.parse(eventCache.state.endDate!),
-            endDate: DateTime.parse(eventCache.state.endDate!),
-            startTime: eventCache.state.startTime,
-            endTime: eventCache.state.endTime,
-            description: eventCache.state.description,
+            price: context.read<BookEventHandlerBloc>().state.budget,
+            budgetTo: context.read<BookEventHandlerBloc>().state.budget,
+            requirements:
+                context.read<BookEventHandlerBloc>().state.requirements == null
+                    ? []
+                    : List<String>.from(
+                        state.taskEntityService?.highlights as Iterable,
+                      ),
+            startDate: DateTime.parse(
+                context.read<BookEventHandlerBloc>().state.endDate!),
+            endDate: DateTime.parse(
+                context.read<BookEventHandlerBloc>().state.endDate!),
+            startTime: context.read<BookEventHandlerBloc>().state.startTime,
+            endTime: context.read<BookEventHandlerBloc>().state.endTime,
+            description: context.read<BookEventHandlerBloc>().state.description,
             images: context.read<UploadBloc>().state.uploadedImageList ?? [],
             videos: context.read<UploadBloc>().state.uploadedVideoList ?? [],
           );
@@ -239,7 +257,7 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
             context: context,
             builder: (context) => CustomToast(
               heading: "Error",
-              content: "Scehdule not available for given time",
+              content: "Schedule not available for given time",
               onTap: () {},
               isSuccess: false,
             ),
@@ -262,36 +280,46 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
                     ? "Remote"
                     : state.taskEntityService?.location,
                 entityService: state.taskEntityService?.id,
-                budgetTo: eventCache.state.budget,
-                requirements: eventCache.state.requirements == null
-                    ? []
-                    : List<String>.from(
-                        state.taskEntityService?.highlights as Iterable,
-                      ),
-                startDate: DateTime.parse(eventCache.state.endDate!),
-                endDate: DateTime.parse(eventCache.state.endDate!),
-                startTime: eventCache.state.startTime,
-                endTime: eventCache.state.endTime,
-                description: eventCache.state.description,
-                images: eventCache.state.images == null
-                    ? []
-                    : List<int>.from(
-                        eventCache.state.images as Iterable,
-                      ),
-                videos: eventCache.state.videos == null
-                    ? []
-                    : List<int>.from(
-                        eventCache.state.videos as Iterable,
-                      ),
+                price: context.read<BookEventHandlerBloc>().state.budget,
+                budgetTo: context.read<BookEventHandlerBloc>().state.budget,
+                requirements:
+                    context.read<BookEventHandlerBloc>().state.requirements ==
+                            null
+                        ? []
+                        : List<String>.from(
+                            state.taskEntityService?.highlights as Iterable,
+                          ),
+                startDate: DateTime.parse(
+                    context.read<BookEventHandlerBloc>().state.endDate!),
+                endDate: DateTime.parse(
+                    context.read<BookEventHandlerBloc>().state.endDate!),
+                startTime: context.read<BookEventHandlerBloc>().state.startTime,
+                endTime: context.read<BookEventHandlerBloc>().state.endTime,
+                description:
+                    context.read<BookEventHandlerBloc>().state.description,
+                images:
+                    context.read<BookEventHandlerBloc>().state.images == null
+                        ? []
+                        : List<int>.from(
+                            context.read<BookEventHandlerBloc>().state.images
+                                as Iterable,
+                          ),
+                videos:
+                    context.read<BookEventHandlerBloc>().state.videos == null
+                        ? []
+                        : List<int>.from(
+                            context.read<BookEventHandlerBloc>().state.videos
+                                as Iterable,
+                          ),
               );
               context.read<BookingsBloc>().add(
                     BookingCreated(req),
                   );
             } else {
               final availableReq = EventAvailability(
-                date: eventCache.state.endDate,
-                start: eventCache.state.startTime,
-                end: eventCache.state.endTime,
+                date: context.read<BookEventHandlerBloc>().state.endDate,
+                start: context.read<BookEventHandlerBloc>().state.startTime,
+                end: context.read<BookEventHandlerBloc>().state.endTime,
               );
 
               context.read<EventBloc>().add(
@@ -304,6 +332,34 @@ class _ServiceBookingPageState extends State<ServiceBookingPage> {
           }
         },
         label: selectedIndex == 0 ? "Next" : "Book",
+      ),
+    );
+  }
+
+  Future<void> _uploadFile() async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    uploadBloc
+      ..add(
+        VideoToFilestoreUploaded(
+          list: uploadBloc.state.videoFileList,
+        ),
+      )
+      ..add(
+        ImageToFilestoreUploaded(
+          list: uploadBloc.state.imageFileList,
+        ),
+      );
+
+    await Future.delayed(
+      Duration(
+        seconds: 15,
       ),
     );
   }

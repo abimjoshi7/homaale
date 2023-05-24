@@ -5,17 +5,6 @@ abstract class TaskEvent extends Equatable {
   const TaskEvent();
 }
 
-class MyServiceTaskLoadInitiated extends TaskEvent {
-  final bool isTask;
-  const MyServiceTaskLoadInitiated({
-    required this.isTask,
-  });
-  @override
-  List<Object?> get props => [
-        isTask,
-      ];
-}
-
 class SingleEntityTaskLoadInitiated extends TaskEvent {
   final String id;
   const SingleEntityTaskLoadInitiated({
@@ -57,19 +46,8 @@ class AllTaskLoadInitiated extends TaskEvent {
       ];
 }
 
-class TaskAddInitiated extends TaskEvent {
-  final PostTaskReq req;
-  const TaskAddInitiated({
-    required this.req,
-  });
-  @override
-  List<Object?> get props => [
-        req,
-      ];
-}
-
 class SelectedTask extends TaskEvent {
-  final es.EntityService? entityService;
+  final TaskEntityService? entityService;
   const SelectedTask({
     this.entityService,
   });

@@ -14,7 +14,8 @@ import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statem
 import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_event.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/activities/bloc/activities_timeline_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -22,8 +23,6 @@ import 'package:flutter/material.dart';
 import '../../../../redeem/presentation/bloc/redeem.event.dart';
 import '../../../../redeem/presentation/pages/redeem_page.dart';
 import '../../../../redeem/statement/presentation/bloc/redeemed_bloc.dart';
-import '../../../../user/presentation/bloc/activities_timeline_bloc.dart';
-import '../../../../user/presentation/bloc/activities_timeline_event.dart';
 import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 

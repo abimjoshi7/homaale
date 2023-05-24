@@ -29,7 +29,9 @@ class _EventFormState extends State<EventForm> {
       builder: (context, state) {
         if (state.theStates == TheStates.initial) {
           return const Center(
-            child: CardLoading(height: 200,),
+            child: CardLoading(
+              height: 200,
+            ),
           );
         }
         if (state.theStates == TheStates.success &&

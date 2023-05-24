@@ -7,7 +7,7 @@ import 'package:cipher/features/services/presentation/pages/sections/packages_of
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
     as bm;
-import 'package:cipher/features/user/presentation/bloc/user_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -382,8 +382,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                 child: BlocBuilder<BookingCancelBloc,
                                         BookingCancelState>(
                                     builder: (context, state) {
-                                      print( state.bookingCancelModel
-                                          ?.cancellationReason);
+                                  print(state
+                                      .bookingCancelModel?.cancellationReason);
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
