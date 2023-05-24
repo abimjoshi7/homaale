@@ -109,7 +109,12 @@ class _RewardsListState extends State<RewardsList> {
                                           ),
                                         ),
                                         child: Center(
-                                          child: Text('${state.rewardsList[index].code ?? 'No code!'}'),
+                                          child: Text(
+                                            '${state.rewardsList[index].code ?? 'No code!'}',
+                                            style: TextStyle(
+                                              color: state.rewardsList[index].code != null ? Colors.black : kColorGrey,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       InkWell(
@@ -125,12 +130,13 @@ class _RewardsListState extends State<RewardsList> {
                                         child: Container(
                                           height: 31,
                                           padding: EdgeInsets.symmetric(horizontal: 8),
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(4),
                                               bottomRight: Radius.circular(4),
                                             ),
-                                            color: Color(0xff211D4F),
+                                            color:
+                                                state.rewardsList[index].code != null ? Color(0xff211D4F) : kColorGrey,
                                           ),
                                           child: const Center(
                                             child: Text(
