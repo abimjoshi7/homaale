@@ -19,7 +19,7 @@ class GoogleMapsView extends StatefulWidget {
 class _GoogleMapsViewState extends State<GoogleMapsView> {
   // late GoogleMapController mapController;
   final LatLng _center = const LatLng(27.7172, 85.3240);
-  LatLng _location = LatLng(27.7172, 85.3240);
+  LatLng? _location;
   String kCurrentLocation = "CurrentUserLocation";
   Map<String, Marker> _markers = {};
 
@@ -28,7 +28,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   ) async {
     context.read<NearbyTaskEntityServiceBloc>().add(
         NearbyTaskEntityServiceSelected(
-            location: _location, slug: MapFilterStatus.all));
+            location: _location ?? _center, slug: MapFilterStatus.all));
     setState(() {
       _markers.clear();
     });
@@ -72,7 +72,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         if (state.theStates == TheStates.success) {
           _markers = addTaskEntityServiceMarkers(
             state.activeList!,
-            _location,
+            _location ?? _center,
           );
         }
       },
@@ -88,7 +88,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
           zoomControlsEnabled: false,
           // myLocationButtonEnabled: true,
           initialCameraPosition: CameraPosition(
-            target: _location,
+            target: _location ?? _center,
             zoom: 11.8,
           ),
           markers: _markers.values.toSet(),

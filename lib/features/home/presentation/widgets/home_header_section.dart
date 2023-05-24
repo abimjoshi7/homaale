@@ -74,23 +74,34 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                             ),
                           );
                         }
+                        if (value == LocationPermission.always ||
+                            value == LocationPermission.whileInUse) {
+                          if (!mounted) return;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChooseLocationPage(),
+                              ));
+                        }
                       },
                     );
 
-                    await Geolocator.getCurrentPosition().then((value) async {
-                      await CacheHelper.setCachedString("CurrentUserLocation", jsonEncode(value));
-                      await placemarkFromCoordinates(
-                        value.latitude,
-                        value.longitude,
-                      ).then(
-                        (value) => setState(
-                          () {
-                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                          },
-                        ),
-                      );
-                    });
+                    // await Geolocator.getCurrentPosition().then((value) async {
+                    //   await CacheHelper.setCachedString(
+                    //       "CurrentUserLocation", jsonEncode(value));
+                    //   await placemarkFromCoordinates(
+                    //     value.latitude,
+                    //     value.longitude,
+                    //   ).then(
+                    //     (value) => setState(
+                    //       () {
+                    //         location =
+                    //             '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                    //         // location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                    //       },
+                    //     ),
+                    //   );
+                    // });
                   },
                   child: Row(
                     children: <Widget>[
@@ -142,7 +153,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
@@ -195,7 +207,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                       position: TooltipPosition.bottom,
                                       showKey: Home.notificationKey,
                                       showCaseTitle: 'Notifications',
-                                      showCaseDec: 'See all notifications from here.',
+                                      showCaseDec:
+                                          'See all notifications from here.',
                                       child: Icon(
                                         (CacheHelper.isLoggedIn)
                                             ? Icons.notifications_none
@@ -207,17 +220,25 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList.unreadCount != null &&
-                                          state.allNotificationList.unreadCount != 0
+                                  state.allNotificationList?.unreadCount !=
+                                              null &&
+                                          state.allNotificationList
+                                                  ?.unreadCount !=
+                                              0
                                       ? Positioned(
                                           right: 13,
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
                                             child: Center(
                                               child: Text(
-                                                state.allNotificationList.unreadCount.toString(),
+                                                state.allNotificationList
+                                                        ?.unreadCount
+                                                        .toString() ??
+                                                    "0",
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,
