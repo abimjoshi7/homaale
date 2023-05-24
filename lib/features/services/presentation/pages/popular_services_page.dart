@@ -49,6 +49,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     _pagingController.addPageRequestListener(
       (pageKey) => entityServiceBloc.add(
         TaskEntityServiceInitiated(
+          isTask: false,
           page: pageKey,
           order: order,
           city: selectedLocation,
@@ -87,6 +88,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
 
     entityServiceBloc.add(
       TaskEntityServiceInitiated(
+        isTask: false,
         page: 1,
         order: order,
         serviceId: selectedCategoryId,
@@ -114,6 +116,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     }
 
     entityServiceBloc.add(TaskEntityServiceInitiated(
+      isTask: false,
       page: 1,
       order: order,
       serviceId: selectedCategoryId,
@@ -156,6 +159,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     }
 
     entityServiceBloc.add(TaskEntityServiceInitiated(
+        isTask: false,
         page: 1,
         order: order,
         city: selectedLocation,
@@ -200,6 +204,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     }
 
     entityServiceBloc.add(TaskEntityServiceInitiated(
+        isTask: false,
         page: 1,
         order: order,
         city: selectedLocation,
@@ -219,34 +224,34 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
       body: BlocListener<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: entityServiceBloc,
         listener: (context, state) {
-          // if ((state.isFilter ?? false) ||
-          //     (state.isDateSort ?? false) ||
-          //     (state.isBudgetSort ?? false)) {
-          //   _pagingController.refresh();
-          //   entityServiceBloc.add(ResetFilterSort());
-          // }
+          if ((state.isFilter ?? false) ||
+              (state.isDateSort ?? false) ||
+              (state.isBudgetSort ?? false)) {
+            _pagingController.refresh();
+            entityServiceBloc.add(ResetFilterSort());
+          }
 
-          // if (state.serviceLoaded ?? false) {
-          //   setState(() {
-          //     items = [...?state.serviceList?.map((e) => e.title!).toList()];
-          //   });
-          // }
+          if (state.serviceLoaded ?? false) {
+            setState(() {
+              items = [...?state.serviceList?.map((e) => e.title!).toList()];
+            });
+          }
 
-          // if (state.theStates == TheStates.failure) {
-          //   _pagingController.error = 'Error';
-          // }
+          if (state.theStates == TheStates.failure) {
+            _pagingController.error = 'Error';
+          }
 
-          // if (state.theStates == TheStates.success) {
-          //   serviceList = state.taskEntityServiceModel.result!;
-          //   final lastPage = state.taskEntityServiceModel.totalPages!;
-          //   final next = 1 + state.taskEntityServiceModel.current!;
+          if (state.theStates == TheStates.success) {
+            serviceList = state.taskEntityServiceModel.result!;
+            final lastPage = state.taskEntityServiceModel.totalPages!;
+            final next = 1 + state.taskEntityServiceModel.current!;
 
-          //   if (next > lastPage) {
-          //     _pagingController.appendLastPage(serviceList);
-          //   } else {
-          //     _pagingController.appendPage(serviceList, next);
-          //   }
-          // }
+            if (next > lastPage) {
+              _pagingController.appendLastPage(serviceList);
+            } else {
+              _pagingController.appendPage(serviceList, next);
+            }
+          }
         },
         child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
           builder: (context, state) {
