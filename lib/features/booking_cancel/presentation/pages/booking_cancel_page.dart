@@ -258,6 +258,22 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        color: Colors.blue,
+                        size: 20,
+                      ),
+                      Text(
+                        ' Refund will be initiated within Two Working Days.',
+                        style: TextStyle(color: Colors.blue, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
                 CustomElevatedButton(
                   callback: () {
                     if (_formKey.currentState!.validate()) {
