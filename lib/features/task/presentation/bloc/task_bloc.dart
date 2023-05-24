@@ -34,7 +34,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) async {
         try {
           emit(
-            state.copyWith(theState: TheStates.initial),
+            state.copyWith(
+              theState: TheStates.initial,
+            ),
           );
           await repo
               .fetchAllTaskList(

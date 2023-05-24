@@ -26,10 +26,10 @@ class _TasksProfileState extends State<TasksProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskBloc, TaskState>(
+    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
-        if (state.theState == TheStates.success) {
-          final data = state.selfCreatedTaskServiceModel?.result;
+        if (state.theStates == TheStates.success) {
+          final data = state.selfCreatedTaskService?.result;
           return Padding(
             padding: const EdgeInsets.all(10),
             child: GridView.builder(
@@ -59,7 +59,7 @@ class _TasksProfileState extends State<TasksProfile> {
                   description: data?[index].description ?? '... ',
                   imagePath: data?[index].images?.length == 0
                       ? kServiceImageNImg
-                      : data![index].images?.first['media'].toString(),
+                      : data?[index].images?.first['media'].toString(),
                 ),
               ),
             ),
