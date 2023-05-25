@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
@@ -11,6 +10,7 @@ import 'package:cipher/features/notification/presentation/pages/notification_hom
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/features/user_location/presentation/choose_location_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +88,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       },
                     );
                     await Geolocator.getCurrentPosition().then((value) async {
-                      await cacheUserLocation(LatLng(value.latitude, value.longitude));
+                      await cacheUserLocation(
+                          LatLng(value.latitude, value.longitude));
                       await placemarkFromCoordinates(
                         value.latitude,
                         value.longitude,
@@ -185,7 +186,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        if (state.notificationStatus == NotificationStatus.success) {
+                        if (state.notificationStatus ==
+                            NotificationStatus.success) {
                           return SizedBox(
                             width: 50,
                             height: 40,
