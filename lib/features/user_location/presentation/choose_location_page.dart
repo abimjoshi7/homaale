@@ -80,7 +80,9 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
     return Stack(
       children: <Widget>[
         _getMap(),
-        CustomPin(),
+        CustomPin(
+          isDragged: _isDragged,
+        ),
         Positioned(
           right: 10.0,
           top: 20.0,
@@ -227,7 +229,7 @@ class SetLocationButton extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 150,
         decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withOpacity(0.8),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.0),
               topRight: Radius.circular(20.0),
@@ -253,7 +255,7 @@ class SetLocationButton extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
-            addVerticalSpace(10.0),
+            addVerticalSpace(15.0),
             SizedBox(
               height: 50,
               width: 366.0,

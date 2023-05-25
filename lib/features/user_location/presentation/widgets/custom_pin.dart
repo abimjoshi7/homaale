@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomPin extends StatelessWidget {
-  const CustomPin({super.key});
-
+  const CustomPin({super.key, required this.isDragged});
+  final bool isDragged;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -12,13 +12,16 @@ class CustomPin extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            Image.asset(
-              "assets/logos/pin-msg-alt.png",
-              width: 160.0,
-              height: 55.0,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-              // height: 40.0,
+            Visibility(
+              visible: !isDragged,
+              child: Image.asset(
+                "assets/logos/pin-msg-alt.png",
+                width: 160.0,
+                height: 55.0,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.high,
+                // height: 40.0,
+              ),
             ),
             Positioned(
               top: 45.0,
