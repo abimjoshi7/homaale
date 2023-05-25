@@ -306,7 +306,8 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
 mixin _$Result {
   String? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  String? get charge => throw _privateConstructorUsedError;
+  String? get earning => throw _privateConstructorUsedError;
+  String? get price => throw _privateConstructorUsedError;
   @JsonKey(name: 'entity_service')
   EntityService? get entityService => throw _privateConstructorUsedError;
   Assignee? get assigner => throw _privateConstructorUsedError;
@@ -336,7 +337,8 @@ abstract class $ResultCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      String? charge,
+      String? earning,
+      String? price,
       @JsonKey(name: 'entity_service') EntityService? entityService,
       Assignee? assigner,
       Assignee? assignee,
@@ -369,7 +371,8 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
-    Object? charge = freezed,
+    Object? earning = freezed,
+    Object? price = freezed,
     Object? entityService = freezed,
     Object? assigner = freezed,
     Object? assignee = freezed,
@@ -390,9 +393,13 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      charge: freezed == charge
-          ? _value.charge
-          : charge // ignore: cast_nullable_to_non_nullable
+      earning: freezed == earning
+          ? _value.earning
+          : earning // ignore: cast_nullable_to_non_nullable
+              as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as String?,
       entityService: freezed == entityService
           ? _value.entityService
@@ -495,7 +502,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      String? charge,
+      String? earning,
+      String? price,
       @JsonKey(name: 'entity_service') EntityService? entityService,
       Assignee? assigner,
       Assignee? assignee,
@@ -529,7 +537,8 @@ class __$$_ResultCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
-    Object? charge = freezed,
+    Object? earning = freezed,
+    Object? price = freezed,
     Object? entityService = freezed,
     Object? assigner = freezed,
     Object? assignee = freezed,
@@ -550,9 +559,13 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      charge: freezed == charge
-          ? _value.charge
-          : charge // ignore: cast_nullable_to_non_nullable
+      earning: freezed == earning
+          ? _value.earning
+          : earning // ignore: cast_nullable_to_non_nullable
+              as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as String?,
       entityService: freezed == entityService
           ? _value.entityService
@@ -604,7 +617,8 @@ class _$_Result implements _Result {
   const _$_Result(
       {this.id,
       this.title,
-      this.charge,
+      this.earning,
+      this.price,
       @JsonKey(name: 'entity_service') this.entityService,
       this.assigner,
       this.assignee,
@@ -626,7 +640,9 @@ class _$_Result implements _Result {
   @override
   final String? title;
   @override
-  final String? charge;
+  final String? earning;
+  @override
+  final String? price;
   @override
   @JsonKey(name: 'entity_service')
   final EntityService? entityService;
@@ -671,7 +687,7 @@ class _$_Result implements _Result {
 
   @override
   String toString() {
-    return 'Result(id: $id, title: $title, charge: $charge, entityService: $entityService, assigner: $assigner, assignee: $assignee, currency: $currency, images: $images, videos: $videos, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime)';
+    return 'Result(id: $id, title: $title, earning: $earning, price: $price, entityService: $entityService, assigner: $assigner, assignee: $assignee, currency: $currency, images: $images, videos: $videos, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime)';
   }
 
   @override
@@ -681,7 +697,8 @@ class _$_Result implements _Result {
             other is _$_Result &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.charge, charge) || other.charge == charge) &&
+            (identical(other.earning, earning) || other.earning == earning) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.entityService, entityService) ||
                 other.entityService == entityService) &&
             (identical(other.assigner, assigner) ||
@@ -706,7 +723,8 @@ class _$_Result implements _Result {
       runtimeType,
       id,
       title,
-      charge,
+      earning,
+      price,
       entityService,
       assigner,
       assignee,
@@ -736,7 +754,8 @@ abstract class _Result implements Result {
   const factory _Result(
       {final String? id,
       final String? title,
-      final String? charge,
+      final String? earning,
+      final String? price,
       @JsonKey(name: 'entity_service') final EntityService? entityService,
       final Assignee? assigner,
       final Assignee? assignee,
@@ -755,7 +774,9 @@ abstract class _Result implements Result {
   @override
   String? get title;
   @override
-  String? get charge;
+  String? get earning;
+  @override
+  String? get price;
   @override
   @JsonKey(name: 'entity_service')
   EntityService? get entityService;

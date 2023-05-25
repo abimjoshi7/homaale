@@ -33,7 +33,8 @@ Map<String, dynamic> _$$_OrderItemListToJson(_$_OrderItemList instance) =>
 _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       id: json['id'] as String?,
       title: json['title'] as String?,
-      charge: json['charge'] as String?,
+      earning: json['earning'] as String?,
+      price: json['price'] as String?,
       entityService: json['entity_service'] == null
           ? null
           : EntityService.fromJson(
@@ -58,7 +59,8 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
 Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'charge': instance.charge,
+      'earning': instance.earning,
+      'price': instance.price,
       'entity_service': instance.entityService,
       'assigner': instance.assigner,
       'assignee': instance.assignee,
