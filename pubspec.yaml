@@ -9,7 +9,7 @@ scripts:
   # run command `rps` to run the flutter project
   run: "flutter run"
   # run command `rps gen` to generate code generated files
-  gen: "flutter pub run build_runner build --delete-conflicting-outputs"
+  gen: "dart run build_runner build --delete-conflicting-outputs"
 
   watch: "flutter pub run build_runner watch --delete-conflicting-outputs"
   # run commant `rps apk` to build apk
@@ -32,10 +32,10 @@ dependencies:
   wechat_camera_picker: ^3.7.0
 
 dev_dependencies:
-  build_runner: ^2.3.3
+  build_runner: ^2.4.4
   flutter_test:
     sdk: flutter
-  freezed: ^2.3.2
+  freezed: ^2.3.4
   json_serializable: ^6.6.1
   lint: ^2.0.1
   mocktail: ^0.3.0

@@ -11,7 +11,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class TrendingServicesSection extends StatelessWidget {
+class TrendingServicesSection extends StatefulWidget {
   static final pServiceKey = GlobalKey();
 
   const TrendingServicesSection({
@@ -19,12 +19,18 @@ class TrendingServicesSection extends StatelessWidget {
   });
 
   @override
+  State<TrendingServicesSection> createState() => _TrendingServicesSectionState();
+}
+
+class _TrendingServicesSectionState extends State<TrendingServicesSection> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TaskEntityServiceBloc>().add(TaskEntityServiceInitiated(isTask: false));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<TaskEntityServiceBloc>().add(
-          TaskEntityServiceInitiated(
-            isTask: false,
-          ),
-        );
     return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
@@ -40,7 +46,7 @@ class TrendingServicesSection extends StatelessWidget {
                       PopularServicesPage.routeName,
                     );
                   },
-                  showKey: pServiceKey,
+                  showKey: TrendingServicesSection.pServiceKey,
                   showCaseTitle: 'Trending Service',
                   showCaseDec: 'See All Trending Service from here.',
                 ),
