@@ -10,24 +10,35 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(appBarTitle: 'Error Page'),
       body: Column(
         children: [
-          addVerticalSpace(
-            50,
-          ),
-          const CustomHeader(
-            label: 'Error',
+          addVerticalSpace(20),
+          Image.asset('assets/page_not_found.png'),
+          addVerticalSpace(10),
+          Text("Oops!", style: Theme.of(context).textTheme.headlineSmall),
+          Text("Page not found",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(fontSize: 16)),
+          Text(
+              "We’re sorry, the page you requested could not found."
+              "Please go back to the homepage !",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.grey, fontSize: 12)),
+          CustomElevatedButton(
+            callback: () {
+              Navigator.pushNamed(
+                context,
+                Root.routeName,
+              );
+            },
+            label: 'Go Home',
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            Root.routeName,
-          );
-        },
-        label: const Text('Go Home'),
       ),
     );
   }
