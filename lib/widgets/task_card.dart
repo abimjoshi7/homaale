@@ -96,15 +96,13 @@ class TaskCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  WidgetText(
+                  IconText(
                     label: StringUtils.capitalize(
                       location ?? '',
                     ),
-                    widget: const Icon(
-                      Icons.location_on_outlined,
-                      size: 14,
-                      color: Color(0xffFE5050),
-                    ),
+                    iconData: Icons.location_on_outlined,
+                    size: 14,
+                    color: Color(0xffFE5050),
                   ),
                   Row(
                     children: <Widget>[
