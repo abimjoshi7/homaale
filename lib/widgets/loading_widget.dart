@@ -9,23 +9,20 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: Stack(
-        children: [
-          child ?? Container(),
-          isLoading
-              ? Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  color: kColorDarkGrey.withOpacity(0.5),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : SizedBox.shrink(),
-        ],
-      ),
+    return Stack(
+      children: [
+        child ?? Container(),
+        isLoading
+            ? Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: kColorDarkGrey.withOpacity(0.5),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : SizedBox.shrink(),
+      ],
     );
   }
 }

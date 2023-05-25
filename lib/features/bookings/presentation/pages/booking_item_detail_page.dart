@@ -5,8 +5,7 @@ import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_
 import 'package:cipher/features/rating_reviews/presentation/rating_reviews_form.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
-    as bm;
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bm;
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -30,8 +29,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final routeData =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final routeData = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final client = routeData?['client'] as String?;
     return Scaffold(
       body: BlocListener<RatingReviewsBloc, RatingReviewState>(
@@ -53,8 +51,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
           listener: (context, state) {
             if (!state.bookingRes.isRated! &&
                 state.bookingRes.status == 'Completed' &&
-                (state.bookingRes.assignee?.id ==
-                    context.read<UserBloc>().state.taskerProfile?.user?.id)) {
+                (state.bookingRes.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id)) {
               showDialog(
                 context: context,
                 builder: (context) {
@@ -80,10 +77,10 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                           Navigator.pop(context);
                           showModalBottomSheet(
                             constraints: BoxConstraints(
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.5,
+                              maxHeight: MediaQuery.of(context).size.height * 0.5,
                             ),
                             isScrollControlled: true,
+                            isDismissible: false,
                             context: context,
                             builder: (context) => RatingReviewsForm(),
                           );
@@ -106,12 +103,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                 );
               } else if (state.states == TheStates.success) {
                 final booking = state.bookingRes;
-                final mediaList = <bm.Image>[
-                  ...?booking.entityService?.images,
-                  ...?booking.entityService?.videos
-                ];
-                final isAssignee = booking.assignee?.id ==
-                    context.read<UserBloc>().state.taskerProfile?.user?.id;
+                final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
+                final isAssignee = booking.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id;
                 return Column(
                   children: [
                     addVerticalSpace(
@@ -131,8 +124,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                       children: [
@@ -143,28 +135,20 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
                                               image: NetworkImage(
-                                                booking.entityService?.createdBy
-                                                        ?.profileImage ??
-                                                    kDefaultAvatarNImg,
+                                                booking.entityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
                                               ),
                                             ),
                                           ),
                                         ),
                                         addHorizontalSpace(10),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.6,
+                                              width: MediaQuery.of(context).size.width * 0.6,
                                               child: Text(
                                                 '${StringUtils.capitalize(booking.title ?? '')}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineSmall,
+                                                style: Theme.of(context).textTheme.headlineSmall,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -186,15 +170,10 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                         kWidth10,
                                         GestureDetector(
                                           onTap: () {
-                                            final box =
-                                                context.findRenderObject()
-                                                    as RenderBox?;
+                                            final box = context.findRenderObject() as RenderBox?;
                                             Share.share(
                                               "Share this Hommale with friends.",
-                                              sharePositionOrigin: box!
-                                                      .localToGlobal(
-                                                          Offset.zero) &
-                                                  box.size,
+                                              sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                             );
                                           },
                                           child: const Icon(
@@ -215,16 +194,12 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                                   onTap: () {
                                                     Navigator.pop(context);
 
-                                                    Navigator.pushNamed(
-                                                        context,
-                                                        BookingCancelPage
-                                                            .routeName,
+                                                    Navigator.pushNamed(context, BookingCancelPage.routeName,
                                                         arguments: {
                                                           'client': client,
                                                         });
                                                   },
-                                                  leading: Icon(
-                                                      Icons.cancel_rounded),
+                                                  leading: Icon(Icons.cancel_rounded),
                                                   title: Text('Cancel'),
                                                 ),
                                               );
@@ -247,11 +222,9 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                 ),
                                 addVerticalSpace(16),
                                 ShowMoreTextWidget(
-                                    text: Bidi.stripHtmlIfNeeded(booking
-                                            .description ??
+                                    text: Bidi.stripHtmlIfNeeded(booking.description ??
                                         'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
-                                if (booking.requirements?.isNotEmpty ??
-                                    false) ...[
+                                if (booking.requirements?.isNotEmpty ?? false) ...[
                                   addVerticalSpace(10),
                                   RequirementSection(
                                     requirementList: booking.requirements,
@@ -261,56 +234,33 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                   addVerticalSpace(10),
                                   Text(
                                     'Images',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.21,
+                                    height: MediaQuery.of(context).size.height * 0.21,
                                     child: CarouselSlider.builder(
                                       itemCount: mediaList.length,
                                       itemBuilder: (context, index, realIndex) {
                                         return Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.2,
+                                          height: MediaQuery.of(context).size.height * 0.2,
                                           margin: EdgeInsets.only(right: 32),
-                                          child: mediaList[index].mediaType ==
-                                                  'mp4'
+                                          child: mediaList[index].mediaType == 'mp4'
                                               ? VideoPlayerWidget(
-                                                  videoURL: mediaList[index]
-                                                          .media ??
+                                                  videoURL: mediaList[index].media ??
                                                       'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
                                                 )
                                               : Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
+                                                      borderRadius: BorderRadius.circular(16.0),
                                                       child: Image.network(
-                                                        mediaList[index]
-                                                            .media
-                                                            .toString(),
-                                                        errorBuilder: (context,
-                                                                error,
-                                                                stackTrace) =>
-                                                            Image.network(
-                                                                kServiceImageNImg),
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.2,
+                                                        mediaList[index].media.toString(),
+                                                        errorBuilder: (context, error, stackTrace) =>
+                                                            Image.network(kServiceImageNImg),
+                                                        width: MediaQuery.of(context).size.width,
+                                                        height: MediaQuery.of(context).size.height * 0.2,
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -320,8 +270,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                       },
                                       options: CarouselOptions(
                                         padEnds: mediaList.length == 1,
-                                        enlargeCenterPage:
-                                            mediaList.length == 1,
+                                        enlargeCenterPage: mediaList.length == 1,
                                         viewportFraction: 0.8,
                                         enableInfiniteScroll: false,
                                         onPageChanged: (index, reason) {
@@ -337,8 +286,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                   width: MediaQuery.of(context).size.width,
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: List.generate(
                                         mediaList.length,
                                         (ind) => Container(
@@ -346,11 +294,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                           margin: const EdgeInsets.all(2),
                                           width: 10,
                                           decoration: BoxDecoration(
-                                            color: _imageIndex == ind
-                                                ? Colors.amber
-                                                : Colors.grey,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            color: _imageIndex == ind ? Colors.amber : Colors.grey,
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
@@ -372,43 +317,29 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                               margin: EdgeInsets.all(15),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: Colors.redAccent.shade200,
-                                    width: 1.5),
+                                border: Border.all(color: Colors.redAccent.shade200, width: 1.5),
                                 color: Colors.red.shade50,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
-                                child: BlocBuilder<BookingCancelBloc,
-                                        BookingCancelState>(
-                                    builder: (context, state) {
-                                  print(state
-                                      .bookingCancelModel?.cancellationReason);
+                                child: BlocBuilder<BookingCancelBloc, BookingCancelState>(builder: (context, state) {
+                                  print(state.bookingCancelModel?.cancellationReason);
                                   return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Reason for cancellation',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .displayMedium,
+                                        style: Theme.of(context).textTheme.displayMedium,
                                       ),
                                       Row(
                                         children: [
                                           Text(
                                             'Reason : ',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           ),
                                           Text(
-                                            state.bookingCancelModel
-                                                    ?.cancellationReason ??
-                                                "",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            state.bookingCancelModel?.cancellationReason ?? "",
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           ),
                                         ],
                                       ),
@@ -416,17 +347,11 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                         children: [
                                           Text(
                                             'Description : ',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           ),
                                           Text(
-                                            state.bookingCancelModel
-                                                    ?.cancellationDescription ??
-                                                "",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall,
+                                            state.bookingCancelModel?.cancellationDescription ?? "",
+                                            style: Theme.of(context).textTheme.bodySmall,
                                           ),
                                         ],
                                       ),
@@ -436,15 +361,13 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                               ),
                             ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Date & Time',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                                  style: Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 addVerticalSpace(4),
                                 Column(
@@ -455,13 +378,11 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                           Icons.calendar_month,
                                           color: Colors.amber,
                                         ),
-                                        Text(
-                                            '${Jiffy(booking.startDate).MMMd} - ${Jiffy(booking.endDate).MMMd}')
+                                        Text('${Jiffy(booking.startDate).MMMd} - ${Jiffy(booking.endDate).MMMd}')
                                       ],
                                     ),
                                     addVerticalSpace(8),
-                                    if (booking.startTime != null &&
-                                        booking.endTime != null) ...[
+                                    if (booking.startTime != null && booking.endTime != null) ...[
                                       addHorizontalSpace(8),
                                       Row(
                                         children: [
@@ -469,8 +390,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                             Icons.alarm_on,
                                             color: kColorBlue,
                                           ),
-                                          Text(
-                                              '${booking.startTime} - ${booking.endTime}')
+                                          Text('${booking.startTime} - ${booking.endTime}')
                                         ],
                                       )
                                     ],
@@ -497,8 +417,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                 width: MediaQuery.of(context).size.width,
                                 color: kColorLightSkyBlue,
                                 height: 100,
-                                child: Center(
-                                    child: Text('Your task is completed')),
+                                child: Center(child: Text('Your task is completed')),
                               )
                             : Container(
                                 width: MediaQuery.of(context).size.width,
@@ -507,30 +426,25 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                 padding: EdgeInsets.symmetric(horizontal: 16),
                                 child: Center(
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text('Your task is completed'),
                                       GestureDetector(
                                         onTap: () {
                                           showModalBottomSheet(
                                             constraints: BoxConstraints(
-                                              maxHeight: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.5,
+                                              maxHeight: MediaQuery.of(context).size.height * 0.5,
                                             ),
                                             isScrollControlled: true,
+                                            isDismissible: false,
                                             context: context,
-                                            builder: (context) =>
-                                                RatingReviewsForm(),
+                                            builder: (context) => RatingReviewsForm(),
                                           );
                                         },
                                         child: Container(
                                           padding: EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(8),
                                             color: kColorPrimary,
                                           ),
                                           constraints: BoxConstraints(
@@ -540,10 +454,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                           child: AutoSizeText(
                                             textAlign: TextAlign.center,
                                             'Review Task',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(color: Colors.white),
+                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
                                           ),
                                         ),
                                       ),
@@ -552,18 +463,13 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                 ),
                               )
                         : PriceBookFooterSection(
-                            buttonLabel: statusToUpdate('${booking.status}',
-                                isAssignee)["buttonLabel"] as String,
-                            buttonColor: statusToUpdate(
-                                    '${booking.status}', isAssignee)["color"]
-                                as Color,
+                            buttonLabel: statusToUpdate('${booking.status}', isAssignee)["buttonLabel"] as String,
+                            buttonColor: statusToUpdate('${booking.status}', isAssignee)["color"] as Color,
                             price: booking.entityService?.budgetFrom != null
                                 ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
                                 : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
                             onPressed: () {
-                              var taskToUpdate = statusToUpdate(
-                                      '${booking.status}', isAssignee)["status"]
-                                  as String;
+                              var taskToUpdate = statusToUpdate('${booking.status}', isAssignee)["status"] as String;
 
                               if (booking.status == 'Initiated') {
                                 return;
