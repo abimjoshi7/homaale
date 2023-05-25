@@ -326,7 +326,6 @@ mixin _$Result {
   bool? get isRequested => throw _privateConstructorUsedError;
   String? get discountType => throw _privateConstructorUsedError;
   String? get discountValue => throw _privateConstructorUsedError;
-  List<String>? get extraData => throw _privateConstructorUsedError;
   int? get noOfReservation => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
   bool? get isActive => throw _privateConstructorUsedError;
@@ -377,7 +376,6 @@ abstract class $ResultCopyWith<$Res> {
       bool? isRequested,
       String? discountType,
       String? discountValue,
-      List<String>? extraData,
       int? noOfReservation,
       String? slug,
       bool? isActive,
@@ -436,7 +434,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? extraData = freezed,
     Object? noOfReservation = freezed,
     Object? slug = freezed,
     Object? isActive = freezed,
@@ -567,10 +564,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -692,7 +685,6 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       bool? isRequested,
       String? discountType,
       String? discountValue,
-      List<String>? extraData,
       int? noOfReservation,
       String? slug,
       bool? isActive,
@@ -752,7 +744,6 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? extraData = freezed,
     Object? noOfReservation = freezed,
     Object? slug = freezed,
     Object? isActive = freezed,
@@ -883,10 +874,6 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value._extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -957,7 +944,6 @@ class _$_Result implements _Result {
       this.isRequested,
       this.discountType,
       this.discountValue,
-      final List<String>? extraData,
       this.noOfReservation,
       this.slug,
       this.isActive,
@@ -968,8 +954,7 @@ class _$_Result implements _Result {
       this.avatar})
       : _images = images,
         _videos = videos,
-        _highlights = highlights,
-        _extraData = extraData;
+        _highlights = highlights;
 
   factory _$_Result.fromJson(Map<String, dynamic> json) =>
       _$$_ResultFromJson(json);
@@ -1058,16 +1043,6 @@ class _$_Result implements _Result {
   final String? discountType;
   @override
   final String? discountValue;
-  final List<String>? _extraData;
-  @override
-  List<String>? get extraData {
-    final value = _extraData;
-    if (value == null) return null;
-    if (_extraData is EqualUnmodifiableListView) return _extraData;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   @override
   final int? noOfReservation;
   @override
@@ -1087,7 +1062,7 @@ class _$_Result implements _Result {
 
   @override
   String toString() {
-    return 'Result(id: $id, createdBy: $createdBy, currency: $currency, city: $city, images: $images, videos: $videos, service: $service, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, merchant: $merchant, event: $event, avatar: $avatar)';
+    return 'Result(id: $id, createdBy: $createdBy, currency: $currency, city: $city, images: $images, videos: $videos, service: $service, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, merchant: $merchant, event: $event, avatar: $avatar)';
   }
 
   @override
@@ -1147,8 +1122,6 @@ class _$_Result implements _Result {
                 other.discountType == discountType) &&
             (identical(other.discountValue, discountValue) ||
                 other.discountValue == discountValue) &&
-            const DeepCollectionEquality()
-                .equals(other._extraData, _extraData) &&
             (identical(other.noOfReservation, noOfReservation) ||
                 other.noOfReservation == noOfReservation) &&
             (identical(other.slug, slug) || other.slug == slug) &&
@@ -1197,7 +1170,6 @@ class _$_Result implements _Result {
         isRequested,
         discountType,
         discountValue,
-        const DeepCollectionEquality().hash(_extraData),
         noOfReservation,
         slug,
         isActive,
@@ -1254,7 +1226,6 @@ abstract class _Result implements Result {
       final bool? isRequested,
       final String? discountType,
       final String? discountValue,
-      final List<String>? extraData,
       final int? noOfReservation,
       final String? slug,
       final bool? isActive,
@@ -1326,8 +1297,6 @@ abstract class _Result implements Result {
   String? get discountType;
   @override
   String? get discountValue;
-  @override
-  List<String>? get extraData;
   @override
   int? get noOfReservation;
   @override

@@ -33,7 +33,6 @@ class TaskEntityServiceReq with _$TaskEntityServiceReq {
     @JsonKey(name: "is_requested") bool? isRequested,
     @JsonKey(name: "discount_type") String? discountType,
     @JsonKey(name: "discount_value") String? discountValue,
-    @JsonKey(name: "extra_data") List<String?>? extraData,
     @JsonKey(name: "no_of_reservation") int? noOfReservation,
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "needs_approval") bool? needsApproval,
@@ -47,6 +46,5 @@ class TaskEntityServiceReq with _$TaskEntityServiceReq {
     List<int>? videos,
   }) = _TaskEntityServiceReq;
 
-  factory TaskEntityServiceReq.fromJson(Map<String, dynamic> json) =>
-      _$TaskEntityServiceReqFromJson(json);
+  factory TaskEntityServiceReq.fromJson(Map<String, dynamic> json) => _$TaskEntityServiceReqFromJson(json);
 }

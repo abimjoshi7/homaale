@@ -36,7 +36,6 @@ class TaskEntityServiceRes with _$TaskEntityServiceRes {
     @JsonKey(name: "is_requested") bool? isRequested,
     @JsonKey(name: "discount_type") String? discountType,
     @JsonKey(name: "discount_value") String? discountValue,
-    @JsonKey(name: "extra_data") List<String?>? extraData,
     @JsonKey(name: "no_of_reservation") int? noOfReservation,
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "needs_approval") bool? needsApproval,

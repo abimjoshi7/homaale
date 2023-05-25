@@ -11,7 +11,6 @@ class EditBookingReq {
     this.endTime,
     this.location,
     this.isActive,
-    this.extraData,
     this.createdBy,
     this.bookingMerchant,
     this.entityService,
@@ -31,7 +30,6 @@ class EditBookingReq {
   final String? endTime;
   final String? location;
   final bool? isActive;
-  final Map<String, dynamic>? extraData;
   final String? createdBy;
   final String? bookingMerchant;
   final String? entityService;
@@ -63,7 +61,6 @@ class EditBookingReq {
         endTime: json["end_time"] as String?,
         location: json["location"] as String?,
         isActive: json["is_active"] as bool?,
-        extraData: json["extra_data"] == null ? null : json["extra_data"] as Map<String, dynamic>,
         createdBy: json["created_by"] as String?,
         bookingMerchant: json["booking_merchant"] as String?,
         entityService: json["entity_service"] as String?,
@@ -96,7 +93,6 @@ class EditBookingReq {
         "end_time": endTime,
         "location": location,
         "is_active": isActive,
-        "extra_data": extraData,
         "created_by": createdBy,
         "booking_merchant": bookingMerchant,
         "entity_service": entityService,

@@ -56,8 +56,6 @@ mixin _$TaskEntityServiceReq {
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_value")
   String? get discountValue => throw _privateConstructorUsedError;
-  @JsonKey(name: "extra_data")
-  List<String?>? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: "no_of_reservation")
   int? get noOfReservation => throw _privateConstructorUsedError;
   @JsonKey(name: "is_active")
@@ -107,7 +105,6 @@ abstract class $TaskEntityServiceReqCopyWith<$Res> {
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
       @JsonKey(name: "discount_value") String? discountValue,
-      @JsonKey(name: "extra_data") List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") int? noOfReservation,
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
@@ -155,7 +152,6 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? extraData = freezed,
     Object? noOfReservation = freezed,
     Object? isActive = freezed,
     Object? needsApproval = freezed,
@@ -249,10 +245,6 @@ class _$TaskEntityServiceReqCopyWithImpl<$Res,
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -330,7 +322,6 @@ abstract class _$$_TaskEntityServiceReqCopyWith<$Res>
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
       @JsonKey(name: "discount_value") String? discountValue,
-      @JsonKey(name: "extra_data") List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") int? noOfReservation,
       @JsonKey(name: "is_active") bool? isActive,
       @JsonKey(name: "needs_approval") bool? needsApproval,
@@ -375,7 +366,6 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? extraData = freezed,
     Object? noOfReservation = freezed,
     Object? isActive = freezed,
     Object? needsApproval = freezed,
@@ -469,10 +459,6 @@ class __$$_TaskEntityServiceReqCopyWithImpl<$Res>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value._extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<String?>?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -545,7 +531,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
       @JsonKey(name: "is_requested") this.isRequested,
       @JsonKey(name: "discount_type") this.discountType,
       @JsonKey(name: "discount_value") this.discountValue,
-      @JsonKey(name: "extra_data") final List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") this.noOfReservation,
       @JsonKey(name: "is_active") this.isActive,
       @JsonKey(name: "needs_approval") this.needsApproval,
@@ -558,7 +543,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
       final List<int>? images,
       final List<int>? videos})
       : _highlights = highlights,
-        _extraData = extraData,
         _images = images,
         _videos = videos;
 
@@ -629,17 +613,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
   @override
   @JsonKey(name: "discount_value")
   final String? discountValue;
-  final List<String?>? _extraData;
-  @override
-  @JsonKey(name: "extra_data")
-  List<String?>? get extraData {
-    final value = _extraData;
-    if (value == null) return null;
-    if (_extraData is EqualUnmodifiableListView) return _extraData;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   @override
   @JsonKey(name: "no_of_reservation")
   final int? noOfReservation;
@@ -684,7 +657,7 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
 
   @override
   String toString() {
-    return 'TaskEntityServiceReq(title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, service: $service, event: $event, city: $city, currency: $currency, avatar: $avatar, images: $images, videos: $videos)';
+    return 'TaskEntityServiceReq(title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, service: $service, event: $event, city: $city, currency: $currency, avatar: $avatar, images: $images, videos: $videos)';
   }
 
   @override
@@ -729,8 +702,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
                 other.discountType == discountType) &&
             (identical(other.discountValue, discountValue) ||
                 other.discountValue == discountValue) &&
-            const DeepCollectionEquality()
-                .equals(other._extraData, _extraData) &&
             (identical(other.noOfReservation, noOfReservation) ||
                 other.noOfReservation == noOfReservation) &&
             (identical(other.isActive, isActive) ||
@@ -773,7 +744,6 @@ class _$_TaskEntityServiceReq implements _TaskEntityServiceReq {
         isRequested,
         discountType,
         discountValue,
-        const DeepCollectionEquality().hash(_extraData),
         noOfReservation,
         isActive,
         needsApproval,
@@ -824,7 +794,6 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
       @JsonKey(name: "is_requested") final bool? isRequested,
       @JsonKey(name: "discount_type") final String? discountType,
       @JsonKey(name: "discount_value") final String? discountValue,
-      @JsonKey(name: "extra_data") final List<String?>? extraData,
       @JsonKey(name: "no_of_reservation") final int? noOfReservation,
       @JsonKey(name: "is_active") final bool? isActive,
       @JsonKey(name: "needs_approval") final bool? needsApproval,
@@ -895,9 +864,6 @@ abstract class _TaskEntityServiceReq implements TaskEntityServiceReq {
   @override
   @JsonKey(name: "discount_value")
   String? get discountValue;
-  @override
-  @JsonKey(name: "extra_data")
-  List<String?>? get extraData;
   @override
   @JsonKey(name: "no_of_reservation")
   int? get noOfReservation;

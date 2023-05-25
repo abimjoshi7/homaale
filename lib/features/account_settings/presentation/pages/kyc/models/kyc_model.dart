@@ -21,14 +21,11 @@ class KycModel with _$KycModel {
     @JsonKey(name: "is_kyc_verified") bool? isKycVerified,
     @JsonKey(name: "is_address_verified") bool? isAddressVerified,
     @JsonKey(name: "is_company_kyc_verified") bool? isCompanyKycVerified,
-    @JsonKey(name: "is_company_address_verified")
-        bool? isCompanyAddressVerified,
+    @JsonKey(name: "is_company_address_verified") bool? isCompanyAddressVerified,
     String? comment,
-    List<String>? extraData,
   }) = _KycModel;
 
-  factory KycModel.fromJson(Map<String, dynamic> json) =>
-      _$KycModelFromJson(json);
+  factory KycModel.fromJson(Map<String, dynamic> json) => _$KycModelFromJson(json);
 }
 
 @freezed
@@ -38,8 +35,7 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 }
 
 @freezed

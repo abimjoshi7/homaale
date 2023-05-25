@@ -17,7 +17,6 @@ class EditBookingRes with _$EditBookingRes {
     String? endTime,
     String? location,
     bool? isActive,
-    dynamic extraData,
     String? createdBy,
     dynamic bookingMerchant,
     String? entityService,

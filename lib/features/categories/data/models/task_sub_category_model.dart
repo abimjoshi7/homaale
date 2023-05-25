@@ -17,8 +17,7 @@ class TaskSubCategoryModel with _$TaskSubCategoryModel {
     List<Result>? result,
   }) = _TaskSubCategoryModel;
 
-  factory TaskSubCategoryModel.fromJson(Map<String, dynamic> json) =>
-      _$TaskSubCategoryModelFromJson(json);
+  factory TaskSubCategoryModel.fromJson(Map<String, dynamic> json) => _$TaskSubCategoryModelFromJson(json);
 }
 
 @freezed
@@ -33,7 +32,6 @@ class Result with _$Result {
     String? slug,
     @JsonKey(name: "is_active") bool? isActive,
     @JsonKey(name: "media_limit") int? mediaLimit,
-    @JsonKey(name: "extra_data") Map<String, dynamic>? extraData,
     String? commission,
     @JsonKey(name: "inherits_commission") bool? inheritsCommission,
     int? parent,

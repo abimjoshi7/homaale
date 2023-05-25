@@ -30,9 +30,6 @@ _$_KycModel _$$_KycModelFromJson(Map<String, dynamic> json) => _$_KycModel(
       isCompanyKycVerified: json['is_company_kyc_verified'] as bool?,
       isCompanyAddressVerified: json['is_company_address_verified'] as bool?,
       comment: json['comment'] as String?,
-      extraData: (json['extraData'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
     );
 
 Map<String, dynamic> _$$_KycModelToJson(_$_KycModel instance) =>
@@ -52,7 +49,6 @@ Map<String, dynamic> _$$_KycModelToJson(_$_KycModel instance) =>
       'is_company_kyc_verified': instance.isCompanyKycVerified,
       'is_company_address_verified': instance.isCompanyAddressVerified,
       'comment': instance.comment,
-      'extraData': instance.extraData,
     };
 
 _$_Country _$$_CountryFromJson(Map<String, dynamic> json) => _$_Country(

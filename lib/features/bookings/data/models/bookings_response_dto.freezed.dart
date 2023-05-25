@@ -331,8 +331,6 @@ mixin _$Result {
   String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_time')
   String? get endTime => throw _privateConstructorUsedError;
-  @JsonKey(name: 'extra_data')
-  dynamic? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_paid')
   bool? get isPaid => throw _privateConstructorUsedError;
   int? get booking => throw _privateConstructorUsedError;
@@ -373,7 +371,6 @@ abstract class $ResultCopyWith<$Res> {
       dynamic completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') dynamic? extraData,
       @JsonKey(name: 'is_paid') bool? isPaid,
       int? booking,
       int? city,
@@ -421,7 +418,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? completedOn = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? extraData = freezed,
     Object? isPaid = freezed,
     Object? booking = freezed,
     Object? city = freezed,
@@ -517,10 +513,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
       isPaid: freezed == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
@@ -622,7 +614,6 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       dynamic completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') dynamic? extraData,
       @JsonKey(name: 'is_paid') bool? isPaid,
       int? booking,
       int? city,
@@ -671,7 +662,6 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? completedOn = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? extraData = freezed,
     Object? isPaid = freezed,
     Object? booking = freezed,
     Object? city = freezed,
@@ -767,10 +757,6 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
       isPaid: freezed == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
@@ -821,7 +807,6 @@ class _$_Result implements _Result {
       this.completedOn,
       @JsonKey(name: 'start_time') this.startTime,
       @JsonKey(name: 'end_time') this.endTime,
-      @JsonKey(name: 'extra_data') this.extraData,
       @JsonKey(name: 'is_paid') this.isPaid,
       this.booking,
       this.city,
@@ -897,9 +882,6 @@ class _$_Result implements _Result {
   @JsonKey(name: 'end_time')
   final String? endTime;
   @override
-  @JsonKey(name: 'extra_data')
-  final dynamic? extraData;
-  @override
   @JsonKey(name: 'is_paid')
   final bool? isPaid;
   @override
@@ -928,7 +910,7 @@ class _$_Result implements _Result {
 
   @override
   String toString() {
-    return 'Result(id: $id, assigner: $assigner, assignee: $assignee, entityService: $entityService, currency: $currency, isRated: $isRated, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, status: $status, title: $title, description: $description, requirements: $requirements, charge: $charge, location: $location, estimatedTime: $estimatedTime, slug: $slug, startDate: $startDate, endDate: $endDate, completedOn: $completedOn, startTime: $startTime, endTime: $endTime, extraData: $extraData, isPaid: $isPaid, booking: $booking, city: $city, images: $images, videos: $videos)';
+    return 'Result(id: $id, assigner: $assigner, assignee: $assignee, entityService: $entityService, currency: $currency, isRated: $isRated, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, status: $status, title: $title, description: $description, requirements: $requirements, charge: $charge, location: $location, estimatedTime: $estimatedTime, slug: $slug, startDate: $startDate, endDate: $endDate, completedOn: $completedOn, startTime: $startTime, endTime: $endTime, isPaid: $isPaid, booking: $booking, city: $city, images: $images, videos: $videos)';
   }
 
   @override
@@ -972,7 +954,6 @@ class _$_Result implements _Result {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            const DeepCollectionEquality().equals(other.extraData, extraData) &&
             (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
             (identical(other.booking, booking) || other.booking == booking) &&
             (identical(other.city, city) || other.city == city) &&
@@ -1006,7 +987,6 @@ class _$_Result implements _Result {
         const DeepCollectionEquality().hash(completedOn),
         startTime,
         endTime,
-        const DeepCollectionEquality().hash(extraData),
         isPaid,
         booking,
         city,
@@ -1052,7 +1032,6 @@ abstract class _Result implements Result {
       final dynamic completedOn,
       @JsonKey(name: 'start_time') final String? startTime,
       @JsonKey(name: 'end_time') final String? endTime,
-      @JsonKey(name: 'extra_data') final dynamic? extraData,
       @JsonKey(name: 'is_paid') final bool? isPaid,
       final int? booking,
       final int? city,
@@ -1115,9 +1094,6 @@ abstract class _Result implements Result {
   @override
   @JsonKey(name: 'end_time')
   String? get endTime;
-  @override
-  @JsonKey(name: 'extra_data')
-  dynamic? get extraData;
   @override
   @JsonKey(name: 'is_paid')
   bool? get isPaid;

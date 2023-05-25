@@ -329,8 +329,7 @@ mixin _$Result {
   String? get location => throw _privateConstructorUsedError;
   @JsonKey(name: "is_active")
   bool? get isActive => throw _privateConstructorUsedError;
-  String? get status =>
-      throw _privateConstructorUsedError; // @JsonKey(name: "extra_data") List<String>? extraData,
+  String? get status => throw _privateConstructorUsedError;
   @JsonKey(name: "is_accepted")
   bool? get isAccepted =>
       throw _privateConstructorUsedError; // @JsonKey(name: "booking_merchant") dynamic bookingMerchant,
@@ -783,7 +782,6 @@ class _$_Result implements _Result {
   final bool? isActive;
   @override
   final String? status;
-// @JsonKey(name: "extra_data") List<String>? extraData,
   @override
   @JsonKey(name: "is_accepted")
   final bool? isAccepted;
@@ -955,7 +953,7 @@ abstract class _Result implements Result {
   bool? get isActive;
   @override
   String? get status;
-  @override // @JsonKey(name: "extra_data") List<String>? extraData,
+  @override
   @JsonKey(name: "is_accepted")
   bool? get isAccepted;
   @override // @JsonKey(name: "booking_merchant") dynamic bookingMerchant,
@@ -2147,8 +2145,7 @@ mixin _$EntityService {
   @JsonKey(name: "discount_type")
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_value")
-  String? get discountValue =>
-      throw _privateConstructorUsedError; // @JsonKey(name: "extra_data") List<String>? extraData,
+  String? get discountValue => throw _privateConstructorUsedError;
   @JsonKey(name: "no_of_reservation")
   int? get noOfReservation => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
@@ -2867,7 +2864,6 @@ class _$_EntityService implements _EntityService {
   @override
   @JsonKey(name: "discount_value")
   final String? discountValue;
-// @JsonKey(name: "extra_data") List<String>? extraData,
   @override
   @JsonKey(name: "no_of_reservation")
   final int? noOfReservation;
@@ -3130,7 +3126,7 @@ abstract class _EntityService implements EntityService {
   @override
   @JsonKey(name: "discount_value")
   String? get discountValue;
-  @override // @JsonKey(name: "extra_data") List<String>? extraData,
+  @override
   @JsonKey(name: "no_of_reservation")
   int? get noOfReservation;
   @override

@@ -62,7 +62,6 @@ class TaskEntityService with _$TaskEntityService {
     @JsonKey(name: "is_requested") bool? isRequested,
     @JsonKey(name: "discount_type") String? discountType,
     @JsonKey(name: "discount_value") String? discountValue,
-    @JsonKey(name: "extra_data") List<dynamic>? extraData,
     @JsonKey(name: "no_of_reservation") num? noOfReservation,
     String? slug,
     @JsonKey(name: "is_active") bool? isActive,
