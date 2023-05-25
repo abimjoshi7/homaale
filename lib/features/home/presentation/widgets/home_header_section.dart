@@ -88,8 +88,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       },
                     );
                     await Geolocator.getCurrentPosition().then((value) async {
-                      await cacheUserLocation(
-                          LatLng(value.latitude, value.longitude));
+                      await cacheUserLocation(LatLng(value.latitude, value.longitude));
                       await placemarkFromCoordinates(
                         value.latitude,
                         value.longitude,

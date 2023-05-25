@@ -37,8 +37,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     await CacheHelper.getCachedString(kCurrentLocation).then((value) {
       if (value != null) {
         setState(() {
-          final position = Position.fromMap(jsonDecode(value));
-          _location = LatLng(position.latitude, position.longitude);
+          final position = LatLng.fromJson(jsonDecode(value)) as LatLng;
+          _location = position;
         });
       }
       if (value == null) {
