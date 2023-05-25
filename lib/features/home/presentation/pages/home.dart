@@ -47,6 +47,8 @@ class _HomeState extends State<Home> {
         string = 'WiFi: Online';
         break;
       case ConnectivityResult.none:
+        string = 'Online';
+        break;
       default:
         string = 'Offline';
     }
@@ -61,8 +63,7 @@ class _HomeState extends State<Home> {
                 ? NoInternetPage(
                     assetsPath: 'assets/no_internet_connection.png',
                     errorTile: 'Oops, No Internet Connection.',
-                    errorDes:
-                        "Make sure Wi-Fi or cellular data is turned on and then try again.",
+                    errorDes: "Make sure Wi-Fi or cellular data is turned on and then try again.",
                   )
                 : Expanded(
                     child: SingleChildScrollView(
