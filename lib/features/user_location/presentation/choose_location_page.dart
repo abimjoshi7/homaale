@@ -126,6 +126,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   Widget _getMap() {
     return GoogleMap(
       initialCameraPosition: _cameraPosition!,
+      compassEnabled: true,
       mapType: MapType.normal,
       onCameraIdle: () {
         _getAddress(_draggedLatLng);
@@ -144,7 +145,6 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
           _googleMapController.complete(controller);
         }
       },
-      compassEnabled: true,
       zoomControlsEnabled: false,
     );
   }
