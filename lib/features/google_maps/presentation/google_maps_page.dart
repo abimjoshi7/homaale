@@ -91,7 +91,8 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                       if (state.theStates == TheStates.success) {}
                       return Positioned(
                         bottom: 100.0,
-                        child: state.activeList !=[] || state.activeList !=null
+                        child: state.activeList == null ||
+                                state.activeList?.length == 0
                             ? SizedBox.shrink()
                             : SizedBox(
                                 width: MediaQuery.of(context).size.width,
@@ -104,15 +105,15 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                   list: List.generate(
                                     state.activeList!.length > 5
                                         ? 5
-                                        : state.activeList!.length ,
+                                        : state.activeList!.length,
                                     (index) => InkWell(
                                       onTap: () {
                                         context
                                             .read<TaskEntityServiceBloc>()
                                             .add(
                                               TaskEntityServiceSingleLoaded(
-                                                id: state.activeList?[index]
-                                                        .id.toString() ??
+                                                id: state.activeList?[index].id
+                                                        .toString() ??
                                                     '',
                                               ),
                                             );
@@ -127,11 +128,15 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                         width: 283.0,
                                         height: 132.0,
                                         child: SearchCard(
-                                          title: state.activeList?[index].title.toString()
+                                          title: state.activeList?[index].title
+                                              .toString()
                                               .toTitleCase(),
                                           name: state.activeList?[index]
-                                              .createdBy?.fullName.toString(),
-                                          location: state.activeList?[index].location?.isEmpty ?? false
+                                              .createdBy?.fullName
+                                              .toString(),
+                                          location: state.activeList?[index]
+                                                      .location?.isEmpty ??
+                                                  false
                                               ? "Remote"
                                               : "${state.activeList?[index].location?.toCapitalized()}, ${state.activeList?[index].city?.name}",
                                           theChild: state.activeList?[index]
