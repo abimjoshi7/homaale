@@ -88,95 +88,84 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                       NearbyTaskEntityServiceState>(
                     builder: (_, state) {
                       print("log : ${state.activeList}");
-                      if (state.theStates == TheStates.success) {
-                        return Positioned(
-                          bottom: 100.0,
-                          child: state.activeList == null ||
-                                  state.activeList?.length == 0
-                              ? SizedBox.shrink()
-                              : SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: CarouselSliderHelper(
-                                    controller: kButtonCarouselController,
-                                    enlargeCenterPage: true,
-                                    autoPlay: false,
-                                    viewport: 0.71,
-                                    aspectRatio: 3,
-                                    list: List.generate(
-                                      state.activeList!.length > 5
-                                          ? 5
-                                          : state.activeList!.length,
-                                      (index) => InkWell(
-                                        onTap: () {
-                                          context
-                                              .read<TaskEntityServiceBloc>()
-                                              .add(
-                                                TaskEntityServiceSingleLoaded(
-                                                  id: state
-                                                          .activeList?[index].id
-                                                          .toString() ??
-                                                      '',
+                      if (state.theStates == TheStates.success) {}
+                      return Positioned(
+                        bottom: 100.0,
+                        child: state.activeList !=[] || state.activeList !=null
+                            ? SizedBox.shrink()
+                            : SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: CarouselSliderHelper(
+                                  controller: kButtonCarouselController,
+                                  enlargeCenterPage: true,
+                                  autoPlay: false,
+                                  viewport: 0.71,
+                                  aspectRatio: 3,
+                                  list: List.generate(
+                                    state.activeList!.length > 5
+                                        ? 5
+                                        : state.activeList!.length ,
+                                    (index) => InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<TaskEntityServiceBloc>()
+                                            .add(
+                                              TaskEntityServiceSingleLoaded(
+                                                id: state.activeList?[index]
+                                                        .id.toString() ??
+                                                    '',
+                                              ),
+                                            );
+                                        Future.delayed(
+                                          Duration(milliseconds: 400),
+                                          () => Navigator.popAndPushNamed(
+                                              context,
+                                              TaskEntityServicePage.routeName),
+                                        );
+                                      },
+                                      child: SizedBox(
+                                        width: 283.0,
+                                        height: 132.0,
+                                        child: SearchCard(
+                                          title: state.activeList?[index].title.toString()
+                                              .toTitleCase(),
+                                          name: state.activeList?[index]
+                                              .createdBy?.fullName.toString(),
+                                          location: state.activeList?[index].location?.isEmpty ?? false
+                                              ? "Remote"
+                                              : "${state.activeList?[index].location?.toCapitalized()}, ${state.activeList?[index].city?.name}",
+                                          theChild: state.activeList?[index]
+                                                      .isRequested ==
+                                                  true
+                                              ? Row(
+                                                  children: [
+                                                    Text(
+                                                      "Rs ${state.activeList?[index].budgetFrom?.split('.')[0]} - Rs ${state.activeList?[index].budgetTo?.split('.')[0]}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headlineSmall,
+                                                    ),
+                                                    Text(
+                                                      "/per project",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .displaySmall,
+                                                    )
+                                                  ],
+                                                )
+                                              : IconText(
+                                                  color: kColorAmber,
+                                                  label:
+                                                      "${((state.activeList?[index].rating ?? []).first.rating)}(${((state.activeList?[index].rating ?? []).first.ratingCount)})",
+                                                  iconData: Icons.star_rounded,
                                                 ),
-                                              );
-                                          Future.delayed(
-                                            Duration(milliseconds: 400),
-                                            () => Navigator.popAndPushNamed(
-                                                context,
-                                                TaskEntityServicePage
-                                                    .routeName),
-                                          );
-                                        },
-                                        child: SizedBox(
-                                          width: 283.0,
-                                          height: 132.0,
-                                          child: SearchCard(
-                                            title: state
-                                                .activeList?[index].title
-                                                .toString()
-                                                .toTitleCase(),
-                                            name: state.activeList?[index]
-                                                .createdBy?.fullName
-                                                .toString(),
-                                            location: state.activeList?[index]
-                                                        .location?.isEmpty ??
-                                                    false
-                                                ? "Remote"
-                                                : "${state.activeList?[index].location?.toCapitalized()}, ${state.activeList?[index].city?.name}",
-                                            theChild: state.activeList?[index]
-                                                        .isRequested ==
-                                                    true
-                                                ? Row(
-                                                    children: [
-                                                      Text(
-                                                        "Rs ${state.activeList?[index].budgetFrom?.split('.')[0]} - Rs ${state.activeList?[index].budgetTo?.split('.')[0]}",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headlineSmall,
-                                                      ),
-                                                      Text(
-                                                        "/per project",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .displaySmall,
-                                                      )
-                                                    ],
-                                                  )
-                                                : IconText(
-                                                    color: kColorAmber,
-                                                    label:
-                                                        "${((state.activeList?[index].rating ?? []).first.rating)}(${((state.activeList?[index].rating ?? []).first.ratingCount)})",
-                                                    iconData:
-                                                        Icons.star_rounded,
-                                                  ),
-                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                        );
-                      }
-                      return SizedBox.shrink();
+                              ),
+                      );
                     },
                   ),
                   CustomBottomSheet()
