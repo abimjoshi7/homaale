@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'create_kyc_req.freezed.dart';
@@ -16,8 +18,7 @@ class CreateKycReq with _$CreateKycReq {
     String? country,
   }) = _CreateKycReq;
 
-  factory CreateKycReq.fromJson(Map<String, dynamic> json) =>
-      _$CreateKycReqFromJson(json);
+  factory CreateKycReq.fromJson(Map<String, dynamic> json) => _$CreateKycReqFromJson(json);
 }
 
 @freezed
@@ -28,12 +29,10 @@ class ExtraData with _$ExtraData {
     String? additionalProp3,
   }) = _ExtraData;
 
-  factory ExtraData.fromJson(Map<String, dynamic> json) =>
-      _$ExtraDataFromJson(json);
+  factory ExtraData.fromJson(Map<String, dynamic> json) => _$ExtraDataFromJson(json);
 }
 
-class MultipartFileConverter
-    implements JsonConverter<MultipartFile?, MultipartFile?> {
+class MultipartFileConverter implements JsonConverter<MultipartFile?, MultipartFile?> {
   const MultipartFileConverter();
 
   @override

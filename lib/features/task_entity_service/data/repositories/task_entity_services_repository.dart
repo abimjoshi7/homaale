@@ -153,11 +153,9 @@ class TaskEntityServiceRepository {
   }
 
   Future<TaskEntityService> getSingleTaskEntityService(String id) async =>
-      await fetchSingleTaskEntityService(serviceId: id).then(
-        (value) => TaskEntityService.fromJson(
-          value,
-        ),
-      );
+      await fetchSingleTaskEntityService(serviceId: id).then((value) {
+        return TaskEntityService.fromJson(value);
+      });
 
   Future editTaskEntityService(
     String id,
@@ -214,8 +212,7 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<ApplicantModel> getApplicants(String id) async =>
-      await fetchApplicants(id: id).then(
+  Future<ApplicantModel> getApplicants(String id) async => await fetchApplicants(id: id).then(
         (value) => ApplicantModel.fromJson(
           value,
         ),
