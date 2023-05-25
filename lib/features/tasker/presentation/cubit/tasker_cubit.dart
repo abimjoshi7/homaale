@@ -54,7 +54,6 @@ class TaskerCubit extends Cubit<TaskerState> {
 
   Future loadSingleTaskerServices(String id) async {
     try {
-      emit(state.copyWith(status: TaskerStatus.initial));
       await repo.getSingleTaskerService(createdBy: id).then(
         (service) {
           emit(
@@ -72,7 +71,6 @@ class TaskerCubit extends Cubit<TaskerState> {
 
   Future loadSingleTaskerTask(String id) async {
     try {
-      emit(state.copyWith(status: TaskerStatus.initial));
       await repo.getSingleTaskerTask(createdBy: id).then(
         (task) {
           emit(
@@ -90,7 +88,6 @@ class TaskerCubit extends Cubit<TaskerState> {
 
   Future loadSingleTaskerReviews(String id) async {
     try {
-      emit(state.copyWith(status: TaskerStatus.initial));
       await repo.getSingleTaskerReviews(userId: id).then(
         (reviews) {
           final taskerReviewResponse = TaskerReviewResponse.fromJson(reviews);
@@ -108,12 +105,9 @@ class TaskerCubit extends Cubit<TaskerState> {
     }
   }
 
-  Future handleFollowUnFollow(
-      {required String id, required bool follow, bool? fromAllPage}) async {
+  Future handleFollowUnFollow({required String id, required bool follow, bool? fromAllPage}) async {
     try {
-      await followFollowingRepository
-          .handleFollowUnFollow(id: id, follow: follow)
-          .then((val) {
+      await followFollowingRepository.handleFollowUnFollow(id: id, follow: follow).then((val) {
         if (val['status'] == 'success') {
           loadSingleTasker(id);
           loadSingleTaskerServices(id);
