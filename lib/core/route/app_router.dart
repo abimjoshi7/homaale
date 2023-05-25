@@ -31,6 +31,7 @@ import 'package:cipher/features/following_followers/presentation/following_follo
 import 'package:cipher/features/google_maps/presentation/google_maps_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/invoice/presentation/pages/invoice_page.dart';
+import 'package:cipher/features/notification/presentation/pages/notification_home.dart';
 import 'package:cipher/features/notification/presentation/pages/notifications_page.dart';
 import 'package:cipher/features/offers/presentation/pages/offers_page.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
@@ -70,7 +71,6 @@ import 'package:flutter/material.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
 import '../../features/faq_and_data_deletion/faq_page.dart';
-import '../../features/notification/presentation/pages/notification_from_home.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
 import '../../features/redeem/presentation/pages/redeem_page.dart';
 import '../../features/support/presentation/widgets/report_page.dart';
@@ -108,9 +108,7 @@ class AppRouter {
         );
       case GoogleMapsPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const GoogleMapsPage(
-
-          ),
+          builder: (context) => const GoogleMapsPage(),
           settings: settings,
         );
       case ConfirmOtpPage.routeName:
