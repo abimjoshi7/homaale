@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dependencies/dependencies.dart';
 
 part 'create_kyc_req.freezed.dart';

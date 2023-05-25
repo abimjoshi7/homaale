@@ -2,7 +2,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/task/presentation/pages/popular_tasker_page.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
@@ -51,18 +50,7 @@ class PopularTaskerSection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        context.read<TaskerCubit>().loadSingleTasker(
-                              data?[index].user?.id ?? '',
-                            );
-                        context.read<TaskerCubit>().loadSingleTaskerServices(
-                              data?[index].user?.id ?? '',
-                            );
-                        context.read<TaskerCubit>().loadSingleTaskerTask(
-                              data?[index].user?.id ?? '',
-                            );
-                        context.read<TaskerCubit>().loadSingleTaskerReviews(
-                              data?[index].user?.id ?? '',
-                            );
+                        context.read<TaskerCubit>().loadSingleTasker(data?[index].user?.id ?? '');
 
                         Navigator.pushNamed(
                           context,
@@ -92,8 +80,6 @@ class PopularTaskerSection extends StatelessWidget {
                                   .read<TaskerCubit>()
                                   .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: true);
                             }
-
-
                           }
                         },
                         onFavouriteTapped: () {

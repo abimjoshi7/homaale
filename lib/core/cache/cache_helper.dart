@@ -7,7 +7,7 @@ class CacheHelper {
   static String? refreshToken;
   static bool? hasProfile;
   static bool isLoggedIn = false;
-  
+
 
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(
@@ -18,14 +18,14 @@ class CacheHelper {
   static Future<String?> getCachedString(String key) async =>
       _storage.read(key: key).whenComplete(
             () => log(
-              'Succesfully retrieved data.',
+              'Successfully retrieved data.',
             ),
           );
 
   static Future<void> setCachedString(String key, String value) async {
     await _storage.write(key: key, value: value).whenComplete(
           () => log(
-            'Succesfully cached data.',
+            'Successfully cached data.',
           ),
         );
   }
@@ -40,7 +40,7 @@ class CacheHelper {
     accessToken = null;
     refreshToken = null;
 
-    await _storage.deleteAll();
+    await _storage.delete(key: isLoggedIn.toString());
   }
 
   Future<void> test() async {}

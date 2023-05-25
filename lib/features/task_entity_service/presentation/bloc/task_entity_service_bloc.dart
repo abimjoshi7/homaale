@@ -24,8 +24,7 @@ const kThrottleDuration = Duration(
   seconds: 15,
 );
 
-class TaskEntityServiceBloc
-    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
@@ -72,23 +71,13 @@ class TaskEntityServiceBloc
     on<TaskEntityServiceSingleLoaded>(
       (event, emit) async {
         emit(
-          state.copyWith(
-            theStates: TheStates.loading,
-          ),
+          state.copyWith(theStates: TheStates.loading),
         );
         try {
-          await repo
-              .getSingleTaskEntityService(
-            event.id,
-          )
-              .then(
+          await repo.getSingleTaskEntityService(event.id).then(
             (value) async {
               if (CacheHelper.isLoggedIn) {
-                await repo
-                    .getApplicants(
-                      event.id,
-                    )
-                    .then(
+                await repo.getApplicants(event.id).then(
                       (applicants) => emit(
                         state.copyWith(
                           theStates: TheStates.success,
@@ -109,12 +98,7 @@ class TaskEntityServiceBloc
           );
         } catch (e) {
           log('Single TES Load Error' + e.toString());
-          emit(
-            state.copyWith(
-              theStates: TheStates.failure,
-              // isLoaded: false,
-            ),
-          );
+          emit(state.copyWith(theStates: TheStates.failure));
         }
       },
     );
@@ -325,9 +309,8 @@ class TaskEntityServiceBloc
                 (value) => emit(
                   state.copyWith(
                     serviceLoaded: true,
-                    serviceList:
-                        value.map((e) => ServiceList.fromJson(e)).toList()
-                          ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );
