@@ -31,7 +31,6 @@ mixin _$EditBookingRes {
   String? get endTime => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   bool? get isActive => throw _privateConstructorUsedError;
-  dynamic get extraData => throw _privateConstructorUsedError;
   String? get createdBy => throw _privateConstructorUsedError;
   dynamic get bookingMerchant => throw _privateConstructorUsedError;
   String? get entityService => throw _privateConstructorUsedError;
@@ -63,7 +62,6 @@ abstract class $EditBookingResCopyWith<$Res> {
       String? endTime,
       String? location,
       bool? isActive,
-      dynamic extraData,
       String? createdBy,
       dynamic bookingMerchant,
       String? entityService,
@@ -96,7 +94,6 @@ class _$EditBookingResCopyWithImpl<$Res, $Val extends EditBookingRes>
     Object? endTime = freezed,
     Object? location = freezed,
     Object? isActive = freezed,
-    Object? extraData = freezed,
     Object? createdBy = freezed,
     Object? bookingMerchant = freezed,
     Object? entityService = freezed,
@@ -149,10 +146,6 @@ class _$EditBookingResCopyWithImpl<$Res, $Val extends EditBookingRes>
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -201,7 +194,6 @@ abstract class _$$_EditBookingResCopyWith<$Res>
       String? endTime,
       String? location,
       bool? isActive,
-      dynamic extraData,
       String? createdBy,
       dynamic bookingMerchant,
       String? entityService,
@@ -232,7 +224,6 @@ class __$$_EditBookingResCopyWithImpl<$Res>
     Object? endTime = freezed,
     Object? location = freezed,
     Object? isActive = freezed,
-    Object? extraData = freezed,
     Object? createdBy = freezed,
     Object? bookingMerchant = freezed,
     Object? entityService = freezed,
@@ -285,10 +276,6 @@ class __$$_EditBookingResCopyWithImpl<$Res>
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -332,7 +319,6 @@ class _$_EditBookingRes implements _EditBookingRes {
       this.endTime,
       this.location,
       this.isActive,
-      this.extraData,
       this.createdBy,
       this.bookingMerchant,
       this.entityService,
@@ -377,8 +363,6 @@ class _$_EditBookingRes implements _EditBookingRes {
   @override
   final bool? isActive;
   @override
-  final dynamic extraData;
-  @override
   final String? createdBy;
   @override
   final dynamic bookingMerchant;
@@ -408,7 +392,7 @@ class _$_EditBookingRes implements _EditBookingRes {
 
   @override
   String toString() {
-    return 'EditBookingRes(status: $status, description: $description, requirements: $requirements, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, location: $location, isActive: $isActive, extraData: $extraData, createdBy: $createdBy, bookingMerchant: $bookingMerchant, entityService: $entityService, city: $city, images: $images, videos: $videos)';
+    return 'EditBookingRes(status: $status, description: $description, requirements: $requirements, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, location: $location, isActive: $isActive, createdBy: $createdBy, bookingMerchant: $bookingMerchant, entityService: $entityService, city: $city, images: $images, videos: $videos)';
   }
 
   @override
@@ -435,7 +419,6 @@ class _$_EditBookingRes implements _EditBookingRes {
                 other.location == location) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
-            const DeepCollectionEquality().equals(other.extraData, extraData) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
             const DeepCollectionEquality()
@@ -462,7 +445,6 @@ class _$_EditBookingRes implements _EditBookingRes {
       endTime,
       location,
       isActive,
-      const DeepCollectionEquality().hash(extraData),
       createdBy,
       const DeepCollectionEquality().hash(bookingMerchant),
       entityService,
@@ -497,7 +479,6 @@ abstract class _EditBookingRes implements EditBookingRes {
       final String? endTime,
       final String? location,
       final bool? isActive,
-      final dynamic extraData,
       final String? createdBy,
       final dynamic bookingMerchant,
       final String? entityService,
@@ -530,8 +511,6 @@ abstract class _EditBookingRes implements EditBookingRes {
   String? get location;
   @override
   bool? get isActive;
-  @override
-  dynamic get extraData;
   @override
   String? get createdBy;
   @override

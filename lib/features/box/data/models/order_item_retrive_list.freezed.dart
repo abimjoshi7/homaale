@@ -330,8 +330,6 @@ mixin _$OrderItem {
   String? get otherCharges => throw _privateConstructorUsedError;
   @JsonKey(name: 'other_discounts')
   String? get otherDiscounts => throw _privateConstructorUsedError;
-  @JsonKey(name: 'extra_data')
-  ExtraData? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_active')
   bool? get isActive => throw _privateConstructorUsedError;
   String? get order => throw _privateConstructorUsedError;
@@ -364,13 +362,11 @@ abstract class $OrderItemCopyWith<$Res> {
       @JsonKey(name: 'revision_charges') String? revisionCharges,
       @JsonKey(name: 'other_charges') String? otherCharges,
       @JsonKey(name: 'other_discounts') String? otherDiscounts,
-      @JsonKey(name: 'extra_data') ExtraData? extraData,
       @JsonKey(name: 'is_active') bool? isActive,
       String? order,
       dynamic offer});
 
   $TaskCopyWith<$Res>? get task;
-  $ExtraDataCopyWith<$Res>? get extraData;
 }
 
 /// @nodoc
@@ -401,7 +397,6 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
     Object? revisionCharges = freezed,
     Object? otherCharges = freezed,
     Object? otherDiscounts = freezed,
-    Object? extraData = freezed,
     Object? isActive = freezed,
     Object? order = freezed,
     Object? offer = freezed,
@@ -467,10 +462,6 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
           ? _value.otherDiscounts
           : otherDiscounts // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as ExtraData?,
       isActive: freezed == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -495,18 +486,6 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
 
     return $TaskCopyWith<$Res>(_value.task!, (value) {
       return _then(_value.copyWith(task: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ExtraDataCopyWith<$Res>? get extraData {
-    if (_value.extraData == null) {
-      return null;
-    }
-
-    return $ExtraDataCopyWith<$Res>(_value.extraData!, (value) {
-      return _then(_value.copyWith(extraData: value) as $Val);
     });
   }
 }
@@ -534,15 +513,12 @@ abstract class _$$_OrderItemCopyWith<$Res> implements $OrderItemCopyWith<$Res> {
       @JsonKey(name: 'revision_charges') String? revisionCharges,
       @JsonKey(name: 'other_charges') String? otherCharges,
       @JsonKey(name: 'other_discounts') String? otherDiscounts,
-      @JsonKey(name: 'extra_data') ExtraData? extraData,
       @JsonKey(name: 'is_active') bool? isActive,
       String? order,
       dynamic offer});
 
   @override
   $TaskCopyWith<$Res>? get task;
-  @override
-  $ExtraDataCopyWith<$Res>? get extraData;
 }
 
 /// @nodoc
@@ -571,7 +547,6 @@ class __$$_OrderItemCopyWithImpl<$Res>
     Object? revisionCharges = freezed,
     Object? otherCharges = freezed,
     Object? otherDiscounts = freezed,
-    Object? extraData = freezed,
     Object? isActive = freezed,
     Object? order = freezed,
     Object? offer = freezed,
@@ -637,10 +612,6 @@ class __$$_OrderItemCopyWithImpl<$Res>
           ? _value.otherDiscounts
           : otherDiscounts // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as ExtraData?,
       isActive: freezed == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -676,7 +647,6 @@ class _$_OrderItem implements _OrderItem {
       @JsonKey(name: 'revision_charges') this.revisionCharges,
       @JsonKey(name: 'other_charges') this.otherCharges,
       @JsonKey(name: 'other_discounts') this.otherDiscounts,
-      @JsonKey(name: 'extra_data') this.extraData,
       @JsonKey(name: 'is_active') this.isActive,
       this.order,
       this.offer});
@@ -724,9 +694,6 @@ class _$_OrderItem implements _OrderItem {
   @JsonKey(name: 'other_discounts')
   final String? otherDiscounts;
   @override
-  @JsonKey(name: 'extra_data')
-  final ExtraData? extraData;
-  @override
   @JsonKey(name: 'is_active')
   final bool? isActive;
   @override
@@ -736,7 +703,7 @@ class _$_OrderItem implements _OrderItem {
 
   @override
   String toString() {
-    return 'OrderItem(id: $id, task: $task, createdAt: $createdAt, updatedAt: $updatedAt, amount: $amount, tax: $tax, vat: $vat, offerValue: $offerValue, discount: $discount, platformCharge: $platformCharge, platformChargeDiscount: $platformChargeDiscount, equipmentCharges: $equipmentCharges, revisionCharges: $revisionCharges, otherCharges: $otherCharges, otherDiscounts: $otherDiscounts, extraData: $extraData, isActive: $isActive, order: $order, offer: $offer)';
+    return 'OrderItem(id: $id, task: $task, createdAt: $createdAt, updatedAt: $updatedAt, amount: $amount, tax: $tax, vat: $vat, offerValue: $offerValue, discount: $discount, platformCharge: $platformCharge, platformChargeDiscount: $platformChargeDiscount, equipmentCharges: $equipmentCharges, revisionCharges: $revisionCharges, otherCharges: $otherCharges, otherDiscounts: $otherDiscounts, isActive: $isActive, order: $order, offer: $offer)';
   }
 
   @override
@@ -769,8 +736,6 @@ class _$_OrderItem implements _OrderItem {
                 other.otherCharges == otherCharges) &&
             (identical(other.otherDiscounts, otherDiscounts) ||
                 other.otherDiscounts == otherDiscounts) &&
-            (identical(other.extraData, extraData) ||
-                other.extraData == extraData) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.order, order) || other.order == order) &&
@@ -779,28 +744,26 @@ class _$_OrderItem implements _OrderItem {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        id,
-        task,
-        createdAt,
-        updatedAt,
-        amount,
-        tax,
-        vat,
-        offerValue,
-        discount,
-        platformCharge,
-        platformChargeDiscount,
-        equipmentCharges,
-        revisionCharges,
-        otherCharges,
-        otherDiscounts,
-        extraData,
-        isActive,
-        order,
-        const DeepCollectionEquality().hash(offer)
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      task,
+      createdAt,
+      updatedAt,
+      amount,
+      tax,
+      vat,
+      offerValue,
+      discount,
+      platformCharge,
+      platformChargeDiscount,
+      equipmentCharges,
+      revisionCharges,
+      otherCharges,
+      otherDiscounts,
+      isActive,
+      order,
+      const DeepCollectionEquality().hash(offer));
 
   @JsonKey(ignore: true)
   @override
@@ -842,8 +805,6 @@ abstract class _OrderItem implements OrderItem {
           final String? otherCharges,
       @JsonKey(name: 'other_discounts')
           final String? otherDiscounts,
-      @JsonKey(name: 'extra_data')
-          final ExtraData? extraData,
       @JsonKey(name: 'is_active')
           final bool? isActive,
       final String? order,
@@ -892,9 +853,6 @@ abstract class _OrderItem implements OrderItem {
   @JsonKey(name: 'other_discounts')
   String? get otherDiscounts;
   @override
-  @JsonKey(name: 'extra_data')
-  ExtraData? get extraData;
-  @override
   @JsonKey(name: 'is_active')
   bool? get isActive;
   @override
@@ -905,86 +863,6 @@ abstract class _OrderItem implements OrderItem {
   @JsonKey(ignore: true)
   _$$_OrderItemCopyWith<_$_OrderItem> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-ExtraData _$ExtraDataFromJson(Map<String, dynamic> json) {
-  return _ExtraData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ExtraData {
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ExtraDataCopyWith<$Res> {
-  factory $ExtraDataCopyWith(ExtraData value, $Res Function(ExtraData) then) =
-      _$ExtraDataCopyWithImpl<$Res, ExtraData>;
-}
-
-/// @nodoc
-class _$ExtraDataCopyWithImpl<$Res, $Val extends ExtraData>
-    implements $ExtraDataCopyWith<$Res> {
-  _$ExtraDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$_ExtraDataCopyWith<$Res> {
-  factory _$$_ExtraDataCopyWith(
-          _$_ExtraData value, $Res Function(_$_ExtraData) then) =
-      __$$_ExtraDataCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_ExtraDataCopyWithImpl<$Res>
-    extends _$ExtraDataCopyWithImpl<$Res, _$_ExtraData>
-    implements _$$_ExtraDataCopyWith<$Res> {
-  __$$_ExtraDataCopyWithImpl(
-      _$_ExtraData _value, $Res Function(_$_ExtraData) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_ExtraData implements _ExtraData {
-  const _$_ExtraData();
-
-  factory _$_ExtraData.fromJson(Map<String, dynamic> json) =>
-      _$$_ExtraDataFromJson(json);
-
-  @override
-  String toString() {
-    return 'ExtraData()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_ExtraData);
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ExtraDataToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ExtraData implements ExtraData {
-  const factory _ExtraData() = _$_ExtraData;
-
-  factory _ExtraData.fromJson(Map<String, dynamic> json) =
-      _$_ExtraData.fromJson;
 }
 
 Task _$TaskFromJson(Map<String, dynamic> json) {

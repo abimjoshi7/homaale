@@ -11,29 +11,14 @@ class CreateKycReq with _$CreateKycReq {
     @JsonKey(name: "is_company") bool? isCompany,
     @JsonKey(name: "organization_name") String? organizationName,
     String? address,
-    @JsonKey(name: "extra_data") ExtraData? extraData,
     int? company,
     String? country,
   }) = _CreateKycReq;
 
-  factory CreateKycReq.fromJson(Map<String, dynamic> json) =>
-      _$CreateKycReqFromJson(json);
+  factory CreateKycReq.fromJson(Map<String, dynamic> json) => _$CreateKycReqFromJson(json);
 }
 
-@freezed
-class ExtraData with _$ExtraData {
-  const factory ExtraData({
-    String? additionalProp1,
-    String? additionalProp2,
-    String? additionalProp3,
-  }) = _ExtraData;
-
-  factory ExtraData.fromJson(Map<String, dynamic> json) =>
-      _$ExtraDataFromJson(json);
-}
-
-class MultipartFileConverter
-    implements JsonConverter<MultipartFile?, MultipartFile?> {
+class MultipartFileConverter implements JsonConverter<MultipartFile?, MultipartFile?> {
   const MultipartFileConverter();
 
   @override

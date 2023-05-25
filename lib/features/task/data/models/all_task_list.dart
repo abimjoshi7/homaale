@@ -42,9 +42,7 @@ class AllTaskList {
         "next": next,
         "previous": previous,
         "page_size": pageSize,
-        "result": result == null
-            ? []
-            : List<dynamic>.from(result!.map((x) => x.toJson())),
+        "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
       };
 }
 
@@ -71,7 +69,6 @@ class Result {
     this.completedOn,
     this.startTime,
     this.endTime,
-    this.extraData,
     this.isPaid,
     this.booking,
     this.city,
@@ -100,7 +97,6 @@ class Result {
   final DateTime? completedOn;
   final String? startTime;
   final String? endTime;
-  final List<dynamic>? extraData;
   final bool? isPaid;
   final int? booking;
   final int? city;
@@ -169,11 +165,6 @@ class Result {
               ),
         startTime: json["start_time"] as String?,
         endTime: json["end_time"] as String?,
-        extraData: json["extra_data"] == null
-            ? []
-            : List<dynamic>.from(
-                json["extra_data"]!.map((x) => x) as Iterable,
-              ),
         isPaid: json["is_paid"] as bool?,
         booking: json["booking"] as int?,
         city: json["city"] as int?,
@@ -201,9 +192,7 @@ class Result {
         "status": status,
         "title": title,
         "description": description,
-        "requirements": requirements == null
-            ? []
-            : List<dynamic>.from(requirements!.map((x) => x)),
+        "requirements": requirements == null ? [] : List<dynamic>.from(requirements!.map((x) => x)),
         "charge": charge,
         "location": location,
         "estimated_time": estimatedTime,
@@ -216,16 +205,11 @@ class Result {
             "${completedOn?.year.toString().padLeft(4, '0')}-${completedOn?.month.toString().padLeft(2, '0')}-${completedOn?.day.toString().padLeft(2, '0')}",
         "start_time": startTime,
         "end_time": endTime,
-        "extra_data": extraData == null
-            ? []
-            : List<dynamic>.from(extraData!.map((x) => x)),
         "is_paid": isPaid,
         "booking": booking,
         "city": city,
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "videos":
-            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "videos": videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
       };
 }
 
@@ -443,11 +427,8 @@ class EntityService {
         "budget_type": budgetType,
         "budget_from": budgetFrom,
         "budget_to": budgetTo,
-        "images": images == null
-            ? []
-            : List<dynamic>.from(images!.map((x) => x.toJson())),
-        "videos":
-            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
+        "videos": videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
         "created_by": createdBy?.toJson(),
       };
 }

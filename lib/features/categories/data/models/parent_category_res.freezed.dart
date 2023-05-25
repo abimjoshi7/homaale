@@ -24,8 +24,6 @@ mixin _$ParentCategoryRes {
   String? get name => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
-  @JsonKey(name: "extra_data")
-  ExtraData? get extraData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,14 +37,7 @@ abstract class $ParentCategoryResCopyWith<$Res> {
           ParentCategoryRes value, $Res Function(ParentCategoryRes) then) =
       _$ParentCategoryResCopyWithImpl<$Res, ParentCategoryRes>;
   @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      String? slug,
-      String? icon,
-      @JsonKey(name: "extra_data") ExtraData? extraData});
-
-  $ExtraDataCopyWith<$Res>? get extraData;
+  $Res call({int? id, String? name, String? slug, String? icon});
 }
 
 /// @nodoc
@@ -66,7 +57,6 @@ class _$ParentCategoryResCopyWithImpl<$Res, $Val extends ParentCategoryRes>
     Object? name = freezed,
     Object? slug = freezed,
     Object? icon = freezed,
-    Object? extraData = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -85,23 +75,7 @@ class _$ParentCategoryResCopyWithImpl<$Res, $Val extends ParentCategoryRes>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as ExtraData?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ExtraDataCopyWith<$Res>? get extraData {
-    if (_value.extraData == null) {
-      return null;
-    }
-
-    return $ExtraDataCopyWith<$Res>(_value.extraData!, (value) {
-      return _then(_value.copyWith(extraData: value) as $Val);
-    });
   }
 }
 
@@ -113,15 +87,7 @@ abstract class _$$_ParentCategoryResCopyWith<$Res>
       __$$_ParentCategoryResCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int? id,
-      String? name,
-      String? slug,
-      String? icon,
-      @JsonKey(name: "extra_data") ExtraData? extraData});
-
-  @override
-  $ExtraDataCopyWith<$Res>? get extraData;
+  $Res call({int? id, String? name, String? slug, String? icon});
 }
 
 /// @nodoc
@@ -139,7 +105,6 @@ class __$$_ParentCategoryResCopyWithImpl<$Res>
     Object? name = freezed,
     Object? slug = freezed,
     Object? icon = freezed,
-    Object? extraData = freezed,
   }) {
     return _then(_$_ParentCategoryRes(
       id: freezed == id
@@ -158,10 +123,6 @@ class __$$_ParentCategoryResCopyWithImpl<$Res>
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as ExtraData?,
     ));
   }
 }
@@ -169,12 +130,7 @@ class __$$_ParentCategoryResCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ParentCategoryRes implements _ParentCategoryRes {
-  const _$_ParentCategoryRes(
-      {this.id,
-      this.name,
-      this.slug,
-      this.icon,
-      @JsonKey(name: "extra_data") this.extraData});
+  const _$_ParentCategoryRes({this.id, this.name, this.slug, this.icon});
 
   factory _$_ParentCategoryRes.fromJson(Map<String, dynamic> json) =>
       _$$_ParentCategoryResFromJson(json);
@@ -187,13 +143,10 @@ class _$_ParentCategoryRes implements _ParentCategoryRes {
   final String? slug;
   @override
   final String? icon;
-  @override
-  @JsonKey(name: "extra_data")
-  final ExtraData? extraData;
 
   @override
   String toString() {
-    return 'ParentCategoryRes(id: $id, name: $name, slug: $slug, icon: $icon, extraData: $extraData)';
+    return 'ParentCategoryRes(id: $id, name: $name, slug: $slug, icon: $icon)';
   }
 
   @override
@@ -204,14 +157,12 @@ class _$_ParentCategoryRes implements _ParentCategoryRes {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.slug, slug) || other.slug == slug) &&
-            (identical(other.icon, icon) || other.icon == icon) &&
-            (identical(other.extraData, extraData) ||
-                other.extraData == extraData));
+            (identical(other.icon, icon) || other.icon == icon));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, slug, icon, extraData);
+  int get hashCode => Object.hash(runtimeType, id, name, slug, icon);
 
   @JsonKey(ignore: true)
   @override
@@ -230,12 +181,10 @@ class _$_ParentCategoryRes implements _ParentCategoryRes {
 
 abstract class _ParentCategoryRes implements ParentCategoryRes {
   const factory _ParentCategoryRes(
-          {final int? id,
-          final String? name,
-          final String? slug,
-          final String? icon,
-          @JsonKey(name: "extra_data") final ExtraData? extraData}) =
-      _$_ParentCategoryRes;
+      {final int? id,
+      final String? name,
+      final String? slug,
+      final String? icon}) = _$_ParentCategoryRes;
 
   factory _ParentCategoryRes.fromJson(Map<String, dynamic> json) =
       _$_ParentCategoryRes.fromJson;
@@ -249,169 +198,7 @@ abstract class _ParentCategoryRes implements ParentCategoryRes {
   @override
   String? get icon;
   @override
-  @JsonKey(name: "extra_data")
-  ExtraData? get extraData;
-  @override
   @JsonKey(ignore: true)
   _$$_ParentCategoryResCopyWith<_$_ParentCategoryRes> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ExtraData _$ExtraDataFromJson(Map<String, dynamic> json) {
-  return _ExtraData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ExtraData {
-  @JsonKey(name: "book_button_name")
-  String? get bookButtonName => throw _privateConstructorUsedError;
-  String? get key => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ExtraDataCopyWith<ExtraData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ExtraDataCopyWith<$Res> {
-  factory $ExtraDataCopyWith(ExtraData value, $Res Function(ExtraData) then) =
-      _$ExtraDataCopyWithImpl<$Res, ExtraData>;
-  @useResult
-  $Res call(
-      {@JsonKey(name: "book_button_name") String? bookButtonName, String? key});
-}
-
-/// @nodoc
-class _$ExtraDataCopyWithImpl<$Res, $Val extends ExtraData>
-    implements $ExtraDataCopyWith<$Res> {
-  _$ExtraDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? bookButtonName = freezed,
-    Object? key = freezed,
-  }) {
-    return _then(_value.copyWith(
-      bookButtonName: freezed == bookButtonName
-          ? _value.bookButtonName
-          : bookButtonName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      key: freezed == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_ExtraDataCopyWith<$Res> implements $ExtraDataCopyWith<$Res> {
-  factory _$$_ExtraDataCopyWith(
-          _$_ExtraData value, $Res Function(_$_ExtraData) then) =
-      __$$_ExtraDataCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: "book_button_name") String? bookButtonName, String? key});
-}
-
-/// @nodoc
-class __$$_ExtraDataCopyWithImpl<$Res>
-    extends _$ExtraDataCopyWithImpl<$Res, _$_ExtraData>
-    implements _$$_ExtraDataCopyWith<$Res> {
-  __$$_ExtraDataCopyWithImpl(
-      _$_ExtraData _value, $Res Function(_$_ExtraData) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? bookButtonName = freezed,
-    Object? key = freezed,
-  }) {
-    return _then(_$_ExtraData(
-      bookButtonName: freezed == bookButtonName
-          ? _value.bookButtonName
-          : bookButtonName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      key: freezed == key
-          ? _value.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_ExtraData implements _ExtraData {
-  const _$_ExtraData(
-      {@JsonKey(name: "book_button_name") this.bookButtonName, this.key});
-
-  factory _$_ExtraData.fromJson(Map<String, dynamic> json) =>
-      _$$_ExtraDataFromJson(json);
-
-  @override
-  @JsonKey(name: "book_button_name")
-  final String? bookButtonName;
-  @override
-  final String? key;
-
-  @override
-  String toString() {
-    return 'ExtraData(bookButtonName: $bookButtonName, key: $key)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_ExtraData &&
-            (identical(other.bookButtonName, bookButtonName) ||
-                other.bookButtonName == bookButtonName) &&
-            (identical(other.key, key) || other.key == key));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, bookButtonName, key);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_ExtraDataCopyWith<_$_ExtraData> get copyWith =>
-      __$$_ExtraDataCopyWithImpl<_$_ExtraData>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ExtraDataToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ExtraData implements ExtraData {
-  const factory _ExtraData(
-      {@JsonKey(name: "book_button_name") final String? bookButtonName,
-      final String? key}) = _$_ExtraData;
-
-  factory _ExtraData.fromJson(Map<String, dynamic> json) =
-      _$_ExtraData.fromJson;
-
-  @override
-  @JsonKey(name: "book_button_name")
-  String? get bookButtonName;
-  @override
-  String? get key;
-  @override
-  @JsonKey(ignore: true)
-  _$$_ExtraDataCopyWith<_$_ExtraData> get copyWith =>
       throw _privateConstructorUsedError;
 }

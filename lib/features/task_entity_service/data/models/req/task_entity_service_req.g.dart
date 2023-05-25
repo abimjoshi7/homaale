@@ -31,9 +31,6 @@ _$_TaskEntityServiceReq _$$_TaskEntityServiceReqFromJson(
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
       discountValue: json['discount_value'] as String?,
-      extraData: (json['extra_data'] as List<dynamic>?)
-          ?.map((e) => e as String?)
-          .toList(),
       noOfReservation: json['no_of_reservation'] as int?,
       isActive: json['is_active'] as bool?,
       needsApproval: json['needs_approval'] as bool?,
@@ -70,7 +67,6 @@ Map<String, dynamic> _$$_TaskEntityServiceReqToJson(
       'is_requested': instance.isRequested,
       'discount_type': instance.discountType,
       'discount_value': instance.discountValue,
-      'extra_data': instance.extraData,
       'no_of_reservation': instance.noOfReservation,
       'is_active': instance.isActive,
       'needs_approval': instance.needsApproval,

@@ -365,8 +365,6 @@ mixin _$TaskEntityService {
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: "discount_value")
   String? get discountValue => throw _privateConstructorUsedError;
-  @JsonKey(name: "extra_data")
-  List<dynamic>? get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: "no_of_reservation")
   num? get noOfReservation => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
@@ -438,7 +436,6 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
       @JsonKey(name: "discount_value") String? discountValue,
-      @JsonKey(name: "extra_data") List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") num? noOfReservation,
       String? slug,
       @JsonKey(name: "is_active") bool? isActive,
@@ -512,7 +509,6 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? extraData = freezed,
     Object? noOfReservation = freezed,
     Object? slug = freezed,
     Object? isActive = freezed,
@@ -682,10 +678,6 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -866,7 +858,6 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "discount_type") String? discountType,
       @JsonKey(name: "discount_value") String? discountValue,
-      @JsonKey(name: "extra_data") List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") num? noOfReservation,
       String? slug,
       @JsonKey(name: "is_active") bool? isActive,
@@ -945,7 +936,6 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? extraData = freezed,
     Object? noOfReservation = freezed,
     Object? slug = freezed,
     Object? isActive = freezed,
@@ -1115,10 +1105,6 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value._extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
       noOfReservation: freezed == noOfReservation
           ? _value.noOfReservation
           : noOfReservation // ignore: cast_nullable_to_non_nullable
@@ -1210,7 +1196,6 @@ class _$_TaskEntityService implements _TaskEntityService {
       @JsonKey(name: "is_requested") this.isRequested,
       @JsonKey(name: "discount_type") this.discountType,
       @JsonKey(name: "discount_value") this.discountValue,
-      @JsonKey(name: "extra_data") final List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") this.noOfReservation,
       this.slug,
       @JsonKey(name: "is_active") this.isActive,
@@ -1227,8 +1212,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         _rating = rating,
         _offers = offers,
         _endorsements = endorsements,
-        _highlights = highlights,
-        _extraData = extraData;
+        _highlights = highlights;
 
   factory _$_TaskEntityService.fromJson(Map<String, dynamic> json) =>
       _$$_TaskEntityServiceFromJson(json);
@@ -1383,17 +1367,6 @@ class _$_TaskEntityService implements _TaskEntityService {
   @override
   @JsonKey(name: "discount_value")
   final String? discountValue;
-  final List<dynamic>? _extraData;
-  @override
-  @JsonKey(name: "extra_data")
-  List<dynamic>? get extraData {
-    final value = _extraData;
-    if (value == null) return null;
-    if (_extraData is EqualUnmodifiableListView) return _extraData;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   @override
   @JsonKey(name: "no_of_reservation")
   final num? noOfReservation;
@@ -1426,7 +1399,7 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1499,8 +1472,6 @@ class _$_TaskEntityService implements _TaskEntityService {
                 other.discountType == discountType) &&
             (identical(other.discountValue, discountValue) ||
                 other.discountValue == discountValue) &&
-            const DeepCollectionEquality()
-                .equals(other._extraData, _extraData) &&
             (identical(other.noOfReservation, noOfReservation) ||
                 other.noOfReservation == noOfReservation) &&
             (identical(other.slug, slug) || other.slug == slug) &&
@@ -1564,7 +1535,6 @@ class _$_TaskEntityService implements _TaskEntityService {
         isRequested,
         discountType,
         discountValue,
-        const DeepCollectionEquality().hash(_extraData),
         noOfReservation,
         slug,
         isActive,
@@ -1634,7 +1604,6 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "is_requested") final bool? isRequested,
       @JsonKey(name: "discount_type") final String? discountType,
       @JsonKey(name: "discount_value") final String? discountValue,
-      @JsonKey(name: "extra_data") final List<dynamic>? extraData,
       @JsonKey(name: "no_of_reservation") final num? noOfReservation,
       final String? slug,
       @JsonKey(name: "is_active") final bool? isActive,
@@ -1752,9 +1721,6 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   @JsonKey(name: "discount_value")
   String? get discountValue;
-  @override
-  @JsonKey(name: "extra_data")
-  List<dynamic>? get extraData;
   @override
   @JsonKey(name: "no_of_reservation")
   num? get noOfReservation;

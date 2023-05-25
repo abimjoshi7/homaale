@@ -42,15 +42,9 @@ class ServiceList {
   factory ServiceList.fromJson(Map<String, dynamic> json) => ServiceList(
         id: json["id"] as String?,
         createdBy: json["created_by"] as String?,
-        category: json["category"] == null
-            ? null
-            : Category.fromJson(json["category"] as Map<String, dynamic>),
-        images: json["images"] == null
-            ? []
-            : List<dynamic>.from(json["images"].map((x) => x) as Iterable),
-        videos: json["videos"] == null
-            ? []
-            : List<dynamic>.from(json["videos"].map((x) => x) as Iterable),
+        category: json["category"] == null ? null : Category.fromJson(json["category"] as Map<String, dynamic>),
+        images: json["images"] == null ? [] : List<dynamic>.from(json["images"].map((x) => x) as Iterable),
+        videos: json["videos"] == null ? [] : List<dynamic>.from(json["videos"].map((x) => x) as Iterable),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(
@@ -71,19 +65,15 @@ class ServiceList {
         metaTitle: json["meta_title"],
         metaDescription: json["meta_description"],
         metaKeyword: json["meta_keyword"],
-        views: json["views"] == null
-            ? []
-            : List<dynamic>.from(json["views"].map((x) => x) as Iterable),
+        views: json["views"] == null ? [] : List<dynamic>.from(json["views"].map((x) => x) as Iterable),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "created_by": createdBy,
         "category": category?.toJson(),
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "videos":
-            videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "videos": videos == null ? [] : List<dynamic>.from(videos!.map((x) => x)),
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "deleted_at": deletedAt,
@@ -106,23 +96,18 @@ class Category {
     this.name,
     this.slug,
     this.icon,
-    this.extraData,
   });
 
   final int? id;
   final String? name;
   final String? slug;
   final dynamic icon;
-  final Map<String, dynamic>? extraData;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"] as int?,
         name: json["name"] as String?,
         slug: json["slug"] as String?,
         icon: json["icon"],
-        extraData: json["extra_data"] == null
-            ? null
-            : json["extra_data"] as Map<String, dynamic>,
       );
 
   Map<String, dynamic> toJson() => {
@@ -130,7 +115,6 @@ class Category {
         "name": name,
         "slug": slug,
         "icon": icon,
-        "extra_data": extraData,
       };
 }
 

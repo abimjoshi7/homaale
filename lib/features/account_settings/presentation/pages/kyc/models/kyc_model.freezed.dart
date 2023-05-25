@@ -44,7 +44,6 @@ mixin _$KycModel {
   @JsonKey(name: "is_company_address_verified")
   bool? get isCompanyAddressVerified => throw _privateConstructorUsedError;
   String? get comment => throw _privateConstructorUsedError;
-  List<String>? get extraData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -81,8 +80,7 @@ abstract class $KycModelCopyWith<$Res> {
           bool? isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
           bool? isCompanyAddressVerified,
-      String? comment,
-      List<String>? extraData});
+      String? comment});
 
   $UserCopyWith<$Res>? get user;
   $CountryCopyWith<$Res>? get country;
@@ -116,7 +114,6 @@ class _$KycModelCopyWithImpl<$Res, $Val extends KycModel>
     Object? isCompanyKycVerified = freezed,
     Object? isCompanyAddressVerified = freezed,
     Object? comment = freezed,
-    Object? extraData = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -179,10 +176,6 @@ class _$KycModelCopyWithImpl<$Res, $Val extends KycModel>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value.extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
     ) as $Val);
   }
 
@@ -242,8 +235,7 @@ abstract class _$$_KycModelCopyWith<$Res> implements $KycModelCopyWith<$Res> {
           bool? isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
           bool? isCompanyAddressVerified,
-      String? comment,
-      List<String>? extraData});
+      String? comment});
 
   @override
   $UserCopyWith<$Res>? get user;
@@ -277,7 +269,6 @@ class __$$_KycModelCopyWithImpl<$Res>
     Object? isCompanyKycVerified = freezed,
     Object? isCompanyAddressVerified = freezed,
     Object? comment = freezed,
-    Object? extraData = freezed,
   }) {
     return _then(_$_KycModel(
       id: freezed == id
@@ -340,10 +331,6 @@ class __$$_KycModelCopyWithImpl<$Res>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String?,
-      extraData: freezed == extraData
-          ? _value._extraData
-          : extraData // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
     ));
   }
 }
@@ -375,9 +362,7 @@ class _$_KycModel implements _KycModel {
           this.isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
           this.isCompanyAddressVerified,
-      this.comment,
-      final List<String>? extraData})
-      : _extraData = extraData;
+      this.comment});
 
   factory _$_KycModel.fromJson(Map<String, dynamic> json) =>
       _$$_KycModelFromJson(json);
@@ -421,19 +406,10 @@ class _$_KycModel implements _KycModel {
   final bool? isCompanyAddressVerified;
   @override
   final String? comment;
-  final List<String>? _extraData;
-  @override
-  List<String>? get extraData {
-    final value = _extraData;
-    if (value == null) return null;
-    if (_extraData is EqualUnmodifiableListView) return _extraData;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
 
   @override
   String toString() {
-    return 'KycModel(id: $id, user: $user, country: $country, createdAt: $createdAt, updatedAt: $updatedAt, fullName: $fullName, logo: $logo, isCompany: $isCompany, organizationName: $organizationName, address: $address, isKycVerified: $isKycVerified, isAddressVerified: $isAddressVerified, isCompanyKycVerified: $isCompanyKycVerified, isCompanyAddressVerified: $isCompanyAddressVerified, comment: $comment, extraData: $extraData)';
+    return 'KycModel(id: $id, user: $user, country: $country, createdAt: $createdAt, updatedAt: $updatedAt, fullName: $fullName, logo: $logo, isCompany: $isCompany, organizationName: $organizationName, address: $address, isKycVerified: $isKycVerified, isAddressVerified: $isAddressVerified, isCompanyKycVerified: $isCompanyKycVerified, isCompanyAddressVerified: $isCompanyAddressVerified, comment: $comment)';
   }
 
   @override
@@ -465,9 +441,7 @@ class _$_KycModel implements _KycModel {
             (identical(
                     other.isCompanyAddressVerified, isCompanyAddressVerified) ||
                 other.isCompanyAddressVerified == isCompanyAddressVerified) &&
-            (identical(other.comment, comment) || other.comment == comment) &&
-            const DeepCollectionEquality()
-                .equals(other._extraData, _extraData));
+            (identical(other.comment, comment) || other.comment == comment));
   }
 
   @JsonKey(ignore: true)
@@ -488,8 +462,7 @@ class _$_KycModel implements _KycModel {
       isAddressVerified,
       isCompanyKycVerified,
       isCompanyAddressVerified,
-      comment,
-      const DeepCollectionEquality().hash(_extraData));
+      comment);
 
   @JsonKey(ignore: true)
   @override
@@ -530,8 +503,7 @@ abstract class _KycModel implements KycModel {
           final bool? isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
           final bool? isCompanyAddressVerified,
-      final String? comment,
-      final List<String>? extraData}) = _$_KycModel;
+      final String? comment}) = _$_KycModel;
 
   factory _KycModel.fromJson(Map<String, dynamic> json) = _$_KycModel.fromJson;
 
@@ -574,8 +546,6 @@ abstract class _KycModel implements KycModel {
   bool? get isCompanyAddressVerified;
   @override
   String? get comment;
-  @override
-  List<String>? get extraData;
   @override
   @JsonKey(ignore: true)
   _$$_KycModelCopyWith<_$_KycModel> get copyWith =>

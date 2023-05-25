@@ -81,9 +81,6 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       isRequested: json['isRequested'] as bool?,
       discountType: json['discountType'] as String?,
       discountValue: json['discountValue'] as String?,
-      extraData: (json['extraData'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
       noOfReservation: json['noOfReservation'] as int?,
       slug: json['slug'] as String?,
       isActive: json['isActive'] as bool?,
@@ -125,7 +122,6 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'isRequested': instance.isRequested,
       'discountType': instance.discountType,
       'discountValue': instance.discountValue,
-      'extraData': instance.extraData,
       'noOfReservation': instance.noOfReservation,
       'slug': instance.slug,
       'isActive': instance.isActive,

@@ -38,7 +38,6 @@ class OrderItem with _$OrderItem {
     @JsonKey(name: 'revision_charges') String? revisionCharges,
     @JsonKey(name: 'other_charges') String? otherCharges,
     @JsonKey(name: 'other_discounts') String? otherDiscounts,
-    @JsonKey(name: 'extra_data') ExtraData? extraData,
     @JsonKey(name: 'is_active') bool? isActive,
     String? order,
     dynamic offer,
@@ -48,13 +47,7 @@ class OrderItem with _$OrderItem {
       _$OrderItemFromJson(json);
 }
 
-@freezed
-class ExtraData with _$ExtraData {
-  const factory ExtraData() = _ExtraData;
 
-  factory ExtraData.fromJson(Map<String, dynamic> json) =>
-      _$ExtraDataFromJson(json);
-}
 
 @freezed
 class Task with _$Task {

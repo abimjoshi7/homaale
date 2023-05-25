@@ -52,9 +52,6 @@ _$_OrderItem _$$_OrderItemFromJson(Map<String, dynamic> json) => _$_OrderItem(
       revisionCharges: json['revision_charges'] as String?,
       otherCharges: json['other_charges'] as String?,
       otherDiscounts: json['other_discounts'] as String?,
-      extraData: json['extra_data'] == null
-          ? null
-          : ExtraData.fromJson(json['extra_data'] as Map<String, dynamic>),
       isActive: json['is_active'] as bool?,
       order: json['order'] as String?,
       offer: json['offer'],
@@ -77,16 +74,10 @@ Map<String, dynamic> _$$_OrderItemToJson(_$_OrderItem instance) =>
       'revision_charges': instance.revisionCharges,
       'other_charges': instance.otherCharges,
       'other_discounts': instance.otherDiscounts,
-      'extra_data': instance.extraData,
       'is_active': instance.isActive,
       'order': instance.order,
       'offer': instance.offer,
     };
-
-_$_ExtraData _$$_ExtraDataFromJson(Map<String, dynamic> json) => _$_ExtraData();
-
-Map<String, dynamic> _$$_ExtraDataToJson(_$_ExtraData instance) =>
-    <String, dynamic>{};
 
 _$_Task _$$_TaskFromJson(Map<String, dynamic> json) => _$_Task(
       id: json['id'] as String?,

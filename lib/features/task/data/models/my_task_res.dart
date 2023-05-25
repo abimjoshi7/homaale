@@ -80,7 +80,6 @@ class Result {
     this.isRequested,
     this.discountType,
     this.discountValue,
-    this.extraData,
     this.noOfReservation,
     this.slug,
     this.isActive,
@@ -121,7 +120,6 @@ class Result {
   final bool? isRequested;
   final String? discountType;
   final double? discountValue;
-  final dynamic extraData;
   final int? noOfReservation;
   final String? slug;
   final bool? isActive;
@@ -210,8 +208,7 @@ class Result {
         isRequested: json["is_requested"] as bool?,
         discountType: json["discount_type"] as String?,
         discountValue: json["discount_value"] as double?,
-        extraData:
-            json["extra_data"] == null ? null : json["extra_data"] as dynamic,
+      
         noOfReservation: json["no_of_reservation"] as int?,
         slug: json["slug"] as String?,
         isActive: json["is_active"] as bool?,
@@ -263,7 +260,6 @@ class Result {
         "is_requested": isRequested,
         "discount_type": discountType,
         "discount_value": discountValue,
-        "extra_data": extraData,
         "no_of_reservation": noOfReservation,
         "slug": slug,
         "is_active": isActive,

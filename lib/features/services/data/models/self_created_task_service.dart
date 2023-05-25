@@ -56,7 +56,6 @@ class Result with _$Result {
     bool? isRequested,
     String? discountType,
     String? discountValue,
-    List<String>? extraData,
     int? noOfReservation,
     String? slug,
     bool? isActive,

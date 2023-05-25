@@ -113,6 +113,7 @@ showApplicantDetailsDialog({
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     children: [
@@ -140,7 +141,7 @@ showApplicantDetailsDialog({
                   ),
                   addVerticalSpace(8),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.15,
                     child: SingleChildScrollView(
                       child: Text(
                         description ?? 'No description',
