@@ -3,6 +3,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/widgets/kyc_status_box.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,7 @@ class CustomKycExpansionTile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16.0),
           width: 382.0,
-          height: 306.0,
+          height: 340.0,
           decoration: BoxDecoration(color: Color(0xffF9FAFB)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +112,22 @@ class CustomKycExpansionTile extends StatelessWidget {
                 boxWidth: 60.0,
                 removeSpaceBetween: true,
               ),
+              kycDoc.comment != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: IconText(
+                        label: (kycDoc.comment.toString().toTitleCase()) +
+                            ". Please Fill Again.",
+                        iconData: Icons.info_outline,
+                        size: 20.0,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontSize: 12.0,
+                              color: Color(0xffFF9700),
+                            ),
+                        color: Color(0xffFF9700),
+                      ),
+                    )
+                  : SizedBox.shrink()
             ],
           ),
         ),
