@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/user_location_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
@@ -10,9 +10,11 @@ import 'package:cipher/features/notification/presentation/pages/notification_hom
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/features/user_location/presentation/choose_location_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({super.key});
@@ -74,19 +76,28 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                             ),
                           );
                         }
+                        if (value == LocationPermission.always ||
+                            value == LocationPermission.whileInUse) {
+                          if (!mounted) return;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChooseLocationPage(),
+                              ));
+                        }
                       },
                     );
-
                     await Geolocator.getCurrentPosition().then((value) async {
-                      await CacheHelper.setCachedString("CurrentUserLocation", jsonEncode(value));
+                      await cacheUserLocation(
+                          LatLng(value.latitude, value.longitude));
                       await placemarkFromCoordinates(
                         value.latitude,
                         value.longitude,
                       ).then(
                         (value) => setState(
                           () {
-                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                            location = '${value.first.locality}, ${value.first.subAdministrativeArea}';
+                            location =
+                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
                           },
                         ),
                       );
@@ -142,7 +153,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
@@ -174,7 +186,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        if (state.notificationStatus == NotificationStatus.success) {
+                        if (state.notificationStatus ==
+                            NotificationStatus.success) {
                           return SizedBox(
                             width: 50,
                             height: 40,
@@ -195,7 +208,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                       position: TooltipPosition.bottom,
                                       showKey: Home.notificationKey,
                                       showCaseTitle: 'Notifications',
-                                      showCaseDec: 'See all notifications from here.',
+                                      showCaseDec:
+                                          'See all notifications from here.',
                                       child: Icon(
                                         (CacheHelper.isLoggedIn)
                                             ? Icons.notifications_none
@@ -207,17 +221,25 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList.unreadCount != null &&
-                                          state.allNotificationList.unreadCount != 0
+                                  state.allNotificationList?.unreadCount !=
+                                              null &&
+                                          state.allNotificationList
+                                                  ?.unreadCount !=
+                                              0
                                       ? Positioned(
                                           right: 13,
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
                                             child: Center(
                                               child: Text(
-                                                state.allNotificationList.unreadCount.toString(),
+                                                state.allNotificationList
+                                                        ?.unreadCount
+                                                        .toString() ??
+                                                    "0",
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,

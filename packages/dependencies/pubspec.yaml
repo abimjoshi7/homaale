@@ -60,6 +60,7 @@ dependencies:
   wechat_camera_picker: ^3.7.0
   wechat_assets_picker: ^8.4.2
   decimal: ^2.3.2
+  geocoder2: ^1.4.0
 
 dev_dependencies:
   flutter_test:

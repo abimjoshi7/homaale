@@ -17,9 +17,8 @@ class GoogleMapsView extends StatefulWidget {
 }
 
 class _GoogleMapsViewState extends State<GoogleMapsView> {
-  // late GoogleMapController mapController;
   final LatLng _center = const LatLng(27.7172, 85.3240);
-  LatLng _location = LatLng(27.7172, 85.3240);
+  LatLng? _location;
   String kCurrentLocation = "CurrentUserLocation";
   Map<String, Marker> _markers = {};
 
@@ -28,7 +27,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
   ) async {
     context.read<NearbyTaskEntityServiceBloc>().add(
         NearbyTaskEntityServiceSelected(
-            location: _location, slug: MapFilterStatus.all));
+            location: _location ?? _center, slug: MapFilterStatus.all));
     setState(() {
       _markers.clear();
     });
@@ -38,8 +37,8 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     await CacheHelper.getCachedString(kCurrentLocation).then((value) {
       if (value != null) {
         setState(() {
-          final position = Position.fromMap(jsonDecode(value));
-          _location = LatLng(position.latitude, position.longitude);
+          final position = LatLng.fromJson(jsonDecode(value)) as LatLng;
+          _location = position;
         });
       }
       if (value == null) {
@@ -57,13 +56,6 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
     setCustomMarkers();
   }
 
-//if google maps controller is implemented the uncomment this:
-  // @override
-  // void dispose() {
-  // mapController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NearbyTaskEntityServiceBloc,
@@ -72,14 +64,11 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         if (state.theStates == TheStates.success) {
           _markers = addTaskEntityServiceMarkers(
             state.activeList!,
-            _location,
+            _location ?? _center,
           );
         }
       },
       builder: (context, state) {
-        // if (state.theStates == TheStates.loading) {
-        //   return CardLoading(height: 400.0);
-        // }
         return GoogleMap(
           mapType: MapType.normal,
           onMapCreated: _onMapCreated,
@@ -88,7 +77,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
           zoomControlsEnabled: false,
           // myLocationButtonEnabled: true,
           initialCameraPosition: CameraPosition(
-            target: _location,
+            target: _location ?? _center,
             zoom: 11.8,
           ),
           markers: _markers.values.toSet(),

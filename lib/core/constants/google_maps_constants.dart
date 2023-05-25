@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui' as ui;
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
@@ -33,13 +34,17 @@ Future<void> setCustomMarkers() async {
   markerIcon = await getBytesFromAsset("assets/homaale-logo.png", 60);
 }
 
-Marker addMyLocationMarker(LatLng location) => Marker(
-    markerId: MarkerId("my_location"),
-    position: LatLng(location.latitude, location.longitude),
-    icon: BitmapDescriptor.fromBytes(myLocationMarker!),
-    infoWindow: InfoWindow(
-      title: "Me",
-    ));
+Marker addMyLocationMarker(
+  LatLng location,
+) =>
+    Marker(
+      markerId: MarkerId("my_location"),
+      position: LatLng(location.latitude, location.longitude),
+      icon: BitmapDescriptor.fromBytes(myLocationMarker!),
+      infoWindow: InfoWindow(
+        title: "Me",
+      ),
+    );
 Map<String, Marker> addTaskEntityServiceMarkers(
     List<TaskEntityService> nearbyTaskEntityServiceList, LatLng location) {
   final Map<String, Marker> _markers = {};
@@ -66,5 +71,23 @@ Map<String, Marker> addTaskEntityServiceMarkers(
     _markers["${taskEntityService.title}"] = marker;
   }
   //return the value
+  return _markers;
+}
+
+Map<String, Marker> setUserLocationMarker(LatLng location) {
+  final Map<String, Marker> _markers = {};
+  //set location marker
+  _markers["my_location"] = Marker(
+    markerId: MarkerId("my_location"),
+    position: LatLng(location.latitude, location.longitude),
+    icon: BitmapDescriptor.fromBytes(myLocationMarker!),
+    infoWindow: InfoWindow(
+      title: "Your Pinned Location",
+      snippet: "Drag Marker To Set Location.",
+    ),
+    flat: true,
+    draggable: true,
+    onDrag: (value) => log("dragged!"),
+  );
   return _markers;
 }
