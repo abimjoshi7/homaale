@@ -1,7 +1,3 @@
-// ignore_for_file: prefer_is_empty
-
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
