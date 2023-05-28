@@ -22,8 +22,8 @@ class PopularServicesPage extends StatefulWidget {
 
 class _PopularServicesPageState extends State<PopularServicesPage> {
   late final entityServiceBloc = locator<TaskEntityServiceBloc>();
-  final PagingController<int, TaskEntityService> _pagingController =
-      PagingController(firstPageKey: 1);
+  // final PagingController<int, TaskEntityService> _pagingController =
+  //     PagingController(firstPageKey: 1);
 
   List<TaskEntityService> serviceList = [];
   List<String>? items = [];
@@ -46,19 +46,19 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     //so at event add list of records
     entityServiceBloc.add(FetchServicesList());
 
-    _pagingController.addPageRequestListener(
-      (pageKey) => entityServiceBloc.add(
-        TaskEntityServiceInitiated(
-          isTask: false,
-          page: pageKey,
-          order: order,
-          city: selectedLocation,
-          serviceId: selectedCategoryId,
-          isBudgetSort: false,
-          isDateSort: false,
-        ),
-      ),
-    );
+    // _pagingController.addPageRequestListener(
+    //   (pageKey) => entityServiceBloc.add(
+    //     TaskEntityServiceInitiated(
+    //       isTask: false,
+    //       page: pageKey,
+    //       order: order,
+    //       city: selectedLocation,
+    //       serviceId: selectedCategoryId,
+    //       isBudgetSort: false,
+    //       isDateSort: false,
+    //     ),
+    //   ),
+    // );
 
     super.initState();
   }
@@ -66,7 +66,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   @override
   void dispose() {
     entityServiceBloc.close();
-    _pagingController.dispose();
+    // _pagingController.dispose();
     super.dispose();
   }
 
@@ -227,7 +227,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
           if ((state.isFilter ?? false) ||
               (state.isDateSort ?? false) ||
               (state.isBudgetSort ?? false)) {
-            _pagingController.refresh();
+            // _pagingController.refresh();
             entityServiceBloc.add(ResetFilterSort());
           }
 
@@ -238,7 +238,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
           }
 
           if (state.theStates == TheStates.failure) {
-            _pagingController.error = 'Error';
+            // _pagingController.error = 'Error';
           }
 
           if (state.theStates == TheStates.success) {
@@ -247,9 +247,9 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
             final next = 1 + state.taskEntityServiceModel.current!;
 
             if (next > lastPage) {
-              _pagingController.appendLastPage(serviceList);
+              // _pagingController.appendLastPage(serviceList);
             } else {
-              _pagingController.appendPage(serviceList, next);
+              // _pagingController.appendPage(serviceList, next);
             }
           }
         },
@@ -558,50 +558,50 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: PagedGridView(
-                    pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, TaskEntityService item, index) =>
-                          Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            context.read<TaskEntityServiceBloc>().add(
-                                  TaskEntityServiceSingleLoaded(id: item.id!),
-                                );
+                // Expanded(
+                //   child: PagedGridView(
+                //     pagingController: _pagingController,
+                //     builderDelegate: PagedChildBuilderDelegate(
+                //       itemBuilder: (context, TaskEntityService item, index) =>
+                //           Padding(
+                //         padding: const EdgeInsets.all(8.0),
+                //         child: InkWell(
+                //           onTap: () {
+                //             context.read<TaskEntityServiceBloc>().add(
+                //                   TaskEntityServiceSingleLoaded(id: item.id!),
+                //                 );
 
-                            context.read<RatingReviewsBloc>().add(SetToInitial(
-                                  id: item.id!,
-                                ));
+                //             context.read<RatingReviewsBloc>().add(SetToInitial(
+                //                   id: item.id!,
+                //                 ));
 
-                            Navigator.pushNamed(
-                              context,
-                              TaskEntityServicePage.routeName,
-                            );
-                          },
-                          child: ServiceCard(
-                            title: item.title,
-                            imagePath: item.images?.length == 0
-                                ? kServiceImageNImg
-                                : item.images?.first.media,
-                            rating: item.rating?.toString(),
-                            description:
-                                "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
-                            location:
-                                item.location == '' ? "Remote" : item.location,
-                          ),
-                        ),
-                      ),
-                    ),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.9,
-                    ),
-                    padding: EdgeInsets.zero,
-                  ),
-                ),
+                //             Navigator.pushNamed(
+                //               context,
+                //               TaskEntityServicePage.routeName,
+                //             );
+                //           },
+                //           child: ServiceCard(
+                //             title: item.title,
+                //             imagePath: item.images?.length == 0
+                //                 ? kServiceImageNImg
+                //                 : item.images?.first.media,
+                //             rating: item.rating?.first.rating.toString(),
+                //             description:
+                //                 "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
+                //             location:
+                //                 item.location == '' ? "Remote" : item.location,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     gridDelegate:
+                //         const SliverGridDelegateWithFixedCrossAxisCount(
+                //       crossAxisCount: 2,
+                //       childAspectRatio: 0.9,
+                //     ),
+                //     padding: EdgeInsets.zero,
+                //   ),
+                // ),
               ],
             );
           },
