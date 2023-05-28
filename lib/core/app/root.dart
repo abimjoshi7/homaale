@@ -147,7 +147,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
             )
             .then(
               (value) async => context.read<TaskEntityServiceBloc>().add(
-                    TaskEntityServiceInitiated(),
+                    TaskEntityServiceInitiated(isTask: false),
                   ),
             )
             .then(

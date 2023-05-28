@@ -12,11 +12,11 @@ class WalletState extends Equatable {
 
   WalletState({
     this.theStates = TheStates.initial,
-    this.withdrawState = WithdrawState.initial,
     this.walletModel = const <WalletModel>[],
     this.walletHistoryRes = const WalletHistoryRes(),
     this.walletHistoryList = const <Result>[],
     this.hasReachedMax = false,
+    this.withdrawState = WithdrawState.initial,
   });
 
   WalletState copyWith({
@@ -38,12 +38,14 @@ class WalletState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        theStates,
-        walletModel,
-        walletHistoryRes,
-        walletHistoryList,
-        hasReachedMax,
-        withdrawState,
-      ];
+  List<Object> get props {
+    return [
+      theStates,
+      walletModel,
+      walletHistoryRes,
+      walletHistoryList,
+      hasReachedMax,
+      withdrawState,
+    ];
+  }
 }
