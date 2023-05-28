@@ -48,7 +48,7 @@ import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
-import 'package:cipher/features/services/presentation/pages/trending_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -360,9 +360,9 @@ class AppRouter {
           builder: (context) => const TaxCalculator(),
           settings: settings,
         );
-      case TrendingServicesPage.routeName:
+      case PopularServicesPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const TrendingServicesPage(),
+          builder: (context) => const PopularServicesPage(),
           settings: settings,
         );
       case ApplyTaskPage.routeName:

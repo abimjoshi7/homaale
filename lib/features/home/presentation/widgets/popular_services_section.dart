@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
-import 'package:cipher/features/services/presentation/pages/trending_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -15,17 +15,14 @@ class TrendingServicesSection extends StatefulWidget {
   });
 
   @override
-  State<TrendingServicesSection> createState() =>
-      _TrendingServicesSectionState();
+  State<TrendingServicesSection> createState() => _TrendingServicesSectionState();
 }
 
 class _TrendingServicesSectionState extends State<TrendingServicesSection> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<TaskEntityServiceBloc>()
-        .add(TaskEntityServiceInitiated(isTask: false));
+    context.read<TaskEntityServiceBloc>().add(TaskEntityServiceInitiated(isTask: false));
   }
 
   @override
@@ -42,7 +39,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   onTap: () async {
                     Navigator.pushNamed(
                       context,
-                      TrendingServicesPage.routeName,
+                      PopularServicesPage.routeName,
                     );
                   },
                   showKey: TrendingServicesSection.pServiceKey,
@@ -55,22 +52,17 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.taskEntityServiceModel.result?.length ?? 0,
-                    separatorBuilder: (context, index) =>
-                        addHorizontalSpace(10),
+                    separatorBuilder: (context, index) => addHorizontalSpace(10),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
                               TaskEntityServiceSingleLoaded(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         context.read<RatingReviewsBloc>().add(
                               SetToInitial(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         Navigator.pushNamed(
@@ -81,25 +73,16 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.46,
                         child: ServiceCard(
-                          location: state.taskEntityServiceModel.result?[index]
-                                      .location ==
-                                  ""
+                          location: state.taskEntityServiceModel.result?[index].location == ""
                               ? "Remote"
-                              : state.taskEntityServiceModel.result?[index]
-                                  .location,
+                              : state.taskEntityServiceModel.result?[index].location,
                           description:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
-                          title:
-                              state.taskEntityServiceModel.result?[index].title,
-                          imagePath: state.taskEntityServiceModel.result?[index]
-                                      .images?.length ==
-                                  0
+                          title: state.taskEntityServiceModel.result?[index].title,
+                          imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kServiceImageNImg
-                              : state.taskEntityServiceModel.result?[index]
-                                  .images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index]
-                              .rating?.first.rating
-                              .toString(),
+                              : state.taskEntityServiceModel.result?[index].images?.first.media,
+                          rating: state.taskEntityServiceModel.result?[index].rating?.first.rating.toString(),
                         ),
                       ),
                     ),

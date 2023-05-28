@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/search/presentation/widgets/search_card.dart';
-import 'package:cipher/features/services/presentation/pages/trending_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -30,7 +30,7 @@ class ServicesSection extends StatelessWidget {
             onPressed: () {
               Navigator.popAndPushNamed(
                 context,
-                TrendingServicesPage.routeName,
+                PopularServicesPage.routeName,
               );
             },
             child: Text(
