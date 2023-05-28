@@ -12,15 +12,15 @@ import 'package:flutter/material.dart';
 
 enum SortType { budget, date }
 
-class PopularServicesPage extends StatefulWidget {
-  static const routeName = '/popular-services-page';
-  const PopularServicesPage({super.key});
+class TrendingServicesPage extends StatefulWidget {
+  static const routeName = '/trending-services-page';
+  const TrendingServicesPage({super.key});
 
   @override
-  State<PopularServicesPage> createState() => _PopularServicesPageState();
+  State<TrendingServicesPage> createState() => _TrendingServicesPageState();
 }
 
-class _PopularServicesPageState extends State<PopularServicesPage> {
+class _TrendingServicesPageState extends State<TrendingServicesPage> {
   late final entityServiceBloc = locator<TaskEntityServiceBloc>();
   final PagingController<int, TaskEntityService> _pagingController =
       PagingController(firstPageKey: 1);
