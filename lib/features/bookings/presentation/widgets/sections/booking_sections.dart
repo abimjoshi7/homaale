@@ -26,23 +26,23 @@ class _BookingSectionState extends State<BookingSection> {
   List<Result> resultList = [];
 
   //initialize page controller
-  final PagingController<int, Result> _pagingController =
-      PagingController(firstPageKey: 1);
+  // final PagingController<int, Result> _pagingController =
+  //     PagingController(firstPageKey: 1);
 
-  @override
-  void initState() {
-    //so at event add list of records
-    _pagingController.addPageRequestListener(
-      (pageKey) => bookingsBloc.add(BookingLoaded(page: pageKey)),
-    );
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   //so at event add list of records
+  //   _pagingController.addPageRequestListener(
+  //     (pageKey) => bookingsBloc.add(BookingLoaded(page: pageKey)),
+  //   );
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _BookingSectionState extends State<BookingSection> {
       bloc: bookingsBloc,
       listener: (context, state) {
         if ((state.isUpdated) || (state.isCancelled) || (state.isRejected)) {
-          _pagingController.refresh();
+          // _pagingController.refresh();
         }
 
         if (state.states == TheStates.success) {
@@ -61,89 +61,89 @@ class _BookingSectionState extends State<BookingSection> {
           final next = 1 + state.bookingList.current!;
 
           if (next > lastPage) {
-            _pagingController.appendLastPage(resultList);
+            // _pagingController.appendLastPage(resultList);
           } else {
-            _pagingController.appendPage(resultList, next);
+            // _pagingController.appendPage(resultList, next);
           }
         }
         if (state.states == TheStates.failure) {
-          _pagingController.error = 'Error';
+          // _pagingController.error = 'Error';
         }
       },
       child: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
           return Column(
             children: [
-              Expanded(
-                child: PagedListView(
-                  pagingController: _pagingController,
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, Result item, index) {
-                      return widget.bookingSectionType ==
-                              BookingSectionType.todo
-                          ? item.assignee?.id ==
-                                  context
-                                      .read<UserBloc>()
-                                      .state
-                                      .taskerProfile
-                                      ?.user
-                                      ?.id
-                              ? Container(
-                                  margin: EdgeInsets.only(bottom: 16),
-                                  child: BookingsServiceCard(
-                                    callback: () {
-                                      BlocProvider.of<BookingsBloc>(context)
-                                          .add(
-                                        BookingSingleLoaded(item.id),
-                                      );
-                                      Navigator.pushNamed(context,
-                                          BookingItemDetailPage.routeName,
-                                          arguments: {'client': 'merchant'});
-                                    },
-                                    serviceName: item.title,
-                                    providerName:
-                                        "${item.assigner?.firstName} ${item.assigner?.lastName}",
-                                    mainContentWidget: showBookingDetails(item),
-                                    status: item.status,
-                                    hidePopupButton: true,
-                                    bottomRightWidget: displayPrice(item),
-                                  ),
-                                )
-                              : SizedBox()
-                          : item.assigner?.id ==
-                                  context
-                                      .read<UserBloc>()
-                                      .state
-                                      .taskerProfile
-                                      ?.user
-                                      ?.id
-                              ? Container(
-                                  margin: EdgeInsets.only(bottom: 16),
-                                  child: BookingsServiceCard(
-                                    callback: () {
-                                      BlocProvider.of<BookingsBloc>(context)
-                                          .add(
-                                        BookingSingleLoaded(item.id),
-                                      );
-                                      Navigator.pushNamed(context,
-                                          BookingItemDetailPage.routeName,
-                                          arguments: {'client': 'client'});
-                                    },
-                                    serviceName: item.title,
-                                    providerName:
-                                        "${item.assignee?.firstName} ${item.assignee?.lastName}",
-                                    mainContentWidget: showBookingDetails(item),
-                                    status: item.status,
-                                    hidePopupButton: true,
-                                    bottomRightWidget: displayPrice(item),
-                                  ),
-                                )
-                              : SizedBox();
-                    },
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: PagedListView(
+              //     pagingController: _pagingController,
+              //     padding: EdgeInsets.symmetric(horizontal: 8),
+              //     builderDelegate: PagedChildBuilderDelegate(
+              //       itemBuilder: (context, Result item, index) {
+              //         return widget.bookingSectionType ==
+              //                 BookingSectionType.todo
+              //             ? item.assignee?.id ==
+              //                     context
+              //                         .read<UserBloc>()
+              //                         .state
+              //                         .taskerProfile
+              //                         ?.user
+              //                         ?.id
+              //                 ? Container(
+              //                     margin: EdgeInsets.only(bottom: 16),
+              //                     child: BookingsServiceCard(
+              //                       callback: () {
+              //                         BlocProvider.of<BookingsBloc>(context)
+              //                             .add(
+              //                           BookingSingleLoaded(item.id),
+              //                         );
+              //                         Navigator.pushNamed(context,
+              //                             BookingItemDetailPage.routeName,
+              //                             arguments: {'client': 'merchant'});
+              //                       },
+              //                       serviceName: item.title,
+              //                       providerName:
+              //                           "${item.assigner?.firstName} ${item.assigner?.lastName}",
+              //                       mainContentWidget: showBookingDetails(item),
+              //                       status: item.status,
+              //                       hidePopupButton: true,
+              //                       bottomRightWidget: displayPrice(item),
+              //                     ),
+              //                   )
+              //                 : SizedBox()
+              //             : item.assigner?.id ==
+              //                     context
+              //                         .read<UserBloc>()
+              //                         .state
+              //                         .taskerProfile
+              //                         ?.user
+              //                         ?.id
+              //                 ? Container(
+              //                     margin: EdgeInsets.only(bottom: 16),
+              //                     child: BookingsServiceCard(
+              //                       callback: () {
+              //                         BlocProvider.of<BookingsBloc>(context)
+              //                             .add(
+              //                           BookingSingleLoaded(item.id),
+              //                         );
+              //                         Navigator.pushNamed(context,
+              //                             BookingItemDetailPage.routeName,
+              //                             arguments: {'client': 'client'});
+              //                       },
+              //                       serviceName: item.title,
+              //                       providerName:
+              //                           "${item.assignee?.firstName} ${item.assignee?.lastName}",
+              //                       mainContentWidget: showBookingDetails(item),
+              //                       status: item.status,
+              //                       hidePopupButton: true,
+              //                       bottomRightWidget: displayPrice(item),
+              //                     ),
+              //                   )
+              //                 : SizedBox();
+              //       },
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 100),
             ],
           );

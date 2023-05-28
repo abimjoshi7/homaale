@@ -4,7 +4,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/extensions.dart';
 
 class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final String? serviceName;
