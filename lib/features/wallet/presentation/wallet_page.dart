@@ -125,10 +125,14 @@ class _WalletMainViewState extends State<WalletMainView> {
                       theWidth: double.infinity,
                       label: 'Withdraw Fund',
                       callback: () {
-                        Navigator.pushNamed(
-                          context,
-                          WithdrawPage.routeName,
-                        );
+                        if (state.walletModel.length == 0) {
+                          return;
+                        } else if (Decimal.parse(state.walletModel.first.availableBalance.toString()) != 0.0) {
+                          Navigator.pushNamed(
+                            context,
+                            WithdrawPage.routeName,
+                          );
+                        }
                       },
                     ),
                     addVerticalSpace(8),
@@ -238,7 +242,7 @@ class _WalletMainViewState extends State<WalletMainView> {
                                               style: textTheme.titleSmall,
                                             ),
                                             Text(
-                                              'Paid for: ${state.walletHistoryList[index].taskTitle?.first}',
+                                              'Paid for: ${state.walletHistoryList[index].taskTitle?.length == 0 ? 'N/A' : state.walletHistoryList[index].taskTitle?.join(',')}',
                                               style: textTheme.titleSmall,
                                             ),
                                             Row(
