@@ -37,7 +37,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       try {
         emit(state.copyWith(withdrawState: WithdrawState.loading));
         final res = await repo.withdrawFunds(
-          amount: event.withdrawReqResDto.amount!,
+          // amount: event.withdrawReqResDto.amount!,
           bankAccont: event.withdrawReqResDto.bankAccount!,
           description: event.withdrawReqResDto.description,
         );
@@ -122,6 +122,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         emit(state.copyWith(hasReachedMax: true));
       }
     } catch (e) {
+      log('my earnings failure $e');
       emit(state.copyWith(theStates: TheStates.failure));
     }
     ;

@@ -47,14 +47,17 @@ class WalletRepository {
     }
   }
 
-  Future<WithdrawReqResDto> withdrawFunds(
-      {required String amount, required int bankAccont, String? description}) async {
+  Future<WithdrawReqResDto> withdrawFunds({
+    // required String amount,
+    required int bankAccont,
+    String? description,
+  }) async {
     try {
       final res = await _dio.postDataWithCredential(
         url: 'wallet/withdraw-request/',
         token: CacheHelper.accessToken,
         data: {
-          "amount": amount,
+          // "amount": amount,
           "bank_account": bankAccont,
           "description": '$description',
         },
