@@ -4,6 +4,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/user_location_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_home.dart';
@@ -90,17 +91,6 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     await Geolocator.getCurrentPosition().then((value) async {
                       await cacheUserLocation(
                           LatLng(value.latitude, value.longitude));
-                      await placemarkFromCoordinates(
-                        value.latitude,
-                        value.longitude,
-                      ).then(
-                        (value) => setState(
-                          () {
-                            location =
-                                '${value.first.locality}, ${value.first.subAdministrativeArea}';
-                          },
-                        ),
-                      );
                     });
                   },
                   child: Row(
@@ -110,12 +100,16 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                         color: Colors.white,
                         size: 14,
                       ),
-                      Text(
-                        location ?? 'Click to access location',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
+                      BlocBuilder<UserLocationCubit, UserLocationState>(
+                        builder: (_, state) {
+                          return Text(
+                            state.address ?? 'Click to access location',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          );
+                        },
                       ),
                       const Icon(
                         Icons.arrow_drop_down,
@@ -221,10 +215,10 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList?.unreadCount !=
+                                  state.allNotificationList.unreadCount !=
                                               null &&
                                           state.allNotificationList
-                                                  ?.unreadCount !=
+                                                  .unreadCount !=
                                               0
                                       ? Positioned(
                                           right: 13,
@@ -237,7 +231,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                             child: Center(
                                               child: Text(
                                                 state.allNotificationList
-                                                        ?.unreadCount
+                                                        .unreadCount
                                                         .toString() ??
                                                     "0",
                                                 style: const TextStyle(

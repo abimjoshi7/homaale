@@ -18,7 +18,7 @@ class DioConnectivityRequestRetrier {
     StreamSubscription? streamSubscription;
 
     streamSubscription = connectivity.onConnectivityChanged.listen(
-          (connectivityResult) async {
+      (connectivityResult) async {
         // We're connected either to WiFi or mobile data
         if (connectivityResult != ConnectivityResult.none) {
           Text('No internet Connection Found.');
@@ -66,7 +66,6 @@ class RetryOnConnectionChangeInterceptor extends Interceptor {
   }
 }
 
-
 class ConnectivityStatus {
   ConnectivityStatus._();
 
@@ -87,13 +86,16 @@ class ConnectivityStatus {
   void _checkStatus(ConnectivityResult result) async {
     bool isOnline = false;
     try {
-      final result = await InternetAddress.lookup('example.com');
+      final result = await InternetAddress.lookup('hommale.com');
       isOnline = result.isNotEmpty && result[0].rawAddress.isNotEmpty;
     } on SocketException catch (_) {
       isOnline = false;
     }
-    _controller.sink.add({result: isOnline});
-  }
 
+    if (!_controller.isClosed) {
+      _controller.sink.add({result: isOnline});
+
+    }
+  }
   void disposeStream() => _controller.close();
 }

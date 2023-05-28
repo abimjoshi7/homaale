@@ -40,14 +40,14 @@ class MapsRepository {
     return NearbyTaskEntityServiceResponseDTO.fromJson(x);
   }
 
-  Future<LatLng> fetchCachedUserLocation() async {
-    final LatLng _location =
+  Future<LatLng?> fetchCachedUserLocation() async {
+    final LatLng? _location =
         await CacheHelper.getCachedString(kCurrentLocation).then((value) {
       if (value != null) {
-        final position = Position.fromMap(jsonDecode(value));
-        return LatLng(position.latitude, position.longitude);
+        final position = LatLng.fromJson(jsonDecode(value)) as LatLng;
+        return position;
       }
-      return kUserLocation;
+      return null;
     });
     return _location;
   }

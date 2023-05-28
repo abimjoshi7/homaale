@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
-import 'package:cipher/core/cache/cache_helper.dart';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/google_maps_constants.dart';
-import 'package:cipher/core/constants/user_location_constants.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/user_location/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -21,42 +19,16 @@ class ChooseLocationPage extends StatefulWidget {
 class _ChooseLocationPageState extends State<ChooseLocationPage> {
   Completer<GoogleMapController> _googleMapController = Completer();
   String _draggedAddress = "";
-  late LatLng _defaultLocation;
   late LatLng _draggedLatLng;
   // Position? _draggedPos;
   bool _isDragged = false;
-  CameraPosition? _cameraPosition;
 
   _init() {
-    // await getUserLocation();
-    _defaultLocation = kUserLocation;
     _draggedLatLng = kUserLocation;
-    _cameraPosition = CameraPosition(
-      target: _defaultLocation,
-      zoom: 17.5,
-    );
-    // _goToUserCurrentPosition();
-  }
-
-  Future<void> getUserLocation() async {
-    await CacheHelper.getCachedString("CurrentUserLocation").then((value) {
-      if (value != null) {
-        setState(() {
-          final position = LatLng.fromJson(jsonDecode(value)) as LatLng;
-          _defaultLocation = position;
-        });
-      }
-      if (value == null) {
-        setState(() => _defaultLocation = kUserLocation);
-      }
-    });
-
-    return null;
   }
 
   @override
   void initState() {
-    getUserLocation();
     _init();
     super.initState();
   }
@@ -126,28 +98,35 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   }
 
   Widget _getMap() {
-    return GoogleMap(
-      initialCameraPosition: _cameraPosition!,
-      compassEnabled: true,
-      mapType: MapType.normal,
-      onCameraIdle: () {
-        _getAddress(_draggedLatLng);
-        setState(() {
-          _isDragged = false;
-        });
+    return BlocBuilder<UserLocationCubit, UserLocationState>(
+      builder: (context, state) {
+        return GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: state.location ?? kUserLocation,
+            zoom: 17.5,
+          ),
+          compassEnabled: true,
+          mapType: MapType.normal,
+          onCameraIdle: () {
+            _getAddress(_draggedLatLng);
+            setState(() {
+              _isDragged = false;
+            });
+          },
+          onCameraMove: (position) {
+            setState(() {
+              _draggedLatLng = position.target;
+              _isDragged = true;
+            });
+          },
+          onMapCreated: (GoogleMapController controller) {
+            if (!_googleMapController.isCompleted) {
+              _googleMapController.complete(controller);
+            }
+          },
+          zoomControlsEnabled: false,
+        );
       },
-      onCameraMove: (position) {
-        setState(() {
-          _draggedLatLng = position.target;
-          _isDragged = true;
-        });
-      },
-      onMapCreated: (GoogleMapController controller) {
-        if (!_googleMapController.isCompleted) {
-          _googleMapController.complete(controller);
-        }
-      },
-      zoomControlsEnabled: false,
     );
   }
 
@@ -270,7 +249,9 @@ class SetLocationButton extends StatelessWidget {
                         color: Colors.white,
                       ),
                 ),
-                onPressed: () async => await cacheUserLocation(_draggedLatLng),
+                onPressed: () => context
+                    .read<UserLocationCubit>()
+                    .storeUserLocation(_draggedLatLng),
               ),
             ),
           ],
