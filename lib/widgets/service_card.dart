@@ -33,6 +33,7 @@ class ServiceCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 2,
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -44,48 +45,50 @@ class ServiceCard extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    title ?? '',
-                    style: Theme.of(context).textTheme.titleMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  AutoSizeText(
-                    description ?? '',
-                    style: kLightBlueText14,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: 120,
-                      maxWidth: 150,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      title ?? '',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconText(
-                          label: rating ?? '0.0',
-                          iconData: Icons.star_rate_rounded,
-                          color: kColorAmber,
-                          size: 13,
-                        ),
-                        Flexible(
-                          child: IconText(
-                            label: location ?? 'Remote',
-                            iconData: Icons.location_on_outlined,
-                            color: kColorPink,
+                    AutoSizeText(
+                      description ?? '',
+                      style: kLightBlueText14,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: 120,
+                        maxWidth: double.infinity,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconText(
+                            label: rating ?? '0.0',
+                            iconData: Icons.star_rate_rounded,
+                            color: kColorAmber,
                             size: 13,
                           ),
-                        ),
-                      ],
+                          Flexible(
+                            child: IconText(
+                              label: location ?? 'Remote',
+                              iconData: Icons.location_on_outlined,
+                              color: kColorPink,
+                              size: 13,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

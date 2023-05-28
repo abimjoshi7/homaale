@@ -5,25 +5,34 @@ import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 enum SortType { budget, date }
 
-class PopularServicesPage extends StatefulWidget {
-  static const routeName = '/popular-services-page';
-  const PopularServicesPage({super.key});
+class TrendingServicesPage extends StatefulWidget {
+  static const routeName = '/trending-services-page';
+  const TrendingServicesPage({super.key});
 
   @override
-  State<PopularServicesPage> createState() => _PopularServicesPageState();
+  State<TrendingServicesPage> createState() => _TrendingServicesPageState();
 }
 
-class _PopularServicesPageState extends State<PopularServicesPage> {
-  late final entityServiceBloc = locator<TaskEntityServiceBloc>();
+class _TrendingServicesPageState extends State<TrendingServicesPage> {
+  late final TaskEntityServiceBloc entityServiceBloc;
+  late final ScrollController _controller;
   // final PagingController<int, TaskEntityService> _pagingController =
   //     PagingController(firstPageKey: 1);
+
+  // _nextPageTrigger() {
+  //   _controller.addListener(() {
+  //     if (_controller.position.hasPixels ==
+  //         _controller.position.maxScrollExtent) {
+  //       log("321321");
+  //     }
+  //   });
+  // }
 
   List<TaskEntityService> serviceList = [];
   List<String>? items = [];
@@ -32,7 +41,6 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   bool budgetSelected = false;
   bool categorySelected = false;
   bool locationSelected = false;
-
   bool sortDateIsAscending = true;
   bool sortBudgetIsAscending = true;
 
@@ -43,8 +51,21 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
 
   @override
   void initState() {
-    //so at event add list of records
-    entityServiceBloc.add(FetchServicesList());
+    super.initState();
+
+    entityServiceBloc = context.read<TaskEntityServiceBloc>()
+      ..add(
+        TaskEntityServiceInitiated(
+          isTask: false,
+        ),
+      );
+
+    _controller = ScrollController()
+      ..addListener(
+        () {
+          nextPageTrigger();
+        },
+      );
 
     // _pagingController.addPageRequestListener(
     //   (pageKey) => entityServiceBloc.add(
@@ -59,13 +80,22 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
     //     ),
     //   ),
     // );
+  }
 
-    super.initState();
+  void nextPageTrigger() {
+    var next = 0.8 * _controller.position.maxScrollExtent;
+    if (_controller.offset > next)
+      context.read<TaskEntityServiceBloc>().add(
+            TaskEntityServiceInitiated(
+              isTask: false,
+            ),
+          );
   }
 
   @override
   void dispose() {
     entityServiceBloc.close();
+    _controller.dispose();
     // _pagingController.dispose();
     super.dispose();
   }
@@ -221,6 +251,10 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Trending Services",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: BlocListener<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: entityServiceBloc,
         listener: (context, state) {
@@ -257,11 +291,6 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
           builder: (context, state) {
             return Column(
               children: [
-                addVerticalSpace(50),
-                const CustomHeader(
-                  label: 'Popular Services',
-                ),
-                const Divider(),
                 addVerticalSpace(8),
                 SizedBox(
                   height: 50,
@@ -558,50 +587,102 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                     ],
                   ),
                 ),
-                // Expanded(
-                //   child: PagedGridView(
-                //     pagingController: _pagingController,
-                //     builderDelegate: PagedChildBuilderDelegate(
-                //       itemBuilder: (context, TaskEntityService item, index) =>
-                //           Padding(
-                //         padding: const EdgeInsets.all(8.0),
-                //         child: InkWell(
-                //           onTap: () {
-                //             context.read<TaskEntityServiceBloc>().add(
-                //                   TaskEntityServiceSingleLoaded(id: item.id!),
-                //                 );
+                Expanded(
+                  // child: Text("data"),
+                  child: ListView.builder(
+                    controller: _controller,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) => SizedBox(
+                      height: 250,
+                      child: ServiceCard(
+                        callback: () {
+                          context.read<TaskEntityServiceBloc>().add(
+                                TaskEntityServiceSingleLoaded(
+                                  id: state.taskEntityServiceModel
+                                          .result?[index].id ??
+                                      "",
+                                ),
+                              );
 
-                //             context.read<RatingReviewsBloc>().add(SetToInitial(
-                //                   id: item.id!,
-                //                 ));
+                          context.read<RatingReviewsBloc>().add(SetToInitial(
+                                id: state.taskEntityServiceModel.result?[index]
+                                        .id ??
+                                    "",
+                              ));
 
-                //             Navigator.pushNamed(
-                //               context,
-                //               TaskEntityServicePage.routeName,
-                //             );
-                //           },
-                //           child: ServiceCard(
-                //             title: item.title,
-                //             imagePath: item.images?.length == 0
-                //                 ? kServiceImageNImg
-                //                 : item.images?.first.media,
-                //             rating: item.rating?.first.rating.toString(),
-                //             description:
-                //                 "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
-                //             location:
-                //                 item.location == '' ? "Remote" : item.location,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     gridDelegate:
-                //         const SliverGridDelegateWithFixedCrossAxisCount(
-                //       crossAxisCount: 2,
-                //       childAspectRatio: 0.9,
-                //     ),
-                //     padding: EdgeInsets.zero,
-                //   ),
-                // ),
+                          Navigator.pushNamed(
+                            context,
+                            TaskEntityServicePage.routeName,
+                          );
+                        },
+                        title:
+                            state.taskEntityServiceModel.result?[index].title,
+                        imagePath: state.taskEntityServiceModel.result?[index]
+                                    .images?.length ==
+                                0
+                            ? kServiceImageNImg
+                            : state.taskEntityServiceModel.result?[index].images
+                                ?.first.media,
+                        rating: state.taskEntityServiceModel.result?[index]
+                            .rating?.first.rating
+                            .toString(),
+                        description:
+                            "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
+                        location: state.taskEntityServiceModel.result?[index]
+                                    .location ==
+                                ''
+                            ? "Remote"
+                            : state
+                                .taskEntityServiceModel.result?[index].location,
+                      ),
+                    ),
+                    itemCount: state.isLastPage
+                        ? state.taskEntityServices?.length
+                        : state.taskEntityServices!.length + 1,
+                  ),
+                  // PagedGridView(
+                  //   pagingController: _pagingController,
+                  //   builderDelegate: PagedChildBuilderDelegate(
+                  //     itemBuilder: (context, TaskEntityService item, index) =>
+                  //         Padding(
+                  //       padding: const EdgeInsets.all(8.0),
+                  //       child: InkWell(
+                  //         onTap: () {
+                  //           context.read<TaskEntityServiceBloc>().add(
+                  //                 TaskEntityServiceSingleLoaded(id: item.id!),
+                  //               );
+
+                  //           context.read<RatingReviewsBloc>().add(SetToInitial(
+                  //                 id: item.id!,
+                  //               ));
+
+                  //           Navigator.pushNamed(
+                  //             context,
+                  //             TaskEntityServicePage.routeName,
+                  //           );
+                  //         },
+                  //         child: ServiceCard(
+                  //           title: item.title,
+                  //           imagePath: item.images?.length == 0
+                  //               ? kServiceImageNImg
+                  //               : item.images?.first.media,
+                  //           rating: item.rating?.first.rating.toString(),
+                  //           description:
+                  //               "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
+                  //           location:
+                  //               item.location == '' ? "Remote" : item.location,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 2,
+                  //     childAspectRatio: 0.9,
+                  //   ),
+                  //   padding: EdgeInsets.zero,
+                  // ),
+                ),
               ],
             );
           },

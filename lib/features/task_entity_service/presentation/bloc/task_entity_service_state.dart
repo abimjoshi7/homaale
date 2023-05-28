@@ -3,6 +3,7 @@ part of 'task_entity_service_bloc.dart';
 class TaskEntityServiceState extends Equatable {
   final TheStates theStates;
   final TaskEntityServiceModel taskEntityServiceModel;
+  final List<TaskEntityService>? taskEntityServices;
   final TaskEntityService? taskEntityService;
   final ApplicantModel? applicantModel;
   final bool? approveSuccess;
@@ -20,9 +21,11 @@ class TaskEntityServiceState extends Equatable {
   final bool? serviceLoaded;
   final SelfCreatedTaskService? selfCreatedTaskService;
   final List<ServiceList>? serviceList;
+  final bool isLastPage;
   const TaskEntityServiceState({
     this.theStates = TheStates.initial,
     this.taskEntityServiceModel = const TaskEntityServiceModel(),
+    this.taskEntityServices,
     this.taskEntityService,
     this.applicantModel,
     this.approveSuccess,
@@ -40,6 +43,7 @@ class TaskEntityServiceState extends Equatable {
     this.serviceLoaded,
     this.selfCreatedTaskService,
     this.serviceList,
+    this.isLastPage = false,
   });
 
   const TaskEntityServiceState.initial({
@@ -62,11 +66,14 @@ class TaskEntityServiceState extends Equatable {
     this.serviceLoaded = false,
     this.selfCreatedTaskService = null,
     this.serviceList = const [],
+    this.isLastPage = false,
+    this.taskEntityServices = const [],
   });
 
   TaskEntityServiceState copyWith({
     TheStates? theStates,
     TaskEntityServiceModel? taskEntityServiceModel,
+    List<TaskEntityService>? taskEntityServices,
     TaskEntityService? taskEntityService,
     ApplicantModel? applicantModel,
     bool? approveSuccess,
@@ -84,11 +91,13 @@ class TaskEntityServiceState extends Equatable {
     bool? serviceLoaded,
     SelfCreatedTaskService? selfCreatedTaskService,
     List<ServiceList>? serviceList,
+    bool? isLastPage,
   }) {
     return TaskEntityServiceState(
       theStates: theStates ?? this.theStates,
       taskEntityServiceModel:
           taskEntityServiceModel ?? this.taskEntityServiceModel,
+      taskEntityServices: taskEntityServices ?? this.taskEntityServices,
       taskEntityService: taskEntityService ?? this.taskEntityService,
       applicantModel: applicantModel ?? this.applicantModel,
       approveSuccess: approveSuccess ?? this.approveSuccess,
@@ -107,6 +116,7 @@ class TaskEntityServiceState extends Equatable {
       selfCreatedTaskService:
           selfCreatedTaskService ?? this.selfCreatedTaskService,
       serviceList: serviceList ?? this.serviceList,
+      isLastPage: isLastPage ?? this.isLastPage,
     );
   }
 
@@ -115,6 +125,7 @@ class TaskEntityServiceState extends Equatable {
     return [
       theStates,
       taskEntityServiceModel,
+      taskEntityServices,
       taskEntityService,
       applicantModel,
       approveSuccess,
@@ -132,6 +143,7 @@ class TaskEntityServiceState extends Equatable {
       serviceLoaded,
       selfCreatedTaskService,
       serviceList,
+      isLastPage,
     ];
   }
 }

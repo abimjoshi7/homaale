@@ -9,5 +9,5 @@ export './popular_tasker_nearby_section.dart';
 export './popular_tasker_section.dart';
 export './tasks_and_services_nearby_section.dart';
 export '../../../../widgets/service_card.dart';
-export 'popular_services_section.dart';
+export 'trending_services_section.dart';
 export 'task_recommendation_section.dart';

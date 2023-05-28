@@ -25,6 +25,7 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
     this.city,
     this.isFilter,
   });
+
   @override
   List<Object?> get props => [
         isTask,

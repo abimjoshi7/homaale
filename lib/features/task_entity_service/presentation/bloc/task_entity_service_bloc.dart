@@ -24,7 +24,8 @@ const kThrottleDuration = Duration(
   seconds: 15,
 );
 
-class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc
+    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
@@ -32,29 +33,48 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
   TaskEntityServiceBloc(this.repo) : super(const TaskEntityServiceState()) {
     on<TaskEntityServiceInitiated>(
       (event, emit) async {
-        // emit(
-        //   state.copyWith(
-        //     theStates: TheStates.loading,
-        //   ),
-        // );
         try {
-          var res = await repo.getTaskEntityServices(
-            isTask: event.isTask,
-            page: event.page ?? 1,
-            order: event.order,
-            serviceId: event.serviceId,
-            city: event.city,
-          );
-          if (res.result != null && res.result!.isNotEmpty)
+          if (state.theStates == TheStates.initial) {
+            var taskEntityServiceModel = await repo.getTaskEntityServices(
+              isTask: event.isTask,
+              page: 1,
+            );
+
             emit(
               state.copyWith(
                 theStates: TheStates.success,
-                taskEntityServiceModel: res,
-                // taskEntityServiceModel: value,
-                // isBudgetSort: event.isBudgetSort,
-                // isDateSort: event.isDateSort,
+                taskEntityServiceModel: taskEntityServiceModel,
+                taskEntityServices: taskEntityServiceModel.result,
+                isLastPage: taskEntityServiceModel.next == null,
               ),
             );
+          } else {
+            var taskEntityServiceModel = await repo.getTaskEntityServices(
+              page: (state.taskEntityServiceModel.current ?? 0) + 1,
+              isTask: event.isTask,
+            );
+            if (!state.isLastPage) {
+              emit(state.copyWith(
+                theStates: TheStates.success,
+                taskEntityServiceModel: taskEntityServiceModel,
+                taskEntityServices: [
+                  ...state.taskEntityServiceModel.result!,
+                  ...taskEntityServiceModel.result!,
+                ],
+                isLastPage: true,
+              ));
+            } else {
+              emit(state.copyWith(
+                theStates: TheStates.success,
+                taskEntityServiceModel: taskEntityServiceModel,
+                taskEntityServices: [
+                  ...state.taskEntityServiceModel.result!,
+                  ...taskEntityServiceModel.result!,
+                ],
+                isLastPage: false,
+              ));
+            }
+          }
         } catch (e) {
           log("TES Initiate Bloc Error: $e");
           emit(
@@ -309,8 +329,9 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
                 (value) => emit(
                   state.copyWith(
                     serviceLoaded: true,
-                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
-                      ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList:
+                        value.map((e) => ServiceList.fromJson(e)).toList()
+                          ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );
