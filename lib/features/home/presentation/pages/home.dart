@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Map _source = {ConnectivityResult.none: false};
+  Map _source = {ConnectivityResult.wifi: false};
   final ConnectivityStatus _connectivity = ConnectivityStatus.instance;
   @override
   void initState() {
@@ -47,11 +47,13 @@ class _HomeState extends State<Home> {
         string = 'WiFi: Online';
         break;
       case ConnectivityResult.none:
-        string = 'Online';
+        string = 'Offline';
         break;
       default:
-        string = 'Offline';
+        string = 'WiFi: Online';
     }
+    print("object: $string");
+
     return Scaffold(
       body: SizedBox(
         width: double.infinity,
