@@ -23,6 +23,8 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
   final _key = GlobalKey<FormState>();
   String? otpValue;
   String? number;
+  bool isNewObscure = true;
+  bool isConfirmObscure = true;
 
   Widget _buildOTP() {
     return Pinput(
@@ -144,56 +146,89 @@ class _ConfirmOtpPageState extends State<ConfirmOtpPage> {
                               style: kHelper13,
                             ),
                             kHeight20,
-                            Form(
-                              key: _key,
-                              child: Padding(
-                                padding: kPadding20,
-                                child: SizedBox(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      const Text(
-                                        'New Password',
-                                        style: kLabelPrimary,
-                                      ),
-                                      kHeight10,
-                                      Row(
-                                        children: <Widget>[
-                                          Flexible(
-                                            child: CustomTextFormField(
-                                              validator: validatePassword,
-                                              onSaved: (p0) => setState(
-                                                () {
-                                                  passwordController.text = p0!;
-                                                },
+                            StatefulBuilder(
+                              builder: (context, setState) => Form(
+                                key: _key,
+                                child: Padding(
+                                  padding: kPadding20,
+                                  child: SizedBox(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Text(
+                                          'New Password',
+                                          style: kLabelPrimary,
+                                        ),
+                                        kHeight10,
+                                        Row(
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: CustomTextFormField(
+                                                obscureText: isNewObscure,
+                                                validator: validatePassword,
+                                                onSaved: (p0) => setState(
+                                                  () {
+                                                    passwordController.text =
+                                                        p0!;
+                                                  },
+                                                ),
+                                                suffixWidget: IconButton(
+                                                  color: kColorPrimary,
+                                                  icon: isNewObscure
+                                                      ? Icon(Icons
+                                                          .visibility_rounded)
+                                                      : Icon(
+                                                          Icons
+                                                              .visibility_off_rounded,
+                                                        ),
+                                                  onPressed: () => setState(
+                                                      () => isNewObscure =
+                                                          !isNewObscure),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      kHeight20,
-                                      const Text(
-                                        'Confirm Password',
-                                        style: kLabelPrimary,
-                                      ),
-                                      kHeight10,
-                                      Row(
-                                        children: <Widget>[
-                                          Flexible(
-                                            child: CustomTextFormField(
-                                              validator: validatePassword,
-                                              onSaved: (p0) => setState(
-                                                () {
-                                                  confirmPasswordController
-                                                      .text = p0!;
-                                                },
+                                          ],
+                                        ),
+                                        kHeight20,
+                                        const Text(
+                                          'Confirm Password',
+                                          style: kLabelPrimary,
+                                        ),
+                                        kHeight10,
+                                        Row(
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: CustomTextFormField(
+                                                obscureText: isConfirmObscure,
+                                                validator: validatePassword,
+                                                onSaved: (p0) => setState(
+                                                  () =>
+                                                      confirmPasswordController
+                                                          .text = p0!,
+                                                ),
+                                                suffixWidget: InkWell(
+                                                  onTap: () {
+                                                    setState(
+                                                      () => isConfirmObscure =
+                                                          !isConfirmObscure,
+                                                    );
+                                                  },
+                                                  child: Icon(
+                                                    color: kColorPrimary,
+                                                    isConfirmObscure
+                                                        ? Icons
+                                                            .visibility_rounded
+                                                        : Icons
+                                                            .visibility_off_rounded,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
