@@ -212,7 +212,8 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<ApplicantModel> getApplicants(String id) async => await fetchApplicants(id: id).then(
+  Future<ApplicantModel> getApplicants(String id) async =>
+      await fetchApplicants(id: id).then(
         (value) => ApplicantModel.fromJson(
           value,
         ),

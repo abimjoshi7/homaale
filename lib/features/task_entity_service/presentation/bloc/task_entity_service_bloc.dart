@@ -21,7 +21,7 @@ part 'task_entity_service_event.dart';
 part 'task_entity_service_state.dart';
 
 const kThrottleDuration = Duration(
-  seconds: 15,
+  milliseconds: 100,
 );
 
 class TaskEntityServiceBloc
@@ -32,8 +32,10 @@ class TaskEntityServiceBloc
 
   TaskEntityServiceBloc(this.repo) : super(const TaskEntityServiceState()) {
     on<TaskEntityServiceInitiated>(
+      transformer: throttleDroppable(kThrottleDuration),
       (event, emit) async {
         try {
+          if (state.isLastPage) return;
           if (state.theStates == TheStates.initial) {
             var taskEntityServiceModel = await repo.getTaskEntityServices(
               isTask: event.isTask,
@@ -50,29 +52,27 @@ class TaskEntityServiceBloc
             );
           } else {
             var taskEntityServiceModel = await repo.getTaskEntityServices(
-              page: (state.taskEntityServiceModel.current ?? 0) + 1,
+              page: state.taskEntityServiceModel.current! + 1,
               isTask: event.isTask,
             );
-            if (!state.isLastPage) {
-              emit(state.copyWith(
-                theStates: TheStates.success,
-                taskEntityServiceModel: taskEntityServiceModel,
-                taskEntityServices: [
-                  ...state.taskEntityServiceModel.result!,
-                  ...taskEntityServiceModel.result!,
-                ],
-                isLastPage: true,
-              ));
+            if (taskEntityServiceModel.next == null) {
+              emit(
+                state.copyWith(
+                  isLastPage: true,
+                ),
+              );
             } else {
-              emit(state.copyWith(
-                theStates: TheStates.success,
-                taskEntityServiceModel: taskEntityServiceModel,
-                taskEntityServices: [
-                  ...state.taskEntityServiceModel.result!,
-                  ...taskEntityServiceModel.result!,
-                ],
-                isLastPage: false,
-              ));
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  taskEntityServiceModel: taskEntityServiceModel,
+                  taskEntityServices: [
+                    ...state.taskEntityServices!,
+                    ...taskEntityServiceModel.result!,
+                  ],
+                  isLastPage: false,
+                ),
+              );
             }
           }
         } catch (e) {
@@ -80,8 +80,6 @@ class TaskEntityServiceBloc
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              // isBudgetSort: false,
-              // isDateSort: false,
             ),
           );
         }
