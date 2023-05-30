@@ -102,7 +102,6 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             // Might need to update fromJson model in future
             await repositories.fetchBooking(id: event.id as String).then(
               (value) {
-                value.update("is_rated", (value) => value = false);
                 emit(
                   state.copyWith(
                     states: TheStates.success,

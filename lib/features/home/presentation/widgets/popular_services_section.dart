@@ -82,7 +82,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                           imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kServiceImageNImg
                               : state.taskEntityServiceModel.result?[index].images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index].rating?.first.rating.toString(),
+                          rating: state.taskEntityServiceModel.result?[index].rating?.toString(),
                         ),
                       ),
                     ),

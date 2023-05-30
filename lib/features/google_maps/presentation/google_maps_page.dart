@@ -161,7 +161,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               : IconText(
                                                   color: kColorAmber,
                                                   label:
-                                                      "${((state.activeList?[index].rating ?? []).first.rating)}(${((state.activeList?[index].rating ?? []).first.ratingCount)})",
+                                                      "${((state.activeList?[index].rating ?? ""))}(${((state.activeList?[index].rating ?? ""))})",
                                                   iconData: Icons.star_rounded,
                                                 ),
                                         ),

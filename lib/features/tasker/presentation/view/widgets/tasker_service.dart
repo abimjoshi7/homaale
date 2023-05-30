@@ -57,7 +57,7 @@ class _TaskerServiceState extends State<TaskerService> {
                           : state.service.result?[index].images?.first.media,
                       title: state.service.result?[index].title ?? 'Title',
                       location: state.service.result?[index].city?.name ?? 'City',
-                      rating: state.service.result?[index].rating?.first.rating.toString() ?? '0',
+                      rating: state.service.result?[index].rating?.toString() ?? '0',
                     ),
                   ),
                 ),
