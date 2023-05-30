@@ -20,6 +20,7 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   final String? dateTo;
   final String? category;
   final String? query;
+  final bool newFetch;
 
   const TaskEntityServiceInitiated({
     this.isTask,
@@ -36,6 +37,7 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
     this.dateTo,
     this.category,
     this.query,
+    this.newFetch = false,
   });
 
   @override
@@ -54,6 +56,7 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
         dateTo,
         category,
         query,
+        newFetch,
       ];
 }
 

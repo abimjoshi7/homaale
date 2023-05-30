@@ -79,7 +79,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                         );
                       },
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.46,
+                        width: MediaQuery.of(context).size.width * 0.48,
                         child: ServiceCard(
                           location: state.taskEntityServiceModel.result?[index]
                                       .location ==
@@ -87,7 +87,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                               ? "Remote"
                               : state.taskEntityServiceModel.result?[index]
                                   .location,
-                          description:
+                          createdBy:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
                           title:
                               state.taskEntityServiceModel.result?[index].title,
@@ -99,6 +99,18 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                                   .images?.first.media,
                           rating: state.taskEntityServiceModel.result?[index]
                               .rating?.first.rating
+                              .toString(),
+                          isRange: state
+                              .taskEntityServiceModel.result?[index].isRange,
+                          rateTo: double.parse(state.taskEntityServiceModel
+                                      .result?[index].payableTo ??
+                                  "")
+                              .toInt()
+                              .toString(),
+                          rateFrom: double.parse(state.taskEntityServiceModel
+                                      .result?[index].payableFrom ??
+                                  "")
+                              .toInt()
                               .toString(),
                         ),
                       ),

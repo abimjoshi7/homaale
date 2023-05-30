@@ -1,16 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
-import 'package:cipher/features/transaction/presentation/pages/views/views.dart';
-import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 enum SortType { budget, date }
 
@@ -42,6 +42,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   String? selectedLocation;
   DateTime? dateFrom;
   DateTime? dateTo;
+  TextEditingController? budgetFrom;
+  TextEditingController? budgetTo;
   // String? selectedLocation;
 
   @override
@@ -61,10 +63,17 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
             _controller,
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
+                newFetch: false,
                 isTask: false,
                 dateFrom: dateFrom == null
                     ? null
                     : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                dateTo: dateTo == null
+                    ? null
+                    : DateFormat("yyyy-MM-dd").format(dateTo!),
+                budgetFrom:
+                    budgetFrom?.text.length == 0 ? null : budgetFrom?.text,
+                budgetTo: budgetTo?.text.length == 0 ? null : budgetTo?.text,
               ),
             ),
           );
@@ -75,6 +84,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   @override
   void dispose() {
     _controller.dispose();
+    entityServiceBloc.close();
     super.dispose();
   }
 
@@ -248,7 +258,52 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       children: [
-                        _buildFromDate(context),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.filter_alt,
+                              color: kColorGrey,
+                            ),
+                            _buildFromDate(context),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildToDate(context),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            CustomFilterChip(
+                              iconData: Icons.attach_money_sharp,
+                              label: "From",
+                              callback: (value) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                      content: Text("Enter Amount:"),
+                                      actions: [
+                                        CustomTextFormField(
+                                          autofocus: true,
+                                          hintText: "1000",
+                                          textInputType: TextInputType.number,
+                                          inputAction: TextInputAction.done,
+                                        ),
+                                      ]),
+                                );
+                                // entityServiceBloc.add(
+                                //   TaskEntityServiceInitiated(
+                                //     newFetch: true,
+                                //     budgetFrom: budgetFrom,
+                                //   ),
+                                // );
+                              },
+                            ),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildClearFilters(context),
+                          ],
+                        )
+
                         // items?.isNotEmpty ?? false
                         //     ? Container(
                         //         width: 170,
@@ -579,12 +634,25 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                           rating: state
                               .taskEntityServices?[index].rating?.first.rating
                               .toString(),
-                          description:
+                          createdBy:
                               "${state.taskEntityServices?[index].createdBy?.firstName} ${state.taskEntityServices?[index].createdBy?.lastName}",
+                          description:
+                              state.taskEntityServices?[index].description,
                           location:
                               state.taskEntityServices?[index].location == ''
                                   ? "Remote"
                                   : state.taskEntityServices?[index].location,
+                          rateTo: double.parse(
+                                  state.taskEntityServices?[index].payableTo ??
+                                      "")
+                              .toInt()
+                              .toString(),
+                          rateFrom: double.parse(state
+                                      .taskEntityServices?[index].payableFrom ??
+                                  "")
+                              .toInt()
+                              .toString(),
+                          isRange: state.taskEntityServices?[index].isRange,
                         );
                       },
                       itemCount: state.isLastPage
@@ -593,7 +661,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.8,
+                        childAspectRatio: 0.86,
                       ),
                     ),
                   ),
@@ -610,73 +678,103 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   }
 
   Widget _buildFromDate(BuildContext context) {
-    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
-      builder: (context, state) {
-        return InkWell(
-          onTap: () {
-            showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(
-                2000,
-              ),
-              lastDate: DateTime(
-                2050,
-              ),
-            ).then(
-              (value) {
-                setState(() {
-                  dateFrom = value;
-                });
-                context.read<TaskEntityServiceBloc>().add(
-                      TaskEntityServiceInitiated(
-                        isTask: false,
-                        dateFrom: DateFormat("yyyy-MM-dd").format(
-                          dateFrom!,
-                        ),
-                        page: 0,
-                      ),
-                    );
-              },
+    return CustomFilterChip(
+      label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
+      iconData: Icons.calendar_today_outlined,
+      callback: (value) {
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(
+            2000,
+          ),
+          lastDate: DateTime(
+            2050,
+          ),
+        ).then(
+          (value) {
+            setState(() {
+              dateFrom = value;
+            });
+            entityServiceBloc.add(
+              TaskEntityServiceInitiated(
+                  newFetch: true,
+                  isTask: false,
+                  dateFrom: DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(
+                          dateTo!,
+                        )),
             );
           },
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: kColorGrey,
-              ),
-              borderRadius: BorderRadius.circular(
-                16,
-              ),
-            ),
-            constraints: BoxConstraints.loose(
-              Size(
-                100,
-                100,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Icon(
-                    Icons.calendar_today_outlined,
-                    color: kColorSilver,
+        );
+      },
+    );
+  }
+
+  Widget _buildToDate(BuildContext context) {
+    return CustomFilterChip(
+      label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
+      iconData: Icons.calendar_today_outlined,
+      callback: (value) {
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(
+            2000,
+          ),
+          lastDate: DateTime(
+            2050,
+          ),
+        ).then(
+          (value) {
+            setState(() {
+              dateTo = value;
+            });
+
+            entityServiceBloc.add(
+              TaskEntityServiceInitiated(
+                  newFetch: true,
+                  isTask: false,
+                  dateTo: DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
                   ),
-                  dateFrom == null
-                      ? Text("From")
-                      : Text(
-                          DateFormat.MMMd().format(
-                            dateFrom!,
-                          ),
-                        ),
-                ],
-              ),
-            ),
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(
+                          dateFrom!,
+                        )),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildClearFilters(
+    BuildContext context,
+  ) {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          dateFrom = null;
+          dateTo = null;
+          budgetFrom = null;
+          budgetTo = null;
+        });
+        entityServiceBloc.add(
+          TaskEntityServiceInitiated(
+            newFetch: true,
           ),
         );
       },
+      icon: Icon(
+        Icons.clear,
+        color: kColorSilver,
+      ),
     );
   }
 }

@@ -8,6 +8,7 @@ export './custom_dotted_container_stack.dart';
 export './custom_drop_down_field.dart';
 export './custom_dropdown_search.dart';
 export './custom_elevated_button.dart';
+export './custom_filter_chip.dart';
 export './custom_form_container.dart';
 export './custom_form_field.dart';
 export './custom_header.dart';

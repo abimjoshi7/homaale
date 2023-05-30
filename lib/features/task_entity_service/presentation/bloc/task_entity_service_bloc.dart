@@ -34,12 +34,25 @@ class TaskEntityServiceBloc
     on<TaskEntityServiceInitiated>(
       transformer: throttleDroppable(kThrottleDuration),
       (event, emit) async {
+        if (!event.newFetch && state.isLastPage) return;
         try {
-          if (state.isLastPage) return;
+          if (event.newFetch)
+            emit(
+              state.copyWith(
+                theStates: TheStates.initial,
+              ),
+            );
           if (state.theStates == TheStates.initial) {
             var taskEntityServiceModel = await repo.getTaskEntityServices(
               isTask: event.isTask,
               page: 1,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
             );
 
             emit(
@@ -52,7 +65,7 @@ class TaskEntityServiceBloc
             );
           } else {
             var taskEntityServiceModel = await repo.getTaskEntityServices(
-              page: (event.page ?? state.taskEntityServiceModel.current!) + 1,
+              page: state.taskEntityServiceModel.current! + 1,
               isTask: event.isTask,
               budgetFrom: event.budgetFrom,
               budgetTo: event.budgetTo,
