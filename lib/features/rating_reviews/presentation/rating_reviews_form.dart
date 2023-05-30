@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/rating_reviews/data/models/rating_request_dto.dart';
@@ -40,7 +39,6 @@ class _RatingReviewsFormState extends State<RatingReviewsForm> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CustomModalSheetDrawerIcon(),
         Container(
           padding: EdgeInsets.all(16),
           child: Form(
@@ -90,7 +88,10 @@ class _RatingReviewsFormState extends State<RatingReviewsForm> {
                 rating_error
                     ? Text(
                         'Rating is required!',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.red[900]),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: Colors.red[900]),
                       )
                     : SizedBox.shrink(),
                 addVerticalSpace(8),
@@ -107,7 +108,9 @@ class _RatingReviewsFormState extends State<RatingReviewsForm> {
                         review: ratingController.text,
                         task: context.read<BookingsBloc>().state.bookingRes.id,
                       );
-                      context.read<RatingReviewsBloc>().add(SubmitRatingReviewEvent(ratingRequestDto: ratingReqDto));
+                      context.read<RatingReviewsBloc>().add(
+                          SubmitRatingReviewEvent(
+                              ratingRequestDto: ratingReqDto));
                       Navigator.pop(context);
                     }
                   },
