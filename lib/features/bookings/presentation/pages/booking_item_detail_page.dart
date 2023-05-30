@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/archive/presentation/bloc/archive_task_entity_service_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/custom_archive_popup.dart';
@@ -29,7 +30,8 @@ class BookingItemDetailPage extends StatefulWidget {
   State<BookingItemDetailPage> createState() => _BookingItemDetailPageState();
 }
 
-class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
+class _BookingItemDetailPageState extends State<BookingItemDetailPage>
+    with TheModalBottomSheet {
   int _imageIndex = 0;
 
   @override
@@ -38,6 +40,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final client = routeData?['client'] as String?;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocListener<ArchiveTaskEntityServiceBloc,
           ArchiveTaskEntityServiceState>(
         listener: (context, state) {
@@ -112,16 +115,20 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                           theHeight: 30,
                           callback: () {
                             Navigator.pop(context);
-                            showModalBottomSheet(
-                              constraints: BoxConstraints(
-                                maxHeight:
-                                    MediaQuery.of(context).size.height * 0.5,
-                              ),
-                              isScrollControlled: true,
-                              isDismissible: false,
+                            showCustomBottomSheet(
                               context: context,
-                              builder: (context) => RatingReviewsForm(),
+                              widget: RatingReviewsForm(),
                             );
+                            // showModalBottomSheet(
+                            //   constraints: BoxConstraints(
+                            //     maxHeight:
+                            //         MediaQuery.of(context).size.height * 0.8,
+                            //   ),
+                            //   isScrollControlled: true,
+                            //   isDismissible: false,
+                            //   context: context,
+                            //   builder: (context) => RatingReviewsForm(),
+                            // );
                           },
                           label: 'Sure',
                         ),
@@ -556,20 +563,24 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> {
                                         Text('Your task is completed'),
                                         GestureDetector(
                                           onTap: () {
-                                            showModalBottomSheet(
-                                              constraints: BoxConstraints(
-                                                maxHeight:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.5,
-                                              ),
-                                              isScrollControlled: true,
-                                              isDismissible: false,
+                                            showCustomBottomSheet(
                                               context: context,
-                                              builder: (context) =>
-                                                  RatingReviewsForm(),
+                                              widget: RatingReviewsForm(),
                                             );
+                                            // showModalBottomSheet(
+                                            //   constraints: BoxConstraints(
+                                            //     maxHeight:
+                                            //         MediaQuery.of(context)
+                                            //                 .size
+                                            //                 .height *
+                                            //             0.5,
+                                            //   ),
+                                            //   isScrollControlled: false,
+                                            //   isDismissible: false,
+                                            //   context: context,
+                                            //   builder: (context) =>
+                                            //       RatingReviewsForm(),
+                                            // );
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(8),
