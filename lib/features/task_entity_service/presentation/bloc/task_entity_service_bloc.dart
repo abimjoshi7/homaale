@@ -52,8 +52,15 @@ class TaskEntityServiceBloc
             );
           } else {
             var taskEntityServiceModel = await repo.getTaskEntityServices(
-              page: state.taskEntityServiceModel.current! + 1,
+              page: (event.page ?? state.taskEntityServiceModel.current!) + 1,
               isTask: event.isTask,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
             );
             if (taskEntityServiceModel.next == null) {
               emit(

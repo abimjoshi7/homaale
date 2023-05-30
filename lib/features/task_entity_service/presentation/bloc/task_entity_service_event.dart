@@ -14,6 +14,12 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   final String? serviceId;
   final String? city;
   final bool? isFilter;
+  final String? budgetFrom;
+  final String? budgetTo;
+  final String? dateFrom;
+  final String? dateTo;
+  final String? category;
+  final String? query;
 
   const TaskEntityServiceInitiated({
     this.isTask,
@@ -24,6 +30,12 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
     this.serviceId,
     this.city,
     this.isFilter,
+    this.budgetFrom,
+    this.budgetTo,
+    this.dateFrom,
+    this.dateTo,
+    this.category,
+    this.query,
   });
 
   @override
@@ -36,6 +48,12 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
         serviceId,
         isFilter,
         city,
+        budgetFrom,
+        budgetTo,
+        dateFrom,
+        dateTo,
+        category,
+        query,
       ];
 }
 
