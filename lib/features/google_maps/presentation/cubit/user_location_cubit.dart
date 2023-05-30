@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/user_location_constants.dart';
 import 'package:cipher/features/google_maps/domain/maps_repository.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,9 +10,32 @@ class UserLocationCubit extends Cubit<UserLocationState> {
   UserLocationCubit() : super(UserLocationState());
 
   Future<void> getUserLocation() async {
-    final LatLng _location = await _repository.fetchCachedUserLocation();
-    emit(state.copyWith(
-      location: _location,
-    ));
+    final LatLng? _location = await _repository.fetchCachedUserLocation();
+    if (_location != null) {
+      await getAddress(_location);
+    } else {
+      emit(state.copyWith(location: _location));
+    }
+  }
+
+  Future<void> storeUserLocation(LatLng location) async =>
+      await cacheUserLocation(location)
+          .then((value) async => await getAddress(location));
+
+  Future<void> getAddress(LatLng? location) async {
+    if (location != null) {
+      await placemarkFromCoordinates(
+        location.latitude,
+        location.longitude,
+      ).then(
+        (value) => emit(
+          state.copyWith(
+            location: location,
+            address:
+                '${value.first.locality}, ${value.first.administrativeArea}',
+          ),
+        ),
+      );
+    }
   }
 }

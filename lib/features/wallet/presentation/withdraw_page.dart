@@ -1,3 +1,4 @@
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/billing_payment_page/data/model/linked_bank_response_dto.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
@@ -34,7 +35,7 @@ class WithdrawMainView extends StatefulWidget {
 class _WithdrawMainViewState extends State<WithdrawMainView> {
   LinkedBankDto selectedBankAccount = LinkedBankDto();
 
-  final amountController = TextEditingController();
+  // final amountController = TextEditingController();
   final noteController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -52,7 +53,7 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
           return false;
         }
       },
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.withdrawState == WithdrawState.success) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -65,10 +66,11 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
           Navigator.pop(context);
         }
         if (state.withdrawState == WithdrawState.failure) {
+          final errMsg = await CacheHelper.getCachedString(kErrorLog);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Something went wrong!',
+                errMsg ?? 'Something went wrong!',
               ),
               backgroundColor: Colors.red,
             ),
@@ -244,81 +246,81 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                   ],
                                 ),
                                 addVerticalSpace(16),
-                                RichText(
-                                    text: TextSpan(
-                                        text: 'Withdraw Amount',
-                                        style: textTheme.titleMedium?.copyWith(color: kColorPrimary),
-                                        children: [
-                                      TextSpan(
-                                        text: ' *',
-                                        style: textTheme.titleMedium?.copyWith(color: Colors.red),
-                                      ),
-                                    ])),
-                                addVerticalSpace(8),
-                                Text(
-                                  '(Transfer my take a few minutes and vary bank.)',
-                                  style: textTheme.displaySmall,
-                                ),
-                                addVerticalSpace(16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.75,
-                                      child: CustomTextFormField(
-                                        controller: amountController,
-                                        hintText: 'eg. 100',
-                                        hintStyle: textTheme.displaySmall,
-                                        textInputType: TextInputType.number,
-                                        inputAction: TextInputAction.done,
-                                        validator: (amount) {
-                                          if (amountController.text.trim().isEmpty) {
-                                            return 'Required Field';
-                                          } else if (int.parse(amountController.text.trim()) < 100) {
-                                            return 'Amount cannot be less than 100!';
-                                          } else if (Decimal.parse(amountController.text.trim()) >
-                                              Decimal.parse(state.walletModel.first.availableBalance.toString())) {
-                                            return 'Greater than current balance!';
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                    DropdownButton(
-                                      items: [
-                                        DropdownMenuItem(
-                                          child: Text('NPR'),
-                                        ),
-                                      ],
-                                      onChanged: (value) {},
-                                    )
-                                  ],
-                                ),
-                                addVerticalSpace(8),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                  color: kColorLightSkyBlue,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.info_outline,
-                                        color: Colors.blue,
-                                        size: 20,
-                                      ),
-                                      addHorizontalSpace(4),
-                                      Expanded(
-                                        child: Text(
-                                          'The minimum amount that can be withdrawn from the account is NPR.100.',
-                                          maxLines: 2,
-                                          style: TextStyle(color: Colors.blue, fontSize: 12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                addVerticalSpace(16),
+                                // RichText(
+                                //     text: TextSpan(
+                                //         text: 'Withdraw Amount',
+                                //         style: textTheme.titleMedium?.copyWith(color: kColorPrimary),
+                                //         children: [
+                                //       TextSpan(
+                                //         text: ' *',
+                                //         style: textTheme.titleMedium?.copyWith(color: Colors.red),
+                                //       ),
+                                //     ])),
+                                // addVerticalSpace(8),
+                                // Text(
+                                //   '(Transfer my take a few minutes and vary bank.)',
+                                //   style: textTheme.displaySmall,
+                                // ),
+                                // addVerticalSpace(16),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     SizedBox(
+                                //       width: MediaQuery.of(context).size.width * 0.75,
+                                //       child: CustomTextFormField(
+                                //         controller: amountController,
+                                //         hintText: 'eg. 100',
+                                //         hintStyle: textTheme.displaySmall,
+                                //         textInputType: TextInputType.number,
+                                //         inputAction: TextInputAction.done,
+                                //         validator: (amount) {
+                                //           if (amountController.text.trim().isEmpty) {
+                                //             return 'Required Field';
+                                //           } else if (int.parse(amountController.text.trim()) < 100) {
+                                //             return 'Amount cannot be less than 100!';
+                                //           } else if (Decimal.parse(amountController.text.trim()) >
+                                //               Decimal.parse(state.walletModel.first.availableBalance.toString())) {
+                                //             return 'Greater than current balance!';
+                                //           } else {
+                                //             return null;
+                                //           }
+                                //         },
+                                //       ),
+                                //     ),
+                                //     DropdownButton(
+                                //       items: [
+                                //         DropdownMenuItem(
+                                //           child: Text('NPR'),
+                                //         ),
+                                //       ],
+                                //       onChanged: (value) {},
+                                //     )
+                                //   ],
+                                // ),
+                                // addVerticalSpace(8),
+                                // Container(
+                                //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                //   color: kColorLightSkyBlue,
+                                //   child: Row(
+                                //     crossAxisAlignment: CrossAxisAlignment.start,
+                                //     children: [
+                                //       Icon(
+                                //         Icons.info_outline,
+                                //         color: Colors.blue,
+                                //         size: 20,
+                                //       ),
+                                //       addHorizontalSpace(4),
+                                //       Expanded(
+                                //         child: Text(
+                                //           'The minimum amount that can be withdrawn from the account is NPR.100.',
+                                //           maxLines: 2,
+                                //           style: TextStyle(color: Colors.blue, fontSize: 12),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // addVerticalSpace(16),
                                 Text(
                                   'Add note',
                                   style: textTheme.titleMedium?.copyWith(color: kColorPrimary),
@@ -338,7 +340,7 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                     if (_formKey.currentState!.validate()) {
                                       if (selectedBankAccount.id != null) {
                                         WithdrawReqResDto withdrawReqResDto = WithdrawReqResDto(
-                                          amount: amountController.text.trim(),
+                                          // amount: amountController.text.trim(),
                                           bankAccount: selectedBankAccount.id,
                                           description: noteController.text.trim(),
                                         );
