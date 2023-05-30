@@ -380,6 +380,8 @@ mixin _$TaskEntityService {
   String? get payableTo => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_by")
   String? get updatedBy => throw _privateConstructorUsedError;
+  @JsonKey(name: "rating_count")
+  int? get ratingCount => throw _privateConstructorUsedError;
   CreatedBy? get owner => throw _privateConstructorUsedError;
   dynamic get merchant => throw _privateConstructorUsedError;
   dynamic get avatar => throw _privateConstructorUsedError;
@@ -444,6 +446,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       @JsonKey(name: "payable_from") String? payableFrom,
       @JsonKey(name: "payable_to") String? payableTo,
       @JsonKey(name: "updated_by") String? updatedBy,
+      @JsonKey(name: "rating_count") int? ratingCount,
       CreatedBy? owner,
       dynamic merchant,
       dynamic avatar});
@@ -517,6 +520,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? payableFrom = freezed,
     Object? payableTo = freezed,
     Object? updatedBy = freezed,
+    Object? ratingCount = freezed,
     Object? owner = freezed,
     Object? merchant = freezed,
     Object? avatar = freezed,
@@ -710,6 +714,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.updatedBy
           : updatedBy // ignore: cast_nullable_to_non_nullable
               as String?,
+      ratingCount: freezed == ratingCount
+          ? _value.ratingCount
+          : ratingCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -866,6 +874,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       @JsonKey(name: "payable_from") String? payableFrom,
       @JsonKey(name: "payable_to") String? payableTo,
       @JsonKey(name: "updated_by") String? updatedBy,
+      @JsonKey(name: "rating_count") int? ratingCount,
       CreatedBy? owner,
       dynamic merchant,
       dynamic avatar});
@@ -944,6 +953,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? payableFrom = freezed,
     Object? payableTo = freezed,
     Object? updatedBy = freezed,
+    Object? ratingCount = freezed,
     Object? owner = freezed,
     Object? merchant = freezed,
     Object? avatar = freezed,
@@ -1137,6 +1147,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.updatedBy
           : updatedBy // ignore: cast_nullable_to_non_nullable
               as String?,
+      ratingCount: freezed == ratingCount
+          ? _value.ratingCount
+          : ratingCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -1204,6 +1218,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       @JsonKey(name: "payable_from") this.payableFrom,
       @JsonKey(name: "payable_to") this.payableTo,
       @JsonKey(name: "updated_by") this.updatedBy,
+      @JsonKey(name: "rating_count") this.ratingCount,
       this.owner,
       this.merchant,
       this.avatar})
@@ -1382,6 +1397,9 @@ class _$_TaskEntityService implements _TaskEntityService {
   @JsonKey(name: "updated_by")
   final String? updatedBy;
   @override
+  @JsonKey(name: "rating_count")
+  final int? ratingCount;
+  @override
   final CreatedBy? owner;
   @override
   final dynamic merchant;
@@ -1390,7 +1408,7 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, owner: $owner, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, ratingCount: $ratingCount, owner: $owner, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1478,6 +1496,8 @@ class _$_TaskEntityService implements _TaskEntityService {
                 other.payableTo == payableTo) &&
             (identical(other.updatedBy, updatedBy) ||
                 other.updatedBy == updatedBy) &&
+            (identical(other.ratingCount, ratingCount) ||
+                other.ratingCount == ratingCount) &&
             (identical(other.owner, owner) || other.owner == owner) &&
             const DeepCollectionEquality().equals(other.merchant, merchant) &&
             const DeepCollectionEquality().equals(other.avatar, avatar));
@@ -1534,6 +1554,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         payableFrom,
         payableTo,
         updatedBy,
+        ratingCount,
         owner,
         const DeepCollectionEquality().hash(merchant),
         const DeepCollectionEquality().hash(avatar)
@@ -1603,6 +1624,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       @JsonKey(name: "payable_from") final String? payableFrom,
       @JsonKey(name: "payable_to") final String? payableTo,
       @JsonKey(name: "updated_by") final String? updatedBy,
+      @JsonKey(name: "rating_count") final int? ratingCount,
       final CreatedBy? owner,
       final dynamic merchant,
       final dynamic avatar}) = _$_TaskEntityService;
@@ -1735,6 +1757,9 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   @JsonKey(name: "updated_by")
   String? get updatedBy;
+  @override
+  @JsonKey(name: "rating_count")
+  int? get ratingCount;
   @override
   CreatedBy? get owner;
   @override

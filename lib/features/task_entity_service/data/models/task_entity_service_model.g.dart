@@ -113,6 +113,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       payableFrom: json['payable_from'] as String?,
       payableTo: json['payable_to'] as String?,
       updatedBy: json['updated_by'] as String?,
+      ratingCount: json['rating_count'] as int?,
       owner: json['owner'] == null
           ? null
           : CreatedBy.fromJson(json['owner'] as Map<String, dynamic>),
@@ -170,6 +171,7 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'payable_from': instance.payableFrom,
       'payable_to': instance.payableTo,
       'updated_by': instance.updatedBy,
+      'rating_count': instance.ratingCount,
       'owner': instance.owner,
       'merchant': instance.merchant,
       'avatar': instance.avatar,

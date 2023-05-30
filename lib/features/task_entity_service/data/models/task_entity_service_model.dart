@@ -17,7 +17,8 @@ class TaskEntityServiceModel with _$TaskEntityServiceModel {
     List<TaskEntityService>? result,
   }) = _TaskEntityServiceModel;
 
-  factory TaskEntityServiceModel.fromJson(Map<String, dynamic> json) => _$TaskEntityServiceModelFromJson(json);
+  factory TaskEntityServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$TaskEntityServiceModelFromJson(json);
 }
 
 @freezed
@@ -70,12 +71,14 @@ class TaskEntityService with _$TaskEntityService {
     @JsonKey(name: "payable_from") String? payableFrom,
     @JsonKey(name: "payable_to") String? payableTo,
     @JsonKey(name: "updated_by") String? updatedBy,
+		@JsonKey(name: "rating_count") int? ratingCount,
     CreatedBy? owner,
     dynamic merchant,
     dynamic avatar,
   }) = _TaskEntityService;
 
-  factory TaskEntityService.fromJson(Map<String, dynamic> json) => _$TaskEntityServiceFromJson(json);
+  factory TaskEntityService.fromJson(Map<String, dynamic> json) =>
+      _$TaskEntityServiceFromJson(json);
 }
 
 @freezed
@@ -98,7 +101,8 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) =>
+      _$CountryFromJson(json);
 }
 
 @freezed
@@ -122,7 +126,8 @@ class CreatedBy with _$CreatedBy {
     Badge? badge,
   }) = _CreatedBy;
 
-  factory CreatedBy.fromJson(Map<String, dynamic> json) => _$CreatedByFromJson(json);
+  factory CreatedBy.fromJson(Map<String, dynamic> json) =>
+      _$CreatedByFromJson(json);
 }
 
 @freezed
@@ -145,7 +150,8 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -217,7 +223,8 @@ class RatingStats with _$RatingStats {
     @JsonKey(name: "total_counts") int? totalCounts,
   }) = _RatingStats;
 
-  factory RatingStats.fromJson(Map<String, dynamic> json) => _$RatingStatsFromJson(json);
+  factory RatingStats.fromJson(Map<String, dynamic> json) =>
+      _$RatingStatsFromJson(json);
 }
 
 @freezed
@@ -233,7 +240,8 @@ class Service with _$Service {
     String? commission,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) =>
+      _$ServiceFromJson(json);
 }
 
 @freezed
@@ -245,5 +253,6 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }
