@@ -39,7 +39,6 @@ class _RatingReviewsFormState extends State<RatingReviewsForm> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CustomModalSheetDrawerIcon(),
         Container(
           padding: EdgeInsets.all(16),
           child: Form(
