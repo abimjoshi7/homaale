@@ -250,7 +250,7 @@ mixin _$ServiceElement {
   bool? get isOnline => throw _privateConstructorUsedError;
   Service? get service => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
-  List<Rating>? get rating => throw _privateConstructorUsedError;
+  double? get rating => throw _privateConstructorUsedError;
   @JsonKey(name: "budget_type")
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: "is_requested")
@@ -261,6 +261,8 @@ mixin _$ServiceElement {
   String? get budgetTo => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
+  @JsonKey(name: "rating_count")
+  int? get ratingCount => throw _privateConstructorUsedError;
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed => throw _privateConstructorUsedError;
   @JsonKey(name: "start_date")
@@ -298,13 +300,14 @@ abstract class $ServiceElementCopyWith<$Res> {
       @JsonKey(name: "is_online") bool? isOnline,
       Service? service,
       List<Image>? images,
-      List<Rating>? rating,
+      double? rating,
       @JsonKey(name: "budget_type") String? budgetType,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "budget_from") String? budgetFrom,
       @JsonKey(name: "budget_to") String? budgetTo,
       String? location,
       int? count,
+      @JsonKey(name: "rating_count") int? ratingCount,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
@@ -349,6 +352,7 @@ class _$ServiceElementCopyWithImpl<$Res, $Val extends ServiceElement>
     Object? budgetTo = freezed,
     Object? location = freezed,
     Object? count = freezed,
+    Object? ratingCount = freezed,
     Object? isEndorsed = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
@@ -401,7 +405,7 @@ class _$ServiceElementCopyWithImpl<$Res, $Val extends ServiceElement>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as List<Rating>?,
+              as double?,
       budgetType: freezed == budgetType
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
@@ -425,6 +429,10 @@ class _$ServiceElementCopyWithImpl<$Res, $Val extends ServiceElement>
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ratingCount: freezed == ratingCount
+          ? _value.ratingCount
+          : ratingCount // ignore: cast_nullable_to_non_nullable
               as int?,
       isEndorsed: freezed == isEndorsed
           ? _value.isEndorsed
@@ -525,13 +533,14 @@ abstract class _$$_ServiceElementCopyWith<$Res>
       @JsonKey(name: "is_online") bool? isOnline,
       Service? service,
       List<Image>? images,
-      List<Rating>? rating,
+      double? rating,
       @JsonKey(name: "budget_type") String? budgetType,
       @JsonKey(name: "is_requested") bool? isRequested,
       @JsonKey(name: "budget_from") String? budgetFrom,
       @JsonKey(name: "budget_to") String? budgetTo,
       String? location,
       int? count,
+      @JsonKey(name: "rating_count") int? ratingCount,
       @JsonKey(name: "is_endorsed") bool? isEndorsed,
       @JsonKey(name: "start_date") DateTime? startDate,
       @JsonKey(name: "end_date") DateTime? endDate,
@@ -578,6 +587,7 @@ class __$$_ServiceElementCopyWithImpl<$Res>
     Object? budgetTo = freezed,
     Object? location = freezed,
     Object? count = freezed,
+    Object? ratingCount = freezed,
     Object? isEndorsed = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
@@ -628,9 +638,9 @@ class __$$_ServiceElementCopyWithImpl<$Res>
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>?,
       rating: freezed == rating
-          ? _value._rating
+          ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as List<Rating>?,
+              as double?,
       budgetType: freezed == budgetType
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
@@ -654,6 +664,10 @@ class __$$_ServiceElementCopyWithImpl<$Res>
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ratingCount: freezed == ratingCount
+          ? _value.ratingCount
+          : ratingCount // ignore: cast_nullable_to_non_nullable
               as int?,
       isEndorsed: freezed == isEndorsed
           ? _value.isEndorsed
@@ -701,13 +715,14 @@ class _$_ServiceElement implements _ServiceElement {
       @JsonKey(name: "is_online") this.isOnline,
       this.service,
       final List<Image>? images,
-      final List<Rating>? rating,
+      this.rating,
       @JsonKey(name: "budget_type") this.budgetType,
       @JsonKey(name: "is_requested") this.isRequested,
       @JsonKey(name: "budget_from") this.budgetFrom,
       @JsonKey(name: "budget_to") this.budgetTo,
       this.location,
       this.count,
+      @JsonKey(name: "rating_count") this.ratingCount,
       @JsonKey(name: "is_endorsed") this.isEndorsed,
       @JsonKey(name: "start_date") this.startDate,
       @JsonKey(name: "end_date") this.endDate,
@@ -716,7 +731,6 @@ class _$_ServiceElement implements _ServiceElement {
       final List<Image>? videos,
       @JsonKey(name: "is_bookmarked") this.isBookmarked})
       : _images = images,
-        _rating = rating,
         _videos = videos;
 
   factory _$_ServiceElement.fromJson(Map<String, dynamic> json) =>
@@ -753,16 +767,8 @@ class _$_ServiceElement implements _ServiceElement {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Rating>? _rating;
   @override
-  List<Rating>? get rating {
-    final value = _rating;
-    if (value == null) return null;
-    if (_rating is EqualUnmodifiableListView) return _rating;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final double? rating;
   @override
   @JsonKey(name: "budget_type")
   final String? budgetType;
@@ -779,6 +785,9 @@ class _$_ServiceElement implements _ServiceElement {
   final String? location;
   @override
   final int? count;
+  @override
+  @JsonKey(name: "rating_count")
+  final int? ratingCount;
   @override
   @JsonKey(name: "is_endorsed")
   final bool? isEndorsed;
@@ -810,7 +819,7 @@ class _$_ServiceElement implements _ServiceElement {
 
   @override
   String toString() {
-    return 'ServiceElement(id: $id, slug: $slug, createdAt: $createdAt, createdBy: $createdBy, title: $title, currency: $currency, city: $city, isOnline: $isOnline, service: $service, images: $images, rating: $rating, budgetType: $budgetType, isRequested: $isRequested, budgetFrom: $budgetFrom, budgetTo: $budgetTo, location: $location, count: $count, isEndorsed: $isEndorsed, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, videos: $videos, isBookmarked: $isBookmarked)';
+    return 'ServiceElement(id: $id, slug: $slug, createdAt: $createdAt, createdBy: $createdBy, title: $title, currency: $currency, city: $city, isOnline: $isOnline, service: $service, images: $images, rating: $rating, budgetType: $budgetType, isRequested: $isRequested, budgetFrom: $budgetFrom, budgetTo: $budgetTo, location: $location, count: $count, ratingCount: $ratingCount, isEndorsed: $isEndorsed, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, videos: $videos, isBookmarked: $isBookmarked)';
   }
 
   @override
@@ -832,7 +841,7 @@ class _$_ServiceElement implements _ServiceElement {
                 other.isOnline == isOnline) &&
             (identical(other.service, service) || other.service == service) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
-            const DeepCollectionEquality().equals(other._rating, _rating) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.budgetType, budgetType) ||
                 other.budgetType == budgetType) &&
             (identical(other.isRequested, isRequested) ||
@@ -844,6 +853,8 @@ class _$_ServiceElement implements _ServiceElement {
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.count, count) || other.count == count) &&
+            (identical(other.ratingCount, ratingCount) ||
+                other.ratingCount == ratingCount) &&
             (identical(other.isEndorsed, isEndorsed) ||
                 other.isEndorsed == isEndorsed) &&
             (identical(other.startDate, startDate) ||
@@ -871,13 +882,14 @@ class _$_ServiceElement implements _ServiceElement {
         isOnline,
         service,
         const DeepCollectionEquality().hash(_images),
-        const DeepCollectionEquality().hash(_rating),
+        rating,
         budgetType,
         isRequested,
         budgetFrom,
         budgetTo,
         location,
         count,
+        ratingCount,
         isEndorsed,
         startDate,
         endDate,
@@ -913,13 +925,14 @@ abstract class _ServiceElement implements ServiceElement {
           @JsonKey(name: "is_online") final bool? isOnline,
           final Service? service,
           final List<Image>? images,
-          final List<Rating>? rating,
+          final double? rating,
           @JsonKey(name: "budget_type") final String? budgetType,
           @JsonKey(name: "is_requested") final bool? isRequested,
           @JsonKey(name: "budget_from") final String? budgetFrom,
           @JsonKey(name: "budget_to") final String? budgetTo,
           final String? location,
           final int? count,
+          @JsonKey(name: "rating_count") final int? ratingCount,
           @JsonKey(name: "is_endorsed") final bool? isEndorsed,
           @JsonKey(name: "start_date") final DateTime? startDate,
           @JsonKey(name: "end_date") final DateTime? endDate,
@@ -956,7 +969,7 @@ abstract class _ServiceElement implements ServiceElement {
   @override
   List<Image>? get images;
   @override
-  List<Rating>? get rating;
+  double? get rating;
   @override
   @JsonKey(name: "budget_type")
   String? get budgetType;
@@ -973,6 +986,9 @@ abstract class _ServiceElement implements ServiceElement {
   String? get location;
   @override
   int? get count;
+  @override
+  @JsonKey(name: "rating_count")
+  int? get ratingCount;
   @override
   @JsonKey(name: "is_endorsed")
   bool? get isEndorsed;

@@ -127,9 +127,7 @@ class TaskEntityServiceBloc
               } else {
                 emit(
                   state.copyWith(
-                    theStates: TheStates.success,
-                    taskEntityService: value,
-                  ),
+                      theStates: TheStates.success, taskEntityService: value),
                 );
               }
             },
