@@ -17,20 +17,20 @@ class EditProfilePage extends StatelessWidget {
           const Expanded(
             child: FormEditProfileSection(),
           ),
-          // AccountListTileSection(
-          //   icon: const SizedBox.shrink(),
-          //   label: 'Additional account setting',
-          //   trailingWidget: const Icon(
-          //     Icons.arrow_forward_ios,
-          //     size: 16,
-          //   ),
-          //   onTap: () {
-          //     Navigator.pushNamed(
-          //       context,
-          //       AdditionalAccountInfoPage.routeName,
-          //     );
-          //   },
-          // ),
+          AccountListTileSection(
+            icon: const SizedBox.shrink(),
+            label: 'Additional account setting',
+            trailingWidget: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AdditionalAccountInfoPage.routeName,
+              );
+            },
+          ),
         ],
       ),
     );

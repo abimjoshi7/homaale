@@ -60,6 +60,7 @@ dependencies:
   wechat_assets_picker: ^8.4.2
   decimal: ^2.3.2
   geocoder2: ^1.4.0
+  internet_connection_checker: ^0.0.1+4
 
 dev_dependencies:
   flutter_test:

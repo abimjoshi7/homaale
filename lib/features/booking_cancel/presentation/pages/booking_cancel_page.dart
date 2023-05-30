@@ -291,6 +291,8 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                           ),
                         );
                       } else {
+                        print(
+                            'booking Id : ${context.read<BookingsBloc>().state.bookingRes.booking}');
                         context.read<BookingCancelBloc>().add(CancelActionPost(
                             bookingId: context
                                     .read<BookingsBloc>()

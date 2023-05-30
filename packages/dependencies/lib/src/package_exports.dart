@@ -45,3 +45,4 @@ export 'package:showcaseview/showcaseview.dart';
 export 'package:wechat_camera_picker/wechat_camera_picker.dart' hide LatLng;
 export 'package:wechat_assets_picker/wechat_assets_picker.dart' hide LatLng;
 export 'package:decimal/decimal.dart';
+export  'package:internet_connection_checker/internet_connection_checker.dart';

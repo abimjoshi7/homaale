@@ -7,8 +7,12 @@ import 'package:cipher/locator.dart';
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/network_info/network_bloc.dart';
+import '../../../../core/network_info/network_info.dart';
+import '../../../../core/network_info/network_state.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../bookings/presentation/bloc/bookings_bloc.dart';
+import '../../../error_pages/no_internet_page.dart';
 
 class BoxPage extends StatefulWidget {
   const BoxPage({super.key});
@@ -19,7 +23,6 @@ class BoxPage extends StatefulWidget {
 
 class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   late TabController _tabController;
-
   @override
   void initState() {
     super.initState();
