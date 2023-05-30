@@ -71,203 +71,65 @@ class Cipher extends StatelessWidget {
       create: (context) => SupportHelpRepositories()..getHelpTopicList(),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => SignupBloc(
-              SignUpRepositories(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => PrivacyPolicyCubit(),
-          ),
-          BlocProvider(
-            create: (context) => TermsOfUseCubit(),
-          ),
-          BlocProvider(
-            create: (context) => SupportTicketBloc(),
-          ),
-          BlocProvider(
-            create: (context) => locator<CategoriesBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => SignInBloc(),
-          ),
-          BlocProvider(
-            create: (context) => FeedbackBloc(),
-          ),
-          BlocProvider(
-            create: (context) => PostSupportTicketBloc(),
-          ),
-          BlocProvider(
-            create: (context) => SupportTicketTypeOptionsBloc(),
-          ),
-          BlocProvider(
-            create: (context) => FeedbackPostBloc(),
-          ),
-          BlocProvider(
-            create: (context) => UserSuspendBloc(),
-          ),
-          BlocProvider(
-            create: (context) => BookingCancelBloc(),
-          ),
-          BlocProvider(
-            create: (context) => ResendVerificationBloc(
-              SignUpRepositories(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => NearbyTaskEntityServiceBloc(),
-          ),
-          BlocProvider(
-            create: (context) => locator<UserBloc>()
-              ..add(
-                UserLoaded(),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => UserLocationCubit()..getUserLocation(),
-          ),
-          BlocProvider(
-            create: (context) => TaskerPortfolioCubit()..getPortfolio(),
-          ),
-          BlocProvider(
-            create: (context) => TaskerExperienceCubit()..getTaskerExperience(),
-          ),
-          BlocProvider(
-            create: (context) => TaskerEducationCubit()..getTaskerEducation(),
-          ),
-          BlocProvider(
-            create: (context) => TaskerCertificationCubit()..getTaskerCertification(),
-          ),
-          BlocProvider(
-            create: (context) => locator<KycBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<ImageUploadCubit>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<UploadBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => SupportHelpBloc(
-              SupportHelpRepositories(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => PasswordSecurityBloc(
-              PasswordSecurityRepositories(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => ForgotPasswordBloc(
-              SignInRepository(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => OtpResetVerifyBloc(
-              SignUpRepositories(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => UserDeactiveBloc(),
-          ),
-          BlocProvider(
-            create: (context) => InterestsBloc()
-              ..add(
-                InterestLoadInitiated(),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => CountryBloc()
-              ..add(
-                CountryLoadInitiated(),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => CityBloc()
-              ..add(
-                CityLoadInitiated(),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => CurrencyBloc()
-              ..add(
-                CurrencyLoadInitiated(),
-              ),
-          ),
-          BlocProvider(
-            create: (context) => LanguageBloc()
-              ..add(
-                LanguageLoadInitiated(),
-              ),
-          ),
+          BlocProvider(create: (context) => SignupBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => PrivacyPolicyCubit()),
+          BlocProvider(create: (context) => TermsOfUseCubit()),
+          BlocProvider(create: (context) => SupportTicketBloc()),
+          BlocProvider(create: (context) => locator<CategoriesBloc>()),
+          BlocProvider(create: (context) => SignInBloc()),
+          BlocProvider(create: (context) => FeedbackBloc()),
+          BlocProvider(create: (context) => PostSupportTicketBloc()),
+          BlocProvider(create: (context) => SupportTicketTypeOptionsBloc()),
+          BlocProvider(create: (context) => FeedbackPostBloc()),
+          BlocProvider(create: (context) => UserSuspendBloc()),
+          BlocProvider(create: (context) => BookingCancelBloc()),
+          BlocProvider(create: (context) => ResendVerificationBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => NearbyTaskEntityServiceBloc()),
+          BlocProvider(create: (context) => locator<UserBloc>()),
+          BlocProvider(create: (context) => UserLocationCubit()),
+          BlocProvider(create: (context) => TaskerPortfolioCubit()),
+          BlocProvider(create: (context) => TaskerExperienceCubit()),
+          BlocProvider(create: (context) => TaskerEducationCubit()),
+          BlocProvider(create: (context) => TaskerCertificationCubit()),
+          BlocProvider(create: (context) => locator<KycBloc>()),
+          BlocProvider(create: (context) => locator<ImageUploadCubit>()),
+          BlocProvider(create: (context) => locator<UploadBloc>()),
+          BlocProvider(create: (context) => SupportHelpBloc(SupportHelpRepositories())),
+          BlocProvider(create: (context) => PasswordSecurityBloc(PasswordSecurityRepositories())),
+          BlocProvider(create: (context) => ForgotPasswordBloc(SignInRepository())),
+          BlocProvider(create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => UserDeactiveBloc()),
+          BlocProvider(create: (context) => InterestsBloc()),
+          BlocProvider(create: (context) => CountryBloc()),
+          BlocProvider(create: (context) => CityBloc()),
+          BlocProvider(create: (context) => CurrencyBloc()),
+          BlocProvider(create: (context) => LanguageBloc()),
           BlocProvider(create: (context) => ThemeBloc()),
-          BlocProvider(
-            create: (context) => ActivitiesTimelineBloc(),
-          ),
-          BlocProvider(
-            create: (context) => NestedCategoriesCubit(),
-          ),
+          BlocProvider(create: (context) => ActivitiesTimelineBloc()),
+          BlocProvider(create: (context) => NestedCategoriesCubit()),
           BlocProvider(create: (context) => locator<TaskEntityServiceBloc>()),
-          BlocProvider(
-            create: (context) => locator<TaskBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<ServicesBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<BookingsBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<ChatBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<RatingReviewsBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<RedeemBloc>(),
-          ),
+          BlocProvider(create: (context) => locator<TaskBloc>()),
+          BlocProvider(create: (context) => locator<ServicesBloc>()),
+          BlocProvider(create: (context) => locator<BookingsBloc>()),
+          BlocProvider(create: (context) => locator<ChatBloc>()),
+          BlocProvider(create: (context) => locator<RatingReviewsBloc>()),
+          BlocProvider(create: (context) => locator<RedeemBloc>()),
           BlocProvider(create: (context) => RedeemStatementBloc()),
           BlocProvider(create: (context) => EarnedBloc()),
           BlocProvider(create: (context) => RedeemedBloc()),
-          BlocProvider(
-            create: (context) => locator<BillsPaymentBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<TaskerCubit>()..loadTaskerList(),
-          ),
-          BlocProvider(
-            create: (context) => locator<NotificationBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => EventBloc(),
-          ),
-          BlocProvider(
-            create: (context) => locator<PaymentBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<PaymentTypeBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => OrderItemListBloc(),
-          ),
-          BlocProvider(
-            create: (context) => locator<OrderIdCreateBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => locator<OrderItemRetriveBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => PromoCodeApplyBloc(),
-          ),
-          BlocProvider(
-            create: (context) => PaymentVerifyBloc(),
-          ),
-          BlocProvider(
-            create: (context) => locator<SavedBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => WalletBloc(),
-          ),
+          BlocProvider(create: (context) => locator<BillsPaymentBloc>()),
+          BlocProvider(create: (context) => locator<TaskerCubit>()),
+          BlocProvider(create: (context) => locator<NotificationBloc>()),
+          BlocProvider(create: (context) => EventBloc()),
+          BlocProvider(create: (context) => locator<PaymentBloc>()),
+          BlocProvider(create: (context) => locator<PaymentTypeBloc>()),
+          BlocProvider(create: (context) => OrderItemListBloc()),
+          BlocProvider(create: (context) => locator<OrderIdCreateBloc>()),
+          BlocProvider(create: (context) => locator<OrderItemRetriveBloc>()),
+          BlocProvider(create: (context) => PromoCodeApplyBloc()),
+          BlocProvider(create: (context) => PaymentVerifyBloc()),
+          BlocProvider(create: (context) => locator<SavedBloc>()),
+          BlocProvider(create: (context) => WalletBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {

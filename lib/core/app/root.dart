@@ -1,31 +1,23 @@
 import 'dart:async';
+import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
-import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
-import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
-import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
-import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/categories/presentation/pages/sections/categories_section.dart';
-import '../../features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
-import '../../features/user_suspend/presentation/bloc/user_suspend_event.dart';
 import '../../features/user_suspend/presentation/pages/account_suspend_custom_tost.dart';
-import '../network_info/network_info.dart';
 
 class Root extends StatefulWidget {
   static const routeName = '/root';
@@ -131,65 +123,11 @@ class _CalledRootClassState extends State<CalledRootClass> {
     Future.delayed(
       Duration.zero,
       () async {
-        await context
-            .read<TaskerPortfolioCubit>()
-            .getPortfolio()
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context.read<KycBloc>().add(KycModelLoaded()),
-                      context.read<KycBloc>().add(KycDocumentLoaded()),
-                      context.read<KycBloc>().add(KycProfileInitiated()),
-                    }
-                })
-            .then(
-              (value) async => context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1)),
-            )
-            .then(
-              (value) async => context.read<TaskEntityServiceBloc>().add(
-                    TaskEntityServiceInitiated(isTask: false),
-                  ),
-            )
-            .then(
-              (value) async => context.read<TaskerExperienceCubit>().getTaskerExperience(),
-            )
-            .then(
-              (value) async => context.read<TaskerEducationCubit>().getTaskerEducation(),
-            )
-            .then(
-              (value) async => context.read<TaskerCertificationCubit>().getTaskerCertification(),
-            )
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context.read<UserBloc>().add(
-                            UserLoaded(),
-                          ),
-                    }
-                })
-            .then(
-              (value) async => context.read<TaskerCubit>().loadTaskerList(),
-            )
-            .then(
-              (value) async => context
-                  .read<UserSuspendBloc>()
-                  .add(UserSuspendLoaded(userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}')),
-            )
-            .then(
-              (value) async => {
-                if (CacheHelper.isLoggedIn)
-                  {
-                    context.read<NotificationBloc>().add(MyNotificationListInitiated()),
-                  }
-              },
-            )
-            .then((value) => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context.read<BillsPaymentBloc>().add(InitializeState()),
-                      context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount()),
-                    }
-                });
+        if (CacheHelper.isLoggedIn) {
+          context.read<BillsPaymentBloc>().add(InitializeState());
+          context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
+          context.read<NotificationBloc>().add(MyNotificationListInitiated());
+        }
       },
     );
   }
@@ -245,12 +183,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await Future.delayed(
-          const Duration(
-            microseconds: 1,
-          ),
-        );
         initBlocs();
+        initialFetch(context);
       },
       child: Scaffold(
         key: _scaffoldkey,

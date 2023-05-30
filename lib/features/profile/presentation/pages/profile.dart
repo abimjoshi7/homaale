@@ -34,16 +34,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     tabController = TabController(length: /* user == 'self' ? 7 : */ 6, vsync: this);
-    // context.read<ServicesBloc>().add(
-    //       const MyCreatedServiceTaskLoadInitiated(
-    //         isTask: true,
-    //       ),
-    //     );
-    // tabController.addListener(() {
-    //   setState(() {
-    //     selectedIndex = tabController.index;
-    //   });
-    // });
     super.initState();
   }
 

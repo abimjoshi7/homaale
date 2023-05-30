@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -55,18 +56,15 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           CacheHelper.hasProfile = state.userLoginRes?.hasProfile;
           CacheHelper.accessToken = state.userLoginRes?.access;
           CacheHelper.refreshToken = state.userLoginRes?.refresh;
-          if (keepLogged == true) {
-            // await CacheHelper.setCachedString(
-            //   kIsPersistToken,
-            //   "1",
-            // ).then(
-            //   (value) async => CacheHelper.setCachedString(
-            //     kToken,
-            //     CacheHelper.accessToken ?? '',
-            //   ),
-            // );
-          }
+
           if (!mounted) return;
+
+          // fetch user details
+          userDetailsFetch(context);
+
+          // fetch data for app
+          fetchDataForForms(context);
+
           Navigator.pushNamedAndRemoveUntil(
             context,
             Root.routeName,
@@ -80,11 +78,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             builder: (context) => CustomToast(
               heading: 'Failure',
               content: error ?? "Please try again.",
-              onTap: () {
-                // context.read<SignInBloc>().add(
-                //       SignInWithPhoneSelected(),
-                //     );
-              },
+              onTap: () {},
               isSuccess: false,
             ),
           ).then(
@@ -146,7 +140,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                                   '+977',
                                   style: kBodyText1,
                                 ),
-                                 Icon(Icons.arrow_drop_down)
+                                Icon(Icons.arrow_drop_down)
                               ],
                             ),
                           ),
@@ -184,9 +178,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   },
                   child: Icon(
                     color: kColorPrimary,
-                    isObscure
-                        ? Icons.visibility_rounded
-                        : Icons.visibility_off_rounded,
+                    isObscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
                   ),
                 ),
                 onSaved: (p0) => setState(
@@ -195,7 +187,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   },
                 ),
                 hintText: 'Enter your password here',
-                hintStyle:Theme.of(context).textTheme.bodySmall,
+                hintStyle: Theme.of(context).textTheme.bodySmall,
                 validator: validateNotEmpty,
               ),
             );
@@ -263,9 +255,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 //setting validation error status to true
                 else {
                   if (state.theStates == TheStates.initial) {
-                    context
-                        .read<SignInBloc>()
-                        .add(SignInValErrorStatusChanged());
+                    context.read<SignInBloc>().add(SignInValErrorStatusChanged());
                   }
                 }
               },
@@ -296,7 +286,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         ),
                       ),
                       kWidth5,
-                       Text(
+                      Text(
                         'Remember me',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
@@ -309,9 +299,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         ForgotPasswordPage.routeName,
                       );
                     },
-                    child:  Text('Forgot password?',
+                    child: Text(
+                      'Forgot password?',
                       style: Theme.of(context).textTheme.headlineSmall,
-
                     ),
                   )
                 ],
@@ -384,13 +374,12 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               addVerticalSpace(8.0),
               if (state.theStates == TheStates.initial)
                 CustomTextButton(
-                  text: (state.isPhoneNumber) ? "Didn't get OTP ?"
-                      : "Didn't get verification email?",
+                  text: (state.isPhoneNumber) ? "Didn't get OTP ?" : "Didn't get verification email?",
                   voidCallback: () => Navigator.pushNamed(
                     context,
                     ResendVerificationPage.routeName,
                   ),
-                    // style :Theme.of(context).textTheme.bodySmall
+                  // style :Theme.of(context).textTheme.bodySmall
                   style: kText13.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,

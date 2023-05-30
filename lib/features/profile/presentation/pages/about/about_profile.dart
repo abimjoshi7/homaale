@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/paddings.dart';
 import 'package:cipher/features/profile/presentation/pages/about/views/views.dart';
 import 'package:flutter/material.dart';
 

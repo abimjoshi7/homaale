@@ -90,11 +90,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                   ),
                 ),
               )
-              .whenComplete(
-                () => add(
-                  UserLoaded(),
-                ),
-              );
+              .whenComplete(() => add(UserLoaded()));
         } catch (e) {
           emit(
             state.copyWith(
@@ -102,9 +98,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
               isEdited: false,
             ),
           );
-          add(
-            UserLoaded(),
-          );
+          add(UserLoaded());
         }
       },
     );
