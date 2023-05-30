@@ -53,9 +53,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       videos: (json['videos'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rating: (json['rating'] as List<dynamic>?)
-          ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      rating: (json['rating'] as num?)?.toDouble(),
       count: json['count'] as num?,
       isBookmarked: json['is_bookmarked'] as bool?,
       offers: (json['offers'] as List<dynamic>?)

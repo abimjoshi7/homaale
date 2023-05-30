@@ -310,7 +310,7 @@ mixin _$TaskEntityService {
   Service? get service => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
   List<Image>? get videos => throw _privateConstructorUsedError;
-  List<Rating>? get rating => throw _privateConstructorUsedError;
+  double? get rating => throw _privateConstructorUsedError;
   num? get count => throw _privateConstructorUsedError;
   @JsonKey(name: "is_bookmarked")
   bool? get isBookmarked => throw _privateConstructorUsedError;
@@ -404,7 +404,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       Service? service,
       List<Image>? images,
       List<Image>? videos,
-      List<Rating>? rating,
+      double? rating,
       num? count,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked,
       List<Offer>? offers,
@@ -553,7 +553,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as List<Rating>?,
+              as double?,
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -826,7 +826,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       Service? service,
       List<Image>? images,
       List<Image>? videos,
-      List<Rating>? rating,
+      double? rating,
       num? count,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked,
       List<Offer>? offers,
@@ -978,9 +978,9 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           : videos // ignore: cast_nullable_to_non_nullable
               as List<Image>?,
       rating: freezed == rating
-          ? _value._rating
+          ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as List<Rating>?,
+              as double?,
       count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
@@ -1164,7 +1164,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       this.service,
       final List<Image>? images,
       final List<Image>? videos,
-      final List<Rating>? rating,
+      this.rating,
       this.count,
       @JsonKey(name: "is_bookmarked") this.isBookmarked,
       final List<Offer>? offers,
@@ -1209,7 +1209,6 @@ class _$_TaskEntityService implements _TaskEntityService {
       this.avatar})
       : _images = images,
         _videos = videos,
-        _rating = rating,
         _offers = offers,
         _endorsements = endorsements,
         _highlights = highlights;
@@ -1248,16 +1247,8 @@ class _$_TaskEntityService implements _TaskEntityService {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Rating>? _rating;
   @override
-  List<Rating>? get rating {
-    final value = _rating;
-    if (value == null) return null;
-    if (_rating is EqualUnmodifiableListView) return _rating;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final double? rating;
   @override
   final num? count;
   @override
@@ -1416,7 +1407,7 @@ class _$_TaskEntityService implements _TaskEntityService {
             (identical(other.service, service) || other.service == service) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality().equals(other._videos, _videos) &&
-            const DeepCollectionEquality().equals(other._rating, _rating) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.count, count) || other.count == count) &&
             (identical(other.isBookmarked, isBookmarked) ||
                 other.isBookmarked == isBookmarked) &&
@@ -1503,7 +1494,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         service,
         const DeepCollectionEquality().hash(_images),
         const DeepCollectionEquality().hash(_videos),
-        const DeepCollectionEquality().hash(_rating),
+        rating,
         count,
         isBookmarked,
         const DeepCollectionEquality().hash(_offers),
@@ -1572,7 +1563,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       final Service? service,
       final List<Image>? images,
       final List<Image>? videos,
-      final List<Rating>? rating,
+      final double? rating,
       final num? count,
       @JsonKey(name: "is_bookmarked") final bool? isBookmarked,
       final List<Offer>? offers,
@@ -1635,7 +1626,7 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   List<Image>? get videos;
   @override
-  List<Rating>? get rating;
+  double? get rating;
   @override
   num? get count;
   @override

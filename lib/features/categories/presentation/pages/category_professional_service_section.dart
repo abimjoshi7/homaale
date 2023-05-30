@@ -31,7 +31,6 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                 location:
                     '${state.taskEntityServiceModel.result?[index].city?.name ?? ''}, ${state.taskEntityServiceModel.result?[index].city?.country?.name ?? ''}',
                 rating: state.taskEntityServiceModel.result?[index].rating
-                        ?.first.rating
                         .toString() ??
                     '5',
               );

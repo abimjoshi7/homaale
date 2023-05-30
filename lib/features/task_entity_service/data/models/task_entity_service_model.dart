@@ -30,7 +30,7 @@ class TaskEntityService with _$TaskEntityService {
     Service? service,
     List<Image>? images,
     List<Image>? videos,
-    List<Rating>? rating,
+    double? rating,
     num? count,
     @JsonKey(name: "is_bookmarked") bool? isBookmarked,
     List<Offer>? offers,
