@@ -42,8 +42,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   String? selectedLocation;
   DateTime? dateFrom;
   DateTime? dateTo;
-  TextEditingController? budgetFrom;
-  TextEditingController? budgetTo;
+  final budgetFrom = TextEditingController();
+  final budgetTo = TextEditingController();
   // String? selectedLocation;
 
   @override
@@ -72,8 +72,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                     ? null
                     : DateFormat("yyyy-MM-dd").format(dateTo!),
                 budgetFrom:
-                    budgetFrom?.text.length == 0 ? null : budgetFrom?.text,
-                budgetTo: budgetTo?.text.length == 0 ? null : budgetTo?.text,
+                    budgetFrom.text.length == 0 ? null : budgetFrom.text,
+                budgetTo: budgetTo.text.length == 0 ? null : budgetTo.text,
               ),
             ),
           );
@@ -85,6 +85,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   void dispose() {
     _controller.dispose();
     entityServiceBloc.close();
+    budgetFrom.dispose();
+    budgetTo.dispose();
     super.dispose();
   }
 
@@ -274,7 +276,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                             ),
                             CustomFilterChip(
                               iconData: Icons.attach_money_sharp,
-                              label: "From",
+                              label: budgetFrom.text.length == 0
+                                  ? "From"
+                                  : budgetFrom.text,
                               callback: (value) {
                                 showDialog(
                                   context: context,
@@ -283,9 +287,16 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                                       actions: [
                                         CustomTextFormField(
                                           autofocus: true,
-                                          hintText: "1000",
+                                          controller: budgetFrom,
+                                          hintText: "2000",
                                           textInputType: TextInputType.number,
                                           inputAction: TextInputAction.done,
+                                          onFieldSubmitted: (p0) {
+                                            setState(() {
+                                              budgetFrom.text = p0!;
+                                            });
+                                            Navigator.pop(context);
+                                          },
                                         ),
                                       ]),
                                 );
@@ -631,9 +642,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                                   ? kServiceImageNImg
                                   : state.taskEntityServices?[index].images
                                       ?.first.media,
-                          rating: state
-                              .taskEntityServices?[index].rating?.first.rating
-                              .toString(),
+                          rating: state.taskEntityServices?[index].rating
+                              ?.toString(),
                           createdBy:
                               "${state.taskEntityServices?[index].createdBy?.firstName} ${state.taskEntityServices?[index].createdBy?.lastName}",
                           description:
@@ -762,8 +772,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
         setState(() {
           dateFrom = null;
           dateTo = null;
-          budgetFrom = null;
-          budgetTo = null;
+          budgetFrom.clear();
+          budgetTo.clear();
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
