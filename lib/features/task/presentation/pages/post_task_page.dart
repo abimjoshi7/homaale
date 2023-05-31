@@ -55,7 +55,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
   @override
   void initState() {
     uploadBloc = context.read<UploadBloc>();
-
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
@@ -75,6 +74,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
     requirementController.dispose();
     addressController.dispose();
     super.dispose();
+    uploadBloc.close();
   }
 
   @override
@@ -191,10 +191,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
               heading: 'Success',
               content: 'You have successfully posted a task',
               onTap: () {
-                Navigator.popUntil(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  (route) =>
-                      route.settings.name == Root.routeName ? true : false,
+                  Root.routeName,
+                  (route) => false,
                 );
               },
               isSuccess: true,
@@ -239,8 +239,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       ),
                     );
                   } else {
-                    if (uploadBloc.state.imageFileList?.length != 0 ||
-                        uploadBloc.state.videoFileList?.length != 0)
+                    if (uploadBloc.state.imageFileList.length != 0 ||
+                        uploadBloc.state.videoFileList.length != 0)
                       await _uploadFile();
                     final req = TaskEntityServiceReq(
                       title: titleController.text,
@@ -280,11 +280,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
                       images:
-                          context.read<UploadBloc>().state.uploadedImageList ??
-                              [],
+                          context.read<UploadBloc>().state.uploadedImageList,
                       videos:
-                          context.read<UploadBloc>().state.uploadedVideoList ??
-                              [],
+                          context.read<UploadBloc>().state.uploadedVideoList,
                     );
 
                     context.read<TaskEntityServiceBloc>().add(

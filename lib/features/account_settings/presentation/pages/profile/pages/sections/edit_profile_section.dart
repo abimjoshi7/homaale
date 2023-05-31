@@ -1,20 +1,24 @@
+import 'dart:io';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
+import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
+import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class FormEditProfileSection extends StatefulWidget {
-  const FormEditProfileSection({super.key});
+class EditProfileSection extends StatefulWidget {
+  const EditProfileSection({super.key});
 
   @override
-  State<FormEditProfileSection> createState() => _FormEditProfileSectionState();
+  State<EditProfileSection> createState() => _EditProfileSectionState();
 }
 
-class _FormEditProfileSectionState extends State<FormEditProfileSection> {
+class _EditProfileSectionState extends State<EditProfileSection> {
   String? firstName;
   String? middleName;
   String? lastName;
@@ -31,10 +35,38 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
 
   final _key = GlobalKey<FormState>();
   bool isCamera = false;
+  late UserBloc userBloc;
+  late UploadBloc uploadBloc;
+  late String? _gender;
+
+  @override
+  void initState() {
+    super.initState();
+    userBloc = context.read<UserBloc>();
+    uploadBloc = locator<UploadBloc>();
+    switch (userBloc.state.taskerProfile?.gender?.toLowerCase()) {
+      case "male":
+        _gender = "Male";
+        break;
+      case "female":
+        _gender = "Female";
+        break;
+      default:
+        _gender = "Other";
+        break;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    uploadBloc.close();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
+      bloc: userBloc,
       listener: (context, state) async {
         if (state.theStates == TheStates.success) {
           await showDialog(
@@ -73,6 +105,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           lastName = state.taskerProfile?.user?.lastName;
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
+
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Form(
@@ -85,92 +118,57 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         addVerticalSpace(20),
-                        Text('General Information',
-                            style: Theme.of(context).textTheme.headlineSmall),
-                        InkWell(
-                          onTap: () async {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                content: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    WidgetText(
-                                        callback: () {
-                                          setState(
-                                            () {
-                                              isCamera = true;
-                                            },
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        widget: Icon(Icons.camera_alt_outlined),
-                                        label: "Camera"),
-                                    WidgetText(
-                                        callback: () {
-                                          setState(
-                                            () {
-                                              isCamera = false;
-                                            },
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        widget: Icon(Icons.camera_alt_outlined),
-                                        label: "Gallery"),
-                                  ],
-                                ),
+                        Text(
+                          'General Information',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        addVerticalSpace(10),
+                        Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
                               ),
-                            )
-                                // .then(
-                                //   (value) async => await MultimediaPickHelper()
-                                //       .(
-                                //     isCamera: isCamera,
-                                //   )
-                                //       .then(
-                                //     (value) {
-                                //       if (value != null) {
-                                //         setState(
-                                //           () {
-                                //             selectedImage = value;
-                                //           },
-                                //         );
-                                //       }
-                                //     },
-                                //   ),
-                                // )
-                                ;
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              addVerticalSpace(10),
-                              Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
+                              width: 100,
+                              height: 100,
+                              child: uploadBloc.state.imageFileList.isNotEmpty
+                                  ? Image.file(
+                                      File(
+                                        uploadBloc.state.imageFileList.last,
+                                      ),
+                                    )
+                                  : Image.network(
                                       profilePicture ?? kServiceImageNImg,
+                                    ),
+                            ),
+                            Positioned(
+                              bottom: 0.1,
+                              right: 0.1,
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => ImagePickerDialog(),
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                      Colors.transparent.withOpacity(
+                                    0.5,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.camera_alt_outlined,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
-                                width: 100,
-                                height: 100,
                               ),
-                              addVerticalSpace(
-                                16,
-                              ),
-                              Text(
-                                'Change profile photo',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         addVerticalSpace(
-                          32,
+                          10,
                         ),
                         Row(
                           children: [
@@ -335,68 +333,127 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                         addVerticalSpace(10),
                         CustomFormField(
                           label: 'Please specify your gender',
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ChoiceChip(
-                                selected: isMale,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Radio<String>(
+                                        value: "Male",
+                                        groupValue: _gender,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _gender = value!;
+                                          });
+                                        },
+                                      ),
+                                      addHorizontalSpace(
+                                        8,
+                                      ),
+                                      Text("Male")
+                                    ],
+                                  ),
                                 ),
-                                onSelected: (value) {
-                                  setState(() {
-                                    isMale = value;
-                                    isFemale = !value;
-                                    isOther = !value;
-                                  });
-                                },
-                                label: Text(
-                                  'Male',
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Radio<String>(
+                                        value: "Female",
+                                        groupValue: _gender,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _gender = value!;
+                                          });
+                                        },
+                                      ),
+                                      addHorizontalSpace(
+                                        8,
+                                      ),
+                                      Text("Female")
+                                    ],
+                                  ),
                                 ),
-                                selectedColor: kColorPrimary,
-                              ),
-                              ChoiceChip(
-                                selected: isFemale,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6)),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Radio<String>(
+                                        value: "Other",
+                                        groupValue: _gender,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _gender = value!;
+                                          });
+                                        },
+                                      ),
+                                      addHorizontalSpace(
+                                        8,
+                                      ),
+                                      Text("Other")
+                                    ],
+                                  ),
                                 ),
-                                onSelected: (value) {
-                                  setState(() {
-                                    isFemale = value;
-                                    isMale = !value;
-                                    isOther = !value;
-                                  });
-                                },
-                                label: Text(
-                                  'Female',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                selectedColor: kColorPrimary,
-                              ),
-                              ChoiceChip(
-                                selected: isOther,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6)),
-                                ),
-                                onSelected: (value) {
-                                  setState(() {
-                                    isOther = value;
-                                    isMale = !value;
-                                    isFemale = !value;
-                                  });
-                                },
-                                label: Text(
-                                  'Other',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                selectedColor: kColorPrimary,
-                              ),
-                            ],
+
+                                // ChoiceChip(
+                                //   selected: isMale,
+                                //   backgroundColor: Colors.transparent,
+                                //   shape: const RoundedRectangleBorder(
+                                //     side: BorderSide(color: Color(0xffDEE2E6)),
+                                //   ),
+                                //   onSelected: (value) {
+                                //     setState(() {
+                                //       isMale = value;
+                                //       isFemale = !value;
+                                //       isOther = !value;
+                                //     });
+                                //   },
+                                //   label: Text(
+                                //     'Male',
+                                //     style: Theme.of(context).textTheme.bodySmall,
+                                //   ),
+                                //   selectedColor: kColorPrimary,
+                                // ),
+                                // ChoiceChip(
+                                //   selected: isFemale,
+                                //   backgroundColor: Colors.transparent,
+                                //   shape: const RoundedRectangleBorder(
+                                //     side: BorderSide(color: Color(0xffDEE2E6)),
+                                //   ),
+                                //   onSelected: (value) {
+                                //     setState(() {
+                                //       isFemale = value;
+                                //       isMale = !value;
+                                //       isOther = !value;
+                                //     });
+                                //   },
+                                //   label: Text(
+                                //     'Female',
+                                //     style: Theme.of(context).textTheme.bodySmall,
+                                //   ),
+                                //   selectedColor: kColorPrimary,
+                                // ),
+                                // ChoiceChip(
+                                //   selected: isOther,
+                                //   backgroundColor: Colors.transparent,
+                                //   shape: const RoundedRectangleBorder(
+                                //     side: BorderSide(color: Color(0xffDEE2E6)),
+                                //   ),
+                                //   onSelected: (value) {
+                                //     setState(() {
+                                //       isOther = value;
+                                //       isMale = !value;
+                                //       isFemale = !value;
+                                //     });
+                                //   },
+                                //   label: Text(
+                                //     'Other',
+                                //     style: Theme.of(context).textTheme.bodySmall,
+                                //   ),
+                                //   selectedColor: kColorPrimary,
+                                // ),
+                              ],
+                            ),
                           ),
                         ),
                         CustomFormField(
@@ -439,6 +496,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                                 DateTime.now(),
                           ),
                           "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
+                          "gender":
+                              _gender ?? state.taskerProfile?.gender ?? "Male",
                         };
 
                         context.read<UserBloc>().add(
@@ -452,7 +511,8 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
-                        Navigator.pop(context);
+                        print(uploadBloc.state.imageFileList);
+                        // Navigator.pop(context);
                       },
                       label: 'Cancel',
                       textColor: kColorPrimary,

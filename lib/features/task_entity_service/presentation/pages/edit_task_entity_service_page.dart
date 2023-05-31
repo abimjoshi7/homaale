@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,8 @@ class EditTaskEntityServiceForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EditTaskEntityServiceForm> createState() => _EditTaskEntityServiceFormState();
+  State<EditTaskEntityServiceForm> createState() =>
+      _EditTaskEntityServiceFormState();
 }
 
 class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
@@ -49,6 +51,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
   bool isAddressVisible = false;
 
   int? cityCode;
+
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
@@ -142,7 +146,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
         return CustomElevatedButton(
           callback: () async {
             if (isTermsAccepted) {
-              if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
+              if (_key.currentState!.validate() &&
+                  endPriceController.text.isNotEmpty) {
                 // if (cityCode == null &&
                 //     currencyCode == null) {
                 //   showDialog(
@@ -166,14 +171,17 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                       list: context.read<UploadBloc>().state.videoFileList,
                     ),
                   );
-                if (context.read<UploadBloc>().state.theStates != TheStates.loading) {
+                if (context.read<UploadBloc>().state.theStates !=
+                    TheStates.loading) {
                   final req = TaskEntityServiceReq(
                     title: titleController.text,
                     description: descriptionController.text,
                     highlights: requirementList,
                     budgetType: budgetType,
                     budgetFrom: double.parse(
-                      startPriceController.text.isEmpty ? '0' : startPriceController.text,
+                      startPriceController.text.isEmpty
+                          ? '0'
+                          : startPriceController.text,
                     ),
                     budgetTo: double.parse(
                       endPriceController.text,
@@ -191,7 +199,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                     isOnline: true,
                     isRequested: false,
                     discountType: "Percentage",
-                    discountValue: discountController.text.isNotEmpty ? discountController.text : '0.0',
+                    discountValue: discountController.text.isNotEmpty
+                        ? discountController.text
+                        : '0.0',
                     noOfReservation: 0,
                     isActive: true,
                     needsApproval: true,
@@ -200,8 +210,12 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
-                    images: context.read<UploadBloc>().state.uploadedImageList ?? [],
-                    videos: context.read<UploadBloc>().state.uploadedVideoList ?? [],
+                    images:
+                        context.read<UploadBloc>().state.uploadedImageList ??
+                            [],
+                    videos:
+                        context.read<UploadBloc>().state.uploadedVideoList ??
+                            [],
                   );
 
                   context.read<TaskEntityServiceBloc>().add(

@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/features/account_settings/presentation/pages/profile/widgets/form_edit_profile_section.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/pages/sections/edit_profile_section.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                FormEditProfileSection(),
+                EditProfileSection(),
                 AddressInformationPage(),
                 ProfessionalInformationModalSheet(),
                 ProfileConfigModalSheet(),

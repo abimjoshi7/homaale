@@ -47,8 +47,6 @@ class _PostServicePageState extends State<PostServicePage> {
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
-  XFile? imagePath;
-  XFile? videoPath;
   List<XFile?>? imagePathList;
   List<int>? imageList;
   List<int>? fileList;
@@ -189,8 +187,10 @@ class _PostServicePageState extends State<PostServicePage> {
           callback: () async {
             if (context.read<CategoriesBloc>().state.serviceId != null) {
               if (isTermsAccepted) {
-                if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
-                  if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0)
+                if (_key.currentState!.validate() &&
+                    endPriceController.text.isNotEmpty) {
+                  if (uploadBloc.state.imageFileList.length != 0 ||
+                      uploadBloc.state.videoFileList.length != 0)
                     await _uploadFile();
                   final req = TaskEntityServiceReq(
                     // owner:
@@ -200,7 +200,9 @@ class _PostServicePageState extends State<PostServicePage> {
                     highlights: requirementList,
                     budgetType: budgetType,
                     budgetFrom: double.parse(
-                      startPriceController.text.isEmpty ? '0' : startPriceController.text,
+                      startPriceController.text.isEmpty
+                          ? '0'
+                          : startPriceController.text,
                     ),
                     budgetTo: double.parse(
                       endPriceController.text,
@@ -218,7 +220,9 @@ class _PostServicePageState extends State<PostServicePage> {
                     isOnline: true,
                     isRequested: false,
                     discountType: "Percentage",
-                    discountValue: discountController.text.isNotEmpty ? discountController.text : '0.0',
+                    discountValue: discountController.text.isNotEmpty
+                        ? discountController.text
+                        : '0.0',
                     noOfReservation: 0,
                     isActive: true,
                     needsApproval: true,
@@ -400,7 +404,9 @@ class _PostServicePageState extends State<PostServicePage> {
                       if (startPriceController.text.isNotEmpty)
                         budgetFrom = getPayableAmount(
                           double.parse(startPriceController.text),
-                          double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
                         );
                     },
                   ),
@@ -419,7 +425,9 @@ class _PostServicePageState extends State<PostServicePage> {
                     if (endPriceController.text.isNotEmpty)
                       budgetTo = getPayableAmount(
                         double.parse(endPriceController.text),
-                        double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                        double.parse(
+                            context.read<CategoriesBloc>().state.commission ??
+                                "0.0"),
                       );
                   },
                 ),
@@ -811,7 +819,9 @@ class _PostServicePageState extends State<PostServicePage> {
                                   children: [
                                     TextSpan(
                                       text: " to ",
-                                      style: Theme.of(context).textTheme.displayMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
                                       children: [
                                         TextSpan(
                                           text: "Rs $budgetTo",
