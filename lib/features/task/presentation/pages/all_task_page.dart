@@ -278,365 +278,394 @@ class _AllTaskPageState extends State<AllTaskPage> {
         },
         child: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
-            return Column(
-              children: <Widget>[
-                addVerticalSpace(50),
-                const CustomHeader(
-                  label: 'All Task Page',
-                ),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
+            switch (state.theState) {
+              case TheStates.initial:
+                return const Center(child: CircularProgressIndicator());
+              case TheStates.success:
+                return Column(
+                  children: <Widget>[
+                    addVerticalSpace(50),
+                    const CustomHeader(
+                      label: 'All Task Page',
                     ),
-                    children: <Widget>[
-                      items?.isNotEmpty ?? false
-                          ? Container(
-                              width: 170,
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        children: <Widget>[
+                          items?.isNotEmpty ?? false
+                              ? Container(
+                                  width: 170,
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: categorySelected
+                                        ? kColorAmber
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    border: Border.all(color: kColorGrey),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: DropdownSearch<String?>(
+                                          items: items ?? [''],
+                                          onChanged: (value) {
+                                            setState(() {
+                                              categorySelected =
+                                                  value != null ? true : false;
+                                            });
+                                            onFilterCategory(category: value);
+                                          },
+                                          clearButtonProps: ClearButtonProps(
+                                            padding: EdgeInsets.zero,
+                                            iconSize: 16,
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            alignment: Alignment.centerRight,
+                                            isVisible: categorySelected,
+                                            color: categorySelected
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                          dropdownDecoratorProps:
+                                              DropDownDecoratorProps(
+                                            dropdownSearchDecoration:
+                                                InputDecoration(
+                                              hintText: 'Category',
+                                              hintStyle: TextStyle(
+                                                  color: Colors.black),
+                                              border: InputBorder.none,
+                                              suffixIconColor: categorySelected
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                            baseStyle: TextStyle(
+                                              color: categorySelected
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          ),
+                                          popupProps:
+                                              PopupProps.modalBottomSheet(
+                                            showSearchBox: true,
+                                            modalBottomSheetProps:
+                                                ModalBottomSheetProps(
+                                              backgroundColor:
+                                                  Theme.of(context).cardColor,
+                                              useSafeArea: false,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ChoiceChip(
+                                  label: Row(
+                                    children: const [
+                                      Text('Category'),
+                                      Icon(Icons.keyboard_arrow_down_outlined),
+                                    ],
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  side: const BorderSide(color: kColorGrey),
+                                  selected: false,
+                                  disabledColor: Colors.white,
+                                ),
+                          addHorizontalSpace(5),
+                          BlocBuilder<CityBloc, CityState>(
+                            builder: (context, state) {
+                              if (state is CityLoadSuccess) {
+                                return Container(
+                                  width: 170,
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: locationSelected
+                                        ? kColorAmber
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(30.0),
+                                    border: Border.all(color: kColorGrey),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: DropdownSearch<String?>(
+                                          items: state.list
+                                              .map((e) => e.name)
+                                              .toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              locationSelected =
+                                                  value != null ? true : false;
+                                            });
+                                            onFilterLocation(location: value);
+                                          },
+                                          clearButtonProps: ClearButtonProps(
+                                            padding: EdgeInsets.zero,
+                                            iconSize: 16,
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            alignment: Alignment.centerRight,
+                                            isVisible: locationSelected,
+                                            color: locationSelected
+                                                ? Colors.white
+                                                : Colors.black,
+                                          ),
+                                          dropdownDecoratorProps:
+                                              DropDownDecoratorProps(
+                                            dropdownSearchDecoration:
+                                                InputDecoration(
+                                              hintText: 'Location',
+                                              hintStyle: TextStyle(
+                                                  color: Colors.black),
+                                              border: InputBorder.none,
+                                              suffixIconColor: locationSelected
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                            baseStyle: TextStyle(
+                                              color: locationSelected
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          ),
+                                          popupProps:
+                                              PopupProps.modalBottomSheet(
+                                            showSearchBox: true,
+                                            modalBottomSheetProps:
+                                                ModalBottomSheetProps(
+                                              useSafeArea: false,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return ChoiceChip(
+                                  label: Row(
+                                    children: [
+                                      Text(
+                                        'Location',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      const Icon(
+                                          Icons.keyboard_arrow_down_outlined),
+                                    ],
+                                  ),
+                                  backgroundColor: Colors.white,
+                                  side: const BorderSide(color: kColorGrey),
+                                  selected: false,
+                                  disabledColor: Colors.white,
+                                );
+                              }
+                            },
+                          ),
+                          addHorizontalSpace(5),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                budgetSelected = true;
+                                sortBudgetIsAscending = !sortBudgetIsAscending;
+                              });
+                              onBudgetDateSort(
+                                  sortType: SortType.budget,
+                                  isAscending: sortBudgetIsAscending);
+                            },
+                            child: Container(
+                              width: budgetSelected ? 110 : 95,
                               padding: EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
-                                color: categorySelected
-                                    ? kColorAmber
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(30.0),
-                                border: Border.all(color: kColorGrey),
-                              ),
+                                  color: budgetSelected
+                                      ? kColorAmber
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  border: Border.all(color: kColorGrey)),
                               child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: DropdownSearch<String?>(
-                                      items: items ?? [''],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          categorySelected =
-                                              value != null ? true : false;
-                                        });
-                                        onFilterCategory(category: value);
-                                      },
-                                      clearButtonProps: ClearButtonProps(
-                                        padding: EdgeInsets.zero,
-                                        iconSize: 16,
-                                        visualDensity: VisualDensity.compact,
-                                        alignment: Alignment.centerRight,
-                                        isVisible: categorySelected,
-                                        color: categorySelected
-                                            ? Colors.white
-                                            : Colors.black,
-                                      ),
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
-                                          hintText: 'Category',
-                                          hintStyle:
-                                              TextStyle(color: Colors.black),
-                                          border: InputBorder.none,
-                                          suffixIconColor: categorySelected
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                        baseStyle: TextStyle(
-                                          color: categorySelected
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      popupProps: PopupProps.modalBottomSheet(
-                                        showSearchBox: true,
-                                        modalBottomSheetProps:
-                                            ModalBottomSheetProps(
-                                          backgroundColor:
-                                              Theme.of(context).cardColor,
-                                          useSafeArea: false,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ChoiceChip(
-                              label: Row(
-                                children: const [
-                                  Text('Category'),
-                                  Icon(Icons.keyboard_arrow_down_outlined),
-                                ],
-                              ),
-                              backgroundColor: Colors.white,
-                              side: const BorderSide(color: kColorGrey),
-                              selected: false,
-                              disabledColor: Colors.white,
-                            ),
-                      addHorizontalSpace(5),
-                      BlocBuilder<CityBloc, CityState>(
-                        builder: (context, state) {
-                          if (state is CityLoadSuccess) {
-                            return Container(
-                              width: 170,
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              decoration: BoxDecoration(
-                                color: locationSelected
-                                    ? kColorAmber
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(30.0),
-                                border: Border.all(color: kColorGrey),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: DropdownSearch<String?>(
-                                      items: state.list
-                                          .map((e) => e.name)
-                                          .toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          locationSelected =
-                                              value != null ? true : false;
-                                        });
-                                        onFilterLocation(location: value);
-                                      },
-                                      clearButtonProps: ClearButtonProps(
-                                        padding: EdgeInsets.zero,
-                                        iconSize: 16,
-                                        visualDensity: VisualDensity.compact,
-                                        alignment: Alignment.centerRight,
-                                        isVisible: locationSelected,
-                                        color: locationSelected
-                                            ? Colors.white
-                                            : Colors.black,
-                                      ),
-                                      dropdownDecoratorProps:
-                                          DropDownDecoratorProps(
-                                        dropdownSearchDecoration:
-                                            InputDecoration(
-                                          hintText: 'Location',
-                                          hintStyle:
-                                              TextStyle(color: Colors.black),
-                                          border: InputBorder.none,
-                                          suffixIconColor: locationSelected
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                        baseStyle: TextStyle(
-                                          color: locationSelected
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ),
-                                      ),
-                                      popupProps: PopupProps.modalBottomSheet(
-                                        showSearchBox: true,
-                                        modalBottomSheetProps:
-                                            ModalBottomSheetProps(
-                                          useSafeArea: false,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return ChoiceChip(
-                              label: Row(
                                 children: [
                                   Text(
-                                    'Location',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
+                                    'Budget',
+                                    style: TextStyle(
+                                      color: budgetSelected
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   ),
-                                  const Icon(
-                                      Icons.keyboard_arrow_down_outlined),
-                                ],
-                              ),
-                              backgroundColor: Colors.white,
-                              side: const BorderSide(color: kColorGrey),
-                              selected: false,
-                              disabledColor: Colors.white,
-                            );
-                          }
-                        },
-                      ),
-                      addHorizontalSpace(5),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            budgetSelected = true;
-                            sortBudgetIsAscending = !sortBudgetIsAscending;
-                          });
-                          onBudgetDateSort(
-                              sortType: SortType.budget,
-                              isAscending: sortBudgetIsAscending);
-                        },
-                        child: Container(
-                          width: budgetSelected ? 110 : 95,
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                              color:
-                                  budgetSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(color: kColorGrey)),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Budget',
-                                style: TextStyle(
-                                  color: budgetSelected
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              Icon(
-                                sortBudgetIsAscending
-                                    ? Icons.keyboard_arrow_up_outlined
-                                    : Icons.keyboard_arrow_down_outlined,
-                                color: budgetSelected
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                              if (budgetSelected) ...[
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      budgetSelected = false;
-                                    });
-                                    onBudgetDateClear(
-                                        sortType: SortType.budget);
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 16,
+                                  Icon(
+                                    sortBudgetIsAscending
+                                        ? Icons.keyboard_arrow_up_outlined
+                                        : Icons.keyboard_arrow_down_outlined,
                                     color: budgetSelected
                                         ? Colors.white
                                         : Colors.black,
                                   ),
-                                )
-                              ]
-                            ],
+                                  if (budgetSelected) ...[
+                                    Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          budgetSelected = false;
+                                        });
+                                        onBudgetDateClear(
+                                            sortType: SortType.budget);
+                                      },
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 16,
+                                        color: budgetSelected
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    )
+                                  ]
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      addHorizontalSpace(5),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            dateSelected = true;
-                            sortDateIsAscending = !sortDateIsAscending;
-                          });
-                          onBudgetDateSort(
-                              sortType: SortType.date,
-                              isAscending: sortDateIsAscending);
-                        },
-                        child: Container(
-                          width: dateSelected ? 95 : 77,
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: dateSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(color: kColorGrey)),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Date',
-                                style: TextStyle(
-                                  color: dateSelected
-                                      ? Colors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                              Icon(
-                                sortDateIsAscending
-                                    ? Icons.keyboard_arrow_up_outlined
-                                    : Icons.keyboard_arrow_down_outlined,
-                                color:
-                                    dateSelected ? Colors.white : Colors.black,
-                              ),
-                              if (dateSelected) ...[
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      dateSelected = false;
-                                    });
-                                    onBudgetDateClear(sortType: SortType.date);
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 16,
+                          addHorizontalSpace(5),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                dateSelected = true;
+                                sortDateIsAscending = !sortDateIsAscending;
+                              });
+                              onBudgetDateSort(
+                                  sortType: SortType.date,
+                                  isAscending: sortDateIsAscending);
+                            },
+                            child: Container(
+                              width: dateSelected ? 95 : 77,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                  color:
+                                      dateSelected ? kColorAmber : Colors.white,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  border: Border.all(color: kColorGrey)),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Date',
+                                    style: TextStyle(
+                                      color: dateSelected
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                  Icon(
+                                    sortDateIsAscending
+                                        ? Icons.keyboard_arrow_up_outlined
+                                        : Icons.keyboard_arrow_down_outlined,
                                     color: dateSelected
                                         ? Colors.white
                                         : Colors.black,
                                   ),
-                                )
-                              ]
-                            ],
+                                  if (dateSelected) ...[
+                                    Spacer(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          dateSelected = false;
+                                        });
+                                        onBudgetDateClear(
+                                            sortType: SortType.date);
+                                      },
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 16,
+                                        color: dateSelected
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    )
+                                  ]
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                          addHorizontalSpace(5),
+                        ],
                       ),
-                      addHorizontalSpace(5),
-                    ],
-                  ),
-                ),
-                // Expanded(
-                // child: PagedListView.separated(
-
-                //   pagingController: _pagingController,
-                //   separatorBuilder: (context, index) => addVerticalSpace(8),
-                //   padding: EdgeInsets.symmetric(horizontal: 16),
-                //   builderDelegate: PagedChildBuilderDelegate(
-                //     itemBuilder: (context, TaskEntityService item, index) =>
-                //         InkWell(
-                //       onTap: () => onTaskPressed(
-                //         state: state,
-                //         index: index,
-                //         isApply: false,
-                //       ),
-                //       child: SizedBox(
-                //         height: MediaQuery.of(context).size.height * 0.3,
-                //         child: TaskCard(
-                //           buttonLabel: item.createdBy?.id ==
-                //                   user.state.taskerProfile?.user?.id
-                //               ? 'View Details'
-                //               : 'Apply Now',
-                //           startRate: '${item.budgetFrom ?? 0}',
-                //           endRate: '${item.budgetTo ?? 0}',
-                //           budgetType: '${item.budgetType ?? 'budgetType'}',
-                //           count: item.count?.toString() ?? '0',
-                //           imageUrl: item.createdBy?.profileImage ??
-                //               kServiceImageNImg,
-                //           location: item.location ?? 'remote',
-                //           endHour: Jiffy(
-                //             item.createdAt?.toString() ??
-                //                 DateTime.now().toString(),
-                //           ).jm,
-                //           endDate: Jiffy(
-                //             item.endDate?.toString() ??
-                //                 DateTime.now().toString(),
-                //           ).yMMMMd,
-                //           taskName: item.title ?? 'task title',
-                //           callback: () => onTaskPressed(
-                //             state: state,
-                //             index: index,
-                //             isApply: item.createdBy?.id !=
-                //                 user.state.taskerProfile?.user?.id,
-                //           ),
-                //           onTapCallback: () {
-                //             if (!CacheHelper.isLoggedIn) {
-                //               notLoggedInPopUp(context);
-                //             }
-                //             if (!CacheHelper.isLoggedIn) return;
-                //           },
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // ),
-              ],
-            );
+                    ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: 1,
+                      separatorBuilder: (context, index) => addVerticalSpace(8) ,
+                      itemBuilder: (BuildContext context, int index) {
+                        return;
+                      },
+                    ),
+                    // Expanded(
+                    //   child: PagedListView.separated(
+                    //     pagingController: _pagingController,
+                    //     separatorBuilder: (context, index) =>
+                    //         addVerticalSpace(8),
+                    //     padding: EdgeInsets.symmetric(horizontal: 16),
+                    //     builderDelegate: PagedChildBuilderDelegate(
+                    //       itemBuilder:
+                    //           (context, TaskEntityService item, index) =>
+                    //               InkWell(
+                    //         onTap: () => onTaskPressed(
+                    //           state: state,
+                    //           index: index,
+                    //           isApply: false,
+                    //         ),
+                    //         child: SizedBox(
+                    //           height: MediaQuery.of(context).size.height * 0.3,
+                    //           child: TaskCard(
+                    //             buttonLabel: item.createdBy?.id ==
+                    //                     user.state.taskerProfile?.user?.id
+                    //                 ? 'View Details'
+                    //                 : 'Apply Now',
+                    //             startRate: '${item.budgetFrom ?? 0}',
+                    //             endRate: '${item.budgetTo ?? 0}',
+                    //             budgetType:
+                    //                 '${item.budgetType ?? 'budgetType'}',
+                    //             count: item.count?.toString() ?? '0',
+                    //             imageUrl: item.createdBy?.profileImage ??
+                    //                 kServiceImageNImg,
+                    //             location: item.location ?? 'remote',
+                    //             endHour: Jiffy(
+                    //               item.createdAt?.toString() ??
+                    //                   DateTime.now().toString(),
+                    //             ).jm,
+                    //             endDate: Jiffy(
+                    //               item.endDate?.toString() ??
+                    //                   DateTime.now().toString(),
+                    //             ).yMMMMd,
+                    //             taskName: item.title ?? 'task title',
+                    //             callback: () => onTaskPressed(
+                    //               state: state,
+                    //               index: index,
+                    //               isApply: item.createdBy?.id !=
+                    //                   user.state.taskerProfile?.user?.id,
+                    //             ),
+                    //             onTapCallback: () {
+                    //               if (!CacheHelper.isLoggedIn) {
+                    //                 notLoggedInPopUp(context);
+                    //               }
+                    //               if (!CacheHelper.isLoggedIn) return;
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                );
+              case TheStates.failure:
+                return Text("Could Not Load Tasks");
+              default:
+                return const Center(child: CircularProgressIndicator());
+            }
           },
         ),
       ),

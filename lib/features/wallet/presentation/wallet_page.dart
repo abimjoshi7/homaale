@@ -195,7 +195,8 @@ class _WalletMainViewState extends State<WalletMainView> {
                         context.read<WalletBloc>().add(WalletHistoryLoaded(isNewFetch: true));
                       },
                     ),
-                    state.walletHistoryList.length == 0
+
+										state.walletHistoryList.length == 0
                         ? SizedBox(
                             width: 200,
                             height: 200,
