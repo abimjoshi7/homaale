@@ -13,7 +13,7 @@ class DataDeletionPolicy extends StatelessWidget {
       appBar: CustomAppBar(appBarTitle: 'Data Deletion Policy'),
       body: InAppWebView(
         initialUrlRequest: URLRequest(
-            url: Uri.parse("https://sandbox.homaale.com/data-deletion-policy")),
+            url: Uri.parse("https://sandbox.homaale.com/data-deletion-policy?mobile_app=true")),
       ),
     );
   }

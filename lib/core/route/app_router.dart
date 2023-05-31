@@ -68,11 +68,15 @@ import 'package:cipher/features/transaction/presentation/pages/my_transactions_p
 import 'package:cipher/features/wallet/presentation/wallet_page.dart';
 import 'package:cipher/features/wallet/presentation/withdraw_page.dart';
 import 'package:flutter/material.dart';
+import '../../features/account_settings/presentation/pages/legals/legals_page.dart';
+import '../../features/account_settings/presentation/pages/quick_links/horoscope.dart';
+import '../../features/account_settings/presentation/pages/quick_links/quick_link_page.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
 import '../../features/faq_and_data_deletion/faq_page.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
 import '../../features/redeem/presentation/pages/redeem_page.dart';
+import '../../features/support/presentation/widgets/help_and_support.dart';
 import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
@@ -184,9 +188,25 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const SearchPage(),
         );
-      case AccountProfile.routeName:
+      case ProfileSettings.routeName:
         return MaterialPageRoute(
-          builder: (context) => const AccountProfile(),
+          builder: (context) => const ProfileSettings(),
+        );
+      case QuickLinksPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const QuickLinksPage(),
+        );
+      case HoroscopePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const HoroscopePage(),
+        );
+      case LegalsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const LegalsPage(),
+        );
+      case HelpAndSupportPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const HelpAndSupportPage(),
         );
       case CommonReportPage.routeName:
         return MaterialPageRoute(
@@ -262,10 +282,6 @@ class AppRouter {
       case AdditionalAccountInfoPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const AdditionalAccountInfoPage(),
-        );
-      case PersonalInformationPage.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const PersonalInformationPage(),
         );
       case DeactivatePage.routeName:
         return MaterialPageRoute(

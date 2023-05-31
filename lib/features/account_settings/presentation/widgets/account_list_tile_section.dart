@@ -7,13 +7,14 @@ class AccountListTileSection extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.trailingWidget,
-    required this.onTap,
+    required this.onTap, this.style,
   });
 
   final Widget icon;
   final String label;
   final Widget trailingWidget;
   final VoidCallback onTap;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class AccountListTileSection extends StatelessWidget {
                       kWidth20,
                       Text(
                         label,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: style ?? Theme.of(context).textTheme.bodySmall,
                       )
                     ],
                   ),
