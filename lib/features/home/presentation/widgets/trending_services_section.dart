@@ -97,8 +97,8 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                               ? kServiceImageNImg
                               : state.taskEntityServiceModel.result?[index]
                                   .images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index]
-                              .rating?.first.rating
+                          rating: state
+                              .taskEntityServiceModel.result?[index].rating
                               .toString(),
                           isRange: state
                               .taskEntityServiceModel.result?[index].isRange,
