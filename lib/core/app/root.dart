@@ -128,7 +128,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
     const Home(),
     const BoxPage(),
     const MyBookingsPage(),
-    const AccountProfile(),
+    const ProfileSettings(),
   ];
 
   void initBlocs() {

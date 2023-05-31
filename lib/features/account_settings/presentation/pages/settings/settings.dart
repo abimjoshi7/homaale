@@ -6,6 +6,11 @@ import 'package:cipher/features/notification/presentation/pages/notification_hom
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../billing_payment_page/presentation/billing_payment_page.dart';
+import '../connected_account/connected_account_page.dart';
+import '../languages_page/languages_page.dart';
+import '../membership/membership.dart';
+
 class Settings extends StatelessWidget {
   const Settings({super.key});
   static const routeName = '/settings';
@@ -21,7 +26,7 @@ class Settings extends StatelessWidget {
         children: [
           AccountListTileSection(
             icon: const Icon(Icons.person_outline_outlined),
-            label: 'Account',
+            label: 'Profile',
             trailingWidget: const Icon(
               Icons.arrow_forward_ios,
               size: 16,
@@ -35,7 +40,7 @@ class Settings extends StatelessWidget {
           ),
           AccountListTileSection(
             icon: const Icon(
-              Icons.lock_outline_sharp,
+              Icons.key,
             ),
             label: 'Password & Security',
             trailingWidget: const Icon(
@@ -49,6 +54,22 @@ class Settings extends StatelessWidget {
               );
             },
           ),
+          AccountListTileSection(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                BillingAndPaymentPage.routeName,
+              );
+            },
+            icon: const Icon(
+              Icons.edit_document,
+            ),
+            label: 'Billing & Payments',
+            trailingWidget: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
+          ),
           // AccountListTileSection(
           //   icon: const Icon(Icons.person_add_alt_outlined),
           //   label: 'Membership',
@@ -60,20 +81,6 @@ class Settings extends StatelessWidget {
           //     Navigator.pushNamed(
           //       context,
           //       Membership.routeName,
-          //     );
-          //   },
-          // ),
-          // AccountListTileSection(
-          //   icon: const Icon(Icons.private_connectivity_sharp),
-          //   label: 'Connected Account',
-          //   trailingWidget: const Icon(
-          //     Icons.arrow_forward_ios,
-          //     size: 16,
-          //   ),
-          //   onTap: () {
-          //     Navigator.pushNamed(
-          //       context,
-          //       ConnectedAccountPage.routeName,
           //     );
           //   },
           // ),
@@ -105,20 +112,22 @@ class Settings extends StatelessWidget {
           //     );
           //   },
           // ),
-          // AccountListTileSection(
-          //   icon: const Icon(Icons.monetization_on_outlined),
-          //   label: 'Billing & Payments',
-          //   trailingWidget: const Icon(
-          //     Icons.arrow_forward_ios,
-          //     size: 16,
-          //   ),
-          //   onTap: () {
-          //     Navigator.pushNamed(
-          //       context,
-          //       BillingAndPaymentPage.routeName,
-          //     );
-          //   },
-          // ),
+          AccountListTileSection(
+            icon: const Icon(Icons.link),
+            label: 'Connected Account',
+            trailingWidget: const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+            ),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                ConnectedAccountPage.routeName,
+              );
+            },
+          ),
+
+
           // AccountListTileSection(
           //   icon: const Icon(Icons.person_outline_outlined),
           //   label: 'Help & Legal',

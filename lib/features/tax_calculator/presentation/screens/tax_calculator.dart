@@ -18,6 +18,8 @@ class TaxCalculator extends StatelessWidget {
         TaxRepositories(),
       ),
       child: Scaffold(
+        appBar: CustomAppBar(appBarTitle: 'Tax Calculator',),
+
         body: BlocConsumer<TaxCalculatorCubit, TaxCalculatorState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -264,26 +266,6 @@ class TaxCalculator extends StatelessWidget {
 
             return Column(
               children: [
-                addVerticalSpace(50),
-                CustomHeader(
-                  leadingWidget: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                    ),
-                  ),
-                  trailingWidget: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {},
-                  ),
-                  child: Text(
-                    'Tax Calculator',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ),
-                const Divider(),
                 mainDisplay(),
               ],
             );
