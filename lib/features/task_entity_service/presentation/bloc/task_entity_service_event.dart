@@ -16,6 +16,8 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   final bool? isFilter;
   final String? budgetFrom;
   final String? budgetTo;
+  final String? payableFrom;
+  final String? payableTo;
   final String? dateFrom;
   final String? dateTo;
   final String? category;
@@ -33,6 +35,8 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
     this.isFilter,
     this.budgetFrom,
     this.budgetTo,
+    this.payableFrom,
+    this.payableTo,
     this.dateFrom,
     this.dateTo,
     this.category,
@@ -52,6 +56,8 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
         city,
         budgetFrom,
         budgetTo,
+        payableFrom,
+        payableTo,
         dateFrom,
         dateTo,
         category,

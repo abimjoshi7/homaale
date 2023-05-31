@@ -48,11 +48,14 @@ class TaskEntityServiceBloc
               page: 1,
               budgetFrom: event.budgetFrom,
               budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
               dateFrom: event.dateFrom,
               dateTo: event.dateTo,
               city: event.city,
               category: event.category,
               query: event.query,
+              serviceId: event.serviceId,
             );
 
             emit(
@@ -69,11 +72,14 @@ class TaskEntityServiceBloc
               isTask: event.isTask,
               budgetFrom: event.budgetFrom,
               budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
               dateFrom: event.dateFrom,
               dateTo: event.dateTo,
               city: event.city,
               category: event.category,
               query: event.query,
+              serviceId: event.serviceId,
             );
             if (taskEntityServiceModel.next == null) {
               emit(

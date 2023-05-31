@@ -1,4 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +13,6 @@ import 'package:cipher/features/task_entity_service/presentation/pages/task_enti
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
-enum SortType { budget, date }
-
 class TrendingServicesPage extends StatefulWidget {
   static const routeName = '/trending-services-page';
   const TrendingServicesPage({super.key});
@@ -23,32 +22,26 @@ class TrendingServicesPage extends StatefulWidget {
 }
 
 class _TrendingServicesPageState extends State<TrendingServicesPage> {
-  late final TaskEntityServiceBloc entityServiceBloc;
-  late final ScrollController _controller;
-
-  List<TaskEntityService> serviceList = [];
-  List<String>? items = [];
-
-  bool dateSelected = true;
-  bool budgetSelected = false;
-  bool categorySelected = false;
-  bool locationSelected = false;
-  bool sortDateIsAscending = true;
-  bool sortBudgetIsAscending = true;
-
-  SortType sortType = SortType.date;
-  List<String>? order = ['-created_at'];
   String? selectedCategoryId;
   String? selectedLocation;
   DateTime? dateFrom;
   DateTime? dateTo;
-  final budgetFrom = TextEditingController();
-  final budgetTo = TextEditingController();
-  // String? selectedLocation;
+  String? category;
+  String? serviceId;
+  String? location;
+  late final TaskEntityServiceBloc entityServiceBloc;
+  late final ScrollController _controller;
+  final payableFrom = TextEditingController();
+  final payableTo = TextEditingController();
+  final _categoryKey = GlobalKey<FormFieldState>();
+  final _locationKey = GlobalKey<FormFieldState>();
 
   @override
   void initState() {
     super.initState();
+    context.read<ServicesBloc>().add(
+          ServicesLoadInitiated(),
+        );
     entityServiceBloc = locator<TaskEntityServiceBloc>()
       ..add(
         TaskEntityServiceInitiated(
@@ -71,9 +64,11 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                 dateTo: dateTo == null
                     ? null
                     : DateFormat("yyyy-MM-dd").format(dateTo!),
-                budgetFrom:
-                    budgetFrom.text.length == 0 ? null : budgetFrom.text,
-                budgetTo: budgetTo.text.length == 0 ? null : budgetTo.text,
+                payableFrom:
+                    payableFrom.text.length == 0 ? null : payableFrom.text,
+                payableTo: payableTo.text.length == 0 ? null : payableTo.text,
+                serviceId: category,
+                city: location,
               ),
             ),
           );
@@ -85,157 +80,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   void dispose() {
     _controller.dispose();
     entityServiceBloc.close();
-    budgetFrom.dispose();
-    budgetTo.dispose();
+    payableFrom.dispose();
+    payableTo.dispose();
     super.dispose();
-  }
-
-  void onFilterCategory({String? category}) {
-    if (category != null) {
-      for (ServiceList element in entityServiceBloc.state.serviceList ?? []) {
-        if (element.title == category) {
-          setState(() {
-            selectedCategoryId = element.id.toString();
-          });
-          break;
-        }
-      }
-    } else {
-      setState(() {
-        selectedCategoryId = null;
-      });
-    }
-
-    entityServiceBloc.add(
-      TaskEntityServiceInitiated(
-        isTask: false,
-        page: 1,
-        order: order,
-        serviceId: selectedCategoryId,
-        city: selectedLocation,
-        isFilter: selectedCategoryId != null
-            ? true
-            : selectedLocation != null
-                ? true
-                : false,
-        isDateSort: entityServiceBloc.state.isDateSort ?? false,
-        isBudgetSort: entityServiceBloc.state.isBudgetSort ?? false,
-      ),
-    );
-  }
-
-  void onFilterLocation({String? location}) {
-    if (location != null) {
-      setState(() {
-        selectedLocation = location;
-      });
-    } else {
-      setState(() {
-        selectedLocation = null;
-      });
-    }
-
-    entityServiceBloc.add(TaskEntityServiceInitiated(
-      isTask: false,
-      page: 1,
-      order: order,
-      serviceId: selectedCategoryId,
-      city: selectedLocation,
-      isFilter: selectedCategoryId != null
-          ? true
-          : selectedLocation != null
-              ? true
-              : false,
-      isDateSort: entityServiceBloc.state.isDateSort ?? false,
-      isBudgetSort: entityServiceBloc.state.isBudgetSort ?? false,
-    ));
-  }
-
-  void onBudgetDateClear({required SortType sortType}) {
-    if (sortType == SortType.date) {
-      if (order?.contains('-created_at') ?? false) {
-        setState(() {
-          order?.remove('-created_at');
-        });
-      }
-      if (order?.contains('created_at') ?? false) {
-        setState(() {
-          order?.remove('created_at');
-        });
-      }
-    }
-
-    if (sortType == SortType.budget) {
-      if (order?.contains('-budget_to') ?? false) {
-        setState(() {
-          order?.remove('-budget_to');
-        });
-      }
-      if (order?.contains('budget_to') ?? false) {
-        setState(() {
-          order?.remove('budget_to');
-        });
-      }
-    }
-
-    entityServiceBloc.add(TaskEntityServiceInitiated(
-        isTask: false,
-        page: 1,
-        order: order,
-        city: selectedLocation,
-        serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId != null
-            ? true
-            : selectedLocation != null
-                ? true
-                : false,
-        isDateSort: sortType == SortType.date,
-        isBudgetSort: sortType == SortType.budget));
-  }
-
-  void onBudgetDateSort(
-      {required SortType sortType, required bool isAscending}) {
-    if (sortType == SortType.date) {
-      if (isAscending) {
-        setState(() {
-          order?.remove('created_at');
-          order?.add('-created_at');
-        });
-      } else {
-        setState(() {
-          order?.remove('-created_at');
-          order?.add('created_at');
-        });
-      }
-    }
-
-    if (sortType == SortType.budget) {
-      if (isAscending) {
-        setState(() {
-          order?.remove('budget_to');
-          order?.add('-budget_to');
-        });
-      } else {
-        setState(() {
-          order?.remove('-budget_to');
-          order?.add('budget_to');
-        });
-      }
-    }
-
-    entityServiceBloc.add(TaskEntityServiceInitiated(
-        isTask: false,
-        page: 1,
-        order: order,
-        city: selectedLocation,
-        serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId != null
-            ? true
-            : selectedLocation != null
-                ? true
-                : false,
-        isDateSort: sortType == SortType.date,
-        isBudgetSort: sortType == SortType.budget));
   }
 
   @override
@@ -266,6 +113,15 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                               Icons.filter_alt,
                               color: kColorGrey,
                             ),
+                            addHorizontalSpace(5),
+                            _buildCategory(),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildLocation(),
+                            addHorizontalSpace(
+                              8,
+                            ),
                             _buildFromDate(context),
                             addHorizontalSpace(
                               8,
@@ -274,335 +130,17 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                             addHorizontalSpace(
                               8,
                             ),
-                            CustomFilterChip(
-                              iconData: Icons.attach_money_sharp,
-                              label: budgetFrom.text.length == 0
-                                  ? "From"
-                                  : budgetFrom.text,
-                              callback: (value) {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                      content: Text("Enter Amount:"),
-                                      actions: [
-                                        CustomTextFormField(
-                                          autofocus: true,
-                                          controller: budgetFrom,
-                                          hintText: "2000",
-                                          textInputType: TextInputType.number,
-                                          inputAction: TextInputAction.done,
-                                          onFieldSubmitted: (p0) {
-                                            setState(() {
-                                              budgetFrom.text = p0!;
-                                            });
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ]),
-                                );
-                                // entityServiceBloc.add(
-                                //   TaskEntityServiceInitiated(
-                                //     newFetch: true,
-                                //     budgetFrom: budgetFrom,
-                                //   ),
-                                // );
-                              },
+                            _buildPayableFrom(context),
+                            addHorizontalSpace(
+                              8,
                             ),
+                            _buildPayableTo(context),
                             addHorizontalSpace(
                               8,
                             ),
                             _buildClearFilters(context),
                           ],
                         )
-
-                        // items?.isNotEmpty ?? false
-                        //     ? Container(
-                        //         width: 170,
-                        //         padding: EdgeInsets.symmetric(horizontal: 8),
-                        //         decoration: BoxDecoration(
-                        //           color: categorySelected
-                        //               ? kColorAmber
-                        //               : Colors.white,
-                        //           borderRadius: BorderRadius.circular(30.0),
-                        //           border: Border.all(color: kColorGrey),
-                        //         ),
-                        //         child: Row(
-                        //           children: [
-                        //             Expanded(
-                        //               child: DropdownSearch<String?>(
-                        //                 items: items ?? [''],
-                        //                 onChanged: (value) {
-                        //                   setState(() {
-                        //                     categorySelected =
-                        //                         value != null ? true : false;
-                        //                   });
-                        //                   onFilterCategory(category: value);
-                        //                 },
-                        //                 clearButtonProps: ClearButtonProps(
-                        //                   padding: EdgeInsets.zero,
-                        //                   iconSize: 16,
-                        //                   visualDensity: VisualDensity.compact,
-                        //                   alignment: Alignment.centerRight,
-                        //                   isVisible: categorySelected,
-                        //                   color: categorySelected
-                        //                       ? Colors.white
-                        //                       : Colors.black,
-                        //                 ),
-                        //                 dropdownDecoratorProps:
-                        //                     DropDownDecoratorProps(
-                        //                   dropdownSearchDecoration:
-                        //                       InputDecoration(
-                        //                     hintText: 'Category',
-                        //                     hintStyle:
-                        //                         TextStyle(color: Colors.black),
-                        //                     border: InputBorder.none,
-                        //                     suffixIconColor: categorySelected
-                        //                         ? Colors.white
-                        //                         : Colors.black,
-                        //                   ),
-                        //                   baseStyle: TextStyle(
-                        //                     color: categorySelected
-                        //                         ? Colors.white
-                        //                         : Colors.black,
-                        //                   ),
-                        //                 ),
-                        //                 popupProps: PopupProps.modalBottomSheet(
-                        //                   showSearchBox: true,
-                        //                   modalBottomSheetProps:
-                        //                       ModalBottomSheetProps(
-                        //                     backgroundColor:
-                        //                         Theme.of(context).cardColor,
-                        //                     useSafeArea: false,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       )
-                        //     : ChoiceChip(
-                        //         label: Row(
-                        //           children: const [
-                        //             Text('Category'),
-                        //             Icon(Icons.keyboard_arrow_down_outlined),
-                        //           ],
-                        //         ),
-                        //         backgroundColor: Theme.of(context).cardColor,
-                        //         side: const BorderSide(color: kColorGrey),
-                        //         selected: false,
-                        //         disabledColor: Colors.white,
-                        //       ),
-                        // addHorizontalSpace(5),
-                        // BlocBuilder<CityBloc, CityState>(
-                        //   builder: (context, state) {
-                        //     if (state is CityLoadSuccess) {
-                        //       return Container(
-                        //         width: 170,
-                        //         padding: EdgeInsets.symmetric(horizontal: 8),
-                        //         decoration: BoxDecoration(
-                        //           color: locationSelected
-                        //               ? kColorAmber
-                        //               : Colors.white,
-                        //           borderRadius: BorderRadius.circular(30.0),
-                        //           border: Border.all(color: kColorGrey),
-                        //         ),
-                        //         child: Row(
-                        //           children: [
-                        //             Expanded(
-                        //               child: DropdownSearch<String?>(
-                        //                 items: state.list
-                        //                     .map((e) => e.name)
-                        //                     .toList(),
-                        //                 onChanged: (value) {
-                        //                   setState(() {
-                        //                     locationSelected =
-                        //                         value != null ? true : false;
-                        //                   });
-                        //                   onFilterLocation(location: value);
-                        //                 },
-                        //                 clearButtonProps: ClearButtonProps(
-                        //                   padding: EdgeInsets.zero,
-                        //                   iconSize: 16,
-                        //                   visualDensity: VisualDensity.compact,
-                        //                   alignment: Alignment.centerRight,
-                        //                   isVisible: locationSelected,
-                        //                   color: locationSelected
-                        //                       ? Colors.white
-                        //                       : Colors.black,
-                        //                 ),
-                        //                 dropdownDecoratorProps:
-                        //                     DropDownDecoratorProps(
-                        //                   dropdownSearchDecoration:
-                        //                       InputDecoration(
-                        //                     hintText: 'Location',
-                        //                     hintStyle:
-                        //                         TextStyle(color: Colors.black),
-                        //                     border: InputBorder.none,
-                        //                     suffixIconColor: locationSelected
-                        //                         ? Colors.white
-                        //                         : Colors.black,
-                        //                   ),
-                        //                   baseStyle: TextStyle(
-                        //                     color: locationSelected
-                        //                         ? Colors.white
-                        //                         : Colors.black,
-                        //                   ),
-                        //                 ),
-                        //                 popupProps: PopupProps.modalBottomSheet(
-                        //                   showSearchBox: true,
-                        //                   modalBottomSheetProps:
-                        //                       ModalBottomSheetProps(
-                        //                     backgroundColor:
-                        //                         Theme.of(context).cardColor,
-                        //                     useSafeArea: false,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       );
-                        //     } else {
-                        //       return ChoiceChip(
-                        //         label: Row(
-                        //           children: [
-                        //             Text(
-                        //               'Location',
-                        //               style:
-                        //                   Theme.of(context).textTheme.bodySmall,
-                        //             ),
-                        //             Icon(Icons.keyboard_arrow_down_outlined),
-                        //           ],
-                        //         ),
-                        //         backgroundColor: Colors.white,
-                        //         side: const BorderSide(color: kColorGrey),
-                        //         selected: false,
-                        //         disabledColor: Colors.white,
-                        //       );
-                        //     }
-                        //   },
-                        // ),
-                        // addHorizontalSpace(5),
-                        // InkWell(
-                        //   onTap: () {
-                        //     setState(() {
-                        //       budgetSelected = true;
-                        //       sortBudgetIsAscending = !sortBudgetIsAscending;
-                        //     });
-                        //     onBudgetDateSort(
-                        //         sortType: SortType.budget,
-                        //         isAscending: sortBudgetIsAscending);
-                        //   },
-                        //   child: Container(
-                        //     width: budgetSelected ? 110 : 95,
-                        //     padding: EdgeInsets.symmetric(horizontal: 8),
-                        //     decoration: BoxDecoration(
-                        //         color:
-                        //             budgetSelected ? kColorAmber : Colors.white,
-                        //         borderRadius: BorderRadius.circular(30.0),
-                        //         border: Border.all(color: kColorGrey)),
-                        //     child: Row(
-                        //       children: [
-                        //         Text(
-                        //           'Budget',
-                        //           style: TextStyle(
-                        //             color: budgetSelected
-                        //                 ? Colors.white
-                        //                 : Colors.black,
-                        //           ),
-                        //         ),
-                        //         Icon(
-                        //           sortBudgetIsAscending
-                        //               ? Icons.keyboard_arrow_up_outlined
-                        //               : Icons.keyboard_arrow_down_outlined,
-                        //           color: budgetSelected
-                        //               ? Colors.white
-                        //               : Colors.black,
-                        //         ),
-                        //         if (budgetSelected) ...[
-                        //           Spacer(),
-                        //           GestureDetector(
-                        //             onTap: () {
-                        //               setState(() {
-                        //                 budgetSelected = false;
-                        //               });
-                        //               onBudgetDateClear(
-                        //                   sortType: SortType.budget);
-                        //             },
-                        //             child: Icon(
-                        //               Icons.close,
-                        //               size: 16,
-                        //               color: budgetSelected
-                        //                   ? Colors.white
-                        //                   : Colors.black,
-                        //             ),
-                        //           )
-                        //         ]
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                        // addHorizontalSpace(5),
-                        // InkWell(
-                        //   onTap: () {
-                        //     setState(() {
-                        //       dateSelected = true;
-                        //       sortDateIsAscending = !sortDateIsAscending;
-                        //     });
-                        //     onBudgetDateSort(
-                        //         sortType: SortType.date,
-                        //         isAscending: sortDateIsAscending);
-                        //   },
-                        //   child: Container(
-                        //     width: dateSelected ? 95 : 77,
-                        //     padding: EdgeInsets.symmetric(horizontal: 8),
-                        //     decoration: BoxDecoration(
-                        //         color:
-                        //             dateSelected ? kColorAmber : Colors.white,
-                        //         borderRadius: BorderRadius.circular(30.0),
-                        //         border: Border.all(color: kColorGrey)),
-                        //     child: Row(
-                        //       children: [
-                        //         Text(
-                        //           'Date',
-                        //           style: TextStyle(
-                        //             color: dateSelected
-                        //                 ? Colors.white
-                        //                 : Colors.black,
-                        //           ),
-                        //         ),
-                        //         Icon(
-                        //           sortDateIsAscending
-                        //               ? Icons.keyboard_arrow_up_outlined
-                        //               : Icons.keyboard_arrow_down_outlined,
-                        //           color: dateSelected
-                        //               ? Colors.white
-                        //               : Colors.black,
-                        //         ),
-                        //         if (dateSelected) ...[
-                        //           Spacer(),
-                        //           GestureDetector(
-                        //             onTap: () {
-                        //               setState(() {
-                        //                 dateSelected = false;
-                        //               });
-                        //               onBudgetDateClear(
-                        //                   sortType: SortType.date);
-                        //             },
-                        //             child: Icon(
-                        //               Icons.close,
-                        //               size: 16,
-                        //               color: dateSelected
-                        //                   ? Colors.white
-                        //                   : Colors.black,
-                        //             ),
-                        //           )
-                        //         ]
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                        // addHorizontalSpace(5),
                       ],
                     ),
                   ),
@@ -684,6 +222,173 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
           }
         },
       ),
+    );
+  }
+
+  SizedBox _buildLocation() {
+    return SizedBox(
+      width: 170,
+      height: 48,
+      child: BlocBuilder<CityBloc, CityState>(
+        builder: (context, state) {
+          if (state is CityLoadSuccess)
+            return CustomDropdownSearch(
+              key: _locationKey,
+              hintText: location ?? "Location",
+              list: List.generate(
+                state.list.length,
+                (index) => state.list[index].name,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  location = value as String;
+                });
+                entityServiceBloc.add(TaskEntityServiceInitiated(
+                  newFetch: true,
+                  payableFrom: payableFrom.text,
+                  payableTo: payableTo.length == 0 ? null : payableTo.text,
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  city: location,
+                  category: category,
+                ));
+              },
+            );
+          return SizedBox.shrink();
+        },
+      ),
+    );
+  }
+
+  SizedBox _buildCategory() {
+    return SizedBox(
+      width: 170,
+      height: 48,
+      child: BlocBuilder<ServicesBloc, ServicesState>(
+        builder: (context, state) {
+          if (state.theStates == TheStates.success)
+            return CustomDropdownSearch(
+              key: _categoryKey,
+              hintText: category ?? "Category",
+              list: List.generate(
+                state.serviceList!.length,
+                (index) => state.serviceList?[index].title ?? "",
+              ),
+              onChanged: (value) {
+                for (var element in state.serviceList!) {
+                  if (element.title == value)
+                    setState(() {
+                      category = value as String;
+                      serviceId = element.id.toString();
+                    });
+                }
+                entityServiceBloc.add(
+                  TaskEntityServiceInitiated(
+                    newFetch: true,
+                    payableFrom: payableFrom.text,
+                    payableTo: payableTo.length == 0 ? null : payableTo.text,
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    serviceId: serviceId,
+                    city: location,
+                  ),
+                );
+              },
+            );
+          return SizedBox.shrink();
+        },
+      ),
+    );
+  }
+
+  Widget _buildPayableFrom(BuildContext context) {
+    return CustomFilterChip(
+      iconData: Icons.attach_money_sharp,
+      label: payableFrom.text.length == 0 ? "From" : payableFrom.text,
+      callback: (value) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(content: Text("Enter Amount:"), actions: [
+            CustomTextFormField(
+              autofocus: true,
+              controller: payableFrom,
+              hintText: "2000",
+              textInputType: TextInputType.number,
+              inputAction: TextInputAction.done,
+              onFieldSubmitted: (p0) {
+                setState(() {
+                  payableFrom.text = p0!;
+                });
+                entityServiceBloc.add(
+                  TaskEntityServiceInitiated(
+                    newFetch: true,
+                    payableFrom: payableFrom.text,
+                    payableTo: payableTo.length == 0 ? null : payableTo.text,
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  ),
+                );
+                Navigator.pop(context);
+              },
+            ),
+          ]),
+        );
+      },
+    );
+  }
+
+  Widget _buildPayableTo(BuildContext context) {
+    return CustomFilterChip(
+      iconData: Icons.attach_money_sharp,
+      label: payableTo.text.length == 0 ? "To" : payableTo.text,
+      callback: (value) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(content: Text("Enter Amount:"), actions: [
+            CustomTextFormField(
+              autofocus: true,
+              controller: payableTo,
+              hintText: "2000",
+              textInputType: TextInputType.number,
+              inputAction: TextInputAction.done,
+              onFieldSubmitted: (p0) {
+                setState(() {
+                  payableTo.text = p0!;
+                });
+                entityServiceBloc.add(
+                  TaskEntityServiceInitiated(
+                    newFetch: true,
+                    payableTo: payableTo.text,
+                    payableFrom:
+                        payableFrom.length == 0 ? null : payableFrom.text,
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  ),
+                );
+                Navigator.pop(context);
+              },
+            ),
+          ]),
+        );
+      },
     );
   }
 
@@ -772,8 +477,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
         setState(() {
           dateFrom = null;
           dateTo = null;
-          budgetFrom.clear();
-          budgetTo.clear();
+          payableFrom.clear();
+          payableTo.clear();
+          category = null;
+          location = null;
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
