@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
@@ -448,6 +449,10 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         notLoggedInPopUp(context);
                       }
                       if (!CacheHelper.isLoggedIn) return;
+                      if (CacheHelper.isKycVerified == false) {
+                        notVerifiedPopup(context);
+                      }
+                      if (CacheHelper.isKycVerified == false) return;
                       context.read<EventBloc>().add(
                             EventLoaded(
                               id: state.taskEntityService?.event?.id ??
