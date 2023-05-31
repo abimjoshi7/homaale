@@ -19,6 +19,20 @@ class TaskEntityServiceRepository {
     List<String>? order,
     String? serviceId,
     String? city,
+    String? category,
+    String? budgetTo,
+    String? budgetFrom,
+    String? country,
+    String? dateFrom,
+    String? dateTo,
+    String? payableFrom,
+    String? payableTo,
+    String? query,
+    String? serviceType,
+    bool? isInterested,
+    bool? isOnline,
+    bool? isNearBy,
+    bool? isOwned,
   }) async {
     var orders = order != null && order.isNotEmpty ? order.join(',') : '';
     try {
@@ -28,7 +42,21 @@ class TaskEntityServiceRepository {
         "ordering": orders,
         "page_size": kPageSize,
         'service': serviceId,
-        'city': city
+        'city': city,
+        'category': category,
+        'budget_to': budgetTo,
+        'budget_from': budgetFrom,
+        'country': country,
+        'date_from': dateFrom,
+        'date_to': dateTo,
+        'payable_from': payableFrom,
+        'payable_to': payableTo,
+        'search': query,
+        'service_type': serviceType,
+        'interested': isInterested,
+        'is_online': isOnline,
+        'near_by': isNearBy,
+        'owned': isOwned,
       };
       if (isTask == null) req.remove("is_requested");
       if (!CacheHelper.isLoggedIn) {
@@ -57,6 +85,20 @@ class TaskEntityServiceRepository {
     List<String>? order,
     String? serviceId,
     String? city,
+    String? category,
+    String? budgetTo,
+    String? budgetFrom,
+    String? country,
+    String? dateFrom,
+    String? dateTo,
+    String? payableFrom,
+    String? payableTo,
+    String? query,
+    String? serviceType,
+    bool? isInterested,
+    bool? isOnline,
+    bool? isNearBy,
+    bool? isOwned,
   }) async =>
       fetchTaskEntityServices(
         isTask: isTask,
@@ -64,6 +106,20 @@ class TaskEntityServiceRepository {
         serviceId: serviceId,
         city: city,
         order: order,
+        category: category,
+        budgetTo: budgetTo,
+        budgetFrom: budgetFrom,
+        country: country,
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        payableFrom: payableFrom,
+        payableTo: payableTo,
+        query: query,
+        isInterested: isInterested,
+        isNearBy: isNearBy,
+        isOnline: isOnline,
+        isOwned: isOwned,
+        serviceType: serviceType,
       ).then(
         (value) => TaskEntityServiceModel.fromJson(
           value,
@@ -212,7 +268,8 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<ApplicantModel> getApplicants(String id) async => await fetchApplicants(id: id).then(
+  Future<ApplicantModel> getApplicants(String id) async =>
+      await fetchApplicants(id: id).then(
         (value) => ApplicantModel.fromJson(
           value,
         ),

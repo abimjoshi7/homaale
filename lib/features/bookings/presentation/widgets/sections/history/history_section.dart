@@ -21,22 +21,22 @@ class _HistorySectionState extends State<HistorySection> {
   List<Result> historyList = [];
 
   //initialize page controller
-  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
+  // final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
 
-  @override
-  void initState() {
-    //so at event add list of records
-    _pagingController.addPageRequestListener(
-      (pageKey) => bookingsBloc.add(BookingHistory(bookingHistoryReq: BookingHistoryReq(page: pageKey))),
-    );
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   //so at event add list of records
+  //   _pagingController.addPageRequestListener(
+  //     (pageKey) => bookingsBloc.add(BookingHistory(bookingHistoryReq: BookingHistoryReq(page: pageKey))),
+  //   );
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,48 +50,49 @@ class _HistorySectionState extends State<HistorySection> {
           final next = 1 + state.bookingHistoryRes.current!;
 
           if (next > lastPage) {
-            _pagingController.appendLastPage(historyList);
+            // _pagingController.appendLastPage(historyList);
           } else {
-            _pagingController.appendPage(historyList, next);
+            // _pagingController.appendPage(historyList, next);
           }
         }
         if (state.states == TheStates.failure) {
-          _pagingController.error = 'Error';
+          // _pagingController.error = 'Error';
         }
       },
       child: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
-          return PagedListView(
-            pagingController: _pagingController,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, Result item, index) {
-                return Container(
-                  margin: EdgeInsets.only(bottom: 16),
-                  child: BookingsServiceCard(
-                    callback: () {
-                      context.read<BookingsBloc>().add(
-                            BookingSingleLoaded(item.booking ?? 0),
-                          );
+          return SizedBox();
+          // return PagedListView(
+          //   pagingController: _pagingController,
+          //   padding: EdgeInsets.symmetric(horizontal: 16),
+          //   builderDelegate: PagedChildBuilderDelegate(
+          //     itemBuilder: (context, Result item, index) {
+          //       return Container(
+          //         margin: EdgeInsets.only(bottom: 16),
+          //         child: BookingsServiceCard(
+          //           callback: () {
+          //             context.read<BookingsBloc>().add(
+          //                   BookingSingleLoaded(item.booking ?? 0),
+          //                 );
 
-                      Navigator.pushNamed(
-                        context,
-                        BookedServicePage.routeName,
-                        arguments: {'status': item.status},
-                      );
-                    },
-                    hidePopupButton: true,
-                    serviceName: item.title,
-                    providerName:
-                        "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
-                    mainContentWidget: showBookingDetail(item),
-                    status: item.status,
-                    bottomRightWidget: displayPrice(item),
-                  ),
-                );
-              },
-            ),
-          );
+          //             Navigator.pushNamed(
+          //               context,
+          //               BookedServicePage.routeName,
+          //               arguments: {'status': item.status},
+          //             );
+          //           },
+          //           hidePopupButton: true,
+          //           serviceName: item.title,
+          //           providerName:
+          //               "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
+          //           mainContentWidget: showBookingDetail(item),
+          //           status: item.status,
+          //           bottomRightWidget: displayPrice(item),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // );
         },
       ),
     );
@@ -109,7 +110,8 @@ class _HistorySectionState extends State<HistorySection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
-                  label: Jiffy(result.createdAt ?? DateTime.now().toString()).yMMMMd,
+                  label: Jiffy(result.createdAt ?? DateTime.now().toString())
+                      .yMMMMd,
                   color: kColorBlue,
                 ),
               ),
@@ -117,7 +119,8 @@ class _HistorySectionState extends State<HistorySection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
+                  label:
+                      "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
                   color: kColorGreen,
                 ),
               ),

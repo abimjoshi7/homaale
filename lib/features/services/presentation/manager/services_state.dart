@@ -25,12 +25,8 @@ class ServicesState extends Equatable {
 
   ServicesState copyWith({
     TheStates? theStates,
-    SelfCreatedTaskService? selfCreatedTaskServiceModel,
     List<ServiceList>? serviceList,
     bool? isServiceListLoaded,
-    TaskEntityServiceModel? service,
-    bool? isDateSort,
-    bool? isBudgetSort,
     ProfessionalServiceModel? professionalServiceModel,
   }) {
     return ServicesState(

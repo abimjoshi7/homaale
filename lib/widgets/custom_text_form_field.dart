@@ -56,7 +56,8 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-			initialValue: value,
+      autofocus: autofocus ?? false,
+      initialValue: value,
       // autovalidateMode: autoValidateMode,
       style: Theme.of(context).textTheme.bodySmall,
       readOnly: readOnly ?? false,

@@ -43,8 +43,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
   String? selectedLocation;
 
   //initialize page controller
-  final PagingController<int, TaskEntityService> _pagingController =
-      PagingController(firstPageKey: 1);
+  // final PagingController<int, TaskEntityService> _pagingController =
+  //     PagingController(firstPageKey: 1);
 
   @override
   void initState() {
@@ -53,18 +53,18 @@ class _AllTaskPageState extends State<AllTaskPage> {
     taskBloc.add(FetchServicesList());
 
     //so at event add list of records
-    _pagingController.addPageRequestListener(
-      (pageKey) => taskBloc.add(
-        AllTaskLoadInitiated(
-          page: pageKey,
-          order: order,
-          city: selectedLocation,
-          serviceId: selectedCategoryId,
-          isBudgetSort: false,
-          isDateSort: false,
-        ),
-      ),
-    );
+    // _pagingController.addPageRequestListener(
+    //   (pageKey) => taskBloc.add(
+    //     AllTaskLoadInitiated(
+    //       page: pageKey,
+    //       order: order,
+    //       city: selectedLocation,
+    //       serviceId: selectedCategoryId,
+    //       isBudgetSort: false,
+    //       isDateSort: false,
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -72,7 +72,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
     super.dispose();
     taskBloc.close();
     user.close();
-    _pagingController.dispose();
+    // _pagingController.dispose();
   }
 
   void onFilterCategory({String? category}) {
@@ -249,7 +249,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
           if ((state.isFilter ?? false) ||
               (state.isDateSort ?? false) ||
               (state.isBudgetSort ?? false)) {
-            _pagingController.refresh();
+            // _pagingController.refresh();
             taskBloc.add(ResetFilterSort());
           }
 
@@ -260,7 +260,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
           }
 
           if (state.theState == TheStates.failure) {
-            _pagingController.error = 'Error';
+            // _pagingController.error = 'Error';
           }
 
           if (state.theState == TheStates.success) {
@@ -270,9 +270,9 @@ class _AllTaskPageState extends State<AllTaskPage> {
             final next = 1 + state.tasksList!.current!;
 
             if (next > lastPage) {
-              _pagingController.appendLastPage(taskList);
+              // _pagingController.appendLastPage(taskList);
             } else {
-              _pagingController.appendPage(taskList, next);
+              // _pagingController.appendPage(taskList, next);
             }
           }
         },
@@ -580,60 +580,61 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: PagedListView.separated(
-                    pagingController: _pagingController,
-                    separatorBuilder: (context, index) => addVerticalSpace(8),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    builderDelegate: PagedChildBuilderDelegate(
-                      itemBuilder: (context, TaskEntityService item, index) =>
-                          InkWell(
-                        onTap: () => onTaskPressed(
-                          state: state,
-                          index: index,
-                          isApply: false,
-                        ),
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: TaskCard(
-                            buttonLabel: item.createdBy?.id ==
-                                    user.state.taskerProfile?.user?.id
-                                ? 'View Details'
-                                : 'Apply Now',
-                            startRate: '${item.budgetFrom ?? 0}',
-                            endRate: '${item.budgetTo ?? 0}',
-                            budgetType: '${item.budgetType ?? 'budgetType'}',
-                            count: item.count?.toString() ?? '0',
-                            imageUrl: item.createdBy?.profileImage ??
-                                kServiceImageNImg,
-                            location: item.location ?? 'remote',
-                            endHour: Jiffy(
-                              item.createdAt?.toString() ??
-                                  DateTime.now().toString(),
-                            ).jm,
-                            endDate: Jiffy(
-                              item.endDate?.toString() ??
-                                  DateTime.now().toString(),
-                            ).yMMMMd,
-                            taskName: item.title ?? 'task title',
-                            callback: () => onTaskPressed(
-                              state: state,
-                              index: index,
-                              isApply: item.createdBy?.id !=
-                                  user.state.taskerProfile?.user?.id,
-                            ),
-                            onTapCallback: () {
-                              if (!CacheHelper.isLoggedIn) {
-                                notLoggedInPopUp(context);
-                              }
-                              if (!CacheHelper.isLoggedIn) return;
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Expanded(
+                // child: PagedListView.separated(
+
+                //   pagingController: _pagingController,
+                //   separatorBuilder: (context, index) => addVerticalSpace(8),
+                //   padding: EdgeInsets.symmetric(horizontal: 16),
+                //   builderDelegate: PagedChildBuilderDelegate(
+                //     itemBuilder: (context, TaskEntityService item, index) =>
+                //         InkWell(
+                //       onTap: () => onTaskPressed(
+                //         state: state,
+                //         index: index,
+                //         isApply: false,
+                //       ),
+                //       child: SizedBox(
+                //         height: MediaQuery.of(context).size.height * 0.3,
+                //         child: TaskCard(
+                //           buttonLabel: item.createdBy?.id ==
+                //                   user.state.taskerProfile?.user?.id
+                //               ? 'View Details'
+                //               : 'Apply Now',
+                //           startRate: '${item.budgetFrom ?? 0}',
+                //           endRate: '${item.budgetTo ?? 0}',
+                //           budgetType: '${item.budgetType ?? 'budgetType'}',
+                //           count: item.count?.toString() ?? '0',
+                //           imageUrl: item.createdBy?.profileImage ??
+                //               kServiceImageNImg,
+                //           location: item.location ?? 'remote',
+                //           endHour: Jiffy(
+                //             item.createdAt?.toString() ??
+                //                 DateTime.now().toString(),
+                //           ).jm,
+                //           endDate: Jiffy(
+                //             item.endDate?.toString() ??
+                //                 DateTime.now().toString(),
+                //           ).yMMMMd,
+                //           taskName: item.title ?? 'task title',
+                //           callback: () => onTaskPressed(
+                //             state: state,
+                //             index: index,
+                //             isApply: item.createdBy?.id !=
+                //                 user.state.taskerProfile?.user?.id,
+                //           ),
+                //           onTapCallback: () {
+                //             if (!CacheHelper.isLoggedIn) {
+                //               notLoggedInPopUp(context);
+                //             }
+                //             if (!CacheHelper.isLoggedIn) return;
+                //           },
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // ),
               ],
             );
           },

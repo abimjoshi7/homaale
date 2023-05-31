@@ -21,7 +21,7 @@ class CustomDottedContainerStack extends StatelessWidget {
         SizedBox(
           height: theHeight,
           width: double.infinity,
-          child:  DashedRect(
+          child: DashedRect(
             color: Theme.of(context).indicatorColor,
           ),
         ),
