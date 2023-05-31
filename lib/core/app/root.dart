@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
@@ -408,10 +410,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                       'Tap “Add” to add your tasks & services.',
                                   showKey: _three,
                                   onPressed: () {
-                                    if (CacheHelper.isLoggedIn == false) {
-                                      notLoggedInPopUp(context);
-                                    }
-                                    if (CacheHelper.isLoggedIn == false) return;
+                                    // if (CacheHelper.isLoggedIn == false) {
+                                    //   notLoggedInPopUp(context);
+                                    // }
+                                    // if (CacheHelper.isLoggedIn == false) return;
                                     if (addActive) {
                                       setState(() {
                                         homeActive = pageIndex == 0;
@@ -521,6 +523,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                   notLoggedInPopUp(context);
                                 }
                                 if (CacheHelper.isLoggedIn == false) return;
+                                if (CacheHelper.isKycVerified == false) {
+                                  notVerifiedPopup(context);
+                                }
+                                if (CacheHelper.isKycVerified == false) return;
                                 setState(() {
                                   homeActive = pageIndex == 0;
                                   boxActive = pageIndex == 1;
@@ -553,6 +559,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                   notLoggedInPopUp(context);
                                 }
                                 if (CacheHelper.isLoggedIn == false) return;
+                                if (CacheHelper.isKycVerified == false) {
+                                  notVerifiedPopup(context);
+                                }
+                                if (CacheHelper.isKycVerified == false) return;
                                 setState(() {
                                   homeActive = pageIndex == 0;
                                   boxActive = pageIndex == 1;
