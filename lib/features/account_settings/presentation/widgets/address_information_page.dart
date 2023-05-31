@@ -60,165 +60,190 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           // user = state.taskerProfile?.user;
-
-          return Column(
-            children: [
-              Text(
-                'Address Information',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BlocBuilder<CountryBloc, CountryState>(
-                    builder: (context, countryState) {
-                      if (countryState is CountryLoadSuccess) {
-                        countryList = countryState.list;
-                      }
-                      return CustomFormField(
-                        label: 'Country',
-                        child: CustomDropDownField(
-                          hintText: state.taskerProfile?.country?.name ??
-                              'Specify your country',
-                          list: countryList?.map((e) => e.name).toList() ??
-                              [
-                                'Australia',
-                                'Nepal',
-                              ],
-                          onChanged: (value) {
-                            setState(
-                              () async {
-                                countryName = value;
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  CustomFormField(
-                    label: 'Address Line 1',
-                    child: CustomTextFormField(
-                      hintText:
-                          state.taskerProfile?.addressLine1 ?? 'Baneshwor',
-                      onChanged: (p0) => setState(
-                        () {
-                          addressLine1 = p0;
-                        },
-                      ),
-                    ),
-                  ),
-                  CustomFormField(
-                    label: 'Address Line 2',
-                    child: CustomTextFormField(
-                      hintText: state.taskerProfile?.addressLine2 ?? '',
-                      onChanged: (p0) => setState(
-                        () {
-                          addressLine2 = p0;
-                        },
-                      ),
-                    ),
-                  ),
-                  BlocBuilder<LanguageBloc, LanguageState>(
-                    builder: (context, languageState) {
-                      if (languageState is LanguageLoadSuccess) {
-                        languageList = languageState.language;
-                      }
-                      return CustomFormField(
-                        label: 'Languages',
-                        child: CustomDropDownField(
-                          hintText: state.taskerProfile?.language?.name ??
-                              'Specify your language',
-                          list: languageList?.map((e) => e.name).toList() ??
-                              [
-                                'English',
-                                'Nepali',
-                              ],
-                          onChanged: (value) => setState(
-                            () {
-                              languages = value;
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  CustomFormField(
-                    label: 'Currency',
-                    child: BlocBuilder<CurrencyBloc, CurrencyState>(
-                      builder: (context, currencyState) {
-                        if (currencyState is CurrencyLoadSuccess) {
-                          currencyList = currencyState.currencyListRes;
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                addVerticalSpace(10),
+                Text(
+                  'Address Information',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                addVerticalSpace(10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BlocBuilder<CountryBloc, CountryState>(
+                      builder: (context, countryState) {
+                        if (countryState is CountryLoadSuccess) {
+                          countryList = countryState.list;
                         }
-                        return CustomDropDownField(
-                          hintText: state.taskerProfile?.chargeCurrency?.name ??
-                              'Choose suitable currency',
-                          list: currencyList?.map((e) => e.name).toList() ??
-                              [
-                                'NPR',
-                                'AUD',
-                              ],
-                          onChanged: (value) => setState(
-                            () {
-                              currency = value;
+                        return CustomFormField(
+                          label: 'Country',
+                          child: CustomDropDownField(
+                            hintText: state.taskerProfile?.country?.name ??
+                                'Specify your country',
+                            list: countryList?.map((e) => e.name).toList() ??
+                                [
+                                  'Australia',
+                                  'Nepal',
+                                ],
+                            onChanged: (value) {
+                              setState(
+                                () async {
+                                  countryName = value;
+                                },
+                              );
                             },
                           ),
                         );
                       },
                     ),
-                  ),
-                ],
-              ),
-              addVerticalSpace(
-                8,
-              ),
-              CustomElevatedButton(
-                callback: () async {
-                  String? countryCode;
-                  String? languageCode;
-                  String? currencyCode;
+                    addVerticalSpace(10),
 
-                  for (final x in countryList!) {
-                    if (countryName == x.name) {
-                      setState(() {
-                        countryCode = x.code;
-                      });
-                    }
-                  }
-                  for (final x in languageList!) {
-                    if (languages == x.name) {
-                      setState(() {
-                        languageCode = x.code;
-                      });
-                    }
-                  }
-                  for (final x in currencyList!) {
-                    if (currency == x.name) {
-                      setState(() {
-                        currencyCode = x.code;
-                      });
-                    }
-                  }
-                  final map = {
-                    "country": countryCode ?? state.taskerProfile?.country,
-                    "address_line1":
-                        addressLine1 ?? state.taskerProfile?.addressLine1,
-                    "address_line2":
-                        addressLine2 ?? state.taskerProfile?.addressLine2,
-                    "language": languageCode ?? state.taskerProfile?.language,
-                    "charge_currency": currencyCode ??
-                        state.taskerProfile?.chargeCurrency?.code,
-                  };
-
-                  context.read<UserBloc>().add(
-                        UserEdited(
-                          req: map,
+                    CustomFormField(
+                      label: 'Address Line 1',
+                      child: CustomTextFormField(
+                        hintText:
+                            state.taskerProfile?.addressLine1 ?? 'Baneshwor',
+                        onChanged: (p0) => setState(
+                          () {
+                            addressLine1 = p0;
+                          },
                         ),
-                      );
-                },
-                label: 'Save',
-              ),
-            ],
+                      ),
+                    ),
+                    addVerticalSpace(10),
+
+                    CustomFormField(
+                      label: 'Address Line 2',
+                      child: CustomTextFormField(
+                        hintText: state.taskerProfile?.addressLine2 ?? '',
+                        onChanged: (p0) => setState(
+                          () {
+                            addressLine2 = p0;
+                          },
+                        ),
+                      ),
+                    ),
+                    addVerticalSpace(10),
+
+                    BlocBuilder<LanguageBloc, LanguageState>(
+                      builder: (context, languageState) {
+                        if (languageState is LanguageLoadSuccess) {
+                          languageList = languageState.language;
+                        }
+                        return CustomFormField(
+                          label: 'Languages',
+                          child: CustomDropDownField(
+                            hintText: state.taskerProfile?.language?.name ??
+                                'Specify your language',
+                            list: languageList?.map((e) => e.name).toList() ??
+                                [
+                                  'English',
+                                  'Nepali',
+                                ],
+                            onChanged: (value) => setState(
+                              () {
+                                languages = value;
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    addVerticalSpace(10),
+
+                    CustomFormField(
+                      label: 'Currency',
+                      child: BlocBuilder<CurrencyBloc, CurrencyState>(
+                        builder: (context, currencyState) {
+                          if (currencyState is CurrencyLoadSuccess) {
+                            currencyList = currencyState.currencyListRes;
+                          }
+                          return CustomDropDownField(
+                            hintText: state.taskerProfile?.chargeCurrency?.name ??
+                                'Choose suitable currency',
+                            list: currencyList?.map((e) => e.name).toList() ??
+                                [
+                                  'NPR',
+                                  'AUD',
+                                ],
+                            onChanged: (value) => setState(
+                              () {
+                                currency = value;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    addVerticalSpace(10),
+
+                  ],
+                ),
+                addVerticalSpace(
+                  8,
+                ),
+                CustomElevatedButton(
+                  callback: () async {
+                    String? countryCode;
+                    String? languageCode;
+                    String? currencyCode;
+
+                    for (final x in countryList!) {
+                      if (countryName == x.name) {
+                        setState(() {
+                          countryCode = x.code;
+                        });
+                      }
+                    }
+                    for (final x in languageList!) {
+                      if (languages == x.name) {
+                        setState(() {
+                          languageCode = x.code;
+                        });
+                      }
+                    }
+                    for (final x in currencyList!) {
+                      if (currency == x.name) {
+                        setState(() {
+                          currencyCode = x.code;
+                        });
+                      }
+                    }
+                    final map = {
+                      "country": countryCode ?? state.taskerProfile?.country,
+                      "address_line1":
+                          addressLine1 ?? state.taskerProfile?.addressLine1,
+                      "address_line2":
+                          addressLine2 ?? state.taskerProfile?.addressLine2,
+                      "language": languageCode ?? state.taskerProfile?.language,
+                      "charge_currency": currencyCode ??
+                          state.taskerProfile?.chargeCurrency?.code,
+                    };
+
+                    context.read<UserBloc>().add(
+                          UserEdited(
+                            req: map,
+                          ),
+                        );
+                  },
+                  label: 'Save',
+                ),
+                kHeight10,
+                CustomElevatedButton(
+                  callback: () async {
+                    Navigator.pop(context);
+                  },
+                  label: 'Cancel',
+                  textColor: kColorPrimary,
+                  mainColor: Colors.white,
+                  borderColor: kColorPrimary,
+                ),
+              ],
+            ),
           );
         }
         return Column(
@@ -265,10 +290,10 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 ],
               ),
             ),
-            CustomElevatedButton(
-              callback: () {},
-              label: 'Save',
-            ),
+            // CustomElevatedButton(
+            //   callback: () {},
+            //   label: 'Save',
+            // ),
           ],
         );
       },

@@ -61,13 +61,17 @@ class _ProfessionalInformationModalSheetState
         final list = List<String>.from(
           jsonDecode(state.taskerProfile?.skill ?? "") as Iterable,
         );
-        return SingleChildScrollView(
+        return Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              addVerticalSpace(10),
               const Text(
                 'Professional Information',
                 style: kPurpleText16,
               ),
+              addVerticalSpace(5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -79,6 +83,8 @@ class _ProfessionalInformationModalSheetState
                       initialList: list,
                     ),
                   ),
+                  addVerticalSpace(5),
+
                   CustomFormField(
                     label: 'Experience Level',
                     child: CustomDropDownField<String>(
@@ -102,11 +108,13 @@ class _ProfessionalInformationModalSheetState
                       ),
                     ),
                   ),
+                  addVerticalSpace(5),
+
                   const Text(
                     'Active Hours',
                     style: kPurpleText16,
                   ),
-                  kHeight10,
+                  // kHeight10,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -243,6 +251,19 @@ class _ProfessionalInformationModalSheetState
                 },
                 label: 'Save',
               ),
+              addVerticalSpace(8),
+
+              CustomElevatedButton(
+                callback: () async {
+                  Navigator.pop(context);
+                },
+                label: 'Cancel',
+                textColor: kColorPrimary,
+                mainColor: Colors.white,
+                borderColor: kColorPrimary,
+              ),
+
+
             ],
           ),
         );

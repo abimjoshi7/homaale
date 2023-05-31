@@ -21,6 +21,14 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   String? designation;
   String? profilePicture;
   XFile? selectedImage;
+  bool isMale = true;
+  bool isFemale = false;
+  bool isOther = false;
+  String? email;
+  String? contact;
+  DateTime? dob;
+  String? bio;
+
   final _key = GlobalKey<FormState>();
   bool isCamera = false;
 
@@ -66,16 +74,19 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: Form(
               key: _key,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: ListView(
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        addVerticalSpace(20),
+                        Text('General Information',
+                            style: Theme.of(context).textTheme.headlineSmall),
                         InkWell(
                           onTap: () async {
                             showDialog(
@@ -131,31 +142,29 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                                 ;
                           },
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        profilePicture ?? kServiceImageNImg,
-                                      ),
+                              addVerticalSpace(10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      profilePicture ?? kServiceImageNImg,
                                     ),
                                   ),
-                                  width: 100,
-                                  height: 100,
                                 ),
+                                width: 100,
+                                height: 100,
                               ),
                               addVerticalSpace(
                                 16,
                               ),
-                              Center(
-                                child: Text(
-                                  'Change profile photo',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
-                                ),
+                              Text(
+                                'Change profile photo',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                             ],
                           ),
@@ -259,35 +268,158 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                             ),
                           ],
                         ),
-                        addVerticalSpace(
-                          32,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Designation',
-                              style: Theme.of(context).textTheme.headlineSmall,
+                        CustomFormField(
+                          label: 'Email',
+                          child: CustomTextFormField(
+                            hintText: state.taskerProfile?.user?.email ?? '',
+                            onChanged: (p0) => setState(
+                              () {
+                                email = p0;
+                              },
                             ),
-                            kHeight5,
-                            CustomTextFormField(
-                              hintText: state.taskerProfile?.designation ?? '',
-                              onSaved: (p0) => setState(
-                                () {
-                                  designation = p0;
-                                },
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Contact',
+                          child: CustomTextFormField(
+                            textInputType: TextInputType.number,
+                            hintText: state.taskerProfile?.user?.phone ?? '',
+                            prefixWidget: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.asset('assets/nepalflag.png'),
+                                  Text('+977',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall),
+                                  const Icon(Icons.arrow_drop_down)
+                                ],
                               ),
                             ),
-                          ],
+                            onChanged: (p0) => setState(
+                              () {
+                                contact = p0;
+                              },
+                            ),
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Date of birth',
+                          child: InkWell(
+                            onTap: () async {
+                              await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1800),
+                                lastDate: DateTime(2080),
+                              ).then(
+                                (value) => setState(
+                                  () {
+                                    dob = value;
+                                  },
+                                ),
+                              );
+                            },
+                            child: CustomFormContainer(
+                              leadingWidget: const Icon(Icons.calendar_month),
+                              hintText: DateFormat('yyyy-MM-dd').format(
+                                dob ??
+                                    state.taskerProfile?.dateOfBirth ??
+                                    DateTime.now(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        addVerticalSpace(10),
+                        CustomFormField(
+                          label: 'Please specify your gender',
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ChoiceChip(
+                                selected: isMale,
+                                backgroundColor: Colors.transparent,
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(color: Color(0xffDEE2E6)),
+                                ),
+                                onSelected: (value) {
+                                  setState(() {
+                                    isMale = value;
+                                    isFemale = !value;
+                                    isOther = !value;
+                                  });
+                                },
+                                label: Text(
+                                  'Male',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                selectedColor: kColorPrimary,
+                              ),
+                              ChoiceChip(
+                                selected: isFemale,
+                                backgroundColor: Colors.transparent,
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(color: Color(0xffDEE2E6)),
+                                ),
+                                onSelected: (value) {
+                                  setState(() {
+                                    isFemale = value;
+                                    isMale = !value;
+                                    isOther = !value;
+                                  });
+                                },
+                                label: Text(
+                                  'Female',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                selectedColor: kColorPrimary,
+                              ),
+                              ChoiceChip(
+                                selected: isOther,
+                                backgroundColor: Colors.transparent,
+                                shape: const RoundedRectangleBorder(
+                                  side: BorderSide(color: Color(0xffDEE2E6)),
+                                ),
+                                onSelected: (value) {
+                                  setState(() {
+                                    isOther = value;
+                                    isMale = !value;
+                                    isFemale = !value;
+                                  });
+                                },
+                                label: Text(
+                                  'Other',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                selectedColor: kColorPrimary,
+                              ),
+                            ],
+                          ),
+                        ),
+                        CustomFormField(
+                          label: 'Bio',
+                          child: CustomTextFormField(
+                            maxLines: 3,
+                            hintText:
+                                bio ?? state.taskerProfile?.bio ?? 'Enter Bio',
+                            onChanged: (p0) => setState(
+                              () {
+                                bio = p0;
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  addVerticalSpace(10),
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
                         _key.currentState?.save();
-
                         final user = {
                           "first_name": firstName!.isEmpty
                               ? state.taskerProfile?.user!.firstName
@@ -298,9 +430,15 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           "last_name": lastName!.isEmpty
                               ? state.taskerProfile?.user!.lastName
                               : lastName,
-                          "designation": designation!.isEmpty
-                              ? state.taskerProfile?.designation
-                              : designation,
+                          // "designation": designation!.isEmpty
+                          //     ? state.taskerProfile?.designation
+                          //     : designation,
+                          "date_of_birth": DateFormat("yyyy-MM-dd").format(
+                            dob ??
+                                state.taskerProfile?.dateOfBirth ??
+                                DateTime.now(),
+                          ),
+                          "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
                         };
 
                         context.read<UserBloc>().add(
@@ -310,8 +448,17 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                       label: 'Save',
                     ),
                   ),
-                  addVerticalSpace(
-                    16,
+                  addVerticalSpace(10),
+                  Center(
+                    child: CustomElevatedButton(
+                      callback: () async {
+                        Navigator.pop(context);
+                      },
+                      label: 'Cancel',
+                      textColor: kColorPrimary,
+                      mainColor: Colors.white,
+                      borderColor: kColorPrimary,
+                    ),
                   ),
                   // ! TO BE IMPLEMENTED
                   // Column(
@@ -349,10 +496,9 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                 kHeight20,
                 CustomElevatedButton(
                   callback: () {
-                    Navigator.pushNamedAndRemoveUntil(
+                    Navigator.pushNamed(
                       context,
                       CompleteProfilePage.routeName,
-                      (route) => false,
                     );
                   },
                   label: 'Complete Profile',
