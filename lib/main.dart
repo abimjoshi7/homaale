@@ -30,4 +30,4 @@ void main() async {
 //TODO: Offers
 
 
-//! commission: double,  isBookmarked: bool, 
+//! commission: double,  isBookmarked: bool,

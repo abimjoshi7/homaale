@@ -10,6 +10,7 @@ class CustomToast extends StatelessWidget {
     required this.onTap,
     required this.isSuccess,
     this.buttonLabel,
+    this.showBothButtons = false,
   });
 
   final String heading;
@@ -17,6 +18,7 @@ class CustomToast extends StatelessWidget {
   final VoidCallback onTap;
   final bool isSuccess;
   final String? buttonLabel;
+  final bool showBothButtons;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +41,9 @@ class CustomToast extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  if (isSuccess == false)
+                  if (isSuccess == false && showBothButtons == false)
                     SizedBox(
-                      width: 150,
+                      width: showBothButtons ? 300 : 150,
                       height: 40,
                       child: CustomElevatedButton(
                         label: 'Cancel',
@@ -49,6 +51,41 @@ class CustomToast extends StatelessWidget {
                           Navigator.pop(context);
                         },
                       ),
+                    )
+                  else if (showBothButtons == true && isSuccess)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: SizedBox(
+                            height: 35,
+                            width: 100,
+                            child: CustomElevatedButton(
+                              callback: () {
+                                Navigator.pop(context);
+                              },
+                              label: "Cancel",
+                              mainColor: Colors.white,
+                              textColor: kColorPrimary,
+                              borderColor: kColorPrimary,
+                            ),
+                          ),
+                        ),
+                        // addHorizontalSpace(
+                        //   10,
+                        // ),
+                        Flexible(
+                          child: SizedBox(
+                            height: 35,
+                            width: 100,
+                            child: CustomElevatedButton(
+                              callback: () => onTap,
+                              label: buttonLabel ?? "Continue",
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   else
                     SizedBox(

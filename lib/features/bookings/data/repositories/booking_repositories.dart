@@ -74,7 +74,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchBookingsList({bool? isTask, String? status, int? page}) async {
+  Future<Map<String, dynamic>> fetchBookingsList(
+      {bool? isTask, String? status, int? page}) async {
     try {
       final x = await _dio.getDatawithCredential(
         query: {
@@ -160,7 +161,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
+  Future<Map<String, dynamic>> bookingHistory(
+      BookingHistoryReq bookingHistoryReq) async {
     try {
       final query = bookingHistoryReq.toJson();
       log('booking api $query');
@@ -176,7 +178,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> updateStatus({required String status, required String id}) async {
+  Future<Map<String, dynamic>> updateStatus(
+      {required String status, required String id}) async {
     try {
       final res = await _dio.postDataWithCredential(
         data: {
@@ -189,6 +192,22 @@ class BookingRepositories {
       return res as Map<String, dynamic>;
     } catch (e) {
       log('booking status update api error : ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  Future<void> archiveTaskEntityService({required String id}) async {
+    try {
+      await _dio.postDataWithCredential(
+        data: {
+          "is_active": false,
+          "id": id,
+        },
+        url: '/task/entity/service-archive/',
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      log("Archive Task Entity Service Failure:${e.toString()}");
       rethrow;
     }
   }

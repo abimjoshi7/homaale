@@ -65,7 +65,7 @@ class ServicesSection extends StatelessWidget {
                     theChild: IconText(
                       color: kColorAmber,
                       label:
-                          "${((service?[index].rating ?? []).first.rating)}(${((service?[index].rating ?? []).first.ratingCount)})",
+                          "${((service?[index].rating ?? "0.0"))}(${((service?[index].ratingCount ?? "0"))})",
                       iconData: Icons.star_rounded,
                     ),
                   ),

@@ -49,15 +49,14 @@ _$_ServiceElement _$$_ServiceElementFromJson(Map<String, dynamic> json) =>
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rating: (json['rating'] as List<dynamic>?)
-          ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      rating: (json['rating'] as num?)?.toDouble(),
       budgetType: json['budget_type'] as String?,
       isRequested: json['is_requested'] as bool?,
       budgetFrom: json['budget_from'] as String?,
       budgetTo: json['budget_to'] as String?,
       location: json['location'] as String?,
       count: json['count'] as int?,
+      ratingCount: json['rating_count'] as int?,
       isEndorsed: json['is_endorsed'] as bool?,
       startDate: json['start_date'] == null
           ? null
@@ -92,6 +91,7 @@ Map<String, dynamic> _$$_ServiceElementToJson(_$_ServiceElement instance) =>
       'budget_to': instance.budgetTo,
       'location': instance.location,
       'count': instance.count,
+      'rating_count': instance.ratingCount,
       'is_endorsed': instance.isEndorsed,
       'start_date': instance.startDate?.toIso8601String(),
       'end_date': instance.endDate?.toIso8601String(),

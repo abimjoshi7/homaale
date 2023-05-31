@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
@@ -143,13 +144,23 @@ class _TasksRecommendationSectionState
                                   .toString(),
                             ).yMMMMd,
                             taskName: state.tasksList?.result?[index].title,
-                            callback: () => onTaskPressed(
-                              state: state,
-                              index: index,
-                              isApply: state.tasksList?.result?[index].createdBy
-                                      ?.id !=
-                                  user.state.taskerProfile?.user?.id,
-                            ),
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                              if (CacheHelper.isKycVerified == false) {
+                                notVerifiedPopup(context);
+                              }
+                              if (CacheHelper.isKycVerified == false) return;
+                              onTaskPressed(
+                                state: state,
+                                index: index,
+                                isApply: state.tasksList?.result?[index]
+                                        .createdBy?.id !=
+                                    user.state.taskerProfile?.user?.id,
+                              );
+                            },
                             onTapCallback: () {
                               if (!CacheHelper.isLoggedIn) {
                                 notLoggedInPopUp(context);

@@ -585,7 +585,7 @@ class _PopularServicesPageState extends State<PopularServicesPage> {
                             imagePath: item.images?.length == 0
                                 ? kServiceImageNImg
                                 : item.images?.first.media,
-                            rating: item.rating?.first.rating.toString(),
+                            rating: item.rating?.toString(),
                             description:
                                 "${item.createdBy?.firstName} ${item.createdBy?.lastName}",
                             location:

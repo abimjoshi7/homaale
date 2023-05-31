@@ -24,7 +24,8 @@ const kThrottleDuration = Duration(
   seconds: 15,
 );
 
-class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc
+    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
@@ -89,9 +90,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               } else {
                 emit(
                   state.copyWith(
-                    theStates: TheStates.success,
-                    taskEntityService: value,
-                  ),
+                      theStates: TheStates.success, taskEntityService: value),
                 );
               }
             },
@@ -309,8 +308,9 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
                 (value) => emit(
                   state.copyWith(
                     serviceLoaded: true,
-                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
-                      ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList:
+                        value.map((e) => ServiceList.fromJson(e)).toList()
+                          ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );
