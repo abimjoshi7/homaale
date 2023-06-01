@@ -55,14 +55,6 @@ class _PostTaskPageState extends State<PostTaskPage> {
   @override
   void initState() {
     uploadBloc = context.read<UploadBloc>();
-
-    context.read<CategoriesBloc>().add(
-          CategoriesLoadInitiated(),
-        );
-    // context.read<ServicesBloc>().add(
-    //       const ServicesLoadInitiated(),
-    //     );
-
     super.initState();
   }
 
@@ -239,8 +231,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       ),
                     );
                   } else {
-                    if (uploadBloc.state.imageFileList?.length != 0 ||
-                        uploadBloc.state.videoFileList?.length != 0)
+                    if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0)
                       await _uploadFile();
                     final req = TaskEntityServiceReq(
                       title: titleController.text,
@@ -279,12 +270,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
-                      images:
-                          context.read<UploadBloc>().state.uploadedImageList ??
-                              [],
-                      videos:
-                          context.read<UploadBloc>().state.uploadedVideoList ??
-                              [],
+                      images: context.read<UploadBloc>().state.uploadedImageList,
+                      videos: context.read<UploadBloc>().state.uploadedVideoList,
                     );
 
                     context.read<TaskEntityServiceBloc>().add(

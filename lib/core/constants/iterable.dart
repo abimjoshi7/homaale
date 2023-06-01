@@ -147,7 +147,7 @@ const kBookingDropDownStrings = [
   "Services",
 ];
 
-Map<String, dynamic> getStatus(String status) {
+Map<String, dynamic> getStatus(String status, {bool? isService}) {
   switch (status) {
     case "cancelled":
       return {
@@ -193,7 +193,7 @@ Map<String, dynamic> getStatus(String status) {
     default:
       return {
         "color": kColorPrimary,
-        "status": "Apply",
+        "status": isService ?? false ? "Book" : "Apply",
       };
   }
 }

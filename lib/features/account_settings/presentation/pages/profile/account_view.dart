@@ -13,7 +13,6 @@ import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statem
 import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_event.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
-import 'package:cipher/features/user/presentation/bloc/activities/bloc/activities_timeline_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -103,8 +102,7 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ??
-                                      kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -113,16 +111,10 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name:
-                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified:
-                                state.taskerProfile?.isProfileVerified ?? false,
-                            designation:
-                                state.taskerProfile?.designation?.toString() ??
-                                    'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ??
-                                state.taskerProfile?.user?.email ??
-                                '',
+                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
+                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
                           ),
                         ],
                       ),
@@ -174,24 +166,17 @@ class _AccountViewState extends State<AccountView> {
                     ],
                   ),
                 ),
-                // kHeight20,
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                   ),
                   child: CustomElevatedButton(
                     callback: () {
-                      context
-                          .read<ActivitiesTimelineBloc>()
-                          .add(ActivitiesLoaded());
-
                       Navigator.pushNamed(context, Profile.routeName);
                     },
                     label: 'View Profile',
                   ),
                 ),
-                // kHeight20,
-                //*****/
                 BlocBuilder<KycBloc, KycState>(
                   builder: (context, state) {
                     return Visibility(
@@ -237,8 +222,7 @@ class _AccountViewState extends State<AccountView> {
                       return Visibility(
                         visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
-                          onTap: () => conditionalCheckNavigation(
-                              context, context.read<KycBloc>().state),
+                          onTap: () => conditionalCheckNavigation(context, context.read<KycBloc>().state),
                           icon: const Icon(
                             Icons.card_membership_rounded,
                           ),
@@ -254,7 +238,6 @@ class _AccountViewState extends State<AccountView> {
                     }
                   },
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(

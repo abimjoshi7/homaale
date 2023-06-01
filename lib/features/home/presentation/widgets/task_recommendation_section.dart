@@ -8,7 +8,6 @@ import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -21,25 +20,10 @@ class TasksRecommendationSection extends StatefulWidget {
   const TasksRecommendationSection({super.key});
 
   @override
-  State<TasksRecommendationSection> createState() =>
-      _TasksRecommendationSectionState();
+  State<TasksRecommendationSection> createState() => _TasksRecommendationSectionState();
 }
 
-class _TasksRecommendationSectionState
-    extends State<TasksRecommendationSection> {
-  late final user = locator<UserBloc>();
-  @override
-  void initState() {
-    user.add(UserLoaded());
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    user.close();
-  }
-
+class _TasksRecommendationSectionState extends State<TasksRecommendationSection> {
   void onTaskPressed({
     required TaskState state,
     required int index,
@@ -55,12 +39,7 @@ class _TasksRecommendationSectionState
         notLoggedInPopUp(context);
       }
       if (CacheHelper.isLoggedIn) {
-        context
-                    .read<UserSuspendBloc>()
-                    .state
-                    .userAccountSuspension
-                    ?.isSuspended ==
-                true
+        context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
             ? showDialog(
                 context: context,
                 builder: (context) => AccountSuspendCustomToast(
@@ -112,36 +91,25 @@ class _TasksRecommendationSectionState
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
-                            isRange: state.tasksList?.result?[index].isRange ??
-                                false,
+                            isRange: state.tasksList?.result?[index].isRange ?? false,
                             id: state.tasksList?.result?[index].id,
-                            buttonLabel:
-                                state.tasksList?.result?[index].createdBy?.id ==
-                                        user.state.taskerProfile?.user?.id
-                                    ? 'View Details'
-                                    : 'Apply Now',
-                            startRate:
-                                '${state.tasksList?.result?[index].budgetFrom ?? 0}',
-                            endRate:
-                                '${state.tasksList?.result?[index].budgetTo ?? 0}',
-                            budgetType:
-                                '${state.tasksList?.result?[index].budgetType}',
-                            count: state.tasksList?.result?[index].count
-                                .toString(),
-                            imageUrl: state.tasksList?.result?[index].createdBy
-                                    ?.profileImage ??
-                                kServiceImageNImg,
-                            location:
-                                state.tasksList?.result?[index].location == ''
-                                    ? 'Remote'
-                                    : state.tasksList?.result?[index].location,
+                            buttonLabel: state.tasksList?.result?[index].createdBy?.id ==
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id
+                                ? 'View Details'
+                                : 'Apply Now',
+                            startRate: '${state.tasksList?.result?[index].budgetFrom ?? 0}',
+                            endRate: '${state.tasksList?.result?[index].budgetTo ?? 0}',
+                            budgetType: '${state.tasksList?.result?[index].budgetType}',
+                            count: state.tasksList?.result?[index].count.toString(),
+                            imageUrl: state.tasksList?.result?[index].createdBy?.profileImage ?? kServiceImageNImg,
+                            location: state.tasksList?.result?[index].location == ''
+                                ? 'Remote'
+                                : state.tasksList?.result?[index].location,
                             endHour: Jiffy(
-                              state.tasksList?.result?[index].createdAt
-                                  .toString(),
+                              state.tasksList?.result?[index].createdAt.toString(),
                             ).jm,
                             endDate: Jiffy(
-                              state.tasksList?.result?[index].endDate
-                                  .toString(),
+                              state.tasksList?.result?[index].endDate.toString(),
                             ).yMMMMd,
                             taskName: state.tasksList?.result?[index].title,
                             callback: () {
@@ -156,9 +124,8 @@ class _TasksRecommendationSectionState
                               onTaskPressed(
                                 state: state,
                                 index: index,
-                                isApply: state.tasksList?.result?[index]
-                                        .createdBy?.id !=
-                                    user.state.taskerProfile?.user?.id,
+                                isApply: state.tasksList?.result?[index].createdBy?.id !=
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
                               );
                             },
                             onTapCallback: () {

@@ -1,36 +1,27 @@
 import 'dart:async';
-import 'dart:developer';
+import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
-import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
-import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
-import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/post_task_page.dart';
-import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
-import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_state.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../features/categories/presentation/pages/sections/categories_section.dart';
-import '../../features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
-import '../../features/user_suspend/presentation/bloc/user_suspend_event.dart';
 import '../../features/user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../network_info/network_bloc.dart';
 import '../network_info/network_event.dart';
-import '../network_info/network_state.dart';
 
 class Root extends StatefulWidget {
   static const routeName = '/root';
@@ -51,8 +42,7 @@ class _RootState extends State<Root> {
   }
 
   void checkShowcase() async {
-    final showcase =
-        await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
     if (showcase == 'not-shown') {
       setState(() {
         enableShowcase = true;
@@ -134,88 +124,15 @@ class _CalledRootClassState extends State<CalledRootClass> {
   ];
 
   void initBlocs() {
-    Future.delayed(
-      Duration.zero,
-      () async {
-        await context
-            .read<TaskerPortfolioCubit>()
-            .getPortfolio()
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context.read<KycBloc>().add(KycModelLoaded()),
-                      context.read<KycBloc>().add(KycDocumentLoaded()),
-                      context.read<KycBloc>().add(KycProfileInitiated()),
-                    }
-                })
-            .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
-            )
-            .then(
-              (value) async => context.read<TaskEntityServiceBloc>().add(
-                    TaskEntityServiceInitiated(isTask: false),
-                  ),
-            )
-            .then(
-              (value) async =>
-                  context.read<TaskerExperienceCubit>().getTaskerExperience(),
-            )
-            .then(
-              (value) async =>
-                  context.read<TaskerEducationCubit>().getTaskerEducation(),
-            )
-            .then(
-              (value) async => context
-                  .read<TaskerCertificationCubit>()
-                  .getTaskerCertification(),
-            )
-            .then((value) async => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context.read<UserBloc>().add(
-                            UserLoaded(),
-                          ),
-                    }
-                })
-            .then(
-              (value) async => context.read<TaskerCubit>().loadTaskerList(),
-            )
-            .then(
-              (value) async => context.read<UserSuspendBloc>().add(
-                  UserSuspendLoaded(
-                      userId:
-                          '${context.read<UserBloc>().state.taskerProfile?.user?.id}')),
-            )
-            .then(
-              (value) async => {
-                if (CacheHelper.isLoggedIn)
-                  {
-                    context
-                        .read<NotificationBloc>()
-                        .add(MyNotificationListInitiated()),
-                  }
-              },
-            )
-            .then((value) => {
-                  if (CacheHelper.isLoggedIn)
-                    {
-                      context.read<BillsPaymentBloc>().add(InitializeState()),
-                      context
-                          .read<BillsPaymentBloc>()
-                          .add(FetchLinkedBankAccount()),
-                    }
-                });
-      },
-    );
+    if (CacheHelper.isLoggedIn) {
+      context.read<NotificationBloc>().add(MyNotificationListInitiated());
+    }
   }
 
   late StreamSubscription subscription;
   bool isDeviceConnected = false;
   bool isAlertSet = false;
-  getConnectivity() =>
-      subscription = Connectivity().onConnectivityChanged.listen(
+  getConnectivity() => subscription = Connectivity().onConnectivityChanged.listen(
         (ConnectivityResult result) async {
           isDeviceConnected = await InternetConnectionChecker().hasConnection;
           if (!isDeviceConnected && isAlertSet == false) {
@@ -262,8 +179,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context).startShowCase(
-          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
+      ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -286,16 +202,14 @@ class _CalledRootClassState extends State<CalledRootClass> {
             content: const CommonErrorContainer(
               assetsPath: 'assets/no_internet_connection.png',
               errorTile: 'Oops, No Internet Connection.',
-              errorDes:
-                  "Make sure Wi-Fi or cellular data is turned on and then try again.",
+              errorDes: "Make sure Wi-Fi or cellular data is turned on and then try again.",
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
                   Navigator.pop(context, 'Cancel');
                   setState(() => isAlertSet = false);
-                  isDeviceConnected =
-                      await InternetConnectionChecker().hasConnection;
+                  isDeviceConnected = await InternetConnectionChecker().hasConnection;
                   if (!isDeviceConnected && isAlertSet == false) {
                     showDialogBox();
                     setState(() => isAlertSet = true);
@@ -312,12 +226,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await Future.delayed(
-          const Duration(
-            microseconds: 1,
-          ),
-        );
         initBlocs();
+        initialFetch(context);
       },
       child: BlocProvider(
         create: (context) => NetworkBloc()..add(NetworkObserve()),
@@ -345,8 +255,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                         height: 102,
                         width: MediaQuery.of(context).size.width,
                         child: CustomPaint(
-                          painter: BottomNavCustomPainter(
-                              color: Theme.of(context).primaryColor),
+                          painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
                           child: Padding(
                             padding: const EdgeInsets.only(
                               left: 8.0,
@@ -380,8 +289,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 ),
                                 CustomBottomNavItems(
                                   showCaseTitle: 'Box',
-                                  showCaseDec:
-                                      'Tap “Box” to view your Bookings Payments list. ',
+                                  showCaseDec: 'Tap “Box” to view your Bookings Payments list. ',
                                   showKey: _two,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
@@ -406,8 +314,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 ),
                                 CustomBottomNavItems(
                                   showCaseTitle: 'Add',
-                                  showCaseDec:
-                                      'Tap “Add” to add your tasks & services.',
+                                  showCaseDec: 'Tap “Add” to add your tasks & services.',
                                   showKey: _three,
                                   onPressed: () {
                                     // if (CacheHelper.isLoggedIn == false) {
@@ -441,8 +348,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 ),
                                 CustomBottomNavItems(
                                   showCaseTitle: 'Bookings',
-                                  showCaseDec:
-                                      'Tap “Bookings” to book services.',
+                                  showCaseDec: 'Tap “Bookings” to book services.',
                                   showKey: _four,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
@@ -467,8 +373,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                 ),
                                 CustomBottomNavItems(
                                   showCaseTitle: 'Profile',
-                                  showCaseDec:
-                                      'Tap “Profile” to setup your account.',
+                                  showCaseDec: 'Tap “Profile” to setup your account.',
                                   showKey: _five,
                                   onPressed: () {
                                     if (CacheHelper.isLoggedIn == false) {
@@ -500,8 +405,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                   );
                 }),
               ),
-              BlocBuilder<UserSuspendBloc, UserSuspendState>(
-                  builder: (context, stateUS) {
+              BlocBuilder<UserSuspendBloc, UserSuspendState>(builder: (context, stateUS) {
                 return Visibility(
                   visible: addActive,
                   child: Positioned(
@@ -510,8 +414,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
                       height: 100,
                       width: MediaQuery.of(context).size.width,
                       child: CustomPaint(
-                        painter: FloatingOptionsCustomPainter(
-                            color: Theme.of(context).primaryColor),
+                        painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -534,12 +437,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                   bookingsActive = pageIndex == 2;
                                   profileActive = pageIndex == 3;
                                 });
-                                (stateUS.userAccountSuspension?.isSuspended ==
-                                        true)
+                                (stateUS.userAccountSuspension?.isSuspended == true)
                                     ? showDialog(
                                         context: context,
-                                        builder: (context) =>
-                                            AccountSuspendCustomToast(
+                                        builder: (context) => AccountSuspendCustomToast(
                                           heading: 'ACCOUNT SUSPENDED',
                                           content: 'User is suspended',
                                         ),
@@ -570,12 +471,10 @@ class _CalledRootClassState extends State<CalledRootClass> {
                                   bookingsActive = pageIndex == 2;
                                   profileActive = pageIndex == 3;
                                 });
-                                (stateUS.userAccountSuspension?.isSuspended ==
-                                        true)
+                                (stateUS.userAccountSuspension?.isSuspended == true)
                                     ? showDialog(
                                         context: context,
-                                        builder: (context) =>
-                                            AccountSuspendCustomToast(
+                                        builder: (context) => AccountSuspendCustomToast(
                                           heading: 'ACCOUNT SUSPENDED',
                                           content: 'User is suspended',
                                         ),

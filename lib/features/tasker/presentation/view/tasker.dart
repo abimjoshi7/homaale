@@ -38,7 +38,6 @@ class TaskerProfileViewState extends State<TaskerProfileView>
   @override
   void initState() {
     super.initState();
-    context.read<UserBloc>().add(UserLoaded());
     tabController = TabController(length: 4, vsync: this);
   }
 

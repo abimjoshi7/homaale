@@ -20,17 +20,14 @@ class ChatListingPage extends StatefulWidget {
 
 class _ChatListingPageState extends State<ChatListingPage> {
   final chatBloc = locator<ChatBloc>();
-  final userBloc = locator<UserBloc>();
 
   @override
   void initState() {
     super.initState();
-    userBloc.add(UserLoaded());
   }
 
   @override
   void dispose() {
-    userBloc.close();
     chatBloc.close();
     super.dispose();
   }
@@ -46,7 +43,6 @@ class _ChatListingPageState extends State<ChatListingPage> {
           ),
           Divider(),
           BlocBuilder<UserBloc, UserState>(
-            bloc: userBloc,
             builder: (context, userState) {
               if (userState.theStates == TheStates.success) {
                 return StreamBuilder(
