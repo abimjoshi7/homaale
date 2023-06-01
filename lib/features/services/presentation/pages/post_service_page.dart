@@ -31,12 +31,12 @@ class _PostServicePageState extends State<PostServicePage> {
   final discountController = TextEditingController();
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
-  String? serviceType = 'Remote';
+  String? serviceType = 'On Premise';
   String? budgetType = 'Project';
   String? currencyCode;
   bool isDiscounted = false;
   bool isSpecified = true;
-  bool isAddressVisibile = false;
+  bool isAddressVisibile = true;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
@@ -129,6 +129,17 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildCategory(),
                           _buildHighlights(),
                           _buildServiceType(),
+                          Visibility(
+                            visible: isAddressVisibile,
+                            child: CustomFormField(
+                              label: "Address Information",
+                              isRequired: true,
+                              child: CustomTextFormField(
+                                controller: addressController,
+                                hintText: "Enter your address details",
+                              ),
+                            ),
+                          ),
                           _buildCity(),
                           _buildDescription(),
                           _buildCurrency(),
@@ -198,11 +209,11 @@ class _PostServicePageState extends State<PostServicePage> {
                     description: descriptionController.text,
                     highlights: requirementList,
                     budgetType: budgetType,
-                    budgetFrom: double.parse(
-                      startPriceController.text.isEmpty
-                          ? '0'
-                          : startPriceController.text,
-                    ),
+                    budgetFrom: startPriceController.text.isEmpty
+                        ? null
+                        : double.parse(
+                            startPriceController.text,
+                          ),
                     budgetTo: double.parse(
                       endPriceController.text,
                     ),
@@ -216,7 +227,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     revisions: 0,
                     avatar: 2,
                     isProfessional: true,
-                    isOnline: true,
+                    isOnline: !isAddressVisibile,
                     isRequested: false,
                     discountType: "Percentage",
                     discountValue: discountController.text.isNotEmpty
@@ -614,12 +625,6 @@ class _PostServicePageState extends State<PostServicePage> {
             ],
           ),
           addVerticalSpace(5),
-          Visibility(
-            visible: isAddressVisibile,
-            child: const CustomTextFormField(
-              hintText: 'Default Address',
-            ),
-          ),
         ],
       ),
     );

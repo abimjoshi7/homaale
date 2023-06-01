@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cipher/core/asd.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
@@ -99,12 +100,36 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                   child: IconButton(
                                     padding: EdgeInsets.zero,
                                     onPressed: () async {
-                                      context.read<UploadBloc>().add(
-                                            MultimediaRemoved(
-                                              selectedIndex: index,
-                                              isVideo: false,
-                                            ),
-                                          );
+                                      setState(() {
+                                        var x = Image.file(
+                                          File(
+                                            state.imageFileList.first,
+                                          ),
+                                        );
+                                        var y = File(state.imageFileList.first);
+                                        print(state.theStates);
+                                        print(y.lengthSync());
+                                        print(getFileSizeString(
+                                            bytes: y.lengthSync()));
+                                        ;
+
+                                        // print(await y.length());
+                                      });
+
+                                      try {
+                                        for (var element
+                                            in state.imageFileList) {
+                                          print(element);
+                                        }
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                      // context.read<UploadBloc>().add(
+                                      //       MultimediaRemoved(
+                                      //         selectedIndex: index,
+                                      //         isVideo: false,
+                                      //       ),
+                                      //     );
                                     },
                                     icon: Icon(
                                       Icons.disabled_by_default_rounded,

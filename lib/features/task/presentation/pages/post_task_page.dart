@@ -247,11 +247,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       description: descriptionController.text,
                       highlights: requirementList,
                       budgetType: budgetType,
-                      budgetFrom: double.parse(
-                        startPriceController.text.isEmpty
-                            ? '0'
-                            : startPriceController.text,
-                      ),
+                      budgetFrom: startPriceController.text.isEmpty
+                          ? null
+                          : double.parse(
+                              startPriceController.text,
+                            ),
                       budgetTo: double.parse(
                         endPriceController.text,
                       ),
@@ -285,11 +285,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           context.read<UploadBloc>().state.uploadedVideoList,
                     );
 
-                    context.read<TaskEntityServiceBloc>().add(
-                          TaskEntityServiceCreated(
-                            req: req,
-                          ),
-                        );
+                    print(req);
+
+                    // context.read<TaskEntityServiceBloc>().add(
+                    //       TaskEntityServiceCreated(
+                    //         req: req,
+                    //       ),
+                    //     );
                   }
                 } else {
                   showDialog(
