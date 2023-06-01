@@ -371,7 +371,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   visible:
                       state.taskEntityService?.createdBy?.id != context.read<UserBloc>().state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
-                    buttonLabel: getStatus('')["status"] as String,
+                    buttonLabel: getStatus('', isService: true)["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
                     price: "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
                     onPressed: () {

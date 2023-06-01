@@ -41,17 +41,13 @@ void init() {
     () => TaskEntityServiceRepository(),
   );
   locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
-  locator.registerLazySingleton<CategoriesRepositories>(
-      () => CategoriesRepositories());
+  locator.registerLazySingleton<CategoriesRepositories>(() => CategoriesRepositories());
   locator.registerLazySingleton<ChatRepository>(() => ChatRepository());
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
-  locator.registerLazySingleton<NotificationRepositories>(
-      () => NotificationRepositories());
+  locator.registerLazySingleton<NotificationRepositories>(() => NotificationRepositories());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
-  locator.registerLazySingleton<RatingReviewsRepositroy>(
-      () => RatingReviewsRepositroy());
-  locator.registerLazySingleton<TransactionRepository>(
-      () => TransactionRepository());
+  locator.registerLazySingleton<RatingReviewsRepositroy>(() => RatingReviewsRepositroy());
+  locator.registerLazySingleton<TransactionRepository>(() => TransactionRepository());
   locator.registerLazySingleton<BankRepository>(() => BankRepository());
   locator.registerLazySingleton<RedeemRepositories>(() => RedeemRepositories());
 
@@ -73,15 +69,12 @@ void init() {
   locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
   locator.registerFactory<KycBloc>(() => KycBloc(locator()));
   locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
-  locator
-      .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
-  locator.registerFactory<NotificationBloc>(
-      () => NotificationBloc(repo: locator()));
+  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
   locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
-  locator
-      .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
+  locator.registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
   locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
   locator.registerFactory<RedeemBloc>(() => RedeemBloc(locator()));

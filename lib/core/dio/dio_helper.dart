@@ -4,8 +4,10 @@ import 'dart:developer';
 import 'package:cipher/core/app/api_end_points.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/dio/dio_interceptor.dart';
+import 'package:cipher/core/constants/navigation_constants.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 class DioHelper {
   static late Dio dio;
@@ -22,6 +24,168 @@ class DioHelper {
     );
 
     dio = Dio(options);
+
+    /// Dio interceptors
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        print('REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
+
+        if (options.headers.containsKey('requiresAuthorization')) {
+          options.headers.remove("requiresAuthorization");
+          options.headers.addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
+        }
+        return handler.next(options);
+      },
+      onResponse: (e, handler) {
+        print('RESPONSE[${e.statusCode}] => PATH: ${e.requestOptions.path}');
+        return handler.next(e);
+      },
+      onError: (err, handler) async {
+        final statusCode = err.response?.statusCode;
+        final requestPath = err.requestOptions.path;
+        final responseData = err.response?.data;
+
+        print('ERROR[$statusCode] => PATH: $requestPath => MSG: $responseData');
+
+        // Handle specific error status codes
+        switch (statusCode) {
+          case 400:
+            if (responseData is Map<String, dynamic> && responseData.containsKey('non_field_errors')) {
+              final nonFieldErrors = responseData['non_field_errors'];
+              if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
+                final errorMessage = nonFieldErrors.join('.');
+                // Remove existing cache and add new error msg in cache
+                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+                  () async => CacheHelper.setCachedString(
+                    kErrorLog,
+                    errorMessage.toString(),
+                  ),
+                );
+
+                return handler.next(err);
+              } else {
+                // Remove existing cache and add new error msg in cache
+                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+                  () async => CacheHelper.setCachedString(
+                    kErrorLog,
+                    nonFieldErrors.toString(),
+                  ),
+                );
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('password')) {
+              final passswordErrors = responseData['password'];
+              if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
+                final errorMessage = passswordErrors.join('.');
+                // Remove existing cache and add new error msg in cache
+                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+                  () async => CacheHelper.setCachedString(
+                    kErrorLog,
+                    errorMessage.toString(),
+                  ),
+                );
+
+                return handler.next(err);
+              } else {
+                // Remove existing cache and add new error msg in cache
+                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+                  () async => CacheHelper.setCachedString(
+                    kErrorLog,
+                    passswordErrors.toString(),
+                  ),
+                );
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+              final usernameErrors = responseData['username'];
+              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+                final errorMessage = usernameErrors.join('.');
+                // Remove existing cache and add new error msg in cache
+                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+                  () async => CacheHelper.setCachedString(
+                    kErrorLog,
+                    errorMessage.toString(),
+                  ),
+                );
+
+                return handler.next(err);
+              } else {
+                // Remove existing cache and add new error msg in cache
+                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
+                  () async => CacheHelper.setCachedString(
+                    kErrorLog,
+                    usernameErrors.toString(),
+                  ),
+                );
+
+                return handler.next(err);
+              }
+            }
+            return handler.next(err);
+          case 401:
+            // Handle 401 Unauthorized
+            try {
+              // Make the refresh token API call
+              try {
+                final dioNew = Dio(options);
+                final response = await dioNew.post(
+                  "user/token/refresh/",
+                  data: {
+                    "refresh": CacheHelper.refreshToken,
+                  },
+                );
+
+                // Update the access and refresh token
+                CacheHelper.accessToken = await response.data['access'] as String?;
+                CacheHelper.refreshToken = await response.data['refresh'] as String?;
+              } catch (_) {
+                rethrow;
+              }
+
+              // Update the access token in the request headers
+              err.requestOptions.headers['Authorization'] = 'Bearer ${CacheHelper.accessToken}';
+
+              // Retry the original request
+              Response retryResponse = await dio.request(err.requestOptions.path,
+                  options: Options(
+                    contentType: err.requestOptions.contentType,
+                    headers: err.requestOptions.headers,
+                    method: err.requestOptions.method,
+                  ));
+
+              // Return the retry response
+              return handler.resolve(retryResponse);
+            } catch (e) {
+              print('OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
+
+              Navigator.pushNamedAndRemoveUntil(
+                navigationKey.currentContext!,
+                SignInPage.routeName,
+                (route) => false,
+              );
+              return handler.next(err);
+            }
+          case 201:
+            // Handle 201 Created
+            // Your code here
+            break;
+          case 403:
+            // Handle 403 Forbidden
+            // Your code here
+            break;
+          case 500:
+            // Handle 500 Internal Server Error
+            // Your code here
+            break;
+          default:
+            // Handle other error status codes
+            // Your code here
+            break;
+        }
+      },
+    ));
   }
 
   Future<dynamic> getData({
@@ -65,35 +229,7 @@ class DioHelper {
         data: jsonEncode(data),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        postData(
-          url: url,
-          data: data,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      //formatting the error message
-      // Remove the braces and split the message into an array of strings
-      List<String> errorMsgs = e.response!.data.toString().replaceAll('{', '').replaceAll('}', '').split(',');
-      // Remove the keys from each string in the array
-      for (int i = 0; i < errorMsgs.length; i++) {
-        errorMsgs[i] = errorMsgs[i].substring(errorMsgs[i].indexOf(':') + 2);
-      }
-
-      final String cleanedMsg = errorMsgs.join('\n').replaceAll('[', '').replaceAll(']', '').toTitleCase();
-
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          (e.response?.statusCode == 400)
-              ? cleanedMsg
-              : e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
       rethrow;
     }
   }
@@ -103,7 +239,6 @@ class DioHelper {
     required String url,
     String? token,
   }) async {
-    dio.interceptors.add(CustomInterceptors());
     try {
       final response = await dio.get<dynamic>(
         url,
@@ -152,30 +287,14 @@ class DioHelper {
         data: jsonEncode(data),
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
+            'requiresAuthorization': 'true',
             'Content-Type': 'application/json',
           },
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        postDataWithCredential(
-          url: url,
-          data: data,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 

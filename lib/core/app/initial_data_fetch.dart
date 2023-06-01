@@ -1,4 +1,5 @@
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
@@ -15,9 +16,9 @@ import 'package:flutter/material.dart';
 
 void initialFetch(BuildContext context) {
   context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
-  context.read<TaskerCubit>().loadTaskerList();
-  context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1));
   context.read<TaskEntityServiceBloc>().add(TaskEntityServiceInitiated(isTask: false));
+  context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1));
+  context.read<TaskerCubit>().loadTaskerList();
 }
 
 void userDetailsFetch(BuildContext context) {
@@ -34,6 +35,8 @@ void userDetailsFetch(BuildContext context) {
   context
       .read<UserSuspendBloc>()
       .add(UserSuspendLoaded(userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}'));
+  context.read<BillsPaymentBloc>().add(InitializeState());
+  context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
 }
 
 void fetchDataForForms(BuildContext context) {

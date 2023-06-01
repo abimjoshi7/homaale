@@ -24,16 +24,6 @@ class TasksRecommendationSection extends StatefulWidget {
 }
 
 class _TasksRecommendationSectionState extends State<TasksRecommendationSection> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void onTaskPressed({
     required TaskState state,
     required int index,

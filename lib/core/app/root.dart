@@ -3,7 +3,6 @@ import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
-import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/box/presentation/pages/box.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -120,16 +119,9 @@ class _CalledRootClassState extends State<CalledRootClass> {
   ];
 
   void initBlocs() {
-    Future.delayed(
-      Duration.zero,
-      () async {
-        if (CacheHelper.isLoggedIn) {
-          context.read<BillsPaymentBloc>().add(InitializeState());
-          context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
-          context.read<NotificationBloc>().add(MyNotificationListInitiated());
-        }
-      },
-    );
+    if (CacheHelper.isLoggedIn) {
+      context.read<NotificationBloc>().add(MyNotificationListInitiated());
+    }
   }
 
   @override

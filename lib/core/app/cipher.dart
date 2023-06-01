@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/navigation_constants.dart';
 import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
@@ -66,7 +67,6 @@ class Cipher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// Determines whether device's os is using dark theme or light.
     return RepositoryProvider(
       create: (context) => SupportHelpRepositories()..getHelpTopicList(),
       child: MultiBlocProvider(
@@ -160,6 +160,7 @@ class Cipher extends StatelessWidget {
               ),
               initialRoute: SplashPage.routeName,
               onGenerateRoute: AppRouter().onGenerate,
+              navigatorKey: navigationKey,
             );
           },
         ),
