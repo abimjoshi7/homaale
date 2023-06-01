@@ -199,7 +199,7 @@ class _CalledRootClassState extends State<CalledRootClass> {
           },
           child: CupertinoAlertDialog(
             title: const Text('No Connection'),
-            content: const NoInternetPage(
+            content: const CommonErrorContainer(
               assetsPath: 'assets/no_internet_connection.png',
               errorTile: 'Oops, No Internet Connection.',
               errorDes: "Make sure Wi-Fi or cellular data is turned on and then try again.",
