@@ -21,47 +21,91 @@ part 'task_entity_service_event.dart';
 part 'task_entity_service_state.dart';
 
 const kThrottleDuration = Duration(
-  seconds: 15,
+  milliseconds: 100,
 );
 
-class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc
+    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
 
   TaskEntityServiceBloc(this.repo) : super(const TaskEntityServiceState()) {
     on<TaskEntityServiceInitiated>(
+      transformer: throttleDroppable(kThrottleDuration),
       (event, emit) async {
-        // emit(
-        //   state.copyWith(
-        //     theStates: TheStates.loading,
-        //   ),
-        // );
+        if (!event.newFetch && state.isLastPage) return;
         try {
-          var res = await repo.getTaskEntityServices(
-            isTask: event.isTask,
-            page: event.page ?? 1,
-            order: event.order,
-            serviceId: event.serviceId,
-            city: event.city,
-          );
-          if (res.result != null && res.result!.isNotEmpty)
+          if (event.newFetch)
+            emit(
+              state.copyWith(
+                theStates: TheStates.initial,
+              ),
+            );
+          if (state.theStates == TheStates.initial) {
+            var taskEntityServiceModel = await repo.getTaskEntityServices(
+              isTask: event.isTask,
+              page: 1,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
+              serviceId: event.serviceId,
+            );
+
             emit(
               state.copyWith(
                 theStates: TheStates.success,
-                taskEntityServiceModel: res,
-                // taskEntityServiceModel: value,
-                // isBudgetSort: event.isBudgetSort,
-                // isDateSort: event.isDateSort,
+                taskEntityServiceModel: taskEntityServiceModel,
+                taskEntityServices: taskEntityServiceModel.result,
+                isLastPage: taskEntityServiceModel.next == null,
               ),
             );
+          } else {
+            var taskEntityServiceModel = await repo.getTaskEntityServices(
+              page: state.taskEntityServiceModel.current! + 1,
+              isTask: event.isTask,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
+              serviceId: event.serviceId,
+            );
+            if (taskEntityServiceModel.next == null) {
+              emit(
+                state.copyWith(
+                  isLastPage: true,
+                ),
+              );
+            } else {
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  taskEntityServiceModel: taskEntityServiceModel,
+                  taskEntityServices: [
+                    ...state.taskEntityServices!,
+                    ...taskEntityServiceModel.result!,
+                  ],
+                  isLastPage: false,
+                ),
+              );
+            }
+          }
         } catch (e) {
           log("TES Initiate Bloc Error: $e");
           emit(
             state.copyWith(
               theStates: TheStates.failure,
-              // isBudgetSort: false,
-              // isDateSort: false,
             ),
           );
         }
@@ -89,9 +133,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               } else {
                 emit(
                   state.copyWith(
-                    theStates: TheStates.success,
-                    taskEntityService: value,
-                  ),
+                      theStates: TheStates.success, taskEntityService: value),
                 );
               }
             },
@@ -309,8 +351,9 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
                 (value) => emit(
                   state.copyWith(
                     serviceLoaded: true,
-                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
-                      ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList:
+                        value.map((e) => ServiceList.fromJson(e)).toList()
+                          ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );

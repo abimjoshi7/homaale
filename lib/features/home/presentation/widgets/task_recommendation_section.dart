@@ -1,13 +1,13 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -112,12 +112,22 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                               state.tasksList?.result?[index].endDate.toString(),
                             ).yMMMMd,
                             taskName: state.tasksList?.result?[index].title,
-                            callback: () => onTaskPressed(
-                              state: state,
-                              index: index,
-                              isApply: state.tasksList?.result?[index].createdBy?.id !=
-                                  context.read<UserBloc>().state.taskerProfile?.user?.id,
-                            ),
+                            callback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
+                              if (CacheHelper.isKycVerified == false) {
+                                notVerifiedPopup(context);
+                              }
+                              if (CacheHelper.isKycVerified == false) return;
+                              onTaskPressed(
+                                state: state,
+                                index: index,
+                                isApply: state.tasksList?.result?[index].createdBy?.id !=
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
+                              );
+                            },
                             onTapCallback: () {
                               if (!CacheHelper.isLoggedIn) {
                                 notLoggedInPopUp(context);

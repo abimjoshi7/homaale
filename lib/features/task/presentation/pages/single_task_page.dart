@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
@@ -571,6 +572,10 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                           notLoggedInPopUp(context);
                         }
                         if (!CacheHelper.isLoggedIn) return;
+                        if (CacheHelper.isKycVerified == false) {
+                          notVerifiedPopup(context);
+                        }
+                        if (CacheHelper.isKycVerified == false) return;
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(id: state.taskModel?.id ?? ''),
                             );

@@ -19,7 +19,6 @@ class BoxPage extends StatefulWidget {
 
 class _BoxPageState extends State<BoxPage> with TickerProviderStateMixin {
   late TabController _tabController;
-
   @override
   void initState() {
     super.initState();

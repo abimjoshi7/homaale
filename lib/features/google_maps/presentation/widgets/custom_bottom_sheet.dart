@@ -40,7 +40,7 @@ class CustomBottomSheet extends StatelessWidget {
                         BottomSheetHeader(),
                       ] +
                       List.generate(
-                        state.activeList?.length ??0,
+                        state.activeList?.length ?? 0,
                         (index) => Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16.0,
@@ -79,7 +79,7 @@ class CustomBottomSheet extends StatelessWidget {
                                       : IconText(
                                           color: kColorAmber,
                                           label:
-                                              "${((state.activeList?[index].rating ?? []).first.rating)}(${((state.activeList?[index].rating ?? []).first.ratingCount)})",
+                                              "${((state.activeList?[index].rating ?? ""))}(${((state.activeList?[index].rating ?? ""))})",
                                           iconData: Icons.star_rounded,
                                         ),
                               callback: () {

@@ -7,7 +7,7 @@ class CacheHelper {
   static String? refreshToken;
   static bool? hasProfile;
   static bool isLoggedIn = false;
-
+  static bool? isKycVerified;
 
   static const _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(

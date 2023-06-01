@@ -14,6 +14,15 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   final String? serviceId;
   final String? city;
   final bool? isFilter;
+  final String? budgetFrom;
+  final String? budgetTo;
+  final String? payableFrom;
+  final String? payableTo;
+  final String? dateFrom;
+  final String? dateTo;
+  final String? category;
+  final String? query;
+  final bool newFetch;
 
   const TaskEntityServiceInitiated({
     this.isTask,
@@ -24,7 +33,17 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
     this.serviceId,
     this.city,
     this.isFilter,
+    this.budgetFrom,
+    this.budgetTo,
+    this.payableFrom,
+    this.payableTo,
+    this.dateFrom,
+    this.dateTo,
+    this.category,
+    this.query,
+    this.newFetch = false,
   });
+
   @override
   List<Object?> get props => [
         isTask,
@@ -35,6 +54,15 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
         serviceId,
         isFilter,
         city,
+        budgetFrom,
+        budgetTo,
+        payableFrom,
+        payableTo,
+        dateFrom,
+        dateTo,
+        category,
+        query,
+        newFetch,
       ];
 }
 

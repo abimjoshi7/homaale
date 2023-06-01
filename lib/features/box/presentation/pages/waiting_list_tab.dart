@@ -26,22 +26,22 @@ class _WaitingListTabState extends State<WaitingListTab> {
   List<Result> serviceList = [];
 
   //initialize page controller
-  final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
+  // final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
 
-  @override
-  void initState() {
-    //so at event add list of records
-    _pagingController.addPageRequestListener(
-      (pageKey) => bookingsBloc.add(MyBookingLoaded(page: pageKey)),
-    );
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   //so at event add list of records
+  //   _pagingController.addPageRequestListener(
+  //     (pageKey) => bookingsBloc.add(MyBookingLoaded(page: pageKey)),
+  //   );
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
       bloc: bookingsBloc,
       listener: (context, state) {
         if ((state.isUpdated) || (state.isCancelled) || (state.isRejected)) {
-          _pagingController.refresh();
+          // _pagingController.refresh();
         }
 
         if (state.states == TheStates.success) {
@@ -59,109 +59,115 @@ class _WaitingListTabState extends State<WaitingListTab> {
           final next = 1 + state.myBookingListModel.current!;
 
           if (next > lastPage) {
-            _pagingController.appendLastPage(serviceList);
+            // _pagingController.appendLastPage(serviceList);
           } else {
-            _pagingController.appendPage(serviceList, next);
+            // _pagingController.appendPage(serviceList, next);
           }
         }
         if (state.states == TheStates.failure) {
-          _pagingController.error = 'Error';
+          // _pagingController.error = 'Error';
         }
       },
       child: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
           return Column(
             children: [
-              Expanded(
-                child: PagedListView(
-                  pagingController: _pagingController,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, Result item, index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        child: BookingsServiceCard(
-                          callback: () {
-                            context.read<BookingsBloc>().add(
-                                  BookingSingleLoaded(
-                                    item.id ?? 0,
-                                  ),
-                                );
-                            Navigator.pushNamed(
-                              context,
-                              BookedServicePage.routeName,
-                            );
-                          },
-                          editTap: () async {
-                            if (item.status?.toLowerCase() == 'pending') {
-                              Navigator.pop(context);
-                              showEditForm(context, item);
-                            } else {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                    heading: 'Warning',
-                                    content: 'The task is already ${item.status?.toLowerCase()}. Cannot be edited!',
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: true),
-                              );
-                            }
-                          },
-                          deleteTap: () {
-                            if (item.status?.toLowerCase() == 'pending') {
-                              bookingsBloc.add(
-                                BookingRejected(rejectReq: RejectReq(booking: item.id ?? 0), isTask: true),
-                              );
-                              Navigator.pop(context);
-                            } else {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                    heading: 'Warning',
-                                    content: 'The task is already ${item.status?.toLowerCase()}. Cannot be removed!',
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: true),
-                              );
-                            }
-                          },
-                          cancelTap: () {
-                            if (item.status?.toLowerCase() == 'pending') {
-                              bookingsBloc.add(
-                                BookingCancelled(id: item.id ?? 0, isTask: true),
-                              );
-                              Navigator.pop(context);
-                            } else {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                    heading: 'Warning',
-                                    content: 'The task is already ${item.status?.toLowerCase()}. Cannot be cancelled!',
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: true),
-                              );
-                            }
-                          },
-                          serviceName: item.entityService?.title,
-                          providerName:
-                              "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
-                          mainContentWidget: showBookingDetail(item),
-                          status: item.status,
-                          bottomRightWidget: displayPrice(item),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              // Expanded(
+              //   child: PagedListView(
+              //     pagingController: _pagingController,
+              //     padding: EdgeInsets.symmetric(horizontal: 16),
+              //     builderDelegate: PagedChildBuilderDelegate(
+              //       itemBuilder: (context, Result item, index) {
+              //         return Container(
+              //           margin: EdgeInsets.symmetric(vertical: 8),
+              //           child: BookingsServiceCard(
+              //             callback: () {
+              //               context.read<BookingsBloc>().add(
+              //                     BookingSingleLoaded(
+              //                       item.id ?? 0,
+              //                     ),
+              //                   );
+              //               Navigator.pushNamed(
+              //                 context,
+              //                 BookedServicePage.routeName,
+              //               );
+              //             },
+              //             editTap: () async {
+              //               if (item.status?.toLowerCase() == 'pending') {
+              //                 Navigator.pop(context);
+              //                 showEditForm(context, item);
+              //               } else {
+              //                 Navigator.pop(context);
+              //                 showDialog(
+              //                   context: context,
+              //                   builder: (context) => CustomToast(
+              //                       heading: 'Warning',
+              //                       content:
+              //                           'The task is already ${item.status?.toLowerCase()}. Cannot be edited!',
+              //                       onTap: () {
+              //                         Navigator.pop(context);
+              //                       },
+              //                       isSuccess: true),
+              //                 );
+              //               }
+              //             },
+              //             deleteTap: () {
+              //               if (item.status?.toLowerCase() == 'pending') {
+              //                 bookingsBloc.add(
+              //                   BookingRejected(
+              //                       rejectReq: RejectReq(booking: item.id ?? 0),
+              //                       isTask: true),
+              //                 );
+              //                 Navigator.pop(context);
+              //               } else {
+              //                 Navigator.pop(context);
+              //                 showDialog(
+              //                   context: context,
+              //                   builder: (context) => CustomToast(
+              //                       heading: 'Warning',
+              //                       content:
+              //                           'The task is already ${item.status?.toLowerCase()}. Cannot be removed!',
+              //                       onTap: () {
+              //                         Navigator.pop(context);
+              //                       },
+              //                       isSuccess: true),
+              //                 );
+              //               }
+              //             },
+              //             cancelTap: () {
+              //               if (item.status?.toLowerCase() == 'pending') {
+              //                 bookingsBloc.add(
+              //                   BookingCancelled(
+              //                       id: item.id ?? 0, isTask: true),
+              //                 );
+              //                 Navigator.pop(context);
+              //               } else {
+              //                 Navigator.pop(context);
+              //                 showDialog(
+              //                   context: context,
+              //                   builder: (context) => CustomToast(
+              //                       heading: 'Warning',
+              //                       content:
+              //                           'The task is already ${item.status?.toLowerCase()}. Cannot be cancelled!',
+              //                       onTap: () {
+              //                         Navigator.pop(context);
+              //                       },
+              //                       isSuccess: true),
+              //                 );
+              //               }
+              //             },
+              //             serviceName: item.entityService?.title,
+              //             providerName:
+              //                 "${item.entityService?.createdBy?.firstName} ${item.entityService?.createdBy?.lastName}",
+              //             mainContentWidget: showBookingDetail(item),
+              //             status: item.status,
+              //             bottomRightWidget: displayPrice(item),
+              //           ),
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 100)
             ],
           );
@@ -212,7 +218,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label:
+                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),

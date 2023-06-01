@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_list_res.dart';
@@ -72,7 +73,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
                 (value) => repositories.getKyc(),
               );
 
-          log("RES: $res");
           emit(
             state.copyWith(
               theStates: TheStates.success,
@@ -134,10 +134,12 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
         await repositories.getKyc().then((value) {
           if (value == null) return;
+          final _kycModel = KycModel.fromJson(value);
+          CacheHelper.isKycVerified = _kycModel.isKycVerified;
           emit(
             state.copyWith(
               theStates: TheStates.success,
-              kycModel: KycModel.fromJson(value),
+              kycModel: _kycModel,
               isProfileCreated: false,
               isProfileEdited: false,
             ),

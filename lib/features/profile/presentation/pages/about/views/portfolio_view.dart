@@ -19,23 +19,23 @@ class PortfolioView extends StatefulWidget with TheModalBottomSheet {
 
 class _PortfolioViewState extends State<PortfolioView> {
   int pageNumber = 1;
-  final _pagingController = PagingController(
-    firstPageKey: 'http://172.16.16.50:8014/api/v1/tasker/portfolio/?page=1',
-  );
+  // final _pagingController = PagingController(
+  //   firstPageKey: 'http://172.16.16.50:8014/api/v1/tasker/portfolio/?page=1',
+  // );
 
-  @override
-  void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      // _fetchPage(pageKey);
-    });
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _pagingController.addPageRequestListener((pageKey) {
+  //     // _fetchPage(pageKey);
+  //   });
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _pagingController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

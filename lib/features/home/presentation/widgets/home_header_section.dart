@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/user_location_constants.dart';
-import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';

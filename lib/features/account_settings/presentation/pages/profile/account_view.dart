@@ -17,12 +17,19 @@ import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../../../core/cache/cache_helper.dart';
 import '../../../../redeem/presentation/bloc/redeem.event.dart';
 import '../../../../redeem/presentation/pages/redeem_page.dart';
 import '../../../../redeem/statement/presentation/bloc/redeemed_bloc.dart';
+import '../../../../support/presentation/support_ticket_page.dart';
+import '../../../../theme/presentation/bloc/theme_bloc.dart';
+import '../../../../theme/presentation/bloc/theme_event.dart';
+import '../../../../transaction/presentation/pages/my_transactions_page.dart';
 import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
+import '../../../../wallet/presentation/wallet_page.dart';
 
 class AccountView extends StatefulWidget {
   static const routeName = '/account';
@@ -33,6 +40,25 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
+  bool isDark = false;
+
+  void checkAppMode() async {
+    final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
+    setState(() {
+      if (theme == 'light') {
+        setState(() {
+          isDark = true;
+          CacheHelper.setCachedString(kAppThemeMode, 'dark');
+        });
+      } else {
+        setState(() {
+          isDark = false;
+          CacheHelper.setCachedString(kAppThemeMode, 'light');
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,10 +126,31 @@ class _AccountViewState extends State<AccountView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ProfileStatsCard(
-                        imagePath: 'assets/reward.png',
-                        label: 'Reward Points',
-                        value: state.taskerProfile?.points.toString() ?? '0',
+                      InkWell(
+                        onTap: () {
+                          context
+                              .read<RedeemBloc>()
+                              .add(FetchRedeemList(offerType: 'promo_code'));
+                          context
+                              .read<RedeemStatementBloc>()
+                              .add(StatementListInitiated());
+                          context
+                              .read<EarnedBloc>()
+                              .add(StatementStatusInitiated(status: 'earned'));
+                          context
+                              .read<RedeemedBloc>()
+                              .add(StatementStatusInitiated(status: 'spent'));
+
+                          Navigator.pushNamed(
+                            context,
+                            RedeemPage.routeName,
+                          );
+                        },
+                        child: ProfileStatsCard(
+                          imagePath: 'assets/reward.png',
+                          label: 'Reward Points',
+                          value: state.taskerProfile?.points.toString() ?? '0',
+                        ),
                       ),
                       BlocBuilder<WalletBloc, WalletState>(
                         builder: (context, walletState) {
@@ -141,6 +188,34 @@ class _AccountViewState extends State<AccountView> {
                         child: ProfileKycVerifySection());
                   },
                 ),
+
+                AccountListTileSection(
+                  onTap: () {
+                    context
+                                .read<UserSuspendBloc>()
+                                .state
+                                .userAccountSuspension
+                                ?.isSuspended ==
+                            true
+                        ? showDialog(
+                            context: context,
+                            builder: (context) => AccountSuspendCustomToast(
+                              heading: 'ACCOUNT SUSPENDED',
+                              content: 'User is suspended',
+                            ),
+                          )
+                        : Navigator.pushNamed(
+                            context, ChatListingPage.routeName);
+                  },
+                  icon: const Icon(
+                    Icons.chat_bubble_outline,
+                  ),
+                  label: 'My Chats',
+                  trailingWidget: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                  ),
+                ),
                 BlocBuilder<SignInBloc, SignInState>(
                   builder: (context, state) {
                     if (state.theStates == TheStates.success) {
@@ -165,27 +240,6 @@ class _AccountViewState extends State<AccountView> {
                 ),
                 AccountListTileSection(
                   onTap: () {
-                    context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
-                        ? showDialog(
-                            context: context,
-                            builder: (context) => AccountSuspendCustomToast(
-                              heading: 'ACCOUNT SUSPENDED',
-                              content: 'User is suspended',
-                            ),
-                          )
-                        : Navigator.pushNamed(context, ChatListingPage.routeName);
-                  },
-                  icon: const Icon(
-                    Icons.chat_bubble_outline,
-                  ),
-                  label: 'Chats',
-                  trailingWidget: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                  ),
-                ),
-                AccountListTileSection(
-                  onTap: () {
                     Navigator.pushNamed(
                       context,
                       SavedPage.routeName,
@@ -195,6 +249,41 @@ class _AccountViewState extends State<AccountView> {
                     Icons.bookmark_border,
                   ),
                   label: 'Saved',
+                  trailingWidget: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                  ),
+                ),
+
+                AccountListTileSection(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      WalletPage.routeName,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.attach_money,
+                  ),
+                  label: 'My Earnings',
+                  trailingWidget: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                  ),
+                ),
+
+                AccountListTileSection(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      SupportTicketPage.routeName,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.headphones,
+                    // color: Color(0xff495057),
+                  ),
+                  label: 'Support Ticket',
                   trailingWidget: const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
@@ -218,23 +307,44 @@ class _AccountViewState extends State<AccountView> {
                 ),
                 AccountListTileSection(
                   onTap: () {
-                    context.read<RedeemBloc>().add(FetchRedeemList(offerType: 'promo_code'));
-                    context.read<RedeemStatementBloc>().add(StatementListInitiated());
-                    context.read<EarnedBloc>().add(StatementStatusInitiated(status: 'earned'));
-                    context.read<RedeemedBloc>().add(StatementStatusInitiated(status: 'spent'));
-
                     Navigator.pushNamed(
                       context,
-                      RedeemPage.routeName,
+                      MyTransactionsPage.routeName,
                     );
                   },
                   icon: const Icon(
-                    Icons.redeem_sharp,
+                    Icons.book_online_sharp,
                   ),
-                  label: 'Redeem',
+                  label: 'Transactions History',
                   trailingWidget: const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
+                  ),
+                ),
+                AccountListTileSection(
+                  onTap: () {},
+                  icon: const Icon(
+                    Icons.dark_mode_outlined,
+                  ),
+                  label: 'Dark Mode',
+                  trailingWidget: SizedBox(
+                    height: 30,
+                    width: 40,
+                    child: CupertinoSwitch(
+                      activeColor: kColorSecondary,
+                      trackColor: Colors.grey.shade300,
+                      value: isDark,
+                      onChanged: (value) {
+                        setState(
+                          () {
+                            context.read<ThemeBloc>().add(
+                                  ThemeChangeChanged(),
+                                );
+                            checkAppMode();
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],

@@ -185,7 +185,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
               onTap: () {
                 Navigator.popUntil(
                   context,
-                  (route) => route.settings.name == Root.routeName ? true : false,
+                  (route) =>
+                      route.settings.name == Root.routeName ? true : false,
                 );
               },
               isSuccess: true,
@@ -209,7 +210,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
           callback: () async {
             if (context.read<CategoriesBloc>().state.serviceId != null) {
               if (isTermsAccepted) {
-                if (_key.currentState!.validate() && endPriceController.text.isNotEmpty && endDate != null) {
+                if (_key.currentState!.validate() &&
+                    endPriceController.text.isNotEmpty &&
+                    endDate != null) {
                   if (endDate!.isBefore(
                     startDate ??
                         endDate!.subtract(
@@ -236,13 +239,17 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       highlights: requirementList,
                       budgetType: budgetType,
                       budgetFrom: double.parse(
-                        startPriceController.text.isEmpty ? '0' : startPriceController.text,
+                        startPriceController.text.isEmpty
+                            ? '0'
+                            : startPriceController.text,
                       ),
                       budgetTo: double.parse(
                         endPriceController.text,
                       ),
-                      startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
-                      endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
+                      startDate: DateFormat("yyyy-MM-dd")
+                          .format(startDate ?? DateTime.now()),
+                      endDate: DateFormat("yyyy-MM-dd")
+                          .format(endDate ?? DateTime.now()),
                       startTime: startTime?.format(context),
                       endTime: endTime?.format(context),
                       shareLocation: true,
@@ -278,7 +285,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                     context: context,
                     builder: (context) => CustomToast(
                       heading: 'Error',
-                      content: 'Error validating form. Please verify the data and try again.',
+                      content:
+                          'Error validating form. Please verify the data and try again.',
                       onTap: () {},
                       isSuccess: false,
                     ),
@@ -404,7 +412,11 @@ class _PostTaskPageState extends State<PostTaskPage> {
                             if (startPriceController.text.isNotEmpty)
                               budgetFrom = getRecievableAmount(
                                 double.parse(startPriceController.text),
-                                double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                                double.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0.0"),
                               );
                           },
                         ),
@@ -431,7 +443,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       if (endPriceController.text.isNotEmpty)
                         budgetTo = getRecievableAmount(
                           double.parse(endPriceController.text),
-                          double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
                         );
                     },
                   ),
@@ -919,7 +933,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                                   children: [
                                     TextSpan(
                                       text: " to ",
-                                      style: Theme.of(context).textTheme.displayMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
                                       children: [
                                         TextSpan(
                                           text: "Rs $budgetTo",

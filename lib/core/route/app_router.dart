@@ -11,7 +11,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/presenta
 import 'package:cipher/features/account_settings/presentation/pages/languages_page/languages_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/membership/membership.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/password_and_security.dart';
-import 'package:cipher/features/account_settings/presentation/pages/profile/account.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/profile.dart';
 import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart';
@@ -48,7 +48,7 @@ import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
-import 'package:cipher/features/services/presentation/pages/popular_services_page.dart';
+import 'package:cipher/features/services/presentation/pages/trending_services_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/support/presentation/support_ticket_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -68,11 +68,15 @@ import 'package:cipher/features/transaction/presentation/pages/my_transactions_p
 import 'package:cipher/features/wallet/presentation/wallet_page.dart';
 import 'package:cipher/features/wallet/presentation/withdraw_page.dart';
 import 'package:flutter/material.dart';
+import '../../features/account_settings/presentation/pages/legals/legals_page.dart';
+import '../../features/account_settings/presentation/pages/quick_links/horoscope.dart';
+import '../../features/account_settings/presentation/pages/quick_links/quick_link_page.dart';
 import '../../features/content_client/presentation/pages/pages.dart';
 import '../../features/faq_and_data_deletion/data_deletion_policy.dart';
 import '../../features/faq_and_data_deletion/faq_page.dart';
 import '../../features/payment/presentation/pages/payment_ongoing_page.dart';
 import '../../features/redeem/presentation/pages/redeem_page.dart';
+import '../../features/support/presentation/widgets/help_and_support.dart';
 import '../../features/support/presentation/widgets/report_page.dart';
 
 class AppRouter {
@@ -184,9 +188,25 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const SearchPage(),
         );
-      case AccountProfile.routeName:
+      case ProfileSettings.routeName:
         return MaterialPageRoute(
-          builder: (context) => const AccountProfile(),
+          builder: (context) => const ProfileSettings(),
+        );
+      case QuickLinksPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const QuickLinksPage(),
+        );
+      case HoroscopePage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const HoroscopePage(),
+        );
+      case LegalsPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const LegalsPage(),
+        );
+      case HelpAndSupportPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const HelpAndSupportPage(),
         );
       case CommonReportPage.routeName:
         return MaterialPageRoute(
@@ -262,10 +282,6 @@ class AppRouter {
       case AdditionalAccountInfoPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const AdditionalAccountInfoPage(),
-        );
-      case PersonalInformationPage.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const PersonalInformationPage(),
         );
       case DeactivatePage.routeName:
         return MaterialPageRoute(
@@ -360,9 +376,9 @@ class AppRouter {
           builder: (context) => const TaxCalculator(),
           settings: settings,
         );
-      case PopularServicesPage.routeName:
+      case TrendingServicesPage.routeName:
         return MaterialPageRoute(
-          builder: (context) => const PopularServicesPage(),
+          builder: (context) => const TrendingServicesPage(),
           settings: settings,
         );
       case ApplyTaskPage.routeName:

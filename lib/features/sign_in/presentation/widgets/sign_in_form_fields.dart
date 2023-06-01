@@ -36,7 +36,8 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
     final String phone = await CacheHelper.getCachedString(kUserPhone) ?? '';
     final String mail = await CacheHelper.getCachedString(kUsermail) ?? '';
     final String password = await CacheHelper.getCachedString(kUserPass) ?? '';
-    final String keepInfo = await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
+    final String keepInfo =
+        await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
 
     setState(() {
       phoneNumberController.text = phone;
@@ -126,7 +127,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                           () => phoneNumberController.text = p0!,
                         ),
                         textInputType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         hintText: 'Mobile Number',
                         prefixWidget: InkWell(
                           onTap: () {},
@@ -365,7 +368,9 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   //setting validation error status to true
                   else {
                     if (state.theStates == TheStates.initial) {
-                      context.read<SignInBloc>().add(SignInValErrorStatusChanged());
+                      context
+                          .read<SignInBloc>()
+                          .add(SignInValErrorStatusChanged());
                     }
                   }
                 },
