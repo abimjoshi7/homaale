@@ -5,7 +5,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -102,11 +101,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             builder: (context, uploadState) {
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: uploadState.imageFileList?.length != 0
+                                child: uploadState.imageFileList.length != 0
                                     ? Image.file(
                                         fit: BoxFit.cover,
                                         File(
-                                          uploadState.imageFileList?.last ?? '',
+                                          uploadState.imageFileList.last ?? '',
                                         ),
                                       )
                                     : const Placeholder(
@@ -964,15 +963,14 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                         .read<UploadBloc>()
                                         .state
                                         .imageFileList
-                                        ?.isNotEmpty ??
+                                        .isNotEmpty ??
                                     false))
                               q.addAll({
                                 "profile_image": await MultipartFile.fromFile(
                                   context
                                       .read<UploadBloc>()
                                       .state
-                                      .imageFileList!
-                                      .last,
+                                      .imageFileList.last,
                                 ),
                               });
                             if (!mounted) return;

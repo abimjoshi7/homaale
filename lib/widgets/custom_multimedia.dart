@@ -15,18 +15,12 @@ class CustomMultimedia extends StatefulWidget {
 
 class _CustomMultimediaState extends State<CustomMultimedia> {
   @override
-  void initState() {
-    // context.read<UploadBloc>().add(SetInitials());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
       builder: (context, state) {
         return CustomFormField(
           label: 'Images',
-          rightSection: state.imageFileList?.isEmpty ?? false
+          rightSection: state.imageFileList.isEmpty
               ? null
               : InkWell(
                   onTap: () {
@@ -68,7 +62,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                 ],
               ),
               addVerticalSpace(5),
-              state.imageFileList?.isNotEmpty ?? false
+              state.imageFileList.isNotEmpty
                   ? Container(
                       width: double.infinity,
                       height: 120,
@@ -76,9 +70,9 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: (state.imageFileList?.length ?? 0) >= 5
+                        itemCount: (state.imageFileList.length) >= 5
                             ? 5
-                            : state.imageFileList?.length ?? 0,
+                            : state.imageFileList.length,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 4,
@@ -94,7 +88,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                     ),
                                     child: Image.file(
                                       File(
-                                        state.imageFileList?[index] ?? "",
+                                        state.imageFileList[index],
                                       ),
                                       fit: BoxFit.fitWidth,
                                     ),
@@ -141,7 +135,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                     ),
               CustomFormField(
                 label: 'Videos',
-                rightSection: state.videoFileList?.isEmpty ?? false
+                rightSection: state.videoFileList.isEmpty
                     ? null
                     : InkWell(
                         onTap: () {
@@ -183,7 +177,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                       ],
                     ),
                     addVerticalSpace(5),
-                    state.videoFileList?.isEmpty ?? false
+                    state.videoFileList.isEmpty
                         ? InkWell(
                             onTap: () {
                               showDialog(
@@ -205,9 +199,9 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: (state.videoFileList?.length ?? 0) >= 2
+                              itemCount: (state.videoFileList.length) >= 2
                                   ? 2
-                                  : state.videoFileList?.length ?? 0,
+                                  : state.videoFileList.length,
                               itemBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 4,
@@ -223,8 +217,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                           ),
                                           child: VideoPlayerWidget(
                                             videoURL:
-                                                state.videoFileList?[index] ??
-                                                    "",
+                                                state.videoFileList[index],
                                           ),
                                         ),
                                       ),

@@ -74,7 +74,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                   );
                 }
               } else {
-                list.addAll(state.imageFileList as List<String>);
+                list.addAll(state.imageFileList);
                 for (final AssetEntity element in value ?? []) {
                   await element.file.then(
                     (value) {
@@ -141,7 +141,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                     );
                   }
                 } else {
-                  list.addAll(state.videoFileList as List<String>);
+                  list.addAll(state.videoFileList);
                   for (final AssetEntity element in value ?? []) {
                     await element.file.then(
                       (value) {

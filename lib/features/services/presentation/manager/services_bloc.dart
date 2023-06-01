@@ -1,7 +1,5 @@
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/services/data/models/professional_service_model.dart';
-import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:dependencies/dependencies.dart';

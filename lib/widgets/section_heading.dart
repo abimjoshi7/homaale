@@ -1,10 +1,7 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../features/theme/presentation/bloc/theme_bloc.dart';
 
 class SectionHeading extends StatelessWidget {
   const SectionHeading({

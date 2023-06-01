@@ -1,6 +1,5 @@
 import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/core/network_info/network_bloc.dart';
-import 'package:cipher/core/network_info/network_state.dart';
 import 'package:cipher/core/route/app_router.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
@@ -55,7 +54,6 @@ import 'package:flutter/material.dart';
 import '../../features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
 import '../../features/box/presentation/bloc/order_id_create_bloc.dart';
 import '../../features/box/promo_code/presentation/bloc/promo_code_apply_bloc.dart';
-import '../../features/error_pages/no_internet_page.dart';
 import '../../features/feedback/bloc/feedback_bloc.dart';
 import '../../features/feedback/bloc/feedback_post_bloc.dart';
 import '../../features/payment/presentation/bloc/payment_bloc.dart';
@@ -64,7 +62,6 @@ import '../../features/redeem/statement/presentation/bloc/redeemed_bloc.dart';
 import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
-import '../network_info/network_event.dart';
 
 class Cipher extends StatelessWidget {
   const Cipher({super.key});

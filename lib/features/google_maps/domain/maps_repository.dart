@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/core/constants/google_maps_constants.dart';
 import 'package:cipher/features/google_maps/data/nearby_task_entity_services_req.dart';
 import 'package:cipher/features/google_maps/data/nearby_task_entity_services_response.dart';
 import 'package:cipher/features/google_maps/data/repositories/maps_repository.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapsRepository {

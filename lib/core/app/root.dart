@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
@@ -30,7 +29,6 @@ import '../../features/user_suspend/presentation/bloc/user_suspend_event.dart';
 import '../../features/user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../network_info/network_bloc.dart';
 import '../network_info/network_event.dart';
-import '../network_info/network_state.dart';
 
 class Root extends StatefulWidget {
   static const routeName = '/root';
