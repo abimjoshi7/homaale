@@ -231,9 +231,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                             child: Center(
                                               child: Text(
                                                 state.allNotificationList
-                                                        .unreadCount
-                                                        .toString() ??
-                                                    "0",
+                                                    .unreadCount
+                                                    .toString(),
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,

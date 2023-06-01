@@ -15,7 +15,7 @@ class ErrorPage extends StatelessWidget {
         children: [
           addVerticalSpace(20),
           Image.asset('assets/page_not_found.png'),
-          addVerticalSpace(10),
+          addVerticalSpace(20),
           Text("Oops!", style: Theme.of(context).textTheme.headlineSmall),
           Text("Page not found",
               style: Theme.of(context)

@@ -322,8 +322,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                                   .findRenderObject()
                                                               as RenderBox?;
                                                           Share.share(
-                                                            "Share this Hommale with friends.",
-                                                            sharePositionOrigin:
+                                                            "https://sandbox.homaale.com/tasks/${state.taskModel?.id}",
+                                                            subject: state.taskModel?.title,                                                            sharePositionOrigin:
                                                                 box!.localToGlobal(
                                                                         Offset
                                                                             .zero) &

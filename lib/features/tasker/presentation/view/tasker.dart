@@ -145,7 +145,9 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                                 context.findRenderObject()
                                                     as RenderBox?;
                                             Share.share(
-                                              "Share this Hommale with friends.",
+                                              "https://sandbox.homaale.com/bookings/${state.singleTasker.id}",
+                                              subject:
+                                                  state.singleTasker.fullName,
                                               sharePositionOrigin: box!
                                                       .localToGlobal(
                                                           Offset.zero) &

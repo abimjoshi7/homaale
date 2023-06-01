@@ -236,7 +236,9 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                   context.findRenderObject()
                                                       as RenderBox?;
                                               Share.share(
-                                                "Share this Hommale with friends.",
+                                                "https://sandbox.homaale.com/bookings/${booking.entityService?.createdBy?.id}",
+                                                subject: booking.entityService
+                                                    ?.createdBy?.fullName,
                                                 sharePositionOrigin: box!
                                                         .localToGlobal(
                                                             Offset.zero) &

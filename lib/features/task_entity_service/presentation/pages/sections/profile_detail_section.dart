@@ -101,7 +101,8 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               final box =
                                   context.findRenderObject() as RenderBox?;
                               Share.share(
-                                "Share this Hommale with friends.",
+                                "https://sandbox.homaale.com/services/${state.taskEntityService?.id}",
+                                subject: state.taskEntityService?.title,
                                 sharePositionOrigin:
                                     box!.localToGlobal(Offset.zero) & box.size,
                               );
@@ -229,8 +230,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconText(
-              label: state.taskEntityService?.rating?.toString() ??
-                  '4.5',
+              label: state.taskEntityService?.rating?.toString() ?? '4.5',
               iconData: Icons.star_outlined,
               color: kColorAmber,
               size: 18,
