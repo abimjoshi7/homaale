@@ -45,9 +45,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
   void initState() {
     super.initState();
     user.add(UserLoaded());
-    context.read<ServicesBloc>().add(
-          ServicesLoadInitiated(),
-        );
     taskBloc.add(
       AllTaskLoadInitiated(
         isTask: true,

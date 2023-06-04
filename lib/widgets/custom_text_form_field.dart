@@ -27,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.node,
     this.inputFormatters,
+    this.autoValidateMode = AutovalidateMode.onUserInteraction,
     this.inputAction = TextInputAction.next,
   }) : super(key: key);
   final bool? autofocus;
@@ -52,13 +53,14 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode? node;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputAction? inputAction;
+  final AutovalidateMode autoValidateMode;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       autofocus: autofocus ?? false,
       initialValue: value,
-      // autovalidateMode: autoValidateMode,
+      autovalidateMode: autoValidateMode,
       style: Theme.of(context).textTheme.bodySmall,
       readOnly: readOnly ?? false,
       focusNode: node,
