@@ -406,7 +406,8 @@ class _PostServicePageState extends State<PostServicePage> {
           children: [
             Visibility(
               visible: isBudgetVariable,
-              child: Flexible(
+              child: Expanded(
+                flex: 2,
                 child: NumberIncDecField(
                   controller: startPriceController,
                   onChanged: (value) => setState(
@@ -427,7 +428,8 @@ class _PostServicePageState extends State<PostServicePage> {
               visible: isBudgetVariable,
               child: const Text(' To '),
             ),
-            Flexible(
+            Expanded(
+              flex: 2,
               child: NumberIncDecField(
                 controller: endPriceController,
                 onChanged: (value) => setState(
@@ -444,7 +446,6 @@ class _PostServicePageState extends State<PostServicePage> {
               ),
             ),
             Flexible(
-              flex: 2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -632,7 +633,7 @@ class _PostServicePageState extends State<PostServicePage> {
 
   CustomFormField _buildHighlights() {
     return CustomFormField(
-      label: 'Highlights',
+      label: 'Requirements',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -680,7 +681,7 @@ class _PostServicePageState extends State<PostServicePage> {
             ),
           ),
           CustomTextFormField(
-            hintText: 'Add highlights',
+            hintText: 'Add Requirements',
             inputAction: TextInputAction.next,
             suffixWidget: IconButton(
               onPressed: () {

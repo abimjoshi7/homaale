@@ -1,5 +1,7 @@
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
@@ -20,7 +22,7 @@ class PostTaskPage extends StatefulWidget {
   State<PostTaskPage> createState() => _PostTaskPageState();
 }
 
-class _PostTaskPageState extends State<PostTaskPage> {
+class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   final titleController = TextEditingController();
   final requirementController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -31,14 +33,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
   String? taskType = 'Remote';
   String? budgetType = 'Project';
   String? currencyCode;
+  DateTime? startTime;
+  DateTime? endTime;
   bool isDiscounted = false;
   bool isSpecified = true;
   bool isAddressVisibile = true;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
@@ -270,8 +272,12 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           .format(startDate ?? DateTime.now()),
                       endDate: DateFormat("yyyy-MM-dd")
                           .format(endDate ?? DateTime.now()),
-                      startTime: startTime?.format(context),
-                      endTime: endTime?.format(context),
+                      startTime: startTime != null
+                          ? DateFormat.jms().format(startTime!)
+                          : null,
+                      endTime: endTime != null
+                          ? DateFormat.jms().format(endTime!)
+                          : null,
                       shareLocation: true,
                       isNegotiable: true,
                       location: addressController.text,
@@ -426,40 +432,32 @@ class _PostTaskPageState extends State<PostTaskPage> {
             children: [
               Visibility(
                 visible: isBudgetVariable,
-                child: Flexible(
-                  child: Row(
-                    children: [
-                      NumberIncDecField(
-                        controller: startPriceController,
-                        onChanged: (value) => setState(
-                          () {
-                            if (startPriceController.text.isNotEmpty)
-                              budgetFrom = getRecievableAmount(
-                                double.parse(startPriceController.text),
-                                double.parse(context
-                                        .read<CategoriesBloc>()
-                                        .state
-                                        .commission ??
-                                    "0.0"),
-                              );
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                          child: const Text(
-                            "-",
-                          ),
-                        ),
-                      ),
-                    ],
+                child: Expanded(
+                  flex: 2,
+                  child: NumberIncDecField(
+                    controller: startPriceController,
+                    onChanged: (value) => setState(
+                      () {
+                        if (startPriceController.text.isNotEmpty)
+                          budgetFrom = getRecievableAmount(
+                            double.parse(startPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
+                          );
+                      },
+                    ),
                   ),
                 ),
               ),
-              Flexible(
+              Visibility(
+                visible: isBudgetVariable,
+                child: const Text(' To '),
+              ),
+              Expanded(
+                flex: 2,
                 child: NumberIncDecField(
                   controller: endPriceController,
                   onChanged: (value) => setState(
@@ -475,18 +473,27 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   ),
                 ),
               ),
-              addHorizontalSpace(10),
               Flexible(
-                child: CustomDropDownField(
-                  list: const ['Project', 'Hourly', 'Daily', 'Monthly'],
-                  hintText: 'Per project',
-                  onChanged: (value) {
-                    setState(
-                      () {
-                        budgetType = value;
-                      },
-                    );
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: CustomDropDownField(
+                    list: const [
+                      'Project',
+                      'Hourly',
+                      'Daily',
+                      'Monthly',
+                    ],
+                    hintText: 'Per project',
+                    onChanged: (value) {
+                      setState(
+                        () {
+                          budgetType = value;
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
@@ -630,19 +637,35 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 Flexible(
                   child: InkWell(
                     onTap: () async {
-                      await showTimePicker(
+                      await showCustomBottomSheet(
                         context: context,
-                        initialTime: TimeOfDay.now(),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            startTime = value;
-                          },
+                        widget: SizedBox.fromSize(
+                          size: Size.fromHeight(250),
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.time,
+                            onDateTimeChanged: (value) => setState(
+                              () {
+                                startTime = value;
+                              },
+                            ),
+                          ),
                         ),
                       );
+                      // await showTimePicker(
+                      //   context: context,
+                      //   initialTime: TimeOfDay.now(),
+                      // ).then(
+                      //   (value) => setState(
+                      //     () {
+                      //       startTime = value;
+                      //     },
+                      //   ),
+                      // );
                     },
                     child: CustomFormContainer(
-                      hintText: startTime?.format(context) ?? 'hh:mm',
+                      hintText: startTime != null
+                          ? DateFormat.jm().format(startTime!)
+                          : 'hh:mm:ss',
                     ),
                   ),
                 ),
@@ -650,19 +673,36 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 Flexible(
                   child: InkWell(
                     onTap: () async {
-                      await showTimePicker(
+                      await showCustomBottomSheet(
                         context: context,
-                        initialTime: TimeOfDay.now(),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            endTime = value;
-                          },
+                        widget: SizedBox.fromSize(
+                          size: Size.fromHeight(250),
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.time,
+                            onDateTimeChanged: (value) => setState(
+                              () {
+                                endTime = value;
+                              },
+                            ),
+                          ),
                         ),
                       );
+
+                      // await showTimePicker(
+                      //   context: context,
+                      //   initialTime: TimeOfDay.now(),
+                      // ).then(
+                      //   (value) => setState(
+                      //     () {
+                      //       endTime = value;
+                      //     },
+                      //   ),
+                      // );
                     },
                     child: CustomFormContainer(
-                      hintText: endTime?.format(context) ?? 'hh:mm',
+                      hintText: endTime != null
+                          ? DateFormat.jm().format(endTime!)
+                          : 'hh:mm:ss',
                     ),
                   ),
                 ),

@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:cipher/core/asd.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/helpers/file_storage_helper.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -9,12 +10,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class CustomMultimedia extends StatefulWidget {
-  @override
-  State<CustomMultimedia> createState() => _CustomMultimediaState();
-}
-
-class _CustomMultimediaState extends State<CustomMultimedia> {
+class CustomMultimedia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
@@ -100,21 +96,19 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                   child: IconButton(
                                     padding: EdgeInsets.zero,
                                     onPressed: () async {
-                                      setState(() {
-                                        var x = Image.file(
-                                          File(
-                                            state.imageFileList.first,
-                                          ),
-                                        );
-                                        var y = File(state.imageFileList.first);
-                                        print(state.theStates);
-                                        print(y.lengthSync());
-                                        print(getFileSizeString(
-                                            bytes: y.lengthSync()));
-                                        ;
-
-                                        // print(await y.length());
-                                      });
+                                      try {
+                                        // final y = await compressFile(
+                                        //   File(state.imageFileList[index]),
+                                        // );
+                                        // print(y);
+                                        // print(y.lengthSync());
+                                        // print(
+                                        //     FileStorageHelper.getFileSizeString(
+                                        //         bytes: y.lengthSync()));
+                                        // ;
+                                      } catch (e) {
+                                        print("error: $e");
+                                      }
 
                                       try {
                                         for (var element
@@ -154,7 +148,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                       },
                       child: CustomDottedContainerStack(
                         theWidget: Text(
-                          'Select Images',
+                          '+ Select Images',
                         ),
                       ),
                     ),
@@ -212,7 +206,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                             },
                             child: CustomDottedContainerStack(
                               theWidget: Text(
-                                'Select Videos',
+                                '+ Select Videos',
                               ),
                             ),
                           )
@@ -251,12 +245,29 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                         child: IconButton(
                                           padding: EdgeInsets.zero,
                                           onPressed: () async {
-                                            context.read<UploadBloc>().add(
-                                                  MultimediaRemoved(
-                                                    selectedIndex: index,
-                                                    isVideo: true,
-                                                  ),
-                                                );
+                                            // context.read<UploadBloc>().add(
+                                            //       MultimediaRemoved(
+                                            //         selectedIndex: index,
+                                            //         isVideo: true,
+                                            //       ),
+                                            //     );
+
+                                            // setState(() {
+                                            //   var x = Image.file(
+                                            //     File(
+                                            //       state.videoFileList.first,
+                                            //     ),
+                                            //   );
+                                            //   var y = File(
+                                            //       state.videoFileList[index]);
+                                            //   print(state.theStates);
+                                            //   print(y.lengthSync());
+                                            //   print(FileStorageHelper
+                                            //       .getFileSizeString(
+                                            //           bytes: y.lengthSync()));
+                                            //   ;
+
+                                            // });
                                           },
                                           icon: Icon(
                                             Icons.disabled_by_default_rounded,

@@ -29,14 +29,15 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             event.isVideo,
           ).then(
             (value) async {
-              emit(
-                state.copyWith(
-                  imageFileList: [
-                    ...state.imageFileList,
-                    value?.path ?? "",
-                  ],
-                ),
-              );
+              if (value != null)
+                emit(
+                  state.copyWith(
+                    imageFileList: [
+                      ...state.imageFileList,
+                      value.path,
+                    ],
+                  ),
+                );
             },
           );
         } catch (e) {
@@ -116,14 +117,17 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               event.context,
               event.isVideo,
             ).then(
-              (value) => emit(
-                state.copyWith(
-                  videoFileList: [
-                    ...state.videoFileList,
-                    value?.path ?? "",
-                  ],
-                ),
-              ),
+              (value) {
+                if (value != null)
+                  emit(
+                    state.copyWith(
+                      videoFileList: [
+                        ...state.videoFileList,
+                        value.path,
+                      ],
+                    ),
+                  );
+              },
             );
           } else {
             await MultimediaPickHelper.captureAssets(
