@@ -3,6 +3,7 @@ import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_pay
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -45,4 +46,5 @@ void fetchDataForForms(BuildContext context) {
   context.read<CurrencyBloc>().add(CurrencyLoadInitiated());
   context.read<LanguageBloc>().add(LanguageLoadInitiated());
   context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
+  context.read<ServicesBloc>().add(ServicesLoadInitiated());
 }

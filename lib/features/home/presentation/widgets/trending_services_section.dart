@@ -15,19 +15,10 @@ class TrendingServicesSection extends StatefulWidget {
   });
 
   @override
-  State<TrendingServicesSection> createState() =>
-      _TrendingServicesSectionState();
+  State<TrendingServicesSection> createState() => _TrendingServicesSectionState();
 }
 
 class _TrendingServicesSectionState extends State<TrendingServicesSection> {
-  @override
-  void initState() {
-    super.initState();
-    context
-        .read<TaskEntityServiceBloc>()
-        .add(TaskEntityServiceInitiated(isTask: false));
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
@@ -55,22 +46,17 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.taskEntityServiceModel.result?.length ?? 0,
-                    separatorBuilder: (context, index) =>
-                        addHorizontalSpace(10),
+                    separatorBuilder: (context, index) => addHorizontalSpace(10),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
                               TaskEntityServiceSingleLoaded(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         context.read<RatingReviewsBloc>().add(
                               SetToInitial(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         Navigator.pushNamed(
@@ -81,35 +67,21 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.48,
                         child: ServiceCard(
-                          location: state.taskEntityServiceModel.result?[index]
-                                      .location ==
-                                  ""
+                          location: state.taskEntityServiceModel.result?[index].location == ""
                               ? "Remote"
-                              : state.taskEntityServiceModel.result?[index]
-                                  .location,
+                              : state.taskEntityServiceModel.result?[index].location,
                           createdBy:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
-                          title:
-                              state.taskEntityServiceModel.result?[index].title,
-                          imagePath: state.taskEntityServiceModel.result?[index]
-                                      .images?.length ==
-                                  0
+                          title: state.taskEntityServiceModel.result?[index].title,
+                          imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kServiceImageNImg
-                              : state.taskEntityServiceModel.result?[index]
-                                  .images?.first.media,
-                          rating: state
-                              .taskEntityServiceModel.result?[index].rating
-                              .toString(),
-                          isRange: state
-                              .taskEntityServiceModel.result?[index].isRange,
-                          rateTo: double.parse(state.taskEntityServiceModel
-                                      .result?[index].payableTo ??
-                                  "")
+                              : state.taskEntityServiceModel.result?[index].images?.first.media,
+                          rating: state.taskEntityServiceModel.result?[index].rating.toString(),
+                          isRange: state.taskEntityServiceModel.result?[index].isRange,
+                          rateTo: double.parse(state.taskEntityServiceModel.result?[index].payableTo ?? "")
                               .toInt()
                               .toString(),
-                          rateFrom: double.parse(state.taskEntityServiceModel
-                                      .result?[index].payableFrom ??
-                                  "")
+                          rateFrom: double.parse(state.taskEntityServiceModel.result?[index].payableFrom ?? "")
                               .toInt()
                               .toString(),
                         ),

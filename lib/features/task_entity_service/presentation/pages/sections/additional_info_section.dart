@@ -56,11 +56,11 @@ class AdditionalInfoSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconText(
-                    label: '',
+                    label: 'Location',
                     iconData: Icons.location_on_outlined,
                     color: Colors.deepOrange,
                   ),
-                  Expanded(child: Text(location ?? ''))
+                  Text(location == null || location!.isEmpty ? "Remote" : location!)
                 ],
               ),
               Row(
@@ -73,28 +73,28 @@ class AdditionalInfoSection extends StatelessWidget {
                   Text(views ?? '')
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconText(
-                    label: 'Happy Clients',
-                    iconData: Icons.emoji_emotions_outlined,
-                    color: Colors.orange,
-                  ),
-                  Text(happyClients ?? '0')
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconText(
-                    label: 'Success Rate',
-                    iconData: Icons.app_shortcut_sharp,
-                    color: Colors.blue,
-                  ),
-                  Text(successRate ?? '0')
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     IconText(
+              //       label: 'Happy Clients',
+              //       iconData: Icons.emoji_emotions_outlined,
+              //       color: Colors.orange,
+              //     ),
+              //     Text(happyClients ?? '0')
+              //   ],
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     IconText(
+              //       label: 'Success Rate',
+              //       iconData: Icons.app_shortcut_sharp,
+              //       color: Colors.blue,
+              //     ),
+              //     Text(successRate ?? '0')
+              //   ],
+              // ),
             ],
           ),
         ),

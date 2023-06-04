@@ -134,11 +134,17 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           taskEntityService: state.taskEntityService ?? tes.TaskEntityService(),
                         ),
                         if (state.taskEntityService?.highlights?.isNotEmpty ?? false) ...[
+                          addVerticalSpace(16),
                           RequirementSection(
                             requirementList: state.taskEntityService?.highlights ?? [],
                           ),
                         ],
-                        AdditionalInfoSection(),
+                        addVerticalSpace(16),
+                        AdditionalInfoSection(
+                          date: '${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService!.createdAt!)}',
+                          location: state.taskEntityService!.location,
+                          views: state.taskEntityService?.viewsCount.toString(),
+                        ),
                         BlocBuilder<RatingReviewsBloc, RatingReviewState>(
                           builder: (context, ratingBloc) {
                             switch (ratingBloc.status) {
