@@ -231,7 +231,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       ),
                     );
                   } else {
-                    if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0)
+                    if (uploadBloc.state.imageFileList.length != 0 ||
+                        uploadBloc.state.videoFileList.length != 0)
                       await _uploadFile();
                     final req = TaskEntityServiceReq(
                       title: titleController.text,
@@ -270,8 +271,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
-                      images: context.read<UploadBloc>().state.uploadedImageList,
-                      videos: context.read<UploadBloc>().state.uploadedVideoList,
+                      images:
+                          context.read<UploadBloc>().state.uploadedImageList,
+                      videos:
+                          context.read<UploadBloc>().state.uploadedVideoList,
                     );
 
                     context.read<TaskEntityServiceBloc>().add(
@@ -511,11 +514,13 @@ class _PostTaskPageState extends State<PostTaskPage> {
       child: Column(
         children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
                 child: CustomFormField(
                   label: 'Start Date',
-                  child: InkWell(
+                  child: CustomTextFormField(
+                    readOnly: true,
                     onTap: () async {
                       await showDatePicker(
                         context: context,
@@ -532,16 +537,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
                         ),
                       );
                     },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: startDate?.toIso8601String().substring(
-                                0,
-                                10,
-                              ) ??
-                          'dd/mm/yy',
+                    prefixWidget: Icon(
+                      Icons.calendar_today_rounded,
+                      color: Colors.grey.shade800,
                     ),
+                    hintText: startDate?.toIso8601String().substring(
+                              0,
+                              10,
+                            ) ??
+                        'dd/mm/yy',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade900),
                   ),
                 ),
               ),
@@ -550,7 +558,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 child: CustomFormField(
                   label: 'End Date',
                   isRequired: true,
-                  child: InkWell(
+                  child: CustomTextFormField(
+                    readOnly: true,
+                    validator: (value) =>
+                        endDate == null ? "Required Field" : null,
                     onTap: () async {
                       await showDatePicker(
                         context: context,
@@ -567,16 +578,21 @@ class _PostTaskPageState extends State<PostTaskPage> {
                         ),
                       );
                     },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: endDate?.toIso8601String().substring(
-                                0,
-                                10,
-                              ) ??
-                          'dd/mm/yy',
+                    hintText: endDate?.toIso8601String().substring(
+                              0,
+                              10,
+                            ) ??
+                        'dd/mm/yy',
+                    theHeight: 48.0,
+                    theWidth: double.infinity,
+                    prefixWidget: Icon(
+                      Icons.calendar_today_rounded,
+                      color: Colors.grey.shade800,
                     ),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade900),
                   ),
                 ),
               ),
@@ -799,6 +815,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
           CustomTextFormField(
             controller: requirementController,
             hintText: 'Add requirements',
+            validator: (value) => requirementList.length == 0
+                ? "Atleast 1 Requirement Required"
+                : null,
             suffixWidget: IconButton(
               icon: Icon(
                 Icons.add_box_outlined,
