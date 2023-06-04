@@ -1,10 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+
 part of 'task_bloc.dart';
 
 class TaskState extends Equatable {
   final TheStates theState;
   final MyTaskRes? myTaskRes;
-  final AllTaskList? allTaskList;
-  final es.TaskEntityServiceModel? tasksList;
+  final es.TaskEntityServiceModel taskEntityServiceModel;
+  final List<TaskEntityService>? taskEntityServices;
   final TaskEntityService? taskModel;
   final SelfCreatedTaskService? selfCreatedTaskServiceModel;
   final TaskApplyCountModel? taskApplyCountModel;
@@ -20,19 +23,17 @@ class TaskState extends Equatable {
   final bool? isFilter;
   final List<ServiceList>? serviceList;
   final bool? servicesLoaded;
+  final bool isLastPage;
 
   const TaskState({
     this.theState = TheStates.initial,
     this.myTaskRes,
-    this.allTaskList,
-    this.tasksList,
+    this.taskEntityServiceModel = const TaskEntityServiceModel(),
+    this.taskEntityServices,
     this.taskModel,
     this.selfCreatedTaskServiceModel,
     this.taskApplyCountModel,
     this.applicantModel,
-    this.serviceList,
-    this.isFilter = false,
-    this.servicesLoaded = false,
     this.applyTaskFail = false,
     this.applyTaskSuccess = false,
     this.approveSuccess = false,
@@ -41,6 +42,10 @@ class TaskState extends Equatable {
     this.rejectFail = false,
     this.isDateSort = false,
     this.isBudgetSort = false,
+    this.isFilter = false,
+    this.serviceList,
+    this.servicesLoaded = false,
+    this.isLastPage = false,
   });
 
   @override
@@ -48,8 +53,8 @@ class TaskState extends Equatable {
     return [
       theState,
       myTaskRes,
-      allTaskList,
-      tasksList,
+      taskEntityServiceModel,
+      taskEntityServices,
       taskModel,
       selfCreatedTaskServiceModel,
       taskApplyCountModel,
@@ -62,22 +67,22 @@ class TaskState extends Equatable {
       rejectFail,
       isDateSort,
       isBudgetSort,
+      isFilter,
       serviceList,
       servicesLoaded,
-      isFilter,
+      isLastPage,
     ];
   }
 
   TaskState copyWith({
     TheStates? theState,
     MyTaskRes? myTaskRes,
-    AllTaskList? allTaskList,
-    es.TaskEntityServiceModel? tasksList,
+    es.TaskEntityServiceModel? taskEntityServiceModel,
+    List<TaskEntityService>? taskEntityServices,
     TaskEntityService? taskModel,
     SelfCreatedTaskService? selfCreatedTaskServiceModel,
     TaskApplyCountModel? taskApplyCountModel,
     ApplicantModel? applicantModel,
-    List<ServiceList>? serviceList,
     bool? applyTaskFail,
     bool? applyTaskSuccess,
     bool? approveSuccess,
@@ -87,16 +92,17 @@ class TaskState extends Equatable {
     bool? isDateSort,
     bool? isBudgetSort,
     bool? isFilter,
+    List<ServiceList>? serviceList,
     bool? servicesLoaded,
+    bool? isLastPage,
   }) {
     return TaskState(
       theState: theState ?? this.theState,
       myTaskRes: myTaskRes ?? this.myTaskRes,
-      allTaskList: allTaskList ?? this.allTaskList,
-      tasksList: tasksList ?? this.tasksList,
+      taskEntityServiceModel: taskEntityServiceModel ?? this.taskEntityServiceModel,
+      taskEntityServices: taskEntityServices ?? this.taskEntityServices,
       taskModel: taskModel ?? this.taskModel,
-      selfCreatedTaskServiceModel:
-          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      selfCreatedTaskServiceModel: selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
       taskApplyCountModel: taskApplyCountModel ?? this.taskApplyCountModel,
       applicantModel: applicantModel ?? this.applicantModel,
       applyTaskFail: applyTaskFail ?? this.applyTaskFail,
@@ -107,9 +113,10 @@ class TaskState extends Equatable {
       rejectFail: rejectFail ?? this.rejectFail,
       isDateSort: isDateSort ?? this.isDateSort,
       isBudgetSort: isBudgetSort ?? this.isBudgetSort,
-      serviceList: serviceList ?? this.serviceList,
       isFilter: isFilter ?? this.isFilter,
+      serviceList: serviceList ?? this.serviceList,
       servicesLoaded: servicesLoaded ?? this.servicesLoaded,
+      isLastPage: isLastPage ?? this.isLastPage,
     );
   }
 }

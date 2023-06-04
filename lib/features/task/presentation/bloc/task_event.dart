@@ -17,6 +17,7 @@ class SingleEntityTaskLoadInitiated extends TaskEvent {
 }
 
 class AllTaskLoadInitiated extends TaskEvent {
+  final bool? isTask;
   final int? page;
   final List<String>? order;
   final bool? isDateSort;
@@ -24,8 +25,18 @@ class AllTaskLoadInitiated extends TaskEvent {
   final String? serviceId;
   final String? city;
   final bool? isFilter;
+  final String? budgetFrom;
+  final String? budgetTo;
+  final String? payableFrom;
+  final String? payableTo;
+  final String? dateFrom;
+  final String? dateTo;
+  final String? category;
+  final String? query;
+  final bool newFetch;
 
-  const AllTaskLoadInitiated({
+  AllTaskLoadInitiated({
+    this.isTask,
     this.page,
     this.order,
     this.isDateSort,
@@ -33,16 +44,36 @@ class AllTaskLoadInitiated extends TaskEvent {
     this.serviceId,
     this.city,
     this.isFilter,
+    this.budgetFrom,
+    this.budgetTo,
+    this.payableFrom,
+    this.payableTo,
+    this.dateFrom,
+    this.dateTo,
+    this.category,
+    this.query,
+    this.newFetch = false,
   });
+
   @override
   List<Object?> get props => [
+        isTask,
         page,
         order,
         isDateSort,
         isBudgetSort,
         serviceId,
-        city,
         isFilter,
+        city,
+        budgetFrom,
+        budgetTo,
+        payableFrom,
+        payableTo,
+        dateFrom,
+        dateTo,
+        category,
+        query,
+        newFetch,
       ];
 }
 

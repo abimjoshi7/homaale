@@ -27,7 +27,7 @@ class PostedTaskViewPage extends StatelessWidget {
                 CustomHeader(
                   trailingWidget: IconButton(
                     onPressed: () {
-                      print(state.allTaskList?.result?.last.entityService?.id);
+                      print(state.taskEntityServiceModel?.result?.last.id);
                       // print(state);
                       // print(state.allTaskList?.toJson());
                     },

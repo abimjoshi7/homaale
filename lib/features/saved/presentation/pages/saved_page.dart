@@ -21,7 +21,8 @@ class _SavedPageState extends State<SavedPage> {
   final savedBloc = locator<SavedBloc>();
   @override
   void initState() {
-    savedBloc.add(SavedListLoaded(type: null));
+    //TODO:refactor this
+    // savedBloc.add(SavedListLoaded(type: null));
     super.initState();
   }
 
@@ -49,13 +50,20 @@ class _SavedPageState extends State<SavedPage> {
                   builder: (context, state) {
                     if (state.theStates == TheStates.success) {
                       var allList = state.savedModelRes?.result ?? [];
-                      var userList = allList.where((element) => element.type == 'user').toList();
-                      var entityServiceList = allList.where((element) => element.type == 'entityservice').toList();
+                      var userList = allList
+                          .where((element) => element.type == 'user')
+                          .toList();
+                      var entityServiceList = allList
+                          .where((element) => element.type == 'entityservice')
+                          .toList();
 
                       var loopList = [
-                        if (allList.isNotEmpty) {'label': 'All', 'data': allList},
-                        if (userList.isNotEmpty) {'label': 'User', 'data': userList},
-                        if (entityServiceList.isNotEmpty) {'label': 'Service', 'data': entityServiceList},
+                        if (allList.isNotEmpty)
+                          {'label': 'All', 'data': allList},
+                        if (userList.isNotEmpty)
+                          {'label': 'User', 'data': userList},
+                        if (entityServiceList.isNotEmpty)
+                          {'label': 'Service', 'data': entityServiceList},
                       ];
 
                       return Expanded(
@@ -84,7 +92,8 @@ class _SavedPageState extends State<SavedPage> {
                         ),
                       );
                     }
-                    return Center(child: CircularProgressIndicator(color: kColorAmber));
+                    return Center(
+                        child: CircularProgressIndicator(color: kColorAmber));
                   },
                 ),
               ),

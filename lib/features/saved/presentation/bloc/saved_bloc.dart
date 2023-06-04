@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
 import 'package:cipher/features/saved/data/models/res/saved_add_res.dart';
 import 'package:cipher/features/saved/data/models/res/saved_model_res.dart';
@@ -54,7 +55,8 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
                   ),
                 ),
               )
-              .whenComplete(() => add(SavedListLoaded(type: event.savedAddReq.model.toString())));
+              .whenComplete(() => add(
+                  SavedListLoaded(type: event.savedAddReq.model.toString())));
         } catch (e) {
           log("Saved Add Error: $e");
           emit(

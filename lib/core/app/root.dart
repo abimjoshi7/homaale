@@ -149,9 +149,8 @@ class _CalledRootClassState extends State<CalledRootClass> {
                     }
                 })
             .then(
-              (value) async => context
-                  .read<TaskBloc>()
-                  .add(const AllTaskLoadInitiated(page: 1)),
+              (value) async =>
+                  context.read<TaskBloc>().add(AllTaskLoadInitiated(page: 1)),
             )
             .then(
               (value) async => context.read<TaskEntityServiceBloc>().add(

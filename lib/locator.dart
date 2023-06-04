@@ -61,7 +61,8 @@ void init() {
       locator(),
     ),
   );
-  locator.registerFactory<TaskBloc>(() => TaskBloc());
+  locator
+      .registerFactory<TaskBloc>(() => TaskBloc(TaskEntityServiceRepository()));
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
   locator.registerFactory<UserBloc>(() => UserBloc());
@@ -83,7 +84,8 @@ void init() {
   locator
       .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
-  locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
+  locator.registerFactory<BillsPaymentBloc>(
+      () => BillsPaymentBloc(bankRepository: locator()));
   locator.registerFactory<RedeemBloc>(() => RedeemBloc(locator()));
 
   //other
