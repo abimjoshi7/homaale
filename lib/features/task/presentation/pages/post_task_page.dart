@@ -33,7 +33,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
   String? currencyCode;
   bool isDiscounted = false;
   bool isSpecified = true;
-  bool isAddressVisibile = false;
+  bool isAddressVisibile = true;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
@@ -109,6 +109,17 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           _buildCategory(),
                           _buildRequirements(),
                           _buildTaskType(),
+                          Visibility(
+                            visible: isAddressVisibile,
+                            child: CustomFormField(
+                              label: "Address Information",
+                              isRequired: true,
+                              child: CustomTextFormField(
+                                hintText: "Enter address details",
+                                controller: addressController,
+                              ),
+                            ),
+                          ),
                           _buildDescription(),
                           _buildCity(),
                           _buildDate(context),
@@ -267,7 +278,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       revisions: 0,
                       avatar: 2,
                       isProfessional: true,
-                      isOnline: true,
+                      isOnline: !isAddressVisibile,
                       isRequested: true,
                       discountType: "Percentage",
                       discountValue: '0.0',
