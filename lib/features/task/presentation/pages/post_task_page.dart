@@ -410,6 +410,14 @@ class _PostTaskPageState extends State<PostTaskPage> {
                     children: [
                       NumberIncDecField(
                         controller: startPriceController,
+                        validator: (p0) {
+                          if (isBudgetVariable) {
+                            return p0 == null || p0.isEmpty
+                                ? "Required Field"
+                                : null;
+                          }
+                          return null;
+                        },
                         onChanged: (value) => setState(
                           () {
                             if (startPriceController.text.isNotEmpty)
@@ -440,6 +448,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
               ),
               Flexible(
                 child: NumberIncDecField(
+                  validator: (p0) =>
+                      p0 == null || p0.isEmpty ? "Required" : null,
                   controller: endPriceController,
                   onChanged: (value) => setState(
                     () {
