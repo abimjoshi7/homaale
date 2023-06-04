@@ -59,12 +59,10 @@ class _SkillsViewState extends State<SkillsView> {
                                 child: Column(
                                   children: [
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text(
                                               'Skills',
@@ -85,8 +83,7 @@ class _SkillsViewState extends State<SkillsView> {
                                         CustomTagTextField(
                                           tagController: tagsController,
                                           hintText: 'Enter your skills',
-                                          initialList:
-                                              skills.isEmpty ? [] : skills,
+                                          initialList: skills.isEmpty ? [] : skills,
                                         ),
                                       ],
                                     ),
@@ -111,9 +108,7 @@ class _SkillsViewState extends State<SkillsView> {
                                         isSuccess: true,
                                       ),
                                     ).then(
-                                      (value) => context.read<UserBloc>().add(
-                                            UserLoaded(),
-                                          ),
+                                      (value) => context.read<UserBloc>().add(UserLoaded()),
                                     );
                                   }
                                   if (state.theStates == TheStates.failure) {
@@ -126,9 +121,7 @@ class _SkillsViewState extends State<SkillsView> {
                                         isSuccess: false,
                                       ),
                                     ).then(
-                                      (value) => context.read<UserBloc>().add(
-                                            UserLoaded(),
-                                          ),
+                                      (value) => context.read<UserBloc>().add(UserLoaded()),
                                     );
                                   }
                                 },
@@ -167,8 +160,7 @@ class _SkillsViewState extends State<SkillsView> {
                 child: ListView.separated(
                   padding: EdgeInsets.zero,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) =>
-                      SkillBox(label: skills[index]),
+                  itemBuilder: (context, index) => SkillBox(label: skills[index]),
                   separatorBuilder: (context, index) => kWidth10,
                   itemCount: skills.length,
                 ),

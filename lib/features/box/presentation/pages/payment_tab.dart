@@ -10,6 +10,7 @@ import 'package:cipher/widgets/custom_toast.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../error_pages/no_internet_page.dart';
 import '../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 
@@ -50,12 +51,17 @@ class _PaymentTabState extends State<PaymentTab> {
           case TheStates.success:
             if (state.orderItemList?.result!.length == 0) {
               return Center(
-                  child: Text("Payment Item not available right Now."));
+                  child: CommonErrorContainer(
+                assetsPath: 'assets/no_data_found.png',
+                errorTile: 'Payment Item not available right Now.',
+                errorDes: 'We’re sorry, the data you search could not found. '
+                    'Please go back.',
+              ));
             } else {
               return Scaffold(
                 bottomNavigationBar: selectedItems.isNotEmpty
                     ? Container(
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        // height: MediaQuery.of(context).size.height * 0.15,
                         margin: EdgeInsets.only(bottom: 100),
                         color: Colors.white,
                         child: Column(
@@ -205,7 +211,7 @@ class _PaymentTabState extends State<PaymentTab> {
                                     child: Text(
                                       ' For bulk payment, please choose items with same currency.',
                                       style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                          Theme.of(context).textTheme.displaySmall,
                                     ),
                                   ),
                                 ],

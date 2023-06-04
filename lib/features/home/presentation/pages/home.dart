@@ -1,11 +1,7 @@
 import 'package:cipher/features/categories/presentation/pages/sections/categories_section.dart';
-import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/network_info/network_bloc.dart';
-import '../../../../core/network_info/network_state.dart';
 
 class Home extends StatefulWidget {
   const Home({

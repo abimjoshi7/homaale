@@ -13,7 +13,6 @@ class CategoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
     return BlocConsumer<CategoriesBloc, CategoriesState>(
       listener: (context, state) {},
       builder: (context, state) {

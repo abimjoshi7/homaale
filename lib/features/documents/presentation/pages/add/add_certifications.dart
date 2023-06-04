@@ -177,9 +177,7 @@ class _AddCertificationsState extends State<AddCertifications> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText:
-                                    issuedDate?.toString().substring(0, 10) ??
-                                        '1999-06-13',
+                                hintText: issuedDate?.toString().substring(0, 10) ?? '1999-06-13',
                                 leadingWidget: const Icon(
                                   Icons.calendar_month_rounded,
                                   color: kColorPrimary,
@@ -209,9 +207,7 @@ class _AddCertificationsState extends State<AddCertifications> {
                                 );
                               },
                               child: CustomFormContainer(
-                                hintText:
-                                    endDate?.toString().substring(0, 10) ??
-                                        '1999-06-30',
+                                hintText: endDate?.toString().substring(0, 10) ?? '1999-06-30',
                                 leadingWidget: const Icon(
                                   Icons.calendar_month_rounded,
                                   color: kColorPrimary,
@@ -232,7 +228,8 @@ class _AddCertificationsState extends State<AddCertifications> {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerCertificationSuccess) {
                 if (!mounted) return;
-                // await context.read<UserBloc>().getTaskeruser();
+
+                context.read<TaskerCertificationCubit>().getTaskerCertification();
 
                 showDialog(
                   context: context,
@@ -269,24 +266,20 @@ class _AddCertificationsState extends State<AddCertifications> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  if (_key.currentState!.validate() &&
-                      issuedDate!.isBefore(endDate!)) {
+                  if (_key.currentState!.validate() && issuedDate!.isBefore(endDate!)) {
                     _key.currentState!.save();
                     final cerificationReq = TaskerCertificateReq(
                       name: nameController.text,
                       issuingOrganization: issuingOraganizationController.text,
                       description: descriptionController.text,
                       credentialId: credentialIdController.text,
-                      certificateUrl:
-                          'https://${certificationUrlController.text}',
+                      certificateUrl: 'https://${certificationUrlController.text}',
                       doesExpire: isExpirable,
                       issuedDate: issuedDate,
                       expireDate: endDate,
                     );
 
-                    await context
-                        .read<TaskerCertificationCubit>()
-                        .addTaskerCertification(cerificationReq);
+                    await context.read<TaskerCertificationCubit>().addTaskerCertification(cerificationReq);
                   } else if (endDate!.isBefore(issuedDate!)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

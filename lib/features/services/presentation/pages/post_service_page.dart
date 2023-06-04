@@ -7,7 +7,6 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
-import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -63,12 +62,7 @@ class _PostServicePageState extends State<PostServicePage> {
   @override
   void initState() {
     uploadBloc = context.read<UploadBloc>();
-    context.read<CategoriesBloc>().add(
-          CategoriesLoadInitiated(),
-        );
-    // context.read<ServicesBloc>().add(
-    //       const ServicesLoadInitiated(),
-    //     );
+
     super.initState();
   }
 

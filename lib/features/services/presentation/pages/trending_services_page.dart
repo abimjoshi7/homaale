@@ -37,9 +37,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ServicesBloc>().add(
-          ServicesLoadInitiated(),
-        );
     entityServiceBloc = locator<TaskEntityServiceBloc>()
       ..add(
         TaskEntityServiceInitiated(
@@ -56,14 +53,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
               TaskEntityServiceInitiated(
                 newFetch: false,
                 isTask: false,
-                dateFrom: dateFrom == null
-                    ? null
-                    : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                dateTo: dateTo == null
-                    ? null
-                    : DateFormat("yyyy-MM-dd").format(dateTo!),
-                payableFrom:
-                    payableFrom.text.length == 0 ? null : payableFrom.text,
+                dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                payableFrom: payableFrom.text.length == 0 ? null : payableFrom.text,
                 payableTo: payableTo.text.length == 0 ? null : payableTo.text,
                 serviceId: category,
                 city: location,
@@ -154,16 +146,12 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                           callback: () {
                             context.read<TaskEntityServiceBloc>().add(
                                   TaskEntityServiceSingleLoaded(
-                                    id: state.taskEntityServiceModel
-                                            .result?[index].id ??
-                                        "",
+                                    id: state.taskEntityServices?[index].id ?? "",
                                   ),
                                 );
 
                             context.read<RatingReviewsBloc>().add(SetToInitial(
-                                  id: state.taskEntityServiceModel
-                                          .result?[index].id ??
-                                      "",
+                                  id: state.taskEntityServices?[index].id ?? "",
                                 ));
 
                             Navigator.pushNamed(
@@ -172,40 +160,24 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                             );
                           },
                           title: state.taskEntityServices?[index].title,
-                          imagePath:
-                              state.taskEntityServices?[index].images?.length ==
-                                      0
-                                  ? kServiceImageNImg
-                                  : state.taskEntityServices?[index].images
-                                      ?.first.media,
-                          rating: state.taskEntityServices?[index].rating
-                              ?.toString(),
+                          imagePath: state.taskEntityServices?[index].images?.length == 0
+                              ? kServiceImageNImg
+                              : state.taskEntityServices?[index].images?.first.media,
+                          rating: state.taskEntityServices?[index].rating?.toString(),
                           createdBy:
                               "${state.taskEntityServices?[index].createdBy?.firstName} ${state.taskEntityServices?[index].createdBy?.lastName}",
-                          description:
-                              state.taskEntityServices?[index].description,
-                          location:
-                              state.taskEntityServices?[index].location == ''
-                                  ? "Remote"
-                                  : state.taskEntityServices?[index].location,
-                          rateTo: double.parse(
-                                  state.taskEntityServices?[index].payableTo ??
-                                      "")
-                              .toInt()
-                              .toString(),
-                          rateFrom: double.parse(state
-                                      .taskEntityServices?[index].payableFrom ??
-                                  "")
-                              .toInt()
-                              .toString(),
+                          description: state.taskEntityServices?[index].description,
+                          location: state.taskEntityServices?[index].location == ''
+                              ? "Remote"
+                              : state.taskEntityServices?[index].location,
+                          rateTo: double.parse(state.taskEntityServices?[index].payableTo ?? "").toInt().toString(),
+                          rateFrom: double.parse(state.taskEntityServices?[index].payableFrom ?? "").toInt().toString(),
                           isRange: state.taskEntityServices?[index].isRange,
                         );
                       },
-                      itemCount: state.isLastPage
-                          ? state.taskEntityServices?.length
-                          : state.taskEntityServices!.length + 1,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      itemCount:
+                          state.isLastPage ? state.taskEntityServices?.length : state.taskEntityServices!.length + 1,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.86,
                       ),
@@ -245,12 +217,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                   newFetch: true,
                   payableFrom: payableFrom.text,
                   payableTo: payableTo.length == 0 ? null : payableTo.text,
-                  dateFrom: dateFrom == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
                   category: category,
                 ));
@@ -289,12 +257,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                     newFetch: true,
                     payableFrom: payableFrom.text,
                     payableTo: payableTo.length == 0 ? null : payableTo.text,
-                    dateFrom: dateFrom == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
                   ),
@@ -314,8 +278,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
       callback: (value) {
         showDialog(
           context: context,
-          builder: (context) =>
-              AlertDialog(content: Text("Enter Amount:"), actions: [
+          builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
             CustomTextFormField(
               autofocus: true,
               controller: payableFrom,
@@ -331,12 +294,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                     newFetch: true,
                     payableFrom: payableFrom.text,
                     payableTo: payableTo.length == 0 ? null : payableTo.text,
-                    dateFrom: dateFrom == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                   ),
                 );
                 Navigator.pop(context);
@@ -355,8 +314,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
       callback: (value) {
         showDialog(
           context: context,
-          builder: (context) =>
-              AlertDialog(content: Text("Enter Amount:"), actions: [
+          builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
             CustomTextFormField(
               autofocus: true,
               controller: payableTo,
@@ -371,14 +329,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                   TaskEntityServiceInitiated(
                     newFetch: true,
                     payableTo: payableTo.text,
-                    payableFrom:
-                        payableFrom.length == 0 ? null : payableFrom.text,
-                    dateFrom: dateFrom == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                    dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                   ),
                 );
                 Navigator.pop(context);

@@ -40,8 +40,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: NetworkImage(
-                        state.taskEntityService?.createdBy?.profileImage ??
-                            kDefaultAvatarNImg,
+                        state.taskEntityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
                       ),
                     ),
                   ),
@@ -98,22 +97,16 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                 notLoggedInPopUp(context);
                               }
                               if (!CacheHelper.isLoggedIn) return;
-                              final box =
-                                  context.findRenderObject() as RenderBox?;
+                              final box = context.findRenderObject() as RenderBox?;
                               Share.share(
-                                "Share this Hommale with friends.",
-                                sharePositionOrigin:
-                                    box!.localToGlobal(Offset.zero) & box.size,
+                                "https://sandbox.homaale.com/services/${state.taskEntityService?.id}",
+                                subject: state.taskEntityService?.title,
+                                sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                               );
                             },
                           ),
                           Visibility(
-                            visible: context
-                                    .read<UserBloc>()
-                                    .state
-                                    .taskerProfile
-                                    ?.user
-                                    ?.id !=
+                            visible: context.read<UserBloc>().state.taskerProfile?.user?.id !=
                                 state.taskEntityService?.createdBy?.id,
                             child: ListTile(
                               leading: Icon(
@@ -122,34 +115,26 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               ),
                               title: Text(
                                 'Report',
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge,
+                                style: Theme.of(context).textTheme.headlineLarge,
                               ),
                               onTap: () {
                                 context
                                     .read<SupportTicketTypeOptionsBloc>()
-                                    .add(SupportTicketTypeOptionsLoaded(
-                                        target: 'task'));
+                                    .add(SupportTicketTypeOptionsLoaded(target: 'task'));
                                 Navigator.pushNamed(
                                   context,
                                   CommonReportPage.routeName,
                                   arguments: {
                                     'isType': 'isTask',
                                     'model': 'task',
-                                    'objectId':
-                                        state.taskEntityService?.createdBy?.id
+                                    'objectId': state.taskEntityService?.createdBy?.id
                                   },
                                 );
                               },
                             ),
                           ),
                           Offstage(
-                            offstage: context
-                                    .read<UserBloc>()
-                                    .state
-                                    .taskerProfile
-                                    ?.user
-                                    ?.id !=
+                            offstage: context.read<UserBloc>().state.taskerProfile?.user?.id !=
                                 state.taskEntityService?.createdBy?.id,
                             child: Column(
                               children: [
@@ -158,8 +143,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                     showCustomBottomSheet(
                                       context: context,
                                       widget: EditTaskEntityServiceForm(
-                                        service: state.taskEntityService ??
-                                            TaskEntityService(),
+                                        service: state.taskEntityService ?? TaskEntityService(),
                                       ),
                                     );
                                   },
@@ -169,9 +153,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                   ),
                                   title: Text(
                                     "Update",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge,
+                                    style: Theme.of(context).textTheme.headlineLarge,
                                   ),
                                 ),
                                 ListTile(
@@ -181,9 +163,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                   ),
                                   title: Text(
                                     "Remove",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge,
+                                    style: Theme.of(context).textTheme.headlineLarge,
                                   ),
                                   onTap: () {
                                     if (!CacheHelper.isLoggedIn) {
@@ -192,12 +172,9 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                     if (!CacheHelper.isLoggedIn) return;
                                     Future.delayed(
                                       Duration.zero,
-                                      () => context
-                                          .read<TaskEntityServiceBloc>()
-                                          .add(
+                                      () => context.read<TaskEntityServiceBloc>().add(
                                             TaskEntityServiceDeleted(
-                                              id: state.taskEntityService?.id ??
-                                                  "",
+                                              id: state.taskEntityService?.id ?? "",
                                             ),
                                           ),
                                     ).whenComplete(
@@ -229,15 +206,14 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconText(
-              label: state.taskEntityService?.rating?.toString() ??
-                  '4.5',
+              label: state.taskEntityService?.rating?.toString() ?? '4.5',
               iconData: Icons.star_outlined,
               color: kColorAmber,
               size: 18,
             ),
             IconText(
               label:
-                  "${state.taskEntityService?.city?.name ?? ''}, ${state.taskEntityService?.city?.country?.name ?? ''}",
+                  "${state.taskEntityService?.location == null || state.taskEntityService?.location == '' ? 'Remote' : state.taskEntityService?.location}",
               iconData: Icons.location_on_outlined,
               size: 18,
               color: Colors.red,

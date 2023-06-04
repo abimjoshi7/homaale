@@ -1,7 +1,5 @@
 import 'package:cipher/core/constants/enums.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/services/data/models/professional_service_model.dart';
-import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,13 +26,12 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
                   state.copyWith(
                     theStates: TheStates.success,
                     isServiceListLoaded: true,
-                    serviceList:
-                        value.map((e) => ServiceList.fromJson(e)).toList()
-                          ..sort(
-                            (a, b) => a.title!.compareTo(
-                              b.title!,
-                            ),
-                          ),
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort(
+                        (a, b) => a.title!.compareTo(
+                          b.title!,
+                        ),
+                      ),
                   ),
                 ),
               );
@@ -57,14 +54,11 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
               theStates: TheStates.initial,
             ),
           );
-          await repositories
-              .fetchProfessionalService(pageNumber: event.pageNumber)
-              .then(
+          await repositories.fetchProfessionalService(pageNumber: event.pageNumber).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    professionalServiceModel:
-                        ProfessionalServiceModel.fromJson(value),
+                    professionalServiceModel: ProfessionalServiceModel.fromJson(value),
                   ),
                 ),
               );

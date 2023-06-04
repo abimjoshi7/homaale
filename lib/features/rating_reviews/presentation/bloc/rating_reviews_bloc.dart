@@ -26,7 +26,7 @@ class RatingReviewsBloc extends Bloc<RatingReviewEvent, RatingReviewState> {
     this.repositories,
   ) : super(RatingReviewState()) {
     on<SetToInitial>((event, emit) {
-      emit(state.copyWith(status: RatingStatus.initial));
+      emit(state.copyWith(status: RatingStatus.initial, hasReachedMax: false));
       add(FetchRatingsReviews(id: event.id));
     });
 
@@ -43,7 +43,7 @@ class RatingReviewsBloc extends Bloc<RatingReviewEvent, RatingReviewState> {
               taskId: event.id,
               ratingResponseDto: ratings,
               review: ratingsList,
-              hasReachedMax: false,
+              hasReachedMax: state.ratingResponseDto.current == state.ratingResponseDto.totalPages,
             ));
           }
 

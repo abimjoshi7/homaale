@@ -1,11 +1,11 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class NoInternetPage extends StatelessWidget {
+class CommonErrorContainer extends StatelessWidget {
   final String assetsPath;
   final String? errorTile;
   final String? errorDes;
-  const NoInternetPage(
+  const CommonErrorContainer(
       {Key? key, required this.assetsPath, this.errorTile, this.errorDes})
       : super(key: key);
 
