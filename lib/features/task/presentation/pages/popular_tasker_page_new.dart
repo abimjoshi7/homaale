@@ -18,7 +18,7 @@ class PopularTaskerNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Tasker',
+        appBarTitle: 'Tasker',trailingWidget: SizedBox()
       ),
       body: BlocProvider(
         create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())..add(TaskerFetched()),

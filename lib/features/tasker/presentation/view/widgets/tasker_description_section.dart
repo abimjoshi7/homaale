@@ -109,7 +109,7 @@ class TaskerDescriptionSection extends StatelessWidget {
         children: [
           displayBio(),
           kHeight15,
-          displayUsername(),
+          // displayUsername(),
           displayActiveHours(),
           displaySkill(),
           displayLocation(),

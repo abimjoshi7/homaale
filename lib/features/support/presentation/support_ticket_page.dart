@@ -38,7 +38,7 @@ class _SupportTicketPageState extends State<SupportTicketPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Support Ticket'),
+      appBar: CustomAppBar(appBarTitle: 'Support Ticket',trailingWidget: SizedBox()),
       body: BlocBuilder<SupportTicketBloc, GetSupportTicketState>(
           builder: (context, state) {
         return (TheStates.initial == state.theStates)

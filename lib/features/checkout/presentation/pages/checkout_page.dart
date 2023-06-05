@@ -30,7 +30,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         .add(OrderItemRetriveInitiated(uuid: orderID));
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Checkout',
+        appBarTitle: 'Checkout',trailingWidget: SizedBox()
       ),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
         builder: (context, state) {

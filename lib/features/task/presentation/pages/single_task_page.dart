@@ -125,7 +125,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
 
             return Scaffold(
               appBar: CustomAppBar(
-                appBarTitle: state.taskModel?.service?.category?.name ?? '',
+                appBarTitle: state.taskModel?.service?.category?.name ?? '',trailingWidget: SizedBox()
               ),
               body: Column(
                 children: <Widget>[

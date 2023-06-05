@@ -165,6 +165,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             appBarTitle: state.list?.length != 0 && state.isNewDoc == false
                 ? "Edit KYC Details"
                 : "Add KYC Details",
+              trailingWidget: SizedBox()
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

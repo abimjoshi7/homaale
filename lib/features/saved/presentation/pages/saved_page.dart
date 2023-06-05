@@ -36,7 +36,7 @@ class _SavedPageState extends State<SavedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: "Saved",
+        appBarTitle: "Saved",trailingWidget: SizedBox()
       ),
       body: Column(
         children: [

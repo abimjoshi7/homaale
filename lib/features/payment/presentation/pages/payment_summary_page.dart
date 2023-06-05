@@ -25,7 +25,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
     final orderID = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Payment Summary',
+        appBarTitle: 'Payment Summary',trailingWidget: SizedBox()
       ),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
           builder: (context, state) {

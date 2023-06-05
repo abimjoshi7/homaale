@@ -43,7 +43,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Report',
+        appBarTitle: 'Report',trailingWidget: SizedBox()
       ),
       body: BlocBuilder<SupportTicketTypeOptionsBloc,
           SupportTicketTypeOptionsState>(builder: (context, state) {

@@ -5,7 +5,6 @@ import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
-import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -45,6 +44,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      appBar: CustomAppBar(trailingWidget: SizedBox(),appBarTitle: 'Profile',),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: BlocBuilder<TaskerCubit, TaskerState>(
@@ -201,30 +201,30 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    kHeight50,
-                    CustomHeader(
-                      leadingWidget: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        ),
-                      ),
-                      trailingWidget: IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            SearchPage.routeName,
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                        ),
-                      ),
-                      child: const Text('Profile'),
-                    ),
-                    const CustomHorizontalDivider(),
+                    // kHeight50,
+                    // CustomHeader(
+                    //   leadingWidget: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.arrow_back,
+                    //     ),
+                    //   ),
+                    //   trailingWidget: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.pushNamed(
+                    //         context,
+                    //         SearchPage.routeName,
+                    //       );
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.search,
+                    //     ),
+                    //   ),
+                    //   child: const Text('Profile'),
+                    // ),
+                    // const CustomHorizontalDivider(),
                     displayTaskerHeader(),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (context, userState) {
@@ -379,9 +379,9 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                         children: [
                           TaskerAboutSection(
                             bio: state.singleTasker.bio,
-                            contact:
-                                state.singleTasker.user!.phone?.toString() ??
-                                    state.singleTasker.user!.email!,
+                            // contact:
+                            //     state.singleTasker.user!.phone?.toString() ??
+                            //         state.singleTasker.user!.email!,
                             activeHourStart:
                                 state.singleTasker.activeHourStart ?? '',
                             activeHourEnd:

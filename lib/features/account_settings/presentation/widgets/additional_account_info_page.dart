@@ -12,7 +12,7 @@ class AdditionalAccountInfoPage extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Account"),
+      appBar: CustomAppBar(appBarTitle: "Account",trailingWidget: SizedBox()),
       body: Column(
         children: [
           AccountListTileSection(

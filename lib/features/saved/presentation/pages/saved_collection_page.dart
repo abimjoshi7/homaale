@@ -26,7 +26,7 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: heading ?? '',
+        appBarTitle: heading ?? '',trailingWidget: SizedBox()
       ),
       body: GridView.count(
         shrinkWrap: true,
