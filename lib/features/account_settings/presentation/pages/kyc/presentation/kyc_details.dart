@@ -37,8 +37,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   File? file;
   final _key = GlobalKey<FormState>();
   void setInitialValues(KycState state) {
-    if (state.isNewDoc == true) {}
-    if (state.list?.length != 0 && state.isNewDoc == false) {
+    if ((state.list?.length != 0 && state.list != null) &&
+        state.isNewDoc == false) {
       setState(() {
         identityTypeController.setText(state.list!
             .where((e) => e.id == state.kycId)
@@ -81,7 +81,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
     identityTypeController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
-    // file?.delete();
+    file?.delete();
     super.dispose();
   }
 
@@ -215,8 +215,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                             issuedDate!,
                                           )
                                         : "yyyy-mm-dd",
-
-
                                     leadingWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
@@ -503,7 +501,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         isRequired: true,
         child: CustomDropDownField<String>(
           list: state.docTypeList?.map((e) => e.name!).toList() ?? [],
-          selectedIndex: state.list?.length != 0 && state.isNewDoc == false
+          selectedIndex: (state.list?.length != 0 && state.list != null) &&
+                  state.isNewDoc == false
               ? state.docTypeList!.indexWhere(
                   (e) => e.name!.contains(
                     state.list!
