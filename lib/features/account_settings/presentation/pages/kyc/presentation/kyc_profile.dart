@@ -131,6 +131,7 @@ class _KycProfileState extends State<KycProfile> {
         return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: CustomAppBar(
+            trailingWidget: SizedBox.shrink(),
             appBarTitle:
                 state.kycModel != null ? 'Edit KYC Details' : 'KYC Details',
           ),

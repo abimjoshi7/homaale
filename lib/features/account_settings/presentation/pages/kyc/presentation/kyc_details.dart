@@ -163,7 +163,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
           resizeToAvoidBottomInset: false,
           appBar: CustomAppBar(
             trailingWidget: SizedBox.shrink(),
-            appBarTitle: state.list?.length != 0 && state.isNewDoc == false
+            appBarTitle: (state.list?.length != 0 && state.list != null) &&
+                    state.isNewDoc == false
                 ? "Edit KYC Details"
                 : "Add KYC Details",
           ),
@@ -252,11 +253,11 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                   isRequired: hasDocExpiryDate,
                                   child: CustomTextFormField(
                                     readOnly: true,
-                                    validator: (p0) =>
-                                        (hasDocExpiryDate == true &&
-                                                expiryDate == null)
+                                    validator: hasDocExpiryDate
+                                        ? (p0) => (expiryDate == null)
                                             ? "Required Field"
-                                            : null,
+                                            : null
+                                        : null,
                                     hintText: expiryDate != null
                                         ? DateFormat("yyyy-MM-dd").format(
                                             expiryDate!,
@@ -386,7 +387,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                 child: CustomElevatedButton(
                                   callback: () async {
                                     fieldValidations(state);
-                                    if (state.list?.length != 0 &&
+                                    if ((state.list?.length != 0 &&
+                                            state.list != null) &&
                                         state.isNewDoc == false) {
                                       Map<String, dynamic> editReq = {
                                         "document_id":
@@ -427,7 +429,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                       }
                                     }
 
-                                    if (state.list?.length == 0 ||
+                                    if ((state.list?.length == 0 ||
+                                            state.list == null) ||
                                         state.isNewDoc == true) {
                                       if (_key.currentState!.validate()) {
                                         // _key.currentState!.save();
