@@ -327,7 +327,9 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       ],
                     ),
                   ),
-                  CustomMultimedia(),
+                  CustomMultimedia(
+                    bloc: uploadBloc,
+                  ),
                   // CustomFormField(
                   //   label: 'Images',
                   //   child: Column(

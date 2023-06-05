@@ -1,5 +1,6 @@
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   final endPriceController = TextEditingController();
   final addressController = TextEditingController();
   String? priceType = 'Fixed';
-  String? taskType = 'Remote';
+  String? taskType = 'On premise';
   String? budgetType = 'Project';
   String? currencyCode;
   DateTime? startTime;
@@ -52,11 +53,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   int? budgetTo;
   int? budgetFrom;
   final _key = GlobalKey<FormState>();
-  late final UploadBloc uploadBloc;
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
-    uploadBloc = context.read<UploadBloc>();
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
@@ -76,7 +76,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
     requirementController.dispose();
     addressController.dispose();
     super.dispose();
-    uploadBloc.close();
   }
 
   @override
@@ -150,7 +149,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           //     const Text('Yes, it is negotiable.'),
                           //   ],
                           // ),
-                          CustomMultimedia(),
+                          CustomMultimedia(
+                            bloc: uploadBloc,
+                          ),
                           _buildTermsConditions(context),
                           _buildButton(),
                         ],
@@ -296,19 +297,15 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
-                      images:
-                          context.read<UploadBloc>().state.uploadedImageList,
-                      videos:
-                          context.read<UploadBloc>().state.uploadedVideoList,
+                      images: uploadBloc.state.uploadedImageList,
+                      videos: uploadBloc.state.uploadedVideoList,
                     );
 
-                    print(req);
-
-                    // context.read<TaskEntityServiceBloc>().add(
-                    //       TaskEntityServiceCreated(
-                    //         req: req,
-                    //       ),
-                    //     );
+                    context.read<TaskEntityServiceBloc>().add(
+                          TaskEntityServiceCreated(
+                            req: req,
+                          ),
+                        );
                   }
                 } else {
                   showDialog(

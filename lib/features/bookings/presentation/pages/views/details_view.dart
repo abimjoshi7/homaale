@@ -233,7 +233,9 @@ class _DetailsViewState extends State<DetailsView> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: CustomMultimedia(),
+            child: CustomMultimedia(
+              bloc: uploadBloc,
+            ),
           ),
         )
       ],

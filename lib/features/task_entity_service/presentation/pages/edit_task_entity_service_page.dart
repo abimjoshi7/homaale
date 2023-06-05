@@ -97,7 +97,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                   _buildCity(),
                   _buildDescription(),
                   _buildCurrency(),
-                  CustomMultimedia(),
+                  CustomMultimedia(
+                    bloc: uploadBloc,
+                  ),
                   _buildTerms(context),
                   _buildButton(),
                 ],
@@ -159,19 +161,18 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                 //     ),
                 //   );
                 // }
-                await context.read<UploadBloc>()
+                await uploadBloc
                   ..add(
                     ImageToFilestoreUploaded(
-                      list: context.read<UploadBloc>().state.imageFileList,
+                      list: uploadBloc.state.imageFileList,
                     ),
                   )
                   ..add(
                     VideoToFilestoreUploaded(
-                      list: context.read<UploadBloc>().state.videoFileList,
+                      list: uploadBloc.state.videoFileList,
                     ),
                   );
-                if (context.read<UploadBloc>().state.theStates !=
-                    TheStates.loading) {
+                if (uploadBloc.state.theStates != TheStates.loading) {
                   final req = TaskEntityServiceReq(
                     title: titleController.text,
                     description: descriptionController.text,
@@ -209,12 +210,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
-                    images:
-                        context.read<UploadBloc>().state.uploadedImageList ??
-                            [],
-                    videos:
-                        context.read<UploadBloc>().state.uploadedVideoList ??
-                            [],
+                    images: uploadBloc.state.uploadedImageList,
+                    videos: uploadBloc.state.uploadedVideoList,
                   );
 
                   context.read<TaskEntityServiceBloc>().add(

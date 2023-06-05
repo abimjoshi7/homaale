@@ -36,14 +36,13 @@ class _EditProfileSectionState extends State<EditProfileSection> {
   final _key = GlobalKey<FormState>();
   bool isCamera = false;
   late UserBloc userBloc;
-  late UploadBloc uploadBloc;
+  final uploadBloc = locator<UploadBloc>();
   late String? _gender;
 
   @override
   void initState() {
     super.initState();
     userBloc = context.read<UserBloc>();
-    uploadBloc = locator<UploadBloc>();
     switch (userBloc.state.taskerProfile?.gender?.toLowerCase()) {
       case "male":
         _gender = "Male";
@@ -148,7 +147,9 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 onTap: () {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => ImagePickerDialog(),
+                                    builder: (context) => ImagePickerDialog(
+                                      bloc: uploadBloc,
+                                    ),
                                   );
                                 },
                                 child: CircleAvatar(

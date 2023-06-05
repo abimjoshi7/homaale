@@ -88,7 +88,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => ImagePickerDialog(),
+                      builder: (context) => ImagePickerDialog(
+                        bloc: uploadBloc,
+                      ),
                     );
                   },
                   child: Column(
@@ -954,23 +956,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "following_count": 0,
                               "language": languageController.text,
                             };
-                            if ((context
-                                        .read<UploadBloc>()
-                                        .state
-                                        .imageFileList !=
-                                    null) &&
-                                (context
-                                        .read<UploadBloc>()
-                                        .state
-                                        .imageFileList
-                                        .isNotEmpty ??
+                            if ((uploadBloc.state.imageFileList != null) &&
+                                (uploadBloc.state.imageFileList.isNotEmpty ??
                                     false))
                               q.addAll({
                                 "profile_image": await MultipartFile.fromFile(
-                                  context
-                                      .read<UploadBloc>()
-                                      .state
-                                      .imageFileList.last,
+                                  uploadBloc.state.imageFileList.last,
                                 ),
                               });
                             if (!mounted) return;

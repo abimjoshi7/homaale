@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -55,11 +56,10 @@ class _PostServicePageState extends State<PostServicePage> {
   int? budgetTo;
   int? budgetFrom;
   final _key = GlobalKey<FormState>();
-  late final UploadBloc uploadBloc;
+  final UploadBloc uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
-    uploadBloc = context.read<UploadBloc>();
     context.read<CategoriesBloc>().add(
           CategoriesLoadInitiated(),
         );
@@ -144,7 +144,9 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildDescription(),
                           _buildCurrency(),
                           _buildDialog(),
-                          CustomMultimedia(),
+                          CustomMultimedia(
+                            bloc: uploadBloc,
+                          ),
                           _buildTerms(context),
                           _buildButton(),
                         ],
@@ -241,8 +243,8 @@ class _PostServicePageState extends State<PostServicePage> {
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
-                    images: context.read<UploadBloc>().state.uploadedImageList,
-                    videos: context.read<UploadBloc>().state.uploadedVideoList,
+                    images: uploadBloc.state.uploadedImageList,
+                    videos: uploadBloc.state.uploadedVideoList,
                   );
 
                   context.read<TaskEntityServiceBloc>().add(
