@@ -19,8 +19,8 @@ class PostSupportTicketBloc
         await repositories.PostSupportTicketReport(
           event.model ?? "user",
           event.description,
-          event.objectId,
           event.reason,
+          event.objectId,
           event.typeSlug,
         ).then(
           (value) => emit(
@@ -43,7 +43,7 @@ class PostSupportTicketBloc
         );
         await repositories.PostSupportTicketReportWithOutModel(
           event.description,
-          event.reason,
+          event.reason ?? '',
           event.typeSlug,
         ).then(
           (value) => emit(
