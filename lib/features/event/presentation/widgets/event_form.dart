@@ -199,7 +199,8 @@ class _EventFormState extends State<EventForm> {
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Error',
-                        content: "Event cannot be created.",
+                        content:
+                            eventState.errMsg ?? "Event cannot be created.",
                         onTap: () => Navigator.pop(context),
                         isSuccess: false,
                       ),

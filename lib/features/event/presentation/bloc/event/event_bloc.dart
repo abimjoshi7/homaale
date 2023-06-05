@@ -1,3 +1,5 @@
+import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/event/data/models/event.dart';
 import 'package:cipher/features/event/data/models/event_availability.dart';
@@ -75,10 +77,12 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                 ),
               );
         } catch (e) {
+          final err = await CacheHelper.getCachedString(kErrorLog);
           emit(
             state.copyWith(
               theStates: TheStates.failure,
               isCreated: false,
+              errMsg: err,
             ),
           );
         }
@@ -127,9 +131,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
               isDeleted: false,
             ),
           );
-          await repo
-              .deleteEvent(event.id)
-              .then(
+          await repo.deleteEvent(event.id).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
@@ -138,8 +140,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                     createdEventRes: CreateEventRes(),
                   ),
                 ),
-              )
-              ;
+              );
         } catch (e) {
           emit(
             state.copyWith(
