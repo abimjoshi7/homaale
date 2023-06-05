@@ -18,7 +18,7 @@ class TaxCalculator extends StatelessWidget {
         TaxRepositories(),
       ),
       child: Scaffold(
-        appBar: CustomAppBar(appBarTitle: 'Tax Calculator',),
+        appBar: CustomAppBar(appBarTitle: 'Tax Calculator',trailingWidget: SizedBox()),
 
         body: BlocConsumer<TaxCalculatorCubit, TaxCalculatorState>(
           listener: (context, state) {

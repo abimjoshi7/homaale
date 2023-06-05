@@ -43,7 +43,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Report',
+        appBarTitle: 'Report',trailingWidget: SizedBox()
       ),
       body: BlocBuilder<SupportTicketTypeOptionsBloc,
           SupportTicketTypeOptionsState>(builder: (context, state) {
@@ -76,6 +76,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
                             list: List.generate(
                               state.list.length,
                               (index) {
+                                print(' name: ${ state.list[index].name}');
                                 return state.list[index].name;
                               },
                             ),
@@ -141,14 +142,6 @@ class _CommonReportPageState extends State<CommonReportPage> {
                       ],
                     ),
                   addVerticalSpace(20),
-                  CustomElevatedButton(
-                    mainColor: Colors.white,
-                    borderColor: Theme.of(context).primaryColor,
-                    callback: () => Navigator.of(context).pop(),
-                    label: 'Cancel',
-                    textColor: Theme.of(context).primaryColor,
-                  ),
-                  addVerticalSpace(20),
                   BlocBuilder<PostSupportTicketBloc, PostSupportTicketState>(
                       builder: (context, stateP) {
                     return CustomElevatedButton(
@@ -189,6 +182,14 @@ class _CommonReportPageState extends State<CommonReportPage> {
                       label: 'Submit',
                     );
                   }),
+                  addVerticalSpace(20),
+                  CustomElevatedButton(
+                    mainColor: Colors.white,
+                    borderColor: Theme.of(context).primaryColor,
+                    callback: () => Navigator.of(context).pop(),
+                    label: 'Cancel',
+                    textColor: Theme.of(context).primaryColor,
+                  ),
                 ],
               ),
             ),

@@ -24,12 +24,12 @@ class PostSupportTicketLoad extends PostSupportTicketEvent {
 
 class PostSupportTicketLoadWithOutModel extends PostSupportTicketEvent {
   final String description;
-  final String reason;
+  final String? reason;
   final String typeSlug;
 
   const PostSupportTicketLoadWithOutModel({
     required this.description,
-    required this.reason,
+     this.reason,
     required this.typeSlug,
   });
   @override

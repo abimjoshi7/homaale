@@ -27,7 +27,7 @@ class _PaymentPageState extends State<PaymentPage> {
     final orderID = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Select Payment Method',
+        appBarTitle: 'Select Payment Method',trailingWidget: SizedBox()
       ),
       body: BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
         builder: (context, state) {

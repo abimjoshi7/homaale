@@ -17,9 +17,7 @@ import 'package:flutter/material.dart';
 
 void initialFetch(BuildContext context) {
   context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
-  context
-      .read<TaskEntityServiceBloc>()
-      .add(TaskEntityServiceInitiated(isTask: false));
+  context.read<TaskEntityServiceBloc>().add(TaskEntityServiceInitiated(isTask: false, newFetch: true));
   context.read<TaskBloc>().add(AllTaskLoadInitiated(page: 1));
   context.read<TaskerCubit>().loadTaskerList();
 }
@@ -35,8 +33,9 @@ void userDetailsFetch(BuildContext context) {
   context.read<TaskerEducationCubit>().getTaskerEducation();
   context.read<TaskerCertificationCubit>().getTaskerCertification();
   context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
-  context.read<UserSuspendBloc>().add(UserSuspendLoaded(
-      userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}'));
+  context
+      .read<UserSuspendBloc>()
+      .add(UserSuspendLoaded(userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}'));
   context.read<BillsPaymentBloc>().add(InitializeState());
   context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
 }

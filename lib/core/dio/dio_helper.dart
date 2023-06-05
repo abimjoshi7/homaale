@@ -6,6 +6,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/navigation_constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -95,6 +96,32 @@ class DioHelper {
                     passswordErrors.toString(),
                   ),
                 );
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('budget_type')) {
+              final budgetTypeErrors = responseData['budget_type'];
+              if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
+                final errorMessage = budgetTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Budget type: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Budget type: ${budgetTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               }

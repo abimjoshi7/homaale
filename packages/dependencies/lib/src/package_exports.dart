@@ -36,8 +36,7 @@ export 'package:telephony/telephony.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:card_loading/card_loading.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    hide AndroidOptions, KeyUsage, ASN1Object;
+export 'package:flutter_inappwebview/flutter_inappwebview.dart' hide AndroidOptions, KeyUsage, ASN1Object;
 export 'package:dropdown_search/dropdown_search.dart';
 export 'package:cloud_firestore/cloud_firestore.dart' hide Filter;
 export 'package:tuple/tuple.dart';
@@ -45,4 +44,6 @@ export 'package:showcaseview/showcaseview.dart';
 export 'package:wechat_camera_picker/wechat_camera_picker.dart' hide LatLng;
 export 'package:wechat_assets_picker/wechat_assets_picker.dart' hide LatLng;
 export 'package:decimal/decimal.dart';
-export  'package:internet_connection_checker/internet_connection_checker.dart';
+export 'package:internet_connection_checker/internet_connection_checker.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:fluttertoast/fluttertoast.dart';

@@ -59,7 +59,7 @@ class _OffersPageMainViewState extends State<OffersPageMainView>
             ),
           );
         return Scaffold(
-          appBar: CustomAppBar(appBarTitle: "Offers"),
+          appBar: CustomAppBar(appBarTitle: "Offers",trailingWidget: SizedBox()),
           body: Column(
             children: [
               Expanded(

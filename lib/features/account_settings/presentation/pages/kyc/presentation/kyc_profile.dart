@@ -134,6 +134,7 @@ class _KycProfileState extends State<KycProfile> {
             trailingWidget: SizedBox.shrink(),
             appBarTitle:
                 state.kycModel != null ? 'Edit KYC Details' : 'KYC Details',
+              trailingWidget: SizedBox()
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),

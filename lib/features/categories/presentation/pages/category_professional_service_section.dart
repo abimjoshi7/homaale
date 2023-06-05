@@ -42,7 +42,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
             appBar: CustomAppBar(
               appBarTitle:
                   state.taskEntityServiceModel.result?.first.service?.title ??
-                      "Sub-Service",
+                      "Sub-Service",trailingWidget: SizedBox()
             ),
             body: Column(
               children: [

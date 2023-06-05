@@ -130,7 +130,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
 
             return Scaffold(
               appBar: CustomAppBar(
-                appBarTitle: state.taskModel?.service?.category?.name ?? '',
+                appBarTitle: state.taskModel?.service?.category?.name ?? '',trailingWidget: SizedBox()
               ),
               body: Column(
                 children: <Widget>[
@@ -356,14 +356,9 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                               CommonReportPage
                                                                   .routeName,
                                                               arguments: {
-                                                                'isType':
-                                                                    'isService',
-                                                                'model':
-                                                                    'entityservice',
-                                                                'objectId': state
-                                                                        .taskModel
-                                                                        ?.id ??
-                                                                    "",
+                                                                'isType': 'isService',
+                                                                'model': 'entityservice',
+                                                                'objectId': state.taskModel?.createdBy?.id ?? "",
                                                               });
                                                         },
                                                         leading:

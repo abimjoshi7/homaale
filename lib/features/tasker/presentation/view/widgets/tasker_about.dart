@@ -12,7 +12,7 @@ class TaskerAboutSection extends StatefulWidget {
   const TaskerAboutSection({
     super.key,
     this.bio,
-    this.contact,
+    // this.contact,
     this.activeHourStart,
     this.activeHourEnd,
     this.skills,
@@ -23,7 +23,7 @@ class TaskerAboutSection extends StatefulWidget {
   });
 
   final String? bio;
-  final String? contact;
+  // final String? contact;
   final String? activeHourStart;
   final String? activeHourEnd;
   final String? skills;
@@ -47,7 +47,7 @@ class _TaskerAboutSectionState extends State<TaskerAboutSection> {
           children: [
             TaskerDescriptionSection(
               bio: widget.bio,
-              contact: widget.contact,
+              // contact: widget.contact,
               activeHourStart: widget.activeHourStart,
               activeHourEnd: widget.activeHourEnd,
               skills: widget.skills,

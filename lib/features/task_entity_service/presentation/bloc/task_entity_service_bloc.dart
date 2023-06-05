@@ -24,8 +24,7 @@ const kThrottleDuration = Duration(
   milliseconds: 100,
 );
 
-class TaskEntityServiceBloc
-    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
@@ -133,7 +132,9 @@ class TaskEntityServiceBloc
               } else {
                 emit(
                   state.copyWith(
-                      theStates: TheStates.success, taskEntityService: value),
+                    theStates: TheStates.success,
+                    taskEntityService: value,
+                  ),
                 );
               }
             },
@@ -215,21 +216,24 @@ class TaskEntityServiceBloc
 
     on<TaskEntityServiceEdited>((event, emit) async {
       try {
+        emit(state.copyWith(theStates: TheStates.loading));
         await repo
             .editTaskEntityService(
               event.id ?? "",
               event.taskEntityServiceReq ?? TaskEntityServiceReq(),
             )
-            .whenComplete(
-              () => emit(
+            .then(
+              (value) => emit(
                 state.copyWith(
-                  isEdited: true,
+                  theStates: TheStates.success,
+                  isEdited: value,
                 ),
               ),
             );
       } catch (e) {
         emit(
           state.copyWith(
+            theStates: TheStates.failure,
             isEdited: false,
           ),
         );
@@ -351,9 +355,8 @@ class TaskEntityServiceBloc
                 (value) => emit(
                   state.copyWith(
                     serviceLoaded: true,
-                    serviceList:
-                        value.map((e) => ServiceList.fromJson(e)).toList()
-                          ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );

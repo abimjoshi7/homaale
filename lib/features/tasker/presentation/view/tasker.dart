@@ -5,7 +5,6 @@ import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/profile/presentation/widgets/profile_kyc_verification_section.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
-import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
@@ -30,8 +29,7 @@ class TaskerProfileView extends StatefulWidget {
   State<TaskerProfileView> createState() => TaskerProfileViewState();
 }
 
-class TaskerProfileViewState extends State<TaskerProfileView>
-    with SingleTickerProviderStateMixin {
+class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
 
@@ -45,6 +43,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      appBar: CustomAppBar(trailingWidget: SizedBox(),appBarTitle: 'Profile',),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: BlocBuilder<TaskerCubit, TaskerState>(
@@ -100,14 +99,10 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                       children: [
                                         Text(
                                           '${state.singleTasker.user!.firstName!} ${state.singleTasker.user!.lastName!}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium,
+                                          style: Theme.of(context).textTheme.titleMedium,
                                         ),
                                         kWidth5,
-                                        if (state.singleTasker
-                                                .isProfileVerified! ==
-                                            true)
+                                        if (state.singleTasker.isProfileVerified! == true)
                                           const Icon(
                                             Icons.verified,
                                             color: Colors.lightBlue,
@@ -115,11 +110,8 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                       ],
                                     ),
                                     Text(
-                                      state.singleTasker.designation
-                                              ?.toString() ??
-                                          'Homaale User',
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      state.singleTasker.designation?.toString() ?? 'Homaale User',
+                                      style: Theme.of(context).textTheme.bodySmall,
                                     ),
                                     displayRating(),
                                   ],
@@ -140,17 +132,11 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                             await notLoggedInPopUp(context);
                                           }
                                           if (CacheHelper.isLoggedIn == true) {
-                                            final box =
-                                                context.findRenderObject()
-                                                    as RenderBox?;
+                                            final box = context.findRenderObject() as RenderBox?;
                                             Share.share(
                                               "https://sandbox.homaale.com/bookings/${state.singleTasker.id}",
-                                              subject:
-                                                  state.singleTasker.fullName,
-                                              sharePositionOrigin: box!
-                                                      .localToGlobal(
-                                                          Offset.zero) &
-                                                  box.size,
+                                              subject: state.singleTasker.fullName,
+                                              sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                             );
                                           }
                                         },
@@ -162,19 +148,15 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                       ListTile(
                                         onTap: () {
                                           context
-                                              .read<
-                                                  SupportTicketTypeOptionsBloc>()
-                                              .add(
-                                                  SupportTicketTypeOptionsLoaded(
-                                                      target: 'user'));
+                                              .read<SupportTicketTypeOptionsBloc>()
+                                              .add(SupportTicketTypeOptionsLoaded(target: 'user'));
                                           Navigator.pushNamed(
                                             context,
                                             CommonReportPage.routeName,
                                             arguments: {
                                               'isType': 'isReportUser',
                                               'model': 'user',
-                                              'objectId':
-                                                  state.singleTasker.user!.id,
+                                              'objectId': state.singleTasker.user!.id,
                                             },
                                           );
                                         },
@@ -201,44 +183,41 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    kHeight50,
-                    CustomHeader(
-                      leadingWidget: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        ),
-                      ),
-                      trailingWidget: IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            SearchPage.routeName,
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                        ),
-                      ),
-                      child: const Text('Profile'),
-                    ),
-                    const CustomHorizontalDivider(),
+                    // kHeight50,
+                    // CustomHeader(
+                    //   leadingWidget: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.arrow_back,
+                    //     ),
+                    //   ),
+                    //   trailingWidget: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.pushNamed(
+                    //         context,
+                    //         SearchPage.routeName,
+                    //       );
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.search,
+                    //     ),
+                    //   ),
+                    //   child: const Text('Profile'),
+                    // ),
+                    // const CustomHorizontalDivider(),
                     displayTaskerHeader(),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (context, userState) {
-                        if (userState.taskerProfile?.user?.id ==
-                            state.singleTasker.user?.id) {
+                        if (userState.taskerProfile?.user?.id == state.singleTasker.user?.id) {
                           return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomElevatedButton(
-                                  theWidth:
-                                      MediaQuery.of(context).size.width * 0.45,
+                                  theWidth: MediaQuery.of(context).size.width * 0.45,
                                   theHeight: 40,
                                   borderRadius: 10,
                                   label: 'Edit Profile',
@@ -250,64 +229,38 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                                   },
                                 ),
                                 BuildLabelCount(
-                                    count: userState
-                                            .taskerProfile?.followersCount
-                                            ?.toString() ??
-                                        '0',
+                                    count: userState.taskerProfile?.followersCount?.toString() ?? '0',
                                     label: 'Followers'),
                                 BuildLabelCount(
-                                    count: userState
-                                            .taskerProfile?.followingCount
-                                            ?.toString() ??
-                                        '0',
+                                    count: userState.taskerProfile?.followingCount?.toString() ?? '0',
                                     label: 'Followings'),
                               ],
                             ),
                           );
                         } else {
                           return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Center(
                               child: CustomElevatedButton(
-                                theWidth:
-                                    MediaQuery.of(context).size.width * 0.8,
+                                theWidth: MediaQuery.of(context).size.width * 0.8,
                                 theHeight: 40,
                                 borderRadius: 30,
-                                textColor:
-                                    state.singleTasker.isFollowed ?? false
-                                        ? kColorPrimary
-                                        : Colors.white,
-                                borderColor:
-                                    state.singleTasker.isFollowed ?? false
-                                        ? kColorPrimary
-                                        : Colors.white,
-                                mainColor:
-                                    state.singleTasker.isFollowed ?? false
-                                        ? Colors.white
-                                        : kColorPrimary,
-                                label: state.singleTasker.isFollowed ?? false
-                                    ? 'Following'
-                                    : 'Follow',
+                                textColor: state.singleTasker.isFollowed ?? false ? kColorPrimary : Colors.white,
+                                borderColor: state.singleTasker.isFollowed ?? false ? kColorPrimary : Colors.white,
+                                mainColor: state.singleTasker.isFollowed ?? false ? Colors.white : kColorPrimary,
+                                label: state.singleTasker.isFollowed ?? false ? 'Following' : 'Follow',
                                 callback: () {
                                   if (CacheHelper.isLoggedIn == false) {
                                     notLoggedInPopUp(context);
                                   } else {
-                                    if (state.singleTasker.isFollowed ??
-                                        false) {
+                                    if (state.singleTasker.isFollowed ?? false) {
                                       context
                                           .read<TaskerCubit>()
-                                          .handleFollowUnFollow(
-                                              id: state.singleTasker.user?.id ??
-                                                  '',
-                                              follow: false);
+                                          .handleFollowUnFollow(id: state.singleTasker.user?.id ?? '', follow: false);
                                     } else {
                                       context
                                           .read<TaskerCubit>()
-                                          .handleFollowUnFollow(
-                                              id: state.singleTasker.user?.id ??
-                                                  '',
-                                              follow: true);
+                                          .handleFollowUnFollow(id: state.singleTasker.user?.id ?? '', follow: true);
                                     }
                                   }
                                 },
@@ -325,20 +278,17 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           BuildLabelCount(
-                            count: state.singleTasker.stats!.successRate!
-                                .toStringAsFixed(0),
+                            count: state.singleTasker.stats!.successRate!.toStringAsFixed(0),
                             textColor: kColorBlue,
                             label: 'Success Rate',
                           ),
                           BuildLabelCount(
-                            count: state.singleTasker.stats!.happyClients!
-                                .toStringAsFixed(0),
+                            count: state.singleTasker.stats!.happyClients!.toStringAsFixed(0),
                             textColor: kColorAmber,
                             label: 'Happy Clients',
                           ),
                           BuildLabelCount(
-                            count: state.singleTasker.stats!.taskCompleted!
-                                .toStringAsFixed(0),
+                            count: state.singleTasker.stats!.taskCompleted!.toStringAsFixed(0),
                             textColor: kColorGreen,
                             label: 'Task Completed',
                           ),
@@ -379,16 +329,15 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                         children: [
                           TaskerAboutSection(
                             bio: state.singleTasker.bio,
-                            contact:
-                                state.singleTasker.user!.phone?.toString() ??
-                                    state.singleTasker.user!.email!,
+                            // contact:
+                            //     state.singleTasker.user!.phone?.toString() ??
+                            //         state.singleTasker.user!.email!,
                             activeHourStart:
                                 state.singleTasker.activeHourStart ?? '',
                             activeHourEnd:
                                 state.singleTasker.activeHourEnd ?? '',
                             skills: state.singleTasker.skill,
-                            location:
-                                "${state.singleTasker.addressLine1}, ${state.singleTasker.country?.name ?? ''}",
+                            location: "${state.singleTasker.addressLine1}, ${state.singleTasker.country?.name ?? ''}",
                             portfolio: state.singleTasker.portfolio ?? [],
                             education: state.singleTasker.education ?? [],
                             experience: state.singleTasker.experience ?? [],
@@ -403,8 +352,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                 );
               case TaskerStatus.failure:
                 return Center(
-                  child:
-                      Text("Couldn't fetch tasker profile. Try again later!"),
+                  child: Text("Couldn't fetch tasker profile. Try again later!"),
                 );
               default:
                 return Center(child: CircularProgressIndicator());

@@ -10,7 +10,7 @@ class FaqPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'FAQs'),
+      appBar: CustomAppBar(appBarTitle: 'FAQs',trailingWidget: SizedBox()),
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.parse("https://sandbox.homaale.com/FAQs?mobile_app=true")),
       ),

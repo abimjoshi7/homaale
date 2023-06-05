@@ -10,7 +10,7 @@ class DataDeletionPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Data Deletion Policy'),
+      appBar: CustomAppBar(appBarTitle: 'Data Deletion Policy',trailingWidget: SizedBox()),
       body: InAppWebView(
         initialUrlRequest: URLRequest(
             url: Uri.parse("https://sandbox.homaale.com/data-deletion-policy?mobile_app=true")),

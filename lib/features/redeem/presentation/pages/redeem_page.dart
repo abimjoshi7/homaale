@@ -37,7 +37,7 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
         context.read<UserBloc>().state.taskerProfile!.remainingPoints!);
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Redeem',
+        appBarTitle: 'Redeem',trailingWidget: SizedBox()
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

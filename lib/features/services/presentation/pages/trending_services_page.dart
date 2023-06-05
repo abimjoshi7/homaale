@@ -1,5 +1,9 @@
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/widgets/loading_widget.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +23,7 @@ class TrendingServicesPage extends StatefulWidget {
   State<TrendingServicesPage> createState() => _TrendingServicesPageState();
 }
 
-class _TrendingServicesPageState extends State<TrendingServicesPage> {
+class _TrendingServicesPageState extends State<TrendingServicesPage> with TheModalBottomSheet {
   String? selectedCategoryId;
   String? selectedLocation;
   DateTime? dateFrom;
@@ -173,6 +177,30 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> {
                           rateTo: double.parse(state.taskEntityServices?[index].payableTo ?? "").toInt().toString(),
                           rateFrom: double.parse(state.taskEntityServices?[index].payableFrom ?? "").toInt().toString(),
                           isRange: state.taskEntityServices?[index].isRange,
+                          isBookmarked: state.taskEntityServices?[index].isBookmarked,
+                          isOwner: state.taskEntityServices?[index].owner?.id ==
+                              context.read<UserBloc>().state.taskerProfile?.user?.id,
+                          editCallback: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => Container(
+                                height: MediaQuery.of(context).size.height * 0.75,
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      EditTaskEntityServiceForm(
+                                        id: state.taskEntityServices?[index].id ?? "",
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         );
                       },
                       itemCount:
