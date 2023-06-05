@@ -194,10 +194,7 @@ class _AddExperienceState extends State<AddExperience> {
                                     });
                                   },
                                   child: CustomFormContainer(
-                                    hintText: issuedDate
-                                            ?.toString()
-                                            .substring(0, 10) ??
-                                        '1998-01-01',
+                                    hintText: issuedDate?.toString().substring(0, 10) ?? '1998-01-01',
                                     leadingWidget: const Icon(
                                       Icons.calendar_month_rounded,
                                       color: kColorPrimary,
@@ -236,10 +233,7 @@ class _AddExperienceState extends State<AddExperience> {
                                       );
                                     },
                                     child: CustomFormContainer(
-                                      hintText: expiryDate
-                                              ?.toString()
-                                              .substring(0, 10) ??
-                                          '1999-01-18',
+                                      hintText: expiryDate?.toString().substring(0, 10) ?? '1999-01-18',
                                       leadingWidget: const Icon(
                                         Icons.calendar_month_rounded,
                                         color: kColorPrimary,
@@ -299,8 +293,7 @@ class _AddExperienceState extends State<AddExperience> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () async {
-                  if (_key.currentState!.validate() &&
-                      issuedDate!.isBefore(expiryDate!)) {
+                  if (_key.currentState!.validate() && issuedDate!.isBefore(expiryDate!)) {
                     _key.currentState!.save();
 
                     await context
@@ -318,9 +311,10 @@ class _AddExperienceState extends State<AddExperience> {
                           ),
                         )
                         .then(
-                          (value) => context.read<UserBloc>().add(
-                                UserLoaded(),
-                              ),
+                          (value) => context.read<UserBloc>().add(UserLoaded()),
+                        )
+                        .then(
+                          (value) => context.read<TaskerExperienceCubit>().getTaskerExperience(),
                         );
                   } else if (expiryDate!.isBefore(issuedDate!)) {
                     ScaffoldMessenger.of(context).showSnackBar(

@@ -102,7 +102,8 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                       onTap: () {
                                         final box = context.findRenderObject() as RenderBox?;
                                         Share.share(
-                                          "Share this Hommale with friends.",
+                                          "https://sandbox.homaale.com/bookings/${booking.entityService?.id}",
+                                          subject: booking.entityService?.title,
                                           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                         );
                                       },

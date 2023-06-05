@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/onboarding/presentation/pages/onboarding.dart';
@@ -15,8 +16,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   Future<void> readOnboardingScreenViewState(NavigatorState navigator) async {
-    final String? onBoardingScreenState =
-        await CacheHelper.getCachedString('onBoardingScreenState');
+    final String? onBoardingScreenState = await CacheHelper.getCachedString('onBoardingScreenState');
 
     if (onBoardingScreenState == null) {
       navigator.pushNamedAndRemoveUntil(
@@ -57,6 +57,7 @@ class _SplashPageState extends State<SplashPage> {
         },
       ),
     );
+    initialFetch(context);
     super.initState();
   }
 
@@ -105,8 +106,7 @@ class _SplashPageState extends State<SplashPage> {
                   );
                 },
                 curve: Curves.bounceIn,
-                onEnd: () =>
-                    readOnboardingScreenViewState(Navigator.of(context)),
+                onEnd: () => readOnboardingScreenViewState(Navigator.of(context)),
               ),
             ),
           ],

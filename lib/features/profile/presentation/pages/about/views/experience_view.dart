@@ -6,9 +6,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class ExperienceView extends StatelessWidget {
-  const ExperienceView({
-    super.key,
-  });
+  const ExperienceView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class ExperienceView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
+                      Text(
                         'Experience',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
@@ -54,7 +52,6 @@ class ExperienceView extends StatelessWidget {
                               children: [
                                 Text(
                                   state.taskerExperienceRes[index].title ?? '',
-                                  // state.taskerExperienceRes.result![index]!.title!,
                                   style: kText17,
                                 ),
                                 Row(
@@ -68,8 +65,7 @@ class ExperienceView extends StatelessWidget {
                                           isScrollControlled: true,
                                           context: context,
                                           builder: (context) => EditExperience(
-                                            id: state
-                                                .taskerExperienceRes[index].id!,
+                                            id: state.taskerExperienceRes[index].id!,
                                           ),
                                         );
                                       },
@@ -80,11 +76,8 @@ class ExperienceView extends StatelessWidget {
                                     ),
                                     IconButton(
                                       onPressed: () async {
-                                        await context
-                                            .read<TaskerExperienceCubit>()
-                                            .deleteTaskerExperience(
-                                              state.taskerExperienceRes[index]
-                                                  .id!,
+                                        await context.read<TaskerExperienceCubit>().deleteTaskerExperience(
+                                              state.taskerExperienceRes[index].id!,
                                             );
                                       },
                                       icon: const Icon(
@@ -101,12 +94,10 @@ class ExperienceView extends StatelessWidget {
                               style: kHelper13,
                             ),
                             Text(
-                              state.taskerExperienceRes[index].description ??
-                                  '',
+                              state.taskerExperienceRes[index].description ?? '',
                               style: kText15,
                             ),
                             Text(
-                              // '${state.taskerExperienceRes.result?[index]?.startDate.toString().substring(0, 10)} - ${state.taskerExperienceRes.result?[index]?.endDate.toString().substring(0, 10)}',
                               '${DateFormat('yyyy-MM-dd').format(
                                 state.taskerExperienceRes[index].startDate ??
                                     DateTime(
@@ -132,31 +123,6 @@ class ExperienceView extends StatelessWidget {
           );
         } else {
           return const SizedBox.shrink();
-          // return Padding(
-          //   padding: const EdgeInsets.all(20),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: const [
-          //       Text(
-          //         'Experience',
-          //         style: kPurpleText19,
-          //       ),
-          //       kHeight10,
-          //       Text('Garden Cleaner'),
-          //       Text(
-          //         'Cagtu. Full-time',
-          //         style: kHelper13,
-          //       ),
-          //       Text(
-          //         'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
-          //       ),
-          //       Text(
-          //         'June 2002-Present',
-          //         style: kHelper13,
-          //       )
-          //     ],
-          //   ),
-          // );
         }
       },
     );

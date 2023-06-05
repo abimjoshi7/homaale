@@ -8,6 +8,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../error_pages/no_internet_page.dart';
 import 'sections/sections.dart';
 
 class SearchPage extends StatelessWidget {
@@ -185,6 +186,18 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                         var tasker = state.result?.tasker;
                         return Column(
                           children: [
+                            /// TODO: Please make condition workable when apply search history and others
+                            if (service?.length == 0 &&
+                                task?.length == 0 &&
+                                tasker?.length == 0)
+                              Center(
+                                  child: CommonErrorContainer(
+                                assetsPath: 'assets/no_data_found.png',
+                                errorTile: 'Search Item not found.',
+                                errorDes:
+                                    'We’re sorry, the data you search could not found. '
+                                    'Please go back.',
+                              )),
                             if (tasker?.isNotEmpty ?? false)
                               TaskerSection(
                                 taskers: tasker,

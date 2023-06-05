@@ -24,9 +24,9 @@ class CertificationView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
+                      Text(
                         'Certification',
-                         style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {
@@ -56,15 +56,12 @@ class CertificationView extends StatelessWidget {
                                   onTap: () {
                                     launchUrl(
                                       Uri.parse(
-                                        state.taskerCertificationRes[index]
-                                                .certificateUrl ??
-                                            'www.google.com',
+                                        state.taskerCertificationRes[index].certificateUrl ?? 'www.google.com',
                                       ),
                                     );
                                   },
                                   child: Text(
-                                    state.taskerCertificationRes[index].name ??
-                                        '',
+                                    state.taskerCertificationRes[index].name ?? '',
                                     style: kText17,
                                   ),
                                 ),
@@ -78,11 +75,8 @@ class CertificationView extends StatelessWidget {
                                           ),
                                           isScrollControlled: true,
                                           context: context,
-                                          builder: (context) =>
-                                              EditCertification(
-                                            id: state
-                                                .taskerCertificationRes[index]
-                                                .id!,
+                                          builder: (context) => EditCertification(
+                                            id: state.taskerCertificationRes[index].id!,
                                           ),
                                         );
                                       },
@@ -93,12 +87,8 @@ class CertificationView extends StatelessWidget {
                                     ),
                                     IconButton(
                                       onPressed: () async {
-                                        await context
-                                            .read<TaskerCertificationCubit>()
-                                            .deleteTaskerCertification(
-                                              state
-                                                  .taskerCertificationRes[index]
-                                                  .id!,
+                                        await context.read<TaskerCertificationCubit>().deleteTaskerCertification(
+                                              state.taskerCertificationRes[index].id!,
                                             );
                                       },
                                       icon: const Icon(
@@ -111,8 +101,7 @@ class CertificationView extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              state.taskerCertificationRes[index].description ??
-                                  '',
+                              state.taskerCertificationRes[index].description ?? '',
                               style: kText15,
                             ),
                             if (state.taskerCertificationRes.isEmpty)
@@ -134,31 +123,6 @@ class CertificationView extends StatelessWidget {
           );
         }
         return const SizedBox.shrink();
-        // return Padding(
-        //   padding: kPadding20,
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: const [
-        //       Text(
-        //         'Certification',
-        //         style: kPurpleText19,
-        //       ),
-        //       kHeight10,
-        //       Text('Garden Cleaner'),
-        //       Text(
-        //         'Cagtu. Full-time',
-        //         style: kHelper13,
-        //       ),
-        //       Text(
-        //         'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
-        //       ),
-        //       Text(
-        //         'June 2002-Present',
-        //         style: kHelper13,
-        //       )
-        //     ],
-        //   ),
-        // );
       },
     );
   }

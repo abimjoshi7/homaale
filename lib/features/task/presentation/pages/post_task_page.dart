@@ -429,33 +429,51 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             children: [
               Visibility(
                 visible: isBudgetVariable,
-                child: Expanded(
-                  flex: 2,
-                  child: NumberIncDecField(
-                    controller: startPriceController,
-                    onChanged: (value) => setState(
-                      () {
-                        if (startPriceController.text.isNotEmpty)
-                          budgetFrom = getRecievableAmount(
-                            double.parse(startPriceController.text),
-                            double.parse(context
-                                    .read<CategoriesBloc>()
-                                    .state
-                                    .commission ??
-                                "0.0"),
-                          );
-                      },
-                    ),
+                child: Flexible(
+                  child: Row(
+                    children: [
+                      NumberIncDecField(
+                        controller: startPriceController,
+                        validator: (p0) {
+                          if (isBudgetVariable) {
+                            return p0 == null || p0.isEmpty
+                                ? "Required Field"
+                                : null;
+                          }
+                          return null;
+                        },
+                        onChanged: (value) => setState(
+                          () {
+                            if (startPriceController.text.isNotEmpty)
+                              budgetFrom = getRecievableAmount(
+                                double.parse(startPriceController.text),
+                                double.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0.0"),
+                              );
+                          },
+                        ),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                          ),
+                          child: const Text(
+                            "-",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Visibility(
-                visible: isBudgetVariable,
-                child: const Text(' To '),
-              ),
-              Expanded(
-                flex: 2,
+              Flexible(
                 child: NumberIncDecField(
+                  validator: (p0) =>
+                      p0 == null || p0.isEmpty ? "Required" : null,
                   controller: endPriceController,
                   onChanged: (value) => setState(
                     () {
@@ -539,11 +557,13 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
       child: Column(
         children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
                 child: CustomFormField(
                   label: 'Start Date',
-                  child: InkWell(
+                  child: CustomTextFormField(
+                    readOnly: true,
                     onTap: () async {
                       await showDatePicker(
                         context: context,
@@ -560,16 +580,19 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         ),
                       );
                     },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: startDate?.toIso8601String().substring(
-                                0,
-                                10,
-                              ) ??
-                          'dd/mm/yy',
+                    prefixWidget: Icon(
+                      Icons.calendar_today_rounded,
+                      color: Colors.grey.shade800,
                     ),
+                    hintText: startDate?.toIso8601String().substring(
+                              0,
+                              10,
+                            ) ??
+                        'yy/mm/dd',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade900),
                   ),
                 ),
               ),
@@ -578,7 +601,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 child: CustomFormField(
                   label: 'End Date',
                   isRequired: true,
-                  child: InkWell(
+                  child: CustomTextFormField(
+                    readOnly: true,
+                    validator: (value) =>
+                        endDate == null ? "Required Field" : null,
                     onTap: () async {
                       await showDatePicker(
                         context: context,
@@ -595,16 +621,21 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         ),
                       );
                     },
-                    child: CustomFormContainer(
-                      leadingWidget: const Icon(
-                        Icons.calendar_today_rounded,
-                      ),
-                      hintText: endDate?.toIso8601String().substring(
-                                0,
-                                10,
-                              ) ??
-                          'dd/mm/yy',
+                    hintText: endDate?.toIso8601String().substring(
+                              0,
+                              10,
+                            ) ??
+                        'yy/mm/dd',
+                    theHeight: 48.0,
+                    theWidth: double.infinity,
+                    prefixWidget: Icon(
+                      Icons.calendar_today_rounded,
+                      color: Colors.grey.shade800,
                     ),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade900),
                   ),
                 ),
               ),
@@ -860,6 +891,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           CustomTextFormField(
             controller: requirementController,
             hintText: 'Add requirements',
+            validator: (value) => requirementList.length == 0
+                ? "Atleast 1 Requirement Required"
+                : null,
             suffixWidget: IconButton(
               icon: Icon(
                 Icons.add_box_outlined,
@@ -908,6 +942,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 if (state.serviceList?.isNotEmpty ?? false)
                   CustomFormField(
                     label: "Service",
+                    isRequired: true,
                     child: CustomDropdownSearch(
                       list: List.generate(
                         state.serviceList?.length ?? 0,

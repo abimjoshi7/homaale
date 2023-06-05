@@ -15,7 +15,7 @@ class LegalsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Legals',
+        appBarTitle: 'Legals',trailingWidget: SizedBox()
       ),
       body: Column(
         children: [

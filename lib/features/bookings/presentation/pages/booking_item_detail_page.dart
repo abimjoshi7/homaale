@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/core/mixins/mixins.dart';
@@ -235,7 +234,9 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                   context.findRenderObject()
                                                       as RenderBox?;
                                               Share.share(
-                                                "Share this Hommale with friends.",
+                                                "https://sandbox.homaale.com/bookings/${booking.entityService?.createdBy?.id}",
+                                                subject: booking.entityService
+                                                    ?.createdBy?.fullName,
                                                 sharePositionOrigin: box!
                                                         .localToGlobal(
                                                             Offset.zero) &

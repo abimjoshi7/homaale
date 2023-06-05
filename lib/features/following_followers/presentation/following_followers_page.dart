@@ -34,7 +34,7 @@ class _FollowingFollowersPageState extends State<FollowingFollowersPage> with Ti
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: '',
+        appBarTitle: '',trailingWidget: SizedBox()
       ),
       body: Column(
         children: [

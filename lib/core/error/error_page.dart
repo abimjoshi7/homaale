@@ -10,12 +10,12 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Error Page'),
+      appBar: CustomAppBar(appBarTitle: 'Error Page',trailingWidget: SizedBox()),
       body: Column(
         children: [
           addVerticalSpace(20),
           Image.asset('assets/page_not_found.png'),
-          addVerticalSpace(10),
+          addVerticalSpace(20),
           Text("Oops!", style: Theme.of(context).textTheme.headlineSmall),
           Text("Page not found",
               style: Theme.of(context)

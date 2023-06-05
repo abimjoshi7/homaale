@@ -30,7 +30,7 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Rating & Reviews'),
+      appBar: CustomAppBar(appBarTitle: 'Rating & Reviews',trailingWidget: SizedBox()),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: BlocBuilder<RatingReviewsBloc, RatingReviewState>(

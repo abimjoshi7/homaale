@@ -14,24 +14,19 @@ class EducationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskerEducationCubit, TaskerEducationState>(
       builder: (context, state) {
-        // if (state is TaskerEducationInitial) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(),
-        //   );
-        // }
         if (state is TaskerGetEducationSuccess) {
           return Card(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text(
+                      Text(
                         'Education',
-                         style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       IconButton(
                         onPressed: () {
@@ -72,8 +67,7 @@ class EducationView extends StatelessWidget {
                                           isScrollControlled: true,
                                           context: context,
                                           builder: (context) => EditEducation(
-                                            id: state
-                                                .taskerEducationRes[index].id!,
+                                            id: state.taskerEducationRes[index].id!,
                                           ),
                                         );
                                       },
@@ -84,11 +78,8 @@ class EducationView extends StatelessWidget {
                                     ),
                                     IconButton(
                                       onPressed: () async {
-                                        await context
-                                            .read<TaskerEducationCubit>()
-                                            .deleteTaskerEducation(
-                                              state.taskerEducationRes[index]
-                                                  .id!,
+                                        await context.read<TaskerEducationCubit>().deleteTaskerEducation(
+                                              state.taskerEducationRes[index].id!,
                                             );
                                       },
                                       icon: const Icon(
@@ -120,31 +111,6 @@ class EducationView extends StatelessWidget {
           );
         } else {
           return const SizedBox.shrink();
-          // return Padding(
-          //   padding: kPadding20,
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: const [
-          //       Text(
-          //         'Education',
-          //         style: kPurpleText19,
-          //       ),
-          //       kHeight10,
-          //       Text('Garden Cleaner'),
-          //       Text(
-          //         'Cagtu. Full-time',
-          //         style: kHelper13,
-          //       ),
-          //       Text(
-          //         'I am excited about helping companies with their product development, management and strategy. I specialize in deep tech and hard analytical problems.',
-          //       ),
-          //       Text(
-          //         'June 2002-Present',
-          //         style: kHelper13,
-          //       )
-          //     ],
-          //   ),
-          // );
         }
       },
     );

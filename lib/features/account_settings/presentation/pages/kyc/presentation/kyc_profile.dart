@@ -131,6 +131,7 @@ class _KycProfileState extends State<KycProfile> {
         return Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: CustomAppBar(
+            trailingWidget: SizedBox.shrink(),
             appBarTitle:
                 state.kycModel != null ? 'Edit KYC Details' : 'KYC Details',
           ),
@@ -217,6 +218,7 @@ class _KycProfileState extends State<KycProfile> {
                             label: 'User Type',
                             isRequired: true,
                             child: CustomDropDownField(
+                              validator: validateNotEmpty,
                               initialValue: (state.kycModel != null)
                                   ? state.kycModel!.isCompany ?? true
                                       ? _userType[1]
@@ -263,7 +265,8 @@ class _KycProfileState extends State<KycProfile> {
                                   isRequired: true,
                                   child: CustomTextFormField(
                                     controller: _companyNameController,
-                                    validator: validateNotEmpty,
+                                    validator:
+                                        _isCompany ? validateNotEmpty : null,
                                     hintText: state.kycModel?.organizationName
                                                 ?.length ==
                                             0
@@ -326,15 +329,13 @@ class _KycProfileState extends State<KycProfile> {
                                       }
                                     }
                                     if (state.kycModel != null) return;
-                                    if (selectedImage == null ||
-                                        _countryController.text.isEmpty) {
+                                    if (selectedImage == null) {
                                       await showDialog(
                                         context: context,
                                         builder: (context) => CustomToast(
                                           heading: "Error",
-                                          content: (selectedImage == null)
-                                              ? "Please Upload a Passport Size Photo"
-                                              : "Please Select a Country",
+                                          content:
+                                              "Please Upload a Passport Size Photo",
                                           onTap: () {},
                                           isSuccess: false,
                                         ),
@@ -390,6 +391,8 @@ class _KycProfileState extends State<KycProfile> {
         label: 'Country',
         isRequired: true,
         child: CustomDropDownField<String>(
+            validator: (p0) =>
+                _countryController.text.isEmpty ? "Required Field" : null,
             list: state.country!.map((country) => country.name!).toList(),
             hintText: 'Select Country',
             selectedIndex: (state.kycModel != null)

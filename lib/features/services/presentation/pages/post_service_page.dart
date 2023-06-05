@@ -112,7 +112,7 @@ class _PostServicePageState extends State<PostServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a service"),
+      appBar: CustomAppBar(appBarTitle: "Post a service",trailingWidget: SizedBox()),
       body: Column(
         children: [
           Expanded(
@@ -735,6 +735,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 if (state.serviceList?.isNotEmpty ?? false)
                   CustomFormField(
                     label: "Service",
+                    isRequired: true,
                     child: CustomDropdownSearch(
                       list: List.generate(
                         state.serviceList?.length ?? 0,

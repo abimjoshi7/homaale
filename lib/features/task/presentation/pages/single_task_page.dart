@@ -33,17 +33,12 @@ class SingleTaskPage extends StatefulWidget {
 
 class _SingleTaskPageState extends State<SingleTaskPage>
     with SingleTickerProviderStateMixin {
-  late final UserBloc user;
   int selectedIndex = 0;
   late TabController tabController;
 
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
-    user = context.read<UserBloc>()
-      ..add(
-        UserLoaded(),
-      );
     super.initState();
   }
 
@@ -135,7 +130,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
 
             return Scaffold(
               appBar: CustomAppBar(
-                appBarTitle: state.taskModel?.service?.category?.name ?? '',
+                appBarTitle: state.taskModel?.service?.category?.name ?? '',trailingWidget: SizedBox()
               ),
               body: Column(
                 children: <Widget>[
@@ -321,7 +316,10 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                                   .findRenderObject()
                                                               as RenderBox?;
                                                           Share.share(
-                                                            "Share this Hommale with friends.",
+                                                            "https://sandbox.homaale.com/tasks/${state.taskModel?.id}",
+                                                            subject: state
+                                                                .taskModel
+                                                                ?.title,
                                                             sharePositionOrigin:
                                                                 box!.localToGlobal(
                                                                         Offset
@@ -358,14 +356,9 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                               CommonReportPage
                                                                   .routeName,
                                                               arguments: {
-                                                                'isType':
-                                                                    'isService',
-                                                                'model':
-                                                                    'entityservice',
-                                                                'objectId': state
-                                                                        .taskModel
-                                                                        ?.id ??
-                                                                    "",
+                                                                'isType': 'isService',
+                                                                'model': 'entityservice',
+                                                                'objectId': state.taskModel?.createdBy?.id ?? "",
                                                               });
                                                         },
                                                         leading:
@@ -667,9 +660,15 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     ),
                   ),
                   Visibility(
-                    visible: state.taskModel?.createdBy?.id !=
-                        user.state.taskerProfile?.user?.id,
+                    visible: true,
                     child: PriceBookFooterSection(
+                      isUser: state.taskModel?.createdBy?.id ==
+                          context
+                              .read<UserBloc>()
+                              .state
+                              .taskerProfile
+                              ?.user
+                              ?.id,
                       buttonLabel: getStatus('')["status"] as String,
                       buttonColor: getStatus('')["color"] as Color,
                       // buttonColor: getStatus('')["color"] as Color,

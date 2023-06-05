@@ -193,8 +193,9 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor
-        //Colors.blue.shade50,
+        color:
+        // Theme.of(context).cardColor
+        Colors.blue.shade50,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,25 +207,20 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
             children: [
               SizedBox(
                 width: 220,
-                height: 110,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                  ),
-                  child: CustomFormField(
-                    child: CustomTextFormField(
-                      controller: controller,
-                      textInputType: TextInputType.emailAddress,
-                      hintText: 'Enter Code',
-                      hintStyle: Theme.of(context).textTheme.bodySmall,
-                      validator: validateNotEmpty,
-                    ),
+                height: 100 ,
+                child: CustomFormField(
+                  child: CustomTextFormField(
+                    controller: controller,
+                    textInputType: TextInputType.emailAddress,
+                    hintText: 'Enter Code',
+                    hintStyle: Theme.of(context).textTheme.bodySmall,
+                    validator: validateNotEmpty,
                   ),
                 ),
               ),
               SizedBox(
                 width: 120,
-                height: 50,
+                height: 40,
                 child: CustomElevatedButton(
                   label: labelText ?? "",
                   callback: () {

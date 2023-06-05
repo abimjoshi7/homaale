@@ -179,10 +179,7 @@ class _AddEducationState extends State<AddEducation> {
                                     );
                                   },
                                   child: CustomFormContainer(
-                                    hintText: startDate
-                                            ?.toString()
-                                            .substring(0, 10) ??
-                                        '1999-03-06',
+                                    hintText: startDate?.toString().substring(0, 10) ?? '1999-03-06',
                                     leadingWidget: const Icon(
                                       Icons.calendar_month_rounded,
                                       color: kColorPrimary,
@@ -217,9 +214,7 @@ class _AddEducationState extends State<AddEducation> {
                                     );
                                   },
                                   child: CustomFormContainer(
-                                    hintText:
-                                        endDate?.toString().substring(0, 10) ??
-                                            '1999-06-03',
+                                    hintText: endDate?.toString().substring(0, 10) ?? '1999-06-03',
                                     leadingWidget: const Icon(
                                       Icons.calendar_month_rounded,
                                       color: kColorPrimary,
@@ -242,7 +237,6 @@ class _AddEducationState extends State<AddEducation> {
               final error = await CacheHelper.getCachedString(kErrorLog);
               if (state is TaskerAddEducationSuccess) {
                 if (!mounted) return;
-                // await context.read<UserBloc>().getTaskeruser();
 
                 showDialog(
                   context: context,
@@ -278,8 +272,7 @@ class _AddEducationState extends State<AddEducation> {
             builder: (context, state) {
               return CustomElevatedButton(
                 callback: () {
-                  if (_key123.currentState!.validate() &&
-                      startDate!.isBefore(endDate!)) {
+                  if (_key123.currentState!.validate() && startDate!.isBefore(endDate!)) {
                     _key123.currentState!.save();
                     final taskerEducationReq = TaskerEducationReq(
                       school: schoolController.text,
@@ -290,9 +283,7 @@ class _AddEducationState extends State<AddEducation> {
                       startDate: startDate ?? DateTime.now(),
                       endDate: endDate,
                     );
-                    context
-                        .read<TaskerEducationCubit>()
-                        .addTaskerEducation(taskerEducationReq);
+                    context.read<TaskerEducationCubit>().addTaskerEducation(taskerEducationReq);
                   } else if (endDate!.isBefore(startDate!)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

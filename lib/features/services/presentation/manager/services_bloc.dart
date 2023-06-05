@@ -26,13 +26,12 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
                   state.copyWith(
                     theStates: TheStates.success,
                     isServiceListLoaded: true,
-                    serviceList:
-                        value.map((e) => ServiceList.fromJson(e)).toList()
-                          ..sort(
-                            (a, b) => a.title!.compareTo(
-                              b.title!,
-                            ),
-                          ),
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort(
+                        (a, b) => a.title!.compareTo(
+                          b.title!,
+                        ),
+                      ),
                   ),
                 ),
               );
@@ -55,14 +54,11 @@ class ServicesBloc extends Bloc<ServicesEvent, ServicesState> {
               theStates: TheStates.initial,
             ),
           );
-          await repositories
-              .fetchProfessionalService(pageNumber: event.pageNumber)
-              .then(
+          await repositories.fetchProfessionalService(pageNumber: event.pageNumber).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
-                    professionalServiceModel:
-                        ProfessionalServiceModel.fromJson(value),
+                    professionalServiceModel: ProfessionalServiceModel.fromJson(value),
                   ),
                 ),
               );

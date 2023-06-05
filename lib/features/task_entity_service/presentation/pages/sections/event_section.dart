@@ -12,30 +12,19 @@ import 'package:cipher/widgets/widgets.dart';
 
 class EventSection extends StatelessWidget {
   final TaskEntityService taskEntityService;
-  final UserBloc user;
+
   const EventSection({
     Key? key,
     required this.taskEntityService,
-    required this.user,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<EventBloc, EventState>(
-      listener: (context, state) {
-        // if (state.theStates == TheStates.success &&
-        //     state.event?.id != null &&
-        //     state.isCreated == false) {
-        //   Navigator.pushNamed(
-        //     context,
-        //     EventDetailsPage.routeName,
-        //   );
-        // }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Visibility(
-          visible: taskEntityService.createdBy?.id ==
-              user.state.taskerProfile?.user?.id,
+          visible: taskEntityService.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
           child: CustomFormField(
             label: "Events",
             rightSection: InkWell(

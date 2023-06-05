@@ -25,14 +25,17 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
   @override
   void initState() {
     super.initState();
-    context.read<SavedBloc>().add(SavedListLoaded(type: widget.type));
+    //TODO:refactor this
+    // context.read<SavedBloc>().add(SavedListLoaded(type: widget.type));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SavedBloc, SavedState>(
       builder: (context, state) {
-        var favItem = state.savedModelRes?.result?.where((element) => element.objectId == widget.typeID).toList();
+        var favItem = state.savedModelRes?.result
+            ?.where((element) => element.objectId == widget.typeID)
+            .toList();
         return GestureDetector(
           onTap: () {
             if (!CacheHelper.isLoggedIn) {
@@ -48,7 +51,9 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                 );
           },
           child: Icon(
-            favItem?.isNotEmpty ?? false ? Icons.bookmark : Icons.bookmark_outline,
+            favItem?.isNotEmpty ?? false
+                ? Icons.bookmark
+                : Icons.bookmark_outline,
             color: Colors.red,
           ),
         );

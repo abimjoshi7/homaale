@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
@@ -10,7 +11,6 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
-import 'package:cipher/features/task/data/models/all_task_list.dart';
 import 'package:cipher/features/task/data/models/apply_task_req.dart';
 import 'package:cipher/features/task/data/models/my_task_res.dart';
 import 'package:cipher/features/task/data/models/task_apply_count_model.dart';
@@ -23,42 +23,87 @@ import 'package:dependencies/dependencies.dart';
 part 'task_event.dart';
 part 'task_state.dart';
 
+const kThrottleDuration = Duration(
+  milliseconds: 100,
+);
+
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
+  final TaskEntityServiceRepository _repo;
   final repo = TaskRepositories();
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
   final tesRepo = TaskEntityServiceRepository();
 
-  TaskBloc() : super(const TaskState()) {
+  TaskBloc(this._repo) : super(const TaskState()) {
     on<AllTaskLoadInitiated>(
+      transformer: throttleDroppable(kThrottleDuration),
       (event, emit) async {
+        if (!event.newFetch && state.isLastPage) return;
         try {
-          emit(
-            state.copyWith(
-              theState: TheStates.initial,
-            ),
-          );
-          await repo
-              .fetchAllTaskList(
-                  page: event.page ?? 1,
-                  order: event.order,
-                  serviceId: event.serviceId,
-                  city: event.city)
-              .then(
-            (value) {
-              final allTaskList = es.TaskEntityServiceModel.fromJson(value);
-
+          if (event.newFetch)
+            emit(
+              state.copyWith(
+                theState: TheStates.initial,
+              ),
+            );
+          if (state.theState == TheStates.initial) {
+            var taskEntityServiceModel = await _repo.getTaskEntityServices(
+              isTask: true,
+              page: 1,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
+              serviceId: event.serviceId,
+            );
+            emit(
+              state.copyWith(
+                theState: TheStates.success,
+                taskEntityServiceModel: taskEntityServiceModel,
+                taskEntityServices: taskEntityServiceModel.result,
+                isLastPage: taskEntityServiceModel.next == null,
+              ),
+            );
+          } else {
+            var taskEntityServiceModel = await _repo.getTaskEntityServices(
+              page: state.taskEntityServiceModel.current! + 1,
+              isTask: true,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
+              serviceId: event.serviceId,
+            );
+            if (taskEntityServiceModel.next == null) {
+              emit(
+                state.copyWith(
+                  isLastPage: true,
+                ),
+              );
+            } else {
               emit(
                 state.copyWith(
                   theState: TheStates.success,
-                  tasksList: allTaskList,
-                  isFilter: event.isFilter,
-                  isBudgetSort: event.isBudgetSort,
-                  isDateSort: event.isDateSort,
+                  taskEntityServiceModel: taskEntityServiceModel,
+                  taskEntityServices: [
+                    ...state.taskEntityServices!,
+                    ...taskEntityServiceModel.result!,
+                  ],
+                  isLastPage: false,
                 ),
               );
-            },
-          );
+            }
+          }
         } catch (e) {
           log("All Task List Fetch Parse error: $e");
           emit(

@@ -22,11 +22,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
   ) : super(const KycState()) {
     on<KycProfileInitiated>((event, emit) async {
       try {
-        emit(
-          state.copyWith(
-            theStates: TheStates.loading,
-          ),
-        );
         List<KycDocType> _docTypeList = [];
         List<Country> _countries = [];
 
@@ -125,13 +120,14 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
     on<KycModelLoaded>(
       (event, emit) async {
-        emit(
-          state.copyWith(
-            theStates: TheStates.loading,
-          ),
-        );
+        // emit(
+        //   state.copyWith(
+        //     theStates: TheStates.loading,
+        //   ),
+        // );
 
         await repositories.getKyc().then((value) {
+          if (value == null) CacheHelper.isKycVerified = false;
           if (value == null) return;
           final _kycModel = KycModel.fromJson(value);
           CacheHelper.isKycVerified = _kycModel.isKycVerified;
@@ -162,14 +158,13 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<KycDocumentLoaded>(
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
+          // emit(
+          //   state.copyWith(
+          //     theStates: TheStates.loading,
+          //   ),
+          // );
           await repositories.getKycDocument().then(
             (value) {
-              // log("kyc doc: $value");
               emit(
                 state.copyWith(
                   list: value

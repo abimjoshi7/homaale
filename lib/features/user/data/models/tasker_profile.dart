@@ -1,13 +1,8 @@
-// To parse this JSON data, do
-//
-//     final taskerProfile = taskerProfileFromJson(jsonString);
-
 // ignore_for_file: invalid_annotation_target
 
 import 'package:dependencies/dependencies.dart';
 
 import '../../../search/data/models/search_res.dart';
-
 
 part 'tasker_profile.freezed.dart';
 part 'tasker_profile.g.dart';
@@ -56,8 +51,7 @@ class TaskerProfile with _$TaskerProfile {
     @JsonKey(name: "") List<dynamic>? securityQuestions,
   }) = _TaskerProfile;
 
-  factory TaskerProfile.fromJson(Map<String, dynamic> json) =>
-      _$TaskerProfileFromJson(json);
+  factory TaskerProfile.fromJson(Map<String, dynamic> json) => _$TaskerProfileFromJson(json);
 }
 
 @freezed
@@ -81,8 +75,7 @@ class Language with _$Language {
     String? code,
   }) = _Language;
 
-  factory Language.fromJson(Map<String, dynamic> json) =>
-      _$LanguageFromJson(json);
+  factory Language.fromJson(Map<String, dynamic> json) => _$LanguageFromJson(json);
 }
 
 @freezed
@@ -99,8 +92,7 @@ class Experience with _$Experience {
     @JsonKey(name: "end_date") DateTime? endDate,
   }) = _Experience;
 
-  factory Experience.fromJson(Map<String, dynamic> json) =>
-      _$ExperienceFromJson(json);
+  factory Experience.fromJson(Map<String, dynamic> json) => _$ExperienceFromJson(json);
 }
 
 @freezed
@@ -116,8 +108,7 @@ class Education with _$Education {
     @JsonKey(name: "end_date") DateTime? endDate,
   }) = _Education;
 
-  factory Education.fromJson(Map<String, dynamic> json) =>
-      _$EducationFromJson(json);
+  factory Education.fromJson(Map<String, dynamic> json) => _$EducationFromJson(json);
 }
 
 @freezed
@@ -134,8 +125,7 @@ class Certificate with _$Certificate {
     @JsonKey(name: "expire_date") DateTime? expireDate,
   }) = _Certificate;
 
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+  factory Certificate.fromJson(Map<String, dynamic> json) => _$CertificateFromJson(json);
 }
 
 @freezed
@@ -145,8 +135,7 @@ class Interest with _$Interest {
     String? name,
   }) = _Interest;
 
-  factory Interest.fromJson(Map<String, dynamic> json) =>
-      _$InterestFromJson(json);
+  factory Interest.fromJson(Map<String, dynamic> json) => _$InterestFromJson(json);
 }
 
 @freezed
@@ -161,8 +150,7 @@ class Portfolio with _$Portfolio {
     @JsonKey(name: "credential_url") String? credentialUrl,
   }) = _Portfolio;
 
-  factory Portfolio.fromJson(Map<String, dynamic> json) =>
-      _$PortfolioFromJson(json);
+  factory Portfolio.fromJson(Map<String, dynamic> json) => _$PortfolioFromJson(json);
 }
 
 @freezed
@@ -210,9 +198,6 @@ class User with _$User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
 
-
-
-
 @freezed
 class Currency with _$Currency {
   const factory Currency({
@@ -221,10 +206,8 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
 }
-
 
 @freezed
 class Image with _$Image {

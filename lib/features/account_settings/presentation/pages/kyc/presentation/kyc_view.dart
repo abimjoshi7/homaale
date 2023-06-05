@@ -15,7 +15,7 @@ class KycView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: "View KYC Details",
+        appBarTitle: "View KYC Details",trailingWidget: SizedBox()
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
