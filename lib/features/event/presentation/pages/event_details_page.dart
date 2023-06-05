@@ -1,4 +1,6 @@
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -130,12 +132,21 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                 // Divider(),
                                 ListTile(
                                   onTap: () async {
-                                    print(123);
-                                    // context.read<EventBloc>().add(
-                                    //       EventDeleted(
-                                    //         id: state.event?.id ?? "",
-                                    //       ),
-                                    //     );
+                                    context.read<EventBloc>().add(
+                                          EventDeleted(
+                                            id: state.event?.id ?? "",
+                                          ),
+                                        );
+                                    context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceSingleLoaded(
+                                            id: state.entityServiceId ?? '',
+                                          ),
+                                        );
+                                    await Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      TaskEntityServicePage.routeName,
+                                      (route) => false,
+                                    );
                                   },
                                   leading: Icon(
                                     Icons.delete_outline_rounded,

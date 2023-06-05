@@ -70,6 +70,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                     createdEventRes: CreateEventRes.fromJson(
                       value,
                     ),
+                    entityServiceId: event.req.entityService,
                   ),
                 ),
               );
@@ -126,7 +127,9 @@ class EventBloc extends Bloc<EventEvent, EventState> {
               isDeleted: false,
             ),
           );
-          await repo.deleteEvent(event.id).then(
+          await repo
+              .deleteEvent(event.id)
+              .then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
@@ -135,7 +138,8 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                     createdEventRes: CreateEventRes(),
                   ),
                 ),
-              );
+              )
+              ;
         } catch (e) {
           emit(
             state.copyWith(

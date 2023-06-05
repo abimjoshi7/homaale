@@ -41,130 +41,136 @@ class _EventFormState extends State<EventForm> {
           guestController.text = "1";
           return Column(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Create an Event",
-                  style: kPurpleText16,
-                ),
-              ),
-              CustomFormField(
-                label: "Tile",
-                isRequired: true,
-                child: CustomTextFormField(
-                  controller: titleController,
-                ),
-              ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: CustomFormField(
-                      label: "Start Date",
-                      isRequired: true,
-                      child: CustomFormContainer(
-                        leadingWidget: Icon(
-                          Icons.calendar_today_outlined,
-                          color: kColorPrimary,
-                        ),
-                        hintText: startDate != null
-                            ? DateFormat.yMMMEd().format(startDate!)
-                            : "",
-                        callback: () => showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(
-                            2050,
-                          ),
-                        ).then(
-                          (value) => setState(
-                            () => startDate = value,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Create an Event",
+                      style: kPurpleText16,
+                    ),
+                  ),
+                  CustomFormField(
+                    label: "Tile",
+                    isRequired: true,
+                    child: CustomTextFormField(
+                      controller: titleController,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: CustomFormField(
+                          label: "Start Date",
+                          isRequired: true,
+                          child: CustomFormContainer(
+                            leadingWidget: Icon(
+                              Icons.calendar_today_outlined,
+                              color: kColorPrimary,
+                            ),
+                            hintText: startDate != null
+                                ? DateFormat.yMMMEd().format(startDate!)
+                                : "",
+                            callback: () => showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(
+                                2050,
+                              ),
+                            ).then(
+                              (value) => setState(
+                                () => startDate = value,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  addHorizontalSpace(20),
-                  Flexible(
-                    child: CustomFormField(
-                      label: "End Date",
-                      isRequired: true,
-                      child: CustomFormContainer(
-                        leadingWidget: Icon(
-                          Icons.calendar_today_outlined,
-                          color: kColorPrimary,
-                        ),
-                        hintText: endDate != null
-                            ? DateFormat.yMMMEd().format(endDate!)
-                            : "",
-                        callback: () => showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(
-                            2050,
-                          ),
-                        ).then(
-                          (value) => setState(
-                            () => endDate = value,
+                      addHorizontalSpace(20),
+                      Flexible(
+                        child: CustomFormField(
+                          label: "End Date",
+                          isRequired: true,
+                          child: CustomFormContainer(
+                            leadingWidget: Icon(
+                              Icons.calendar_today_outlined,
+                              color: kColorPrimary,
+                            ),
+                            hintText: endDate != null
+                                ? DateFormat.yMMMEd().format(endDate!)
+                                : "",
+                            callback: () => showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(
+                                2050,
+                              ),
+                            ).then(
+                              (value) => setState(
+                                () => endDate = value,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  CustomFormField(
+                    label: "Max No. of Guest",
+                    isRequired: true,
+                    child: NumberIncDecField(
+                      controller: guestController,
                     ),
                   ),
+                  CustomFormField(
+                    label: "Duration of the event",
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: NumberIncDecField(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            controller: durationController,
+                          ),
+                        ),
+                        addHorizontalSpace(20),
+                        Flexible(
+                          child: CustomDropDownField(
+                            list: [
+                              "Hours",
+                              "Minutes",
+                              "Seconds",
+                            ],
+                            onChanged: (value) => setState(
+                              () {
+                                durationTypeController.text = value ?? '';
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                    ),
+                    child: Divider(),
+                  ),
+                  WidgetText(
+                    label: 'This event is flexible',
+                    widget: CustomCheckBox(
+                      isChecked: isFlexible,
+                      onTap: () => setState(
+                        () {
+                          isFlexible = !isFlexible;
+                        },
+                      ),
+                    ),
+                  ),
+                  addVerticalSpace(10.0),
                 ],
-              ),
-              CustomFormField(
-                label: "Max No. of Guest",
-                isRequired: true,
-                child: NumberIncDecField(
-                  controller: guestController,
-                ),
-              ),
-              CustomFormField(
-                label: "Duration of the event",
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: NumberIncDecField(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        controller: durationController,
-                      ),
-                    ),
-                    addHorizontalSpace(20),
-                    Flexible(
-                      child: CustomDropDownField(
-                        list: [
-                          "Hours",
-                          "Minutes",
-                          "Seconds",
-                        ],
-                        onChanged: (value) => setState(
-                          () {
-                            durationTypeController.text = value ?? '';
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                ),
-                child: Divider(),
-              ),
-              WidgetText(
-                label: 'This event is flexible',
-                widget: CustomCheckBox(
-                  isChecked: isFlexible,
-                  onTap: () => setState(
-                    () {
-                      isFlexible = !isFlexible;
-                    },
-                  ),
-                ),
               ),
               BlocListener<EventBloc, EventState>(
                 listener: (context, eventState) async {
