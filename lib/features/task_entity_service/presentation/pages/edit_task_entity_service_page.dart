@@ -47,7 +47,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
   bool isAddressVisible = false;
 
   int? cityCode;
-  
+  int? budgetTo;
+  int? budgetFrom;
 
   final uploadBloc = locator<UploadBloc>();
 
@@ -103,7 +104,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                   _buildDescription(),
                   _buildCurrency(),
                   _buildDialog(),
-                  CustomMultimedia(),
+                  CustomMultimedia(
+                    bloc: uploadBloc,
+                  ),
                   _buildTerms(context),
                   _buildButton(),
                 ],
@@ -386,7 +389,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                       if (startPriceController.text.isNotEmpty)
                         budgetFrom = getPayableAmount(
                           double.parse(startPriceController.text),
-                          double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
                         );
                     },
                   ),
@@ -405,7 +410,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                     if (endPriceController.text.isNotEmpty)
                       budgetTo = getPayableAmount(
                         double.parse(endPriceController.text),
-                        double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                        double.parse(
+                            context.read<CategoriesBloc>().state.commission ??
+                                "0.0"),
                       );
                   },
                 ),
@@ -691,7 +698,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                 (index) => state.categoryList?[index].name ?? "",
               ),
               onChanged: (value) {
-                context.read<CategoriesBloc>().add(CategoriesChanged(name: (value as String?) ?? ""));
+                context
+                    .read<CategoriesBloc>()
+                    .add(CategoriesChanged(name: (value as String?) ?? ""));
               },
             );
           }
@@ -715,7 +724,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                   (index) => state.serviceList?[index].title ?? "",
                 ),
                 onChanged: (value) {
-                  context.read<CategoriesBloc>().add(SubCategoriesChanged(name: (value as String?) ?? ""));
+                  context.read<CategoriesBloc>().add(
+                      SubCategoriesChanged(name: (value as String?) ?? ""));
                 },
                 onRemovePressed: () {
                   context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
@@ -780,7 +790,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                                   children: [
                                     TextSpan(
                                       text: " to ",
-                                      style: Theme.of(context).textTheme.displayMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
                                       children: [
                                         TextSpan(
                                           text: "Rs $budgetTo",
