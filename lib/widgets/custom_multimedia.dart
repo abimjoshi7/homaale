@@ -89,33 +89,12 @@ class CustomMultimedia extends StatelessWidget {
                               child: IconButton(
                                 padding: EdgeInsets.zero,
                                 onPressed: () async {
-                                  try {
-                                    // final y = await compressFile(
-                                    //   File(state.imageFileList[index]),
-                                    // );
-                                    // print(y);
-                                    // print(y.lengthSync());
-                                    // print(
-                                    //     FileStorageHelper.getFileSizeString(
-                                    //         bytes: y.lengthSync()));
-                                    // ;
-                                  } catch (e) {
-                                    print("error: $e");
-                                  }
-
-                                  try {
-                                    for (var element in state.imageFileList) {
-                                      print(element);
-                                    }
-                                  } catch (e) {
-                                    print(e);
-                                  }
-                                  // context.read<UploadBloc>().add(
-                                  //       MultimediaRemoved(
-                                  //         selectedIndex: index,
-                                  //         isVideo: false,
-                                  //       ),
-                                  //     );
+                                  bloc.add(
+                                    MultimediaRemoved(
+                                      selectedIndex: index,
+                                      isVideo: false,
+                                    ),
+                                  );
                                 },
                                 icon: Icon(
                                   Icons.disabled_by_default_rounded,
@@ -190,7 +169,9 @@ class CustomMultimedia extends StatelessWidget {
               onTap: () {
                 showDialog(
                   context: context,
-                  builder: (context) => VideoPickerDialog(),
+                  builder: (context) => VideoPickerDialog(
+                    bloc: bloc,
+                  ),
                 );
               },
               child: Row(
@@ -231,7 +212,9 @@ class CustomMultimedia extends StatelessWidget {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => VideoPickerDialog(),
+                      builder: (context) => VideoPickerDialog(
+                        bloc: bloc,
+                      ),
                     );
                   },
                   child: CustomDottedContainerStack(
@@ -274,29 +257,12 @@ class CustomMultimedia extends StatelessWidget {
                               child: IconButton(
                                 padding: EdgeInsets.zero,
                                 onPressed: () async {
-                                  // context.read<UploadBloc>().add(
-                                  //       MultimediaRemoved(
-                                  //         selectedIndex: index,
-                                  //         isVideo: true,
-                                  //       ),
-                                  //     );
-
-                                  // setState(() {
-                                  //   var x = Image.file(
-                                  //     File(
-                                  //       state.videoFileList.first,
-                                  //     ),
-                                  //   );
-                                  //   var y = File(
-                                  //       state.videoFileList[index]);
-                                  //   print(state.theStates);
-                                  //   print(y.lengthSync());
-                                  //   print(FileStorageHelper
-                                  //       .getFileSizeString(
-                                  //           bytes: y.lengthSync()));
-                                  //   ;
-
-                                  // });
+                                  bloc.add(
+                                    MultimediaRemoved(
+                                      selectedIndex: index,
+                                      isVideo: true,
+                                    ),
+                                  );
                                 },
                                 icon: Icon(
                                   Icons.disabled_by_default_rounded,
