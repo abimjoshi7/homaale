@@ -121,13 +121,13 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               onTap: () {
                                 context
                                     .read<SupportTicketTypeOptionsBloc>()
-                                    .add(SupportTicketTypeOptionsLoaded(target: 'task'));
+                                    .add(SupportTicketTypeOptionsLoaded(target: 'entityservice'));
                                 Navigator.pushNamed(
                                   context,
                                   CommonReportPage.routeName,
                                   arguments: {
                                     'isType': 'isTask',
-                                    'model': 'task',
+                                    'model': 'entityservice',
                                     'objectId': state.taskEntityService?.createdBy?.id
                                   },
                                 );
@@ -230,7 +230,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
             ),
             IconText(
               label:
-                  "${state.taskEntityService?.location == null || state.taskEntityService?.location == '' ? 'Remote' : state.taskEntityService?.location}",
+                  "${state.taskEntityService?.city?.name ?? ''}, ${state.taskEntityService?.city?.country?.name ?? ''}",
               iconData: Icons.location_on_outlined,
               size: 18,
               color: Colors.red,

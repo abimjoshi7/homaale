@@ -43,6 +43,7 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      appBar: CustomAppBar(trailingWidget: SizedBox(),appBarTitle: 'Profile',),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: BlocBuilder<TaskerCubit, TaskerState>(
@@ -182,30 +183,30 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    kHeight50,
-                    CustomHeader(
-                      leadingWidget: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                        ),
-                      ),
-                      trailingWidget: IconButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            SearchPage.routeName,
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.search,
-                        ),
-                      ),
-                      child: const Text('Profile'),
-                    ),
-                    const CustomHorizontalDivider(),
+                    // kHeight50,
+                    // CustomHeader(
+                    //   leadingWidget: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.arrow_back,
+                    //     ),
+                    //   ),
+                    //   trailingWidget: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.pushNamed(
+                    //         context,
+                    //         SearchPage.routeName,
+                    //       );
+                    //     },
+                    //     icon: const Icon(
+                    //       Icons.search,
+                    //     ),
+                    //   ),
+                    //   child: const Text('Profile'),
+                    // ),
+                    // const CustomHorizontalDivider(),
                     displayTaskerHeader(),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (context, userState) {
@@ -328,9 +329,13 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                         children: [
                           TaskerAboutSection(
                             bio: state.singleTasker.bio,
-                            contact: state.singleTasker.user!.phone?.toString() ?? state.singleTasker.user!.email!,
-                            activeHourStart: state.singleTasker.activeHourStart ?? '',
-                            activeHourEnd: state.singleTasker.activeHourEnd ?? '',
+                            // contact:
+                            //     state.singleTasker.user!.phone?.toString() ??
+                            //         state.singleTasker.user!.email!,
+                            activeHourStart:
+                                state.singleTasker.activeHourStart ?? '',
+                            activeHourEnd:
+                                state.singleTasker.activeHourEnd ?? '',
                             skills: state.singleTasker.skill,
                             location: "${state.singleTasker.addressLine1}, ${state.singleTasker.country?.name ?? ''}",
                             portfolio: state.singleTasker.portfolio ?? [],

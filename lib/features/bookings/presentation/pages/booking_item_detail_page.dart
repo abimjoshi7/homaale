@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/core/mixins/mixins.dart';

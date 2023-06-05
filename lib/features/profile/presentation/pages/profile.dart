@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Profile"),
+      appBar: CustomAppBar(appBarTitle: "Profile",trailingWidget: SizedBox()),
       body: Column(
         children: [
           // const CustomHorizontalDivider(),

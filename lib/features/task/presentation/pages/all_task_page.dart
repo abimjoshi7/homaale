@@ -1,11 +1,15 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/helpers/scroll_helper.dart';
+import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -24,192 +28,60 @@ class AllTaskPage extends StatefulWidget {
 
 class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
-  List<TaskEntityService> taskList = [];
-  List<String>? items = [];
+  late final user = locator<UserBloc>();
+  late final ScrollController _controller;
+  final budgetFrom = TextEditingController();
+  final budgetTo = TextEditingController();
+  final _categoryKey = GlobalKey<FormFieldState>();
+  final _locationKey = GlobalKey<FormFieldState>();
 
-  bool dateSelected = true;
-  bool budgetSelected = false;
-  bool categorySelected = false;
-  bool locationSelected = false;
-
-  bool sortDateIsAscending = true;
-  bool sortBudgetIsAscending = true;
-
-  SortType sortType = SortType.date;
-  List<String>? order = ['-created_at'];
-  String? selectedCategoryId;
-  String? selectedLocation;
-
-  //initialize page controller
-  // final PagingController<int, TaskEntityService> _pagingController =
-  //     PagingController(firstPageKey: 1);
+  DateTime? dateFrom;
+  DateTime? dateTo;
+  String? category;
+  String? serviceId;
+  String? location;
 
   @override
   void initState() {
     super.initState();
-    taskBloc.add(FetchServicesList());
+    user.add(UserLoaded());
+    context.read<ServicesBloc>().add(
+          ServicesLoadInitiated(),
+        );
+    taskBloc.add(
+      AllTaskLoadInitiated(
+        isTask: true,
+      ),
+    );
 
-    //so at event add list of records
-    // _pagingController.addPageRequestListener(
-    //   (pageKey) => taskBloc.add(
-    //     AllTaskLoadInitiated(
-    //       page: pageKey,
-    //       order: order,
-    //       city: selectedLocation,
-    //       serviceId: selectedCategoryId,
-    //       isBudgetSort: false,
-    //       isDateSort: false,
-    //     ),
-    //   ),
-    // );
+    _controller = ScrollController()
+      ..addListener(() {
+        ScrollHelper.nextPageTrigger(
+          _controller,
+          taskBloc.add(AllTaskLoadInitiated(
+            newFetch: false,
+            isTask: true,
+            // dateFrom: dateFrom == null
+            //     ? null
+            //     : DateFormat("yyyy-MM-dd").format(dateFrom!),
+            // dateTo: dateTo == null
+            //     ? null
+            //     : DateFormat("yyyy-MM-dd").format(dateTo!),
+            // payableFrom: payableFrom.text.length == 0 ? null : payableFrom.text,
+            // payableTo: payableTo.text.length == 0 ? null : payableTo.text,
+            // serviceId: category,
+            // city: location,
+          )),
+        );
+      });
   }
 
   @override
   void dispose() {
     super.dispose();
     taskBloc.close();
-    // _pagingController.dispose();
-  }
-
-  void onFilterCategory({String? category}) {
-    if (category != null) {
-      for (ServiceList element in taskBloc.state.serviceList ?? []) {
-        if (element.title == category) {
-          setState(() {
-            selectedCategoryId = element.id.toString();
-          });
-          break;
-        }
-      }
-    } else {
-      setState(() {
-        selectedCategoryId = null;
-      });
-    }
-
-    taskBloc.add(AllTaskLoadInitiated(
-      page: 1,
-      order: order,
-      serviceId: selectedCategoryId,
-      city: selectedLocation,
-      isFilter: selectedCategoryId != null
-          ? true
-          : selectedLocation != null
-              ? true
-              : false,
-      isDateSort: taskBloc.state.isDateSort,
-      isBudgetSort: taskBloc.state.isBudgetSort,
-    ));
-  }
-
-  void onFilterLocation({String? location}) {
-    if (location != null) {
-      setState(() {
-        selectedLocation = location;
-      });
-    } else {
-      setState(() {
-        selectedLocation = null;
-      });
-    }
-
-    taskBloc.add(AllTaskLoadInitiated(
-      page: 1,
-      order: order,
-      serviceId: selectedCategoryId,
-      city: selectedLocation,
-      isFilter: selectedCategoryId != null
-          ? true
-          : selectedLocation != null
-              ? true
-              : false,
-      isDateSort: taskBloc.state.isDateSort,
-      isBudgetSort: taskBloc.state.isBudgetSort,
-    ));
-  }
-
-  void onBudgetDateClear({required SortType sortType}) {
-    if (sortType == SortType.date) {
-      if (order?.contains('-created_at') ?? false) {
-        setState(() {
-          order?.remove('-created_at');
-        });
-      }
-      if (order?.contains('created_at') ?? false) {
-        setState(() {
-          order?.remove('created_at');
-        });
-      }
-    }
-
-    if (sortType == SortType.budget) {
-      if (order?.contains('-budget_to') ?? false) {
-        setState(() {
-          order?.remove('-budget_to');
-        });
-      }
-      if (order?.contains('budget_to') ?? false) {
-        setState(() {
-          order?.remove('budget_to');
-        });
-      }
-    }
-
-    taskBloc.add(AllTaskLoadInitiated(
-        page: 1,
-        order: order,
-        city: selectedLocation,
-        serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId != null
-            ? true
-            : selectedLocation != null
-                ? true
-                : false,
-        isDateSort: sortType == SortType.date,
-        isBudgetSort: sortType == SortType.budget));
-  }
-
-  void onBudgetDateSort({required SortType sortType, required bool isAscending}) {
-    if (sortType == SortType.date) {
-      if (isAscending) {
-        setState(() {
-          order?.remove('created_at');
-          order?.add('-created_at');
-        });
-      } else {
-        setState(() {
-          order?.remove('-created_at');
-          order?.add('created_at');
-        });
-      }
-    }
-
-    if (sortType == SortType.budget) {
-      if (isAscending) {
-        setState(() {
-          order?.remove('budget_to');
-          order?.add('-budget_to');
-        });
-      } else {
-        setState(() {
-          order?.remove('-budget_to');
-          order?.add('budget_to');
-        });
-      }
-    }
-
-    taskBloc.add(AllTaskLoadInitiated(
-        page: 1,
-        order: order,
-        city: selectedLocation,
-        serviceId: selectedCategoryId,
-        isFilter: selectedCategoryId != null
-            ? true
-            : selectedLocation != null
-                ? true
-                : false,
-        isDateSort: sortType == SortType.date,
-        isBudgetSort: sortType == SortType.budget));
+    user.close();
+    _controller.dispose();
   }
 
   void onTaskPressed({
@@ -219,7 +91,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   }) {
     context.read<TaskBloc>().add(
           SingleEntityTaskLoadInitiated(
-            id: state.tasksList!.result![index].id!,
+            id: state.taskEntityServiceModel.result![index].id!,
           ),
         );
     if (isApply) {
@@ -238,352 +110,430 @@ class _AllTaskPageState extends State<AllTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<TaskBloc, TaskState>(
+      body: BlocBuilder<TaskBloc, TaskState>(
         bloc: taskBloc,
-        listener: (context, state) {
-          if ((state.isFilter ?? false) || (state.isDateSort ?? false) || (state.isBudgetSort ?? false)) {
-            // _pagingController.refresh();
-            taskBloc.add(ResetFilterSort());
-          }
-
-          if (state.servicesLoaded ?? false) {
-            setState(() {
-              items = [...?state.serviceList?.map((e) => e.title!).toList()];
-            });
-          }
-
-          if (state.theState == TheStates.failure) {
-            // _pagingController.error = 'Error';
-          }
-
-          if (state.theState == TheStates.success) {
-            taskList = state.tasksList!.result!;
-
-            final lastPage = state.tasksList!.totalPages!;
-            final next = 1 + state.tasksList!.current!;
-
-            if (next > lastPage) {
-              // _pagingController.appendLastPage(taskList);
-            } else {
-              // _pagingController.appendPage(taskList, next);
-            }
+        builder: (context, state) {
+          switch (state.theState) {
+            case TheStates.initial:
+              return const Center(child: LinearProgressIndicator());
+            case TheStates.success:
+              return Column(
+                children: <Widget>[
+                  addVerticalSpace(50),
+                  const CustomHeader(
+                    label: 'All Task Page',
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.filter_alt,
+                              color: kColorGrey,
+                            ),
+                            addHorizontalSpace(5),
+                            _buildCategory(),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildLocation(),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildFromDate(context),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildToDate(context),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildBudgetFrom(context),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildBudgetTo(context),
+                            addHorizontalSpace(
+                              8,
+                            ),
+                            _buildClearFilters(context),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      controller: _controller,
+                      padding: EdgeInsets.zero,
+                      itemCount: state.isLastPage
+                          ? state.taskEntityServices!.length
+                          : state.taskEntityServices!.length + 1,
+                      separatorBuilder: (context, index) => addVerticalSpace(8),
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index >= state.taskEntityServices!.length) {
+                          return Center(child: const BottomLoader());
+                        }
+                        return InkWell(
+                          onTap: () => onTaskPressed(
+                            state: state,
+                            index: index,
+                            isApply: false,
+                          ),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            child: TaskCard(
+                              buttonLabel: state.taskEntityServices![index]
+                                          .createdBy?.id ==
+                                      user.state.taskerProfile?.user?.id
+                                  ? 'View Details'
+                                  : 'Apply Now',
+                              startRate:
+                                  '${state.taskEntityServices![index].budgetFrom ?? 0}',
+                              endRate:
+                                  '${state.taskEntityServices![index].budgetTo ?? 0}',
+                              budgetType:
+                                  '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
+                              count: state.taskEntityServices![index].count
+                                      ?.toString() ??
+                                  '0',
+                              imageUrl: state.taskEntityServices![index]
+                                      .createdBy?.profileImage ??
+                                  kServiceImageNImg,
+                              location:
+                                  state.taskEntityServices![index].location ??
+                                      'remote',
+                              endHour: Jiffy(
+                                state.taskEntityServices![index].createdAt
+                                        ?.toString() ??
+                                    DateTime.now().toString(),
+                              ).jm,
+                              endDate: Jiffy(
+                                state.taskEntityServices![index].endDate
+                                        ?.toString() ??
+                                    DateTime.now().toString(),
+                              ).yMMMMd,
+                              taskName:
+                                  state.taskEntityServices![index].title ??
+                                      'task title',
+                              callback: () => onTaskPressed(
+                                state: state,
+                                index: index,
+                                isApply: state.taskEntityServices![index]
+                                        .createdBy?.id !=
+                                    user.state.taskerProfile?.user?.id,
+                              ),
+                              onTapCallback: () {
+                                if (!CacheHelper.isLoggedIn) {
+                                  notLoggedInPopUp(context);
+                                }
+                                if (!CacheHelper.isLoggedIn) return;
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            case TheStates.failure:
+              return Text("Could Not Load Tasks");
+            default:
+              return const Center(child: CircularProgressIndicator());
           }
         },
-        child: BlocBuilder<TaskBloc, TaskState>(
-          builder: (context, state) {
-            return Column(
-              children: <Widget>[
-                addVerticalSpace(50),
-                const CustomHeader(
-                  label: 'All Task Page',
-                ),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    children: <Widget>[
-                      items?.isNotEmpty ?? false
-                          ? Container(
-                              width: 170,
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              decoration: BoxDecoration(
-                                color: categorySelected ? kColorAmber : Colors.white,
-                                borderRadius: BorderRadius.circular(30.0),
-                                border: Border.all(color: kColorGrey),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: DropdownSearch<String?>(
-                                      items: items ?? [''],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          categorySelected = value != null ? true : false;
-                                        });
-                                        onFilterCategory(category: value);
-                                      },
-                                      clearButtonProps: ClearButtonProps(
-                                        padding: EdgeInsets.zero,
-                                        iconSize: 16,
-                                        visualDensity: VisualDensity.compact,
-                                        alignment: Alignment.centerRight,
-                                        isVisible: categorySelected,
-                                        color: categorySelected ? Colors.white : Colors.black,
-                                      ),
-                                      dropdownDecoratorProps: DropDownDecoratorProps(
-                                        dropdownSearchDecoration: InputDecoration(
-                                          hintText: 'Category',
-                                          hintStyle: TextStyle(color: Colors.black),
-                                          border: InputBorder.none,
-                                          suffixIconColor: categorySelected ? Colors.white : Colors.black,
-                                        ),
-                                        baseStyle: TextStyle(
-                                          color: categorySelected ? Colors.white : Colors.black,
-                                        ),
-                                      ),
-                                      popupProps: PopupProps.modalBottomSheet(
-                                        showSearchBox: true,
-                                        modalBottomSheetProps: ModalBottomSheetProps(
-                                          backgroundColor: Theme.of(context).cardColor,
-                                          useSafeArea: false,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ChoiceChip(
-                              label: Row(
-                                children: const [
-                                  Text('Category'),
-                                  Icon(Icons.keyboard_arrow_down_outlined),
-                                ],
-                              ),
-                              backgroundColor: Colors.white,
-                              side: const BorderSide(color: kColorGrey),
-                              selected: false,
-                              disabledColor: Colors.white,
-                            ),
-                      addHorizontalSpace(5),
-                      BlocBuilder<CityBloc, CityState>(
-                        builder: (context, state) {
-                          if (state is CityLoadSuccess) {
-                            return Container(
-                              width: 170,
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              decoration: BoxDecoration(
-                                color: locationSelected ? kColorAmber : Colors.white,
-                                borderRadius: BorderRadius.circular(30.0),
-                                border: Border.all(color: kColorGrey),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: DropdownSearch<String?>(
-                                      items: state.list.map((e) => e.name).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          locationSelected = value != null ? true : false;
-                                        });
-                                        onFilterLocation(location: value);
-                                      },
-                                      clearButtonProps: ClearButtonProps(
-                                        padding: EdgeInsets.zero,
-                                        iconSize: 16,
-                                        visualDensity: VisualDensity.compact,
-                                        alignment: Alignment.centerRight,
-                                        isVisible: locationSelected,
-                                        color: locationSelected ? Colors.white : Colors.black,
-                                      ),
-                                      dropdownDecoratorProps: DropDownDecoratorProps(
-                                        dropdownSearchDecoration: InputDecoration(
-                                          hintText: 'Location',
-                                          hintStyle: TextStyle(color: Colors.black),
-                                          border: InputBorder.none,
-                                          suffixIconColor: locationSelected ? Colors.white : Colors.black,
-                                        ),
-                                        baseStyle: TextStyle(
-                                          color: locationSelected ? Colors.white : Colors.black,
-                                        ),
-                                      ),
-                                      popupProps: PopupProps.modalBottomSheet(
-                                        showSearchBox: true,
-                                        modalBottomSheetProps: ModalBottomSheetProps(
-                                          useSafeArea: false,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return ChoiceChip(
-                              label: Row(
-                                children: [
-                                  Text(
-                                    'Location',
-                                    style: Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_down_outlined),
-                                ],
-                              ),
-                              backgroundColor: Colors.white,
-                              side: const BorderSide(color: kColorGrey),
-                              selected: false,
-                              disabledColor: Colors.white,
-                            );
-                          }
-                        },
-                      ),
-                      addHorizontalSpace(5),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            budgetSelected = true;
-                            sortBudgetIsAscending = !sortBudgetIsAscending;
-                          });
-                          onBudgetDateSort(sortType: SortType.budget, isAscending: sortBudgetIsAscending);
-                        },
-                        child: Container(
-                          width: budgetSelected ? 110 : 95,
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: budgetSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(color: kColorGrey)),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Budget',
-                                style: TextStyle(
-                                  color: budgetSelected ? Colors.white : Colors.black,
-                                ),
-                              ),
-                              Icon(
-                                sortBudgetIsAscending
-                                    ? Icons.keyboard_arrow_up_outlined
-                                    : Icons.keyboard_arrow_down_outlined,
-                                color: budgetSelected ? Colors.white : Colors.black,
-                              ),
-                              if (budgetSelected) ...[
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      budgetSelected = false;
-                                    });
-                                    onBudgetDateClear(sortType: SortType.budget);
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 16,
-                                    color: budgetSelected ? Colors.white : Colors.black,
-                                  ),
-                                )
-                              ]
-                            ],
-                          ),
-                        ),
-                      ),
-                      addHorizontalSpace(5),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            dateSelected = true;
-                            sortDateIsAscending = !sortDateIsAscending;
-                          });
-                          onBudgetDateSort(sortType: SortType.date, isAscending: sortDateIsAscending);
-                        },
-                        child: Container(
-                          width: dateSelected ? 95 : 77,
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: dateSelected ? kColorAmber : Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                              border: Border.all(color: kColorGrey)),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Date',
-                                style: TextStyle(
-                                  color: dateSelected ? Colors.white : Colors.black,
-                                ),
-                              ),
-                              Icon(
-                                sortDateIsAscending
-                                    ? Icons.keyboard_arrow_up_outlined
-                                    : Icons.keyboard_arrow_down_outlined,
-                                color: dateSelected ? Colors.white : Colors.black,
-                              ),
-                              if (dateSelected) ...[
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      dateSelected = false;
-                                    });
-                                    onBudgetDateClear(sortType: SortType.date);
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 16,
-                                    color: dateSelected ? Colors.white : Colors.black,
-                                  ),
-                                )
-                              ]
-                            ],
-                          ),
-                        ),
-                      ),
-                      addHorizontalSpace(5),
-                    ],
-                  ),
-                ),
-                // Expanded(
-                // child: PagedListView.separated(
+      ),
+    );
+  }
 
-                //   pagingController: _pagingController,
-                //   separatorBuilder: (context, index) => addVerticalSpace(8),
-                //   padding: EdgeInsets.symmetric(horizontal: 16),
-                //   builderDelegate: PagedChildBuilderDelegate(
-                //     itemBuilder: (context, TaskEntityService item, index) =>
-                //         InkWell(
-                //       onTap: () => onTaskPressed(
-                //         state: state,
-                //         index: index,
-                //         isApply: false,
-                //       ),
-                //       child: SizedBox(
-                //         height: MediaQuery.of(context).size.height * 0.3,
-                //         child: TaskCard(
-                //           buttonLabel: item.createdBy?.id ==
-                //                   user.state.taskerProfile?.user?.id
-                //               ? 'View Details'
-                //               : 'Apply Now',
-                //           startRate: '${item.budgetFrom ?? 0}',
-                //           endRate: '${item.budgetTo ?? 0}',
-                //           budgetType: '${item.budgetType ?? 'budgetType'}',
-                //           count: item.count?.toString() ?? '0',
-                //           imageUrl: item.createdBy?.profileImage ??
-                //               kServiceImageNImg,
-                //           location: item.location ?? 'remote',
-                //           endHour: Jiffy(
-                //             item.createdAt?.toString() ??
-                //                 DateTime.now().toString(),
-                //           ).jm,
-                //           endDate: Jiffy(
-                //             item.endDate?.toString() ??
-                //                 DateTime.now().toString(),
-                //           ).yMMMMd,
-                //           taskName: item.title ?? 'task title',
-                //           callback: () => onTaskPressed(
-                //             state: state,
-                //             index: index,
-                //             isApply: item.createdBy?.id !=
-                //                 user.state.taskerProfile?.user?.id,
-                //           ),
-                //           onTapCallback: () {
-                //             if (!CacheHelper.isLoggedIn) {
-                //               notLoggedInPopUp(context);
-                //             }
-                //             if (!CacheHelper.isLoggedIn) return;
-                //           },
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // ),
-              ],
+  SizedBox _buildLocation() {
+    return SizedBox(
+      width: 170,
+      height: 48,
+      child: BlocBuilder<CityBloc, CityState>(
+        builder: (context, state) {
+          if (state is CityLoadSuccess)
+            return CustomDropdownSearch(
+              key: _locationKey,
+              hintText: location ?? "Location",
+              list: List.generate(
+                state.list.length,
+                (index) => state.list[index].name,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  location = value as String;
+                });
+                taskBloc.add(AllTaskLoadInitiated(
+                  isTask: true,
+                  newFetch: true,
+                  budgetFrom: budgetFrom.text,
+                  budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  city: location,
+                  category: category,
+                ));
+              },
+            );
+          return SizedBox.shrink();
+        },
+      ),
+    );
+  }
+
+  SizedBox _buildCategory() {
+    return SizedBox(
+      width: 170,
+      height: 48,
+      child: BlocBuilder<ServicesBloc, ServicesState>(
+        builder: (context, state) {
+          if (state.theStates == TheStates.success)
+            return CustomDropdownSearch(
+              key: _categoryKey,
+              hintText: category ?? "Category",
+              list: List.generate(
+                state.serviceList!.length,
+                (index) => state.serviceList?[index].title ?? "",
+              ),
+              onChanged: (value) {
+                for (var element in state.serviceList!) {
+                  if (element.title == value)
+                    setState(() {
+                      category = value as String;
+                      serviceId = element.id.toString();
+                    });
+                }
+                taskBloc.add(
+                  AllTaskLoadInitiated(
+                    isTask: true,
+                    newFetch: true,
+                    budgetFrom: budgetFrom.text,
+                    budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    serviceId: serviceId,
+                    city: location,
+                  ),
+                );
+              },
+            );
+          return SizedBox.shrink();
+        },
+      ),
+    );
+  }
+
+  Widget _buildBudgetFrom(BuildContext context) {
+    return CustomFilterChip(
+      iconData: Icons.attach_money_sharp,
+      label: budgetFrom.text.length == 0 ? "From" : budgetFrom.text,
+      callback: (value) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(content: Text("Enter Amount:"), actions: [
+            CustomTextFormField(
+              autofocus: true,
+              controller: budgetFrom,
+              hintText: "2000",
+              textInputType: TextInputType.number,
+              inputAction: TextInputAction.done,
+              onFieldSubmitted: (p0) {
+                setState(() {
+                  budgetFrom.text = p0!;
+                });
+                taskBloc.add(
+                  AllTaskLoadInitiated(
+                    isTask: true,
+                    newFetch: true,
+                    budgetFrom: budgetFrom.text,
+                    budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    city: location,
+                  ),
+                );
+                Navigator.pop(context);
+              },
+            ),
+          ]),
+        );
+      },
+    );
+  }
+
+  Widget _buildBudgetTo(BuildContext context) {
+    return CustomFilterChip(
+      iconData: Icons.attach_money_sharp,
+      label: budgetTo.text.length == 0 ? "To" : budgetTo.text,
+      callback: (value) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(content: Text("Enter Amount:"), actions: [
+            CustomTextFormField(
+              autofocus: true,
+              controller: budgetTo,
+              hintText: "2000",
+              textInputType: TextInputType.number,
+              inputAction: TextInputAction.done,
+              onFieldSubmitted: (p0) {
+                setState(() {
+                  budgetTo.text = p0!;
+                });
+                taskBloc.add(
+                  AllTaskLoadInitiated(
+                    isTask: true,
+                    newFetch: true,
+                    budgetTo: budgetTo.text,
+                    budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    city: location,
+                  ),
+                );
+                Navigator.pop(context);
+              },
+            ),
+          ]),
+        );
+      },
+    );
+  }
+
+  Widget _buildFromDate(BuildContext context) {
+    return CustomFilterChip(
+      label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
+      iconData: Icons.calendar_today_outlined,
+      callback: (value) {
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(
+            2000,
+          ),
+          lastDate: DateTime(
+            2050,
+          ),
+        ).then(
+          (value) {
+            setState(() {
+              dateFrom = value;
+            });
+            taskBloc.add(
+              AllTaskLoadInitiated(
+                isTask: true,
+                newFetch: true,
+                budgetTo: budgetTo.text,
+                budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                dateFrom: DateFormat("yyyy-MM-dd").format(
+                  dateFrom!,
+                ),
+                dateTo: dateTo == null
+                    ? null
+                    : DateFormat("yyyy-MM-dd").format(
+                        dateTo!,
+                      ),
+                city: location,
+              ),
             );
           },
-        ),
+        );
+      },
+    );
+  }
+
+  Widget _buildToDate(BuildContext context) {
+    return CustomFilterChip(
+      label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
+      iconData: Icons.calendar_today_outlined,
+      callback: (value) {
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(
+            2000,
+          ),
+          lastDate: DateTime(
+            2050,
+          ),
+        ).then(
+          (value) {
+            setState(() {
+              dateTo = value;
+            });
+
+            taskBloc.add(
+              AllTaskLoadInitiated(
+                isTask: true,
+                newFetch: true,
+                budgetTo: budgetTo.text,
+                budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                dateTo: DateFormat("yyyy-MM-dd").format(
+                  dateTo!,
+                ),
+                dateFrom: dateFrom == null
+                    ? null
+                    : DateFormat("yyyy-MM-dd").format(
+                        dateFrom!,
+                      ),
+                city: location,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildClearFilters(
+    BuildContext context,
+  ) {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          dateFrom = null;
+          dateTo = null;
+          budgetFrom.clear();
+          budgetTo.clear();
+          category = null;
+          location = null;
+        });
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+          ),
+        );
+      },
+      icon: Icon(
+        Icons.clear,
+        color: kColorSilver,
       ),
     );
   }

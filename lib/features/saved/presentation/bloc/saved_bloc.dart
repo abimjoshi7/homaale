@@ -65,7 +65,8 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
                   ),
                 ),
               )
-              .whenComplete(() => add(SavedListLoaded(type: event.savedAddReq.model.toString())));
+              .whenComplete(() => add(
+                  SavedListLoaded(type: event.savedAddReq.model.toString())));
         } catch (e) {
           log("Saved Add Error: $e");
           emit(

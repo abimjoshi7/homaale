@@ -21,7 +21,7 @@ class CompleteProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: "Complete Profile",
+        appBarTitle: "Complete Profile",trailingWidget: SizedBox()
       ),
       body: Column(
         children: [

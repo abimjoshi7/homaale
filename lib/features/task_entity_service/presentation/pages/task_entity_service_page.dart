@@ -114,7 +114,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             ...state.taskEntityService?.videos ?? [],
           ];
           return Scaffold(
-            appBar: CustomAppBar(appBarTitle: state.taskEntityService?.title ?? ''),
+            appBar: CustomAppBar(appBarTitle: state.taskEntityService?.title ?? '',trailingWidget: SizedBox()),
             body: Column(
               children: [
                 Expanded(

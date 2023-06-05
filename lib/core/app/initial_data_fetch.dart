@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 void initialFetch(BuildContext context) {
   context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
   context.read<TaskEntityServiceBloc>().add(TaskEntityServiceInitiated(isTask: false, newFetch: true));
-  context.read<TaskBloc>().add(const AllTaskLoadInitiated(page: 1));
+  context.read<TaskBloc>().add(AllTaskLoadInitiated(page: 1));
   context.read<TaskerCubit>().loadTaskerList();
 }
 

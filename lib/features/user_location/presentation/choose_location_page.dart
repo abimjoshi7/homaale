@@ -103,7 +103,7 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
         return GoogleMap(
           initialCameraPosition: CameraPosition(
             target: state.location ?? kUserLocation,
-            zoom: 17.5,
+            zoom: 12.5,
           ),
           compassEnabled: true,
           mapType: MapType.normal,

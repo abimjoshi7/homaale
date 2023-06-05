@@ -14,7 +14,7 @@ class QuickLinksPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Quick Links',
+        appBarTitle: 'Quick Links',trailingWidget: SizedBox()
       ),
       body: Column(
         children: [

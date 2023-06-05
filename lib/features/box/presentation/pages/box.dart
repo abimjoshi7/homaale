@@ -9,6 +9,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../bookings/presentation/bloc/bookings_bloc.dart';
+import '../../../home/presentation/pages/home.dart';
 
 class BoxPage extends StatefulWidget {
   const BoxPage({super.key});

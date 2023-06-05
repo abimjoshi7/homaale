@@ -12,7 +12,7 @@ class HoroscopePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Horoscope ',
+        appBarTitle: 'Horoscope ',trailingWidget: SizedBox()
       ),
       body:  InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.parse("https://sandbox.homaale.com/horoscope/nepali?mobile_app=true")),

@@ -25,7 +25,7 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Terms Of Use'),
+      appBar: CustomAppBar(appBarTitle: 'Terms Of Use',trailingWidget: SizedBox()),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

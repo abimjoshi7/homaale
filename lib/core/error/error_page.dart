@@ -10,7 +10,7 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Error Page'),
+      appBar: CustomAppBar(appBarTitle: 'Error Page',trailingWidget: SizedBox()),
       body: Column(
         children: [
           addVerticalSpace(20),
