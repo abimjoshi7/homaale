@@ -74,6 +74,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           firstName = state.taskerProfile?.user?.firstName;
           middleName = state.taskerProfile?.user?.middleName;
           lastName = state.taskerProfile?.user?.lastName;
+          gender = state.taskerProfile?.gender;
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
           return Padding(
@@ -225,9 +226,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                                       state.taskerProfile?.user?.middleName ??
                                           '',
                                   onSaved: (p0) => setState(
-                                    () {
-                                      middleName = p0;
-                                    },
+                                    () => middleName = p0,
                                   ),
                                 ),
                               ],
@@ -364,6 +363,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           "last_name": lastName!.isEmpty
                               ? state.taskerProfile?.user!.lastName
                               : lastName,
+                          "gender": gender,
                           // "designation": designation!.isEmpty
                           //     ? state.taskerProfile?.designation
                           //     : designation,
