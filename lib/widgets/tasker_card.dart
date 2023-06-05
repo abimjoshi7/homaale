@@ -143,10 +143,7 @@ class TaskerCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        CustomFavoriteIcon(
-                          typeID: id ?? '',
-                          type: "user",
-                        ),
+                        SizedBox(),
                         SizedBox(
                           height: 30,
                           width: buttonWidth ?? 80,

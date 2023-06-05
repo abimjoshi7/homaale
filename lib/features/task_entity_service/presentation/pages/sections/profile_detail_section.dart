@@ -1,6 +1,5 @@
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';
@@ -70,13 +69,13 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
             ),
             Row(
               children: <Widget>[
-                CustomFavoriteIcon(
-                  typeID: state.taskEntityService?.id ?? '',
-                  type: "entityservice",
-                ),
-                addHorizontalSpace(
-                  8,
-                ),
+                state.taskEntityService?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id
+                    ? SizedBox()
+                    : CustomFavoriteIcon(
+                        typeID: state.taskEntityService?.id ?? '',
+                        type: "entityservice",
+                      ),
+                addHorizontalSpace(8),
                 InkWell(
                   onTap: () {
                     showCustomBottomSheet(
@@ -88,9 +87,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               Icons.share,
                               color: Colors.blue,
                             ),
+                            horizontalTitleGap: 4,
                             title: Text(
                               "Share",
-                              style: Theme.of(context).textTheme.headlineLarge,
+                              style: Theme.of(context).textTheme.displayMedium,
                             ),
                             onTap: () {
                               if (!CacheHelper.isLoggedIn) {
@@ -113,9 +113,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                 Icons.report,
                                 color: kColorSecondary,
                               ),
+                              horizontalTitleGap: 4,
                               title: Text(
                                 'Report',
-                                style: Theme.of(context).textTheme.headlineLarge,
+                                style: Theme.of(context).textTheme.displayMedium,
                               ),
                               onTap: () {
                                 context
@@ -140,10 +141,24 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               children: [
                                 ListTile(
                                   onTap: () {
-                                    showCustomBottomSheet(
+                                    showModalBottomSheet(
                                       context: context,
-                                      widget: EditTaskEntityServiceForm(
-                                        service: state.taskEntityService ?? TaskEntityService(),
+                                      isScrollControlled: true,
+                                      builder: (context) => Container(
+                                        height: MediaQuery.of(context).size.height * 0.75,
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                                            left: 8,
+                                            right: 8,
+                                            top: 8),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              EditTaskEntityServiceForm(),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     );
                                   },
@@ -151,9 +166,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                     Icons.edit_outlined,
                                     color: kColorOrange,
                                   ),
+                                  horizontalTitleGap: 4,
                                   title: Text(
-                                    "Update",
-                                    style: Theme.of(context).textTheme.headlineLarge,
+                                    "Edit",
+                                    style: Theme.of(context).textTheme.displayMedium,
                                   ),
                                 ),
                                 ListTile(
@@ -161,9 +177,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                     Icons.delete,
                                     color: kColorSilver,
                                   ),
+                                  horizontalTitleGap: 4,
                                   title: Text(
                                     "Remove",
-                                    style: Theme.of(context).textTheme.headlineLarge,
+                                    style: Theme.of(context).textTheme.displayMedium,
                                   ),
                                   onTap: () {
                                     if (!CacheHelper.isLoggedIn) {

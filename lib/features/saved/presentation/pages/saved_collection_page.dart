@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/saved/data/models/res/saved_model_res.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
@@ -57,11 +58,21 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                   },
                   child: TaskerCard(
                     id: e.data?.user?.id,
-                    networkImageUrl: e.data?.profileImage ?? kServiceImageNImg,
-                    label: "${e.data?.user?.fullName}",
+                    networkImageUrl: e.data?.profileImage,
+                    label: "${e.data?.user?.firstName} ${e.data?.user?.lastName}",
+                    designation: e.data?.designation,
+                    happyClients: e.data?.stats?.happyClients.toString(),
                     ratings:
                         "${e.data?.rating != null ? double.tryParse(e.data!.rating['avg_rating'].toString())?.toStringAsFixed(2) : '0'} (${e.data?.rating != null ? e.data!.rating['user_rating_count'] : '0'})",
-                    callback: () {},
+                    callbackLabel: e.data?.isFollowed ?? false ? 'Following' : 'Follow',
+                    isFollowed: e.data?.isFollowed ?? false,
+                    callback: () {
+                      if (e.data?.isFollowed ?? false) {
+                        context.read<TaskerCubit>().handleFollowUnFollow(id: e.data?.user?.id ?? '', follow: false);
+                      } else {
+                        context.read<TaskerCubit>().handleFollowUnFollow(id: e.data?.user?.id ?? '', follow: true);
+                      }
+                    },
                     onFavouriteTapped: () {},
                   ),
                 );
@@ -73,6 +84,12 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                             id: e.data?.id.toString() ?? '',
                           ),
                         );
+
+                    context.read<RatingReviewsBloc>().add(
+                          SetToInitial(
+                            id: e.data?.id.toString() ?? '',
+                          ),
+                        );
                     Navigator.pushNamed(
                       context,
                       TaskEntityServicePage.routeName,
@@ -80,11 +97,11 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                   },
                   child: ServiceCard(
                     location: '${e.data?.location == '' ? 'Remote' : e.data?.location ?? 'Remote'}',
-                    description: "${e.data?.createdBy?.fullName}",
+                    createdBy: "${e.data?.createdBy?.fullName}",
                     title: '${e.data?.title}',
                     imagePath: kServiceImageNImg,
-                    rating:
-                        '${e.data?.rating != null ? double.tryParse(e.data!.rating[0]['rating'].toString())?.toStringAsFixed(2) : '0.0'}${e.data?.rating != null ? ' (${e.data!.rating[0]['rating_count'].toString()})' : ' (0)'}',
+                    rating: '0 (0)',
+                    isBookmarked: true,
                   ),
                 );
               }
