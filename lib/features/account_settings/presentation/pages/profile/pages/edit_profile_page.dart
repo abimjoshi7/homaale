@@ -37,7 +37,10 @@ class _EditProfilePageState extends State<EditProfilePage>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBar(appBarTitle: "Edit Profile",trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+        appBarTitle: "Edit Profile",
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

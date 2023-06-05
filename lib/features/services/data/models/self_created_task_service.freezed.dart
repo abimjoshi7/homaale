@@ -21,11 +21,13 @@ SelfCreatedTaskService _$SelfCreatedTaskServiceFromJson(
 
 /// @nodoc
 mixin _$SelfCreatedTaskService {
+  @JsonKey(name: 'total_pages')
   int? get totalPages => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
   int? get current => throw _privateConstructorUsedError;
   String? get next => throw _privateConstructorUsedError;
   String? get previous => throw _privateConstructorUsedError;
+  @JsonKey(name: 'page_size')
   int? get pageSize => throw _privateConstructorUsedError;
   List<Result>? get result => throw _privateConstructorUsedError;
 
@@ -42,12 +44,12 @@ abstract class $SelfCreatedTaskServiceCopyWith<$Res> {
       _$SelfCreatedTaskServiceCopyWithImpl<$Res, SelfCreatedTaskService>;
   @useResult
   $Res call(
-      {int? totalPages,
+      {@JsonKey(name: 'total_pages') int? totalPages,
       int? count,
       int? current,
       String? next,
       String? previous,
-      int? pageSize,
+      @JsonKey(name: 'page_size') int? pageSize,
       List<Result>? result});
 }
 
@@ -115,12 +117,12 @@ abstract class _$$_SelfCreatedTaskServiceCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? totalPages,
+      {@JsonKey(name: 'total_pages') int? totalPages,
       int? count,
       int? current,
       String? next,
       String? previous,
-      int? pageSize,
+      @JsonKey(name: 'page_size') int? pageSize,
       List<Result>? result});
 }
 
@@ -181,12 +183,12 @@ class __$$_SelfCreatedTaskServiceCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SelfCreatedTaskService implements _SelfCreatedTaskService {
   const _$_SelfCreatedTaskService(
-      {this.totalPages,
+      {@JsonKey(name: 'total_pages') this.totalPages,
       this.count,
       this.current,
       this.next,
       this.previous,
-      this.pageSize,
+      @JsonKey(name: 'page_size') this.pageSize,
       final List<Result>? result})
       : _result = result;
 
@@ -194,6 +196,7 @@ class _$_SelfCreatedTaskService implements _SelfCreatedTaskService {
       _$$_SelfCreatedTaskServiceFromJson(json);
 
   @override
+  @JsonKey(name: 'total_pages')
   final int? totalPages;
   @override
   final int? count;
@@ -204,6 +207,7 @@ class _$_SelfCreatedTaskService implements _SelfCreatedTaskService {
   @override
   final String? previous;
   @override
+  @JsonKey(name: 'page_size')
   final int? pageSize;
   final List<Result>? _result;
   @override
@@ -259,18 +263,19 @@ class _$_SelfCreatedTaskService implements _SelfCreatedTaskService {
 
 abstract class _SelfCreatedTaskService implements SelfCreatedTaskService {
   const factory _SelfCreatedTaskService(
-      {final int? totalPages,
+      {@JsonKey(name: 'total_pages') final int? totalPages,
       final int? count,
       final int? current,
       final String? next,
       final String? previous,
-      final int? pageSize,
+      @JsonKey(name: 'page_size') final int? pageSize,
       final List<Result>? result}) = _$_SelfCreatedTaskService;
 
   factory _SelfCreatedTaskService.fromJson(Map<String, dynamic> json) =
       _$_SelfCreatedTaskService.fromJson;
 
   @override
+  @JsonKey(name: 'total_pages')
   int? get totalPages;
   @override
   int? get count;
@@ -281,6 +286,7 @@ abstract class _SelfCreatedTaskService implements SelfCreatedTaskService {
   @override
   String? get previous;
   @override
+  @JsonKey(name: 'page_size')
   int? get pageSize;
   @override
   List<Result>? get result;
@@ -297,43 +303,71 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Result {
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_by')
   CreatedBy? get createdBy => throw _privateConstructorUsedError;
   Currency? get currency => throw _privateConstructorUsedError;
   City? get city => throw _privateConstructorUsedError;
-  List<dynamic>? get images => throw _privateConstructorUsedError;
-  List<dynamic>? get videos => throw _privateConstructorUsedError;
+  List<Image>? get images => throw _privateConstructorUsedError;
+  List<Image>? get videos => throw _privateConstructorUsedError;
   Service? get service => throw _privateConstructorUsedError;
+  Event? get event => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   List<String>? get highlights => throw _privateConstructorUsedError;
+  @JsonKey(name: 'budget_type')
   String? get budgetType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_range')
+  bool? get isRange => throw _privateConstructorUsedError;
+  @JsonKey(name: 'budget_from')
   String? get budgetFrom => throw _privateConstructorUsedError;
+  @JsonKey(name: 'budget_to')
   String? get budgetTo => throw _privateConstructorUsedError;
-  DateTime? get startDate => throw _privateConstructorUsedError;
-  DateTime? get endDate => throw _privateConstructorUsedError;
-  String? get startTime => throw _privateConstructorUsedError;
-  String? get endTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'payable_from')
+  String? get payableFrom => throw _privateConstructorUsedError;
+  @JsonKey(name: 'payable_to')
+  String? get payableTo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_date')
+  dynamic? get startDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'end_date')
+  dynamic? get endDate => throw _privateConstructorUsedError;
+  @JsonKey(name: 'start_time')
+  dynamic? get startTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'end_time')
+  dynamic? get endTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'share_location')
   bool? get shareLocation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_negotiable')
   bool? get isNegotiable => throw _privateConstructorUsedError;
   int? get revisions => throw _privateConstructorUsedError;
-  String? get recursionType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'views_count')
   int? get viewsCount => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_professional')
   bool? get isProfessional => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_online')
   bool? get isOnline => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_requested')
   bool? get isRequested => throw _privateConstructorUsedError;
+  @JsonKey(name: 'discount_type')
   String? get discountType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'discount_value')
   String? get discountValue => throw _privateConstructorUsedError;
-  int? get noOfReservation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'extra_data')
+  dynamic? get extraData => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_active')
   bool? get isActive => throw _privateConstructorUsedError;
+  @JsonKey(name: 'needs_approval')
   bool? get needsApproval => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_endorsed')
   bool? get isEndorsed => throw _privateConstructorUsedError;
-  dynamic get merchant => throw _privateConstructorUsedError;
-  dynamic get event => throw _privateConstructorUsedError;
-  dynamic get avatar => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_by')
+  String? get updatedBy => throw _privateConstructorUsedError;
+  String? get owner => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -347,48 +381,51 @@ abstract class $ResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      CreatedBy? createdBy,
+      @JsonKey(name: 'created_by') CreatedBy? createdBy,
       Currency? currency,
       City? city,
-      List<dynamic>? images,
-      List<dynamic>? videos,
+      List<Image>? images,
+      List<Image>? videos,
       Service? service,
-      DateTime? createdAt,
-      DateTime? updatedAt,
+      Event? event,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
       String? title,
       String? description,
       List<String>? highlights,
-      String? budgetType,
-      String? budgetFrom,
-      String? budgetTo,
-      DateTime? startDate,
-      DateTime? endDate,
-      String? startTime,
-      String? endTime,
-      bool? shareLocation,
-      bool? isNegotiable,
+      @JsonKey(name: 'budget_type') String? budgetType,
+      @JsonKey(name: 'is_range') bool? isRange,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
+      @JsonKey(name: 'payable_from') String? payableFrom,
+      @JsonKey(name: 'payable_to') String? payableTo,
+      @JsonKey(name: 'start_date') dynamic? startDate,
+      @JsonKey(name: 'end_date') dynamic? endDate,
+      @JsonKey(name: 'start_time') dynamic? startTime,
+      @JsonKey(name: 'end_time') dynamic? endTime,
+      @JsonKey(name: 'share_location') bool? shareLocation,
+      @JsonKey(name: 'is_negotiable') bool? isNegotiable,
       int? revisions,
-      String? recursionType,
-      int? viewsCount,
+      @JsonKey(name: 'views_count') int? viewsCount,
       String? location,
-      bool? isProfessional,
-      bool? isOnline,
-      bool? isRequested,
-      String? discountType,
-      String? discountValue,
-      int? noOfReservation,
+      @JsonKey(name: 'is_professional') bool? isProfessional,
+      @JsonKey(name: 'is_online') bool? isOnline,
+      @JsonKey(name: 'is_requested') bool? isRequested,
+      @JsonKey(name: 'discount_type') String? discountType,
+      @JsonKey(name: 'discount_value') String? discountValue,
+      @JsonKey(name: 'extra_data') dynamic? extraData,
       String? slug,
-      bool? isActive,
-      bool? needsApproval,
-      bool? isEndorsed,
-      dynamic merchant,
-      dynamic event,
-      dynamic avatar});
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'needs_approval') bool? needsApproval,
+      @JsonKey(name: 'is_endorsed') bool? isEndorsed,
+      @JsonKey(name: 'updated_by') String? updatedBy,
+      String? owner});
 
   $CreatedByCopyWith<$Res>? get createdBy;
   $CurrencyCopyWith<$Res>? get currency;
   $CityCopyWith<$Res>? get city;
   $ServiceCopyWith<$Res>? get service;
+  $EventCopyWith<$Res>? get event;
 }
 
 /// @nodoc
@@ -411,14 +448,18 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? images = freezed,
     Object? videos = freezed,
     Object? service = freezed,
+    Object? event = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? highlights = freezed,
     Object? budgetType = freezed,
+    Object? isRange = freezed,
     Object? budgetFrom = freezed,
     Object? budgetTo = freezed,
+    Object? payableFrom = freezed,
+    Object? payableTo = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? startTime = freezed,
@@ -426,7 +467,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? shareLocation = freezed,
     Object? isNegotiable = freezed,
     Object? revisions = freezed,
-    Object? recursionType = freezed,
     Object? viewsCount = freezed,
     Object? location = freezed,
     Object? isProfessional = freezed,
@@ -434,14 +474,13 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? noOfReservation = freezed,
+    Object? extraData = freezed,
     Object? slug = freezed,
     Object? isActive = freezed,
     Object? needsApproval = freezed,
     Object? isEndorsed = freezed,
-    Object? merchant = freezed,
-    Object? event = freezed,
-    Object? avatar = freezed,
+    Object? updatedBy = freezed,
+    Object? owner = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -463,15 +502,19 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       videos: freezed == videos
           ? _value.videos
           : videos // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       service: freezed == service
           ? _value.service
           : service // ignore: cast_nullable_to_non_nullable
               as Service?,
+      event: freezed == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as Event?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -496,6 +539,10 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
               as String?,
+      isRange: freezed == isRange
+          ? _value.isRange
+          : isRange // ignore: cast_nullable_to_non_nullable
+              as bool?,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
@@ -504,22 +551,30 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
               as String?,
+      payableFrom: freezed == payableFrom
+          ? _value.payableFrom
+          : payableFrom // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payableTo: freezed == payableTo
+          ? _value.payableTo
+          : payableTo // ignore: cast_nullable_to_non_nullable
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as dynamic?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as dynamic?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as dynamic?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as dynamic?,
       shareLocation: freezed == shareLocation
           ? _value.shareLocation
           : shareLocation // ignore: cast_nullable_to_non_nullable
@@ -532,10 +587,6 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.revisions
           : revisions // ignore: cast_nullable_to_non_nullable
               as int?,
-      recursionType: freezed == recursionType
-          ? _value.recursionType
-          : recursionType // ignore: cast_nullable_to_non_nullable
-              as String?,
       viewsCount: freezed == viewsCount
           ? _value.viewsCount
           : viewsCount // ignore: cast_nullable_to_non_nullable
@@ -564,10 +615,10 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      noOfReservation: freezed == noOfReservation
-          ? _value.noOfReservation
-          : noOfReservation // ignore: cast_nullable_to_non_nullable
-              as int?,
+      extraData: freezed == extraData
+          ? _value.extraData
+          : extraData // ignore: cast_nullable_to_non_nullable
+              as dynamic?,
       slug: freezed == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
@@ -584,18 +635,14 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.isEndorsed
           : isEndorsed // ignore: cast_nullable_to_non_nullable
               as bool?,
-      merchant: freezed == merchant
-          ? _value.merchant
-          : merchant // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      event: freezed == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      updatedBy: freezed == updatedBy
+          ? _value.updatedBy
+          : updatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      owner: freezed == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -646,6 +693,18 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       return _then(_value.copyWith(service: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $EventCopyWith<$Res>? get event {
+    if (_value.event == null) {
+      return null;
+    }
+
+    return $EventCopyWith<$Res>(_value.event!, (value) {
+      return _then(_value.copyWith(event: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -656,43 +715,45 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      CreatedBy? createdBy,
+      @JsonKey(name: 'created_by') CreatedBy? createdBy,
       Currency? currency,
       City? city,
-      List<dynamic>? images,
-      List<dynamic>? videos,
+      List<Image>? images,
+      List<Image>? videos,
       Service? service,
-      DateTime? createdAt,
-      DateTime? updatedAt,
+      Event? event,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
       String? title,
       String? description,
       List<String>? highlights,
-      String? budgetType,
-      String? budgetFrom,
-      String? budgetTo,
-      DateTime? startDate,
-      DateTime? endDate,
-      String? startTime,
-      String? endTime,
-      bool? shareLocation,
-      bool? isNegotiable,
+      @JsonKey(name: 'budget_type') String? budgetType,
+      @JsonKey(name: 'is_range') bool? isRange,
+      @JsonKey(name: 'budget_from') String? budgetFrom,
+      @JsonKey(name: 'budget_to') String? budgetTo,
+      @JsonKey(name: 'payable_from') String? payableFrom,
+      @JsonKey(name: 'payable_to') String? payableTo,
+      @JsonKey(name: 'start_date') dynamic? startDate,
+      @JsonKey(name: 'end_date') dynamic? endDate,
+      @JsonKey(name: 'start_time') dynamic? startTime,
+      @JsonKey(name: 'end_time') dynamic? endTime,
+      @JsonKey(name: 'share_location') bool? shareLocation,
+      @JsonKey(name: 'is_negotiable') bool? isNegotiable,
       int? revisions,
-      String? recursionType,
-      int? viewsCount,
+      @JsonKey(name: 'views_count') int? viewsCount,
       String? location,
-      bool? isProfessional,
-      bool? isOnline,
-      bool? isRequested,
-      String? discountType,
-      String? discountValue,
-      int? noOfReservation,
+      @JsonKey(name: 'is_professional') bool? isProfessional,
+      @JsonKey(name: 'is_online') bool? isOnline,
+      @JsonKey(name: 'is_requested') bool? isRequested,
+      @JsonKey(name: 'discount_type') String? discountType,
+      @JsonKey(name: 'discount_value') String? discountValue,
+      @JsonKey(name: 'extra_data') dynamic? extraData,
       String? slug,
-      bool? isActive,
-      bool? needsApproval,
-      bool? isEndorsed,
-      dynamic merchant,
-      dynamic event,
-      dynamic avatar});
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'needs_approval') bool? needsApproval,
+      @JsonKey(name: 'is_endorsed') bool? isEndorsed,
+      @JsonKey(name: 'updated_by') String? updatedBy,
+      String? owner});
 
   @override
   $CreatedByCopyWith<$Res>? get createdBy;
@@ -702,6 +763,8 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   $CityCopyWith<$Res>? get city;
   @override
   $ServiceCopyWith<$Res>? get service;
+  @override
+  $EventCopyWith<$Res>? get event;
 }
 
 /// @nodoc
@@ -721,14 +784,18 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? images = freezed,
     Object? videos = freezed,
     Object? service = freezed,
+    Object? event = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? highlights = freezed,
     Object? budgetType = freezed,
+    Object? isRange = freezed,
     Object? budgetFrom = freezed,
     Object? budgetTo = freezed,
+    Object? payableFrom = freezed,
+    Object? payableTo = freezed,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? startTime = freezed,
@@ -736,7 +803,6 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? shareLocation = freezed,
     Object? isNegotiable = freezed,
     Object? revisions = freezed,
-    Object? recursionType = freezed,
     Object? viewsCount = freezed,
     Object? location = freezed,
     Object? isProfessional = freezed,
@@ -744,14 +810,13 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? isRequested = freezed,
     Object? discountType = freezed,
     Object? discountValue = freezed,
-    Object? noOfReservation = freezed,
+    Object? extraData = freezed,
     Object? slug = freezed,
     Object? isActive = freezed,
     Object? needsApproval = freezed,
     Object? isEndorsed = freezed,
-    Object? merchant = freezed,
-    Object? event = freezed,
-    Object? avatar = freezed,
+    Object? updatedBy = freezed,
+    Object? owner = freezed,
   }) {
     return _then(_$_Result(
       id: freezed == id
@@ -773,15 +838,19 @@ class __$$_ResultCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       videos: freezed == videos
           ? _value._videos
           : videos // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Image>?,
       service: freezed == service
           ? _value.service
           : service // ignore: cast_nullable_to_non_nullable
               as Service?,
+      event: freezed == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as Event?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -806,6 +875,10 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
               as String?,
+      isRange: freezed == isRange
+          ? _value.isRange
+          : isRange // ignore: cast_nullable_to_non_nullable
+              as bool?,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
@@ -814,22 +887,30 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.budgetTo
           : budgetTo // ignore: cast_nullable_to_non_nullable
               as String?,
+      payableFrom: freezed == payableFrom
+          ? _value.payableFrom
+          : payableFrom // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payableTo: freezed == payableTo
+          ? _value.payableTo
+          : payableTo // ignore: cast_nullable_to_non_nullable
+              as String?,
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as dynamic?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as dynamic?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as dynamic?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as dynamic?,
       shareLocation: freezed == shareLocation
           ? _value.shareLocation
           : shareLocation // ignore: cast_nullable_to_non_nullable
@@ -842,10 +923,6 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.revisions
           : revisions // ignore: cast_nullable_to_non_nullable
               as int?,
-      recursionType: freezed == recursionType
-          ? _value.recursionType
-          : recursionType // ignore: cast_nullable_to_non_nullable
-              as String?,
       viewsCount: freezed == viewsCount
           ? _value.viewsCount
           : viewsCount // ignore: cast_nullable_to_non_nullable
@@ -874,10 +951,10 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
               as String?,
-      noOfReservation: freezed == noOfReservation
-          ? _value.noOfReservation
-          : noOfReservation // ignore: cast_nullable_to_non_nullable
-              as int?,
+      extraData: freezed == extraData
+          ? _value.extraData
+          : extraData // ignore: cast_nullable_to_non_nullable
+              as dynamic?,
       slug: freezed == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
@@ -894,18 +971,14 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.isEndorsed
           : isEndorsed // ignore: cast_nullable_to_non_nullable
               as bool?,
-      merchant: freezed == merchant
-          ? _value.merchant
-          : merchant // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      event: freezed == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      updatedBy: freezed == updatedBy
+          ? _value.updatedBy
+          : updatedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      owner: freezed == owner
+          ? _value.owner
+          : owner // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -915,43 +988,45 @@ class __$$_ResultCopyWithImpl<$Res>
 class _$_Result implements _Result {
   const _$_Result(
       {this.id,
-      this.createdBy,
+      @JsonKey(name: 'created_by') this.createdBy,
       this.currency,
       this.city,
-      final List<dynamic>? images,
-      final List<dynamic>? videos,
+      final List<Image>? images,
+      final List<Image>? videos,
       this.service,
-      this.createdAt,
-      this.updatedAt,
+      this.event,
+      @JsonKey(name: 'created_at') this.createdAt,
+      @JsonKey(name: 'updated_at') this.updatedAt,
       this.title,
       this.description,
       final List<String>? highlights,
-      this.budgetType,
-      this.budgetFrom,
-      this.budgetTo,
-      this.startDate,
-      this.endDate,
-      this.startTime,
-      this.endTime,
-      this.shareLocation,
-      this.isNegotiable,
+      @JsonKey(name: 'budget_type') this.budgetType,
+      @JsonKey(name: 'is_range') this.isRange,
+      @JsonKey(name: 'budget_from') this.budgetFrom,
+      @JsonKey(name: 'budget_to') this.budgetTo,
+      @JsonKey(name: 'payable_from') this.payableFrom,
+      @JsonKey(name: 'payable_to') this.payableTo,
+      @JsonKey(name: 'start_date') this.startDate,
+      @JsonKey(name: 'end_date') this.endDate,
+      @JsonKey(name: 'start_time') this.startTime,
+      @JsonKey(name: 'end_time') this.endTime,
+      @JsonKey(name: 'share_location') this.shareLocation,
+      @JsonKey(name: 'is_negotiable') this.isNegotiable,
       this.revisions,
-      this.recursionType,
-      this.viewsCount,
+      @JsonKey(name: 'views_count') this.viewsCount,
       this.location,
-      this.isProfessional,
-      this.isOnline,
-      this.isRequested,
-      this.discountType,
-      this.discountValue,
-      this.noOfReservation,
+      @JsonKey(name: 'is_professional') this.isProfessional,
+      @JsonKey(name: 'is_online') this.isOnline,
+      @JsonKey(name: 'is_requested') this.isRequested,
+      @JsonKey(name: 'discount_type') this.discountType,
+      @JsonKey(name: 'discount_value') this.discountValue,
+      @JsonKey(name: 'extra_data') this.extraData,
       this.slug,
-      this.isActive,
-      this.needsApproval,
-      this.isEndorsed,
-      this.merchant,
-      this.event,
-      this.avatar})
+      @JsonKey(name: 'is_active') this.isActive,
+      @JsonKey(name: 'needs_approval') this.needsApproval,
+      @JsonKey(name: 'is_endorsed') this.isEndorsed,
+      @JsonKey(name: 'updated_by') this.updatedBy,
+      this.owner})
       : _images = images,
         _videos = videos,
         _highlights = highlights;
@@ -962,14 +1037,15 @@ class _$_Result implements _Result {
   @override
   final String? id;
   @override
+  @JsonKey(name: 'created_by')
   final CreatedBy? createdBy;
   @override
   final Currency? currency;
   @override
   final City? city;
-  final List<dynamic>? _images;
+  final List<Image>? _images;
   @override
-  List<dynamic>? get images {
+  List<Image>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -977,9 +1053,9 @@ class _$_Result implements _Result {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<dynamic>? _videos;
+  final List<Image>? _videos;
   @override
-  List<dynamic>? get videos {
+  List<Image>? get videos {
     final value = _videos;
     if (value == null) return null;
     if (_videos is EqualUnmodifiableListView) return _videos;
@@ -990,8 +1066,12 @@ class _$_Result implements _Result {
   @override
   final Service? service;
   @override
+  final Event? event;
+  @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
   @override
   final String? title;
@@ -1008,61 +1088,86 @@ class _$_Result implements _Result {
   }
 
   @override
+  @JsonKey(name: 'budget_type')
   final String? budgetType;
   @override
+  @JsonKey(name: 'is_range')
+  final bool? isRange;
+  @override
+  @JsonKey(name: 'budget_from')
   final String? budgetFrom;
   @override
+  @JsonKey(name: 'budget_to')
   final String? budgetTo;
   @override
-  final DateTime? startDate;
+  @JsonKey(name: 'payable_from')
+  final String? payableFrom;
   @override
-  final DateTime? endDate;
+  @JsonKey(name: 'payable_to')
+  final String? payableTo;
   @override
-  final String? startTime;
+  @JsonKey(name: 'start_date')
+  final dynamic? startDate;
   @override
-  final String? endTime;
+  @JsonKey(name: 'end_date')
+  final dynamic? endDate;
   @override
+  @JsonKey(name: 'start_time')
+  final dynamic? startTime;
+  @override
+  @JsonKey(name: 'end_time')
+  final dynamic? endTime;
+  @override
+  @JsonKey(name: 'share_location')
   final bool? shareLocation;
   @override
+  @JsonKey(name: 'is_negotiable')
   final bool? isNegotiable;
   @override
   final int? revisions;
   @override
-  final String? recursionType;
-  @override
+  @JsonKey(name: 'views_count')
   final int? viewsCount;
   @override
   final String? location;
   @override
+  @JsonKey(name: 'is_professional')
   final bool? isProfessional;
   @override
+  @JsonKey(name: 'is_online')
   final bool? isOnline;
   @override
+  @JsonKey(name: 'is_requested')
   final bool? isRequested;
   @override
+  @JsonKey(name: 'discount_type')
   final String? discountType;
   @override
+  @JsonKey(name: 'discount_value')
   final String? discountValue;
   @override
-  final int? noOfReservation;
+  @JsonKey(name: 'extra_data')
+  final dynamic? extraData;
   @override
   final String? slug;
   @override
+  @JsonKey(name: 'is_active')
   final bool? isActive;
   @override
+  @JsonKey(name: 'needs_approval')
   final bool? needsApproval;
   @override
+  @JsonKey(name: 'is_endorsed')
   final bool? isEndorsed;
   @override
-  final dynamic merchant;
+  @JsonKey(name: 'updated_by')
+  final String? updatedBy;
   @override
-  final dynamic event;
-  @override
-  final dynamic avatar;
+  final String? owner;
 
   @override
   String toString() {
-    return 'Result(id: $id, createdBy: $createdBy, currency: $currency, city: $city, images: $images, videos: $videos, service: $service, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, recursionType: $recursionType, viewsCount: $viewsCount, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, merchant: $merchant, event: $event, avatar: $avatar)';
+    return 'Result(id: $id, createdBy: $createdBy, currency: $currency, city: $city, images: $images, videos: $videos, service: $service, event: $event, createdAt: $createdAt, updatedAt: $updatedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, payableFrom: $payableFrom, payableTo: $payableTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, revisions: $revisions, viewsCount: $viewsCount, location: $location, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, extraData: $extraData, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, updatedBy: $updatedBy, owner: $owner)';
   }
 
   @override
@@ -1079,6 +1184,7 @@ class _$_Result implements _Result {
             const DeepCollectionEquality().equals(other._images, _images) &&
             const DeepCollectionEquality().equals(other._videos, _videos) &&
             (identical(other.service, service) || other.service == service) &&
+            (identical(other.event, event) || other.event == event) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -1090,24 +1196,25 @@ class _$_Result implements _Result {
                 .equals(other._highlights, _highlights) &&
             (identical(other.budgetType, budgetType) ||
                 other.budgetType == budgetType) &&
+            (identical(other.isRange, isRange) || other.isRange == isRange) &&
             (identical(other.budgetFrom, budgetFrom) ||
                 other.budgetFrom == budgetFrom) &&
             (identical(other.budgetTo, budgetTo) ||
                 other.budgetTo == budgetTo) &&
-            (identical(other.startDate, startDate) ||
-                other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            (identical(other.startTime, startTime) ||
-                other.startTime == startTime) &&
-            (identical(other.endTime, endTime) || other.endTime == endTime) &&
+            (identical(other.payableFrom, payableFrom) ||
+                other.payableFrom == payableFrom) &&
+            (identical(other.payableTo, payableTo) ||
+                other.payableTo == payableTo) &&
+            const DeepCollectionEquality().equals(other.startDate, startDate) &&
+            const DeepCollectionEquality().equals(other.endDate, endDate) &&
+            const DeepCollectionEquality().equals(other.startTime, startTime) &&
+            const DeepCollectionEquality().equals(other.endTime, endTime) &&
             (identical(other.shareLocation, shareLocation) ||
                 other.shareLocation == shareLocation) &&
             (identical(other.isNegotiable, isNegotiable) ||
                 other.isNegotiable == isNegotiable) &&
             (identical(other.revisions, revisions) ||
                 other.revisions == revisions) &&
-            (identical(other.recursionType, recursionType) ||
-                other.recursionType == recursionType) &&
             (identical(other.viewsCount, viewsCount) ||
                 other.viewsCount == viewsCount) &&
             (identical(other.location, location) ||
@@ -1122,8 +1229,7 @@ class _$_Result implements _Result {
                 other.discountType == discountType) &&
             (identical(other.discountValue, discountValue) ||
                 other.discountValue == discountValue) &&
-            (identical(other.noOfReservation, noOfReservation) ||
-                other.noOfReservation == noOfReservation) &&
+            const DeepCollectionEquality().equals(other.extraData, extraData) &&
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
@@ -1131,9 +1237,9 @@ class _$_Result implements _Result {
                 other.needsApproval == needsApproval) &&
             (identical(other.isEndorsed, isEndorsed) ||
                 other.isEndorsed == isEndorsed) &&
-            const DeepCollectionEquality().equals(other.merchant, merchant) &&
-            const DeepCollectionEquality().equals(other.event, event) &&
-            const DeepCollectionEquality().equals(other.avatar, avatar));
+            (identical(other.updatedBy, updatedBy) ||
+                other.updatedBy == updatedBy) &&
+            (identical(other.owner, owner) || other.owner == owner));
   }
 
   @JsonKey(ignore: true)
@@ -1147,22 +1253,25 @@ class _$_Result implements _Result {
         const DeepCollectionEquality().hash(_images),
         const DeepCollectionEquality().hash(_videos),
         service,
+        event,
         createdAt,
         updatedAt,
         title,
         description,
         const DeepCollectionEquality().hash(_highlights),
         budgetType,
+        isRange,
         budgetFrom,
         budgetTo,
-        startDate,
-        endDate,
-        startTime,
-        endTime,
+        payableFrom,
+        payableTo,
+        const DeepCollectionEquality().hash(startDate),
+        const DeepCollectionEquality().hash(endDate),
+        const DeepCollectionEquality().hash(startTime),
+        const DeepCollectionEquality().hash(endTime),
         shareLocation,
         isNegotiable,
         revisions,
-        recursionType,
         viewsCount,
         location,
         isProfessional,
@@ -1170,14 +1279,13 @@ class _$_Result implements _Result {
         isRequested,
         discountType,
         discountValue,
-        noOfReservation,
+        const DeepCollectionEquality().hash(extraData),
         slug,
         isActive,
         needsApproval,
         isEndorsed,
-        const DeepCollectionEquality().hash(merchant),
-        const DeepCollectionEquality().hash(event),
-        const DeepCollectionEquality().hash(avatar)
+        updatedBy,
+        owner
       ]);
 
   @JsonKey(ignore: true)
@@ -1197,63 +1305,70 @@ class _$_Result implements _Result {
 abstract class _Result implements Result {
   const factory _Result(
       {final String? id,
-      final CreatedBy? createdBy,
+      @JsonKey(name: 'created_by') final CreatedBy? createdBy,
       final Currency? currency,
       final City? city,
-      final List<dynamic>? images,
-      final List<dynamic>? videos,
+      final List<Image>? images,
+      final List<Image>? videos,
       final Service? service,
-      final DateTime? createdAt,
-      final DateTime? updatedAt,
+      final Event? event,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
       final String? title,
       final String? description,
       final List<String>? highlights,
-      final String? budgetType,
-      final String? budgetFrom,
-      final String? budgetTo,
-      final DateTime? startDate,
-      final DateTime? endDate,
-      final String? startTime,
-      final String? endTime,
-      final bool? shareLocation,
-      final bool? isNegotiable,
+      @JsonKey(name: 'budget_type') final String? budgetType,
+      @JsonKey(name: 'is_range') final bool? isRange,
+      @JsonKey(name: 'budget_from') final String? budgetFrom,
+      @JsonKey(name: 'budget_to') final String? budgetTo,
+      @JsonKey(name: 'payable_from') final String? payableFrom,
+      @JsonKey(name: 'payable_to') final String? payableTo,
+      @JsonKey(name: 'start_date') final dynamic? startDate,
+      @JsonKey(name: 'end_date') final dynamic? endDate,
+      @JsonKey(name: 'start_time') final dynamic? startTime,
+      @JsonKey(name: 'end_time') final dynamic? endTime,
+      @JsonKey(name: 'share_location') final bool? shareLocation,
+      @JsonKey(name: 'is_negotiable') final bool? isNegotiable,
       final int? revisions,
-      final String? recursionType,
-      final int? viewsCount,
+      @JsonKey(name: 'views_count') final int? viewsCount,
       final String? location,
-      final bool? isProfessional,
-      final bool? isOnline,
-      final bool? isRequested,
-      final String? discountType,
-      final String? discountValue,
-      final int? noOfReservation,
+      @JsonKey(name: 'is_professional') final bool? isProfessional,
+      @JsonKey(name: 'is_online') final bool? isOnline,
+      @JsonKey(name: 'is_requested') final bool? isRequested,
+      @JsonKey(name: 'discount_type') final String? discountType,
+      @JsonKey(name: 'discount_value') final String? discountValue,
+      @JsonKey(name: 'extra_data') final dynamic? extraData,
       final String? slug,
-      final bool? isActive,
-      final bool? needsApproval,
-      final bool? isEndorsed,
-      final dynamic merchant,
-      final dynamic event,
-      final dynamic avatar}) = _$_Result;
+      @JsonKey(name: 'is_active') final bool? isActive,
+      @JsonKey(name: 'needs_approval') final bool? needsApproval,
+      @JsonKey(name: 'is_endorsed') final bool? isEndorsed,
+      @JsonKey(name: 'updated_by') final String? updatedBy,
+      final String? owner}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
 
   @override
   String? get id;
   @override
+  @JsonKey(name: 'created_by')
   CreatedBy? get createdBy;
   @override
   Currency? get currency;
   @override
   City? get city;
   @override
-  List<dynamic>? get images;
+  List<Image>? get images;
   @override
-  List<dynamic>? get videos;
+  List<Image>? get videos;
   @override
   Service? get service;
   @override
+  Event? get event;
+  @override
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
   @override
   String? get title;
@@ -1262,57 +1377,82 @@ abstract class _Result implements Result {
   @override
   List<String>? get highlights;
   @override
+  @JsonKey(name: 'budget_type')
   String? get budgetType;
   @override
+  @JsonKey(name: 'is_range')
+  bool? get isRange;
+  @override
+  @JsonKey(name: 'budget_from')
   String? get budgetFrom;
   @override
+  @JsonKey(name: 'budget_to')
   String? get budgetTo;
   @override
-  DateTime? get startDate;
+  @JsonKey(name: 'payable_from')
+  String? get payableFrom;
   @override
-  DateTime? get endDate;
+  @JsonKey(name: 'payable_to')
+  String? get payableTo;
   @override
-  String? get startTime;
+  @JsonKey(name: 'start_date')
+  dynamic? get startDate;
   @override
-  String? get endTime;
+  @JsonKey(name: 'end_date')
+  dynamic? get endDate;
   @override
+  @JsonKey(name: 'start_time')
+  dynamic? get startTime;
+  @override
+  @JsonKey(name: 'end_time')
+  dynamic? get endTime;
+  @override
+  @JsonKey(name: 'share_location')
   bool? get shareLocation;
   @override
+  @JsonKey(name: 'is_negotiable')
   bool? get isNegotiable;
   @override
   int? get revisions;
   @override
-  String? get recursionType;
-  @override
+  @JsonKey(name: 'views_count')
   int? get viewsCount;
   @override
   String? get location;
   @override
+  @JsonKey(name: 'is_professional')
   bool? get isProfessional;
   @override
+  @JsonKey(name: 'is_online')
   bool? get isOnline;
   @override
+  @JsonKey(name: 'is_requested')
   bool? get isRequested;
   @override
+  @JsonKey(name: 'discount_type')
   String? get discountType;
   @override
+  @JsonKey(name: 'discount_value')
   String? get discountValue;
   @override
-  int? get noOfReservation;
+  @JsonKey(name: 'extra_data')
+  dynamic? get extraData;
   @override
   String? get slug;
   @override
+  @JsonKey(name: 'is_active')
   bool? get isActive;
   @override
+  @JsonKey(name: 'needs_approval')
   bool? get needsApproval;
   @override
+  @JsonKey(name: 'is_endorsed')
   bool? get isEndorsed;
   @override
-  dynamic get merchant;
+  @JsonKey(name: 'updated_by')
+  String? get updatedBy;
   @override
-  dynamic get event;
-  @override
-  dynamic get avatar;
+  String? get owner;
   @override
   @JsonKey(ignore: true)
   _$$_ResultCopyWith<_$_Result> get copyWith =>
@@ -1703,19 +1843,26 @@ mixin _$CreatedBy {
   String? get username => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
+  @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
   String? get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'middle_name')
   String? get middleName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_name')
   String? get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_image')
   String? get profileImage => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
-  String? get userType => throw _privateConstructorUsedError;
-  String? get isProfileVerified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_profile_verified')
+  bool? get isProfileVerified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_followed')
   bool? get isFollowed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_following')
   bool? get isFollowing => throw _privateConstructorUsedError;
-  Avatar? get avatar => throw _privateConstructorUsedError;
   Badge? get badge => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1734,22 +1881,19 @@ abstract class $CreatedByCopyWith<$Res> {
       String? username,
       String? email,
       String? phone,
-      String? fullName,
-      String? firstName,
-      String? middleName,
-      String? lastName,
-      String? profileImage,
+      @JsonKey(name: 'full_name') String? fullName,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      @JsonKey(name: 'profile_image') String? profileImage,
       String? bio,
-      DateTime? createdAt,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
       String? designation,
-      String? userType,
-      String? isProfileVerified,
-      bool? isFollowed,
-      bool? isFollowing,
-      Avatar? avatar,
+      @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') bool? isFollowed,
+      @JsonKey(name: 'is_following') bool? isFollowing,
       Badge? badge});
 
-  $AvatarCopyWith<$Res>? get avatar;
   $BadgeCopyWith<$Res>? get badge;
 }
 
@@ -1778,11 +1922,9 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
     Object? bio = freezed,
     Object? createdAt = freezed,
     Object? designation = freezed,
-    Object? userType = freezed,
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
-    Object? avatar = freezed,
     Object? badge = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1834,14 +1976,10 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as String?,
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
           : isFollowed // ignore: cast_nullable_to_non_nullable
@@ -1850,27 +1988,11 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
               as bool?,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as Avatar?,
       badge: freezed == badge
           ? _value.badge
           : badge // ignore: cast_nullable_to_non_nullable
               as Badge?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AvatarCopyWith<$Res>? get avatar {
-    if (_value.avatar == null) {
-      return null;
-    }
-
-    return $AvatarCopyWith<$Res>(_value.avatar!, (value) {
-      return _then(_value.copyWith(avatar: value) as $Val);
-    });
   }
 
   @override
@@ -1898,23 +2020,19 @@ abstract class _$$_CreatedByCopyWith<$Res> implements $CreatedByCopyWith<$Res> {
       String? username,
       String? email,
       String? phone,
-      String? fullName,
-      String? firstName,
-      String? middleName,
-      String? lastName,
-      String? profileImage,
+      @JsonKey(name: 'full_name') String? fullName,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      @JsonKey(name: 'profile_image') String? profileImage,
       String? bio,
-      DateTime? createdAt,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
       String? designation,
-      String? userType,
-      String? isProfileVerified,
-      bool? isFollowed,
-      bool? isFollowing,
-      Avatar? avatar,
+      @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') bool? isFollowed,
+      @JsonKey(name: 'is_following') bool? isFollowing,
       Badge? badge});
 
-  @override
-  $AvatarCopyWith<$Res>? get avatar;
   @override
   $BadgeCopyWith<$Res>? get badge;
 }
@@ -1942,11 +2060,9 @@ class __$$_CreatedByCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? createdAt = freezed,
     Object? designation = freezed,
-    Object? userType = freezed,
     Object? isProfileVerified = freezed,
     Object? isFollowed = freezed,
     Object? isFollowing = freezed,
-    Object? avatar = freezed,
     Object? badge = freezed,
   }) {
     return _then(_$_CreatedBy(
@@ -1998,14 +2114,10 @@ class __$$_CreatedByCopyWithImpl<$Res>
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
               as String?,
-      userType: freezed == userType
-          ? _value.userType
-          : userType // ignore: cast_nullable_to_non_nullable
-              as String?,
       isProfileVerified: freezed == isProfileVerified
           ? _value.isProfileVerified
           : isProfileVerified // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as bool?,
       isFollowed: freezed == isFollowed
           ? _value.isFollowed
           : isFollowed // ignore: cast_nullable_to_non_nullable
@@ -2014,10 +2126,6 @@ class __$$_CreatedByCopyWithImpl<$Res>
           ? _value.isFollowing
           : isFollowing // ignore: cast_nullable_to_non_nullable
               as bool?,
-      avatar: freezed == avatar
-          ? _value.avatar
-          : avatar // ignore: cast_nullable_to_non_nullable
-              as Avatar?,
       badge: freezed == badge
           ? _value.badge
           : badge // ignore: cast_nullable_to_non_nullable
@@ -2034,19 +2142,17 @@ class _$_CreatedBy implements _CreatedBy {
       this.username,
       this.email,
       this.phone,
-      this.fullName,
-      this.firstName,
-      this.middleName,
-      this.lastName,
-      this.profileImage,
+      @JsonKey(name: 'full_name') this.fullName,
+      @JsonKey(name: 'first_name') this.firstName,
+      @JsonKey(name: 'middle_name') this.middleName,
+      @JsonKey(name: 'last_name') this.lastName,
+      @JsonKey(name: 'profile_image') this.profileImage,
       this.bio,
-      this.createdAt,
+      @JsonKey(name: 'created_at') this.createdAt,
       this.designation,
-      this.userType,
-      this.isProfileVerified,
-      this.isFollowed,
-      this.isFollowing,
-      this.avatar,
+      @JsonKey(name: 'is_profile_verified') this.isProfileVerified,
+      @JsonKey(name: 'is_followed') this.isFollowed,
+      @JsonKey(name: 'is_following') this.isFollowing,
       this.badge});
 
   factory _$_CreatedBy.fromJson(Map<String, dynamic> json) =>
@@ -2061,37 +2167,42 @@ class _$_CreatedBy implements _CreatedBy {
   @override
   final String? phone;
   @override
+  @JsonKey(name: 'full_name')
   final String? fullName;
   @override
+  @JsonKey(name: 'first_name')
   final String? firstName;
   @override
+  @JsonKey(name: 'middle_name')
   final String? middleName;
   @override
+  @JsonKey(name: 'last_name')
   final String? lastName;
   @override
+  @JsonKey(name: 'profile_image')
   final String? profileImage;
   @override
   final String? bio;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
   final String? designation;
   @override
-  final String? userType;
+  @JsonKey(name: 'is_profile_verified')
+  final bool? isProfileVerified;
   @override
-  final String? isProfileVerified;
-  @override
+  @JsonKey(name: 'is_followed')
   final bool? isFollowed;
   @override
+  @JsonKey(name: 'is_following')
   final bool? isFollowing;
-  @override
-  final Avatar? avatar;
   @override
   final Badge? badge;
 
   @override
   String toString() {
-    return 'CreatedBy(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, userType: $userType, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, avatar: $avatar, badge: $badge)';
+    return 'CreatedBy(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
   }
 
   @override
@@ -2119,15 +2230,12 @@ class _$_CreatedBy implements _CreatedBy {
                 other.createdAt == createdAt) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
-            (identical(other.userType, userType) ||
-                other.userType == userType) &&
             (identical(other.isProfileVerified, isProfileVerified) ||
                 other.isProfileVerified == isProfileVerified) &&
             (identical(other.isFollowed, isFollowed) ||
                 other.isFollowed == isFollowed) &&
             (identical(other.isFollowing, isFollowing) ||
                 other.isFollowing == isFollowing) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.badge, badge) || other.badge == badge));
   }
 
@@ -2147,11 +2255,9 @@ class _$_CreatedBy implements _CreatedBy {
       bio,
       createdAt,
       designation,
-      userType,
       isProfileVerified,
       isFollowed,
       isFollowing,
-      avatar,
       badge);
 
   @JsonKey(ignore: true)
@@ -2174,19 +2280,17 @@ abstract class _CreatedBy implements CreatedBy {
       final String? username,
       final String? email,
       final String? phone,
-      final String? fullName,
-      final String? firstName,
-      final String? middleName,
-      final String? lastName,
-      final String? profileImage,
+      @JsonKey(name: 'full_name') final String? fullName,
+      @JsonKey(name: 'first_name') final String? firstName,
+      @JsonKey(name: 'middle_name') final String? middleName,
+      @JsonKey(name: 'last_name') final String? lastName,
+      @JsonKey(name: 'profile_image') final String? profileImage,
       final String? bio,
-      final DateTime? createdAt,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
       final String? designation,
-      final String? userType,
-      final String? isProfileVerified,
-      final bool? isFollowed,
-      final bool? isFollowing,
-      final Avatar? avatar,
+      @JsonKey(name: 'is_profile_verified') final bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') final bool? isFollowed,
+      @JsonKey(name: 'is_following') final bool? isFollowing,
       final Badge? badge}) = _$_CreatedBy;
 
   factory _CreatedBy.fromJson(Map<String, dynamic> json) =
@@ -2201,167 +2305,41 @@ abstract class _CreatedBy implements CreatedBy {
   @override
   String? get phone;
   @override
+  @JsonKey(name: 'full_name')
   String? get fullName;
   @override
+  @JsonKey(name: 'first_name')
   String? get firstName;
   @override
+  @JsonKey(name: 'middle_name')
   String? get middleName;
   @override
+  @JsonKey(name: 'last_name')
   String? get lastName;
   @override
+  @JsonKey(name: 'profile_image')
   String? get profileImage;
   @override
   String? get bio;
   @override
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
   String? get designation;
   @override
-  String? get userType;
+  @JsonKey(name: 'is_profile_verified')
+  bool? get isProfileVerified;
   @override
-  String? get isProfileVerified;
-  @override
+  @JsonKey(name: 'is_followed')
   bool? get isFollowed;
   @override
+  @JsonKey(name: 'is_following')
   bool? get isFollowing;
-  @override
-  Avatar? get avatar;
   @override
   Badge? get badge;
   @override
   @JsonKey(ignore: true)
   _$$_CreatedByCopyWith<_$_CreatedBy> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Avatar _$AvatarFromJson(Map<String, dynamic> json) {
-  return _Avatar.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Avatar {
-  dynamic get image => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $AvatarCopyWith<Avatar> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AvatarCopyWith<$Res> {
-  factory $AvatarCopyWith(Avatar value, $Res Function(Avatar) then) =
-      _$AvatarCopyWithImpl<$Res, Avatar>;
-  @useResult
-  $Res call({dynamic image});
-}
-
-/// @nodoc
-class _$AvatarCopyWithImpl<$Res, $Val extends Avatar>
-    implements $AvatarCopyWith<$Res> {
-  _$AvatarCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? image = freezed,
-  }) {
-    return _then(_value.copyWith(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_AvatarCopyWith<$Res> implements $AvatarCopyWith<$Res> {
-  factory _$$_AvatarCopyWith(_$_Avatar value, $Res Function(_$_Avatar) then) =
-      __$$_AvatarCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({dynamic image});
-}
-
-/// @nodoc
-class __$$_AvatarCopyWithImpl<$Res>
-    extends _$AvatarCopyWithImpl<$Res, _$_Avatar>
-    implements _$$_AvatarCopyWith<$Res> {
-  __$$_AvatarCopyWithImpl(_$_Avatar _value, $Res Function(_$_Avatar) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? image = freezed,
-  }) {
-    return _then(_$_Avatar(
-      image: freezed == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Avatar implements _Avatar {
-  const _$_Avatar({this.image});
-
-  factory _$_Avatar.fromJson(Map<String, dynamic> json) =>
-      _$$_AvatarFromJson(json);
-
-  @override
-  final dynamic image;
-
-  @override
-  String toString() {
-    return 'Avatar(image: $image)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Avatar &&
-            const DeepCollectionEquality().equals(other.image, image));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(image));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_AvatarCopyWith<_$_Avatar> get copyWith =>
-      __$$_AvatarCopyWithImpl<_$_Avatar>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AvatarToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Avatar implements Avatar {
-  const factory _Avatar({final dynamic image}) = _$_Avatar;
-
-  factory _Avatar.fromJson(Map<String, dynamic> json) = _$_Avatar.fromJson;
-
-  @override
-  dynamic get image;
-  @override
-  @JsonKey(ignore: true)
-  _$$_AvatarCopyWith<_$_Avatar> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2695,6 +2673,601 @@ abstract class _Currency implements Currency {
       throw _privateConstructorUsedError;
 }
 
+Event _$EventFromJson(Map<String, dynamic> json) {
+  return _Event.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Event {
+  String? get id => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  DateTime? get start => throw _privateConstructorUsedError;
+  DateTime? get end => throw _privateConstructorUsedError;
+  String? get duration => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_flexible')
+  bool? get isFlexible => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_active')
+  bool? get isActive => throw _privateConstructorUsedError;
+  @JsonKey(name: 'active_dates')
+  List<DateTime>? get activeDates => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $EventCopyWith<Event> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $EventCopyWith<$Res> {
+  factory $EventCopyWith(Event value, $Res Function(Event) then) =
+      _$EventCopyWithImpl<$Res, Event>;
+  @useResult
+  $Res call(
+      {String? id,
+      String? title,
+      DateTime? start,
+      DateTime? end,
+      String? duration,
+      @JsonKey(name: 'is_flexible') bool? isFlexible,
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'active_dates') List<DateTime>? activeDates});
+}
+
+/// @nodoc
+class _$EventCopyWithImpl<$Res, $Val extends Event>
+    implements $EventCopyWith<$Res> {
+  _$EventCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? start = freezed,
+    Object? end = freezed,
+    Object? duration = freezed,
+    Object? isFlexible = freezed,
+    Object? isActive = freezed,
+    Object? activeDates = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      start: freezed == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      end: freezed == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      duration: freezed == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFlexible: freezed == isFlexible
+          ? _value.isFlexible
+          : isFlexible // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isActive: freezed == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      activeDates: freezed == activeDates
+          ? _value.activeDates
+          : activeDates // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
+  factory _$$_EventCopyWith(_$_Event value, $Res Function(_$_Event) then) =
+      __$$_EventCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String? title,
+      DateTime? start,
+      DateTime? end,
+      String? duration,
+      @JsonKey(name: 'is_flexible') bool? isFlexible,
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'active_dates') List<DateTime>? activeDates});
+}
+
+/// @nodoc
+class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
+    implements _$$_EventCopyWith<$Res> {
+  __$$_EventCopyWithImpl(_$_Event _value, $Res Function(_$_Event) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? title = freezed,
+    Object? start = freezed,
+    Object? end = freezed,
+    Object? duration = freezed,
+    Object? isFlexible = freezed,
+    Object? isActive = freezed,
+    Object? activeDates = freezed,
+  }) {
+    return _then(_$_Event(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      start: freezed == start
+          ? _value.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      end: freezed == end
+          ? _value.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      duration: freezed == duration
+          ? _value.duration
+          : duration // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isFlexible: freezed == isFlexible
+          ? _value.isFlexible
+          : isFlexible // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isActive: freezed == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      activeDates: freezed == activeDates
+          ? _value._activeDates
+          : activeDates // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Event implements _Event {
+  const _$_Event(
+      {this.id,
+      this.title,
+      this.start,
+      this.end,
+      this.duration,
+      @JsonKey(name: 'is_flexible') this.isFlexible,
+      @JsonKey(name: 'is_active') this.isActive,
+      @JsonKey(name: 'active_dates') final List<DateTime>? activeDates})
+      : _activeDates = activeDates;
+
+  factory _$_Event.fromJson(Map<String, dynamic> json) =>
+      _$$_EventFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final String? title;
+  @override
+  final DateTime? start;
+  @override
+  final DateTime? end;
+  @override
+  final String? duration;
+  @override
+  @JsonKey(name: 'is_flexible')
+  final bool? isFlexible;
+  @override
+  @JsonKey(name: 'is_active')
+  final bool? isActive;
+  final List<DateTime>? _activeDates;
+  @override
+  @JsonKey(name: 'active_dates')
+  List<DateTime>? get activeDates {
+    final value = _activeDates;
+    if (value == null) return null;
+    if (_activeDates is EqualUnmodifiableListView) return _activeDates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'Event(id: $id, title: $title, start: $start, end: $end, duration: $duration, isFlexible: $isFlexible, isActive: $isActive, activeDates: $activeDates)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Event &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.start, start) || other.start == start) &&
+            (identical(other.end, end) || other.end == end) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.isFlexible, isFlexible) ||
+                other.isFlexible == isFlexible) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            const DeepCollectionEquality()
+                .equals(other._activeDates, _activeDates));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, start, end, duration,
+      isFlexible, isActive, const DeepCollectionEquality().hash(_activeDates));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_EventCopyWith<_$_Event> get copyWith =>
+      __$$_EventCopyWithImpl<_$_Event>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_EventToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Event implements Event {
+  const factory _Event(
+          {final String? id,
+          final String? title,
+          final DateTime? start,
+          final DateTime? end,
+          final String? duration,
+          @JsonKey(name: 'is_flexible') final bool? isFlexible,
+          @JsonKey(name: 'is_active') final bool? isActive,
+          @JsonKey(name: 'active_dates') final List<DateTime>? activeDates}) =
+      _$_Event;
+
+  factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
+
+  @override
+  String? get id;
+  @override
+  String? get title;
+  @override
+  DateTime? get start;
+  @override
+  DateTime? get end;
+  @override
+  String? get duration;
+  @override
+  @JsonKey(name: 'is_flexible')
+  bool? get isFlexible;
+  @override
+  @JsonKey(name: 'is_active')
+  bool? get isActive;
+  @override
+  @JsonKey(name: 'active_dates')
+  List<DateTime>? get activeDates;
+  @override
+  @JsonKey(ignore: true)
+  _$$_EventCopyWith<_$_Event> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ExtraDataClass _$ExtraDataClassFromJson(Map<String, dynamic> json) {
+  return _ExtraDataClass.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ExtraDataClass {
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ExtraDataClassCopyWith<$Res> {
+  factory $ExtraDataClassCopyWith(
+          ExtraDataClass value, $Res Function(ExtraDataClass) then) =
+      _$ExtraDataClassCopyWithImpl<$Res, ExtraDataClass>;
+}
+
+/// @nodoc
+class _$ExtraDataClassCopyWithImpl<$Res, $Val extends ExtraDataClass>
+    implements $ExtraDataClassCopyWith<$Res> {
+  _$ExtraDataClassCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$_ExtraDataClassCopyWith<$Res> {
+  factory _$$_ExtraDataClassCopyWith(
+          _$_ExtraDataClass value, $Res Function(_$_ExtraDataClass) then) =
+      __$$_ExtraDataClassCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_ExtraDataClassCopyWithImpl<$Res>
+    extends _$ExtraDataClassCopyWithImpl<$Res, _$_ExtraDataClass>
+    implements _$$_ExtraDataClassCopyWith<$Res> {
+  __$$_ExtraDataClassCopyWithImpl(
+      _$_ExtraDataClass _value, $Res Function(_$_ExtraDataClass) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_ExtraDataClass implements _ExtraDataClass {
+  const _$_ExtraDataClass();
+
+  factory _$_ExtraDataClass.fromJson(Map<String, dynamic> json) =>
+      _$$_ExtraDataClassFromJson(json);
+
+  @override
+  String toString() {
+    return 'ExtraDataClass()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_ExtraDataClass);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ExtraDataClassToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ExtraDataClass implements ExtraDataClass {
+  const factory _ExtraDataClass() = _$_ExtraDataClass;
+
+  factory _ExtraDataClass.fromJson(Map<String, dynamic> json) =
+      _$_ExtraDataClass.fromJson;
+}
+
+Image _$ImageFromJson(Map<String, dynamic> json) {
+  return _Image.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Image {
+  int? get id => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get size => throw _privateConstructorUsedError;
+  @JsonKey(name: 'meida_type')
+  String? get mediaType => throw _privateConstructorUsedError;
+  String? get media => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ImageCopyWith<Image> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ImageCopyWith<$Res> {
+  factory $ImageCopyWith(Image value, $Res Function(Image) then) =
+      _$ImageCopyWithImpl<$Res, Image>;
+  @useResult
+  $Res call(
+      {int? id,
+      String? name,
+      String? size,
+      @JsonKey(name: 'meida_type') String? mediaType,
+      String? media});
+}
+
+/// @nodoc
+class _$ImageCopyWithImpl<$Res, $Val extends Image>
+    implements $ImageCopyWith<$Res> {
+  _$ImageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? size = freezed,
+    Object? mediaType = freezed,
+    Object? media = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediaType: freezed == mediaType
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
+  factory _$$_ImageCopyWith(_$_Image value, $Res Function(_$_Image) then) =
+      __$$_ImageCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int? id,
+      String? name,
+      String? size,
+      @JsonKey(name: 'meida_type') String? mediaType,
+      String? media});
+}
+
+/// @nodoc
+class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
+    implements _$$_ImageCopyWith<$Res> {
+  __$$_ImageCopyWithImpl(_$_Image _value, $Res Function(_$_Image) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? size = freezed,
+    Object? mediaType = freezed,
+    Object? media = freezed,
+  }) {
+    return _then(_$_Image(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      size: freezed == size
+          ? _value.size
+          : size // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mediaType: freezed == mediaType
+          ? _value.mediaType
+          : mediaType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Image implements _Image {
+  const _$_Image(
+      {this.id,
+      this.name,
+      this.size,
+      @JsonKey(name: 'meida_type') this.mediaType,
+      this.media});
+
+  factory _$_Image.fromJson(Map<String, dynamic> json) =>
+      _$$_ImageFromJson(json);
+
+  @override
+  final int? id;
+  @override
+  final String? name;
+  @override
+  final String? size;
+  @override
+  @JsonKey(name: 'meida_type')
+  final String? mediaType;
+  @override
+  final String? media;
+
+  @override
+  String toString() {
+    return 'Image(id: $id, name: $name, size: $size, mediaType: $mediaType, media: $media)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Image &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.mediaType, mediaType) ||
+                other.mediaType == mediaType) &&
+            (identical(other.media, media) || other.media == media));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, size, mediaType, media);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ImageCopyWith<_$_Image> get copyWith =>
+      __$$_ImageCopyWithImpl<_$_Image>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ImageToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Image implements Image {
+  const factory _Image(
+      {final int? id,
+      final String? name,
+      final String? size,
+      @JsonKey(name: 'meida_type') final String? mediaType,
+      final String? media}) = _$_Image;
+
+  factory _Image.fromJson(Map<String, dynamic> json) = _$_Image.fromJson;
+
+  @override
+  int? get id;
+  @override
+  String? get name;
+  @override
+  String? get size;
+  @override
+  @JsonKey(name: 'meida_type')
+  String? get mediaType;
+  @override
+  String? get media;
+  @override
+  @JsonKey(ignore: true)
+  _$$_ImageCopyWith<_$_Image> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Service _$ServiceFromJson(Map<String, dynamic> json) {
   return _Service.fromJson(json);
 }
@@ -2703,10 +3276,15 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
 mixin _$Service {
   String? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_active')
   bool? get isActive => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_verified')
   bool? get isVerified => throw _privateConstructorUsedError;
   Category? get category => throw _privateConstructorUsedError;
   List<dynamic>? get images => throw _privateConstructorUsedError;
+  @JsonKey(name: 'required_documents')
+  List<dynamic>? get requiredDocuments => throw _privateConstructorUsedError;
+  String? get commission => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2721,10 +3299,12 @@ abstract class $ServiceCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      bool? isActive,
-      bool? isVerified,
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_verified') bool? isVerified,
       Category? category,
-      List<dynamic>? images});
+      List<dynamic>? images,
+      @JsonKey(name: 'required_documents') List<dynamic>? requiredDocuments,
+      String? commission});
 
   $CategoryCopyWith<$Res>? get category;
 }
@@ -2748,6 +3328,8 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
     Object? isVerified = freezed,
     Object? category = freezed,
     Object? images = freezed,
+    Object? requiredDocuments = freezed,
+    Object? commission = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -2774,6 +3356,14 @@ class _$ServiceCopyWithImpl<$Res, $Val extends Service>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      requiredDocuments: freezed == requiredDocuments
+          ? _value.requiredDocuments
+          : requiredDocuments // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -2800,10 +3390,12 @@ abstract class _$$_ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      bool? isActive,
-      bool? isVerified,
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_verified') bool? isVerified,
       Category? category,
-      List<dynamic>? images});
+      List<dynamic>? images,
+      @JsonKey(name: 'required_documents') List<dynamic>? requiredDocuments,
+      String? commission});
 
   @override
   $CategoryCopyWith<$Res>? get category;
@@ -2825,6 +3417,8 @@ class __$$_ServiceCopyWithImpl<$Res>
     Object? isVerified = freezed,
     Object? category = freezed,
     Object? images = freezed,
+    Object? requiredDocuments = freezed,
+    Object? commission = freezed,
   }) {
     return _then(_$_Service(
       id: freezed == id
@@ -2851,6 +3445,14 @@ class __$$_ServiceCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      requiredDocuments: freezed == requiredDocuments
+          ? _value._requiredDocuments
+          : requiredDocuments // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2861,11 +3463,17 @@ class _$_Service implements _Service {
   const _$_Service(
       {this.id,
       this.title,
-      this.isActive,
-      this.isVerified,
+      @JsonKey(name: 'is_active')
+          this.isActive,
+      @JsonKey(name: 'is_verified')
+          this.isVerified,
       this.category,
-      final List<dynamic>? images})
-      : _images = images;
+      final List<dynamic>? images,
+      @JsonKey(name: 'required_documents')
+          final List<dynamic>? requiredDocuments,
+      this.commission})
+      : _images = images,
+        _requiredDocuments = requiredDocuments;
 
   factory _$_Service.fromJson(Map<String, dynamic> json) =>
       _$$_ServiceFromJson(json);
@@ -2875,8 +3483,10 @@ class _$_Service implements _Service {
   @override
   final String? title;
   @override
+  @JsonKey(name: 'is_active')
   final bool? isActive;
   @override
+  @JsonKey(name: 'is_verified')
   final bool? isVerified;
   @override
   final Category? category;
@@ -2890,9 +3500,24 @@ class _$_Service implements _Service {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<dynamic>? _requiredDocuments;
+  @override
+  @JsonKey(name: 'required_documents')
+  List<dynamic>? get requiredDocuments {
+    final value = _requiredDocuments;
+    if (value == null) return null;
+    if (_requiredDocuments is EqualUnmodifiableListView)
+      return _requiredDocuments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? commission;
+
   @override
   String toString() {
-    return 'Service(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images)';
+    return 'Service(id: $id, title: $title, isActive: $isActive, isVerified: $isVerified, category: $category, images: $images, requiredDocuments: $requiredDocuments, commission: $commission)';
   }
 
   @override
@@ -2908,13 +3533,25 @@ class _$_Service implements _Service {
                 other.isVerified == isVerified) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality()
+                .equals(other._requiredDocuments, _requiredDocuments) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, isActive, isVerified,
-      category, const DeepCollectionEquality().hash(_images));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      isActive,
+      isVerified,
+      category,
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_requiredDocuments),
+      commission);
 
   @JsonKey(ignore: true)
   @override
@@ -2934,10 +3571,15 @@ abstract class _Service implements Service {
   const factory _Service(
       {final String? id,
       final String? title,
-      final bool? isActive,
-      final bool? isVerified,
+      @JsonKey(name: 'is_active')
+          final bool? isActive,
+      @JsonKey(name: 'is_verified')
+          final bool? isVerified,
       final Category? category,
-      final List<dynamic>? images}) = _$_Service;
+      final List<dynamic>? images,
+      @JsonKey(name: 'required_documents')
+          final List<dynamic>? requiredDocuments,
+      final String? commission}) = _$_Service;
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
 
@@ -2946,13 +3588,20 @@ abstract class _Service implements Service {
   @override
   String? get title;
   @override
+  @JsonKey(name: 'is_active')
   bool? get isActive;
   @override
+  @JsonKey(name: 'is_verified')
   bool? get isVerified;
   @override
   Category? get category;
   @override
   List<dynamic>? get images;
+  @override
+  @JsonKey(name: 'required_documents')
+  List<dynamic>? get requiredDocuments;
+  @override
+  String? get commission;
   @override
   @JsonKey(ignore: true)
   _$$_ServiceCopyWith<_$_Service> get copyWith =>

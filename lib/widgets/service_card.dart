@@ -16,10 +16,13 @@ class ServiceCard extends StatelessWidget {
     this.location,
     this.callback,
     this.bookmarkCallback,
+    this.editCallback,
     this.shareCallback,
     this.rateFrom = "0",
     this.rateTo = "0",
     this.isRange = false,
+    this.isBookmarked = false,
+    this.isOwner = false,
   }) : super(key: key);
 
   final String? title;
@@ -30,10 +33,13 @@ class ServiceCard extends StatelessWidget {
   final String? location;
   final VoidCallback? callback;
   final VoidCallback? bookmarkCallback;
+  final VoidCallback? editCallback;
   final VoidCallback? shareCallback;
   final String? rateFrom;
   final String? rateTo;
   final bool? isRange;
+  final bool? isBookmarked;
+  final bool isOwner;
 
   @override
   Widget build(BuildContext context) {
@@ -115,18 +121,25 @@ class ServiceCard extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      onPressed: bookmarkCallback,
-                                      icon: Icon(
-                                        Icons.bookmark_border_rounded,
-                                        color: kColorPink,
-                                      ),
-                                    ),
+                                    child: isOwner
+                                        ? IconButton(
+                                            padding: EdgeInsets.zero,
+                                            onPressed: editCallback,
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: kColorAmber,
+                                            ),
+                                          )
+                                        : IconButton(
+                                            padding: EdgeInsets.zero,
+                                            onPressed: bookmarkCallback,
+                                            icon: Icon(
+                                              isBookmarked ?? false ? Icons.bookmark : Icons.bookmark_border_rounded,
+                                              color: kColorPink,
+                                            ),
+                                          ),
                                   ),
-                                  addHorizontalSpace(
-                                    8,
-                                  ),
+                                  addHorizontalSpace(8),
                                   Flexible(
                                     child: IconButton(
                                       padding: EdgeInsets.zero,
@@ -152,15 +165,12 @@ class ServiceCard extends StatelessWidget {
                                     visible: isRange ?? false,
                                     child: Flexible(
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
                                           Flexible(
                                             child: Text(
                                               "Rs $rateFrom",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge,
+                                              style: Theme.of(context).textTheme.bodyLarge,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -172,8 +182,7 @@ class ServiceCard extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       "Rs $rateTo",
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                                      style: Theme.of(context).textTheme.bodyLarge,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),

@@ -43,8 +43,7 @@ class _TasksProfileState extends State<TasksProfile> {
               ),
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
-                  context.read<TaskBloc>().add(
-                      SingleEntityTaskLoadInitiated(id: data?[index].id ?? ''));
+                  context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: data?[index].id ?? ''));
                   Navigator.pushNamed(context, SingleTaskPage.routeName);
                 },
                 child: ServicesTextCard(
@@ -59,7 +58,7 @@ class _TasksProfileState extends State<TasksProfile> {
                   description: data?[index].description ?? '... ',
                   imagePath: data?[index].images?.length == 0
                       ? kServiceImageNImg
-                      : data?[index].images?.first['media'].toString(),
+                      : data?[index].images?.first.media.toString(),
                 ),
               ),
             ),

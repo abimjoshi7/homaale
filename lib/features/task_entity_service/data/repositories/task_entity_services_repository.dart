@@ -213,16 +213,21 @@ class TaskEntityServiceRepository {
         return TaskEntityService.fromJson(value);
       });
 
-  Future editTaskEntityService(
+  Future<bool> editTaskEntityService(
     String id,
     TaskEntityServiceReq req,
   ) async {
     try {
-      await _dio.patchDataWithCredential(
+      final res = await _dio.patchDataWithCredential(
         data: req.toJson(),
         url: kTaskEntityService + "$id/",
         token: CacheHelper.accessToken,
       );
+      if (res != null) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       log("Edit TES error: $e");
       rethrow;
@@ -268,8 +273,7 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<ApplicantModel> getApplicants(String id) async =>
-      await fetchApplicants(id: id).then(
+  Future<ApplicantModel> getApplicants(String id) async => await fetchApplicants(id: id).then(
         (value) => ApplicantModel.fromJson(
           value,
         ),

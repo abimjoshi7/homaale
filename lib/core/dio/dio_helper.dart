@@ -6,6 +6,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/navigation_constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -28,11 +29,13 @@ class DioHelper {
     /// Dio interceptors
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
+        print(
+            'REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
 
         if (options.headers.containsKey('requiresAuthorization')) {
           options.headers.remove("requiresAuthorization");
-          options.headers.addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
+          options.headers
+              .addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
         }
         return handler.next(options);
       },
@@ -50,9 +53,11 @@ class DioHelper {
         // Handle specific error status codes
         switch (statusCode) {
           case 400:
-            if (responseData is Map<String, dynamic> && responseData.containsKey('non_field_errors')) {
+            if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('non_field_errors')) {
               final nonFieldErrors = responseData['non_field_errors'];
-              if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
+              if (nonFieldErrors is List<dynamic> &&
+                  nonFieldErrors.isNotEmpty) {
                 final errorMessage = nonFieldErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(
@@ -74,9 +79,11 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('password')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('password')) {
               final passswordErrors = responseData['password'];
-              if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
+              if (passswordErrors is List<dynamic> &&
+                  passswordErrors.isNotEmpty) {
                 final errorMessage = passswordErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(
@@ -98,9 +105,39 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('budget_type')) {
+              final budgetTypeErrors = responseData['budget_type'];
+              if (budgetTypeErrors is List<dynamic> &&
+                  budgetTypeErrors.isNotEmpty) {
+                final errorMessage = budgetTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Budget type: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Budget type: ${budgetTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
-              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+              if (usernameErrors is List<dynamic> &&
+                  usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(
@@ -138,27 +175,32 @@ class DioHelper {
                 );
 
                 // Update the access and refresh token
-                CacheHelper.accessToken = await response.data['access'] as String?;
-                CacheHelper.refreshToken = await response.data['refresh'] as String?;
+                CacheHelper.accessToken =
+                    await response.data['access'] as String?;
+                CacheHelper.refreshToken =
+                    await response.data['refresh'] as String?;
               } catch (_) {
                 rethrow;
               }
 
               // Update the access token in the request headers
-              err.requestOptions.headers['Authorization'] = 'Bearer ${CacheHelper.accessToken}';
+              err.requestOptions.headers['Authorization'] =
+                  'Bearer ${CacheHelper.accessToken}';
 
               // Retry the original request
-              Response retryResponse = await dio.request(err.requestOptions.path,
-                  options: Options(
-                    contentType: err.requestOptions.contentType,
-                    headers: err.requestOptions.headers,
-                    method: err.requestOptions.method,
-                  ));
+              Response retryResponse =
+                  await dio.request(err.requestOptions.path,
+                      options: Options(
+                        contentType: err.requestOptions.contentType,
+                        headers: err.requestOptions.headers,
+                        method: err.requestOptions.method,
+                      ));
 
               // Return the retry response
               return handler.resolve(retryResponse);
             } catch (e) {
-              print('OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
+              print(
+                  'OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
 
               Navigator.pushNamedAndRemoveUntil(
                 navigationKey.currentContext!,
@@ -211,7 +253,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -266,7 +311,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -329,7 +377,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -367,7 +418,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
@@ -432,7 +486,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
@@ -470,19 +527,30 @@ class DioHelper {
       } else {
         log("API request failed: $e");
       }
-      List<String> errorMsgs = e.response!.data.toString().replaceAll('{', '').replaceAll('}', '').split(',');
+      List<String> errorMsgs = e.response!.data
+          .toString()
+          .replaceAll('{', '')
+          .replaceAll('}', '')
+          .split(',');
       // Remove the keys from each string in the array
       for (int i = 0; i < errorMsgs.length; i++) {
         errorMsgs[i] = errorMsgs[i].substring(errorMsgs[i].indexOf(':') + 2);
       }
 
-      final String cleanedMsg = errorMsgs.join('\n').replaceAll('[', '').replaceAll(']', '').toTitleCase();
+      final String cleanedMsg = errorMsgs
+          .join('\n')
+          .replaceAll('[', '')
+          .replaceAll(']', '')
+          .toTitleCase();
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
           (e.response?.statusCode == 400)
               ? cleanedMsg
-              : e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+              : e.response!.data
+                  .toString()
+                  .toTitleCase()
+                  .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO POST FORM DATA ERROR: ${e.response?.data}');
@@ -524,7 +592,10 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data
+              .toString()
+              .toTitleCase()
+              .replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
       log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');

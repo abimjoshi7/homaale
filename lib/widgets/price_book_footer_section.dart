@@ -11,6 +11,7 @@ class PriceBookFooterSection extends StatelessWidget {
     this.theLeftWidget,
     this.bgColor,
     this.buttonColor,
+    this.isUser = false,
   }) : super(key: key);
 
   final VoidCallback onPressed;
@@ -19,6 +20,7 @@ class PriceBookFooterSection extends StatelessWidget {
   final Widget? theLeftWidget;
   final Color? bgColor;
   final Color? buttonColor;
+  final bool isUser;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,27 +48,30 @@ class PriceBookFooterSection extends StatelessWidget {
                   ),
                 ],
               ),
-          GestureDetector(
-            onTap: onPressed,
-            child: Container(
-              padding: EdgeInsets.all(
-                8,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
+          Visibility(
+            visible: isUser ? false : true,
+            child: GestureDetector(
+              onTap: onPressed,
+              child: Container(
+                padding: EdgeInsets.all(
                   8,
                 ),
-                color: buttonColor,
-              ),
-              constraints: BoxConstraints(
-                minHeight: 30,
-                minWidth: 100,
-              ),
-              child: AutoSizeText(
-                textAlign: TextAlign.center,
-                buttonLabel ?? '',
-                style: TextStyle(
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                  color: buttonColor,
+                ),
+                constraints: BoxConstraints(
+                  minHeight: 30,
+                  minWidth: 100,
+                ),
+                child: AutoSizeText(
+                  textAlign: TextAlign.center,
+                  buttonLabel ?? '',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

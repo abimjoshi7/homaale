@@ -61,6 +61,8 @@ dependencies:
   decimal: ^2.3.2
   geocoder2: ^1.4.0
   internet_connection_checker: ^0.0.1+4
+  font_awesome_flutter: ^10.4.0
+  fluttertoast: 8.2.1
 
 dev_dependencies:
   flutter_test:
