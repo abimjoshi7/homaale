@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/core/helpers/compress_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -16,6 +17,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   UploadBloc(
     this.repo,
   ) : super(const UploadState()) {
+    final compressor = CompressHelper();
     on<ImageUploaded>(
       (event, emit) async {
         try {
@@ -29,15 +31,26 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             event.isVideo,
           ).then(
             (value) async {
-              if (value != null)
-                emit(
-                  state.copyWith(
-                    imageFileList: [
-                      ...state.imageFileList,
-                      value.path,
-                    ],
-                  ),
-                );
+              if (value != null) {
+                int size = compressor.compressFileSync(value.path);
+                if (size > 5093309) {
+                  emit(
+                    state.copyWith(
+                      isCompressFail: true,
+                    ),
+                  );
+                } else {
+                  emit(
+                    state.copyWith(
+                      isCompressFail: false,
+                      imageFileList: [
+                        ...state.imageFileList,
+                        value.path,
+                      ],
+                    ),
+                  );
+                }
+              }
             },
           );
         } catch (e) {
@@ -70,7 +83,18 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 for (final AssetEntity element in value ?? []) {
                   await element.file.then(
                     (value) {
-                      if (value != null) list.add(value.path);
+                      if (value != null) {
+                        final size = compressor.compressFileSync(value.path);
+                        if (size < 5093309) {
+                          list.add(value.path);
+                        } else {
+                          emit(
+                            state.copyWith(
+                              isCompressFail: true,
+                            ),
+                          );
+                        }
+                      }
                     },
                   );
                 }
@@ -79,7 +103,18 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                 for (final AssetEntity element in value ?? []) {
                   await element.file.then(
                     (value) {
-                      if (value != null) list.add(value.path);
+                      if (value != null) {
+                        final size = compressor.compressFileSync(value.path);
+                        if (size < 5093309) {
+                          list.add(value.path);
+                        } else {
+                          emit(
+                            state.copyWith(
+                              isCompressFail: true,
+                            ),
+                          );
+                        }
+                      }
                     },
                   );
                 }
@@ -88,6 +123,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               emit(
                 state.copyWith(
                   imageFileList: list,
+                  isCompressFail: false,
                 ),
               );
             },

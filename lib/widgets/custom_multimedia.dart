@@ -20,8 +20,24 @@ class CustomMultimedia extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UploadBloc, UploadState>(
+    return BlocConsumer<UploadBloc, UploadState>(
       bloc: bloc,
+      listenWhen: (previous, current) {
+        if (previous.isCompressFail != true && current.isCompressFail == true)
+          return true;
+        return false;
+      },
+      listener: (context, state) {
+        showDialog(
+          context: context,
+          builder: (context) => CustomToast(
+            heading: "Error",
+            content: "File size cannot be higher than 5mb",
+            onTap: () {},
+            isSuccess: false,
+          ),
+        );
+      },
       builder: (context, state) {
         return Column(
           children: [

@@ -1,9 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/helpers/compress_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
@@ -83,20 +85,15 @@ class _SandboxPageState extends State<SandboxPage> {
               ),
             ),
             kHeight20,
-            Center(
-              child: CustomMultimedia(
-                bloc: bloc,
-              ),
-            ),
-            kHeight20,
+            CustomMultimedia(bloc: bloc),
             Center(
               child: CustomElevatedButton(
                 callback: () async {
-                  context.read<TaskEntityServiceBloc>().add(
-                        TaskEntityServiceInitiated(),
-                      );
+                  CompressHelper().compressFileSync(
+                    bloc.state.imageFileList.last,
+                  );
                 },
-                label: 'Get Task Entity Services',
+                label: 'Compress Image',
               ),
             ),
             kHeight20,
