@@ -555,7 +555,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               0,
                               10,
                             ) ??
-                        'dd/mm/yy',
+                        'yy/mm/dd',
                     hintStyle: Theme.of(context)
                         .textTheme
                         .bodyMedium
@@ -592,7 +592,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                               0,
                               10,
                             ) ??
-                        'dd/mm/yy',
+                        'yy/mm/dd',
                     theHeight: 48.0,
                     theWidth: double.infinity,
                     prefixWidget: Icon(
@@ -876,6 +876,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 if (state.serviceList?.isNotEmpty ?? false)
                   CustomFormField(
                     label: "Service",
+                    isRequired: true,
                     child: CustomDropdownSearch(
                       list: List.generate(
                         state.serviceList?.length ?? 0,
