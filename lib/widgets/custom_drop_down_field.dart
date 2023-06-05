@@ -17,6 +17,7 @@ class CustomDropDownField<T> extends StatefulWidget {
     this.initialValue,
     this.validator,
     this.dropDownKey,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
   }) : super(key: key);
   final List<T> list;
   final Widget? theChild;
@@ -28,6 +29,7 @@ class CustomDropDownField<T> extends StatefulWidget {
   final T? initialValue;
   final String? Function(T?)? validator;
   final GlobalKey<FormFieldState>? dropDownKey;
+  final AutovalidateMode autovalidateMode;
 
   @override
   State<CustomDropDownField<T>> createState() => _CustomDropDownTextformState();
@@ -37,6 +39,7 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
+      autovalidateMode: widget.autovalidateMode,
       key: widget.dropDownKey,
       iconEnabledColor: kColorSilver,
       validator: widget.validator,
@@ -54,6 +57,14 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
         contentPadding: const EdgeInsets.all(5),
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodySmall,
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red.shade900,
+          ),
+          borderRadius: BorderRadius.circular(
+            widget.borderRadius ?? 8,
+          ),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color: kColorGrey,

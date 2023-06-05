@@ -162,6 +162,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: CustomAppBar(
+            trailingWidget: SizedBox.shrink(),
             appBarTitle: state.list?.length != 0 && state.isNewDoc == false
                 ? "Edit KYC Details"
                 : "Add KYC Details",
@@ -209,17 +210,21 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                 child: CustomFormField(
                                   label: 'Issued Date',
                                   isRequired: true,
-                                  child: CustomFormContainer(
+                                  child: CustomTextFormField(
+                                    readOnly: true,
+                                    validator: (p0) => (issuedDate == null)
+                                        ? "Required Field"
+                                        : null,
                                     hintText: issuedDate != null
                                         ? DateFormat("yyyy-MM-dd").format(
                                             issuedDate!,
                                           )
                                         : "yyyy-mm-dd",
-                                    leadingWidget: Icon(
+                                    prefixWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: () async {
+                                    onTap: () async {
                                       await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
@@ -235,6 +240,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                         ),
                                       );
                                     },
+                                    hintStyle:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -242,17 +249,24 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                               Flexible(
                                 child: CustomFormField(
                                   label: 'Valid Till',
-                                  child: CustomFormContainer(
+                                  isRequired: hasDocExpiryDate,
+                                  child: CustomTextFormField(
+                                    readOnly: true,
+                                    validator: (p0) =>
+                                        (hasDocExpiryDate == true &&
+                                                expiryDate == null)
+                                            ? "Required Field"
+                                            : null,
                                     hintText: expiryDate != null
                                         ? DateFormat("yyyy-MM-dd").format(
                                             expiryDate!,
                                           )
                                         : "yyyy-mm-dd",
-                                    leadingWidget: Icon(
+                                    prefixWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: hasDocExpiryDate == false
+                                    onTap: hasDocExpiryDate == false
                                         ? null
                                         : () async {
                                             await showDatePicker(
@@ -270,6 +284,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                               ),
                                             );
                                           },
+                                    hintStyle:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -470,28 +486,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         ),
       );
     }
-    if (issuedDate == null) {
-      showDialog(
-        context: context,
-        builder: (_) => CustomToast(
-          heading: "Failure",
-          content: "Document Issued Date Required.",
-          onTap: () {},
-          isSuccess: false,
-        ),
-      );
-    }
-    if (hasDocExpiryDate == true && expiryDate == null) {
-      showDialog(
-        context: context,
-        builder: (_) => CustomToast(
-          heading: "Failure",
-          content: "Document Valid Till Date Required.",
-          onTap: () {},
-          isSuccess: false,
-        ),
-      );
-    }
   }
 
   Widget buildIdentityTypeDropdown(KycState state) {
@@ -500,6 +494,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         label: 'Identity Type',
         isRequired: true,
         child: CustomDropDownField<String>(
+          validator: (p0) =>
+              identityTypeController.text.isEmpty ? "Required Field" : null,
           list: state.docTypeList?.map((e) => e.name!).toList() ?? [],
           selectedIndex: (state.list?.length != 0 && state.list != null) &&
                   state.isNewDoc == false
