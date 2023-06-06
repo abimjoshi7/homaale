@@ -12,6 +12,7 @@ import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_event.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -49,4 +50,5 @@ void fetchDataForForms(BuildContext context) {
   context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
   context.read<ServicesBloc>().add(ServicesLoadInitiated());
   context.read<InterestsBloc>().add(InterestLoadInitiated());
+  context.read<SkillsBloc>().add(SkillOptionsLoaded());
 }
