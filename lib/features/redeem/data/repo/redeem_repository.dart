@@ -12,9 +12,10 @@ class RedeemRepositories {
       [int startIndex = 1]) async {
     try {
       final response = await _dio.getDatawithCredential(
-        query: {'has_redeem_points': true, 'offer_type': offer_type},
+        query: {'has_redeem_points': true, 'offer_type': offer_type,'page':startIndex},
         url:
-            'offer/serviceoffer/all/?has_redeem_points=true&offer_type=$offer_type',
+            'offer/serviceoffer/all/',
+                // '?has_redeem_points=true&offer_type=$offer_type',
         token: CacheHelper.accessToken,
       );
 
@@ -32,15 +33,25 @@ class RedeemRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchRedeemItemDetails(
+  Future<RedeemItemsDetail> fetchRedeemItemDetails(
     int? redeemId,
   ) async {
     try {
-      final res = await _dio.getDatawithCredential(
+      final response = await _dio.getDatawithCredential(
         url: 'offer/$redeemId/',
         token: CacheHelper.accessToken,
       );
-      return res as Map<String, dynamic>;
+      // return res as Map<String, dynamic>;
+
+      final res = response as Map<String, dynamic>;
+
+      log('response of redeem list: $res');
+
+      final redeemResponse = RedeemItemsDetail.fromJson(res);
+
+      return redeemResponse;
+
+
     } catch (e) {
       log('Error response of redeem list: $e');
 

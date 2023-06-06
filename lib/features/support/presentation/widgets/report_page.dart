@@ -42,9 +42,7 @@ class _CommonReportPageState extends State<CommonReportPage> {
     final objectId = routeData?['objectId'] as String?;
 
     return Scaffold(
-      appBar: CustomAppBar(
-        appBarTitle: 'Report',trailingWidget: SizedBox()
-      ),
+      appBar: CustomAppBar(appBarTitle: 'Report', trailingWidget: SizedBox()),
       body: BlocBuilder<SupportTicketTypeOptionsBloc,
           SupportTicketTypeOptionsState>(builder: (context, state) {
         return SingleChildScrollView(
@@ -66,17 +64,18 @@ class _CommonReportPageState extends State<CommonReportPage> {
                         ? CustomDropDownField<String?>(
                             onChanged: (p0) => setState(
                               () {
-                                final options = state.list.firstWhere(
+                                final options = state.list.where(
                                   (element) => p0 == element.name,
                                 );
-                                typeOfProblemController.text = options.name!;
-                                typeSlug = options.slug;
+                                typeOfProblemController.text =
+                                    options.toString();
+                                typeSlug = options.first.slug;
                               },
                             ),
                             list: List.generate(
                               state.list.length,
                               (index) {
-                                print(' name: ${ state.list[index].name}');
+                                print(' name: ${state.list[index].name}');
                                 return state.list[index].name;
                               },
                             ),
@@ -165,17 +164,13 @@ class _CommonReportPageState extends State<CommonReportPage> {
                                     model: model,
                                     typeSlug: typeSlug ?? '',
                                   ));
-                          print(typeSlug);
                           Future.delayed(const Duration(seconds: 1), () {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: TheStates.success == stateP.theState
-                                  ? Text("Reported Successfully.")
-                                  : Text(
-                                      "Something went Wrong Please try again in later."),
+                              content: Text("Reported Successfully."),
                               duration: const Duration(seconds: 2),
                             ));
-                            if (TheStates.success == stateP.theState)
-                              Navigator.pushNamed(context, Root.routeName);
+                            // if (TheStates.success == stateP.theState)
+                            Navigator.pushNamed(context, Root.routeName);
                           });
                         }
                       },
@@ -204,7 +199,7 @@ class SingleServiceReportDisplay extends StatelessWidget {
   const SingleServiceReportDisplay({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    TaskBloc? taskerCubit = context.read<TaskBloc>();
+    TaskBloc? service = context.read<TaskBloc>();
     return ListTile(
       leading: Container(
         height: 60,
@@ -214,15 +209,15 @@ class SingleServiceReportDisplay extends StatelessWidget {
           shape: BoxShape.rectangle,
           image: DecorationImage(
             image: NetworkImage(
-                taskerCubit.state.taskModel?.images?.first.media ??
-                    kServiceImageNImg),
+                // service.state.taskModel?.images?.first.media ??
+                kServiceImageNImg),
             fit: BoxFit.cover,
           ),
         ),
       ),
-      title: Text("${taskerCubit.state.taskModel?.createdBy?.firstName ?? ''}"
-          '${taskerCubit.state.taskModel?.createdBy?.lastName ?? ''}'),
-      subtitle: Text(taskerCubit.state.taskModel?.title ?? ""),
+      title: Text("${service.state.taskModel?.createdBy?.firstName ?? ''}"
+          '${service.state.taskModel?.createdBy?.lastName ?? ''}'),
+      subtitle: Text(service.state.taskModel?.title ?? ""),
     );
   }
 }

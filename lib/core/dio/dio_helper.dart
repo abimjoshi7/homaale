@@ -105,7 +105,8 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
+            }
+            else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
               if (budgetTypeErrors is List<dynamic> &&
@@ -134,6 +135,35 @@ class DioHelper {
                 return handler.next(err);
               }
             } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('detail')) {
+              final detailstTypeErrors = responseData['detail'];
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Detail : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Detail: ${detailstTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            }
+            else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> &&

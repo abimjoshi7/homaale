@@ -358,7 +358,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                               arguments: {
                                                                 'isType': 'isService',
                                                                 'model': 'entityservice',
-                                                                'objectId': state.taskModel?.createdBy?.id ?? "",
+                                                                'objectId': state.taskModel?.id ?? "",
                                                               });
                                                         },
                                                         leading:

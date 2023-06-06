@@ -129,9 +129,6 @@ class _AccountViewState extends State<AccountView> {
                       InkWell(
                         onTap: () {
                           context
-                              .read<RedeemBloc>()
-                              .add(FetchRedeemList(offerType: 'promo_code'));
-                          context
                               .read<RedeemStatementBloc>()
                               .add(StatementListInitiated());
                           context
@@ -145,6 +142,9 @@ class _AccountViewState extends State<AccountView> {
                             context,
                             RedeemPage.routeName,
                           );
+                          context
+                              .read<RedeemBloc>()
+                              .add(FetchRedeemList(offerType: 'promo_code'));
                         },
                         child: ProfileStatsCard(
                           imagePath: 'assets/reward.png',
