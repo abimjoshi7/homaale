@@ -124,8 +124,10 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
             ];
 
             return Scaffold(
-              appBar:
-                  CustomAppBar(appBarTitle: state.taskModel?.service?.category?.name ?? '', trailingWidget: SizedBox()),
+              appBar: CustomAppBar(
+                appBarTitle: state.taskModel?.service?.category?.name ?? '',
+                trailingWidget: SizedBox(),
+              ),
               body: Column(
                 children: <Widget>[
                   Expanded(
@@ -148,7 +150,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   height: MediaQuery.of(context).size.height * 0.2,
                                   child: Stack(
                                     children: [
-                                      if (taskMedia[index].mediaType == 'mp4')
+                                      if (taskMedia[index].mediaType?.toLowerCase() == 'mp4')
                                         VideoPlayerWidget(
                                           videoURL: taskMedia[index].media ??
                                               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
