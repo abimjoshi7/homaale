@@ -51,7 +51,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
               textInputAction: TextInputAction.next,
               textAlignVertical: TextAlignVertical.center,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}$')),
+                FilteringTextInputFormatter.digitsOnly,
               ],
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
