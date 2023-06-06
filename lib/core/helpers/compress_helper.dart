@@ -8,6 +8,7 @@ class CompressHelper {
   final _config = Configuration(
     pngCompression: PngCompression.bestCompression,
     jpgQuality: 30,
+    outputType: OutputType.jpg,
   );
 
   // compress file synchronously
@@ -39,7 +40,7 @@ class CompressHelper {
 
     // Create a new file name and path
     String fileName = path.hashCode.toString();
-    String filePath = '$appDirPath/$fileName';
+    String filePath = '$appDirPath/$fileName.jpeg';
 
     final input = ImageFile(
       rawBytes: inputFile.readAsBytesSync(),

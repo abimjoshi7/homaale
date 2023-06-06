@@ -1,3 +1,4 @@
+import 'package:cipher/core/helpers/upload_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/locator.dart';
@@ -110,27 +111,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           _buildCategory(),
                           _buildRequirements(),
                           _buildTaskType(),
-                          Visibility(
-                            visible: isAddressVisibile,
-                            child: CustomFormField(
-                              label: "Address Information",
-                              isRequired: true,
-                              child: CustomTextFormField(
-                                hintText: "Enter address details",
-                                controller: addressController,
-                              ),
-                            ),
-                          ),
+                          _buildAddress(),
                           _buildDescription(),
                           _buildCity(),
                           _buildDate(context),
-                          // Visibility(
-                          //   visible: isAddressVisibile,
-                          //   child: CustomTextFormField(
-                          //     controller: addressController,
-                          //     hintText: 'Default Address (Home)',
-                          //   ),
-                          // ),
                           _buildCurrency(),
                           _buildBudget(),
                           _buildDialog(),
@@ -167,30 +151,16 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
     );
   }
 
-  Future<void> _uploadFile() async {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-
-    uploadBloc
-      ..add(
-        VideoToFilestoreUploaded(
-          list: uploadBloc.state.videoFileList,
+  Visibility _buildAddress() {
+    return Visibility(
+      visible: isAddressVisibile,
+      child: CustomFormField(
+        label: "Address Information",
+        isRequired: true,
+        child: CustomTextFormField(
+          hintText: "Enter address details",
+          controller: addressController,
         ),
-      )
-      ..add(
-        ImageToFilestoreUploaded(
-          list: uploadBloc.state.imageFileList,
-        ),
-      );
-
-    await Future.delayed(
-      Duration(
-        seconds: 15,
       ),
     );
   }
@@ -228,6 +198,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         }
       },
       builder: (context, state) {
+        final upload = UploadHelper(bloc: uploadBloc, context: context);
         return CustomElevatedButton(
           callback: () async {
             if (context.read<CategoriesBloc>().state.serviceId != null) {
@@ -255,7 +226,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   } else {
                     if (uploadBloc.state.imageFileList.length != 0 ||
                         uploadBloc.state.videoFileList.length != 0)
-                      await _uploadFile();
+                      await upload.upload();
                     final req = TaskEntityServiceReq(
                       title: titleController.text,
                       description: descriptionController.text,

@@ -254,11 +254,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<ImageToFilestoreUploaded>(
       (event, emit) async {
-        // emit(
-        //   state.copyWith(
-        //     theStates: TheStates.loading,
-        //   ),
-        // );
         try {
           await repo
               .fetchFileStore(

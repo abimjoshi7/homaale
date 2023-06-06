@@ -49,3 +49,4 @@ export 'package:internet_connection_checker/internet_connection_checker.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:fluttertoast/fluttertoast.dart';
 export 'package:image_compression/image_compression.dart';
+export 'package:http_parser/http_parser.dart';

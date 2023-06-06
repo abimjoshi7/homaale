@@ -112,7 +112,8 @@ class _PostServicePageState extends State<PostServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a service",trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+          appBarTitle: "Post a service", trailingWidget: SizedBox()),
       body: Column(
         children: [
           Expanded(
@@ -129,17 +130,7 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildCategory(),
                           _buildHighlights(),
                           _buildServiceType(),
-                          Visibility(
-                            visible: isAddressVisibile,
-                            child: CustomFormField(
-                              label: "Address Information",
-                              isRequired: true,
-                              child: CustomTextFormField(
-                                controller: addressController,
-                                hintText: "Enter your address details",
-                              ),
-                            ),
-                          ),
+                          _buildAddress(),
                           _buildCity(),
                           _buildDescription(),
                           _buildCurrency(),
@@ -158,6 +149,20 @@ class _PostServicePageState extends State<PostServicePage> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Visibility _buildAddress() {
+    return Visibility(
+      visible: isAddressVisibile,
+      child: CustomFormField(
+        label: "Address Information",
+        isRequired: true,
+        child: CustomTextFormField(
+          controller: addressController,
+          hintText: "Enter your address details",
+        ),
       ),
     );
   }
