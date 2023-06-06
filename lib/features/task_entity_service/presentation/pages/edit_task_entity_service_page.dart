@@ -1,5 +1,4 @@
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
