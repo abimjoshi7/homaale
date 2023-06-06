@@ -109,7 +109,8 @@ class _PostServicePageState extends State<PostServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: "Post a service",trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+          appBarTitle: "Post a service", trailingWidget: SizedBox()),
       body: Column(
         children: [
           Expanded(
@@ -395,6 +396,11 @@ class _PostServicePageState extends State<PostServicePage> {
               child: Flexible(
                 child: NumberIncDecField(
                   controller: startPriceController,
+                  validator: (p0) {
+                    if (isBudgetVariable) if (p0 == null || p0.isEmpty)
+                      return "Required";
+                    return null;
+                  },
                   onChanged: (value) => setState(
                     () {
                       if (startPriceController.text.isNotEmpty)
@@ -416,6 +422,7 @@ class _PostServicePageState extends State<PostServicePage> {
             Flexible(
               child: NumberIncDecField(
                 controller: endPriceController,
+                validator: (p0) => p0 == null || p0.isEmpty ? "Required" : null,
                 onChanged: (value) => setState(
                   () {
                     if (endPriceController.text.isNotEmpty)
@@ -430,7 +437,7 @@ class _PostServicePageState extends State<PostServicePage> {
               ),
             ),
             Flexible(
-              flex: 2,
+              flex: isBudgetVariable ? 1 : 2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -674,6 +681,9 @@ class _PostServicePageState extends State<PostServicePage> {
           CustomTextFormField(
             hintText: 'Add highlights',
             inputAction: TextInputAction.next,
+            validator: (value) => requirementList.length == 0
+                ? "Atleast 1 Highlight Required"
+                : null,
             suffixWidget: IconButton(
               onPressed: () {
                 if (requirementController.text.isNotEmpty)

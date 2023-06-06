@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -11,14 +12,16 @@ class NumberIncDecField extends StatefulWidget {
   final ValueChanged? onSubmit;
   final AutovalidateMode autoValidateMode;
   final String? Function(String?)? validator;
+  final bool hasErrors;
   const NumberIncDecField({
     Key? key,
     required this.controller,
-    this.width = 107,
+    this.width = 106,
     this.onChanged,
     this.onSubmit,
     this.validator,
     this.autoValidateMode = AutovalidateMode.onUserInteraction,
+    this.hasErrors = false,
   }) : super(key: key);
 
   @override
@@ -30,6 +33,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
+      alignment: Alignment.center,
       foregroundDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         border: Border.all(
@@ -44,7 +48,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
               autovalidateMode: widget.autoValidateMode,
               textInputAction: TextInputAction.next,
               textAlignVertical: TextAlignVertical.center,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(
                   10,
