@@ -5,7 +5,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -21,8 +20,7 @@ class CompleteProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: "Complete Profile",trailingWidget: SizedBox()
-      ),
+          appBarTitle: "Complete Profile", trailingWidget: SizedBox()),
       body: Column(
         children: [
           ProfileCompletionForm(),
