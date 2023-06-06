@@ -120,15 +120,15 @@ class ProfileHeaderSection extends StatelessWidget {
                 ),
               ],
             ),
-            trailing: PopupMenuButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.black,
-              ),
-              itemBuilder: (context) => <PopupMenuItem<dynamic>>[
-                displayPopupMenu(),
-              ],
-            ),
+            // trailing: PopupMenuButton(
+            //   icon: Icon(
+            //     Icons.more_vert,
+            //     color: Colors.black,
+            //   ),
+            //   itemBuilder: (context) => <PopupMenuItem<dynamic>>[
+            //     displayPopupMenu(),
+            //   ],
+            // ),
           );
         }
         return const SizedBox.shrink();

@@ -25,6 +25,8 @@ class CustomDropdownSearch<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<T>(
+      validator: (value) => value == null ? 'Required Field' : null,
+      autoValidateMode: AutovalidateMode.onUserInteraction,
       selectedItem: selectedItem,
       enabled: list.isNotEmpty,
       items: list,
@@ -34,6 +36,10 @@ class CustomDropdownSearch<T> extends StatelessWidget {
           contentPadding: const EdgeInsets.all(5),
           hintText: hintText ?? 'Choose a category',
           hintStyle: Theme.of(context).textTheme.displaySmall,
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red.shade900),
+            borderRadius: BorderRadius.circular(8),
+          ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xffDEE2E6)),
             borderRadius: BorderRadius.circular(8),

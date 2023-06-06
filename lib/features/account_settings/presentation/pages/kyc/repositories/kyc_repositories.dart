@@ -126,6 +126,9 @@ class KycRepositories {
         url: 'tasker/kyc-document/',
         token: CacheHelper.accessToken,
       );
+      if (x == null) {
+        return [];
+      }
       return x as List<dynamic>;
     } catch (e) {
       rethrow;

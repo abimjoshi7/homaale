@@ -9,12 +9,16 @@ class NumberIncDecField extends StatefulWidget {
   final double? width;
   final ValueChanged? onChanged;
   final ValueChanged? onSubmit;
+  final AutovalidateMode autoValidateMode;
+  final String? Function(String?)? validator;
   const NumberIncDecField({
     Key? key,
     required this.controller,
-    this.width = 100,
+    this.width = 107,
     this.onChanged,
     this.onSubmit,
+    this.validator,
+    this.autoValidateMode = AutovalidateMode.onUserInteraction,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,8 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
         children: <Widget>[
           Expanded(
             child: TextFormField(
+              validator: widget.validator,
+              autovalidateMode: widget.autoValidateMode,
               textInputAction: TextInputAction.next,
               textAlignVertical: TextAlignVertical.center,
               decoration: const InputDecoration(

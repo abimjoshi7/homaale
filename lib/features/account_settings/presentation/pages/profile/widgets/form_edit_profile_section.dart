@@ -1,6 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -21,6 +23,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
   String? designation;
   String? profilePicture;
   XFile? selectedImage;
+  String? gender;
   bool isMale = true;
   bool isFemale = false;
   bool isOther = false;
@@ -71,17 +74,18 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           firstName = state.taskerProfile?.user?.firstName;
           middleName = state.taskerProfile?.user?.middleName;
           lastName = state.taskerProfile?.user?.lastName;
+          gender = state.taskerProfile?.gender;
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Form(
               key: _key,
-              child: ListView(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
+              child: SingleChildScrollView(
+                child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         addVerticalSpace(20),
@@ -116,30 +120,25 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                                           );
                                           Navigator.pop(context);
                                         },
-                                        widget: Icon(Icons.camera_alt_outlined),
+                                        widget: Icon(Icons.collections),
                                         label: "Gallery"),
                                   ],
                                 ),
                               ),
-                            )
-                                // .then(
-                                //   (value) async => await MultimediaPickHelper()
-                                //       .(
-                                //     isCamera: isCamera,
-                                //   )
-                                //       .then(
-                                //     (value) {
-                                //       if (value != null) {
-                                //         setState(
-                                //           () {
-                                //             selectedImage = value;
-                                //           },
-                                //         );
-                                //       }
-                                //     },
-                                //   ),
-                                // )
-                                ;
+                            ).then(
+                              (value) async => await ImagePicker()
+                                  .pickImage(
+                                      source: isCamera
+                                          ? ImageSource.camera
+                                          : ImageSource.gallery)
+                                  .then(
+                                    (value) => setState(
+                                      () {
+                                        selectedImage = XFile(value!.path);
+                                      },
+                                    ),
+                                  ),
+                            );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,12 +147,18 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                               Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      profilePicture ?? kServiceImageNImg,
-                                    ),
-                                  ),
+                                  image: (selectedImage == null)
+                                      ? DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                            profilePicture ?? kServiceImageNImg,
+                                          ),
+                                        )
+                                      : DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: FileImage(
+                                            File(selectedImage!.path),
+                                          )),
                                 ),
                                 width: 100,
                                 height: 100,
@@ -224,9 +229,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                                         state.taskerProfile?.user?.middleName ??
                                             '',
                                     onSaved: (p0) => setState(
-                                      () {
-                                        middleName = p0;
-                                      },
+                                      () => middleName = p0,
                                     ),
                                   ),
                                 ],
@@ -333,72 +336,7 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                           ),
                         ),
                         addVerticalSpace(10),
-                        CustomFormField(
-                          label: 'Please specify your gender',
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ChoiceChip(
-                                selected: isMale,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6)),
-                                ),
-                                onSelected: (value) {
-                                  setState(() {
-                                    isMale = value;
-                                    isFemale = !value;
-                                    isOther = !value;
-                                  });
-                                },
-                                label: Text(
-                                  'Male',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                selectedColor: kColorPrimary,
-                              ),
-                              ChoiceChip(
-                                selected: isFemale,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6)),
-                                ),
-                                onSelected: (value) {
-                                  setState(() {
-                                    isFemale = value;
-                                    isMale = !value;
-                                    isOther = !value;
-                                  });
-                                },
-                                label: Text(
-                                  'Female',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                selectedColor: kColorPrimary,
-                              ),
-                              ChoiceChip(
-                                selected: isOther,
-                                backgroundColor: Colors.transparent,
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xffDEE2E6)),
-                                ),
-                                onSelected: (value) {
-                                  setState(() {
-                                    isOther = value;
-                                    isMale = !value;
-                                    isFemale = !value;
-                                  });
-                                },
-                                label: Text(
-                                  'Other',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                selectedColor: kColorPrimary,
-                              ),
-                            ],
-                          ),
-                        ),
+                        _buildSelectGenderField(context),
                         CustomFormField(
                           label: 'Bio',
                           child: CustomTextFormField(
@@ -414,76 +352,77 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
                         ),
                       ],
                     ),
-                  ),
-                  addVerticalSpace(10),
-                  Center(
-                    child: CustomElevatedButton(
-                      callback: () async {
-                        _key.currentState?.save();
-                        final user = {
-                          "first_name": firstName!.isEmpty
-                              ? state.taskerProfile?.user!.firstName
-                              : firstName,
-                          "middle_name": middleName!.isEmpty
-                              ? state.taskerProfile?.user!.middleName
-                              : middleName,
-                          "last_name": lastName!.isEmpty
-                              ? state.taskerProfile?.user!.lastName
-                              : lastName,
-                          // "designation": designation!.isEmpty
-                          //     ? state.taskerProfile?.designation
-                          //     : designation,
-                          "date_of_birth": DateFormat("yyyy-MM-dd").format(
-                            dob ??
-                                state.taskerProfile?.dateOfBirth ??
-                                DateTime.now(),
-                          ),
-                          "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
-                        };
+                    addVerticalSpace(10),
+                    Center(
+                      child: CustomElevatedButton(
+                        callback: () async {
+                          _key.currentState?.save();
+                          final user = {
+                            "first_name": firstName!.isEmpty
+                                ? state.taskerProfile?.user!.firstName
+                                : firstName,
+                            "middle_name": middleName!.isEmpty
+                                ? state.taskerProfile?.user!.middleName
+                                : middleName,
+                            "last_name": lastName!.isEmpty
+                                ? state.taskerProfile?.user!.lastName
+                                : lastName,
+                            "gender": gender,
+                            // "designation": designation!.isEmpty
+                            //     ? state.taskerProfile?.designation
+                            //     : designation,
+                            "date_of_birth": DateFormat("yyyy-MM-dd").format(
+                              dob ??
+                                  state.taskerProfile?.dateOfBirth ??
+                                  DateTime.now(),
+                            ),
+                            "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
+                          };
 
-                        context.read<UserBloc>().add(
-                              UserEdited(req: user),
-                            );
-                      },
-                      label: 'Save',
+                          context.read<UserBloc>().add(
+                                UserEdited(req: user),
+                              );
+                        },
+                        label: 'Save',
+                      ),
                     ),
-                  ),
-                  addVerticalSpace(10),
-                  Center(
-                    child: CustomElevatedButton(
-                      callback: () async {
-                        Navigator.pop(context);
-                      },
-                      label: 'Cancel',
-                      textColor: kColorPrimary,
-                      mainColor: Colors.white,
-                      borderColor: kColorPrimary,
+                    addVerticalSpace(10),
+                    Center(
+                      child: CustomElevatedButton(
+                        callback: () async {
+                          Navigator.pop(context);
+                        },
+                        label: 'Cancel',
+                        textColor: kColorPrimary,
+                        mainColor: Colors.white,
+                        borderColor: kColorPrimary,
+                      ),
                     ),
-                  ),
-                  // ! TO BE IMPLEMENTED
-                  // Column(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: [
-                  //     Row(
-                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //       children: [
-                  //         Text(
-                  //           'Task Analytics',
-                  //           style: Theme.of(context).textTheme.headlineSmall,
-                  //         ),
-                  //         Switch(
-                  //           value: false,
-                  //           onChanged: (value) {},
-                  //         )
-                  //       ],
-                  //     ),
-                  //     Text(
-                  //       'Do you want to enable task analytics in profile?',
-                  //       style: Theme.of(context).textTheme.bodySmall,
-                  //     ),
-                  //   ],
-                  // ),
-                ],
+                    // ! TO BE IMPLEMENTED
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: [
+                    //         Text(
+                    //           'Task Analytics',
+                    //           style: Theme.of(context).textTheme.headlineSmall,
+                    //         ),
+                    //         Switch(
+                    //           value: false,
+                    //           onChanged: (value) {},
+                    //         )
+                    //       ],
+                    //     ),
+                    //     Text(
+                    //       'Do you want to enable task analytics in profile?',
+                    //       style: Theme.of(context).textTheme.bodySmall,
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
               ),
             ),
           );
@@ -514,6 +453,66 @@ class _FormEditProfileSectionState extends State<FormEditProfileSection> {
           );
         }
       },
+    );
+  }
+
+  CustomFormField _buildSelectGenderField(BuildContext context) {
+    return CustomFormField(
+      isRequired: true,
+      label: 'Please specify your gender',
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Radio<String>(
+              value: "Male",
+              groupValue: gender,
+              onChanged: (value) {
+                setState(() {
+                  gender = value;
+                  isMale = value == "Male";
+                  isFemale = value == "Female";
+                  isOther = value == "Other";
+                });
+              },
+            ),
+            const Text('Male'),
+            addHorizontalSpace(10),
+            Radio<String>(
+              value: "Female",
+              groupValue: gender,
+              onChanged: (value) {
+                setState(() {
+                  gender = value;
+                  isMale = value == "Male";
+                  isFemale = value == "Female";
+                  isOther = value == "Other";
+                });
+              },
+            ),
+            const Text('Female'),
+            addHorizontalSpace(10),
+            Radio<String>(
+              value: "Other",
+              groupValue: gender,
+              onChanged: (value) {
+                gender = value;
+                setState(() {
+                  gender = value;
+                  isMale = value == "Male";
+                  isFemale = value == "Female";
+                  isOther = value == "Other";
+                });
+              },
+            ),
+            const Text('Other'),
+            addHorizontalSpace(10),
+            // ChoiceChip(
+          ],
+        ),
+      ),
     );
   }
 }

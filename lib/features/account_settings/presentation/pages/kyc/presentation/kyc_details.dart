@@ -37,8 +37,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   File? file;
   final _key = GlobalKey<FormState>();
   void setInitialValues(KycState state) {
-    if (state.isNewDoc == true) {}
-    if (state.list?.length != 0 && state.isNewDoc == false) {
+    if ((state.list?.length != 0 && state.list != null) &&
+        state.isNewDoc == false) {
       setState(() {
         identityTypeController.setText(state.list!
             .where((e) => e.id == state.kycId)
@@ -81,7 +81,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
     identityTypeController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
-    // file?.delete();
+    file?.delete();
     super.dispose();
   }
 
@@ -162,10 +162,11 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: CustomAppBar(
-            appBarTitle: state.list?.length != 0 && state.isNewDoc == false
+            trailingWidget: SizedBox.shrink(),
+            appBarTitle: (state.list?.length != 0 && state.list != null) &&
+                    state.isNewDoc == false
                 ? "Edit KYC Details"
                 : "Add KYC Details",
-              trailingWidget: SizedBox()
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,19 +211,21 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                 child: CustomFormField(
                                   label: 'Issued Date',
                                   isRequired: true,
-                                  child: CustomFormContainer(
+                                  child: CustomTextFormField(
+                                    readOnly: true,
+                                    validator: (p0) => (issuedDate == null)
+                                        ? "Required Field"
+                                        : null,
                                     hintText: issuedDate != null
                                         ? DateFormat("yyyy-MM-dd").format(
                                             issuedDate!,
                                           )
                                         : "yyyy-mm-dd",
-
-
-                                    leadingWidget: Icon(
+                                    prefixWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: () async {
+                                    onTap: () async {
                                       await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
@@ -238,6 +241,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                         ),
                                       );
                                     },
+                                    hintStyle:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -245,17 +250,24 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                               Flexible(
                                 child: CustomFormField(
                                   label: 'Valid Till',
-                                  child: CustomFormContainer(
+                                  isRequired: hasDocExpiryDate,
+                                  child: CustomTextFormField(
+                                    readOnly: true,
+                                    validator: hasDocExpiryDate
+                                        ? (p0) => (expiryDate == null)
+                                            ? "Required Field"
+                                            : null
+                                        : null,
                                     hintText: expiryDate != null
                                         ? DateFormat("yyyy-MM-dd").format(
                                             expiryDate!,
                                           )
                                         : "yyyy-mm-dd",
-                                    leadingWidget: Icon(
+                                    prefixWidget: Icon(
                                       Icons.calendar_month_rounded,
                                       color: Theme.of(context).indicatorColor,
                                     ),
-                                    callback: hasDocExpiryDate == false
+                                    onTap: hasDocExpiryDate == false
                                         ? null
                                         : () async {
                                             await showDatePicker(
@@ -273,6 +285,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                               ),
                                             );
                                           },
+                                    hintStyle:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -373,7 +387,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                 child: CustomElevatedButton(
                                   callback: () async {
                                     fieldValidations(state);
-                                    if (state.list?.length != 0 &&
+                                    if ((state.list?.length != 0 &&
+                                            state.list != null) &&
                                         state.isNewDoc == false) {
                                       Map<String, dynamic> editReq = {
                                         "document_id":
@@ -414,7 +429,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                       }
                                     }
 
-                                    if (state.list?.length == 0 ||
+                                    if ((state.list?.length == 0 ||
+                                            state.list == null) ||
                                         state.isNewDoc == true) {
                                       if (_key.currentState!.validate()) {
                                         // _key.currentState!.save();
@@ -473,28 +489,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         ),
       );
     }
-    if (issuedDate == null) {
-      showDialog(
-        context: context,
-        builder: (_) => CustomToast(
-          heading: "Failure",
-          content: "Document Issued Date Required.",
-          onTap: () {},
-          isSuccess: false,
-        ),
-      );
-    }
-    if (hasDocExpiryDate == true && expiryDate == null) {
-      showDialog(
-        context: context,
-        builder: (_) => CustomToast(
-          heading: "Failure",
-          content: "Document Valid Till Date Required.",
-          onTap: () {},
-          isSuccess: false,
-        ),
-      );
-    }
   }
 
   Widget buildIdentityTypeDropdown(KycState state) {
@@ -503,8 +497,11 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         label: 'Identity Type',
         isRequired: true,
         child: CustomDropDownField<String>(
+          validator: (p0) =>
+              identityTypeController.text.isEmpty ? "Required Field" : null,
           list: state.docTypeList?.map((e) => e.name!).toList() ?? [],
-          selectedIndex: state.list?.length != 0 && state.isNewDoc == false
+          selectedIndex: (state.list?.length != 0 && state.list != null) &&
+                  state.isNewDoc == false
               ? state.docTypeList!.indexWhere(
                   (e) => e.name!.contains(
                     state.list!
