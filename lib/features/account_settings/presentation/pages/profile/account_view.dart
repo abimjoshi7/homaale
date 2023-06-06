@@ -102,7 +102,8 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -111,10 +112,16 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
-                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            name:
+                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified:
+                                state.taskerProfile?.isProfileVerified ?? false,
+                            designation:
+                                state.taskerProfile?.designation?.toString() ??
+                                    'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ??
+                                state.taskerProfile?.user?.email ??
+                                '',
                           ),
                         ],
                       ),
@@ -153,16 +160,20 @@ class _AccountViewState extends State<AccountView> {
                         ),
                       ),
                       BlocBuilder<WalletBloc, WalletState>(
-                        builder: (context, walletState) {
-                          return ProfileStatsCard(
-                            imagePath: 'assets/wallet.png',
-                            label: 'Account Balance',
-                            value: walletState.walletModel.length == 0
-                                ? 'Rs. 0'
-                                : "Rs. ${walletState.walletModel.first.availableBalance.toString()}",
-                          );
-                        },
-                      ),
+                          builder: (context, walletState) {
+                        switch (state.theStates) {
+                          case TheStates.success:
+                            return ProfileStatsCard(
+                              imagePath: 'assets/wallet.png',
+                              label: 'Account Balance',
+                              value:
+                              // context.read<WalletBloc>().state.walletModel.first.availableBalance.toString()
+                                  '${walletState.walletModel.isNotEmpty ? Decimal.parse(walletState.walletModel.first.availableBalance.toString()) : '0'}',
+                            );
+                          default:
+                            return CardLoading(height: 200);
+                        }
+                      }),
                     ],
                   ),
                 ),
@@ -188,7 +199,6 @@ class _AccountViewState extends State<AccountView> {
                         child: ProfileKycVerifySection());
                   },
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     context
@@ -222,7 +232,8 @@ class _AccountViewState extends State<AccountView> {
                       return Visibility(
                         visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
-                          onTap: () => conditionalCheckNavigation(context, context.read<KycBloc>().state),
+                          onTap: () => conditionalCheckNavigation(
+                              context, context.read<KycBloc>().state),
                           icon: const Icon(
                             Icons.card_membership_rounded,
                           ),
@@ -254,7 +265,6 @@ class _AccountViewState extends State<AccountView> {
                     size: 16,
                   ),
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(
@@ -271,7 +281,6 @@ class _AccountViewState extends State<AccountView> {
                     size: 16,
                   ),
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(

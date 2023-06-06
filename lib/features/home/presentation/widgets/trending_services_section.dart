@@ -110,6 +110,12 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                               ),
                             );
                           },
+                          shareCallback: (){
+                            Share.share(
+                              "$kShareLinks/tasks/${state.taskEntityServices?[index].id}",
+                              subject: state.taskEntityServices?[index].title,
+                            );
+                          },
                         ),
                       ),
                     ),

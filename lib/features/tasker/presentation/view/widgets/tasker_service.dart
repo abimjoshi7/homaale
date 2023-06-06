@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/api_constants.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -58,6 +59,12 @@ class _TaskerServiceState extends State<TaskerService> {
                       title: state.service.result?[index].title ?? 'Title',
                       location: state.service.result?[index].city?.name ?? 'City',
                       rating: state.service.result?[index].rating?.toString() ?? '0',
+                      shareCallback: () {
+                        Share.share(
+                          "$kShareLinks/service/${state.service.result?[index].id}",
+                          subject: state.service.result?[index].title,
+                        );
+                      },
                     ),
                   ),
                 ),

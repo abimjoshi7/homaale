@@ -45,126 +45,128 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
         );
       }
     }, builder: (context, state) {
-      return state.redeem.length == 0
-          ? SizedBox(
-              width: 200,
-              height: 200,
-              child: Center(
-                child: Text('No Redeem Item Found.'),
-              ),
-            )
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 1,
-                mainAxisSpacing: 4,
-                crossAxisCount: 2,
-              ),
-              itemCount: state.hasReachedMax
-                  ? state.redeem.length
-                  : state.redeem.length + 1 ?? 0,
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.redeem.length
-                    ? BottomLoader()
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            height: 80,
-                            width: 160,
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.red,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  state.redeem[index].image ??
-                                      kServiceImageNImg,
-                                ),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset('assets/reward.png'),
-                                    addHorizontalSpace(10),
-                                    AutoSizeText(
-                                      state.redeem[index].redeemPoints
-                                              .toString() ??
-                                          "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                      overflow: TextOverflow.ellipsis,
+      return state.status == TheStates.initial
+          ? CardLoading(height: 100)
+          : state.redeem.length == 0
+              ? SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: Center(
+                    child: Text('No Redeem Item Found.'),
+                  ),
+                )
+              : GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 1,
+                    mainAxisSpacing: 4,
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: state.hasReachedMax
+                      ? state.redeem.length
+                      : state.redeem.length + 1 ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    return index >= state.redeem.length
+                        ? BottomLoader()
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                height: 80,
+                                width: 160,
+                                margin: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      state.redeem[index].image ??
+                                          kServiceImageNImg,
                                     ),
-                                    addHorizontalSpace(5),
-                                    AutoSizeText(
-                                      'Reward Point',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 4,
-                                    ),
-                                  ],
-                                ),
-                                addHorizontalSpace(5),
-                                Text(
-                                  state.redeem[index].description ?? '',
-                                  style: kLightBlueText14,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                ),
-                                addVerticalSpace(5),
-                                SizedBox(
-                                  height: 30,
-                                  width: 110,
-                                  child: CustomElevatedButton(
-                                    callback: () {
-                                      currentIndex = index;
-                                      context.read<RedeemBloc>().add(
-                                          SubmitRedeemEvent(
-                                              redeemID: context
-                                                      .read<RedeemBloc>()
-                                                      .state
-                                                      .redeem[index]
-                                                      .id ??
-                                                  0));
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialogueOfRedeemItemsDetails(
-                                              state: state.redeem,
-                                              entityService:
-                                                  state.entityService,
-                                              currentIndex: currentIndex,
-                                            );
-                                          });
-                                    },
-                                    label: 'Redeem Now',
-                                    textStyle: TextStyle(
-                                        fontSize: 12, color: Colors.white),
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
-                                addVerticalSpace(5),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-              });
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset('assets/reward.png'),
+                                        addHorizontalSpace(10),
+                                        AutoSizeText(
+                                          state.redeem[index].redeemPoints
+                                                  .toString() ??
+                                              "",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        addHorizontalSpace(5),
+                                        AutoSizeText(
+                                          'Reward Point',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 4,
+                                        ),
+                                      ],
+                                    ),
+                                    addHorizontalSpace(5),
+                                    Text(
+                                      state.redeem[index].description ?? '',
+                                      style: kLightBlueText14,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                    ),
+                                    addVerticalSpace(5),
+                                    SizedBox(
+                                      height: 30,
+                                      width: 110,
+                                      child: CustomElevatedButton(
+                                        callback: () {
+                                          currentIndex = index;
+                                          context.read<RedeemBloc>().add(
+                                              SubmitRedeemEvent(
+                                                  redeemID: context
+                                                          .read<RedeemBloc>()
+                                                          .state
+                                                          .redeem[index]
+                                                          .id ??
+                                                      0));
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialogueOfRedeemItemsDetails(
+                                                  state: state.redeem,
+                                                  entityService:
+                                                      state.entityService,
+                                                  currentIndex: currentIndex,
+                                                );
+                                              });
+                                        },
+                                        label: 'Redeem Now',
+                                        textStyle: TextStyle(
+                                            fontSize: 12, color: Colors.white),
+                                      ),
+                                    ),
+                                    addVerticalSpace(5),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                  });
     });
   }
 }
@@ -215,8 +217,7 @@ class _AlertDialogueOfRedeemItemsDetailsState
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               image: DecorationImage(
-                image: NetworkImage(ItemDetails.image ?? kServiceImageNImg
-                    ),
+                image: NetworkImage(ItemDetails.image ?? kServiceImageNImg),
                 fit: BoxFit.cover,
               ),
             ),
@@ -274,7 +275,7 @@ class _AlertDialogueOfRedeemItemsDetailsState
           if (ItemDetails.endDate != null)
             Text(
               // getVerboseDateTimeRepresentation(ItemDetails.endDate),
-                ItemDetails.endDate!.toString(),
+              ItemDetails.endDate!.toString(),
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
