@@ -76,9 +76,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: (state.imageFileList?.length ?? 0) >= 5
-                            ? 5
-                            : state.imageFileList?.length ?? 0,
+                        itemCount: (state.imageFileList?.length ?? 0) >= 5 ? 5 : state.imageFileList?.length ?? 0,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 4,
@@ -205,9 +203,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: (state.videoFileList?.length ?? 0) >= 2
-                                  ? 2
-                                  : state.videoFileList?.length ?? 0,
+                              itemCount: (state.videoFileList?.length ?? 0) >= 2 ? 2 : state.videoFileList?.length ?? 0,
                               itemBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 4,
@@ -222,9 +218,7 @@ class _CustomMultimediaState extends State<CustomMultimedia> {
                                             10,
                                           ),
                                           child: VideoPlayerWidget(
-                                            videoURL:
-                                                state.videoFileList?[index] ??
-                                                    "",
+                                            videoURL: state.videoFileList[index],
                                           ),
                                         ),
                                       ),
