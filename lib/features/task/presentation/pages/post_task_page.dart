@@ -429,48 +429,47 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             children: [
               Visibility(
                 visible: isBudgetVariable,
-                child: Flexible(
-                  child: Row(
-                    children: [
-                      NumberIncDecField(
-                        controller: startPriceController,
-                        validator: (p0) {
-                          if (isBudgetVariable) {
-                            return p0 == null || p0.isEmpty
-                                ? "Required Field"
-                                : null;
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => setState(
-                          () {
-                            if (startPriceController.text.isNotEmpty)
-                              budgetFrom = getRecievableAmount(
-                                double.parse(startPriceController.text),
-                                double.parse(context
-                                        .read<CategoriesBloc>()
-                                        .state
-                                        .commission ??
-                                    "0.0"),
-                              );
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                          child: const Text(
-                            "-",
-                          ),
-                        ),
-                      ),
-                    ],
+                child: Expanded(
+                  flex: 2,
+                  child: NumberIncDecField(
+                    controller: startPriceController,
+                    validator: (p0) {
+                      if (isBudgetVariable) {
+                        return p0 == null || p0.isEmpty
+                            ? "Required Field"
+                            : null;
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => setState(
+                      () {
+                        if (startPriceController.text.isNotEmpty)
+                          budgetFrom = getRecievableAmount(
+                            double.parse(startPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
+                          );
+                      },
+                    ),
                   ),
                 ),
               ),
-              Flexible(
+              Visibility(
+                visible: isBudgetVariable,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: const Text(
+                    "-",
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
                 child: NumberIncDecField(
                   validator: (p0) =>
                       p0 == null || p0.isEmpty ? "Required" : null,
