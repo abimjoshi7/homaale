@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cipher/core/constants/input_formatters.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:flutter/services.dart';
 
 class NumberIncDecField extends StatefulWidget {
   final TextEditingController controller;
@@ -48,6 +50,10 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
               autovalidateMode: widget.autoValidateMode,
               textInputAction: TextInputAction.next,
               textAlignVertical: TextAlignVertical.center,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}$')),
+              ],
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(
@@ -55,9 +61,6 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
                 ),
               ),
               controller: widget.controller,
-              keyboardType: const TextInputType.numberWithOptions(
-                signed: true,
-              ),
               onChanged: widget.onChanged,
               onFieldSubmitted: widget.onSubmit,
             ),
