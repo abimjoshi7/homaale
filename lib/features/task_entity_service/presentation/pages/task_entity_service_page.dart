@@ -114,7 +114,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             ...state.taskEntityService?.videos ?? [],
           ];
           return Scaffold(
-            appBar: CustomAppBar(appBarTitle: state.taskEntityService?.title ?? '',trailingWidget: SizedBox()),
+            appBar: CustomAppBar(appBarTitle: state.taskEntityService?.title ?? '', trailingWidget: SizedBox()),
             body: Column(
               children: [
                 Expanded(
@@ -174,7 +174,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                 return Container(
                                   height: MediaQuery.of(context).size.height * 0.2,
                                   margin: EdgeInsets.only(right: 32),
-                                  child: mediaList[index].mediaType == 'mp4'
+                                  child: mediaList[index].mediaType?.toLowerCase() == 'mp4'
                                       ? VideoPlayerWidget(
                                           videoURL: (mediaList[index].media) ??
                                               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',

@@ -166,7 +166,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                     return Container(
                                       height: MediaQuery.of(context).size.height * 0.2,
                                       margin: EdgeInsets.only(right: 32),
-                                      child: mediaList[index].mediaType == 'mp4'
+                                      child: mediaList[index].mediaType?.toLowerCase() == 'mp4'
                                           ? VideoPlayerWidget(
                                               videoURL: mediaList[index].media ??
                                                   'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',

@@ -15,8 +15,9 @@ import 'package:cipher/widgets/widgets.dart';
 
 class EditTaskEntityServiceForm extends StatefulWidget {
   final String? id;
+  final bool isRequested;
 
-  const EditTaskEntityServiceForm({Key? key, this.id}) : super(key: key);
+  const EditTaskEntityServiceForm({Key? key, this.id, this.isRequested = false}) : super(key: key);
 
   @override
   State<EditTaskEntityServiceForm> createState() =>
@@ -25,13 +26,13 @@ class EditTaskEntityServiceForm extends StatefulWidget {
 
 class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
   final _key = GlobalKey<FormState>();
-  late TextEditingController titleController;
-  late TextEditingController requirementController;
-  late TextEditingController descriptionController;
-  late TextEditingController discountController;
-  late TextEditingController addressController;
-  late TextEditingController startPriceController;
-  late TextEditingController endPriceController;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController requirementController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController startPriceController = TextEditingController();
+  TextEditingController endPriceController = TextEditingController();
 
   final List<String> requirementList = [];
 
@@ -52,6 +53,11 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
 
   final uploadBloc = locator<UploadBloc>();
 
+  DateTime? startDate;
+  DateTime? endDate;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+
   @override
   void initState() {
     super.initState();
@@ -67,30 +73,11 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
     return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
         switch (state.theStates) {
+          case TheStates.initial:
+            return CardLoading(height: 200);
           case TheStates.loading:
             return CardLoading(height: 200);
           case TheStates.success:
-            titleController = TextEditingController(
-              text: state.taskEntityService?.title,
-            );
-            requirementController = TextEditingController(
-              text: state.taskEntityService?.highlights?.join(","),
-            );
-            descriptionController = TextEditingController(
-              text: state.taskEntityService?.description,
-            );
-            discountController = TextEditingController(
-              text: state.taskEntityService?.discountValue,
-            );
-            addressController = TextEditingController(
-              text: state.taskEntityService?.location,
-            );
-            startPriceController = TextEditingController(
-              text: state.taskEntityService?.budgetFrom,
-            );
-            endPriceController = TextEditingController(
-              text: state.taskEntityService?.budgetTo,
-            );
             return Form(
               key: _key,
               child: Column(
@@ -101,6 +88,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                   _buildHighlights(),
                   _buildServiceType(),
                   _buildCity(),
+                  widget.isRequested ? _buildDate(context) : SizedBox(),
                   _buildDescription(),
                   _buildCurrency(),
                   _buildDialog(),
@@ -112,8 +100,29 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                 ],
               ),
             );
-          default:
-            return CardLoading(height: 200);
+          case TheStates.failure:
+            return Form(
+              key: _key,
+              child: Column(
+                children: [
+                  _buildTitle(),
+                  _buildCategory(),
+                  _buildSubCategory(),
+                  _buildHighlights(),
+                  _buildServiceType(),
+                  _buildCity(),
+                  widget.isRequested ? _buildDate(context) : SizedBox(),
+                  _buildDescription(),
+                  _buildCurrency(),
+                  _buildDialog(),
+                  CustomMultimedia(
+                    bloc: uploadBloc,
+                  ),
+                  _buildTerms(context),
+                  _buildButton(),
+                ],
+              ),
+            );
         }
       },
     );
@@ -121,21 +130,15 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
 
   BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState> _buildButton() {
     return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
-      listenWhen: (previous, current) {
-        if (previous.isEdited == false && current.isEdited == true) {
-          return true;
-        } else {
-          return false;
-        }
-      },
       listener: (context, state) {
         if (state.theStates == TheStates.success && state.isEdited == true) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
-              content: 'You have successfully created a service',
+              content: 'Information updated successfully!',
               onTap: () {
+                context.read<TaskEntityServiceBloc>().add(ResetTESEditStatus());
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   Root.routeName,
@@ -151,8 +154,11 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
-              content: 'Service cannot be added. Please try again.',
-              onTap: () {},
+              content: 'Please try again.',
+              onTap: () {
+                context.read<TaskEntityServiceBloc>().add(ResetTESEditStatus());
+                Navigator.pop(context);
+              },
               isSuccess: false,
             ),
           );
@@ -207,12 +213,13 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                     endTime: null,
                     shareLocation: true,
                     isNegotiable: isDiscounted,
-                    location: addressController.text,
+                    location:
+                        addressController.text.isEmpty ? state.taskEntityService?.location : addressController.text,
                     revisions: 0,
                     avatar: 2,
                     isProfessional: true,
                     isOnline: true,
-                    isRequested: false,
+                    isRequested: widget.isRequested,
                     discountType: "Percentage",
                     discountValue: discountController.text.isNotEmpty
                         ? discountController.text
@@ -221,7 +228,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                     isActive: true,
                     needsApproval: true,
                     isEndorsed: true,
-                    service: context.read<CategoriesBloc>().state.serviceId,
+                    service: context.read<CategoriesBloc>().state.serviceId?.isEmpty ?? true
+                        ? state.taskEntityService?.service?.id
+                        : context.read<CategoriesBloc>().state.serviceId,
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
@@ -387,12 +396,17 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                   onChanged: (value) => setState(
                     () {
                       if (startPriceController.text.isNotEmpty)
-                        budgetFrom = getPayableAmount(
-                          double.parse(startPriceController.text),
-                          double.parse(
+                        budgetFrom = widget.isRequested
+                            ? getRecievableAmount(
+                                double.parse(startPriceController.text),
+                                double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                              )
+                            : getPayableAmount(
+                                double.parse(startPriceController.text),
+                                double.parse(
                               context.read<CategoriesBloc>().state.commission ??
                                   "0.0"),
-                        );
+                              );
                     },
                   ),
                 ),
@@ -408,12 +422,17 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
                 onChanged: (value) => setState(
                   () {
                     if (endPriceController.text.isNotEmpty)
-                      budgetTo = getPayableAmount(
-                        double.parse(endPriceController.text),
-                        double.parse(
+                      budgetTo = widget.isRequested
+                          ? getRecievableAmount(
+                              double.parse(endPriceController.text),
+                              double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                            )
+                          : getPayableAmount(
+                              double.parse(endPriceController.text),
+                              double.parse(
                             context.read<CategoriesBloc>().state.commission ??
                                 "0.0"),
-                      );
+                            );
                   },
                 ),
               ),
@@ -818,13 +837,151 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> {
     return SizedBox.shrink();
   }
 
+  CustomFormField _buildDate(BuildContext context) {
+    return CustomFormField(
+      label: 'When do you want the task to be completed?',
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: [
+              Flexible(
+                child: CustomFormField(
+                  label: 'Start Date',
+                  child: InkWell(
+                    onTap: () async {
+                      await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(
+                          2050,
+                        ),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            startDate = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      leadingWidget: const Icon(
+                        Icons.calendar_today_rounded,
+                      ),
+                      hintText: startDate?.toIso8601String().substring(
+                                0,
+                                10,
+                              ) ??
+                          'dd/mm/yy',
+                    ),
+                  ),
+                ),
+              ),
+              addHorizontalSpace(10),
+              Flexible(
+                child: CustomFormField(
+                  label: 'End Date',
+                  isRequired: true,
+                  child: InkWell(
+                    onTap: () async {
+                      await showDatePicker(
+                        context: context,
+                        initialDate: startDate?.add(Duration(days: 1)) ?? DateTime.now(),
+                        firstDate: startDate?.add(Duration(days: 1)) ?? DateTime.now(),
+                        lastDate: DateTime(2050),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            endDate = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      leadingWidget: const Icon(
+                        Icons.calendar_today_rounded,
+                      ),
+                      hintText: endDate?.toIso8601String().substring(
+                                0,
+                                10,
+                              ) ??
+                          'dd/mm/yy',
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          CustomFormField(
+            label: "Select Time",
+            child: Row(
+              children: [
+                Flexible(
+                  child: InkWell(
+                    onTap: () async {
+                      await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            startTime = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      hintText: startTime?.format(context) ?? 'hh:mm',
+                    ),
+                  ),
+                ),
+                const Text(' - '),
+                Flexible(
+                  child: InkWell(
+                    onTap: () async {
+                      await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            endTime = value;
+                          },
+                        ),
+                      );
+                    },
+                    child: CustomFormContainer(
+                      hintText: endTime?.format(context) ?? 'hh:mm',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      startTime = null;
+                      endTime = null;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline_rounded,
+                    color: kColorSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   CustomFormField _buildTitle() {
     return CustomFormField(
       label: 'Title',
       isRequired: true,
       child: CustomTextFormField(
         controller: titleController,
-        hintText: 'Enter your service name',
+        hintText: context.read<TaskEntityServiceBloc>().state.taskEntityService?.title ?? 'Enter your service name',
         validator: validateNotEmpty,
       ),
     );

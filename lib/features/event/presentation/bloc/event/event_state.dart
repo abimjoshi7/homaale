@@ -9,6 +9,8 @@ class EventState extends Equatable {
   final bool? isAvailable;
   final bool? isDeleted;
   final bool? isEdited;
+  final String? errMsg;
+  final String? entityServiceId;
   // final CreateScheduleRes? createScheduleRes;
   // final bool? isScheduleCreated;
   final bool? isScheduleDeleted;
@@ -21,6 +23,8 @@ class EventState extends Equatable {
     this.isAvailable = false,
     this.isDeleted = false,
     this.isEdited = false,
+    this.errMsg,
+    this.entityServiceId,
     this.isScheduleDeleted = false,
   });
 
@@ -33,6 +37,8 @@ class EventState extends Equatable {
     bool? isAvailable,
     bool? isDeleted,
     bool? isEdited,
+    String? errMsg,
+    String? entityServiceId,
     bool? isScheduleDeleted,
   }) {
     return EventState(
@@ -44,6 +50,8 @@ class EventState extends Equatable {
       isAvailable: isAvailable ?? this.isAvailable,
       isDeleted: isDeleted ?? this.isDeleted,
       isEdited: isEdited ?? this.isEdited,
+      errMsg: errMsg ?? this.errMsg,
+      entityServiceId: entityServiceId ?? this.entityServiceId,
       isScheduleDeleted: isScheduleDeleted ?? this.isScheduleDeleted,
     );
   }
@@ -59,6 +67,8 @@ class EventState extends Equatable {
       isAvailable,
       isDeleted,
       isEdited,
+      errMsg,
+      entityServiceId,
       isScheduleDeleted,
     ];
   }
