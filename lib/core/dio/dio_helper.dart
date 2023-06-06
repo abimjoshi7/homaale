@@ -55,23 +55,51 @@ class DioHelper {
               final nonFieldErrors = responseData['non_field_errors'];
               if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
                 final errorMessage = nonFieldErrors.join('.');
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    errorMessage.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               } else {
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    nonFieldErrors.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${nonFieldErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('old_password')) {
+              final oldPasswordError = responseData['old_password'];
+              if (oldPasswordError is List<dynamic> && oldPasswordError.isNotEmpty) {
+                final errorMessage = oldPasswordError.join('.');
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${oldPasswordError}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               }
@@ -278,26 +306,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken().then(
-          (value) => getDatawithCredential(
-            url: url,
-            query: query,
-            token: token,
-          ),
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-
-      log('DIO GET WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 
@@ -342,24 +352,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        patchDataWithCredential(
-          url: url,
-          data: data,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 
@@ -380,24 +374,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        deleteDataWithCredential(
-          url: url,
-          id: id,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 
@@ -445,25 +423,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        postMultiFormData(
-          url: url,
-          path: path,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
-    } catch (e) {
+    } on DioError catch (_) {
       rethrow;
     }
   }
@@ -486,33 +446,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        postFormData(
-          url: url,
-          map: map,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      List<String> errorMsgs = e.response!.data.toString().replaceAll('{', '').replaceAll('}', '').split(',');
-      // Remove the keys from each string in the array
-      for (int i = 0; i < errorMsgs.length; i++) {
-        errorMsgs[i] = errorMsgs[i].substring(errorMsgs[i].indexOf(':') + 2);
-      }
-
-      final String cleanedMsg = errorMsgs.join('\n').replaceAll('[', '').replaceAll(']', '').toTitleCase();
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          (e.response?.statusCode == 400)
-              ? cleanedMsg
-              : e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST FORM DATA ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
       rethrow;
     }
   }
@@ -537,24 +471,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        patchFormData(
-          url: url,
-          map: map,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 

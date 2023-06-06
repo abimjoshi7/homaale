@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
@@ -216,20 +217,21 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
 
     on<TaskEntityServiceEdited>((event, emit) async {
       try {
-        emit(state.copyWith(theStates: TheStates.loading));
         await repo
             .editTaskEntityService(
-              event.id ?? "",
-              event.taskEntityServiceReq ?? TaskEntityServiceReq(),
-            )
+          event.id ?? "",
+          event.taskEntityServiceReq ?? TaskEntityServiceReq(),
+        )
             .then(
-              (value) => emit(
-                state.copyWith(
-                  theStates: TheStates.success,
-                  isEdited: value,
-                ),
+          (value) {
+            emit(
+              state.copyWith(
+                theStates: TheStates.success,
+                isEdited: value,
               ),
             );
+          },
+        );
       } catch (e) {
         emit(
           state.copyWith(
@@ -377,5 +379,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
         ));
       },
     );
+
+    on<ResetTESEditStatus>((event, emit) => emit(state.copyWith(isEdited: false)));
   }
 }

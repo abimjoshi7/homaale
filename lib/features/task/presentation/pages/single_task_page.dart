@@ -7,6 +7,7 @@ import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart' as tsk;
+import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,6 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
   @override
   void dispose() {
     tabController.dispose();
-    // user.close();
     super.dispose();
   }
 
@@ -124,9 +124,8 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
             ];
 
             return Scaffold(
-              appBar: CustomAppBar(
-                appBarTitle: state.taskModel?.service?.category?.name ?? '',trailingWidget: SizedBox()
-              ),
+              appBar:
+                  CustomAppBar(appBarTitle: state.taskModel?.service?.category?.name ?? '', trailingWidget: SizedBox()),
               body: Column(
                 children: <Widget>[
                   Expanded(
@@ -251,18 +250,21 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                     ),
                                     Row(
                                       children: <Widget>[
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (!CacheHelper.isLoggedIn) {
-                                              notLoggedInPopUp(context);
-                                            }
-                                            if (!CacheHelper.isLoggedIn) return;
-                                          },
-                                          child: const Icon(
-                                            Icons.bookmark_border,
-                                            color: Colors.red,
-                                          ),
-                                        ),
+                                        state.taskModel?.createdBy?.id ==
+                                                context.read<UserBloc>().state.taskerProfile?.user?.id
+                                            ? SizedBox()
+                                            : GestureDetector(
+                                                onTap: () {
+                                                  if (!CacheHelper.isLoggedIn) {
+                                                    notLoggedInPopUp(context);
+                                                  }
+                                                  if (!CacheHelper.isLoggedIn) return;
+                                                },
+                                                child: const Icon(
+                                                  Icons.bookmark_border,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
                                         // kWidth10,
                                         GestureDetector(
                                           onTap: () {
@@ -312,6 +314,41 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                                         },
                                                         leading: Icon(Icons.report),
                                                         title: Text('Report'),
+                                                      ),
+                                                    ),
+                                                    Visibility(
+                                                      visible: context.read<UserBloc>().state.taskerProfile?.user?.id ==
+                                                          state.taskModel?.createdBy?.id,
+                                                      child: ListTile(
+                                                        onTap: () {
+                                                          showModalBottomSheet(
+                                                            context: context,
+                                                            isScrollControlled: true,
+                                                            builder: (context) => Container(
+                                                              height: MediaQuery.of(context).size.height * 0.75,
+                                                              padding: EdgeInsets.only(
+                                                                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                                                                  left: 8,
+                                                                  right: 8,
+                                                                  top: 8),
+                                                              child: SingleChildScrollView(
+                                                                child: Column(
+                                                                  mainAxisSize: MainAxisSize.min,
+                                                                  children: [
+                                                                    EditTaskEntityServiceForm(
+                                                                      id: state.taskModel?.id ?? "",
+                                                                      isRequested: true,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        leading: Icon(
+                                                          Icons.edit,
+                                                        ),
+                                                        title: Text('Edit'),
                                                       ),
                                                     ),
                                                     Visibility(

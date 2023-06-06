@@ -182,3 +182,8 @@ class ResetFilterSort extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ResetTESEditStatus extends TaskEntityServiceEvent {
+  @override
+  List<Object?> get props => [];
+}
